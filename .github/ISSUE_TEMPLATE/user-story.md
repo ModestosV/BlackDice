@@ -1,5 +1,5 @@
 ## User Story
-As user ?, I want to do ?, so I can accomplish ?.
+As a user, I... ?
 
 Story Points: ?
 Priority: ?
