@@ -1,8 +1,8 @@
 ## User Story
 As a user, I... ?
 
-Story Points: ?
-Priority: ?
+Story Points: ?  
+Priority: ?  
 Risk: ?
 
 ## Task Breakdown
