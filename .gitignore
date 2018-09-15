@@ -37,3 +37,6 @@ sysinfo.txt
 
 # Loggers
 DeveloperLogs/
+
+# NuGet Generated Packages
+**/NuGetPackages*
