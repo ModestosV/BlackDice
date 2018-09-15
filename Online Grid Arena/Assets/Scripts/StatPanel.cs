@@ -11,6 +11,11 @@ public class StatPanel : MonoBehaviour {
     [SerializeField] StatDisplay[] statDisplays;
     [SerializeField] string[] statNames;
 
+    private void Awake()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     private CharacterStat[] stats;
 
     private void OnValidate()
