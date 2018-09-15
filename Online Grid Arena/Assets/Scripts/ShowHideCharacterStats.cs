@@ -6,7 +6,6 @@ public class ShowHideCharacterStats : MonoBehaviour {
 
     [SerializeField] public GameObject charStats;
     private bool showPanel = false;
-
     Ray ray;
     RaycastHit hit;
 
@@ -15,6 +14,7 @@ public class ShowHideCharacterStats : MonoBehaviour {
         // Toggles character stats panel on right click
         if (Input.GetMouseButtonDown(1))
         {
+            //check if ray from mouse intersects character object
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
