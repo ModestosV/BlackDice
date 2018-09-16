@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
-using UnityEngine;
 
-sealed class DevLogger : AbstractLogger
+public sealed class DevLogger : AbstractLogger
 {
     protected override string FilePath => $"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") }.txt";
     protected override string DirectoryPath => "DeveloperLogs";
