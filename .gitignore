@@ -39,4 +39,4 @@ sysinfo.txt
 DeveloperLogs/
 
 # NuGet Generated Packages
-**/NuGetPackages*
+*/Assets/Packages*
