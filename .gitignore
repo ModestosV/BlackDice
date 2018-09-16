@@ -39,4 +39,5 @@ sysinfo.txt
 DeveloperLogs/
 
 # NuGet Generated Packages
-*/Assets/Packages*
+*/Assets/Packages/
+*/Assets/Packages.meta
