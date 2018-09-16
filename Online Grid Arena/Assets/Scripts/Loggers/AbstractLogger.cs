@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-abstract class AbstractLogger : ILogger
+public abstract class AbstractLogger : ILogger
 {
     abstract protected string FilePath { get; }
     abstract protected string DirectoryPath { get; }
