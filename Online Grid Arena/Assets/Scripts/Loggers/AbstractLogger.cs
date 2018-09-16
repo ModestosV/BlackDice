@@ -4,12 +4,12 @@ using UnityEngine;
 
 public abstract class AbstractLogger : ILogger
 {
-    abstract protected string FilePath { get; }
-    abstract protected string DirectoryPath { get; }
+    protected abstract string FilePath { get; }
+    protected abstract string DirectoryPath { get; }
 
-    public abstract void Log(string message);
+    public abstract void Log(LogLevel logLevel, string locationSource, string message);
 
-    protected void WriteToFile(string text)
+    protected void WriteToFile(LogLevel logLevel, string locationSource, string message)
     {
         string file = Path.Combine(DirectoryPath, FilePath);
 
@@ -31,7 +31,8 @@ public abstract class AbstractLogger : ILogger
         }
 
         StreamWriter writer = new StreamWriter(file, true);
-        writer.WriteLine($"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") }: { text }");
+        writer.WriteLine($"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") } -- " +
+            $"Source: {locationSource} -- [{logLevel}]: { message }");
         writer.Flush();
     }
 }
