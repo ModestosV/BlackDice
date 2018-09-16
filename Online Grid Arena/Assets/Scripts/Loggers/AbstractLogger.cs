@@ -1,11 +1,26 @@
 ﻿using System;
 using System.IO;
+using System.IO.Abstractions;
 using UnityEngine;
 
 public abstract class AbstractLogger : ILogger
 {
     protected abstract string FilePath { get; }
     protected abstract string DirectoryPath { get; }
+
+    readonly IFileSystem fileSystem;
+
+    protected AbstractLogger() : this(
+        fileSystem: new FileSystem()
+    )
+    {
+
+    }
+
+    protected AbstractLogger(IFileSystem fileSystem)
+    {
+        this.fileSystem = fileSystem;
+    }
 
     public abstract void Log(LogLevel logLevel, string locationSource, string message);
 
@@ -15,14 +30,14 @@ public abstract class AbstractLogger : ILogger
 
         try
         {
-            if (!Directory.Exists(DirectoryPath))
+            if (!fileSystem.Directory.Exists(DirectoryPath))
             {
-                Directory.CreateDirectory(DirectoryPath);
+                fileSystem.Directory.CreateDirectory(DirectoryPath);
             }
 
-            if (!File.Exists(file))
+            if (!fileSystem.File.Exists(file))
             {
-                File.Create(file).Dispose();
+                fileSystem.File.Create(file).Dispose();
             }
         }
         catch (Exception e)
