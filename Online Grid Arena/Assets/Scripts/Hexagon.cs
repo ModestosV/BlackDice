@@ -2,6 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable] //for Unity storage (according to google)
+public struct HexCoordinates
+{
+    //used to convert to other coordinate type
+    public int X { get; private set; }
+
+    public int Z { get; private set; }
+
+    public HexCoordinates(int x, int z)
+    {
+        X = x;
+        Z = z;
+    }
+
+    //creates a set of coordinates using the offset that the hexes create
+    public static HexCoordinates UsingOffset(int x, int z)
+    {
+        return new HexCoordinates(x - z / 2, z);
+    }
+
+    //Because X and Y always add up to the same result with a constant Z, we can say the following
+    public int Y
+    {
+        get
+        {
+            return -X - Z;
+        }
+    }
+
+    //prints out coordinates
+    public override string ToString()
+    {
+        return "(" + X.ToString() + ", " + Y.ToString() + ", " + Z.ToString() + ")";
+    }
+
+    public string ToStringOnSeparateLines()
+    {
+        return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
+    }
+}
+
 //defines a hexagon by setting its side length and using that to descrbie the vectors creating it
 public static class Hexagon
 {

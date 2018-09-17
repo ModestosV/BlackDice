@@ -60,12 +60,13 @@ public class HexGrid : MonoBehaviour {
         HexObject cell = cells[i] = Instantiate<HexObject>(cellPrefab);
         cell.transform.SetParent(transform, false); //keep local orientation rather than global
         cell.transform.localPosition = position; //set where the local position should be (what to use as the local)
+        cell.coordinates = HexCoordinates.UsingOffset(x, z); //changes to updated coordinates
 
         //prints out the text for the actual location using x and z coordinate system
         //Because the canvas extends the grid itself, it can take the x and z positions and just print them
         Text label = Instantiate<Text>(cellLabelPrefab);
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = x.ToString() + "\n" + z.ToString();
+        label.text = cell.coordinates.ToStringOnSeparateLines();
     }
 }

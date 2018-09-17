@@ -19,7 +19,7 @@ public class HexMesh : MonoBehaviour {
         triangles = new List<int>();
     }
 
-    //loops through cells and locates them all individually
+    //loops through cells and makes them triangles
     public void TriangleHex(HexObject[] cells)
     {
         hexMesh.Clear();
