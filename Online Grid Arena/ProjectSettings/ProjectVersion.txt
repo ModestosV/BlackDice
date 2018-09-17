@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 m_EditorVersion: 2018.2.7f1
 =======
 m_EditorVersion: 2018.2.8f1
@@ -11,3 +12,6 @@ m_EditorVersion: 2017.4.10f1
 =======
 m_EditorVersion: 2018.2.8f1
 >>>>>>> d6f3aa2... Changed the coordinate system to have 3 coordinates instead of 2 in my version of hex grid
+=======
+m_EditorVersion: 2018.2.8f1
+>>>>>>> 22d3457... Merge branch 'Feature/Issue_001' of https://github.com/ModestosV/BlackDice into Feature/Issue_001
