@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 m_EditorVersion: 2018.2.7f1
 =======
 m_EditorVersion: 2018.2.8f1
@@ -7,3 +8,6 @@ m_EditorVersion: 2018.2.8f1
 =======
 m_EditorVersion: 2017.4.10f1
 >>>>>>> dc43f55... Added my own version of the hexagonal grid with full control from within the code. The hexagons are created out of 3d vectors opposed to using an asset and are built in the Game using a prefab and a triangles in the HexMesh class. HexGrid controls size and shape of the grid and is easily changeable. Hexagon is a static class that describes the size and shape of the hexagons.
+=======
+m_EditorVersion: 2018.2.8f1
+>>>>>>> d6f3aa2... Changed the coordinate system to have 3 coordinates instead of 2 in my version of hex grid
