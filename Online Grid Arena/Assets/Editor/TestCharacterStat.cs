@@ -1,42 +1,37 @@
-﻿using UnityEngine;
-using UnityEngine.TestTools;
-using NUnit.Framework;
-using System.Collections;
-using Kryz.CharacterStats;
+﻿using NUnit.Framework;
 
 public class TestCharacterStat {
 
-    private StatModifier flatMod1;
-    private StatModifier flatMod2;
-    private StatModifier percentAddMod1;
-    private StatModifier percentAddMod2;
-    private StatModifier percentMultMod1;
-    private StatModifier percentMultMod2;
+    private IStatModifier flatMod1;
+    private IStatModifier flatMod2;
+    private IStatModifier percentAddMod1;
+    private IStatModifier percentAddMod2;
+    private IStatModifier percentMultMod1;
+    private IStatModifier percentMultMod2;
 
     private const float FINAL_VALUE_PRECISION = 0.0001f;
 
     [Test]
     public void TestDefaultConstructor()
     {
-        CharacterStat characterStat = new CharacterStat();
+        ICharacterStat characterStat = new CharacterStat();
 
         Assert.IsEmpty(characterStat.StatModifiers);
     }
 
     [Test]
-    public void TestParamterizedConstructor()
+    public void TestParameterizedConstructor()
     {
-        float baseValue = 20.0f;
-        CharacterStat characterStat = new CharacterStat(baseValue);
+        ICharacterStat characterStat = new CharacterStat(20.0f);
 
-        Assert.AreEqual(characterStat.BaseValue, baseValue);
+        Assert.AreEqual(20.0f, characterStat.BaseValue);
     }
 
     [Test]
     public void TestAddModifier()
     {
-        CharacterStat characterStat = new CharacterStat();
-        StatModifier mod = new StatModifier(2.0f, StatModType.Flat);
+        ICharacterStat characterStat = new CharacterStat();
+        IStatModifier mod = new StatModifier(2.0f, StatModType.Flat);
         characterStat.AddModifier(mod);
 
         Assert.AreEqual(characterStat.StatModifiers.Count, 1);
@@ -46,8 +41,8 @@ public class TestCharacterStat {
     [Test]
     public void TestRemoveModifier()
     {
-        CharacterStat characterStat = new CharacterStat();
-        StatModifier mod = new StatModifier(2.0f, StatModType.Flat);
+        ICharacterStat characterStat = new CharacterStat();
+        IStatModifier mod = new StatModifier(2.0f, StatModType.Flat);
         characterStat.AddModifier(mod);
         characterStat.RemoveModifier(mod);
 
@@ -58,14 +53,14 @@ public class TestCharacterStat {
     [Test]
     public void TestRemoveAllModifiersFromSource()
     {
-        CharacterStat characterStat = new CharacterStat();
+        ICharacterStat characterStat = new CharacterStat();
         object sourceObject1 = new object();
         object sourceObject2 = new object();
 
 
-        StatModifier mod1 = new StatModifier(2.0f, StatModType.Flat, sourceObject1);
-        StatModifier mod2 = new StatModifier(1.2f, StatModType.PercentAdd, sourceObject1);
-        StatModifier mod3 = new StatModifier(3.2f, StatModType.PercentMult, sourceObject2);
+        IStatModifier mod1 = new StatModifier(2.0f, StatModType.Flat, sourceObject1);
+        IStatModifier mod2 = new StatModifier(1.2f, StatModType.PercentAdd, sourceObject1);
+        IStatModifier mod3 = new StatModifier(3.2f, StatModType.PercentMult, sourceObject2);
         characterStat.AddModifier(mod1);
         characterStat.AddModifier(mod2);
         characterStat.AddModifier(mod3);
@@ -91,7 +86,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithAddModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(flatMod1);
         characterStat.AddModifier(flatMod2);
 
@@ -103,7 +98,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithPercentAddModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(percentAddMod1);
         characterStat.AddModifier(percentAddMod2);
 
@@ -115,7 +110,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithPercentMultModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(percentMultMod1);
         characterStat.AddModifier(percentMultMod2);
 
@@ -127,7 +122,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithAddAndPercentAddModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(flatMod1);
         characterStat.AddModifier(percentAddMod1);
         characterStat.AddModifier(flatMod2);
@@ -141,7 +136,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithAddAndPercentMultModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(percentMultMod1);
         characterStat.AddModifier(flatMod1);
         characterStat.AddModifier(flatMod2);
@@ -155,7 +150,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithPercentAddAndPercentMultModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(percentMultMod1);
         characterStat.AddModifier(percentAddMod1);
         characterStat.AddModifier(percentMultMod2);
@@ -169,7 +164,7 @@ public class TestCharacterStat {
     public void TestCalculateFinalValueWithAddAndPercentAddAndPercentMultModifiers()
     {
         _instantiateStatModifiers();
-        CharacterStat characterStat = new CharacterStat(10.0f);
+        ICharacterStat characterStat = new CharacterStat(10.0f);
         characterStat.AddModifier(percentMultMod1);
         characterStat.AddModifier(flatMod1);
         characterStat.AddModifier(percentAddMod1);

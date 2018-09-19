@@ -6,7 +6,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Kryz.CharacterStats;
 
 public class StatDisplay : MonoBehaviour
 {

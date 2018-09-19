@@ -4,7 +4,6 @@
  */
 
 using UnityEngine;
-using Kryz.CharacterStats;
 
 
 public class Character : MonoBehaviour {
