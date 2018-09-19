@@ -8,7 +8,7 @@ public abstract class AbstractLogger : ILogger
     protected abstract string FilePath { get; }
     protected abstract string DirectoryPath { get; }
 
-    readonly IFileSystem fileSystem;
+    private readonly IFileSystem fileSystem;
 
     protected AbstractLogger() : this(
         fileSystem: new FileSystem()
@@ -21,6 +21,7 @@ public abstract class AbstractLogger : ILogger
     {
         this.fileSystem = fileSystem;
     }
+    
 
     public abstract void Log(LogLevel logLevel, string locationSource, string message);
 
@@ -45,10 +46,8 @@ public abstract class AbstractLogger : ILogger
             Debug.Log(e);
         }
 
-        StreamWriter writer = new StreamWriter(file, true);
-        writer.WriteLine($"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") } -- " +
+        fileSystem.File.AppendAllText(file, $"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") } -- " +
             $"Source: {locationSource} -- [{logLevel}]: { message }");
-        writer.Flush();
     }
 }
 
