@@ -24,7 +24,6 @@ public class AbstractLoggerTests
         fileSystem.Directory.Returns(directory);
 
         logLevel = LogLevel.ALL;
-        locationSource = "Test";
         message = "Message";
     }
 
@@ -36,7 +35,7 @@ public class AbstractLoggerTests
 
         var sut = new DevLogger(fileSystem);
 
-        sut.Log(logLevel, locationSource, message);
+        sut.Log(logLevel, message);
 
         fileSystem.File.Received(1).AppendAllText(Arg.Any<string>(), Arg.Any<string>());
     }
@@ -52,7 +51,7 @@ public class AbstractLoggerTests
 
         var sut = new DevLogger(fileSystem);
 
-        sut.Log(logLevel, locationSource, message);
+        sut.Log(logLevel, message);
 
         fileSystem.Directory.Received(1).CreateDirectory(Arg.Any<string>());
         fileSystem.File.Received(1).Create(Arg.Any<string>());

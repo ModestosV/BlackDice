@@ -29,7 +29,7 @@ Visual Studio Enterprise: https://visualstudio.microsoft.com/vs/enterprise/ (Lic
 For now, the only way to run unit tests is by going to the following destination. A future goal is to add unit test support inside Microsoft Visual Studio.
 
 ```
-From the Unity Editor: General -> Test Runner -> Run All
+From the Unity Editor: Window -> General -> Test Runner -> Run All
 ```
 
 ## Troubleshooting

@@ -14,8 +14,8 @@ public sealed class DevLogger : AbstractLogger
     {
     }
 
-    public override void Log(LogLevel logLevel, string locationSource, string message)
+    public override void Log(LogLevel logLevel, string message)
     {
-        WriteToFile(logLevel, locationSource, message);
+        WriteToFile(logLevel, message);
     }
 }
