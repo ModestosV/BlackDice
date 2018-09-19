@@ -5,7 +5,7 @@ public class Main : MonoBehaviour
 	void Start ()
     {
         ILogger devLogger = new DevLogger();
-        devLogger.Log(LogLevel.INFO, this.GetType().Name, "This is how you use the dev logger");
+        devLogger.Log(LogLevel.INFO, "This is how you use the dev logger");
     }
 	
 	void Update ()

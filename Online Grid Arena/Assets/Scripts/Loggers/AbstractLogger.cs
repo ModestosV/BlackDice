@@ -23,11 +23,16 @@ public abstract class AbstractLogger : ILogger
     }
     
 
-    public abstract void Log(LogLevel logLevel, string locationSource, string message);
+    public abstract void Log(LogLevel logLevel, string message);
 
-    protected void WriteToFile(LogLevel logLevel, string locationSource, string message)
+    protected void WriteToFile(
+        LogLevel logLevel,
+        string message,
+        [System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "",
+        [System.Runtime.CompilerServices.CallerMemberName] string memberName = ""
+    )
     {
-        string file = Path.Combine(DirectoryPath, FilePath);
+        string fullFilePath = Path.Combine(DirectoryPath, FilePath);
 
         try
         {
@@ -36,9 +41,9 @@ public abstract class AbstractLogger : ILogger
                 fileSystem.Directory.CreateDirectory(DirectoryPath);
             }
 
-            if (!fileSystem.File.Exists(file))
+            if (!fileSystem.File.Exists(fullFilePath))
             {
-                fileSystem.File.Create(file).Dispose();
+                fileSystem.File.Create(fullFilePath).Dispose();
             }
         }
         catch (Exception e)
@@ -46,8 +51,8 @@ public abstract class AbstractLogger : ILogger
             Debug.Log(e);
         }
 
-        fileSystem.File.AppendAllText(file, $"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") } -- " +
-            $"Source: {locationSource} -- [{logLevel}]: { message }");
+        fileSystem.File.AppendAllText(fullFilePath, $"{ DateTime.Now.ToString("yyyy-dd-M-HH-mm-ss") } -- " +
+            $"Source: { sourceFilePath } -> { memberName } -- [{ logLevel }]: { message }");
     }
 }
 
