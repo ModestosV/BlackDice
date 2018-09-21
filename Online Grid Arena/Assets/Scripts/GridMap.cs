@@ -71,30 +71,12 @@ public class GridMap : MonoBehaviour {
     {
         HexTile tile = tileO.GetComponent<HexTile>();
         GameObject[] res = new GameObject[6];
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX(), tile.getY()-1, tile.getZ()+1)))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() - 1, tile.getZ() + 1), out res[0]);
-        }
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()+1, tile.getY()-1, tile.getZ())))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY() - 1, tile.getZ()), out res[1]);
-        }
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()+1, tile.getY(), tile.getZ()-1)))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY(), tile.getZ() - 1), out res[2]);
-        }
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX(), tile.getY()+1, tile.getZ()-1)))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() + 1, tile.getZ() - 1), out res[3]);
-        }
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()-1, tile.getY()+1, tile.getZ())))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY() + 1, tile.getZ()), out res[4]);
-        }
-        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()-1, tile.getY(), tile.getZ()+1)))
-        {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY(), tile.getZ() + 1), out res[5]);
-        }
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() - 1, tile.getZ() + 1), out res[0]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY() - 1, tile.getZ()), out res[1]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY(), tile.getZ() - 1), out res[2]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() + 1, tile.getZ() - 1), out res[3]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY() + 1, tile.getZ()), out res[4]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY(), tile.getZ() + 1), out res[5]);
         return res;
     }
 
