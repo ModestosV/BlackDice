@@ -549,6 +549,7 @@ PlayerSettings:
 <<<<<<< HEAD
   apiCompatibilityLevelPerPlatform:
 <<<<<<< HEAD
+<<<<<<< HEAD
     Standalone: 3
 =======
   apiCompatibilityLevelPerPlatform: {}
@@ -563,6 +564,9 @@ PlayerSettings:
 =======
     Standalone: 1
 >>>>>>> 44b0e82... Closes #18 by downgrading 2 dependencies of NSubstitute and manually importing System.Threading.Tasks.Extensions, rather than using NuGet to do the import.
+=======
+    Standalone: 1
+>>>>>>> 5a16d8c... Merge pull request #19 from ModestosV/Bug_018
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D
