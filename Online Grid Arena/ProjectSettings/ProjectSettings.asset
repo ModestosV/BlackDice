@@ -558,8 +558,10 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
 =======
   apiCompatibilityLevelPerPlatform:
+<<<<<<< HEAD
     Standalone: 3
 >>>>>>> e7385b135486a4100d0c91d77b949cc56f348e58
+<<<<<<< HEAD
 >>>>>>> 58bc8db... Merge branch 'Feature/Issue_001' of https://github.com/ModestosV/BlackDice into Feature/Issue_001
 =======
     Standalone: 1
@@ -567,6 +569,11 @@ PlayerSettings:
 =======
     Standalone: 1
 >>>>>>> 5a16d8c... Merge pull request #19 from ModestosV/Bug_018
+=======
+=======
+    Standalone: 1
+>>>>>>> master
+>>>>>>> 696236e... Merge branch 'master' into Feature/Issue_001
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D
