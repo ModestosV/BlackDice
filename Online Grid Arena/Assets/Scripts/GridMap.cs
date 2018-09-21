@@ -67,9 +67,35 @@ public class GridMap : MonoBehaviour {
 		
 	}
 
-    public GameObject[] getNeighbors() //returns all neighbors starting from bottom left, counter-clockwise
+    public GameObject[] getNeighbors(GameObject tileO) //returns all neighbors starting from top,going clockwise
     {
-        return null;
+        HexTile tile = tileO.GetComponent<HexTile>();
+        GameObject[] res = new GameObject[6];
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX(), tile.getY()-1, tile.getZ()+1)))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() - 1, tile.getZ() + 1), out res[0]);
+        }
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()+1, tile.getY()-1, tile.getZ())))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY() - 1, tile.getZ()), out res[1]);
+        }
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()+1, tile.getY(), tile.getZ()-1)))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY(), tile.getZ() - 1), out res[2]);
+        }
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX(), tile.getY()+1, tile.getZ()-1)))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() + 1, tile.getZ() - 1), out res[3]);
+        }
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()-1, tile.getY()+1, tile.getZ())))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY() + 1, tile.getZ()), out res[4]);
+        }
+        if (myGrid.ContainsKey(new Tuple<int, int, int>(tile.getX()-1, tile.getY(), tile.getZ()+1)))
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY(), tile.getZ() + 1), out res[5]);
+        }
+        return res;
     }
 
     public GameObject[] getColumn() //returns entire column, write method twice so it could take object or int as param. same thing for all the others
@@ -97,9 +123,11 @@ public class GridMap : MonoBehaviour {
         return null;
     }
 
-    public GameObject getTile(int x, int y, int z, int w)
+    public GameObject getTile(int x, int y, int z)
     {
-        return null;
+        GameObject res = null;
+        myGrid.TryGetValue(new Tuple<int,int,int>(x,y,z), out res);
+        return res;
     }
 
 }
