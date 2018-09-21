@@ -546,11 +546,19 @@ PlayerSettings:
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   apiCompatibilityLevelPerPlatform:
     Standalone: 3
 =======
   apiCompatibilityLevelPerPlatform: {}
 >>>>>>> 40a346b... Added dictionary
+=======
+  apiCompatibilityLevelPerPlatform: {}
+=======
+  apiCompatibilityLevelPerPlatform:
+    Standalone: 3
+>>>>>>> e7385b135486a4100d0c91d77b949cc56f348e58
+>>>>>>> 58bc8db... Merge branch 'Feature/Issue_001' of https://github.com/ModestosV/BlackDice into Feature/Issue_001
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D
