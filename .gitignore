@@ -34,3 +34,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Loggers
+DeveloperLogs/
+
+# NuGet Generated Packages
+*/Assets/Packages/
+*/Assets/Packages.meta
