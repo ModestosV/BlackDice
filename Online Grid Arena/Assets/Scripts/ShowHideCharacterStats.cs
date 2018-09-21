@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowHideCharacterStats : MonoBehaviour {
+public class ShowHideCharacterStats : MonoBehaviour
+{
 
     [SerializeField] public GameObject charStats;
     private bool showPanel = false;
@@ -11,23 +12,25 @@ public class ShowHideCharacterStats : MonoBehaviour {
 
     public void Update()
     {
-        // Toggles character stats panel on right click
         if (Input.GetMouseButtonDown(1))
+            CheckToggle();
+
+    }
+
+    private void CheckToggle()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
         {
-            //check if ray from mouse intersects character object
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
+            if (showPanel)
             {
-                if (showPanel)
-                {
-                    showPanel = false;
-                    charStats.gameObject.SetActive(false);
-                }
-                else
-                {
-                    showPanel = true;
-                    charStats.gameObject.SetActive(true);
-                }
+                showPanel = false;
+                charStats.gameObject.SetActive(false);
+            }
+            else
+            {
+                showPanel = true;
+                charStats.gameObject.SetActive(true);
             }
         }
     }
