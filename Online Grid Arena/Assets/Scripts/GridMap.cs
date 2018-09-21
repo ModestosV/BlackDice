@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime;
+using System;
 
 public class GridMap : MonoBehaviour {
 
@@ -14,8 +16,10 @@ public class GridMap : MonoBehaviour {
     public GameObject tilePrefab;
     Vector3 tileSize;
     GameObject[][] grid;
+    private Dictionary<Tuple<int,int,int>, GameObject> myGrid;
 
 	void Start () {
+        myGrid = new Dictionary<Tuple<int, int, int>, GameObject>();
         colNum = 7;
         x = -3;
         y = 0;
@@ -48,16 +52,14 @@ public class GridMap : MonoBehaviour {
                 HexTile tile = current.GetComponent<HexTile>();
                 tile.setX((int)x);
                 tile.setY((int)y);
-                y--;
                 tile.setZ(z);
+                myGrid.Add(new Tuple<int,int,int>(tile.getX(),tile.getY(),tile.getZ()),current);
+                y--;
                 z++;
-                tile.setW(w);
-                w++;
-                w++;
             }
             x++;
         }
-
+        grid = null;
 	}
 	
 	void Update ()
@@ -70,7 +72,7 @@ public class GridMap : MonoBehaviour {
         return null;
     }
 
-    public GameObject[] getColumn() //returns entire column
+    public GameObject[] getColumn() //returns entire column, write method twice so it could take object or int as param. same thing for all the others
     {
         return null;
     }
@@ -94,4 +96,10 @@ public class GridMap : MonoBehaviour {
     {
         return null;
     }
+
+    public GameObject getTile(int x, int y, int z, int w)
+    {
+        return null;
+    }
+
 }

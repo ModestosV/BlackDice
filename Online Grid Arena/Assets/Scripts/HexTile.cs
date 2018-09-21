@@ -6,7 +6,6 @@ public class HexTile : MonoBehaviour {
 
 
     private int x, y, z; //x is column number, y is left diagonal, z is right diagonal all of them -3 to 3
-    private int w; //w is the "row" number (goes from 0 to 12 in the case of a grid with a middle column of height 7) because 7*2 -1 = 13 possible row placements
     private GameObject occupant;
     Material currentMat;
     public Material[] materials; //for now 0 is def and 1 is light blue
@@ -67,7 +66,7 @@ public class HexTile : MonoBehaviour {
             rend.material = currentMat;
             isClicked = !isClicked;
         }
-        Debug.Log("TILE INFO: (column number)x = "+x+" /y = "+y+" /z = "+z+" /w = "+w);
+        Debug.Log("TILE INFO: (column number)x = "+x+" /y = "+y+" /z = "+z);
     }
 
     public void setOccupant(GameObject occ)
@@ -108,16 +107,6 @@ public class HexTile : MonoBehaviour {
     public void setZ(int newZ)
     {
         z = newZ;
-    }
-
-    public int getW()
-    {
-        return w;
-    }
-
-    public void setW(int newW)
-    {
-        w = newW;
     }
 
 }
