@@ -545,8 +545,12 @@ PlayerSettings:
   allowUnsafeCode: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
+<<<<<<< HEAD
   apiCompatibilityLevelPerPlatform:
     Standalone: 3
+=======
+  apiCompatibilityLevelPerPlatform: {}
+>>>>>>> 40a346b... Added dictionary
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D

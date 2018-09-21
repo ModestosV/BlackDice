@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 m_EditorVersion: 2018.2.7f1
 =======
 m_EditorVersion: 2018.2.8f1
@@ -19,3 +20,6 @@ m_EditorVersion: 2018.2.8f1
 =======
 m_EditorVersion: 2018.2.8f1
 >>>>>>> 0c118e3... Merge pull request #8 from ModestosV/Issue_001_Technical
+=======
+m_EditorVersion: 2018.2.7f1
+>>>>>>> 40a346b... Added dictionary
