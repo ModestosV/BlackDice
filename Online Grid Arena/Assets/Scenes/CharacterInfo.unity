@@ -593,7 +593,6 @@ GameObject:
   - component: {fileID: 374718344}
   - component: {fileID: 374718345}
   - component: {fileID: 374718347}
-  - component: {fileID: 374718346}
   m_Layer: 5
   m_Name: Stats Panel
   m_TagString: Untagged
@@ -659,18 +658,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &374718346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 374718342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4bce6654878016449be1f847bbc3649, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charStats: {fileID: 0}
 --- !u!222 &374718347
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1646,7 +1633,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1089485838}
   m_LocalRotation: {x: -0.5313164, y: -0.49295896, z: -0.097163334, w: 0.6820951}
-  m_LocalPosition: {x: 3.0055242, y: 0.21427083, z: 4}
+  m_LocalPosition: {x: 3.005524, y: 0.21427087, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 16437742}

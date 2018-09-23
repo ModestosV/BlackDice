@@ -10,6 +10,12 @@ public class StatPanel : MonoBehaviour {
     [SerializeField] StatDisplay[] statDisplays;
     [SerializeField] string[] statNames;
 
+    public StatPanel(StatDisplay[] _statDisplays, string[] _statNames)
+    {
+        this.statDisplays = _statDisplays;
+        this.statNames = _statNames;
+    }
+
     private void Awake()
     {
         this.gameObject.SetActive(false);

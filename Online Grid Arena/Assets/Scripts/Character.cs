@@ -14,6 +14,13 @@ public class Character : MonoBehaviour
 
     [SerializeField] StatPanel statPanel;
 
+    public Character(CharacterStat _Health, CharacterStat _Damage, StatPanel _statPanel)
+    {
+        this.Health = _Health;
+        this.Damage = _Damage;
+        this.statPanel = _statPanel;
+    }
+
     private void Awake()
     {
         statPanel.SetStats(Health, Damage);

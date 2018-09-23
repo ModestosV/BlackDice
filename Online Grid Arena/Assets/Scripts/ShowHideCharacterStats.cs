@@ -7,8 +7,13 @@ public class ShowHideCharacterStats : MonoBehaviour
 
     [SerializeField] public GameObject charStats;
     private bool showPanel = false;
-    Ray ray;
-    RaycastHit hit;
+    private Ray ray;
+    private RaycastHit hit;
+
+    public ShowHideCharacterStats(GameObject _charStats)
+    {
+        this.charStats = _charStats;
+    }
 
     public void Update()
     {
