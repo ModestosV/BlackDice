@@ -15,6 +15,13 @@ public class StatDisplay : MonoBehaviour
     [NonSerialized]
     public CharacterStat Stat;
 
+    public StatDisplay(Text _NameText, Text _ValueText, CharacterStat _Stat)
+    {
+        this.NameText = _NameText;
+        this.ValueText = _ValueText;
+        this.Stat = _Stat;
+    }
+
     private void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();

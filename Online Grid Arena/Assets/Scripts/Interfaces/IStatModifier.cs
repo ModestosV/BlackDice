@@ -7,24 +7,12 @@
 
 public interface IStatModifier
 {
-    float Value
-    {
-        get;
-    }
+    float Value { get; }
 
-    StatModType Type
-    {
-        get;
-    }
+    StatModType Type { get; }
 
-    int Order
-    {
-        get;
-    }
+    int Order { get; }
 
-    object Source
-    {
-        get;
-    }
+    object Source { get; }
 
 }
