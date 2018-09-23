@@ -6,8 +6,8 @@
 using UnityEngine;
 
 
-public class Character : MonoBehaviour {
-
+public class Character : MonoBehaviour
+{
     // Placeholder stats
     public CharacterStat Health;
     public CharacterStat Damage;

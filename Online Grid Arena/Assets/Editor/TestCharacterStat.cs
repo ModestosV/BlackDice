@@ -12,7 +12,7 @@ public class TestCharacterStat {
     private const float FINAL_VALUE_PRECISION = 0.0001f;
 
     [Test]
-    public void TestDefaultConstructor()
+    public void Character_stat_contains_no_stats_on_init()
     {
         ICharacterStat characterStat = new CharacterStat();
 
@@ -20,7 +20,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestParameterizedConstructor()
+    public void Character_stat_initialized_by_constructor()
     {
         ICharacterStat characterStat = new CharacterStat(20.0f);
 
@@ -28,7 +28,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestAddModifier()
+    public void Character_stat_modified_by_add_modifier()
     {
         ICharacterStat characterStat = new CharacterStat();
         IStatModifier mod = new StatModifier(2.0f, StatModType.Flat);
@@ -39,7 +39,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestRemoveModifier()
+    public void Remove_modifier_removes_stat_from_character_stat()
     {
         ICharacterStat characterStat = new CharacterStat();
         IStatModifier mod = new StatModifier(2.0f, StatModType.Flat);
@@ -51,7 +51,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestRemoveAllModifiersFromSource()
+    public void Remove_all_modifiers_removes_all_stats_from_character_stat()
     {
         ICharacterStat characterStat = new CharacterStat();
         object sourceObject1 = new object();
@@ -83,7 +83,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithAddModifiers()
+    public void Add_modifier_sums_flat_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -95,7 +95,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithPercentAddModifiers()
+    public void Add_modifier_sums_percent_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -107,7 +107,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithPercentMultModifiers()
+    public void Add_modifier_sums_percent_mult_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -119,7 +119,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithAddAndPercentAddModifiers()
+    public void Add_modifier_sums_flat_and_percent_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -133,7 +133,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithAddAndPercentMultModifiers()
+    public void Add_modifier_sums_flat_and_percent_mult_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -147,7 +147,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithPercentAddAndPercentMultModifiers()
+    public void Add_modifier_sums_percent_and_percent_mult_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
@@ -161,7 +161,7 @@ public class TestCharacterStat {
     }
 
     [Test]
-    public void TestCalculateFinalValueWithAddAndPercentAddAndPercentMultModifiers()
+    public void Add_modifier_sums_all_stats_in_character_stat()
     {
         _instantiateStatModifiers();
         ICharacterStat characterStat = new CharacterStat(10.0f);
