@@ -10,14 +10,7 @@ using System.Collections.ObjectModel;
 [Serializable]
 public class CharacterStat : ICharacterStat
 {
-	protected float _baseValue;
-    public float BaseValue
-    {
-        get
-        {
-            return _baseValue;
-        }
-    }
+    public float BaseValue;
 
 	protected bool isDirty = true;
 	protected float lastBaseValue;
@@ -25,8 +18,8 @@ public class CharacterStat : ICharacterStat
 	protected float _value;
 	public virtual float Value {
 		get {
-			if(isDirty || lastBaseValue != _baseValue) {
-				lastBaseValue = _baseValue;
+			if(isDirty || lastBaseValue != BaseValue) {
+				lastBaseValue = BaseValue;
 				_value = CalculateFinalValue();
 				isDirty = false;
 			}
@@ -34,34 +27,33 @@ public class CharacterStat : ICharacterStat
 		}
 	}
 
-	protected readonly List<IStatModifier> statModifiers;
-	protected readonly ReadOnlyCollection<IStatModifier> _statModifiersReadOnly;
-    public ReadOnlyCollection<IStatModifier> StatModifiers
+	protected readonly List<StatModifier> statModifiers;
+    public readonly ReadOnlyCollection<StatModifier> StatModifiers;
+
+    public CharacterStat() : this (0.0f, new List<StatModifier>())
     {
-        get
-        {
-            return _statModifiersReadOnly;
-        }
+
     }
 
-    public CharacterStat()
+	public CharacterStat(float baseValue) : this(baseValue, new List<StatModifier>())
 	{
-		statModifiers = new List<IStatModifier>();
-        _statModifiersReadOnly = statModifiers.AsReadOnly();
+		BaseValue = baseValue;
 	}
 
-	public CharacterStat(float baseValue) : this()
-	{
-		_baseValue = baseValue;
-	}
+    public CharacterStat(float baseValue, List<StatModifier> statModifierList)
+    {
+        BaseValue = baseValue;
+        statModifiers = statModifierList;
+        StatModifiers = statModifiers.AsReadOnly();
+    }
 
-	public virtual void AddModifier(IStatModifier mod)
+	public virtual void AddModifier(StatModifier mod)
 	{
 		isDirty = true;
 		statModifiers.Add(mod);
 	}
 
-	public virtual bool RemoveModifier(IStatModifier mod)
+	public virtual bool RemoveModifier(StatModifier mod)
 	{
 		if (statModifiers.Remove(mod))
 		{
@@ -83,7 +75,7 @@ public class CharacterStat : ICharacterStat
 		return false;
 	}
 
-	protected virtual int CompareModifierOrder(IStatModifier a, IStatModifier b)
+	protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
 	{
 		if (a.Order < b.Order)
 			return -1;
@@ -94,14 +86,14 @@ public class CharacterStat : ICharacterStat
 		
 	protected virtual float CalculateFinalValue()
 	{
-		float finalValue = _baseValue;
+		float finalValue = BaseValue;
 		float sumPercentAdd = 0;
 
 		statModifiers.Sort(CompareModifierOrder);
 
 		for (int i = 0; i < statModifiers.Count; i++)
 		{
-			IStatModifier mod = statModifiers[i];
+			StatModifier mod = statModifiers[i];
 
 			if (mod.Type == StatModType.Flat)
 			{

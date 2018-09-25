@@ -635,7 +635,9 @@ MonoBehaviour:
   statDisplays:
   - {fileID: 520212630}
   - {fileID: 311370175}
-  statNames: []
+  statNames:
+  - Health
+  - Damage
 --- !u!114 &374718345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1651,6 +1653,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health:
+    BaseValue: 15
+  Damage:
+    BaseValue: 2
   statPanel: {fileID: 374718344}
 --- !u!1 &1179203417
 GameObject:

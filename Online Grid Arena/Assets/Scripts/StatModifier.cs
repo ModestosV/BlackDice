@@ -3,52 +3,27 @@
  * Obtained from Unity Asset Store on 2018/09/14. https://assetstore.unity.com/packages/tools/integration/character-stats-106351
 */
 
-public class StatModifier : IStatModifier
+public enum StatModType
 {
-    private readonly float _value;
-	private readonly StatModType _type;
-	private readonly int _order;
-	private readonly object _source;
+    Flat = 100,
+    PercentAdd  = 200,
+    PercentMult = 300
+}
+
+public class StatModifier
+{
+    public readonly float Value;
+	public readonly StatModType Type;
+	public readonly int Order;
+	public readonly object Source;
 
 	public StatModifier(float value, StatModType type, int order, object source)
 	{
-		_value = value;
-		_type = type;
-		_order = order;
-		_source = source;
+		Value = value;
+		Type = type;
+		Order = order;
+		Source = source;
 	}
-    
-    public float Value
-    {
-        get
-        {
-            return _value;
-        }
-    }
-
-    public StatModType Type
-    {
-        get
-        {
-            return _type;
-        }
-    }
-
-    public int Order
-    {
-        get
-        {
-            return _order;
-        }
-    }
-
-    public object Source
-    {
-        get
-        {
-            return _source;
-        }
-    }
 
 	public StatModifier(float value, StatModType type) : this(value, type, (int)type, null) { }
 
