@@ -10,18 +10,18 @@ public class StatPanel : MonoBehaviour {
     [SerializeField] StatDisplay[] statDisplays;
     [SerializeField] string[] statNames;
 
-    public StatPanel(StatDisplay[] _statDisplays, string[] _statNames)
+    private CharacterStat[] _stats;
+
+    public StatPanel(StatDisplay[] statDisplays, string[] statNames)
     {
-        this.statDisplays = _statDisplays;
-        this.statNames = _statNames;
+        this.statDisplays = statDisplays;
+        this.statNames = statNames;
     }
 
     private void Awake()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
-
-    private CharacterStat[] stats;
 
     private void OnValidate()
     {
@@ -31,25 +31,25 @@ public class StatPanel : MonoBehaviour {
 
     public void SetStats(params CharacterStat[] charStats)
     {
-        stats = charStats;
+        _stats = charStats;
 
-        if (stats.Length > statDisplays.Length)
+        if (_stats.Length > statDisplays.Length)
         {
             return;
         }
 
         for (int i = 0; i < statDisplays.Length; i++)
         {
-            statDisplays[i].Stat = i < stats.Length ? stats[i] : null;
-            statDisplays[i].gameObject.SetActive(i < stats.Length);
+            statDisplays[i].Stat = i < _stats.Length ? _stats[i] : null;
+            statDisplays[i].gameObject.SetActive(i < _stats.Length);
         }
     }
 
     public void UpdateStatValues()
     {
-        for (int i = 0; i < stats.Length; i++)
+        for (int i = 0; i < _stats.Length; i++)
         {
-            statDisplays[i].ValueText.text = stats[i].Value.ToString();
+            statDisplays[i].ValueText.text = _stats[i].Value.ToString();
         }
     }
 

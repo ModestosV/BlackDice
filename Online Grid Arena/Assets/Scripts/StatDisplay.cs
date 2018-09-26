@@ -15,11 +15,11 @@ public class StatDisplay : MonoBehaviour
     [NonSerialized]
     public CharacterStat Stat;
 
-    public StatDisplay(Text _NameText, Text _ValueText, CharacterStat _Stat)
+    public StatDisplay(Text nameText, Text valueText, CharacterStat stat)
     {
-        this.NameText = _NameText;
-        this.ValueText = _ValueText;
-        this.Stat = _Stat;
+        NameText = nameText;
+        ValueText = valueText;
+        Stat = stat;
     }
 
     private void OnValidate()

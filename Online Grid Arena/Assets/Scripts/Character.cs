@@ -5,25 +5,43 @@
 
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IMovementController
 {
-    // Placeholder stats
-    public CharacterStat Health;
-    public CharacterStat Damage;
-
+    public CharacterController controller;
     [SerializeField] StatPanel statPanel;
 
-    public Character(CharacterStat _health, CharacterStat _damage, StatPanel _statPanel)
+    private void OnEnable()
     {
-        Health = _health;
-        Damage = _damage;
-        statPanel = _statPanel;
+        controller.SetMovementController(this);
     }
 
     private void Awake()
     {
-        statPanel.SetStats(Health, Damage);
+        statPanel.SetStats(controller.Health, controller.Damage);
         statPanel.UpdateStatValues();
     }
 
+    private void FixedUpdate()
+    {
+        if(Input.GetButton("Horizontal"))
+            controller.MoveX(Input.GetAxis("Horizontal"));
+        if (Input.GetButton("Vertical"))
+            controller.MoveY(Input.GetAxis("Vertical"));
+    }
+
+    #region IMovementController implementation
+
+    public void MoveX (float value)
+    {
+        float deltaX = Time.fixedDeltaTime * value;
+        transform.Translate(deltaX, 0, 0);
+    }
+
+    public void MoveY (float value)
+    {
+        float deltaY = Time.fixedDeltaTime * value;
+        transform.Translate(0, deltaY, 0);
+    }
+
+    #endregion
 }
