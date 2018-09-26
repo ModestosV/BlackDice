@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class HexTile : MonoBehaviour {
 
-
+    private GridMap gridReference;
     private int x, y, z; //x is column number, y is left diagonal, z is right diagonal all of them -3 to 3
     private GameObject occupant;
-    Material currentMat;
+    public Material currentMat;
     public Material[] materials; //for now 0 is def and 1 is light blue
-    MeshRenderer rend;
+    public MeshRenderer rend;
     Vector3 size;
     bool isClicked;
 	// Use this for initialization
@@ -54,19 +54,23 @@ public class HexTile : MonoBehaviour {
 
     private void OnMouseDown()
     {
+        Debug.Log(isClicked);
         if (isClicked)
         {
-            currentMat = materials[1];
-            rend.material = currentMat;
+            //currentMat = materials[1];
+            //rend.material = currentMat;
             isClicked = !isClicked;
+            gridReference.setClicked(null);
         }
         else
         {
-            currentMat = materials[2];
-            rend.material = currentMat;
+            //currentMat = materials[2];
+            //rend.material = currentMat;
             isClicked = !isClicked;
+            gridReference.setClicked(this);
         }
         Debug.Log("TILE INFO: (column number)x = "+x+" /y = "+y+" /z = "+z);
+        Debug.Log(isClicked);
     }
 
     public void setOccupant(GameObject occ)
@@ -109,4 +113,18 @@ public class HexTile : MonoBehaviour {
         z = newZ;
     }
 
+    public void setGrid(GridMap refGrid)
+    {
+        gridReference = refGrid;
+    }
+
+    public bool getIsClicked()
+    {
+        return isClicked;
+    }
+
+    public void setIsClicked(bool newState)
+    {
+        isClicked = newState;
+    }
 }
