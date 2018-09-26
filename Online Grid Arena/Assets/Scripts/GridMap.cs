@@ -104,7 +104,7 @@ public class GridMap : MonoBehaviour {
                 }
                 else
                 {
-                    column[height - i - 1] = null;
+                    column[i] = null;
                 }
             }
             else if (tile.getX() > 0)
@@ -115,7 +115,44 @@ public class GridMap : MonoBehaviour {
                 }
                 else
                 {
-                    column[height - i - 1] = null;
+                    column[i] = null;
+                }
+            }
+        }
+        return column;
+    }
+
+    public GameObject[] getColumn(int columnNum) //returns entire column, write method twice so it could take object or int as param. same thing for all the others
+    {
+        GameObject[] column = new GameObject[height];
+        double lengthColumn = height - Math.Abs(columnNum);
+        int MaxV = (int)Math.Floor((double)height / 2);
+        for (int i = 0; i < height; i++)
+        {
+            if (columnNum == 0)
+            {
+                myGrid.TryGetValue(new Tuple<int, int, int>(0, MaxV - i, -MaxV + i), out column[i]);
+            }
+            else if (columnNum < 0)
+            {
+                if (i < lengthColumn)
+                {
+                    myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, MaxV - i, -MaxV - columnNum + i), out column[i]);
+                }
+                else
+                {
+                    column[i] = null;
+                }
+            }
+            else if (columnNum > 0)
+            {
+                if (i < lengthColumn)
+                {
+                    myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, MaxV - columnNum - i, -MaxV + i), out column[i]);
+                }
+                else
+                {
+                    column[i] = null;
                 }
             }
         }
