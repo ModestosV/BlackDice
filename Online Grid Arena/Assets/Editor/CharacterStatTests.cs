@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
 
-public class TestCharacterStat {
-
+public class CharacterStatTests
+{
     private List<StatModifier> statModifiers;
 
     private object sourceObject1;

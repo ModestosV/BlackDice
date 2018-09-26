@@ -9,10 +9,20 @@ public class CharacterController
 
     private IMovementController _movementController;
 
+    public CharacterController()
+    {
+
+    }
+
     public CharacterController(CharacterStat health, CharacterStat damage)
     {
         Health = health;
         Damage = damage;
+    }
+
+    public CharacterController(IMovementController movementController) : this (new CharacterStat(1.0f), new CharacterStat(1.0f))
+    {
+        _movementController = movementController;
     }
 
     public void SetMovementController(IMovementController movementController)
