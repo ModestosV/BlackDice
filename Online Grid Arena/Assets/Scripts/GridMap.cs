@@ -9,6 +9,8 @@ public class GridMap : MonoBehaviour {
     private int height = 7;
     private int width = 7;
 
+    private static HexTile clickedCell; 
+
     //triple coordinate system
     private double x; // x is column number coordinate 
     private int y, z, w; // for setting tile info
@@ -19,6 +21,7 @@ public class GridMap : MonoBehaviour {
     private Dictionary<Tuple<int,int,int>, GameObject> myGrid;
 
 	void Start () {
+        clickedCell = null;
         myGrid = new Dictionary<Tuple<int, int, int>, GameObject>();
         colNum = 7;
         x = -3;
@@ -50,6 +53,7 @@ public class GridMap : MonoBehaviour {
             {
                 GameObject current = Instantiate(tilePrefab, new Vector3(index-(float)x/4, j+(Mathf.Abs((float)x)/2)), Quaternion.Euler(90, 0, 0));
                 HexTile tile = current.GetComponent<HexTile>();
+                tile.setGrid(this);
                 tile.setX((int)x);
                 tile.setY((int)y);
                 tile.setZ(z);
@@ -110,6 +114,29 @@ public class GridMap : MonoBehaviour {
         GameObject res = null;
         myGrid.TryGetValue(new Tuple<int,int,int>(x,y,z), out res);
         return res;
+    }
+
+    public void setClicked(HexTile tile)
+    {
+        if (tile == null)
+        {
+            clickedCell.setIsClicked(!clickedCell.getIsClicked());
+        }
+
+         if (clickedCell != null)
+        {
+            //make it go back to normal color
+            clickedCell.setIsClicked(!clickedCell.getIsClicked());
+            clickedCell.currentMat = clickedCell.materials[0];
+            clickedCell.rend.material = clickedCell.currentMat;
+        }
+        clickedCell = tile; //set the new one and change its color to clicked mode
+        if (clickedCell != null)
+        {
+            clickedCell.currentMat = clickedCell.materials[2];
+            clickedCell.rend.material = clickedCell.currentMat;
+        }
+
     }
 
 }
