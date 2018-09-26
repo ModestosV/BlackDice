@@ -29,7 +29,7 @@ public class GridMap : MonoBehaviour {
         grid = new GameObject[colNum][];//num of cols
         for (int i = 0; i < colNum; i++) // 0 to 6
         {
-            grid[i] = new GameObject[7-Mathf.Abs((int)x)]; //column sizes: 4,5,6,7,6,5,4
+            grid[i] = new GameObject[height-Mathf.Abs((int)x)]; //column sizes: 4,5,6,7,6,5,4
             x++;
         }
 
@@ -84,9 +84,42 @@ public class GridMap : MonoBehaviour {
         return res;
     }
 
-    public GameObject[] getColumn() //returns entire column, write method twice so it could take object or int as param. same thing for all the others
+    public GameObject[] getColumn(GameObject tile0) //returns entire column, write method twice so it could take object or int as param. same thing for all the others
     {
-        return null;
+        HexTile tile = tile0.GetComponent<HexTile>();
+        GameObject[] column = new GameObject[height];
+        double lengthColumn = height - Math.Abs(tile.getX());
+        int MaxV = (int)Math.Floor((double)height / 2);
+        for (int i = 0; i < height; i++)
+        {
+            if (tile.getX() == 0)
+            {
+                myGrid.TryGetValue(new Tuple<int, int, int>(0, MaxV - i, -MaxV + i), out column[i]);
+            }
+            else if (tile.getX() < 0)
+            {
+                if (i < lengthColumn)
+                {
+                    myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), MaxV - i, -MaxV - tile.getX() + i), out column[i]);
+                }
+                else
+                {
+                    column[height - i - 1] = null;
+                }
+            }
+            else if (tile.getX() > 0)
+            {
+                if (i < lengthColumn)
+                {
+                    myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), MaxV - tile.getX() - i, -MaxV + i), out column[i]);
+                }
+                else
+                {
+                    column[height - i - 1] = null;
+                }
+            }
+        }
+        return column;
     }
 
     public GameObject[] getRightDiagonal() //returns entire diagonal that goes from bottom left to top right
