@@ -9,10 +9,7 @@ public class CharacterController
 
     private IMovementController _movementController;
 
-    public CharacterController()
-    {
-
-    }
+    public CharacterController() : this(new CharacterStat(0.0f), new CharacterStat(0.0f)) { }
 
     public CharacterController(CharacterStat health, CharacterStat damage)
     {
@@ -20,7 +17,7 @@ public class CharacterController
         Damage = damage;
     }
 
-    public CharacterController(IMovementController movementController) : this (new CharacterStat(1.0f), new CharacterStat(1.0f))
+    public CharacterController(IMovementController movementController) : this()
     {
         _movementController = movementController;
     }

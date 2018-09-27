@@ -8,17 +8,10 @@ using UnityEngine;
 public class Character : MonoBehaviour, IMovementController
 {
     public CharacterController controller;
-    [SerializeField] StatPanel statPanel;
 
     private void OnEnable()
     {
         controller.SetMovementController(this);
-    }
-
-    private void Awake()
-    {
-        statPanel.SetStats(controller.Health, controller.Damage);
-        statPanel.UpdateStatValues();
     }
 
     private void FixedUpdate()
