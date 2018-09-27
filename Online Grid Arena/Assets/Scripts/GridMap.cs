@@ -213,9 +213,58 @@ public class GridMap : MonoBehaviour {
         return row;
     }
 
-    public GameObject[] getRowFull() //return full row of tiles that are within +/= 0.5 of eachother (i.e. will have 1 tile from 1 row, 2 from the next, etc.etc.)
+    //tile being called is always assumed to be in the middle of the full row. 
+    public GameObject[] getRowFull(GameObject tile0) //return full row of tiles that are within +/= 0.5 of eachother (i.e. will have 1 tile from 1 row, 2 from the next, etc.etc.)
     {
-        return null;
+        HexTile tile = tile0.GetComponent<HexTile>();
+        int maxRowSize = (int)Math.Ceiling((double)height/2);
+        List<GameObject> res = new List<GameObject>();
+        GameObject[] neighbors = this.getNeighbors(tile0);
+        GameObject[] middleRow = this.getRowSkip(tile0);
+
+        for (int i = 0; i < middleRow.Length; i++)
+        {
+            res.Add(middleRow[i]);
+        }
+        if (tile.getX() == 3 || tile.getY() == -3 || tile.getZ() == -3) //want top left and bottom left 4 and 5
+        {
+            if (neighbors[5] != null)
+            {
+                GameObject[] topRow = this.getRowSkip(neighbors[5].gameObject);
+                foreach (GameObject g in topRow)
+                {
+                    res.Add(g);
+                }
+            }
+            if (neighbors[4] != null)
+            {
+                GameObject[] bottomRow = this.getRowSkip(neighbors[4].gameObject);
+                foreach (GameObject g in bottomRow)
+                {
+                    res.Add(g);
+                }
+            }
+        }
+        else //top right and bottom right 1 and 2
+        {
+            if (neighbors[1] != null)
+            {
+                GameObject[] topRow = this.getRowSkip(neighbors[1].gameObject);
+                foreach (GameObject g in topRow)
+                {
+                    res.Add(g);
+                }
+            }
+            if (neighbors[2] != null)
+            {
+                GameObject[] bottomRow = this.getRowSkip(neighbors[2].gameObject);
+                foreach (GameObject g in bottomRow)
+                {
+                    res.Add(g);
+                }
+            }
+        }
+        return res.ToArray();
     }
 
     public GameObject getTile(int x, int y, int z)
