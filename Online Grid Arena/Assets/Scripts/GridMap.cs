@@ -159,9 +159,19 @@ public class GridMap : MonoBehaviour {
         return column;
     }
 
-    public GameObject[] getRightDiagonal() //returns entire diagonal that goes from bottom left to top right
+    public GameObject[] getRightDiagonal(GameObject tile) //returns entire diagonal that goes from bottom left to top right
     {
-        return null;
+        HexTile tile0 = tile.GetComponent<HexTile>();
+        GameObject[] res = new GameObject[height];
+        int total = tile0.getZ()*-1;
+        for (int i = 0; i < height; i++)//0 to 6
+        {
+            int currentX = i - 3;
+            //now we know x+y = total, so
+            int currentY = total - currentX;
+            myGrid.TryGetValue(new Tuple<int, int, int>(currentX, currentY, total*-1), out res[i]);
+        }
+        return res;
     }
 
     public GameObject[] getLeftDiagonal() //returns entire diagonal that goes from top left to bottom right
