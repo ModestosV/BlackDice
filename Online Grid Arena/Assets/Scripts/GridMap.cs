@@ -189,9 +189,28 @@ public class GridMap : MonoBehaviour {
         return res;
     }
 
-    public GameObject[] getRowSkip() // returns entire row of tiles that are exactly at the same height (i.e. array will not hold tiles from every row)
+    public GameObject[] getRowSkip(GameObject tile0) // returns entire row of tiles that are exactly at the same height (i.e. array will not hold tiles from every row)
     {
-        return null;
+        HexTile tile = tile0.GetComponent<HexTile>();
+        GameObject[] row = new GameObject[height];
+        int maxV = (int)Math.Floor((double)height / 2);
+        int yzInc = 0;
+        int xvalue = tile.getX();
+        int yvalue = tile.getY();
+
+        while (xvalue != -maxV && xvalue != -maxV + 1)
+        {
+            xvalue -= 2;
+            yvalue++;
+        }
+
+        for (int i = (Math.Abs(tile.getX()%2) == maxV%2)? 0:1; i<height; i+=2)
+        {
+            myGrid.TryGetValue(new Tuple<int, int, int>(i - maxV, yvalue - yzInc, ((-i + maxV) - (yvalue - yzInc))), out row[i]);
+            yzInc++;
+        }
+
+        return row;
     }
 
     public GameObject[] getRowFull() //return full row of tiles that are within +/= 0.5 of eachother (i.e. will have 1 tile from 1 row, 2 from the next, etc.etc.)

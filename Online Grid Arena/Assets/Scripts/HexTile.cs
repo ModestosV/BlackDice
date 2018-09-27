@@ -54,15 +54,6 @@ public class HexTile : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        //testing code for knowing if methods work properly
-        /**GameObject[] myarr = gridReference.getLeftDiagonal(this.gameObject);
-        for (int i = 0; i < 7; i++)
-        {
-            if (myarr[i] != null)
-            {
-                Destroy(myarr[i]);
-            }
-        }*/
         Debug.Log(isClicked);
         if (isClicked)
         {
