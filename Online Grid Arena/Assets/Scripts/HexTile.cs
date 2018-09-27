@@ -54,6 +54,16 @@ public class HexTile : MonoBehaviour {
 
     private void OnMouseDown()
     {
+        GameObject[] myarr = gridReference.getRowFull(this.gameObject);
+        
+        for (int i = 0; i < myarr.Length; i++)
+        {
+            if (myarr[i] != null)
+            {
+                Debug.Log("Destroying object" + i);
+                Destroy(myarr[i]);
+            }
+        }
         Debug.Log(isClicked);
         if (isClicked)
         {
