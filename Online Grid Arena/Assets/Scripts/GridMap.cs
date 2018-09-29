@@ -88,36 +88,9 @@ public class GridMap : MonoBehaviour {
     {
         HexTile tile = tile0.GetComponent<HexTile>();
         GameObject[] column = new GameObject[height];
-        double lengthColumn = height - Math.Abs(tile.getX());
-        int MaxV = (int)Math.Floor((double)height / 2);
         for (int i = 0; i < height; i++)
         {
-            if (tile.getX() == 0)
-            {
-                myGrid.TryGetValue(new Tuple<int, int, int>(0, MaxV - i, -MaxV + i), out column[i]);
-            }
-            else if (tile.getX() < 0)
-            {
-                if (i < lengthColumn)
-                {
-                    myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), MaxV - i, -MaxV - tile.getX() + i), out column[i]);
-                }
-                else
-                {
-                    column[i] = null;
-                }
-            }
-            else if (tile.getX() > 0)
-            {
-                if (i < lengthColumn)
-                {
-                    myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), MaxV - tile.getX() - i, -MaxV + i), out column[i]);
-                }
-                else
-                {
-                    column[i] = null;
-                }
-            }
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), i - 3, -i + 3 - tile.getX()), out column[i]);
         }
         return column;
     }
@@ -125,36 +98,9 @@ public class GridMap : MonoBehaviour {
     public GameObject[] getColumn(int columnNum) //returns entire column, write method twice so it could take object or int as param. same thing for all the others
     {
         GameObject[] column = new GameObject[height];
-        double lengthColumn = height - Math.Abs(columnNum);
-        int MaxV = (int)Math.Floor((double)height / 2);
         for (int i = 0; i < height; i++)
         {
-            if (columnNum == 0)
-            {
-                myGrid.TryGetValue(new Tuple<int, int, int>(0, MaxV - i, -MaxV + i), out column[i]);
-            }
-            else if (columnNum < 0)
-            {
-                if (i < lengthColumn)
-                {
-                    myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, MaxV - i, -MaxV - columnNum + i), out column[i]);
-                }
-                else
-                {
-                    column[i] = null;
-                }
-            }
-            else if (columnNum > 0)
-            {
-                if (i < lengthColumn)
-                {
-                    myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, MaxV - columnNum - i, -MaxV + i), out column[i]);
-                }
-                else
-                {
-                    column[i] = null;
-                }
-            }
+            myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, i - 3, -i + 3 - columnNum), out column[i]);
         }
         return column;
     }
@@ -163,13 +109,9 @@ public class GridMap : MonoBehaviour {
     {
         HexTile tile0 = tile.GetComponent<HexTile>();
         GameObject[] res = new GameObject[height];
-        int total = tile0.getZ()*-1;
         for (int i = 0; i < height; i++)//0 to 6
         {
-            int currentX = i - 3;
-            //now we know x+y = total, so
-            int currentY = total - currentX;
-            myGrid.TryGetValue(new Tuple<int, int, int>(currentX, currentY, total*-1), out res[i]);
+            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, -i + 3 - tile0.getZ(), tile0.getZ()), out res[i]);
         }
         return res;
     }
@@ -178,13 +120,9 @@ public class GridMap : MonoBehaviour {
     {
         HexTile tile0 = tile.GetComponent<HexTile>();
         GameObject[] res = new GameObject[height];
-        int total = tile0.getY() * -1;
         for (int i = 0; i < height; i++)//0 to 6
         {
-            int currentX = i - 3;
-            //now we know x+z = total, so
-            int currentZ = total - currentX;
-            myGrid.TryGetValue(new Tuple<int, int, int>(currentX, total*-1, currentZ), out res[i]);
+            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, tile0.getY(), - i + 3 - tile0.getY()), out res[i]);
         }
         return res;
     }
