@@ -544,8 +544,45 @@ PlayerSettings:
   allowUnsafeCode: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
+<<<<<<< HEAD
   apiCompatibilityLevelPerPlatform:
     Standalone: 1
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+  apiCompatibilityLevelPerPlatform:
+<<<<<<< HEAD
+<<<<<<< HEAD
+    Standalone: 3
+=======
+  apiCompatibilityLevelPerPlatform: {}
+>>>>>>> 40a346b... Added dictionary
+=======
+  apiCompatibilityLevelPerPlatform: {}
+=======
+  apiCompatibilityLevelPerPlatform:
+<<<<<<< HEAD
+    Standalone: 3
+>>>>>>> e7385b135486a4100d0c91d77b949cc56f348e58
+<<<<<<< HEAD
+>>>>>>> 58bc8db... Merge branch 'Feature/Issue_001' of https://github.com/ModestosV/BlackDice into Feature/Issue_001
+=======
+    Standalone: 1
+>>>>>>> 44b0e82... Closes #18 by downgrading 2 dependencies of NSubstitute and manually importing System.Threading.Tasks.Extensions, rather than using NuGet to do the import.
+=======
+    Standalone: 1
+>>>>>>> 5a16d8c... Merge pull request #19 from ModestosV/Bug_018
+=======
+=======
+    Standalone: 1
+>>>>>>> master
+>>>>>>> 696236e... Merge branch 'master' into Feature/Issue_001
+=======
+  apiCompatibilityLevelPerPlatform:
+    Standalone: 1
+>>>>>>> 26ed6b5... GetNeighbors and getTile
+>>>>>>> 557c6c399f3651faef0329c0923fa75e4efda9a2
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Online Grid Arena
