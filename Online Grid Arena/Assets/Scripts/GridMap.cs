@@ -54,10 +54,10 @@ public class GridMap : MonoBehaviour {
                 GameObject current = Instantiate(tilePrefab, new Vector3(index-(float)x/4, j+(Mathf.Abs((float)x)/2)), Quaternion.Euler(90, 0, 0));
                 HexTile tile = current.GetComponent<HexTile>();
                 tile.setGrid(this);
-                tile.setX((int)x);
-                tile.setY((int)y);
-                tile.setZ(z);
-                myGrid.Add(new Tuple<int,int,int>(tile.getX(),tile.getY(),tile.getZ()),current);
+                tile.X = (int)x;
+                tile.Y = (int)y;
+                tile.Z = z;
+                myGrid.Add(new Tuple<int,int,int>(tile.X,tile.Y,tile.Z),current);
                 y--;
                 z++;
             }
@@ -75,12 +75,12 @@ public class GridMap : MonoBehaviour {
     {
         HexTile tile = tileO.GetComponent<HexTile>();
         GameObject[] res = new GameObject[6];
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() - 1, tile.getZ() + 1), out res[0]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY() - 1, tile.getZ()), out res[1]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() + 1, tile.getY(), tile.getZ() - 1), out res[2]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), tile.getY() + 1, tile.getZ() - 1), out res[3]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY() + 1, tile.getZ()), out res[4]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX() - 1, tile.getY(), tile.getZ() + 1), out res[5]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y - 1, tile.Z + 1), out res[0]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y - 1, tile.Z), out res[1]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y, tile.Z - 1), out res[2]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y + 1, tile.Z - 1), out res[3]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y + 1, tile.Z), out res[4]);
+        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y, tile.Z + 1), out res[5]);
         return res;
     }
 
@@ -90,7 +90,7 @@ public class GridMap : MonoBehaviour {
         GameObject[] column = new GameObject[height];
         for (int i = 0; i < height; i++)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.getX(), i - 3, -i + 3 - tile.getX()), out column[i]);
+            myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, i - 3, -i + 3 - tile.X), out column[i]);
         }
         return column;
     }
@@ -111,7 +111,7 @@ public class GridMap : MonoBehaviour {
         GameObject[] res = new GameObject[height];
         for (int i = 0; i < height; i++)//0 to 6
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, -i + 3 - tile0.getZ(), tile0.getZ()), out res[i]);
+            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, -i + 3 - tile0.Z, tile0.Z), out res[i]);
         }
         return res;
     }
@@ -122,7 +122,7 @@ public class GridMap : MonoBehaviour {
         GameObject[] res = new GameObject[height];
         for (int i = 0; i < height; i++)//0 to 6
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, tile0.getY(), - i + 3 - tile0.getY()), out res[i]);
+            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, tile0.Y, - i + 3 - tile0.Y), out res[i]);
         }
         return res;
     }
@@ -133,8 +133,8 @@ public class GridMap : MonoBehaviour {
         GameObject[] row = new GameObject[height];
         int maxV = (int)Math.Floor((double)height / 2);
         int yzInc = 0;
-        int xvalue = tile.getX();
-        int yvalue = tile.getY();
+        int xvalue = tile.X;
+        int yvalue = tile.Y;
 
         while (xvalue != -maxV && xvalue != -maxV + 1)
         {
@@ -142,7 +142,7 @@ public class GridMap : MonoBehaviour {
             yvalue++;
         }
 
-        for (int i = (Math.Abs(tile.getX()%2) == maxV%2)? 0:1; i<height; i+=2)
+        for (int i = (Math.Abs(tile.X%2) == maxV%2)? 0:1; i<height; i+=2)
         {
             myGrid.TryGetValue(new Tuple<int, int, int>(i - maxV, yvalue - yzInc, ((-i + maxV) - (yvalue - yzInc))), out row[i]);
             yzInc++;
@@ -163,7 +163,7 @@ public class GridMap : MonoBehaviour {
         {
             res.Add(middleRow[i]); // still need this
         }
-        if (tile.getX() == 3 || tile.getY() == -3 || tile.getZ() == -3) //want top left and bottom left 4 and 5
+        if (tile.X == 3 || tile.Y == -3 || tile.Z == -3) //want top left and bottom left 4 and 5
         {
              res.AddRange(this.getIfNotNull(neighbors, 5, 4));
         }

@@ -5,7 +5,39 @@ using UnityEngine;
 public class HexTile : MonoBehaviour {
 
     private GridMap gridReference;
-    private int x, y, z; //x is column number, y is left diagonal, z is right diagonal all of them -3 to 3
+    public int X
+    {
+        get
+        {
+            return X;
+        }
+        set
+        {
+            X = value;
+        }
+    }
+    public int Y
+    {
+        get
+        {
+            return Y;
+        }
+        set
+        {
+            Y = value;
+        }
+    }
+    public int Z
+    {
+        get
+        {
+            return Z;
+        }
+        set
+        {
+            Z = value;
+        }
+    }
     private GameObject occupant;
     public Material currentMat;
     public Material[] materials; //for now 0 is def and 1 is light blue
@@ -79,7 +111,7 @@ public class HexTile : MonoBehaviour {
             isClicked = !isClicked;
             gridReference.setClicked(this);
         }
-        Debug.Log("TILE INFO: (column number)x = "+x+" /y = "+y+" /z = "+z);
+        Debug.Log("TILE INFO: (column number)x = "+X+" /y = "+Y+" /z = "+Z);
         Debug.Log(isClicked);
     }
 
@@ -91,36 +123,6 @@ public class HexTile : MonoBehaviour {
     public GameObject getOccupant()
     {
         return occupant;
-    }
-
-    public int getX()
-    {
-        return x;
-    }
-
-    public void setX(int newX)
-    {
-        x = newX;
-    }
-
-    public int getY()
-    {
-        return y;
-    }
-
-    public void setY(int newY)
-    {
-        y = newY;
-    }
-
-    public int getZ()
-    {
-        return z;
-    }
-
-    public void setZ(int newZ)
-    {
-        z = newZ;
     }
 
     public void setGrid(GridMap refGrid)
