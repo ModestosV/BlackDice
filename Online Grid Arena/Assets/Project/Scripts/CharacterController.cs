@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class CharacterController
@@ -6,6 +7,7 @@ public class CharacterController
     // Placeholder stats
     public CharacterStat Health;
     public CharacterStat Damage;
+    public CharacterStat Moves;
 
     private IMovementController _movementController;
 
