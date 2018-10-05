@@ -2,13 +2,13 @@
 
 public interface IGrid {
 
-    GameObject[] getNeighbors(GameObject tileO);
-    GameObject[] getColumn(GameObject tileO);
+    GameObject[] getNeighbors(GameObject tileObject);
+    GameObject[] getColumn(GameObject tileObject);
     GameObject[] getColumn(int columnNum);
-    GameObject[] getRightDiagonal(GameObject tileO);
-    GameObject[] getLeftDiagonal(GameObject tileO);
-    GameObject[] getRowSkip(GameObject tileO);
-    GameObject[] getRowFull(GameObject tileO);
-    GameObject[] getIfNotNull(GameObject[] neighbors,int first,int second);
-    GameObject getTile(int x,int y, int z);
+    GameObject[] getRightDiagonal(GameObject tileObject);
+    GameObject[] getLeftDiagonal(GameObject tileObject);
+    GameObject[] getRowSkip(GameObject tileObject);
+    GameObject[] getRowFull(GameObject tileObject);
+    GameObject[] getIfNotNull(GameObject[] neighbors, int topRowCheck, int bottomRowCheck);
+    GameObject getTile(int x, int y, int z);
 }
