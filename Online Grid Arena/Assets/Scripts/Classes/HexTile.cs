@@ -21,7 +21,6 @@ public class HexTile : IHexTile
     }
 
     private GameObject occupant;
-    public Material currentMat;
 
     public MeshRenderer rend;
     bool isClicked;
@@ -33,9 +32,7 @@ public class HexTile : IHexTile
         isClicked = false;
         this.tileDefinition = tileDefinition;
         rend = renderer;
-
-        currentMat = tileDefinition.DefaultMaterial;
-        rend.material = currentMat;
+        rend.material = tileDefinition.DefaultMaterial;
     }
 
     public void OnMouseEnter()
@@ -99,7 +96,6 @@ public class HexTile : IHexTile
 
     private void SetCurrentMaterial(Material mat)
     {
-        currentMat = mat;
-        rend.material = currentMat;
+        rend.material = mat;
     }
 }
