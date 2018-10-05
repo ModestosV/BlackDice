@@ -4,23 +4,22 @@ using UnityEngine;
 using System.Runtime;
 using System;
 
-public class GridMap : MonoBehaviour {
+[CreateAssetMenu(menuName= "Hex Grid/Grid Map")]
+public class GridMap : ScriptableObject,IGrid {
 
-    private int height = 7;
-    private int width = 7;
+    public int height = 7;
 
     private static HexTile clickedCell; 
 
     //triple coordinate system
     private double x; // x is column number coordinate 
-    private int y, z, w; // for setting tile info
+    private int y, z; // for setting tile info
     private int colNum; // number of columns in total
     public GameObject tilePrefab;
-    Vector3 tileSize;
     GameObject[][] grid;
     private Dictionary<Tuple<int,int,int>, GameObject> myGrid;
 
-	void Start () {
+	public void InitializeMap() {
         clickedCell = null;
         myGrid = new Dictionary<Tuple<int, int, int>, GameObject>();
         colNum = 7;
@@ -33,12 +32,9 @@ public class GridMap : MonoBehaviour {
             x++;
         }
 
-        tileSize = tilePrefab.GetComponent<Collider>().bounds.size;
-
         x = -3; //reset x so that we may reinstantiate at the right place
         for (int index = 0; index < colNum; index++) //for each array of varying size of tiles
         {
-            w = Mathf.Abs((int)x);
             if (x <= 0)
             {
                 y = 3;
