@@ -54,9 +54,9 @@ public class GridMap : MonoBehaviour {
                 GameObject current = Instantiate(tilePrefab, new Vector3(index-(float)x/4, j+(Mathf.Abs((float)x)/2)), Quaternion.Euler(90, 0, 0));
                 HexTile tile = current.GetComponent<HexTile>();
                 tile.setGrid(this);
-                tile.X = (int)x;
-                tile.Y = (int)y;
-                tile.Z = z;
+                tile.X=(int)x;
+                tile.Y=(int)y;
+                tile.Z=z;
                 myGrid.Add(new Tuple<int,int,int>(tile.X,tile.Y,tile.Z),current);
                 y--;
                 z++;

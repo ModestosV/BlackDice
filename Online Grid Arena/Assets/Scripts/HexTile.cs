@@ -7,43 +7,27 @@ public class HexTile : MonoBehaviour {
     private GridMap gridReference;
     public int X
     {
-        get
-        {
-            return X;
-        }
-        set
-        {
-            X = value;
-        }
+        get;
+        set;
     }
     public int Y
     {
-        get
-        {
-            return Y;
-        }
-        set
-        {
-            Y = value;
-        }
+        get;
+        set;
     }
     public int Z
     {
-        get
-        {
-            return Z;
-        }
-        set
-        {
-            Z = value;
-        }
+        get;
+        set;
     }
+
     private GameObject occupant;
     public Material currentMat;
     public Material[] materials; //for now 0 is def and 1 is light blue
     public MeshRenderer rend;
     Vector3 size;
     bool isClicked;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -51,7 +35,18 @@ public class HexTile : MonoBehaviour {
         isClicked = false;
         size = GetComponent<Collider>().bounds.size;
         rend = this.GetComponentInChildren<MeshRenderer>();
+
+        if(materials == null)
+        {
+            Debug.LogWarning("Materials not specified!");
+        }
         currentMat = materials[0];
+
+        if(rend == null)
+        {
+            Debug.LogWarning("No mesh renderer!");
+
+        }
         rend.material = currentMat;
     }
 	
@@ -111,7 +106,7 @@ public class HexTile : MonoBehaviour {
             isClicked = !isClicked;
             gridReference.setClicked(this);
         }
-        Debug.Log("TILE INFO: (column number)x = "+X+" /y = "+Y+" /z = "+Z);
+        //Debug.Log("TILE INFO: (column number)x = "+X+" /y = "+Y+" /z = "+Z);
         Debug.Log(isClicked);
     }
 
