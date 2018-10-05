@@ -13,5 +13,4 @@ public interface IGrid {
     GameObject[] getRowFull(GameObject tileO);
     GameObject[] getIfNotNull(GameObject[] neighbors,int first,int second);
     GameObject getTile(int x,int y, int z);
-    void setClicked(HexTile tile);
 }

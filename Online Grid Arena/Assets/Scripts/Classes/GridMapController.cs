@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GridMapRenderer : MonoBehaviour
+public class GridMapController : MonoBehaviour
 {
     public GridMap GridMap;
 

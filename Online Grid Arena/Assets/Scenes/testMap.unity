@@ -229,12 +229,29 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114887274845008090, guid: bd63723b631116440ac69a4413150681,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: tilePrefab
       value: 
       objectReference: {fileID: 1355618244006396, guid: ee1a6dd10fba93e409cc9744acca5c6a,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: bd63723b631116440ac69a4413150681, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1550986175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1688780446215206, guid: bd63723b631116440ac69a4413150681,
+    type: 2}
+  m_PrefabInternal: {fileID: 502071279}
+--- !u!114 &1550986176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1550986175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001d128351fc78a4989c6a3b743e44dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridMap: {fileID: 11400000, guid: a04ea65f9be75f14ca05723a64c65199, type: 2}

@@ -2,15 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IHexTile : MonoBehaviour {
+public interface IHexTile  {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    int X
+    {
+        get;
+        set;
+    }
+    int Y
+    {
+        get;
+        set;
+    }
+    int Z
+    {
+        get;
+        set;
+    }
+    void setOccupant(GameObject occ);
+    GameObject getOccupant();
+    void setGrid(GridMap refGrid);
+    bool getIsClicked();
+    void setIsClicked(bool newState);
+    void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer);
+    void OnMouseEnter();
+    void OnMouseDown();
+    void OnMouseExit();
+
 }

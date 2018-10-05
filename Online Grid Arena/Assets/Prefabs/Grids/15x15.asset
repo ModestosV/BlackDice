@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb7ca1cf8f7379048bd6d9fc5cb65995, type: 3}
-  m_Name: 7x7
+  m_Name: 15x15
   m_EditorClassIdentifier: 
-  height: 7
+  height: 15
   tilePrefab: {fileID: 1355618244006396, guid: ee1a6dd10fba93e409cc9744acca5c6a, type: 2}
