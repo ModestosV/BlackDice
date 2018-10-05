@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HexTile : IHexTile
 {
@@ -29,7 +27,6 @@ public class HexTile : IHexTile
     bool isClicked;
     private HexTileDefinition tileDefinition;
 
-    // Use this for initialization
     public void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer)
     {
         occupant = null;
@@ -38,12 +35,6 @@ public class HexTile : IHexTile
         rend = renderer;
 
         currentMat = tileDefinition.DefaultMaterial;
-
-        if (rend == null)
-        {
-            Debug.LogWarning("No mesh renderer!");
-
-        }
         rend.material = currentMat;
     }
 
@@ -73,8 +64,6 @@ public class HexTile : IHexTile
         }
 
         toggleClickedState();
-        //Debug.Log("TILE INFO: (column number)x = "+X+" /y = "+Y+" /z = "+Z);
-        Debug.Log(isClicked);
     }
 
     public void setOccupant(GameObject occ)

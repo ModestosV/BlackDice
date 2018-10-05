@@ -1,56 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime;
 using System;
 
 [CreateAssetMenu(menuName= "Hex Grid/Grid Map")]
-public class GridMap : ScriptableObject,IGrid {
+public class GridMap : ScriptableObject,IGrid
+{
 
     public int height = 7;
 
-    //triple coordinate system
-    private double x; // x is column number coordinate 
-    private int y, z; // for setting tile info
-    private int colNum; // number of columns in total
+    private int x; 
+    private int y, z; 
+    private int colNum; 
     public GameObject tilePrefab;
-    GameObject[][] grid;
-    private Dictionary<Tuple<int,int,int>, GameObject> myGrid;
+    private GameObject[][] grid;
+    private Dictionary<Tuple<int, int, int>, GameObject> gridDictionary;
 
-	public void InitializeMap() {
-        myGrid = new Dictionary<Tuple<int, int, int>, GameObject>();
+	public void InitializeMap()
+    {
+        gridDictionary = new Dictionary<Tuple<int, int, int>, GameObject>();
         colNum = 7;
         x = -3;
         y = 0;
-        grid = new GameObject[colNum][];//num of cols
-        for (int i = 0; i < colNum; i++) // 0 to 6
+        grid = new GameObject[colNum][];
+        for (int i = 0; i < colNum; i++) 
         {
-            grid[i] = new GameObject[height-Mathf.Abs((int)x)]; //column sizes: 4,5,6,7,6,5,4
+            grid[i] = new GameObject[height-Mathf.Abs(x)]; 
             x++;
         }
 
-        x = -3; //reset x so that we may reinstantiate at the right place
-        for (int index = 0; index < colNum; index++) //for each array of varying size of tiles
+        x = -3; 
+        for (int index = 0; index < colNum; index++) 
         {
             if (x <= 0)
             {
                 y = 3;
-                z = Mathf.Abs((int)x) - 3;
+                z = Mathf.Abs(x) - 3;
             }
             else
             {
-                y = 3-(int)x;
+                y = 3 - x;
                 z = -3;
             }
-            for (int j = 0; j < grid[index].Length; j++) //for each tile in that column
+            for (int j = 0; j < grid[index].Length; j++) 
             {
                 GameObject current = Instantiate(tilePrefab, new Vector3(index-(float)x/4, j+(Mathf.Abs((float)x)/2)), Quaternion.Euler(90, 0, 0));
                 IHexTile tile = current.GetComponent<HexTileManager>().Tile;
                 tile.setGrid(this);
-                tile.X=(int)x;
-                tile.Y=(int)y;
-                tile.Z=z;
-                myGrid.Add(new Tuple<int,int,int>(tile.X,tile.Y,tile.Z),current);
+                tile.X= x;
+                tile.Y= y;
+                tile.Z= z;
+                gridDictionary.Add(new Tuple<int, int, int>(tile.X,tile.Y,tile.Z),current);
                 y--;
                 z++;
             }
@@ -64,103 +63,103 @@ public class GridMap : ScriptableObject,IGrid {
 		
 	}
 
-    public GameObject[] getNeighbors(GameObject tileO) //returns all neighbors starting from top,going clockwise
+    public GameObject[] getNeighbors(GameObject tileObject) 
     {
-        HexTile tile = tileO.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         GameObject[] res = new GameObject[6];
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y - 1, tile.Z + 1), out res[0]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y - 1, tile.Z), out res[1]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y, tile.Z - 1), out res[2]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y + 1, tile.Z - 1), out res[3]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y + 1, tile.Z), out res[4]);
-        myGrid.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y, tile.Z + 1), out res[5]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y - 1, tile.Z + 1), out res[0]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y - 1, tile.Z), out res[1]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X + 1, tile.Y, tile.Z - 1), out res[2]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X, tile.Y + 1, tile.Z - 1), out res[3]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y + 1, tile.Z), out res[4]);
+        gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X - 1, tile.Y, tile.Z + 1), out res[5]);
         return res;
     }
 
-    public GameObject[] getColumn(GameObject tile0) //returns entire column, write method twice so it could take object or int as param. same thing for all the others
+    public GameObject[] getColumn(GameObject tileObject) 
     {
-        HexTile tile = tile0.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         GameObject[] column = new GameObject[height];
         for (int i = 0; i < height; i++)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(tile.X, i - 3, -i + 3 - tile.X), out column[i]);
+            gridDictionary.TryGetValue(new Tuple<int, int, int>(tile.X, i - 3, -i + 3 - tile.X), out column[i]);
         }
         return column;
     }
 
-    public GameObject[] getColumn(int columnNum) //returns entire column, write method twice so it could take object or int as param. same thing for all the others
+    public GameObject[] getColumn(int columnNum) 
     {
         GameObject[] column = new GameObject[height];
         for (int i = 0; i < height; i++)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(columnNum, i - 3, -i + 3 - columnNum), out column[i]);
+            gridDictionary.TryGetValue(new Tuple<int, int, int>(columnNum, i - 3, -i + 3 - columnNum), out column[i]);
         }
         return column;
     }
 
-    public GameObject[] getRightDiagonal(GameObject tile) //returns entire diagonal that goes from bottom left to top right
+    public GameObject[] getRightDiagonal(GameObject tileObject) 
     {
-        HexTile tile0 = tile.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         GameObject[] res = new GameObject[height];
-        for (int i = 0; i < height; i++)//0 to 6
+        for (int i = 0; i < height; i++)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, -i + 3 - tile0.Z, tile0.Z), out res[i]);
+            gridDictionary.TryGetValue(new Tuple<int, int, int>(i - 3, -i + 3 - tile.Z, tile.Z), out res[i]);
         }
         return res;
     }
 
-    public GameObject[] getLeftDiagonal(GameObject tile) //returns entire diagonal that goes from top left to bottom right
+    public GameObject[] getLeftDiagonal(GameObject tileObject) 
     {
-        HexTile tile0 = tile.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         GameObject[] res = new GameObject[height];
-        for (int i = 0; i < height; i++)//0 to 6
+        for (int i = 0; i < height; i++)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(i - 3, tile0.Y, - i + 3 - tile0.Y), out res[i]);
+            gridDictionary.TryGetValue(new Tuple<int, int, int>(i - 3, tile.Y, - i + 3 - tile.Y), out res[i]);
         }
         return res;
     }
 
-    public GameObject[] getRowSkip(GameObject tile0) // returns entire row of tiles that are exactly at the same height (i.e. array will not hold tiles from every row)
+    public GameObject[] getRowSkip(GameObject tileObject) 
     {
-        HexTile tile = tile0.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         GameObject[] row = new GameObject[height];
-        int maxV = (int)Math.Floor((double)height / 2);
+        int maxValue = (int)Math.Floor((double)height / 2);
         int yzInc = 0;
-        int xvalue = tile.X;
-        int yvalue = tile.Y;
+        int xValue = tile.X;
+        int yValue = tile.Y;
 
-        while (xvalue != -maxV && xvalue != -maxV + 1)
+        while (xValue != -maxValue && xValue != -maxValue + 1)
         {
-            xvalue -= 2;
-            yvalue++;
+            xValue -= 2;
+            yValue++;
         }
 
-        for (int i = (Math.Abs(tile.X%2) == maxV%2)? 0:1; i<height; i+=2)
+        for (int i = (Math.Abs(tile.X%2) == maxValue%2)? 0:1; i<height; i+=2)
         {
-            myGrid.TryGetValue(new Tuple<int, int, int>(i - maxV, yvalue - yzInc, ((-i + maxV) - (yvalue - yzInc))), out row[i]);
+            gridDictionary.TryGetValue(new Tuple<int, int, int>(i - maxValue, yValue - yzInc, ((-i + maxValue) - (yValue - yzInc))), out row[i]);
             yzInc++;
         }
 
         return row;
     }
 
-    //tile being called is always assumed to be in the middle of the full row. 
-    public GameObject[] getRowFull(GameObject tile0) //return full row of tiles that are within +/= 0.5 of eachother (i.e. will have 1 tile from 1 row, 2 from the next, etc.etc.)
+    
+    public GameObject[] getRowFull(GameObject tileObject) 
     {
-        HexTile tile = tile0.GetComponent<HexTile>();
+        HexTile tile = tileObject.GetComponent<HexTile>();
         List<GameObject> res = new List<GameObject>();
-        GameObject[] neighbors = this.getNeighbors(tile0);
-        GameObject[] middleRow = this.getRowSkip(tile0);
+        GameObject[] neighbors = this.getNeighbors(tileObject);
+        GameObject[] middleRow = this.getRowSkip(tileObject);
 
         for (int i = 0; i < middleRow.Length; i++)
         {
-            res.Add(middleRow[i]); // still need this
+            res.Add(middleRow[i]); 
         }
-        if (tile.X == 3 || tile.Y == -3 || tile.Z == -3) //want top left and bottom left 4 and 5
+        if (tile.X == 3 || tile.Y == -3 || tile.Z == -3) 
         {
              res.AddRange(this.getIfNotNull(neighbors, 5, 4));
         }
-        else //top right and bottom right 1 and 2
+        else 
         {
            res.AddRange(this.getIfNotNull(neighbors, 1, 2));
         }
@@ -186,13 +185,13 @@ public class GridMap : ScriptableObject,IGrid {
     public GameObject getTile(int x, int y, int z)
     {
         GameObject res = null;
-        myGrid.TryGetValue(new Tuple<int,int,int>(x,y,z), out res);
+        gridDictionary.TryGetValue(new Tuple<int,int,int>(x,y,z), out res);
         return res;
     }   
     
     public void ClearSelection()
     {
-        foreach(var tile in myGrid)
+        foreach(var tile in gridDictionary)
         {
             var tileComponent = tile.Value.GetComponent<HexTileManager>().Tile;
             tileComponent.setIsClicked(false);
