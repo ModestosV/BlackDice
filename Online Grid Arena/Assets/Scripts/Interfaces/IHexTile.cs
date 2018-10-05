@@ -14,5 +14,4 @@ public interface IHexTile
     void OnMouseEnter();
     void OnMouseDown();
     void OnMouseExit();
-
 }

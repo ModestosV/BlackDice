@@ -4,26 +4,14 @@ public class HexTile : IHexTile
 {
 
     private GridMap gridReference;
-    public int X
-    {
-        get;
-        set;
-    }
-    public int Y
-    {
-        get;
-        set;
-    }
-    public int Z
-    {
-        get;
-        set;
-    }
+    public int X {get;set;}
+    public int Y {get;set;}
+    public int Z {get;set;}
 
     private GameObject occupant;
 
-    public MeshRenderer rend;
-    bool isClicked;
+    private MeshRenderer rend;
+    private bool isClicked;
     private HexTileDefinition tileDefinition;
 
     public void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer)
@@ -53,8 +41,6 @@ public class HexTile : IHexTile
 
     public void OnMouseDown()
     {
-        Debug.Log(isClicked);
-
         if (!isClicked)
         {
             gridReference.ClearSelection();
@@ -63,9 +49,9 @@ public class HexTile : IHexTile
         toggleClickedState();
     }
 
-    public void setOccupant(GameObject occ)
+    public void setOccupant(GameObject occupant)
     {
-        occupant = occ;
+        this.occupant = occupant;
     }
 
     public GameObject getOccupant()
