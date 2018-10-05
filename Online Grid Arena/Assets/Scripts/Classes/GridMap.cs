@@ -10,7 +10,7 @@ public class GridMap : ScriptableObject,IGrid
 
     private int x; 
     private int y, z; 
-    private int colNum; 
+    private int columnNumber; 
     public GameObject tilePrefab;
     private GameObject[][] grid;
     private Dictionary<Tuple<int, int, int>, GameObject> gridDictionary;
@@ -18,18 +18,18 @@ public class GridMap : ScriptableObject,IGrid
 	public void InitializeMap()
     {
         gridDictionary = new Dictionary<Tuple<int, int, int>, GameObject>();
-        colNum = 7;
+        columnNumber = 7;
         x = -3;
         y = 0;
-        grid = new GameObject[colNum][];
-        for (int i = 0; i < colNum; i++) 
+        grid = new GameObject[columnNumber][];
+        for (int i = 0; i < columnNumber; i++) 
         {
             grid[i] = new GameObject[height-Mathf.Abs(x)]; 
             x++;
         }
 
         x = -3; 
-        for (int index = 0; index < colNum; index++) 
+        for (int index = 0; index < columnNumber; index++) 
         {
             if (x <= 0)
             {
