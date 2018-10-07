@@ -9,6 +9,18 @@ public class Character : MonoBehaviour, IMovementController
 {
     public CharacterController controller;
 
+    public void MoveX(float value)
+    {
+        float deltaX = Time.fixedDeltaTime * value;
+        transform.Translate(deltaX, 0, 0);
+    }
+
+    public void MoveY(float value)
+    {
+        float deltaY = Time.fixedDeltaTime * value;
+        transform.Translate(0, deltaY, 0);
+    }
+
     private void OnEnable()
     {
         controller.SetMovementController(this);
@@ -21,20 +33,4 @@ public class Character : MonoBehaviour, IMovementController
         if (Input.GetButton("Vertical"))
             controller.MoveY(Input.GetAxis("Vertical"));
     }
-
-    #region IMovementController implementation
-
-    public void MoveX (float value)
-    {
-        float deltaX = Time.fixedDeltaTime * value;
-        transform.Translate(deltaX, 0, 0);
-    }
-
-    public void MoveY (float value)
-    {
-        float deltaY = Time.fixedDeltaTime * value;
-        transform.Translate(0, deltaY, 0);
-    }
-
-    #endregion
 }

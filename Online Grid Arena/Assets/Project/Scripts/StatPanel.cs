@@ -5,28 +5,16 @@
 
 using UnityEngine;
 
-public class StatPanel : MonoBehaviour {
+public class StatPanel : MonoBehaviour
+{
 
     [SerializeField] StatDisplay[] statDisplays;
     [SerializeField] string[] statNames;
-
-    private CharacterStat[] _stats;
-
+    
     public StatPanel(StatDisplay[] statDisplays, string[] statNames)
     {
         this.statDisplays = statDisplays;
         this.statNames = statNames;
-    }
-
-    private void Awake()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void OnValidate()
-    {
-        statDisplays = GetComponentsInChildren<StatDisplay>();
-        UpdateStatNames();
     }
 
     public void SetStats(params CharacterStat[] charStats)
@@ -40,7 +28,7 @@ public class StatPanel : MonoBehaviour {
 
         for (int i = 0; i < statDisplays.Length; i++)
         {
-            statDisplays[i].Stat = i < _stats.Length ? _stats[i] : null;
+            statDisplays[i].stat = i < _stats.Length ? _stats[i] : null;
             statDisplays[i].gameObject.SetActive(i < _stats.Length);
         }
     }
@@ -49,7 +37,7 @@ public class StatPanel : MonoBehaviour {
     {
         for (int i = 0; i < _stats.Length; i++)
         {
-            statDisplays[i].ValueText.text = _stats[i].Value.ToString();
+            statDisplays[i].valueText.text = _stats[i].Value.ToString();
         }
     }
 
@@ -57,7 +45,20 @@ public class StatPanel : MonoBehaviour {
     {
         for (int i = 0; i < statDisplays.Length; i++)
         {
-            statDisplays[i].NameText.text = statNames[i];
+            statDisplays[i].nameText.text = statNames[i];
         }
+    }
+
+    private CharacterStat[] _stats;
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnValidate()
+    {
+        statDisplays = GetComponentsInChildren<StatDisplay>();
+        UpdateStatNames();
     }
 }

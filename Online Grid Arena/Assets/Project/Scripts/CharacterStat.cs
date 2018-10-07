@@ -65,7 +65,7 @@ public class CharacterStat : ICharacterStat
 
 	public virtual bool RemoveAllModifiersFromSource(object source)
 	{
-		int numRemovals = statModifiers.RemoveAll(mod => mod.Source == source);
+		int numRemovals = statModifiers.RemoveAll(mod => mod.source == source);
 
 		if (numRemovals > 0)
 		{
@@ -77,9 +77,9 @@ public class CharacterStat : ICharacterStat
 
 	protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
 	{
-		if (a.Order < b.Order)
+		if (a.order < b.order)
 			return -1;
-		else if (a.Order > b.Order)
+		else if (a.order > b.order)
 			return 1;
 		return 0; 
 	}
@@ -95,23 +95,23 @@ public class CharacterStat : ICharacterStat
 		{
 			StatModifier mod = statModifiers[i];
 
-			if (mod.Type == StatModType.Flat)
+			if (mod.type == StatModType.Flat)
 			{
-				finalValue += mod.Value;
+				finalValue += mod.value;
 			}
-			else if (mod.Type == StatModType.PercentAdd)
+			else if (mod.type == StatModType.PercentAdd)
 			{
-				sumPercentAdd += mod.Value;
+				sumPercentAdd += mod.value;
 
-				if (i + 1 >= statModifiers.Count || statModifiers[i + 1].Type != StatModType.PercentAdd)
+				if (i + 1 >= statModifiers.Count || statModifiers[i + 1].type != StatModType.PercentAdd)
 				{
 					finalValue *= 1 + sumPercentAdd;
 					sumPercentAdd = 0;
 				}
 			}
-			else if (mod.Type == StatModType.PercentMult)
+			else if (mod.type == StatModType.PercentMult)
 			{
-				finalValue *= 1 + mod.Value;
+				finalValue *= 1 + mod.value;
 			}
 		}
 

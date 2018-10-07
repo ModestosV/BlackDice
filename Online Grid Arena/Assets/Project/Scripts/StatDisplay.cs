@@ -9,23 +9,23 @@ using UnityEngine.UI;
 
 public class StatDisplay : MonoBehaviour
 {
-    public Text NameText;
-    public Text ValueText;
+    public Text nameText;
+    public Text valueText;
 
     [NonSerialized]
-    public CharacterStat Stat;
+    public CharacterStat stat;
 
     public StatDisplay(Text nameText, Text valueText, CharacterStat stat)
     {
-        NameText = nameText;
-        ValueText = valueText;
-        Stat = stat;
+        this.nameText = nameText;
+        this.valueText = valueText;
+        this.stat = stat;
     }
 
     private void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();
-        NameText = texts[0];
-        ValueText = texts[1];
+        nameText = texts[0];
+        valueText = texts[1];
     }
 }
