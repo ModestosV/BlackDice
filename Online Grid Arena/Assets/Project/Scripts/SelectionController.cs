@@ -45,7 +45,8 @@ public class SelectionController : MonoBehaviour
         {
             focus.tag = "Player";
         }
-        hit.collider.gameObject.transform.parent.tag = "Active_Character"; statPanel.gameObject.SetActive(true);
+        hit.collider.gameObject.transform.parent.tag = "Active_Character";
+        statPanel.gameObject.SetActive(true);
         selectedCharacter = hit.collider.gameObject.GetComponentInParent<Character>();
         statPanel.SetStats(selectedCharacter.controller.Health, selectedCharacter.controller.Damage);
         statPanel.UpdateStatValues();
