@@ -1496,9 +1496,7 @@ MonoBehaviour:
   statDisplays:
   - {fileID: 520212630}
   - {fileID: 311370175}
-  statNames:
-  - Health
-  - Damage
+  statNames: []
 --- !u!222 &374718347
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3730,9 +3728,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Health:
-      BaseValue: 75
+      BaseValue: 0
     Damage:
-      BaseValue: 8
+      BaseValue: 0
     Moves:
       BaseValue: 0
 --- !u!4 &778756879
@@ -5248,11 +5246,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Health:
-      BaseValue: 50
+      BaseValue: 0
     Damage:
-      BaseValue: 12
+      BaseValue: 0
     Moves:
-      BaseValue: 10
+      BaseValue: 0
 --- !u!1 &1179203417
 GameObject:
   m_ObjectHideFlags: 0
@@ -5354,9 +5352,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Health:
-      BaseValue: 35
+      BaseValue: 0
     Damage:
-      BaseValue: 15
+      BaseValue: 0
     Moves:
       BaseValue: 0
 --- !u!4 &1181553445
@@ -6968,9 +6966,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Health:
-      BaseValue: 45
+      BaseValue: 0
     Damage:
-      BaseValue: 10
+      BaseValue: 0
     Moves:
       BaseValue: 0
 --- !u!4 &1569194949
