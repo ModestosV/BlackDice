@@ -7,9 +7,8 @@ using UnityEngine;
 
 public class StatPanel : MonoBehaviour
 {
-
-    [SerializeField] StatDisplay[] statDisplays;
-    [SerializeField] string[] statNames;
+    [SerializeField] public StatDisplay[] statDisplays;
+    [SerializeField] public string[] statNames;
     
     public StatPanel(StatDisplay[] statDisplays, string[] statNames)
     {
