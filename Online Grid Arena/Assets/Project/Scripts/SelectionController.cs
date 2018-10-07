@@ -18,7 +18,7 @@ public class SelectionController : MonoBehaviour
             {
                 if (hit.collider.gameObject.transform.parent.tag != "Active_Character")
                 {
-                    SelectCharacter(ray, hit);
+                    SelectCharacter(hit);
                 }
             }
             else if (hit.collider.tag == "Ground" && GameObject.FindGameObjectsWithTag("Active_Character").Length != 0)
@@ -39,10 +39,12 @@ public class SelectionController : MonoBehaviour
     }
 
     #region SelectCharacter definition
-    private void SelectCharacter(Ray ray, RaycastHit hit)
+    private void SelectCharacter(RaycastHit hit)
     {
         foreach (GameObject focus in GameObject.FindGameObjectsWithTag("Active_Character"))
+        {
             focus.tag = "Player";
+        }
         hit.collider.gameObject.transform.parent.tag = "Active_Character"; statPanel.gameObject.SetActive(true);
         selectedCharacter = hit.collider.gameObject.GetComponentInParent<Character>();
         statPanel.SetStats(selectedCharacter.controller.Health, selectedCharacter.controller.Damage);

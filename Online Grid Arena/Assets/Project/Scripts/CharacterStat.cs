@@ -81,7 +81,7 @@ public class CharacterStat : ICharacterStat
 			return -1;
 		else if (a.Order > b.Order)
 			return 1;
-		return 0; //if (a.Order == b.Order)
+		return 0; 
 	}
 		
 	protected virtual float CalculateFinalValue()
