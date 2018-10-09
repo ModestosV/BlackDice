@@ -7,9 +7,4 @@ public class Main : MonoBehaviour
         ILogger devLogger = new DevLogger();
         devLogger.Log(LogLevel.INFO, "This is how you use the dev logger");
     }
-	
-	void Update ()
-    {
-
-	}
 }
