@@ -4,15 +4,19 @@ public class HexTile : IHexTile
 {
 
     private GridMap gridReference;
+    private GameObject occupant;
+    private MeshRenderer rend;
+    private bool isClicked;
+    private HexTileDefinition tileDefinition;
+
     public int X {get;set;}
     public int Y {get;set;}
     public int Z {get;set;}
 
-    private GameObject occupant;
-
-    private MeshRenderer rend;
-    private bool isClicked;
-    private HexTileDefinition tileDefinition;
+    private void SetCurrentMaterial(Material mat)
+    {
+        rend.material = mat;
+    }
 
     public void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer)
     {
@@ -78,10 +82,5 @@ public class HexTile : IHexTile
     {
         isClicked = newState;
         SetCurrentMaterial(isClicked ? tileDefinition.ClickedMaterial : tileDefinition.DefaultMaterial);
-    }
-
-    private void SetCurrentMaterial(Material mat)
-    {
-        rend.material = mat;
     }
 }

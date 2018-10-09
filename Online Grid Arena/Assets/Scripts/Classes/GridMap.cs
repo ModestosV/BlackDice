@@ -5,15 +5,14 @@ using System;
 [CreateAssetMenu(menuName= "Hex Grid/Grid Map")]
 public class GridMap : ScriptableObject,IGrid
 {
-
-    public int height = 7;
-
-    private int x; 
-    private int y, z; 
-    private int columnNumber; 
-    public GameObject tilePrefab;
+    private int x;
+    private int y, z;
+    private int columnNumber;
     private GameObject[][] grid;
     private Dictionary<Tuple<int, int, int>, GameObject> gridDictionary;
+
+    public int height = 7;
+    public GameObject tilePrefab;
 
 	public void InitializeMap()
     {

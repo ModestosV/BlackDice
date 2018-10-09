@@ -2,9 +2,8 @@
 
 public class HexTileManager: MonoBehaviour
 {
-    public HexTileDefinition tileDefinition;
-
     private IHexTile tile = new HexTile();
+    public HexTileDefinition tileDefinition;
     public IHexTile Tile => tile;
     
     void Start()
