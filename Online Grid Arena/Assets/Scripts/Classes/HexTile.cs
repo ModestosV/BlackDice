@@ -1,86 +1,28 @@
 ﻿using UnityEngine;
 
-public class HexTile : IHexTile
+public class HexTile: MonoBehaviour
 {
-
-    private GridMap gridReference;
-    private GameObject occupant;
-    private MeshRenderer rend;
-    private bool isClicked;
-    private HexTileDefinition tileDefinition;
-
-    public int X {get;set;}
-    public int Y {get;set;}
-    public int Z {get;set;}
-
-    private void SetCurrentMaterial(Material mat)
+    private IHexTile tile = new HexTileController();
+    public HexTileDefinition tileDefinition;
+    public IHexTile Tile => tile;
+    
+    void Start()
     {
-        rend.material = mat;
+        tile.InitializeTile(tileDefinition, this.GetComponentInChildren<MeshRenderer>());
     }
 
-    public void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer)
+    private void OnMouseEnter()
     {
-        occupant = null;
-        isClicked = false;
-        this.tileDefinition = tileDefinition;
-        rend = renderer;
-        rend.material = tileDefinition.DefaultMaterial;
+        tile.OnMouseEnter();
     }
 
-    public void OnMouseEnter()
+    private void OnMouseExit()
     {
-        if (!isClicked)
-        {
-            SetCurrentMaterial(tileDefinition.HoveredMaterial);
-        }
+        tile.OnMouseExit();
     }
 
-    public void OnMouseExit()
+    private void OnMouseDown()
     {
-        if (!isClicked)
-        {
-            SetCurrentMaterial(tileDefinition.DefaultMaterial);
-        }
-    }
-
-    public void OnMouseDown()
-    {
-        if (!isClicked)
-        {
-            gridReference.ClearSelection();
-        }
-
-        toggleClickedState();
-    }
-
-    public void setOccupant(GameObject occupant)
-    {
-        this.occupant = occupant;
-    }
-
-    public GameObject getOccupant()
-    {
-        return occupant;
-    }
-
-    public void setGrid(GridMap refGrid)
-    {
-        gridReference = refGrid;
-    }
-
-    public bool getIsClicked()
-    {
-        return isClicked;
-    }
-
-    public void toggleClickedState()
-    {
-        setIsClicked(!isClicked);
-    }
-
-    public void setIsClicked(bool newState)
-    {
-        isClicked = newState;
-        SetCurrentMaterial(isClicked ? tileDefinition.ClickedMaterial : tileDefinition.DefaultMaterial);
+        tile.OnMouseDown();
     }
 }

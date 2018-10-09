@@ -7,7 +7,7 @@ public interface IHexTile
     int Z {get;set;}
     void setOccupant(GameObject occ);
     GameObject getOccupant();
-    void setGrid(GridMap refGrid);
+    void setGrid(GridMapController refGrid);
     bool getIsClicked();
     void setIsClicked(bool newState);
     void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer);
