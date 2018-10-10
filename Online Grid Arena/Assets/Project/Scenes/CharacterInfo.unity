@@ -1227,8 +1227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf0289774c1bd846b427268f9cbb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NameText: {fileID: 971429411}
-  ValueText: {fileID: 899047085}
+  nameText: {fileID: 971429411}
+  valueText: {fileID: 899047085}
 --- !u!1 &348046962
 GameObject:
   m_ObjectHideFlags: 0
@@ -2374,8 +2374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf0289774c1bd846b427268f9cbb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NameText: {fileID: 941664161}
-  ValueText: {fileID: 1442098643}
+  nameText: {fileID: 941664161}
+  valueText: {fileID: 1442098643}
 --- !u!114 &520212631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3727,11 +3727,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    Health:
+    health:
       BaseValue: 0
-    Damage:
+    damage:
       BaseValue: 0
-    Moves:
+    moves:
       BaseValue: 0
 --- !u!4 &778756879
 Transform:
@@ -5245,11 +5245,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    Health:
+    health:
       BaseValue: 0
-    Damage:
+    damage:
       BaseValue: 0
-    Moves:
+    moves:
       BaseValue: 0
 --- !u!1 &1179203417
 GameObject:
@@ -5351,11 +5351,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    Health:
+    health:
       BaseValue: 0
-    Damage:
+    damage:
       BaseValue: 0
-    Moves:
+    moves:
       BaseValue: 0
 --- !u!4 &1181553445
 Transform:
@@ -6787,7 +6787,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1537105343}
   m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
-  m_LocalPosition: {x: 0, y: 52, z: -55}
+  m_LocalPosition: {x: 0, y: 50, z: -55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6965,11 +6965,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    Health:
+    health:
       BaseValue: 0
-    Damage:
+    damage:
       BaseValue: 0
-    Moves:
+    moves:
       BaseValue: 0
 --- !u!4 &1569194949
 Transform:
