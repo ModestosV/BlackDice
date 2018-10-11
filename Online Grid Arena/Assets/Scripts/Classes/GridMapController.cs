@@ -42,7 +42,7 @@ public class GridMapController : ScriptableObject,IGrid
             }
             for (int j = 0; j < grid[index].Length; j++) 
             {
-                GameObject current = Instantiate(tilePrefab, new Vector3(index-(float)x/4, j+(Mathf.Abs((float)x)/2)), Quaternion.Euler(90, 0, 0));
+                GameObject current = Instantiate(tilePrefab, new Vector3(j+(Mathf.Abs((float)x)/2), 0, index - (float)x / 4), Quaternion.Euler(0, 90, 0));
                 IHexTile tile = current.GetComponent<HexTile>().Tile;
                 tile.setGrid(this);
                 tile.X= x;
