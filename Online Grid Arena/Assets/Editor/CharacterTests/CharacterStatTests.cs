@@ -35,6 +35,30 @@ public class CharacterStatTests
     }
 
     [Test]
+    public void Trigger_log_statements()
+    {
+        CharacterStat stat = new CharacterStat();
+        object testObject1 = new object();
+        object testObject2 = new object();
+        object testObject3 = new object();
+
+        StatModifier mod1 = new StatModifier(1.0f, StatModType.Flat, testObject1);
+        StatModifier mod2 = new StatModifier(2.0f, StatModType.PercentAdd, testObject1);
+        StatModifier mod3 = new StatModifier(3.0f, StatModType.PercentMult, testObject2);
+        StatModifier mod4 = new StatModifier(4.0f, StatModType.Flat, testObject2);
+        stat.AddModifier(mod1);
+        stat.RemoveModifier(mod1);
+        stat.RemoveModifier(mod1);
+
+        stat.AddModifier(mod1);
+        stat.AddModifier(mod2);
+        stat.AddModifier(mod3);
+        stat.AddModifier(mod4);
+        stat.RemoveAllModifiersFromSource(testObject1);
+        stat.RemoveAllModifiersFromSource(testObject3);
+    }
+
+    [Test]
     public void Parameterized_constructor_initializes_the_base_value_with_passed_value()
     {
         var sut = new CharacterStat(10.0f, statModifiers);

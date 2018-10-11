@@ -13,12 +13,16 @@ public class Character : MonoBehaviour, IMovementController
     {
         float deltaX = Time.fixedDeltaTime * value;
         transform.Translate(deltaX, 0, 0);
+
+        Debug.Log(string.Format("Character \"{0}\" has moved {1} on X axis to position {2}.", this.name, deltaX, transform.position));
     }
 
     public void MoveY(float value)
     {
         float deltaY = Time.fixedDeltaTime * value;
         transform.Translate(0, deltaY, 0);
+
+        Debug.Log(string.Format("Character \"{0}\" has moved {1} on Y axis to position {2}.", this.name, deltaY, transform.position));
     }
 
     private void OnEnable()
@@ -32,5 +36,10 @@ public class Character : MonoBehaviour, IMovementController
             controller.MoveX(Input.GetAxis("Horizontal"));
         if (Input.GetButton("Vertical"))
             controller.MoveY(Input.GetAxis("Vertical"));
+    }
+
+    public override string ToString()
+    {
+        return string.Format("(Character|{0}: {1})", this.GetHashCode(), controller.ToString());
     }
 }

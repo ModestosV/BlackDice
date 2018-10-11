@@ -34,7 +34,11 @@ public class SelectionController : MonoBehaviour
         {
             statPanel.gameObject.SetActive(false);
             selectionHalo.gameObject.SetActive(false);
-            GameObject.FindGameObjectsWithTag("Active_Character")[0].tag = "Player";
+
+            var deselectedCharacter = GameObject.FindGameObjectsWithTag("Active_Character")[0];
+            deselectedCharacter.tag = "Player";
+
+            Debug.Log(string.Format("Deselected {0}", deselectedCharacter.GetComponentInParent<Character>()));
         }
     }
     
@@ -53,5 +57,7 @@ public class SelectionController : MonoBehaviour
         selectionHalo.gameObject.SetActive(true);
         selectionHalo.gameObject.transform.SetParent(hit.collider.gameObject.transform.parent.gameObject.transform);
         selectionHalo.gameObject.transform.localPosition = new Vector3(0.0f, -0.99f, -1.0f);
+
+        Debug.Log(string.Format("Selected {0}", selectedCharacter));
     }
 }

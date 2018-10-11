@@ -12,17 +12,17 @@ public enum StatModType
 
 public class StatModifier
 {
-    public readonly float value;
-	public readonly StatModType type;
-	public readonly int order;
-	public readonly object source;
+    public readonly float Value;
+	public readonly StatModType Type;
+	public readonly int Order;
+	public readonly object Source;
 
 	public StatModifier(float value, StatModType type, int order, object source)
 	{
-		this.value = value;
-		this.type = type;
-		this.order = order;
-		this.source = source;
+		Value = value;
+		Type = type;
+		Order = order;
+		Source = source;
 	}
 
 	public StatModifier(float value, StatModType type) : this(value, type, (int)type, null) { }
@@ -30,4 +30,11 @@ public class StatModifier
 	public StatModifier(float value, StatModType type, int order) : this(value, type, order, null) { }
 
 	public StatModifier(float value, StatModType type, object source) : this(value, type, (int)type, source) { }
+
+    public override string ToString()
+    {
+        string sourceString = Source == null ? "null" : string.Format("({0}|{1})", Source.ToString(), Source.GetHashCode());
+
+        return string.Format("({0}: {1}, {2}, {3}, {4})", base.ToString(), Type.ToString(), Value.ToString(), sourceString, Order);
+    }
 }
