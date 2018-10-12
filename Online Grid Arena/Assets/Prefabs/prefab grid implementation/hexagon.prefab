@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278331172635524}
   - component: {fileID: 64622764946271610}
-  - component: {fileID: 114890647303409352}
+  - component: {fileID: 114041773147239478}
   m_Layer: 0
   m_Name: hexagon
   m_TagString: Untagged
@@ -128,7 +128,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 520f095ed7167ba4885a7d070f8073c8, type: 3}
---- !u!114 &114890647303409352
+--- !u!114 &114041773147239478
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,4 +139,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536ec1075361dc64394069c362bd07a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDefinition: {fileID: 0}
+  tileDefinition: {fileID: 11400000, guid: 7a50c852f1525f7438df7da03edd16cd, type: 2}
