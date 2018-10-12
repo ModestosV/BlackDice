@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-public interface ICharacterStat
+﻿public interface ICharacterStat
 {
     float Value { get; }
 

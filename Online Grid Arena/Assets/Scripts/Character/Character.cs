@@ -25,9 +25,14 @@ public class Character : MonoBehaviour, IMovementController
         Debug.Log(string.Format("Character \"{0}\" has moved {1} on Y axis to position {2}.", this.name, deltaY, transform.position));
     }
 
+    public override string ToString()
+    {
+        return string.Format("(Character|{0}: {1})", this.GetHashCode(), controller.ToString());
+    }
+
     private void OnEnable()
     {
-        controller.SetMovementController(this);
+        controller.MovementController = this;
     }
 
     private void FixedUpdate()
@@ -36,10 +41,5 @@ public class Character : MonoBehaviour, IMovementController
             controller.MoveX(Input.GetAxis("Horizontal"));
         if (Input.GetButton("Vertical"))
             controller.MoveY(Input.GetAxis("Vertical"));
-    }
-
-    public override string ToString()
-    {
-        return string.Format("(Character|{0}: {1})", this.GetHashCode(), controller.ToString());
     }
 }

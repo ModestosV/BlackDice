@@ -9,7 +9,9 @@ public class StatPanel : MonoBehaviour
 {
     [SerializeField] public StatDisplay[] statDisplays;
     [SerializeField] public string[] statNames;
-    
+
+    private CharacterStat[] stats;
+
     public StatPanel(StatDisplay[] statDisplays, string[] statNames)
     {
         this.statDisplays = statDisplays;
@@ -18,25 +20,25 @@ public class StatPanel : MonoBehaviour
 
     public void SetStats(params CharacterStat[] charStats)
     {
-        _stats = charStats;
+        stats = charStats;
 
-        if (_stats.Length > statDisplays.Length)
+        if (stats.Length > statDisplays.Length)
         {
             return;
         }
 
         for (int i = 0; i < statDisplays.Length; i++)
         {
-            statDisplays[i].stat = i < _stats.Length ? _stats[i] : null;
-            statDisplays[i].gameObject.SetActive(i < _stats.Length);
+            statDisplays[i].stat = i < stats.Length ? stats[i] : null;
+            statDisplays[i].gameObject.SetActive(i < stats.Length);
         }
     }
 
     public void UpdateStatValues()
     {
-        for (int i = 0; i < _stats.Length; i++)
+        for (int i = 0; i < stats.Length; i++)
         {
-            statDisplays[i].valueText.text = _stats[i].Value.ToString();
+            statDisplays[i].valueText.text = stats[i].Value.ToString();
         }
     }
 
@@ -47,8 +49,6 @@ public class StatPanel : MonoBehaviour
             statDisplays[i].nameText.text = statNames[i];
         }
     }
-
-    private CharacterStat[] _stats;
 
     private void Awake()
     {

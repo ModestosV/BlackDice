@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SelectionHalo : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class SelectionHalo : MonoBehaviour
+{
+    void Start()
+    {
         gameObject.SetActive(false);
 	}
 }

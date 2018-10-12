@@ -9,7 +9,7 @@ public class CharacterController
     public CharacterStat damage;
     public CharacterStat moves;
 
-    private IMovementController movementController;
+    public IMovementController MovementController { get; set; }
 
     public CharacterController() : this(new CharacterStat(0.0f), new CharacterStat(0.0f), new CharacterStat(0.0f)) { }
 
@@ -22,22 +22,17 @@ public class CharacterController
 
     public CharacterController(IMovementController movementController) : this()
     {
-        this.movementController = movementController;
-    }
-
-    public void SetMovementController(IMovementController movementController)
-    {
-        this.movementController = movementController;
+        MovementController = movementController;
     }
 
     public void MoveX(float value)
     {
-        movementController.MoveX(value);
+        MovementController.MoveX(value);
     }
 
     public void MoveY(float value)
     {
-        movementController.MoveY(value);
+        MovementController.MoveY(value);
     }
 
     public override string ToString()

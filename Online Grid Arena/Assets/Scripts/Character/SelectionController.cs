@@ -2,8 +2,7 @@
 
 public class SelectionController : MonoBehaviour
 {
-
-    [SerializeField] StatPanel statPanel;
+    [SerializeField] public StatPanel statPanel;
     public GameObject selectionHalo;
     private Character selectedCharacter;
 

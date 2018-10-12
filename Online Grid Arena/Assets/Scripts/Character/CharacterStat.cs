@@ -13,67 +13,69 @@ using System.Collections.ObjectModel;
 public class CharacterStat : ICharacterStat
 {
     public float BaseValue;
+    public readonly ReadOnlyCollection<StatModifier> readonlyStatModifiers;
+    protected readonly List<StatModifier> statModifiers;
+    protected bool isDirty = true;
+    protected float lastBaseValue;
+    protected float value;
 
-	protected bool isDirty = true;
-	protected float lastBaseValue;
+    public virtual float Value
+    {
+        get
+        {
+            if (isDirty || lastBaseValue != BaseValue)
+            {
+                lastBaseValue = BaseValue;
+                value = CalculateFinalValue();
+                isDirty = false;
 
-	protected float _Value;
-	public virtual float Value {
-		get {
-			if(isDirty || lastBaseValue != BaseValue) {
-				lastBaseValue = BaseValue;
-				_Value = CalculateFinalValue();
-				isDirty = false;
-
-                Debug.Log(string.Format("Calculated final Value of {0} for {1}", _Value, ToString()));
+                Debug.Log(string.Format("Calculated final Value of {0} for {1}", value, ToString()));
             }
-			return _Value;
-		}
-	}
+            return value;
+        }
+    }
 
-	protected readonly List<StatModifier> statModifiers;
-    public readonly ReadOnlyCollection<StatModifier> StatModifiers;
 
-    public CharacterStat() : this (0.0f, new List<StatModifier>())
+    public CharacterStat() : this(0.0f, new List<StatModifier>())
     {
 
     }
 
-	public CharacterStat(float baseValue) : this(baseValue, new List<StatModifier>())
-	{
-		BaseValue = baseValue;
-	}
+    public CharacterStat(float baseValue) : this(baseValue, new List<StatModifier>())
+    {
+        BaseValue = baseValue;
+    }
 
     public CharacterStat(float baseValue, List<StatModifier> statModifierList)
     {
         BaseValue = baseValue;
         statModifiers = statModifierList;
-        StatModifiers = statModifiers.AsReadOnly();
+        readonlyStatModifiers = statModifiers.AsReadOnly();
     }
 
-	public virtual void AddModifier(StatModifier mod)
-	{
-		isDirty = true;
-		statModifiers.Add(mod);
+    public virtual void AddModifier(StatModifier mod)
+    {
+        isDirty = true;
+        statModifiers.Add(mod);
 
         Debug.Log(string.Format("Added {0} to {1}", mod.ToString(), ToString()));
     }
 
-	public virtual bool RemoveModifier(StatModifier mod)
-	{
-		if (statModifiers.Remove(mod))
-		{
-			isDirty = true;
+    public virtual bool RemoveModifier(StatModifier mod)
+    {
+        if (statModifiers.Remove(mod))
+        {
+            isDirty = true;
             Debug.Log(string.Format("Successfully removed {0} from {1}", mod.ToString(), ToString()));
 
             return true;
-		}
+        }
         Debug.Log(string.Format("Failed to remove {0} from {1}", mod.ToString(), ToString()));
         return false;
-	}
+    }
 
-	public virtual bool RemoveAllModifiersFromSource(object source)
-	{
+    public virtual bool RemoveAllModifiersFromSource(object source)
+    {
         List<StatModifier> removedModifiers = new List<StatModifier>();
 
         string sourceString = string.Format("({0}|{1})", source.ToString(), source.GetHashCode());
@@ -100,57 +102,56 @@ public class CharacterStat : ICharacterStat
         Debug.Log(string.Format("Failed to remove modifiers with source {0} from {1}. No matching modifiers found", sourceString, ToString()));
         return false;
     }
-
-	protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
-	{
-		if (a.Order < b.Order)
-			return -1;
-		else if (a.Order > b.Order)
-			return 1;
-		return 0; 
-	}
-		
-	protected virtual float CalculateFinalValue()
-	{
-		float finalValue = BaseValue;
-		float sumPercentAdd = 0;
-
-		statModifiers.Sort(CompareModifierOrder);
-
-		for (int i = 0; i < statModifiers.Count; i++)
-		{
-			StatModifier mod = statModifiers[i];
-
-			if (mod.Type == StatModType.Flat)
-			{
-				finalValue += mod.Value;
-			}
-			else if (mod.Type == StatModType.PercentAdd)
-			{
-				sumPercentAdd += mod.Value;
-
-				if (i + 1 >= statModifiers.Count || statModifiers[i + 1].Type != StatModType.PercentAdd)
-				{
-					finalValue *= 1 + sumPercentAdd;
-					sumPercentAdd = 0;
-				}
-			}
-			else if (mod.Type == StatModType.PercentMult)
-			{
-				finalValue *= 1 + mod.Value;
-			}
-		}
-
-		// Workaround for float calculation errors, like displaying 12.00001 instead of 12
-		return (float)Math.Round(finalValue, 4);
-	}
-
-
+    
     public override string ToString()
     {
         var modifiersString = string.Join("|", statModifiers.Select(mod => mod.ToString()).ToArray());
         var fieldsString = string.Join(", ", BaseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
         return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
+    }
+
+    protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
+    {
+        if (a.Order < b.Order)
+            return -1;
+        else if (a.Order > b.Order)
+            return 1;
+        return 0;
+    }
+
+    protected virtual float CalculateFinalValue()
+    {
+        float finalValue = BaseValue;
+        float sumPercentAdd = 0;
+
+        statModifiers.Sort(CompareModifierOrder);
+
+        for (int i = 0; i < statModifiers.Count; i++)
+        {
+            StatModifier mod = statModifiers[i];
+
+            if (mod.Type == StatModType.Flat)
+            {
+                finalValue += mod.Value;
+            }
+            else if (mod.Type == StatModType.PercentAdd)
+            {
+                sumPercentAdd += mod.Value;
+
+                if (i + 1 >= statModifiers.Count || statModifiers[i + 1].Type != StatModType.PercentAdd)
+                {
+                    finalValue *= 1 + sumPercentAdd;
+                    sumPercentAdd = 0;
+                }
+            }
+            else if (mod.Type == StatModType.PercentMult)
+            {
+                finalValue *= 1 + mod.Value;
+            }
+        }
+
+        // Workaround for float calculation errors, like displaying 12.00001 instead of 12
+        return (float)Math.Round(finalValue, 4);
     }
 }
