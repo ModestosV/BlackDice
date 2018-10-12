@@ -59,9 +59,9 @@ From the Unity Editor: NuGet -> Restore Packages
 All the instructions will be posted below and I will update them as the time comes.
 ```
 To install docker on your system please choose system:
-	Windows:
+### Windows:
 		https://docs.docker.com/toolbox/toolbox_install_windows/
-	Mac:
+### Mac:
 		https://docs.docker.com/docker-for-mac/install/
 
 To get Mongo DB 4.0:
