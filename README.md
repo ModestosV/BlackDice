@@ -46,7 +46,6 @@ Microsoft Visual Studio complains about C# version
 Select the error message and use the IDEs suggested fix and save. You may need to close and reopen Unity if there is a compiler error showing up in Unity and not Visual Studio.
 ```
 
-
 Dependencies could not be found
 
 ```

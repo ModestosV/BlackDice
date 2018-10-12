@@ -1,3 +1,0 @@
-Unity does not play well with NuGet, so manually importing these packages is easier than trying to autogenerate them, despite the fact that this solution takes more space on the repository. Maybe with more Unity/NuGet knowledge, we will eventually figure this stuff out. For now, this should work fine.
-
-System.Threading.Tasks.Extensions.4.3.0: Makes NSubstitute happy, however there are problems inside Microsoft Visual Studio if you use NuGet within Unity to autogenerate. 4.5.1 breaks NSubstitute.
