@@ -45,3 +45,53 @@ Microsoft Visual Studio complains about C# version
 ```
 Select the error message and use the IDEs suggested fix and save. You may need to close and reopen Unity if there is a compiler error showing up in Unity and not Visual Studio.
 ```
+
+Dependencies could not be found
+
+```
+From the Unity Editor: NuGet -> Restore Packages
+```
+
+## DB setup
+
+```
+All the instructions will be posted below and I will update them as the time comes.
+```
+To install docker on your system please choose system:
+### Windows:
+		https://docs.docker.com/toolbox/toolbox_install_windows/
+### Mac:
+		https://docs.docker.com/docker-for-mac/install/
+
+To get Mongo DB 4.0:
+```
+docker pull mongo:4.0
+```
+To run docker container:
+```
+docker run -p 27017:27017 --name mongo -v ~/data:/data -w /data -it mongo:4.0 
+```
+When we will have data we will be using mongo-restore and mongo-dump and I will provide assistance for that. That is all for now.
+
+## Server SSH key generation
+
+```
+All the instructions will be posted below and I will update them as the time comes.
+```
+### Windows:
+```
+To generate an SSH key please download Putty application:
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+```
+### Mac:
+```
+You can use the terminal command ssh-keygen. The manual page will have more then enough information. 
+Here is a howto page also if needed:
+
+https://docs.typo3.org/typo3cms/ContributionWorkflowGuide/Appendix/OSX/SSHKeyOSX.html
+```
+Some requirements:
+```
+- RSA format must be used
+- minimum bits: 2048
+```
