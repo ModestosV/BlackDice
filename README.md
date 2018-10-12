@@ -82,16 +82,17 @@ All the instructions will be posted below and I will update them as the time com
 ### Windows:
 ```
 To generate an SSH key please download Putty application:
-	https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 ```
 ### Mac:
 ```
-You can use the terminal command ssh-keygen. The manual page will have more then enough information. Here is a howto page also if needed:
+You can use the terminal command ssh-keygen. The manual page will have more then enough information. 
+Here is a howto page also if needed:
 
-	https://docs.typo3.org/typo3cms/ContributionWorkflowGuide/Appendix/OSX/SSHKeyOSX.html
+https://docs.typo3.org/typo3cms/ContributionWorkflowGuide/Appendix/OSX/SSHKeyOSX.html
 ```
 Some requirements:
 ```
-	- RSA format must be used
-	- minimum bits: 2048
+- RSA format must be used
+- minimum bits: 2048
 ```
