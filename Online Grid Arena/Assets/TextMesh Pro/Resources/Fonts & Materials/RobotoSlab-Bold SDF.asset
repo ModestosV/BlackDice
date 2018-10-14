@@ -11,19 +11,19 @@ MonoBehaviour:
   m_Script: {fileID: -667331979, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
   m_Name: RobotoSlab-Bold SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -829705010
   material: {fileID: 21097258560681464}
-  materialHashCode: 0
+  materialHashCode: 1918607493
   fontAssetType: 1
   m_fontInfo:
     Name: Roboto Slab
     PointSize: 67
-    Scale: 0
+    Scale: 1
     CharacterCount: 98
     LineHeight: 88.375
     Baseline: 0
     Ascender: 70.1875
-    CapHeight: 0
+    CapHeight: 47.6875
     Descender: -18.1875
     CenterLine: 0
     SuperscriptOffset: 70.1875
@@ -33,7 +33,7 @@ MonoBehaviour:
     UnderlineThickness: 3.2714844
     strikethrough: 18.90909
     strikethroughThickness: 3.2714844
-    TabWidth: 0
+    TabWidth: 164.375
     Padding: 5
     AtlasWidth: 512
     AtlasHeight: 512
@@ -42,10 +42,10 @@ MonoBehaviour:
   - id: 32
     x: 6
     y: 517
-    width: 0
-    height: 0
+    width: 16.4375
+    height: 88.375
     xOffset: 0
-    yOffset: 0
+    yOffset: 70.1875
     xAdvance: 16.4375
     scale: 1
   - id: 33
@@ -1044,9 +1044,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
