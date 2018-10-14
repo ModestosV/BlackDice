@@ -3730,11 +3730,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     health:
-      BaseValue: 15
+      baseValue: 12
     damage:
-      BaseValue: 3
+      baseValue: 4
     moves:
-      BaseValue: 0
+      baseValue: 0
 --- !u!4 &778756879
 Transform:
   m_ObjectHideFlags: 0
@@ -5248,11 +5248,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     health:
-      BaseValue: 12
+      baseValue: 10
     damage:
-      BaseValue: 1
+      baseValue: 2
     moves:
-      BaseValue: 0
+      baseValue: 0
 --- !u!1 &1179203417
 GameObject:
   m_ObjectHideFlags: 0
@@ -5354,11 +5354,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     health:
-      BaseValue: 25
+      baseValue: 13
     damage:
-      BaseValue: 4
+      baseValue: 5
     moves:
-      BaseValue: 0
+      baseValue: 0
 --- !u!4 &1181553445
 Transform:
   m_ObjectHideFlags: 0
@@ -6968,11 +6968,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     health:
-      BaseValue: 10
+      baseValue: 11
     damage:
-      BaseValue: 2
+      baseValue: 3
     moves:
-      BaseValue: 0
+      baseValue: 0
 --- !u!4 &1569194949
 Transform:
   m_ObjectHideFlags: 0

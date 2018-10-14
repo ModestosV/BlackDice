@@ -13,18 +13,21 @@ public class SelectionController : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Player")
+            if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.transform.parent.tag != "Active_Character")
+                if (hit.collider.gameObject.tag == "Player")
                 {
-                    SelectCharacter(hit);
+                    if (hit.collider.gameObject.transform.parent.tag != "Active_Character")
+                    {
+                        SelectCharacter(hit);
+                    }
                 }
-            }
-            else if (hit.collider.tag == "Ground" && GameObject.FindGameObjectsWithTag("Active_Character").Length != 0)
-            {
-                GameObject active = GameObject.FindGameObjectsWithTag("Active_Character")[0];
-                Vector3 newPos = new Vector3(hit.point.x, active.transform.position.y, hit.point.z);
-                active.transform.position = newPos;
+                else if (hit.collider.tag == "Ground" && GameObject.FindGameObjectsWithTag("Active_Character").Length != 0)
+                {
+                    GameObject active = GameObject.FindGameObjectsWithTag("Active_Character")[0];
+                    Vector3 newPos = new Vector3(hit.point.x, active.transform.position.y, hit.point.z);
+                    active.transform.position = newPos;
+                }
             }
 
 

@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 [Serializable]
 public class CharacterStat : ICharacterStat
 {
-    public float BaseValue;
+    public float baseValue;
     public readonly ReadOnlyCollection<StatModifier> readonlyStatModifiers;
     protected readonly List<StatModifier> statModifiers;
     protected bool isDirty = true;
@@ -23,9 +23,9 @@ public class CharacterStat : ICharacterStat
     {
         get
         {
-            if (isDirty || lastBaseValue != BaseValue)
+            if (isDirty || lastBaseValue != baseValue)
             {
-                lastBaseValue = BaseValue;
+                lastBaseValue = baseValue;
                 value = CalculateFinalValue();
                 isDirty = false;
 
@@ -43,12 +43,12 @@ public class CharacterStat : ICharacterStat
 
     public CharacterStat(float baseValue) : this(baseValue, new List<StatModifier>())
     {
-        BaseValue = baseValue;
+        this.baseValue = baseValue;
     }
 
     public CharacterStat(float baseValue, List<StatModifier> statModifierList)
     {
-        BaseValue = baseValue;
+        this.baseValue = baseValue;
         statModifiers = statModifierList;
         readonlyStatModifiers = statModifiers.AsReadOnly();
     }
@@ -106,7 +106,7 @@ public class CharacterStat : ICharacterStat
     public override string ToString()
     {
         var modifiersString = string.Join("|", statModifiers.Select(mod => mod.ToString()).ToArray());
-        var fieldsString = string.Join(", ", BaseValue, Value, modifiersString == "" ? "null" : modifiersString);
+        var fieldsString = string.Join(", ", baseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
         return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
     }
@@ -122,7 +122,7 @@ public class CharacterStat : ICharacterStat
 
     protected virtual float CalculateFinalValue()
     {
-        float finalValue = BaseValue;
+        float finalValue = baseValue;
         float sumPercentAdd = 0;
 
         statModifiers.Sort(CompareModifierOrder);
