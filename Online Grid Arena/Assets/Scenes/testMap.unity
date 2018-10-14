@@ -332,4 +332,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001d128351fc78a4989c6a3b743e44dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridMapInstance: {fileID: 11400000, guid: a04ea65f9be75f14ca05723a64c65199, type: 2}
+  GridMapInstance: {fileID: 11400000, guid: 9d010e8ac092c14408d98812fc6e1cdb, type: 2}

@@ -17,8 +17,9 @@ public class GridMapController : ScriptableObject,IGrid
 	public void InitializeMap()
     {
         gridDictionary = new Dictionary<Tuple<int, int, int>, GameObject>();
-        columnNumber = 7;
-        x = -3;
+        columnNumber = height;
+        int indexingValue = (int)Math.Floor((double)height/2);
+        x = -indexingValue;
         y = 0;
         grid = new GameObject[columnNumber][];
         for (int i = 0; i < columnNumber; i++) 
@@ -27,18 +28,18 @@ public class GridMapController : ScriptableObject,IGrid
             x++;
         }
 
-        x = -3; 
+        x = -indexingValue; 
         for (int index = 0; index < columnNumber; index++) 
         {
             if (x <= 0)
             {
-                y = 3;
-                z = Mathf.Abs(x) - 3;
+                y = indexingValue;
+                z = Mathf.Abs(x) - indexingValue;
             }
             else
             {
-                y = 3 - x;
-                z = -3;
+                y = indexingValue - x;
+                z = -indexingValue;
             }
             for (int j = 0; j < grid[index].Length; j++) 
             {
