@@ -5,11 +5,11 @@ public interface IHexTile
     int X {get;set;}
     int Y {get;set;}
     int Z {get;set;}
-    void setOccupant(GameObject occ);
-    GameObject getOccupant();
-    void setGrid(GridMapController refGrid);
-    bool getIsClicked();
-    void setIsClicked(bool newState);
+    void SetOccupant(GameObject occ);
+    GameObject GetOccupant();
+    void SetGrid(GridMapController refGrid);
+    bool GetIsClicked();
+    void SetIsClicked(bool newState);
     void InitializeTile(HexTileDefinition tileDefinition, MeshRenderer renderer);
     void OnMouseEnter();
     void OnMouseDown();

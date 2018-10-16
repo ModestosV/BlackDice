@@ -45,7 +45,7 @@ public class GridMapController : ScriptableObject,IGrid
             {
                 GameObject current = Instantiate(tilePrefab, new Vector3(j+(Mathf.Abs((float)x)/2), 0, index - (float)x / 4), Quaternion.Euler(0, 90, 0));
                 IHexTile tile = current.GetComponent<HexTile>().Tile;
-                tile.setGrid(this);
+                tile.SetGrid(this);
                 tile.X= x;
                 tile.Y= y;
                 tile.Z= z;
@@ -194,7 +194,7 @@ public class GridMapController : ScriptableObject,IGrid
         foreach(var tile in gridDictionary)
         {
             var tileComponent = tile.Value.GetComponent<HexTile>().Tile;
-            tileComponent.setIsClicked(false);
+            tileComponent.SetIsClicked(false);
         }
     }
 }
