@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
-    [SerializeField]
     public GridController Controller;
 
-	// Use this for initialization
-	void Start () {
+    private void OnValidate()
+    {
+        Controller.SetHexTiles(GetComponentsInChildren<HexTile2>());
+    }
+    
+    void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
