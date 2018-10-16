@@ -50,35 +50,35 @@ public class HexTileController : IHexTile
             gridReference.ClearSelection();
         }
 
-        toggleClickedState();
+        ToggleClickedState();
     }
 
-    public void setOccupant(GameObject occupant)
+    public void SetOccupant(GameObject occupant)
     {
         this.occupant = occupant;
     }
 
-    public GameObject getOccupant()
+    public GameObject GetOccupant()
     {
         return occupant;
     }
 
-    public void setGrid(GridMapController refGrid)
+    public void SetGrid(GridMapController refGrid)
     {
         gridReference = refGrid;
     }
 
-    public bool getIsClicked()
+    public bool GetIsClicked()
     {
         return isClicked;
     }
 
-    public void toggleClickedState()
+    public void ToggleClickedState()
     {
-        setIsClicked(!isClicked);
+        SetIsClicked(!isClicked);
     }
 
-    public void setIsClicked(bool newState)
+    public void SetIsClicked(bool newState)
     {
         isClicked = newState;
         SetCurrentMaterial(isClicked ? tileDefinition.ClickedMaterial : tileDefinition.DefaultMaterial);
