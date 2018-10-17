@@ -34,6 +34,7 @@ public class HexTile2 : MonoBehaviour, ISelectionController {
         if (!Input.GetKey(KeyCode.LeftControl))
             GetComponentInParent<Grid>().Controller.DeselectAll();
         Controller.Select();
+        TestSelect();
     }
 
     #region ISelectionController implementation
@@ -47,6 +48,15 @@ public class HexTile2 : MonoBehaviour, ISelectionController {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
+    public void TestSelect()
+    {
+        var neighbors = GetComponentInParent<Grid>().Controller.getNeighbors(this);
+        foreach (HexTile2 neighbor in neighbors)
+        {
+            neighbor.Controller.Select();
+        }
+    }
+
     public void Select()
     {
         GetComponent<Renderer>().material = materials.ClickedMaterial;
@@ -57,6 +67,10 @@ public class HexTile2 : MonoBehaviour, ISelectionController {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
-
     #endregion
+
+    public override string ToString()
+    {
+        return $"HexTile|x: {Controller.x}, y: {Controller.y}, z: {Controller.z}";
+    }
 }

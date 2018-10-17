@@ -12,7 +12,8 @@ public class GridController {
 
     public void SetHexTiles(HexTile2[] hexTiles)
     {
-            
+        HexTiles = new Dictionary<Tuple<int, int, int>, HexTile2>();
+
         for (int i = 0; i < hexTiles.Length; i++)
         {
             hexTilesArray = hexTiles;
@@ -29,10 +30,7 @@ public class GridController {
             hexTile.Controller.y = cubeY;
             hexTile.Controller.z = cubeZ;
 
-            Dictionary<Tuple<int, int, int>, HexTile2> hexTilesDictionary = new Dictionary<Tuple<int, int, int>, HexTile2>();
-            hexTilesDictionary.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
-
-            HexTiles = hexTilesDictionary;
+            HexTiles.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
 
             ArrangeHexTiles();
         }
@@ -60,4 +58,94 @@ public class GridController {
             tile.Controller.Deselect();
         }
     }
+
+    public HexTile2 getNorthEast(HexTile2 tile)
+    {
+        HexTile2 neighborNorthEast;
+        int x = tile.Controller.x + 1;
+        int y = tile.Controller.y;
+        int z = tile.Controller.z - 1;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
+
+        Debug.Log($"NE: {neighborNorthEast}");
+        return neighborNorthEast;
+    }
+
+    public HexTile2 getEast(HexTile2 tile)
+    {
+        HexTile2 neighborEast;
+        int x = tile.Controller.x + 1;
+        int y = tile.Controller.y - 1;
+        int z = tile.Controller.z;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
+
+        Debug.Log($"E: {neighborEast}");
+        return neighborEast;
+    }
+
+    public HexTile2 getSouthEast(HexTile2 tile)
+    {
+        HexTile2 neighborSouthEast;
+        int x = tile.Controller.x;
+        int y = tile.Controller.y - 1;
+        int z = tile.Controller.z + 1;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
+
+        Debug.Log($"SE: {neighborSouthEast}");
+        return neighborSouthEast;
+    }
+
+    public HexTile2 getSouthWest(HexTile2 tile)
+    {
+        HexTile2 neighborSouthWest;
+        int x = tile.Controller.x - 1;
+        int y = tile.Controller.y;
+        int z = tile.Controller.z + 1;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
+
+        Debug.Log($"SW: {neighborSouthWest}");
+        return neighborSouthWest;
+    }
+
+    public HexTile2 getWest(HexTile2 tile)
+    {
+        HexTile2 neighborWest;
+        int x = tile.Controller.x - 1;
+        int y = tile.Controller.y + 1;
+        int z = tile.Controller.z;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
+
+        Debug.Log($"W: {neighborWest}");
+        return neighborWest;
+    }
+
+    public HexTile2 getNorthWest(HexTile2 tile)
+    {
+        HexTile2 neighborNorthWest;
+        int x = tile.Controller.x;
+        int y = tile.Controller.y + 1;
+        int z = tile.Controller.z - 1;
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
+
+        Debug.Log($"NW: {neighborNorthWest}");
+        return neighborNorthWest;
+    }
+
+    public List<HexTile2> getNeighbors(HexTile2 tile)
+    {
+        List<HexTile2> neighbors = new List<HexTile2>
+        {
+            getNorthEast(tile),
+            getEast(tile),
+            getSouthEast(tile),
+            getSouthWest(tile),
+            getWest(tile),
+            getNorthWest(tile)
+        };
+
+        neighbors.RemoveAll(item => item == null);
+
+        return neighbors;
+    }
+
 }

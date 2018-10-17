@@ -37,14 +37,10 @@ public class HexTileController2 {
 
     public void Select()
     {
-        isSelected = !isSelected;
-
-        if (isSelected)
+        if (!isSelected)
         {
+            isSelected = true;
             selectionController.Select();
-        } else
-        {
-            selectionController.Deselect();
         }
     }
 
