@@ -10,6 +10,14 @@ public class GridController {
     private HexTile2[] hexTilesArray;
     public int majorAxisLength;
 
+    public List<HexTile2> SelectedTiles;
+    public List<HexTile2> HoveredTiles;
+
+    public void Init()
+    {
+        SelectedTiles = new List<HexTile2>();
+    }
+
     public void SetHexTiles(HexTile2[] hexTiles)
     {
         HexTiles = new Dictionary<Tuple<int, int, int>, HexTile2>();
@@ -54,8 +62,17 @@ public class GridController {
 
     public void DeselectAll()
     {
-        foreach (HexTile2 tile in hexTilesArray) {
-            tile.Controller.Deselect();
+        for (int i = SelectedTiles.Count - 1; i >= 0; i--)
+        {
+            SelectedTiles[i].Controller.Deselect();
+        }
+    }
+
+    public void BlurAll()
+    {
+        for (int i = HoveredTiles.Count - 1; i >= 0; i--)
+        {
+            HoveredTiles[i].Controller.Blur();
         }
     }
 
@@ -67,7 +84,7 @@ public class GridController {
         int z = tile.Controller.z - 1;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
 
-        Debug.Log($"NE: {neighborNorthEast}");
+        //Debug.Log($"NE: {neighborNorthEast}");
         return neighborNorthEast;
     }
 
@@ -79,7 +96,7 @@ public class GridController {
         int z = tile.Controller.z;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
 
-        Debug.Log($"E: {neighborEast}");
+        //Debug.Log($"E: {neighborEast}");
         return neighborEast;
     }
 
@@ -91,7 +108,7 @@ public class GridController {
         int z = tile.Controller.z + 1;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
 
-        Debug.Log($"SE: {neighborSouthEast}");
+        //Debug.Log($"SE: {neighborSouthEast}");
         return neighborSouthEast;
     }
 
@@ -103,7 +120,7 @@ public class GridController {
         int z = tile.Controller.z + 1;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
 
-        Debug.Log($"SW: {neighborSouthWest}");
+        //Debug.Log($"SW: {neighborSouthWest}");
         return neighborSouthWest;
     }
 
@@ -115,7 +132,7 @@ public class GridController {
         int z = tile.Controller.z;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
 
-        Debug.Log($"W: {neighborWest}");
+        //Debug.Log($"W: {neighborWest}");
         return neighborWest;
     }
 
@@ -127,7 +144,7 @@ public class GridController {
         int z = tile.Controller.z - 1;
         HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
 
-        Debug.Log($"NW: {neighborNorthWest}");
+        //Debug.Log($"NW: {neighborNorthWest}");
         return neighborNorthWest;
     }
 
@@ -148,4 +165,52 @@ public class GridController {
         return neighbors;
     }
 
+    public List<HexTile2> getPath(HexTile2 startTile, HexTile2 endTile)
+    {
+        Queue<TileNode> open = new Queue<TileNode>();
+        open.Enqueue(new TileNode(startTile, null, 0, 0));
+        Dictionary<string, TileNode> closed = new Dictionary<string, TileNode>();
+
+        while (open.Count > 0)
+        {
+            TileNode node = open.Dequeue();
+            string key = $"{node.tile.Controller.x}, {node.tile.Controller.y}, {node.tile.Controller.z}";
+
+            if (node.tile == endTile)
+            {
+                return Backtrace(node);
+            }
+
+            List<HexTile2> neighbors = getNeighbors(node.tile);
+
+            foreach (HexTile2 neighbor in neighbors)
+            {
+                string neighborKey = $"{neighbor.Controller.x}, {neighbor.Controller.y}, {neighbor.Controller.z}";
+
+                if (!closed.ContainsKey(neighborKey) && neighbor.Controller.enabled)
+                {
+                    closed.Add(neighborKey, new TileNode(neighbor, node, node.depth + 1, 0));
+                    open.Enqueue(new TileNode(neighbor, node, node.depth + 1, 0));
+                }
+            }
+        }
+
+        return new List<HexTile2>();
+    }
+
+    private List<HexTile2> Backtrace(TileNode goalNode)
+    {
+        List<HexTile2> path = new List<HexTile2>();
+        TileNode node = goalNode;
+
+        while (node.parent != null)
+        {
+            path.Add(node.tile);
+
+            node = node.parent;
+        }
+
+        path.Reverse();
+        return path;
+    }
 }
