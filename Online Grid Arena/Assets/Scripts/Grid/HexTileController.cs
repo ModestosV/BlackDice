@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-
+﻿
 [System.Serializable]
-public class HexTileController2 {
+public class HexTileController {
 
     public int x;
     public int y;
@@ -27,7 +26,7 @@ public class HexTileController2 {
     {
         gridSelectionController.BlurAll();
         Hover();
-        gridSelectionController.DrawPath((HexTile2)hexTileSelectionController);
+        gridSelectionController.DrawPath((HexTile)hexTileSelectionController);
     }
 
     public void OnMouseExit()
@@ -43,13 +42,13 @@ public class HexTileController2 {
             gridSelectionController.DeselectAll();
             isSelected = true;
             hexTileSelectionController.Select();
-            gridSelectionController.AddSelectedTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.AddSelectedTile((HexTile)hexTileSelectionController);
         }
         else
         {
             isSelected = false;
             hexTileSelectionController.Deselect();
-            gridSelectionController.RemovedSelectedTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.RemovedSelectedTile((HexTile)hexTileSelectionController);
         }
     }
 
@@ -59,7 +58,7 @@ public class HexTileController2 {
         {
             isSelected = true;
             hexTileSelectionController.Select();
-            gridSelectionController.AddSelectedTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.AddSelectedTile((HexTile)hexTileSelectionController);
         }
     }
 
@@ -68,7 +67,7 @@ public class HexTileController2 {
         if (!isSelected)
         {
             hexTileSelectionController.Hover();
-            gridSelectionController.AddHoveredTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.AddHoveredTile((HexTile)hexTileSelectionController);
         }
     }
 
@@ -77,7 +76,7 @@ public class HexTileController2 {
         if (!isSelected)
         {
             hexTileSelectionController.Blur();
-            gridSelectionController.RemoveHoveredTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.RemoveHoveredTile((HexTile)hexTileSelectionController);
         }
     }
 
@@ -87,7 +86,7 @@ public class HexTileController2 {
         {
             isSelected = false;
             hexTileSelectionController.Deselect();
-            gridSelectionController.RemovedSelectedTile((HexTile2)hexTileSelectionController);
+            gridSelectionController.RemovedSelectedTile((HexTile)hexTileSelectionController);
         }
     }
 

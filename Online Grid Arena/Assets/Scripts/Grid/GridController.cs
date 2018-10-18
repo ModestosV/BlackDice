@@ -6,24 +6,24 @@ using System.Linq;
 [System.Serializable]
 public class GridController : IGridSelectionController {
 
-    public Dictionary<Tuple<int, int, int>, HexTile2> hexTiles;
+    public Dictionary<Tuple<int, int, int>, HexTile> hexTiles;
     public int majorAxisLength;
 
-    public List<HexTile2> selectedTiles;
-    public List<HexTile2> hoveredTiles;
+    public List<HexTile> selectedTiles;
+    public List<HexTile> hoveredTiles;
 
     public void Init()
     {
-        selectedTiles = new List<HexTile2>();
+        selectedTiles = new List<HexTile>();
     }
 
-    public void SetHexTiles(HexTile2[] hexTiles)
+    public void SetHexTiles(HexTile[] hexTiles)
     {
-        this.hexTiles = new Dictionary<Tuple<int, int, int>, HexTile2>();
+        this.hexTiles = new Dictionary<Tuple<int, int, int>, HexTile>();
 
         for (int i = 0; i < hexTiles.Length; i++)
         {
-            HexTile2 hexTile = hexTiles[i];
+            HexTile hexTile = hexTiles[i];
             int col = i % majorAxisLength;
             int row = i / majorAxisLength;
 
@@ -41,7 +41,7 @@ public class GridController : IGridSelectionController {
         // Arrange hex tiles
         for (int i = 0; i < hexTiles.Length; i++)
         {
-            HexTile2 hexTile = hexTiles[i];
+            HexTile hexTile = hexTiles[i];
             int col = i % majorAxisLength;
             int row = i / majorAxisLength;
 
@@ -55,22 +55,22 @@ public class GridController : IGridSelectionController {
 
     #region IGridSelectionController implementation
 
-    public void AddSelectedTile(HexTile2 selectedTile)
+    public void AddSelectedTile(HexTile selectedTile)
     {
         selectedTiles.Add(selectedTile);
     }
 
-    public bool RemovedSelectedTile(HexTile2 removedTile)
+    public bool RemovedSelectedTile(HexTile removedTile)
     {
         return selectedTiles.Remove(removedTile);
     }
 
-    public void AddHoveredTile(HexTile2 hoveredTile)
+    public void AddHoveredTile(HexTile hoveredTile)
     {
         hoveredTiles.Add(hoveredTile);
     }
 
-    public bool RemoveHoveredTile(HexTile2 removedTile)
+    public bool RemoveHoveredTile(HexTile removedTile)
     {
         return hoveredTiles.Remove(removedTile);
     }
@@ -91,15 +91,15 @@ public class GridController : IGridSelectionController {
         }
     }
 
-    public void DrawPath(HexTile2 endTile)
+    public void DrawPath(HexTile endTile)
     {
         if (selectedTiles.Count > 0)
         {
-            foreach (HexTile2 startTile in selectedTiles)
+            foreach (HexTile startTile in selectedTiles)
             {
-                List<HexTile2> path = GetPath(startTile, endTile);
+                List<HexTile> path = GetPath(startTile, endTile);
 
-                foreach (HexTile2 tile in path)
+                foreach (HexTile tile in path)
                 {
                     tile.controller.Hover();
                 }
@@ -109,9 +109,9 @@ public class GridController : IGridSelectionController {
 
     #endregion
 
-    public HexTile2 GetNorthEast(HexTile2 tile)
+    public HexTile GetNorthEast(HexTile tile)
     {
-        HexTile2 neighborNorthEast;
+        HexTile neighborNorthEast;
         int x = tile.controller.x + 1;
         int y = tile.controller.y;
         int z = tile.controller.z - 1;
@@ -121,9 +121,9 @@ public class GridController : IGridSelectionController {
         return neighborNorthEast;
     }
 
-    public HexTile2 GetEast(HexTile2 tile)
+    public HexTile GetEast(HexTile tile)
     {
-        HexTile2 neighborEast;
+        HexTile neighborEast;
         int x = tile.controller.x + 1;
         int y = tile.controller.y - 1;
         int z = tile.controller.z;
@@ -133,9 +133,9 @@ public class GridController : IGridSelectionController {
         return neighborEast;
     }
 
-    public HexTile2 GetSouthEast(HexTile2 tile)
+    public HexTile GetSouthEast(HexTile tile)
     {
-        HexTile2 neighborSouthEast;
+        HexTile neighborSouthEast;
         int x = tile.controller.x;
         int y = tile.controller.y - 1;
         int z = tile.controller.z + 1;
@@ -145,9 +145,9 @@ public class GridController : IGridSelectionController {
         return neighborSouthEast;
     }
 
-    public HexTile2 GetSouthWest(HexTile2 tile)
+    public HexTile GetSouthWest(HexTile tile)
     {
-        HexTile2 neighborSouthWest;
+        HexTile neighborSouthWest;
         int x = tile.controller.x - 1;
         int y = tile.controller.y;
         int z = tile.controller.z + 1;
@@ -157,9 +157,9 @@ public class GridController : IGridSelectionController {
         return neighborSouthWest;
     }
 
-    public HexTile2 GetWest(HexTile2 tile)
+    public HexTile GetWest(HexTile tile)
     {
-        HexTile2 neighborWest;
+        HexTile neighborWest;
         int x = tile.controller.x - 1;
         int y = tile.controller.y + 1;
         int z = tile.controller.z;
@@ -169,9 +169,9 @@ public class GridController : IGridSelectionController {
         return neighborWest;
     }
 
-    public HexTile2 GetNorthWest(HexTile2 tile)
+    public HexTile GetNorthWest(HexTile tile)
     {
-        HexTile2 neighborNorthWest;
+        HexTile neighborNorthWest;
         int x = tile.controller.x;
         int y = tile.controller.y + 1;
         int z = tile.controller.z - 1;
@@ -181,9 +181,9 @@ public class GridController : IGridSelectionController {
         return neighborNorthWest;
     }
 
-    public List<HexTile2> GetNeighbors(HexTile2 tile)
+    public List<HexTile> GetNeighbors(HexTile tile)
     {
-        List<HexTile2> neighbors = new List<HexTile2>
+        List<HexTile> neighbors = new List<HexTile>
         {
             GetNorthEast(tile),
             GetEast(tile),
@@ -198,13 +198,13 @@ public class GridController : IGridSelectionController {
         return neighbors;
     }
 
-    public List<HexTile2> GetPath(HexTile2 startTile, HexTile2 endTile)
+    public List<HexTile> GetPath(HexTile startTile, HexTile endTile)
     {
-        List<HexTile2> open = new List<HexTile2>();
+        List<HexTile> open = new List<HexTile>();
         HashSet<string> closed = new HashSet<string>();
         Dictionary<string, int> fValues = new Dictionary<string, int>();
         Dictionary<string, int> gValues = new Dictionary<string, int>();
-        Dictionary<string, HexTile2> bestParents = new Dictionary<string, HexTile2>();
+        Dictionary<string, HexTile> bestParents = new Dictionary<string, HexTile>();
 
         open.Add(startTile);
         gValues[startTile.Key()] = 0;
@@ -214,7 +214,7 @@ public class GridController : IGridSelectionController {
         while (open.Count > 0)
         {
             open.Sort((x, y) => fValues[x.Key()].CompareTo(fValues[y.Key()]));
-            HexTile2 currentTile = open.First();
+            HexTile currentTile = open.First();
             open.Remove(currentTile);
 
             closed.Add(currentTile.Key());
@@ -224,10 +224,10 @@ public class GridController : IGridSelectionController {
                 return Backtrace(currentTile, bestParents);
             }
 
-            List<HexTile2> neighbors = GetNeighbors(currentTile);
+            List<HexTile> neighbors = GetNeighbors(currentTile);
             neighbors.RemoveAll(item => !item.controller.isEnabled);
 
-            foreach (HexTile2 neighbor in neighbors)
+            foreach (HexTile neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Key())) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
@@ -253,17 +253,17 @@ public class GridController : IGridSelectionController {
             }
         }
 
-        return new List<HexTile2>();
+        return new List<HexTile>();
     }
 
-    private List<HexTile2> Backtrace(HexTile2 goalTile, Dictionary<string, HexTile2> bestParents)
+    private List<HexTile> Backtrace(HexTile goalTile, Dictionary<string, HexTile> bestParents)
     {
-        HexTile2 node = goalTile;
-        List<HexTile2> path = new List<HexTile2> { goalTile };
+        HexTile node = goalTile;
+        List<HexTile> path = new List<HexTile> { goalTile };
 
         while (bestParents[node.Key()])
         {
-            HexTile2 parent = bestParents[node.Key()];
+            HexTile parent = bestParents[node.Key()];
             path.Add(parent);
 
             node = parent;
@@ -273,7 +273,7 @@ public class GridController : IGridSelectionController {
         return path;
     }
 
-    private int ManhattanDistance(HexTile2 startTile, HexTile2 endTile)
+    private int ManhattanDistance(HexTile startTile, HexTile endTile)
     {
         int startX = startTile.controller.x;
         int startY = startTile.controller.y;

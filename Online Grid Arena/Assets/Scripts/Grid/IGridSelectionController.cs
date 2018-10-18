@@ -1,11 +1,11 @@
 ﻿
 public interface IGridSelectionController
 {
-    void AddSelectedTile(HexTile2 selectedTile);
-    bool RemovedSelectedTile(HexTile2 removedTile);
-    void AddHoveredTile(HexTile2 hoveredTile);
-    bool RemoveHoveredTile(HexTile2 removedTile);
+    void AddSelectedTile(HexTile selectedTile);
+    bool RemovedSelectedTile(HexTile removedTile);
+    void AddHoveredTile(HexTile hoveredTile);
+    bool RemoveHoveredTile(HexTile removedTile);
     void BlurAll();
     void DeselectAll();
-    void DrawPath(HexTile2 endTile);
+    void DrawPath(HexTile endTile);
 }

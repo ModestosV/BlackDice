@@ -7,6 +7,6 @@ public class Grid : MonoBehaviour {
     private void OnValidate()
     {
         Controller.Init();
-        Controller.SetHexTiles(GetComponentsInChildren<HexTile2>());
+        Controller.SetHexTiles(GetComponentsInChildren<HexTile>());
     }
 }

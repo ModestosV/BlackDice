@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class HexTile2 : MonoBehaviour, IHexTileSelectionController {
+public class HexTile : MonoBehaviour, IHexTileSelectionController {
 
-    public HexTileController2 controller;
+    public HexTileController controller;
     public HexTileDefinition materials;
 
     private void OnValidate()
