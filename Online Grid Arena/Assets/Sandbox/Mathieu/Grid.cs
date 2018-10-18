@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
@@ -11,12 +9,4 @@ public class Grid : MonoBehaviour {
         Controller.Init();
         Controller.SetHexTiles(GetComponentsInChildren<HexTile2>());
     }
-    
-    void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
 }

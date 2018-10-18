@@ -1,42 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+﻿using UnityEngine;
 
-public class HexTile2 : MonoBehaviour, ISelectionController {
+public class HexTile2 : MonoBehaviour, ISelectionController2 {
 
-    public HexTileController2 Controller;
+    public HexTileController2 controller;
     public HexTileDefinition materials;
 
     private void OnValidate()
     {
-        Controller.enabled = GetComponent<Renderer>().enabled;
+        controller.isEnabled = GetComponent<Renderer>().enabled;
     }
 
     private void Start()
     {
-        Controller.Init(this);
+        controller.Init(this);
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
     private void OnMouseEnter()
     {
-        Controller.Hover();
-
-        TestPath();
+        GetComponentInParent<Grid>().Controller.BlurAll();
+        controller.Hover();
+        DrawPath();
     }
 
     private void OnMouseExit()
     {
-        Controller.Blur();
+        controller.Blur();
     }
 
     private void OnMouseDown()
     {
-        if (!Input.GetKey(KeyCode.LeftControl))
-            GetComponentInParent<Grid>().Controller.DeselectAll();
-        Controller.Select();
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            controller.Select();
+        } else
+        {
+            GetComponentInParent<Grid>().Controller.BlurAll();
+            if (!controller.isSelected)
+            {
+                GetComponentInParent<Grid>().Controller.DeselectAll();
+                controller.Select();
+            } else
+            {
+                controller.Deselect();
+            }
+        }
 
         //TestSelect();
     }
@@ -46,12 +55,12 @@ public class HexTile2 : MonoBehaviour, ISelectionController {
     public void Hover()
     {
         GetComponent<Renderer>().material = materials.HoveredMaterial;
-        GetComponentInParent<Grid>().Controller.HoveredTiles.Add(this);
+        GetComponentInParent<Grid>().Controller.hoveredTiles.Add(this);
     }
     public void Blur()
     {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        GetComponentInParent<Grid>().Controller.HoveredTiles.Remove(this);
+        GetComponentInParent<Grid>().Controller.hoveredTiles.Remove(this);
     }
 
     private void TestSelect()
@@ -59,44 +68,52 @@ public class HexTile2 : MonoBehaviour, ISelectionController {
         var neighbors = GetComponentInParent<Grid>().Controller.getNeighbors(this);
         foreach (HexTile2 neighbor in neighbors)
         {
-            neighbor.Controller.Select();
+            neighbor.controller.Select();
         }
     }
 
-    private void TestPath()
+    private void DrawPath()
     {
-        var selectedTiles = GetComponentInParent<Grid>().Controller.SelectedTiles;
+        GetComponentInParent<Grid>().Controller.BlurAll();
+
+        var selectedTiles = GetComponentInParent<Grid>().Controller.selectedTiles;
+
         if (selectedTiles.Count > 0)
         {
-            GetComponentInParent<Grid>().Controller.BlurAll();
-
-
-            var path = GetComponentInParent<Grid>().Controller.getPath(selectedTiles.ElementAt(0), this);
-
-            foreach (var tile in path)
+            foreach (HexTile2 startTile in selectedTiles)
             {
-                tile.Hover();
-            }
+                var path = GetComponentInParent<Grid>().Controller.getPath(startTile, this);
 
+                foreach (var tile in path)
+                {
+                    tile.controller.Hover();
+                }
+            }
         }
     }
 
     public void Select()
     {
         GetComponent<Renderer>().material = materials.ClickedMaterial;
-        GetComponentInParent<Grid>().Controller.SelectedTiles.Add(this);
+        GetComponentInParent<Grid>().Controller.selectedTiles.Add(this);
     }
 
     public void Deselect()
     {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        GetComponentInParent<Grid>().Controller.SelectedTiles.Remove(this);
+        GetComponentInParent<Grid>().Controller.selectedTiles.Remove(this);
     }
 
     #endregion
 
     public override string ToString()
     {
-        return $"HexTile|x: {Controller.x}, y: {Controller.y}, z: {Controller.z}";
+        return $"HexTile|x: {controller.x}, y: {controller.y}, z: {controller.z}";
+    }
+
+    public string Key()
+    {
+        return $"{controller.x}, {controller.y}, {controller.z}";
     }
 }
+

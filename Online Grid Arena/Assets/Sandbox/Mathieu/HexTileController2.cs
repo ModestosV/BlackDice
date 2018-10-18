@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 [System.Serializable]
 public class HexTileController2 {
 
@@ -9,12 +6,12 @@ public class HexTileController2 {
     public int y;
     public int z;
 
-    public bool enabled;
+    public bool isEnabled;
     public bool isSelected;
 
-    public ISelectionController selectionController;
+    public ISelectionController2 selectionController;
 
-    public void Init(ISelectionController selectionController)
+    public void Init(ISelectionController2 selectionController)
     {
         this.selectionController = selectionController;
     }
@@ -46,8 +43,11 @@ public class HexTileController2 {
 
     public void Deselect()
     {
-        isSelected = false;
-        selectionController.Deselect();
+        if (isSelected)
+        {
+            isSelected = false;
+            selectionController.Deselect();
+        }
     }
 
 

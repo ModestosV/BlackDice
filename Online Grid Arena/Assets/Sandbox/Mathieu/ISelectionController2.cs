@@ -1,5 +1,5 @@
 ﻿
-public interface ISelectionController {
+public interface ISelectionController2 {
 
     void Hover();
     void Blur();

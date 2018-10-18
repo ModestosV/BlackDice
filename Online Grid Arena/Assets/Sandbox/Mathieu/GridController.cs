@@ -1,26 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 [System.Serializable]
 public class GridController {
 
-    public Dictionary<Tuple<int, int, int>, HexTile2> HexTiles;
+    public Dictionary<Tuple<int, int, int>, HexTile2> hexTiles;
     private HexTile2[] hexTilesArray;
     public int majorAxisLength;
 
-    public List<HexTile2> SelectedTiles;
-    public List<HexTile2> HoveredTiles;
+    public List<HexTile2> selectedTiles;
+    public List<HexTile2> hoveredTiles;
 
     public void Init()
     {
-        SelectedTiles = new List<HexTile2>();
+        selectedTiles = new List<HexTile2>();
     }
 
     public void SetHexTiles(HexTile2[] hexTiles)
     {
-        HexTiles = new Dictionary<Tuple<int, int, int>, HexTile2>();
+        this.hexTiles = new Dictionary<Tuple<int, int, int>, HexTile2>();
 
         for (int i = 0; i < hexTiles.Length; i++)
         {
@@ -34,11 +34,11 @@ public class GridController {
             int cubeY = -(col + (row + 1) / 2);
             int cubeZ = row;
 
-            hexTile.Controller.x = cubeX;
-            hexTile.Controller.y = cubeY;
-            hexTile.Controller.z = cubeZ;
+            hexTile.controller.x = cubeX;
+            hexTile.controller.y = cubeY;
+            hexTile.controller.z = cubeZ;
 
-            HexTiles.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
+            this.hexTiles.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
 
             ArrangeHexTiles();
         }
@@ -62,27 +62,27 @@ public class GridController {
 
     public void DeselectAll()
     {
-        for (int i = SelectedTiles.Count - 1; i >= 0; i--)
+        for (int i = selectedTiles.Count - 1; i >= 0; i--)
         {
-            SelectedTiles[i].Controller.Deselect();
+            selectedTiles[i].controller.Deselect();
         }
     }
 
     public void BlurAll()
     {
-        for (int i = HoveredTiles.Count - 1; i >= 0; i--)
+        for (int i = hoveredTiles.Count - 1; i >= 0; i--)
         {
-            HoveredTiles[i].Controller.Blur();
+            hoveredTiles[i].controller.Blur();
         }
     }
 
     public HexTile2 getNorthEast(HexTile2 tile)
     {
         HexTile2 neighborNorthEast;
-        int x = tile.Controller.x + 1;
-        int y = tile.Controller.y;
-        int z = tile.Controller.z - 1;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
+        int x = tile.controller.x + 1;
+        int y = tile.controller.y;
+        int z = tile.controller.z - 1;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
 
         //Debug.Log($"NE: {neighborNorthEast}");
         return neighborNorthEast;
@@ -91,10 +91,10 @@ public class GridController {
     public HexTile2 getEast(HexTile2 tile)
     {
         HexTile2 neighborEast;
-        int x = tile.Controller.x + 1;
-        int y = tile.Controller.y - 1;
-        int z = tile.Controller.z;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
+        int x = tile.controller.x + 1;
+        int y = tile.controller.y - 1;
+        int z = tile.controller.z;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
 
         //Debug.Log($"E: {neighborEast}");
         return neighborEast;
@@ -103,10 +103,10 @@ public class GridController {
     public HexTile2 getSouthEast(HexTile2 tile)
     {
         HexTile2 neighborSouthEast;
-        int x = tile.Controller.x;
-        int y = tile.Controller.y - 1;
-        int z = tile.Controller.z + 1;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
+        int x = tile.controller.x;
+        int y = tile.controller.y - 1;
+        int z = tile.controller.z + 1;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
 
         //Debug.Log($"SE: {neighborSouthEast}");
         return neighborSouthEast;
@@ -115,10 +115,10 @@ public class GridController {
     public HexTile2 getSouthWest(HexTile2 tile)
     {
         HexTile2 neighborSouthWest;
-        int x = tile.Controller.x - 1;
-        int y = tile.Controller.y;
-        int z = tile.Controller.z + 1;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
+        int x = tile.controller.x - 1;
+        int y = tile.controller.y;
+        int z = tile.controller.z + 1;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
 
         //Debug.Log($"SW: {neighborSouthWest}");
         return neighborSouthWest;
@@ -127,10 +127,10 @@ public class GridController {
     public HexTile2 getWest(HexTile2 tile)
     {
         HexTile2 neighborWest;
-        int x = tile.Controller.x - 1;
-        int y = tile.Controller.y + 1;
-        int z = tile.Controller.z;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
+        int x = tile.controller.x - 1;
+        int y = tile.controller.y + 1;
+        int z = tile.controller.z;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
 
         //Debug.Log($"W: {neighborWest}");
         return neighborWest;
@@ -139,10 +139,10 @@ public class GridController {
     public HexTile2 getNorthWest(HexTile2 tile)
     {
         HexTile2 neighborNorthWest;
-        int x = tile.Controller.x;
-        int y = tile.Controller.y + 1;
-        int z = tile.Controller.z - 1;
-        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
+        int x = tile.controller.x;
+        int y = tile.controller.y + 1;
+        int z = tile.controller.z - 1;
+        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
 
         //Debug.Log($"NW: {neighborNorthWest}");
         return neighborNorthWest;
@@ -167,50 +167,92 @@ public class GridController {
 
     public List<HexTile2> getPath(HexTile2 startTile, HexTile2 endTile)
     {
-        Queue<TileNode> open = new Queue<TileNode>();
-        open.Enqueue(new TileNode(startTile, null, 0, 0));
-        Dictionary<string, TileNode> closed = new Dictionary<string, TileNode>();
+        List<HexTile2> open = new List<HexTile2>();
+        HashSet<string> closed = new HashSet<string>();
+        Dictionary<string, int> fValues = new Dictionary<string, int>();
+        Dictionary<string, int> gValues = new Dictionary<string, int>();
+        Dictionary<string, HexTile2> bestParents = new Dictionary<string, HexTile2>();
+
+        open.Add(startTile);
+        gValues[startTile.Key()] = 0;
+        fValues[startTile.Key()] = gValues[startTile.Key()] + ManhattanDistance(startTile, endTile);
+        bestParents[startTile.Key()] = null;
 
         while (open.Count > 0)
         {
-            TileNode node = open.Dequeue();
-            string key = $"{node.tile.Controller.x}, {node.tile.Controller.y}, {node.tile.Controller.z}";
+            open.Sort((x, y) => fValues[x.Key()].CompareTo(fValues[y.Key()]));
+            HexTile2 currentTile = open.First();
+            open.Remove(currentTile);
 
-            if (node.tile == endTile)
+            closed.Add(currentTile.Key());
+
+            if (currentTile == endTile)
             {
-                return Backtrace(node);
+                return Backtrace(currentTile, bestParents);
             }
 
-            List<HexTile2> neighbors = getNeighbors(node.tile);
+            List<HexTile2> neighbors = getNeighbors(currentTile);
+            neighbors.RemoveAll(item => !item.controller.isEnabled);
 
             foreach (HexTile2 neighbor in neighbors)
             {
-                string neighborKey = $"{neighbor.Controller.x}, {neighbor.Controller.y}, {neighbor.Controller.z}";
+                if (closed.Contains(neighbor.Key())) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
-                if (!closed.ContainsKey(neighborKey) && neighbor.Controller.enabled)
+                if (!neighbor.enabled) // Ignore disabled nodes.
                 {
-                    closed.Add(neighborKey, new TileNode(neighbor, node, node.depth + 1, 0));
-                    open.Enqueue(new TileNode(neighbor, node, node.depth + 1, 0));
+                    closed.Add(neighbor.Key());
+                    continue;
                 }
+
+                int g = gValues[currentTile.Key()] + 1;
+
+                if (!open.Contains(neighbor))
+                {
+                    open.Add(neighbor);
+                }
+                else if (gValues[neighbor.Key()] < g) continue; // Not a better path
+
+                // Best path so far
+                bestParents[neighbor.Key()] = currentTile;
+
+                gValues[neighbor.Key()] = g;
+                fValues[neighbor.Key()] = g + ManhattanDistance(neighbor, endTile);
             }
         }
 
         return new List<HexTile2>();
     }
 
-    private List<HexTile2> Backtrace(TileNode goalNode)
+    private List<HexTile2> Backtrace(HexTile2 goalNode, Dictionary<string, HexTile2> bestParents)
     {
-        List<HexTile2> path = new List<HexTile2>();
-        TileNode node = goalNode;
+        HexTile2 node = goalNode;
+        List<HexTile2> path = new List<HexTile2> { goalNode };
 
-        while (node.parent != null)
+        while (bestParents[node.Key()])
         {
-            path.Add(node.tile);
+            HexTile2 parent = bestParents[node.Key()];
+            path.Add(parent);
 
-            node = node.parent;
+            node = parent;
         }
 
         path.Reverse();
         return path;
+    }
+
+    public int ManhattanDistance(HexTile2 startTile, HexTile2 endTile)
+    {
+        int startX = startTile.controller.x;
+        int startY = startTile.controller.y;
+        int startZ = startTile.controller.z;
+        int endX = endTile.controller.x;
+        int endY = endTile.controller.y;
+        int endZ = endTile.controller.z;
+
+        int xDistance = Math.Abs(startX - endX);
+        int yDistance = Math.Abs(startY - endY);
+        int zDistance = Math.Abs(startZ - endZ);
+
+        return (xDistance + yDistance + zDistance) / 2;
     }
 }
