@@ -4,10 +4,9 @@ using System;
 using System.Linq;
 
 [System.Serializable]
-public class GridController {
+public class GridController : IGridSelectionController {
 
     public Dictionary<Tuple<int, int, int>, HexTile2> hexTiles;
-    private HexTile2[] hexTilesArray;
     public int majorAxisLength;
 
     public List<HexTile2> selectedTiles;
@@ -24,8 +23,6 @@ public class GridController {
 
         for (int i = 0; i < hexTiles.Length; i++)
         {
-            hexTilesArray = hexTiles;
-
             HexTile2 hexTile = hexTiles[i];
             int col = i % majorAxisLength;
             int row = i / majorAxisLength;
@@ -39,16 +36,12 @@ public class GridController {
             hexTile.controller.z = cubeZ;
 
             this.hexTiles.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
-
-            ArrangeHexTiles();
         }
-    }
 
-    private void ArrangeHexTiles()
-    {
-        for (int i = 0; i < hexTilesArray.Length; i++)
+        // Arrange hex tiles
+        for (int i = 0; i < hexTiles.Length; i++)
         {
-            HexTile2 hexTile = hexTilesArray[i];
+            HexTile2 hexTile = hexTiles[i];
             int col = i % majorAxisLength;
             int row = i / majorAxisLength;
 
@@ -58,6 +51,28 @@ public class GridController {
 
             hexTile.gameObject.transform.position = new Vector3(col * meshSize.x + rowOffset, 0, -(row * 0.75f * meshSize.z));
         }
+    }
+
+    #region IGridSelectionController implementation
+
+    public void AddSelectedTile(HexTile2 selectedTile)
+    {
+        selectedTiles.Add(selectedTile);
+    }
+
+    public bool RemovedSelectedTile(HexTile2 removedTile)
+    {
+        return selectedTiles.Remove(removedTile);
+    }
+
+    public void AddHoveredTile(HexTile2 hoveredTile)
+    {
+        hoveredTiles.Add(hoveredTile);
+    }
+
+    public bool RemoveHoveredTile(HexTile2 removedTile)
+    {
+        return hoveredTiles.Remove(removedTile);
     }
 
     public void DeselectAll()
@@ -76,7 +91,25 @@ public class GridController {
         }
     }
 
-    public HexTile2 getNorthEast(HexTile2 tile)
+    public void DrawPath(HexTile2 endTile)
+    {
+        if (selectedTiles.Count > 0)
+        {
+            foreach (HexTile2 startTile in selectedTiles)
+            {
+                List<HexTile2> path = GetPath(startTile, endTile);
+
+                foreach (HexTile2 tile in path)
+                {
+                    tile.controller.Hover();
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    public HexTile2 GetNorthEast(HexTile2 tile)
     {
         HexTile2 neighborNorthEast;
         int x = tile.controller.x + 1;
@@ -88,7 +121,7 @@ public class GridController {
         return neighborNorthEast;
     }
 
-    public HexTile2 getEast(HexTile2 tile)
+    public HexTile2 GetEast(HexTile2 tile)
     {
         HexTile2 neighborEast;
         int x = tile.controller.x + 1;
@@ -100,7 +133,7 @@ public class GridController {
         return neighborEast;
     }
 
-    public HexTile2 getSouthEast(HexTile2 tile)
+    public HexTile2 GetSouthEast(HexTile2 tile)
     {
         HexTile2 neighborSouthEast;
         int x = tile.controller.x;
@@ -112,7 +145,7 @@ public class GridController {
         return neighborSouthEast;
     }
 
-    public HexTile2 getSouthWest(HexTile2 tile)
+    public HexTile2 GetSouthWest(HexTile2 tile)
     {
         HexTile2 neighborSouthWest;
         int x = tile.controller.x - 1;
@@ -124,7 +157,7 @@ public class GridController {
         return neighborSouthWest;
     }
 
-    public HexTile2 getWest(HexTile2 tile)
+    public HexTile2 GetWest(HexTile2 tile)
     {
         HexTile2 neighborWest;
         int x = tile.controller.x - 1;
@@ -136,7 +169,7 @@ public class GridController {
         return neighborWest;
     }
 
-    public HexTile2 getNorthWest(HexTile2 tile)
+    public HexTile2 GetNorthWest(HexTile2 tile)
     {
         HexTile2 neighborNorthWest;
         int x = tile.controller.x;
@@ -148,16 +181,16 @@ public class GridController {
         return neighborNorthWest;
     }
 
-    public List<HexTile2> getNeighbors(HexTile2 tile)
+    public List<HexTile2> GetNeighbors(HexTile2 tile)
     {
         List<HexTile2> neighbors = new List<HexTile2>
         {
-            getNorthEast(tile),
-            getEast(tile),
-            getSouthEast(tile),
-            getSouthWest(tile),
-            getWest(tile),
-            getNorthWest(tile)
+            GetNorthEast(tile),
+            GetEast(tile),
+            GetSouthEast(tile),
+            GetSouthWest(tile),
+            GetWest(tile),
+            GetNorthWest(tile)
         };
 
         neighbors.RemoveAll(item => item == null);
@@ -165,7 +198,7 @@ public class GridController {
         return neighbors;
     }
 
-    public List<HexTile2> getPath(HexTile2 startTile, HexTile2 endTile)
+    public List<HexTile2> GetPath(HexTile2 startTile, HexTile2 endTile)
     {
         List<HexTile2> open = new List<HexTile2>();
         HashSet<string> closed = new HashSet<string>();
@@ -191,7 +224,7 @@ public class GridController {
                 return Backtrace(currentTile, bestParents);
             }
 
-            List<HexTile2> neighbors = getNeighbors(currentTile);
+            List<HexTile2> neighbors = GetNeighbors(currentTile);
             neighbors.RemoveAll(item => !item.controller.isEnabled);
 
             foreach (HexTile2 neighbor in neighbors)
@@ -223,10 +256,10 @@ public class GridController {
         return new List<HexTile2>();
     }
 
-    private List<HexTile2> Backtrace(HexTile2 goalNode, Dictionary<string, HexTile2> bestParents)
+    private List<HexTile2> Backtrace(HexTile2 goalTile, Dictionary<string, HexTile2> bestParents)
     {
-        HexTile2 node = goalNode;
-        List<HexTile2> path = new List<HexTile2> { goalNode };
+        HexTile2 node = goalTile;
+        List<HexTile2> path = new List<HexTile2> { goalTile };
 
         while (bestParents[node.Key()])
         {
@@ -240,7 +273,7 @@ public class GridController {
         return path;
     }
 
-    public int ManhattanDistance(HexTile2 startTile, HexTile2 endTile)
+    private int ManhattanDistance(HexTile2 startTile, HexTile2 endTile)
     {
         int startX = startTile.controller.x;
         int startY = startTile.controller.y;
