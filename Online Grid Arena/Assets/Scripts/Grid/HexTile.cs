@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class HexTile : MonoBehaviour, IHexTileSelectionController
+public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 {
     public HexTileController controller;
     public HexTileDefinition materials;
@@ -14,6 +14,7 @@ public class HexTile : MonoBehaviour, IHexTileSelectionController
     {
         controller.HexTileSelectionController = this;
         controller.GridSelectionController = GetComponentInParent<Grid>().Controller;
+        controller.HexTile = this;
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
@@ -71,6 +72,11 @@ public class HexTile : MonoBehaviour, IHexTileSelectionController
     public string Key()
     {
         return $"{controller.X}, {controller.Y}, {controller.Z}";
+    }
+
+    public HexTileController Controller()
+    {
+        return controller;
     }
 }
 
