@@ -9,13 +9,13 @@ public class HexTileController
     public bool IsSelected { get; set; }
 
     public IHexTileSelectionController HexTileSelectionController { get; set; }
-    public IGridSelectionController GridSelectionController  { get; set; }
-
+    public IGridSelectionController GridSelectionController { get; set; }
+    
     public void HoverPathfinding()
     {
         GridSelectionController.BlurAll();
         Hover();
-        GridSelectionController.DrawPath((HexTile) HexTileSelectionController);
+        GridSelectionController.DrawPath((HexTile)HexTileSelectionController);
     }
 
     public void Select()

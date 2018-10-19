@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public class Grid : MonoBehaviour {
-
+public class Grid : MonoBehaviour
+{
     public GridController Controller;
 
     private void OnValidate()

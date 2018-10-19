@@ -3,9 +3,9 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-[System.Serializable]
-public class GridController : IGridSelectionController {
-
+[Serializable]
+public class GridController : IGridSelectionController
+{
     public Dictionary<Tuple<int, int, int>, HexTile> hexTiles;
     public int majorAxisLength;
 
