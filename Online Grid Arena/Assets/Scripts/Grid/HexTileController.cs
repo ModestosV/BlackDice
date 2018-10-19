@@ -1,5 +1,4 @@
-﻿
-[System.Serializable]
+﻿[System.Serializable]
 public class HexTileController
 {
     public int X { get; set; }
@@ -12,16 +11,11 @@ public class HexTileController
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController  { get; set; }
 
-    public void OnMouseEnter()
+    public void HoverPathfinding()
     {
         GridSelectionController.BlurAll();
         Hover();
         GridSelectionController.DrawPath((HexTile) HexTileSelectionController);
-    }
-
-    public void OnMouseExit()
-    {
-        Blur();
     }
 
     public void Select()
