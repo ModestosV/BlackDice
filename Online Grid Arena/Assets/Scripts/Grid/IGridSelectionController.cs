@@ -1,7 +1,7 @@
 ﻿public interface IGridSelectionController
 {
     void AddSelectedTile(IHexTile selectedTile);
-    bool RemovedSelectedTile(IHexTile removedTile);
+    bool RemoveSelectedTile(IHexTile removedTile);
     void AddHoveredTile(IHexTile hoveredTile);
     bool RemoveHoveredTile(IHexTile removedTile);
     void AddPathTile(IHexTile hoveredTile);

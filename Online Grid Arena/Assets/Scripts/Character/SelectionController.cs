@@ -41,7 +41,7 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (hitTile.Controller().occupantCharacter == SelectedCharacter)
+                    if (hitTile.Controller().OccupantCharacter == SelectedCharacter)
                     {
                         hitTile.Controller().Select();
                     } else
@@ -80,13 +80,13 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
     public void MoveCharacter(ICharacter character, IHexTile endTile)
     {
         character.GetOccupiedTile().Controller().Deselect();
-        character.GetOccupiedTile().Controller().occupantCharacter = null;
+        character.GetOccupiedTile().Controller().OccupantCharacter = null;
 
 
         endTile.SetChild(character.GetGameObject());
         character.GetGameObject().transform.localPosition = new Vector3(0, 0, 0);
 
-        endTile.Controller().occupantCharacter = character;
+        endTile.Controller().OccupantCharacter = character;
         endTile.Controller().Select();
     }
 

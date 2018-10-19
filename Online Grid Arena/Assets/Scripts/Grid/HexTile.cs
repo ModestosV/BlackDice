@@ -10,8 +10,8 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        controller.occupantCharacter = GetComponentInChildren<Character>();
-        controller.selectionController = FindObjectOfType<SelectionController>();
+        controller.OccupantCharacter = GetComponentInChildren<Character>();
+        controller.CharacterSelectionController = FindObjectOfType<SelectionController>();
     }
 
     private void Start()
