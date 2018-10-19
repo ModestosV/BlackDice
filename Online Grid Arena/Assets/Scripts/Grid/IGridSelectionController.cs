@@ -1,5 +1,4 @@
-﻿
-public interface IGridSelectionController
+﻿public interface IGridSelectionController
 {
     void AddSelectedTile(IHexTile selectedTile);
     bool RemovedSelectedTile(IHexTile removedTile);

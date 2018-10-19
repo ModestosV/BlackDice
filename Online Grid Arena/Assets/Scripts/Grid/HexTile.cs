@@ -10,6 +10,8 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
+        controller.occupantCharacter = GetComponentInChildren<Character>();
+        controller.selectionController = FindObjectOfType<SelectionController>();
     }
 
     private void Start()
@@ -21,25 +23,9 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
-    private void OnMouseEnter()
-    {
-        controller.HoverPathfinding();
-    }
-
     private void OnMouseExit()
     {
         controller.Blur();
-    }
-
-    private void OnMouseDown()
-    {
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            controller.MultiSelect();
-        } else
-        {
-            controller.Select();
-        }
     }
 
     #region ISelectionController implementation
@@ -61,7 +47,16 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 
     public void Deselect()
     {
-        GetComponent<Renderer>().material = materials.DefaultMaterial;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.GetComponent<HexTile>() == this)
+        {
+            GetComponent<Renderer>().material = materials.HoveredMaterial;
+        } else
+        {
+            GetComponent<Renderer>().material = materials.DefaultMaterial;
+        }
     }
 
     public void MarkPath()
@@ -81,14 +76,23 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
         return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
     }
 
-    public Tuple<int, int, int> Coordinates()
-    {
-        return new Tuple<int, int, int>(controller.X, controller.Y, controller.Z);
-    }
+    #region IHexTile implementation
 
     public HexTileController Controller()
     {
         return controller;
     }
+
+    public Tuple<int, int, int> Coordinates()
+    {
+        return new Tuple<int, int, int>(controller.X, controller.Y, controller.Z);
+    }
+
+    public void SetChild(GameObject childObject)
+    {
+        childObject.transform.parent = gameObject.transform;
+    }
+
+    #endregion
 }
 

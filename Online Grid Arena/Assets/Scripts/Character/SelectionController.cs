@@ -1,65 +1,94 @@
 ﻿using UnityEngine;
 
-public class SelectionController : MonoBehaviour
+public class SelectionController : MonoBehaviour, ICharacterSelectionController, ICharacterMovementController
 {
     [SerializeField] public StatPanel statPanel;
-    public GameObject selectionHalo;
-    private Character selectedCharacter;
+    public ICharacter SelectedCharacter { get; set; }
+    public IGridSelectionController GridSelectionController;
+
+    private void Start()
+    {
+        GridSelectionController = FindObjectOfType<Grid>().Controller;
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
+        {
+            GameObject hitObject = hit.collider.gameObject;
+            if (hitObject.tag != "Character" && hitObject.tag != "Tile") return;
+
+            IHexTile hitTile = null;
+            if (hitObject.tag == "Tile")
             {
-                if (hit.collider.gameObject.tag == "Player")
+                hitTile = hitObject.GetComponent<HexTile>();
+                if (!hitTile.Controller().IsEnabled)
                 {
-                    if (hit.collider.gameObject.transform.parent.tag != "Active_Character")
+                    GridSelectionController.ScrubPathAll();
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        SelectCharacter(hit);
+                        GridSelectionController.DeselectAll();
+                        SelectedCharacter = null;
                     }
-                }
-                else if (hit.collider.tag == "Ground" && GameObject.FindGameObjectsWithTag("Active_Character").Length != 0)
-                {
-                    GameObject active = GameObject.FindGameObjectsWithTag("Active_Character")[0];
-                    Vector3 newPos = new Vector3(hit.point.x, active.transform.position.y, hit.point.z);
-                    active.transform.position = newPos;
+                    return;
                 }
             }
 
-
-        }
-        if (Input.GetMouseButtonDown(1) && GameObject.FindGameObjectsWithTag("Active_Character").Length != 0)
+            if (SelectedCharacter != null)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (hitTile.Controller().occupantCharacter == SelectedCharacter)
+                    {
+                        hitTile.Controller().Select();
+                    } else
+                    {
+                        MoveCharacter(SelectedCharacter, hitTile);
+                    }
+                } else
+                {
+                    hitTile.Controller().HoverPathfinding();
+                }
+            } else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    hitTile.Controller().Select();
+                }
+                else
+                {
+                    hitTile.Controller().Hover();
+                }
+            }
+        } else
         {
-            statPanel.gameObject.SetActive(false);
-            selectionHalo.gameObject.SetActive(false);
-
-            var deselectedCharacter = GameObject.FindGameObjectsWithTag("Active_Character")[0];
-            deselectedCharacter.tag = "Player";
-
-            Debug.Log(string.Format("Deselected {0}", deselectedCharacter.GetComponentInParent<Character>()));
+            GridSelectionController.ScrubPathAll();
+            if (Input.GetMouseButtonDown(0))
+                GridSelectionController.DeselectAll();
         }
     }
-    
-    private void SelectCharacter(RaycastHit hit)
+        
+    #region ICharacterSelectionController implementation
+
+    #endregion
+
+    #region ICharacterMovementController implementation
+
+    public void MoveCharacter(ICharacter character, IHexTile endTile)
     {
-        foreach (GameObject focus in GameObject.FindGameObjectsWithTag("Active_Character"))
-        {
-            focus.tag = "Player";
-        }
-        hit.collider.gameObject.transform.parent.tag = "Active_Character";
-        statPanel.gameObject.SetActive(true);
-        selectedCharacter = hit.collider.gameObject.GetComponentInParent<Character>();
-        statPanel.SetStats(selectedCharacter.controller.health, selectedCharacter.controller.damage);
-        statPanel.UpdateStatValues();
+        character.GetOccupiedTile().Controller().Deselect();
+        character.GetOccupiedTile().Controller().occupantCharacter = null;
 
-        selectionHalo.gameObject.SetActive(true);
-        selectionHalo.gameObject.transform.SetParent(hit.collider.gameObject.transform.parent.gameObject.transform);
-        selectionHalo.gameObject.transform.localPosition = new Vector3(0.0f, -0.99f, -1.0f);
 
-        Debug.Log(string.Format("Selected {0}", selectedCharacter));
+        endTile.SetChild(character.GetGameObject());
+        character.GetGameObject().transform.localPosition = new Vector3(0, 0, 0);
+
+        endTile.Controller().occupantCharacter = character;
+        endTile.Controller().Select();
     }
+
+    #endregion
 }

@@ -41,7 +41,8 @@ public class HexTileControllerTests
             GridSelectionController = gridSelectionController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
-            IsSelected = true
+            IsSelected = true,
+            IsEnabled = true
         };
 
         sut.Select();
@@ -58,7 +59,8 @@ public class HexTileControllerTests
             GridSelectionController = gridSelectionController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
-            IsSelected = false
+            IsSelected = false,
+            IsEnabled = true
         };
 
         sut.Select();

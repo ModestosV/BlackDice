@@ -6,12 +6,12 @@ using System.Linq;
 [Serializable]
 public class GridController : IGridSelectionController
 {
-    public Dictionary<Tuple<int, int, int>, IHexTile> hexTiles;
+    private Dictionary<Tuple<int, int, int>, IHexTile> hexTiles;
     public int majorAxisLength;
 
-    public List<IHexTile> selectedTiles;
-    public List<IHexTile> hoveredTiles;
-    public List<IHexTile> pathTiles;
+    private List<IHexTile> selectedTiles;
+    private List<IHexTile> hoveredTiles;
+    private List<IHexTile> pathTiles;
 
     public void Init()
     {
