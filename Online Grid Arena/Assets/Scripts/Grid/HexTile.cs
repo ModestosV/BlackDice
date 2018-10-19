@@ -5,11 +5,11 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 {
     public HexTileController controller;
     public HexTileMaterialSet materials;
-    private Material lastMaterial;
 
     private void OnValidate()
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
+        GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
     private void Start()
