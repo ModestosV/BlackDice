@@ -31,9 +31,9 @@ public class GridController : IGridSelectionController {
             int cubeY = -(col + (row + 1) / 2);
             int cubeZ = row;
 
-            hexTile.controller.x = cubeX;
-            hexTile.controller.y = cubeY;
-            hexTile.controller.z = cubeZ;
+            hexTile.controller.X = cubeX;
+            hexTile.controller.Y = cubeY;
+            hexTile.controller.Z = cubeZ;
 
             this.hexTiles.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
         }
@@ -112,9 +112,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetNorthEast(HexTile tile)
     {
         HexTile neighborNorthEast;
-        int x = tile.controller.x + 1;
-        int y = tile.controller.y;
-        int z = tile.controller.z - 1;
+        int x = tile.controller.X + 1;
+        int y = tile.controller.Y;
+        int z = tile.controller.Z - 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
 
         //Debug.Log($"NE: {neighborNorthEast}");
@@ -124,9 +124,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetEast(HexTile tile)
     {
         HexTile neighborEast;
-        int x = tile.controller.x + 1;
-        int y = tile.controller.y - 1;
-        int z = tile.controller.z;
+        int x = tile.controller.X + 1;
+        int y = tile.controller.Y - 1;
+        int z = tile.controller.Z;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
 
         //Debug.Log($"E: {neighborEast}");
@@ -136,9 +136,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetSouthEast(HexTile tile)
     {
         HexTile neighborSouthEast;
-        int x = tile.controller.x;
-        int y = tile.controller.y - 1;
-        int z = tile.controller.z + 1;
+        int x = tile.controller.X;
+        int y = tile.controller.Y - 1;
+        int z = tile.controller.Z + 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
 
         //Debug.Log($"SE: {neighborSouthEast}");
@@ -148,9 +148,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetSouthWest(HexTile tile)
     {
         HexTile neighborSouthWest;
-        int x = tile.controller.x - 1;
-        int y = tile.controller.y;
-        int z = tile.controller.z + 1;
+        int x = tile.controller.X - 1;
+        int y = tile.controller.Y;
+        int z = tile.controller.Z + 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
 
         //Debug.Log($"SW: {neighborSouthWest}");
@@ -160,9 +160,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetWest(HexTile tile)
     {
         HexTile neighborWest;
-        int x = tile.controller.x - 1;
-        int y = tile.controller.y + 1;
-        int z = tile.controller.z;
+        int x = tile.controller.X - 1;
+        int y = tile.controller.Y + 1;
+        int z = tile.controller.Z;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
 
         //Debug.Log($"W: {neighborWest}");
@@ -172,9 +172,9 @@ public class GridController : IGridSelectionController {
     public HexTile GetNorthWest(HexTile tile)
     {
         HexTile neighborNorthWest;
-        int x = tile.controller.x;
-        int y = tile.controller.y + 1;
-        int z = tile.controller.z - 1;
+        int x = tile.controller.X;
+        int y = tile.controller.Y + 1;
+        int z = tile.controller.Z - 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
 
         //Debug.Log($"NW: {neighborNorthWest}");
@@ -225,7 +225,7 @@ public class GridController : IGridSelectionController {
             }
 
             List<HexTile> neighbors = GetNeighbors(currentTile);
-            neighbors.RemoveAll(item => !item.controller.isEnabled);
+            neighbors.RemoveAll(item => !item.controller.IsEnabled);
 
             foreach (HexTile neighbor in neighbors)
             {
@@ -275,12 +275,12 @@ public class GridController : IGridSelectionController {
 
     private int ManhattanDistance(HexTile startTile, HexTile endTile)
     {
-        int startX = startTile.controller.x;
-        int startY = startTile.controller.y;
-        int startZ = startTile.controller.z;
-        int endX = endTile.controller.x;
-        int endY = endTile.controller.y;
-        int endZ = endTile.controller.z;
+        int startX = startTile.controller.X;
+        int startY = startTile.controller.Y;
+        int startZ = startTile.controller.Z;
+        int endX = endTile.controller.X;
+        int endY = endTile.controller.Y;
+        int endZ = endTile.controller.Z;
 
         int xDistance = Math.Abs(startX - endX);
         int yDistance = Math.Abs(startY - endY);

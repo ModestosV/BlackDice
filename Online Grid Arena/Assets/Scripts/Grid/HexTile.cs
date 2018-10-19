@@ -13,7 +13,7 @@ public class HexTile : MonoBehaviour, IHexTileSelectionController
     private void Start()
     {
         controller.HexTileSelectionController = this;
-        controller.SetGridSelectionController = GetComponentInParent<Grid>().Controller;
+        controller.GridSelectionController = GetComponentInParent<Grid>().Controller;
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
