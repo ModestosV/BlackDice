@@ -21,7 +21,10 @@ public class HexTileController
 
     public void Select()
     {
+        if (!IsEnabled) return;
+
         GridSelectionController.BlurAll();
+        GridSelectionController.ScrubPathAll();
         if (!IsSelected)
         {
             GridSelectionController.DeselectAll();
@@ -39,6 +42,8 @@ public class HexTileController
 
     public void MultiSelect()
     {
+        if (!IsEnabled) return;
+
         if (!IsSelected)
         {
             IsSelected = true;
@@ -49,6 +54,8 @@ public class HexTileController
 
     public void Hover()
     {
+        if (!IsEnabled) return;
+
         if (!IsSelected)
         {
             HexTileSelectionController.Hover();
@@ -58,6 +65,8 @@ public class HexTileController
 
     public void Blur()
     {
+        if (!IsEnabled) return;
+
         if (!IsSelected)
         {
             HexTileSelectionController.Blur();
@@ -67,6 +76,8 @@ public class HexTileController
 
     public void Deselect()
     {
+        if (!IsEnabled) return;
+
         if (IsSelected)
         {
             IsSelected = false;
@@ -77,6 +88,8 @@ public class HexTileController
 
     public void MarkPath()
     {
+        if (!IsEnabled) return;
+
         if (!IsSelected)
         {
             HexTileSelectionController.MarkPath();
@@ -86,6 +99,8 @@ public class HexTileController
 
     public void ScrubPath()
     {
+        if (!IsEnabled) return;
+
         if (!IsSelected)
         {
             HexTileSelectionController.ScrubPath();
