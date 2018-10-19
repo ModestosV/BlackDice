@@ -20,12 +20,12 @@ public class HexTile : MonoBehaviour, IHexTileSelectionController
 
     private void OnMouseEnter()
     {
-        controller.OnMouseEnter();
+        controller.HoverPathfinding();
     }
 
     private void OnMouseExit()
     {
-        controller.OnMouseExit();
+        controller.Blur();
     }
 
     private void OnMouseDown()
