@@ -14,7 +14,7 @@ public class HexTileController
     
     public void HoverPathfinding()
     {
-        GridSelectionController.BlurAll();
+        GridSelectionController.ScrubPathAll();
         Hover();
         GridSelectionController.DrawPath(HexTile);
     }
@@ -72,6 +72,24 @@ public class HexTileController
             IsSelected = false;
             HexTileSelectionController.Deselect();
             GridSelectionController.RemovedSelectedTile(HexTile);
+        }
+    }
+
+    public void MarkPath()
+    {
+        if (!IsSelected)
+        {
+            HexTileSelectionController.MarkPath();
+            GridSelectionController.AddPathTile(HexTile);
+        }
+    }
+
+    public void ScrubPath()
+    {
+        if (!IsSelected)
+        {
+            HexTileSelectionController.ScrubPath();
+            GridSelectionController.RemovePathTile(HexTile);
         }
     }
 }

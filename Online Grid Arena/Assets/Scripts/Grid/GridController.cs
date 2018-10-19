@@ -11,11 +11,13 @@ public class GridController : IGridSelectionController
 
     public List<IHexTile> selectedTiles;
     public List<IHexTile> hoveredTiles;
+    public List<IHexTile> pathTiles;
 
     public void Init()
     {
         selectedTiles = new List<IHexTile>();
         hoveredTiles = new List<IHexTile>();
+        pathTiles = new List<IHexTile>();
     }
 
     public void SetHexTiles(HexTile[] hexTiles)
@@ -76,6 +78,16 @@ public class GridController : IGridSelectionController
         return hoveredTiles.Remove(removedTile);
     }
 
+    public void AddPathTile(IHexTile pathTile)
+    {
+        pathTiles.Add(pathTile);
+    }
+
+    public bool RemovePathTile(IHexTile pathTile)
+    {
+        return pathTiles.Remove(pathTile);
+    }
+
     public void DeselectAll()
     {
         for (int i = selectedTiles.Count - 1; i >= 0; i--)
@@ -92,6 +104,14 @@ public class GridController : IGridSelectionController
         }
     }
 
+    public void ScrubPathAll()
+    {
+        for (int i = pathTiles.Count - 1; i >= 0; i--)
+        {
+            pathTiles[i].Controller().ScrubPath();
+        }
+    }
+
     public void DrawPath(IHexTile endTile)
     {
         if (selectedTiles.Count > 0)
@@ -102,7 +122,7 @@ public class GridController : IGridSelectionController
 
                 foreach (IHexTile tile in path)
                 {
-                    tile.Controller().Hover();
+                    tile.Controller().MarkPath();
                 }
             }
         }

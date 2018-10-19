@@ -4,4 +4,6 @@
     void Blur();
     void Select();
     void Deselect();
+    void MarkPath();
+    void ScrubPath();
 }

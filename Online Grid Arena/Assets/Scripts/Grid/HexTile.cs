@@ -4,7 +4,8 @@ using UnityEngine;
 public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 {
     public HexTileController controller;
-    public HexTileDefinition materials;
+    public HexTileMaterialSet materials;
+    private Material lastMaterial;
 
     private void OnValidate()
     {
@@ -59,6 +60,16 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     }
 
     public void Deselect()
+    {
+        GetComponent<Renderer>().material = materials.DefaultMaterial;
+    }
+
+    public void MarkPath()
+    {
+        GetComponent<Renderer>().material = materials.PathMaterial;
+    }
+
+    public void ScrubPath()
     {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
