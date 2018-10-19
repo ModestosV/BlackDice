@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 {
@@ -69,9 +70,9 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
         return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
     }
 
-    public string Key()
+    public Tuple<int, int, int> Coordinates()
     {
-        return $"{controller.X}, {controller.Y}, {controller.Z}";
+        return new Tuple<int, int, int>(controller.X, controller.Y, controller.Z);
     }
 
     public HexTileController Controller()

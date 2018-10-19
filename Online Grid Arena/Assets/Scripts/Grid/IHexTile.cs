@@ -1,5 +1,7 @@
-﻿public interface IHexTile
+﻿using System;
+
+public interface IHexTile
 {
     HexTileController Controller();
-    string Key();
+    Tuple<int, int, int> Coordinates();
 }

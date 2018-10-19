@@ -202,23 +202,23 @@ public class GridController : IGridSelectionController
     public List<IHexTile> GetPath(IHexTile startTile, IHexTile endTile)
     {
         List<IHexTile> open = new List<IHexTile>();
-        HashSet<string> closed = new HashSet<string>();
-        Dictionary<string, int> fValues = new Dictionary<string, int>();
-        Dictionary<string, int> gValues = new Dictionary<string, int>();
-        Dictionary<string, IHexTile> bestParents = new Dictionary<string, IHexTile>();
+        HashSet<Tuple<int, int, int>> closed = new HashSet<Tuple<int, int, int>>();
+        Dictionary<Tuple<int, int, int>, int> fValues = new Dictionary<Tuple<int, int, int>, int>();
+        Dictionary<Tuple<int, int, int>, int> gValues = new Dictionary<Tuple<int, int, int>, int>();
+        Dictionary<Tuple<int, int, int>, IHexTile> bestParents = new Dictionary<Tuple<int, int, int>, IHexTile>();
 
         open.Add(startTile);
-        gValues[startTile.Key()] = 0;
-        fValues[startTile.Key()] = gValues[startTile.Key()] + ManhattanDistance(startTile, endTile);
-        bestParents[startTile.Key()] = null;
+        gValues[startTile.Coordinates()] = 0;
+        fValues[startTile.Coordinates()] = gValues[startTile.Coordinates()] + ManhattanDistance(startTile, endTile);
+        bestParents[startTile.Coordinates()] = null;
 
         while (open.Count > 0)
         {
-            open.Sort((x, y) => fValues[x.Key()].CompareTo(fValues[y.Key()]));
+            open.Sort((x, y) => fValues[x.Coordinates()].CompareTo(fValues[y.Coordinates()]));
             IHexTile currentTile = open.First();
             open.Remove(currentTile);
 
-            closed.Add(currentTile.Key());
+            closed.Add(currentTile.Coordinates());
 
             if (currentTile == endTile)
             {
@@ -230,41 +230,41 @@ public class GridController : IGridSelectionController
 
             foreach (IHexTile neighbor in neighbors)
             {
-                if (closed.Contains(neighbor.Key())) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
+                if (closed.Contains(neighbor.Coordinates())) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
                 if (!neighbor.Controller().IsEnabled) // Ignore disabled nodes.
                 {
-                    closed.Add(neighbor.Key());
+                    closed.Add(neighbor.Coordinates());
                     continue;
                 }
 
-                int g = gValues[currentTile.Key()] + 1;
+                int g = gValues[currentTile.Coordinates()] + 1;
 
                 if (!open.Contains(neighbor))
                 {
                     open.Add(neighbor);
                 }
-                else if (gValues[neighbor.Key()] < g) continue; // Not a better path
+                else if (gValues[neighbor.Coordinates()] < g) continue; // Not a better path
 
                 // Best path so far
-                bestParents[neighbor.Key()] = currentTile;
+                bestParents[neighbor.Coordinates()] = currentTile;
 
-                gValues[neighbor.Key()] = g;
-                fValues[neighbor.Key()] = g + ManhattanDistance(neighbor, endTile);
+                gValues[neighbor.Coordinates()] = g;
+                fValues[neighbor.Coordinates()] = g + ManhattanDistance(neighbor, endTile);
             }
         }
 
         return new List<IHexTile>();
     }
 
-    private List<IHexTile> Backtrace(IHexTile goalTile, Dictionary<string, IHexTile> bestParents)
+    private List<IHexTile> Backtrace(IHexTile goalTile, Dictionary<Tuple<int, int, int>, IHexTile> bestParents)
     {
         IHexTile node = goalTile;
         List<IHexTile> path = new List<IHexTile> { goalTile };
 
-        while (bestParents[node.Key()] != null)
+        while (bestParents[node.Coordinates()] != null)
         {
-            IHexTile parent = bestParents[node.Key()];
+            IHexTile parent = bestParents[node.Coordinates()];
             path.Add(parent);
 
             node = parent;
