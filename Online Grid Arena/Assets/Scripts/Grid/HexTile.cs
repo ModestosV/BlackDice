@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
-public class HexTile : MonoBehaviour, IHexTileSelectionController {
-
+public class HexTile : MonoBehaviour, IHexTileSelectionController
+{
     public HexTileController controller;
     public HexTileDefinition materials;
 
     private void OnValidate()
     {
-        controller.isEnabled = GetComponent<Renderer>().enabled;
+        controller.IsEnabled = GetComponent<Renderer>().enabled;
     }
 
     private void Start()
     {
-        controller.SetHexTileSelectionController(this);
-        controller.SetGridSelectionController(GetComponentInParent<Grid>().Controller);
+        controller.HexTileSelectionController = this;
+        controller.SetGridSelectionController = GetComponentInParent<Grid>().Controller;
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
@@ -65,12 +65,12 @@ public class HexTile : MonoBehaviour, IHexTileSelectionController {
 
     public override string ToString()
     {
-        return $"HexTile|x: {controller.x}, y: {controller.y}, z: {controller.z}";
+        return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
     }
 
     public string Key()
     {
-        return $"{controller.x}, {controller.y}, {controller.z}";
+        return $"{controller.X}, {controller.Y}, {controller.Z}";
     }
 }
 

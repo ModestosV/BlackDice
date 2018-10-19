@@ -1,32 +1,22 @@
 ﻿
 [System.Serializable]
-public class HexTileController {
+public class HexTileController
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Z { get; set; }
 
-    public int x;
-    public int y;
-    public int z;
+    public bool IsEnabled { get; set; }
+    public bool IsSelected { get; set; }
 
-    public bool isEnabled;
-    public bool isSelected;
-
-    public IHexTileSelectionController hexTileSelectionController;
-    public IGridSelectionController gridSelectionController;
-
-    public void SetHexTileSelectionController(IHexTileSelectionController hexTileSelectionController)
-    {
-        this.hexTileSelectionController = hexTileSelectionController;
-    }
-
-    public void SetGridSelectionController(IGridSelectionController gridSelectionController)
-    {
-        this.gridSelectionController = gridSelectionController;
-    }
+    public IHexTileSelectionController HexTileSelectionController { get; set; }
+    public IGridSelectionController GridSelectionController  { get; set; }
 
     public void OnMouseEnter()
     {
-        gridSelectionController.BlurAll();
+        GridSelectionController.BlurAll();
         Hover();
-        gridSelectionController.DrawPath((HexTile)hexTileSelectionController);
+        GridSelectionController.DrawPath((HexTile) HexTileSelectionController);
     }
 
     public void OnMouseExit()
@@ -36,60 +26,57 @@ public class HexTileController {
 
     public void Select()
     {
-        gridSelectionController.BlurAll();
-        if (!isSelected)
+        GridSelectionController.BlurAll();
+        if (!IsSelected)
         {
-            gridSelectionController.DeselectAll();
-            isSelected = true;
-            hexTileSelectionController.Select();
-            gridSelectionController.AddSelectedTile((HexTile)hexTileSelectionController);
+            GridSelectionController.DeselectAll();
+            IsSelected = true;
+            HexTileSelectionController.Select();
+            GridSelectionController.AddSelectedTile((HexTile)HexTileSelectionController);
         }
         else
         {
-            isSelected = false;
-            hexTileSelectionController.Deselect();
-            gridSelectionController.RemovedSelectedTile((HexTile)hexTileSelectionController);
+            IsSelected = false;
+            HexTileSelectionController.Deselect();
+            GridSelectionController.RemovedSelectedTile((HexTile)HexTileSelectionController);
         }
     }
 
     public void MultiSelect()
     {
-        if (!isSelected)
+        if (!IsSelected)
         {
-            isSelected = true;
-            hexTileSelectionController.Select();
-            gridSelectionController.AddSelectedTile((HexTile)hexTileSelectionController);
+            IsSelected = true;
+            HexTileSelectionController.Select();
+            GridSelectionController.AddSelectedTile((HexTile)HexTileSelectionController);
         }
     }
 
     public void Hover()
     {
-        if (!isSelected)
+        if (!IsSelected)
         {
-            hexTileSelectionController.Hover();
-            gridSelectionController.AddHoveredTile((HexTile)hexTileSelectionController);
+            HexTileSelectionController.Hover();
+            GridSelectionController.AddHoveredTile((HexTile)HexTileSelectionController);
         }
     }
 
     public void Blur()
     {
-        if (!isSelected)
+        if (!IsSelected)
         {
-            hexTileSelectionController.Blur();
-            gridSelectionController.RemoveHoveredTile((HexTile)hexTileSelectionController);
+            HexTileSelectionController.Blur();
+            GridSelectionController.RemoveHoveredTile((HexTile)HexTileSelectionController);
         }
     }
 
     public void Deselect()
     {
-        if (isSelected)
+        if (IsSelected)
         {
-            isSelected = false;
-            hexTileSelectionController.Deselect();
-            gridSelectionController.RemovedSelectedTile((HexTile)hexTileSelectionController);
+            IsSelected = false;
+            HexTileSelectionController.Deselect();
+            GridSelectionController.RemovedSelectedTile((HexTile)HexTileSelectionController);
         }
     }
-
-
-
 }
