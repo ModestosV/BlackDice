@@ -5,8 +5,13 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
 {
     [SerializeField] public StatPanel statPanel;
 
+    #region ICharacterSelectionController implementation
+
     public ICharacter SelectedCharacter { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
+
+    #endregion
+
     public IGridTraversalController GridTraversalController { get; set; }
 
     private void Start()
@@ -36,6 +41,7 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
                     {
                         GridSelectionController.DeselectAll();
                         SelectedCharacter = null;
+                        statPanel.gameObject.SetActive(false);
                     }
                     return;
                 }
@@ -50,15 +56,20 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
                     if (hitTile.Controller().OccupantCharacter == SelectedCharacter)
                     {
                         hitTile.Controller().Select();
+                        statPanel.gameObject.SetActive(false);
                     } else if (isHitTileReachable)
                     {
-                        MoveCharacter(SelectedCharacter, hitTile);
+                        if (hitTile.Controller().OccupantCharacter == null)
+                        {
+                            MoveCharacter(SelectedCharacter, hitTile);
+                        }
                     }
-                } else if (isHitTileReachable)
+                } else if (isHitTileReachable && hitTile.Controller().OccupantCharacter == null)
                 {
                     hitTile.Controller().HoverPathfinding();
                 } else
                 {
+                    GridSelectionController.ScrubPathAll();
                     hitTile.Controller().HoverError();
                 }
             } else
@@ -66,6 +77,12 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
                 if (Input.GetMouseButtonDown(0))
                 {
                     hitTile.Controller().Select();
+                    if (SelectedCharacter != null)
+                    {
+                        statPanel.gameObject.SetActive(true);
+                        statPanel.SetStats(SelectedCharacter.Controller().health, SelectedCharacter.Controller().damage);
+                        statPanel.UpdateStatValues();
+                    }
                 }
                 else
                 {
@@ -78,6 +95,7 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
             if (Input.GetMouseButtonDown(0))
             {
                 GridSelectionController.DeselectAll();
+                statPanel.gameObject.SetActive(false);
             }
         }
 
@@ -86,10 +104,6 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
             Application.Quit();
         }
     }
-        
-    #region ICharacterSelectionController implementation
-
-    #endregion
 
     #region ICharacterMovementController implementation
 
@@ -99,8 +113,8 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
         character.GetOccupiedTile().Controller().OccupantCharacter = null;
 
 
-        endTile.SetChild(character.GetGameObject());
-        character.GetGameObject().transform.localPosition = new Vector3(0, 0, 0);
+        endTile.SetChild(character.GameObject);
+        character.GameObject.transform.localPosition = new Vector3(0, 0, 0);
 
         endTile.Controller().OccupantCharacter = character;
         endTile.Controller().Select();

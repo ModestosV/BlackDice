@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-
-public interface ICharacter : IMonoBehaviour
+﻿public interface ICharacter : IMonoBehaviour
 {
     IHexTile GetOccupiedTile();
-    GameObject GetGameObject();
+    CharacterController Controller();
 }

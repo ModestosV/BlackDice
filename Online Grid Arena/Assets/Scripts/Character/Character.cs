@@ -1,22 +1,26 @@
 ﻿using UnityEngine;
 
-public class Character : MonoBehaviour, IMonoBehaviour, ICharacter
+public class Character : MonoBehaviour, ICharacter
 {
     public CharacterController controller;
+
+    #region ICharacter implementation
 
     public IHexTile GetOccupiedTile()
     {
         return GetComponentInParent<HexTile>();
     }
 
+    public CharacterController Controller()
+    {
+        return controller;
+    }
+
+    #endregion
+
     public override string ToString()
     {
         return string.Format("(Character|{0}: {1})", this.GetHashCode(), controller.ToString());
-    }
-
-    public GameObject GetGameObject()
-    {
-        return gameObject;
     }
 
     #region IMonoBehaviour implementation
