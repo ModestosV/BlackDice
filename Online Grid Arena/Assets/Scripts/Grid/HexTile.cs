@@ -10,14 +10,14 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        controller.occupantCharacter = GetComponentInChildren<Character>();
-        controller.selectionController = FindObjectOfType<SelectionController>();
+        controller.OccupantCharacter = GetComponentInChildren<Character>();
+        controller.SelectionController = FindObjectOfType<SelectionController>();
     }
 
     private void Start()
     {
         controller.HexTileSelectionController = this;
-        controller.GridSelectionController = GetComponentInParent<Grid>().Controller;
+        controller.GridSelectionController = GetComponentInParent<Grid>().controller;
         controller.HexTile = this;
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
@@ -94,5 +94,15 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     }
 
     #endregion
+
+    #region IMonoBehaviour implementation
+
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+
+    #endregion
 }
+
 

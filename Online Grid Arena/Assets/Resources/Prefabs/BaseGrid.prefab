@@ -34004,8 +34004,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569297394d6bf7e4badd2e5aad842bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller:
-    majorAxisLength: 19
+  controller:
+    majorAxisLength: 0
 --- !u!114 &114432232553531588
 MonoBehaviour:
   m_ObjectHideFlags: 1

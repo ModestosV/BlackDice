@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public interface IHexTile
+public interface IHexTile : IMonoBehaviour
 {
     HexTileController Controller();
     Tuple<int, int, int> Coordinates();

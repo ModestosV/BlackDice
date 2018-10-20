@@ -11,9 +11,9 @@ public class HexTileController
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
     public IHexTile HexTile { get; set; }
-    public ICharacterSelectionController selectionController { get; set; }
+    public ICharacterSelectionController SelectionController { get; set; }
 
-    public ICharacter occupantCharacter { get; set; }
+    public ICharacter OccupantCharacter { get; set; }
     
     public void HoverPathfinding()
     {
@@ -34,9 +34,9 @@ public class HexTileController
             IsSelected = true;
             HexTileSelectionController.Select();
             GridSelectionController.AddSelectedTile(HexTile);
-            if (occupantCharacter != null)
+            if (OccupantCharacter != null)
             {
-                selectionController.SelectedCharacter = occupantCharacter;
+                SelectionController.SelectedCharacter = OccupantCharacter;
             }
         }
         else
@@ -44,9 +44,9 @@ public class HexTileController
             IsSelected = false;
             HexTileSelectionController.Deselect();
             GridSelectionController.RemovedSelectedTile(HexTile);
-            if (occupantCharacter != null)
+            if (OccupantCharacter != null)
             {
-                selectionController.SelectedCharacter = null;
+                SelectionController.SelectedCharacter = null;
             }
         }
     }
@@ -94,9 +94,9 @@ public class HexTileController
             IsSelected = false;
             HexTileSelectionController.Deselect();
             GridSelectionController.RemovedSelectedTile(HexTile);
-            if (occupantCharacter != null)
+            if (OccupantCharacter != null)
             {
-                selectionController.SelectedCharacter = null;
+                SelectionController.SelectedCharacter = null;
             }
         }
     }

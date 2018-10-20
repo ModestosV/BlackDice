@@ -18,4 +18,13 @@ public class Character : MonoBehaviour, ICharacter
     {
         return gameObject;
     }
+
+    #region IMonoBehaviour implementation
+
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+
+    #endregion
 }
