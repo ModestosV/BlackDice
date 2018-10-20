@@ -17,7 +17,8 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     private void Start()
     {
         controller.HexTileSelectionController = this;
-        controller.GridSelectionController = GetComponentInParent<Grid>().controller;
+        controller.GridSelectionController = GetComponentInParent<Grid>().controller.GridSelectionController;
+        controller.GridTraversalController = GetComponentInParent<Grid>().controller.GridTraversalController;
         controller.HexTile = this;
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;

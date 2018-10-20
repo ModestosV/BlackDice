@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using System.Collections.Generic;
+
+[System.Serializable]
 public class HexTileController
 {
     public int X { get; set; }
@@ -10,6 +12,7 @@ public class HexTileController
 
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
+    public IGridTraversalController GridTraversalController { get; set; }
     public IHexTile HexTile { get; set; }
     public ICharacterSelectionController CharacterSelectionController { get; set; }
     public ICharacter OccupantCharacter { get; set; }
@@ -18,7 +21,11 @@ public class HexTileController
     {
         GridSelectionController.ScrubPathAll();
         Hover();
-        GridSelectionController.DrawPath(HexTile);
+        List<IHexTile> selectedTiles = GridSelectionController.SelectedTiles;
+        foreach (IHexTile selectedTile in selectedTiles)
+        {
+            GridSelectionController.DrawPath(GridTraversalController.GetPath(selectedTile, HexTile));
+        }
     }
 
     public void Select()

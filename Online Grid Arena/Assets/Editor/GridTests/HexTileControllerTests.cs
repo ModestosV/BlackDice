@@ -1,18 +1,24 @@
 using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 public class HexTileControllerTests
 {
     IHexTileSelectionController hexTileSelectionController;
     IGridSelectionController gridSelectionController;
+    IGridTraversalController gridTraversalController;
     IHexTile hexTile;
+    IHexTile hexTile2;
 
     [SetUp]
     public void Init()
     {
         hexTileSelectionController = Substitute.For<IHexTileSelectionController>();
         gridSelectionController = Substitute.For<IGridSelectionController>();
+        gridTraversalController = Substitute.For<IGridTraversalController>();
         hexTile = Substitute.For<IHexTile>();
+        hexTile2 = Substitute.For<IHexTile>();
+        gridSelectionController.SelectedTiles = new List<IHexTile> { hexTile };
     }
 
     [Test]
@@ -21,6 +27,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = true
@@ -28,7 +35,7 @@ public class HexTileControllerTests
 
         sut.HoverPathfinding();
 
-        gridSelectionController.Received(1).DrawPath(hexTile);
+        gridSelectionController.Received(1).DrawPath(Arg.Any<List<IHexTile>>());
     }
 
     [Test]
@@ -37,6 +44,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = true,
@@ -55,6 +63,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = false,
@@ -73,6 +82,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = false,
@@ -91,6 +101,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             IsSelected = true,
             IsEnabled = true
@@ -108,6 +119,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = false,
@@ -126,6 +138,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             IsSelected = true,
             IsEnabled = true
@@ -143,6 +156,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = true,
@@ -161,6 +175,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             IsSelected = false,
             IsEnabled = true
@@ -178,6 +193,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = false,
@@ -196,6 +212,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             IsSelected = true,
             IsEnabled = true
@@ -213,6 +230,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             HexTile = hexTile,
             IsSelected = false,
@@ -231,6 +249,7 @@ public class HexTileControllerTests
         var sut = new HexTileController
         {
             GridSelectionController = gridSelectionController,
+            GridTraversalController = gridTraversalController,
             HexTileSelectionController = hexTileSelectionController,
             IsSelected = true,
             IsEnabled = true

@@ -8,7 +8,7 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
 
     private void Start()
     {
-        GridSelectionController = FindObjectOfType<Grid>().controller;
+        GridSelectionController = FindObjectOfType<Grid>().controller.GridSelectionController;
     }
 
     void Update()

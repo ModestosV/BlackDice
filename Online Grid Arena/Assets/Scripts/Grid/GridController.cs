@@ -3,24 +3,20 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class GridController : IGridSelectionController
+public class GridController
 {
     public int majorAxisLength;
 
     public IGridTraversalController GridTraversalController { get; set; }
+    public IGridSelectionController GridSelectionController { get; set; }
 
-    private List<IHexTile> selectedTiles;
-    private List<IHexTile> hoveredTiles;
-    private List<IHexTile> pathTiles;
-
-    public void Init(IGridTraversalController traversalController)
+    public void Init(IGridTraversalController traversalController, IGridSelectionController selectionController)
     {
-        selectedTiles = new List<IHexTile>();
-        hoveredTiles = new List<IHexTile>();
-        pathTiles = new List<IHexTile>();
+        GridSelectionController = selectionController;
+        GridSelectionController.Init();
         GridTraversalController = traversalController;
         GridTraversalController.Init();
-        if (majorAxisLength == 0)
+        if (majorAxisLength == 0) // Possible bug. TODO: Investigate why this is sometimes 0.
             majorAxisLength = 19;
     }
 
@@ -61,79 +57,4 @@ public class GridController : IGridSelectionController
 
         GridTraversalController.SetHexTiles(hexTilesMap);
     }
-
-    #region IGridSelectionController implementation
-
-    public void AddSelectedTile(IHexTile selectedTile)
-    {
-        selectedTiles.Add(selectedTile);
-    }
-
-    public bool RemoveSelectedTile(IHexTile removedTile)
-    {
-        return selectedTiles.Remove(removedTile);
-    }
-
-    public void AddHoveredTile(IHexTile hoveredTile)
-    {
-        hoveredTiles.Add(hoveredTile);
-    }
-
-    public bool RemoveHoveredTile(IHexTile removedTile)
-    {
-        return hoveredTiles.Remove(removedTile);
-    }
-
-    public void AddPathTile(IHexTile pathTile)
-    {
-        pathTiles.Add(pathTile);
-    }
-
-    public bool RemovePathTile(IHexTile pathTile)
-    {
-        return pathTiles.Remove(pathTile);
-    }
-
-    public void DeselectAll()
-    {
-        for (int i = selectedTiles.Count - 1; i >= 0; i--)
-        {
-            selectedTiles[i].Controller().Deselect();
-        }
-    }
-
-    public void BlurAll()
-    {
-        for (int i = hoveredTiles.Count - 1; i >= 0; i--)
-        {
-            hoveredTiles[i].Controller().Blur();
-        }
-    }
-
-    public void ScrubPathAll()
-    {
-        for (int i = pathTiles.Count - 1; i >= 0; i--)
-        {
-            pathTiles[i].Controller().ScrubPath();
-        }
-    }
-
-    public void DrawPath(IHexTile endTile)
-    {
-        if (selectedTiles.Count > 0)
-        {
-            foreach (IHexTile startTile in selectedTiles)
-            {
-                List<IHexTile> path = GridTraversalController.GetPath(startTile, endTile);
-
-                foreach (IHexTile tile in path)
-                {
-                    tile.Controller().MarkPath();
-                }
-            }
-        }
-    }
-
-    #endregion
-
 }
