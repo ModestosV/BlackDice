@@ -69,7 +69,7 @@ public class GridController : IGridSelectionController
         selectedTiles.Add(selectedTile);
     }
 
-    public bool RemovedSelectedTile(IHexTile removedTile)
+    public bool RemoveSelectedTile(IHexTile removedTile)
     {
         return selectedTiles.Remove(removedTile);
     }

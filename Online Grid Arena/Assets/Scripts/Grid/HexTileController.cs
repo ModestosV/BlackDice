@@ -11,8 +11,7 @@ public class HexTileController
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
     public IHexTile HexTile { get; set; }
-    public ICharacterSelectionController SelectionController { get; set; }
-
+    public ICharacterSelectionController CharacterSelectionController { get; set; }
     public ICharacter OccupantCharacter { get; set; }
     
     public void HoverPathfinding()
@@ -36,30 +35,18 @@ public class HexTileController
             GridSelectionController.AddSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                SelectionController.SelectedCharacter = OccupantCharacter;
+                CharacterSelectionController.SelectedCharacter = OccupantCharacter;
             }
         }
         else
         {
             IsSelected = false;
             HexTileSelectionController.Deselect();
-            GridSelectionController.RemovedSelectedTile(HexTile);
+            GridSelectionController.RemoveSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                SelectionController.SelectedCharacter = null;
+                CharacterSelectionController.SelectedCharacter = null;
             }
-        }
-    }
-
-    public void MultiSelect()
-    {
-        if (!IsEnabled) return;
-
-        if (!IsSelected)
-        {
-            IsSelected = true;
-            HexTileSelectionController.Select();
-            GridSelectionController.AddSelectedTile(HexTile);
         }
     }
 
@@ -93,10 +80,10 @@ public class HexTileController
         {
             IsSelected = false;
             HexTileSelectionController.Deselect();
-            GridSelectionController.RemovedSelectedTile(HexTile);
+            GridSelectionController.RemoveSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                SelectionController.SelectedCharacter = null;
+                CharacterSelectionController.SelectedCharacter = null;
             }
         }
     }
