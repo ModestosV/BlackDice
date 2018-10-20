@@ -16,7 +16,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Add_Remove_hex_tile_to_Selected_Tiles()
+    public void Add_remove_hex_tile_to_selected_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -33,7 +33,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Add_Remove_hex_tile_to_Hovered_Tiles()
+    public void Add_remove_hex_tile_to_hovered_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -50,7 +50,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Add_Remove_hex_tile_to_Path_Tiles()
+    public void Add_remove_hex_tile_to_path_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -67,7 +67,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Deselect_all_Selected_Tiles()
+    public void Deselect_all_selected_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -84,7 +84,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Blur_all_Hovered_Tiles()
+    public void Blur_all_hovered_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -101,7 +101,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Scrub_all_Path_Tiles()
+    public void Scrub_all_path_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
@@ -118,7 +118,7 @@ public class GridSelectionControllerTests
     }
 
     [Test]
-    public void Draw_all_Path_Tiles()
+    public void Draw_all_path_tiles()
     {
         IHexTile firstHexTile = Substitute.For<IHexTile>();
         IHexTile secondHexTile = Substitute.For<IHexTile>();
