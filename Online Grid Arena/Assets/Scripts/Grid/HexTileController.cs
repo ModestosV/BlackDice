@@ -68,6 +68,17 @@ public class HexTileController
         }
     }
 
+    public void HoverError()
+    {
+        if (!IsEnabled) return;
+
+        if (!IsSelected)
+        {
+            HexTileSelectionController.HoverError();
+            GridSelectionController.AddHoveredTile(HexTile);
+        }
+    }
+
     public void Blur()
     {
         if (!IsEnabled) return;

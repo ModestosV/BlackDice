@@ -6,22 +6,20 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     public HexTileController controller;
     public HexTileMaterialSet materials;
 
-    private void OnValidate()
+    private void Awake()
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
         controller.OccupantCharacter = GetComponentInChildren<Character>();
         controller.CharacterSelectionController = FindObjectOfType<SelectionController>();
+        controller.HexTileSelectionController = this;
+        controller.HexTile = this;
     }
 
     private void Start()
     {
-        controller.HexTileSelectionController = this;
         controller.GridSelectionController = GetComponentInParent<Grid>().controller.GridSelectionController;
         controller.GridTraversalController = GetComponentInParent<Grid>().controller.GridTraversalController;
-        controller.HexTile = this;
-
-        GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
     private void OnMouseExit()
@@ -34,6 +32,11 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     public void Hover()
     {
         GetComponent<Renderer>().material = materials.HoveredMaterial;
+    }
+
+    public void HoverError()
+    {
+        GetComponent<Renderer>().material = materials.HoveredErrorMaterial;
     }
 
     public void Blur()

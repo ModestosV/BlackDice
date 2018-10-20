@@ -7,4 +7,5 @@ public class HexTileMaterialSet : ScriptableObject
     public Material ClickedMaterial;
     public Material HoveredMaterial;
     public Material PathMaterial;
+    public Material HoveredErrorMaterial;
 }

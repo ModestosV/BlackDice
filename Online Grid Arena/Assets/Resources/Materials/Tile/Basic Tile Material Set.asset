@@ -15,3 +15,5 @@ MonoBehaviour:
   ClickedMaterial: {fileID: 2100000, guid: 70220f708dc8e4441af297b16b7d7e60, type: 2}
   HoveredMaterial: {fileID: 2100000, guid: fb65767510f763c4d964c206d493fbc9, type: 2}
   PathMaterial: {fileID: 2100000, guid: 67638ea1e21d9aa40bd460de01bdf30c, type: 2}
+  HoveredErrorMaterial: {fileID: 2100000, guid: a47a32fdb26966149939ab34446c2b82,
+    type: 2}

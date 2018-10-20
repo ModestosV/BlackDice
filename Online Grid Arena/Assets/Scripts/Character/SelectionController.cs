@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
+using System;
 
-public class SelectionController : MonoBehaviour, ICharacterSelectionController, ICharacterMovementController
+public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSelectionController, ICharacterMovementController
 {
     [SerializeField] public StatPanel statPanel;
+
     public ICharacter SelectedCharacter { get; set; }
-    public IGridSelectionController GridSelectionController;
+    public IGridSelectionController GridSelectionController { get; set; }
+    public IGridTraversalController GridTraversalController { get; set; }
 
     private void Start()
     {
         GridSelectionController = FindObjectOfType<Grid>().controller.GridSelectionController;
+        GridTraversalController = FindObjectOfType<Grid>().controller.GridTraversalController;
     }
 
     void Update()
@@ -39,18 +43,23 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
 
             if (SelectedCharacter != null)
             {
+                bool isHitTileReachable = GridTraversalController.GetPath(SelectedCharacter.GetOccupiedTile(), hitTile).Count != 0;
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (hitTile.Controller().OccupantCharacter == SelectedCharacter)
                     {
                         hitTile.Controller().Select();
-                    } else
+                    } else if (isHitTileReachable)
                     {
                         MoveCharacter(SelectedCharacter, hitTile);
                     }
-                } else
+                } else if (isHitTileReachable)
                 {
                     hitTile.Controller().HoverPathfinding();
+                } else
+                {
+                    hitTile.Controller().HoverError();
                 }
             } else
             {
@@ -67,7 +76,14 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
         {
             GridSelectionController.ScrubPathAll();
             if (Input.GetMouseButtonDown(0))
+            {
                 GridSelectionController.DeselectAll();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
         
@@ -88,6 +104,15 @@ public class SelectionController : MonoBehaviour, ICharacterSelectionController,
 
         endTile.Controller().OccupantCharacter = character;
         endTile.Controller().Select();
+    }
+
+    #endregion
+
+    #region IMonoBehaviour implementation
+
+    public GameObject GameObject
+    {
+        get { return gameObject; }
     }
 
     #endregion

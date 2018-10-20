@@ -6,14 +6,14 @@ public class GridSelectionController : IGridSelectionController {
     public List<IHexTile> HoveredTiles { get; set; }
     public List<IHexTile> PathTiles { get; set; }
 
+    #region IGridSelectionController implementation
+
     public void Init()
     {
         SelectedTiles = new List<IHexTile>();
         HoveredTiles = new List<IHexTile>();
         PathTiles = new List<IHexTile>();
     }
-
-    #region IGridSelectionController implementation
 
     public void AddSelectedTile(IHexTile selectedTile)
     {

@@ -34005,7 +34005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    majorAxisLength: 0
+    majorAxisLength: 19
 --- !u!114 &114432232553531588
 MonoBehaviour:
   m_ObjectHideFlags: 1
