@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public interface IGridTraversalController {
+public interface IGridTraversalController
+{
     void Init();
     void SetHexTiles(Dictionary<Tuple<int, int, int>, IHexTile> hexTiles);
     IHexTile GetHexTile(Tuple<int, int, int> coordinates);

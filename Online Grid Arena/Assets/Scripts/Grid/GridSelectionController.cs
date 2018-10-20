@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 [System.Serializable]
-public class GridSelectionController : IGridSelectionController {
+public class GridSelectionController : IGridSelectionController
+{
     public List<IHexTile> SelectedTiles { get; set; }
     public List<IHexTile> HoveredTiles { get; set; }
     public List<IHexTile> PathTiles { get; set; }
