@@ -6,6 +6,8 @@ public interface IGridSelectionController
     List<IHexTile> HoveredTiles { get; set; }
     List<IHexTile> PathTiles { get; set; }
 
+
+
     void Init();
     void AddSelectedTile(IHexTile selectedTile);
     bool RemoveSelectedTile(IHexTile removedTile);

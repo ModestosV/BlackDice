@@ -8,6 +8,11 @@ public class StatPanelController
     public List<IStatDisplay> StatDisplays { get; set; }
     public ICharacter SelectedCharacter { get; set; }
 
+    public void Init(List<IStatDisplay> statDisplays)
+    {
+        StatDisplays = statDisplays;
+    }
+
     public void SetCharacter(ICharacter selectedCharacter)
     {
         SelectedCharacter = selectedCharacter;
@@ -16,7 +21,7 @@ public class StatPanelController
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].Controller.CharacterStat = SelectedCharacter.Controller().CharacterStats[i];
+            StatDisplays[i].Controller.CharacterStat = SelectedCharacter.Controller.CharacterStats[i];
         }
     }
 
@@ -26,7 +31,7 @@ public class StatPanelController
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].Controller.valueText.text = SelectedCharacter.Controller().CharacterStats[i].Value.ToString();
+            StatDisplays[i].Controller.valueText.text = SelectedCharacter.Controller.CharacterStats[i].Value.ToString();
         }
     }
 
@@ -34,14 +39,14 @@ public class StatPanelController
     {
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].Controller.nameText.text = SelectedCharacter.Controller().characterStatNameSet.StatNames[i];
+            StatDisplays[i].Controller.nameText.text = SelectedCharacter.Controller.characterStatNameSet.StatNames[i];
         }
     }
 
     private bool AssertCharacterStatCountIsConsistent()
     {
-        int characterStatSetCount = SelectedCharacter.Controller().characterStatNameSet.StatNames.Count;
-        int characterStatCount = SelectedCharacter.Controller().CharacterStats.Count;
+        int characterStatSetCount = SelectedCharacter.Controller.characterStatNameSet.StatNames.Count;
+        int characterStatCount = SelectedCharacter.Controller.CharacterStats.Count;
         int statDisplaysCount = StatDisplays.Count;
 
         if (characterStatSetCount != statDisplaysCount)

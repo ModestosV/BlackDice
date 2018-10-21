@@ -50,7 +50,7 @@ public class GridSelectionController : IGridSelectionController
     {
         for (int i = SelectedTiles.Count - 1; i >= 0; i--)
         {
-            SelectedTiles[i].Controller().Deselect();
+            SelectedTiles[i].Controller.Deselect();
         }
     }
 
@@ -58,7 +58,7 @@ public class GridSelectionController : IGridSelectionController
     {
         for (int i = HoveredTiles.Count - 1; i >= 0; i--)
         {
-            HoveredTiles[i].Controller().Blur();
+            HoveredTiles[i].Controller.Blur();
         }
     }
 
@@ -66,7 +66,7 @@ public class GridSelectionController : IGridSelectionController
     {
         for (int i = PathTiles.Count - 1; i >= 0; i--)
         {
-            PathTiles[i].Controller().ScrubPath();
+            PathTiles[i].Controller.ScrubPath();
         }
     }
 
@@ -74,7 +74,7 @@ public class GridSelectionController : IGridSelectionController
     {
         foreach (IHexTile tile in path)
         {
-            tile.Controller().MarkPath();
+            tile.Controller.MarkPath();
         }
     }
 

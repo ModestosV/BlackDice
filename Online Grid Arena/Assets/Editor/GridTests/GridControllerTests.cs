@@ -33,7 +33,7 @@ class GridControllerTests
         IHexTile hexTile = Substitute.For<IHexTile>();
         HexTileController controller = new HexTileController();
 
-        hexTile.Controller().Returns(controller);
+        hexTile.Controller.Returns(controller);
 
         // Setup to get paramater that was passed into gridTraversalController.SetHexTiles at the end of sut.SetHexTiles
         Dictionary<Tuple<int, int, int>, IHexTile> argumentUsed = new Dictionary<Tuple<int, int, int>, IHexTile>();
@@ -45,9 +45,9 @@ class GridControllerTests
         IHexTile expectedTile;
         argumentUsed.TryGetValue(new Tuple<int, int, int>(0, 0, 0), out expectedTile);
 
-        Assert.AreEqual(expectedTile.Controller().X, 0);
-        Assert.AreEqual(expectedTile.Controller().Y, 0);
-        Assert.AreEqual(expectedTile.Controller().Z, 0);
+        Assert.AreEqual(expectedTile.Controller.X, 0);
+        Assert.AreEqual(expectedTile.Controller.Y, 0);
+        Assert.AreEqual(expectedTile.Controller.Z, 0);
     }
 }
 

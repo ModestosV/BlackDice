@@ -35,9 +35,9 @@ public class GridController
             int cubeY = -(col + (row + 1) / 2);
             int cubeZ = row;
 
-            hexTile.Controller().X = cubeX;
-            hexTile.Controller().Y = cubeY;
-            hexTile.Controller().Z = cubeZ;
+            hexTile.Controller.X = cubeX;
+            hexTile.Controller.Y = cubeY;
+            hexTile.Controller.Z = cubeZ;
 
             hexTilesMap.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
         }

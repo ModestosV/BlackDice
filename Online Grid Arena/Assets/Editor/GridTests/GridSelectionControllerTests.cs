@@ -22,8 +22,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = new HexTileController();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         // Add both tiles, remove first, only second is left
         sut.AddSelectedTile(firstHexTile);
@@ -39,8 +39,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = new HexTileController();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         // Add both tiles, remove first, only second is left
         sut.AddHoveredTile(firstHexTile);
@@ -56,8 +56,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = new HexTileController();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         // Add both tiles, remove first, only second is left
         sut.AddPathTile(firstHexTile);
@@ -73,8 +73,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = Substitute.For<HexTileController>();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         sut.AddSelectedTile(firstHexTile);
         sut.AddSelectedTile(secondHexTile);
@@ -90,8 +90,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = Substitute.For<HexTileController>();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         sut.AddHoveredTile(firstHexTile);
         sut.AddHoveredTile(secondHexTile);
@@ -107,8 +107,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = Substitute.For<HexTileController>();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         sut.AddPathTile(firstHexTile);
         sut.AddPathTile(secondHexTile);
@@ -124,8 +124,8 @@ public class GridSelectionControllerTests
         IHexTile secondHexTile = Substitute.For<IHexTile>();
         HexTileController controller = Substitute.For<HexTileController>();
 
-        firstHexTile.Controller().Returns(controller);
-        secondHexTile.Controller().Returns(controller);
+        firstHexTile.Controller.Returns(controller);
+        secondHexTile.Controller.Returns(controller);
 
         sut.AddPathTile(firstHexTile);
         sut.AddPathTile(secondHexTile);

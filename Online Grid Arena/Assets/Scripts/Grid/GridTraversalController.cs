@@ -29,9 +29,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetNorthEastNeighbor(IHexTile tile)
     {
         IHexTile neighborNorthEast;
-        int x = tile.Controller().X + 1;
-        int y = tile.Controller().Y;
-        int z = tile.Controller().Z - 1;
+        int x = tile.Controller.X + 1;
+        int y = tile.Controller.Y;
+        int z = tile.Controller.Z - 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
 
         //Debug.Log($"NE: {neighborNorthEast}");
@@ -41,9 +41,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetEastNeighbor(IHexTile tile)
     {
         IHexTile neighborEast;
-        int x = tile.Controller().X + 1;
-        int y = tile.Controller().Y - 1;
-        int z = tile.Controller().Z;
+        int x = tile.Controller.X + 1;
+        int y = tile.Controller.Y - 1;
+        int z = tile.Controller.Z;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
 
         //Debug.Log($"E: {neighborEast}");
@@ -53,9 +53,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetSouthEastNeighbor(IHexTile tile)
     {
         IHexTile neighborSouthEast;
-        int x = tile.Controller().X;
-        int y = tile.Controller().Y - 1;
-        int z = tile.Controller().Z + 1;
+        int x = tile.Controller.X;
+        int y = tile.Controller.Y - 1;
+        int z = tile.Controller.Z + 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
 
         //Debug.Log($"SE: {neighborSouthEast}");
@@ -65,9 +65,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetSouthWestNeighbor(IHexTile tile)
     {
         IHexTile neighborSouthWest;
-        int x = tile.Controller().X - 1;
-        int y = tile.Controller().Y;
-        int z = tile.Controller().Z + 1;
+        int x = tile.Controller.X - 1;
+        int y = tile.Controller.Y;
+        int z = tile.Controller.Z + 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
 
         //Debug.Log($"SW: {neighborSouthWest}");
@@ -77,9 +77,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetWestNeighbor(IHexTile tile)
     {
         IHexTile neighborWest;
-        int x = tile.Controller().X - 1;
-        int y = tile.Controller().Y + 1;
-        int z = tile.Controller().Z;
+        int x = tile.Controller.X - 1;
+        int y = tile.Controller.Y + 1;
+        int z = tile.Controller.Z;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
 
         //Debug.Log($"W: {neighborWest}");
@@ -89,9 +89,9 @@ public class GridTraversalController : IGridTraversalController
     public IHexTile GetNorthWestNeighbor(IHexTile tile)
     {
         IHexTile neighborNorthWest;
-        int x = tile.Controller().X;
-        int y = tile.Controller().Y + 1;
-        int z = tile.Controller().Z - 1;
+        int x = tile.Controller.X;
+        int y = tile.Controller.Y + 1;
+        int z = tile.Controller.Z - 1;
         hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
 
         //Debug.Log($"NW: {neighborNorthWest}");
@@ -142,13 +142,13 @@ public class GridTraversalController : IGridTraversalController
             }
 
             List<IHexTile> neighbors = GetNeighbors(currentTile);
-            neighbors.RemoveAll(item => !item.Controller().IsEnabled);
+            neighbors.RemoveAll(item => !item.Controller.IsEnabled);
 
             foreach (IHexTile neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Coordinates())) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
-                if (!neighbor.Controller().IsEnabled) // Ignore disabled nodes.
+                if (!neighbor.Controller.IsEnabled) // Ignore disabled nodes.
                 {
                     closed.Add(neighbor.Coordinates());
                     continue;
@@ -194,12 +194,12 @@ public class GridTraversalController : IGridTraversalController
 
     private int ManhattanDistance(IHexTile startTile, IHexTile endTile)
     {
-        int startX = startTile.Controller().X;
-        int startY = startTile.Controller().Y;
-        int startZ = startTile.Controller().Z;
-        int endX = endTile.Controller().X;
-        int endY = endTile.Controller().Y;
-        int endZ = endTile.Controller().Z;
+        int startX = startTile.Controller.X;
+        int startY = startTile.Controller.Y;
+        int startZ = startTile.Controller.Z;
+        int endX = endTile.Controller.X;
+        int endY = endTile.Controller.Y;
+        int endZ = endTile.Controller.Z;
 
         int xDistance = Math.Abs(startX - endX);
         int yDistance = Math.Abs(startY - endY);

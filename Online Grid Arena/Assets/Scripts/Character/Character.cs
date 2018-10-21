@@ -11,9 +11,9 @@ public class Character : MonoBehaviour, ICharacter
         return GetComponentInParent<HexTile>();
     }
 
-    public CharacterController Controller()
+    public CharacterController Controller
     {
-        return controller;
+        get { return controller; }
     }
 
     #endregion

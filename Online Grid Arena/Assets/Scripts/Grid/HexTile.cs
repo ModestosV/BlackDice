@@ -82,9 +82,9 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 
     #region IHexTile implementation
 
-    public HexTileController Controller()
+    public HexTileController Controller
     {
-        return controller;
+        get { return controller; }
     }
 
     public Tuple<int, int, int> Coordinates()
