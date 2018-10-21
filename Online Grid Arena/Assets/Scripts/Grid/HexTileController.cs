@@ -24,7 +24,7 @@ public class HexTileController
         List<IHexTile> selectedTiles = GridSelectionController.SelectedTiles;
         foreach (IHexTile selectedTile in selectedTiles)
         {
-            GridSelectionController.DrawPath(GridTraversalController.GetPath(selectedTile, HexTile));
+            GridSelectionController.HighlightPath(GridTraversalController.GetPath(selectedTile, HexTile));
         }
     }
 

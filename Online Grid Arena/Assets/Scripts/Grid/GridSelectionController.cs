@@ -70,7 +70,7 @@ public class GridSelectionController : IGridSelectionController
         }
     }
 
-    public void DrawPath(List<IHexTile> path)
+    public void HighlightPath(List<IHexTile> path)
     {
         foreach (IHexTile tile in path)
         {

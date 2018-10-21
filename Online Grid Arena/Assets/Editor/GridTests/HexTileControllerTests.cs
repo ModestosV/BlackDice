@@ -35,7 +35,7 @@ public class HexTileControllerTests
 
         sut.HoverPathfinding();
 
-        gridSelectionController.Received(1).DrawPath(Arg.Any<List<IHexTile>>());
+        gridSelectionController.Received(1).HighlightPath(Arg.Any<List<IHexTile>>());
     }
 
     [Test]

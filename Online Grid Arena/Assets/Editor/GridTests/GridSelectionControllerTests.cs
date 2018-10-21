@@ -129,7 +129,7 @@ public class GridSelectionControllerTests
 
         sut.AddPathTile(firstHexTile);
         sut.AddPathTile(secondHexTile);
-        sut.DrawPath(sut.PathTiles);
+        sut.HighlightPath(sut.PathTiles);
 
         controller.Received(2).MarkPath();
     }

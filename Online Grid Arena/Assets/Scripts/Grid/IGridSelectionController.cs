@@ -16,5 +16,5 @@ public interface IGridSelectionController
     void BlurAll();
     void DeselectAll();
     void ScrubPathAll();
-    void DrawPath(List<IHexTile> path);
+    void HighlightPath(List<IHexTile> path);
 }
