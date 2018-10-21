@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Active_Character
-  - Ground
+  - Character
+  - Tile
   layers:
   - Default
   - TransparentFX

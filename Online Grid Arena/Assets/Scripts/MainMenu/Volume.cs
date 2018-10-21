@@ -5,8 +5,9 @@ public class Volume : MonoBehaviour
     private AudioSource audioSource;
     private float mainVolume = 1f;
 
-    void Start ()
+    void Awake ()
     {
+        DontDestroyOnLoad(this.gameObject);
         audioSource = GetComponent<AudioSource>();
     }
 	

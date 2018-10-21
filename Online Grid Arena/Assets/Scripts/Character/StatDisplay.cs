@@ -1,31 +1,29 @@
-﻿/*
- * Credit: Kryzarel's free Unity asset titled "Character Stats".
- * Obtained from Unity Asset Store on 2018/09/14. https://assetstore.unity.com/packages/tools/integration/character-stats-106351
- */
-
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StatDisplay : MonoBehaviour
+public class StatDisplay : MonoBehaviour, IStatDisplay
 {
-    public Text nameText;
-    public Text valueText;
+    public StatDisplayController controller;
 
-    [NonSerialized]
-    public CharacterStat stat;
-
-    public StatDisplay(Text nameText, Text valueText, CharacterStat stat)
+    public StatDisplayController Controller
     {
-        this.nameText = nameText;
-        this.valueText = valueText;
-        this.stat = stat;
+        get { return controller; }
+        set { controller = value; }
     }
 
     private void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();
-        nameText = texts[0];
-        valueText = texts[1];
+        controller.nameText = texts[0];
+        controller.valueText = texts[1];
     }
+
+    #region IMonoBehaviour implementation
+
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+
+    #endregion
 }
