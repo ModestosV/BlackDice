@@ -8,7 +8,6 @@ public class HexTileControllerTests
     IGridSelectionController gridSelectionController;
     IGridTraversalController gridTraversalController;
     IHexTile hexTile;
-    IHexTile hexTile2;
 
     [SetUp]
     public void Init()
@@ -17,7 +16,6 @@ public class HexTileControllerTests
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gridTraversalController = Substitute.For<IGridTraversalController>();
         hexTile = Substitute.For<IHexTile>();
-        hexTile2 = Substitute.For<IHexTile>();
         gridSelectionController.SelectedTiles = new List<IHexTile> { hexTile };
     }
 

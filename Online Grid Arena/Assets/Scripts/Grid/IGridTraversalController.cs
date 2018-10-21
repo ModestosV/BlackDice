@@ -14,5 +14,4 @@ public interface IGridTraversalController
     IHexTile GetNorthWestNeighbor(IHexTile tile);
     List<IHexTile> GetNeighbors(IHexTile tile);
     List<IHexTile> GetPath(IHexTile startTile, IHexTile endTile);
-
 }

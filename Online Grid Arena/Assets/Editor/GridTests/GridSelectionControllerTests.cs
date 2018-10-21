@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
-using UnityEngine;
 
 public class GridSelectionControllerTests
 {
