@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSelectionController, ICharacterMovementController
 {
@@ -91,8 +92,9 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
             GridSelectionController.BlurAll();
             targetTile.Controller().Select();
             statPanel.gameObject.SetActive(true);
-            statPanel.SetStats(SelectedCharacter.Controller().health, SelectedCharacter.Controller().damage);
-            statPanel.UpdateStatValues();
+            statPanel.Controller.SetCharacter(SelectedCharacter);
+            statPanel.Controller.UpdateStatNames();
+            statPanel.Controller.UpdateStatValues();
             return;
         }
 

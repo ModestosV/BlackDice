@@ -1,20 +1,22 @@
-﻿[System.Serializable]
+﻿using System.Collections.Generic;
+
+[System.Serializable]
 public class CharacterController
 {
-    // Placeholder stats
-    public CharacterStat health;
-    public CharacterStat damage;
+    public CharacterStatNameSet characterStatNameSet;
+    public List<CharacterStat> characterStats;
 
-    public CharacterController() : this(new CharacterStat(0.0f), new CharacterStat(0.0f)) { }
-
-    public CharacterController(CharacterStat health, CharacterStat damage)
+    public List<ICharacterStat> CharacterStats
     {
-        this.health = health;
-        this.damage = damage;
+        get
+        {
+            List<ICharacterStat> stats = new List<ICharacterStat>();
+            foreach (ICharacterStat stat in characterStats)
+            {
+                stats.Add(stat);
+            }
+            return stats;
+        }
     }
-
-    public override string ToString()
-    {
-        return string.Format("{0}, {1}", health.ToString(), damage.ToString());
-    }
+    
 }
