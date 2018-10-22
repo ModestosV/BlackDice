@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GridTraversalControllerTests
 {
@@ -69,6 +70,46 @@ public class GridTraversalControllerTests
     public void Get_north_east_neighbor_returns_north_east_neighbor()
     {
         var result = sut.GetNorthEastNeighbor(bottomLeftTile);
+
+        Assert.AreEqual(topRightTile, result);
+    }
+
+    [Test]
+    public void Get_east_neighbor_returns_east_neighbor()
+    {
+        var result = sut.GetEastNeighbor(bottomLeftTile);
+
+        Assert.AreEqual(bottomRightTile, result);
+    }
+
+    [Test]
+    public void Get_south_east_neighbor_returns_south_east_neighbor()
+    {
+        var result = sut.GetSouthEastNeighbor(topLeftTile);
+        
+        Assert.AreEqual(bottomLeftTile, result);
+    }
+
+    [Test]
+    public void Get_south_west_neighbor_returns_south_west_neighbor()
+    {
+        var result = sut.GetSouthWestNeighbor(topRightTile);
+
+        Assert.AreEqual(bottomLeftTile, result);
+    }
+
+    [Test]
+    public void Get_west_neighbor_returns_west_neighbor()
+    {
+        var result = sut.GetWestNeighbor(bottomRightTile);
+
+        Assert.AreEqual(bottomLeftTile, result);
+    }
+
+    [Test]
+    public void Get_north_west_neighbor_returns_north_west_neighbor()
+    {
+        var result = sut.GetNorthWestNeighbor(bottomRightTile);
 
         Assert.AreEqual(topRightTile, result);
     }
