@@ -15,7 +15,6 @@ class GridControllerTests
         gridTraversalController = Substitute.For<IGridTraversalController>();
         gridSelectionController = Substitute.For<IGridSelectionController>();
         sut = new GridController();
-        sut.isTestMode = true;
         sut.Init(gridTraversalController, gridSelectionController);
     }
 
@@ -38,7 +37,7 @@ class GridControllerTests
         Dictionary<Tuple<int, int, int>, IHexTile> argumentUsed = new Dictionary<Tuple<int, int, int>, IHexTile>();
         gridTraversalController.SetHexTiles(Arg.Do<Dictionary<Tuple<int, int, int>, IHexTile>>(x => argumentUsed = x));
 
-        sut.majorAxisLength = 1;
+        sut.gridWidth = 1;
         sut.SetHexTiles(new IHexTile[] { hexTile });
 
         IHexTile expectedTile;
