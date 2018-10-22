@@ -14,7 +14,7 @@ public class HexTileController
     public IGridSelectionController GridSelectionController { get; set; }
     public IGridTraversalController GridTraversalController { get; set; }
     public IHexTile HexTile { get; set; }
-    public ICharacterSelectionController CharacterSelectionController { get; set; }
+    public ISelectionController CharacterSelectionController { get; set; }
     public ICharacter OccupantCharacter { get; set; }
     
     public void HoverPathfinding()

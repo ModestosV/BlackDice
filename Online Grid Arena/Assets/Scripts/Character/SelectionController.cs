@@ -1,63 +1,52 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
-public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSelectionController, ICharacterMovementController
+[Serializable]
+public class SelectionController : ISelectionController, ICharacterMovementController
 {
-    [SerializeField] public StatPanel statPanel;
-
-    #region ICharacterSelectionController implementation
-
     public ICharacter SelectedCharacter { get; set; }
+
+    public IGameManager GameManager { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
-
-    #endregion
-
     public IGridTraversalController GridTraversalController { get; set; }
+    public IStatPanel StatPanel { get; set; }
 
-    private void Start()
+    public bool IsEscapeButtonDown { get; set; }
+    public bool MouseIsOverGrid { get; set; }
+    public bool IsLeftClickDown { get; set; }
+    public IHexTile TargetTile { get; set; }
+ 
+    public void Update()
     {
-        GridSelectionController = FindObjectOfType<Grid>().controller.GridSelectionController;
-        GridTraversalController = FindObjectOfType<Grid>().controller.GridTraversalController;
-    }
-
-    void Update()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        
-        bool mouseIsOverGrid = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Tile";
-        bool isLeftClickDown = Input.GetMouseButtonDown(0);
-
-        if (Input.GetKeyDown(KeyCode.Escape)) // Pressed escape to quit
+        if (IsEscapeButtonDown) // Pressed escape to quit
         {
-            Application.Quit();
+            GameManager.QuitApplication();
         }
 
-        if (!mouseIsOverGrid && isLeftClickDown) // Clicked off grid
+        if (!MouseIsOverGrid && IsLeftClickDown) // Clicked off grid
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            statPanel.gameObject.SetActive(false);
+            StatPanel.GameObject.SetActive(false);
             return;
         }
 
-        if (!mouseIsOverGrid) // Hovered off grid
+        if (!MouseIsOverGrid) // Hovered off grid
         {
             GridSelectionController.ScrubPathAll();
             return;
         }
 
         // Invariant: Mouse is over grid
+        
+        bool tileIsEnabled = TargetTile.Controller.IsEnabled;
 
-        IHexTile targetTile = hit.collider.gameObject.GetComponent<HexTile>();
-        bool tileIsEnabled = targetTile.Controller.IsEnabled;
-
-        if (!tileIsEnabled && isLeftClickDown) // Clicked on disabled tile
+        if (!tileIsEnabled && IsLeftClickDown) // Clicked on disabled tile
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            statPanel.gameObject.SetActive(false);
+            StatPanel.GameObject.SetActive(false);
             return;
         }
 
@@ -70,72 +59,72 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
         // Invariant: Target tile is enabled
 
         bool characterIsSelected = SelectedCharacter != null;
-        bool isOccupied = targetTile.Controller.OccupantCharacter != null;
-        bool isCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == targetTile;
+        bool tileIsOccupied = TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == TargetTile;
 
-        if (isLeftClickDown && !characterIsSelected && !isOccupied && !isCurrentSelectedTile) // Clicked unoccupied other tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied && !tileIsCurrentSelectedTile) // Clicked unoccupied other tile w/o character selected
         {
             GridSelectionController.BlurAll();
-            targetTile.Controller.Select();
+            TargetTile.Controller.Select();
             return;
         }
 
-        if (isLeftClickDown && !characterIsSelected && !isOccupied) // Clicked unoccupied selected tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied) // Clicked unoccupied selected tile w/o character selected
         {
             GridSelectionController.BlurAll();
-            targetTile.Controller.Deselect();
+            TargetTile.Controller.Deselect();
             return;
         }
 
-        if (isLeftClickDown && !characterIsSelected) // Clicked occupied tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected) // Clicked occupied tile w/o character selected
         {
             GridSelectionController.BlurAll();
-            targetTile.Controller.Select();
-            statPanel.gameObject.SetActive(true);
-            statPanel.Controller.SetCharacter(SelectedCharacter);
-            statPanel.Controller.UpdateStatNames();
-            statPanel.Controller.UpdateStatValues();
+            TargetTile.Controller.Select();
+            StatPanel.GameObject.SetActive(true);
+            StatPanel.Controller.SetCharacter(SelectedCharacter);
+            StatPanel.Controller.UpdateStatNames();
+            StatPanel.Controller.UpdateStatValues();
             return;
         }
 
         if (!characterIsSelected) // Hovered over tile w/o character selected
         {
             GridSelectionController.BlurAll();
-            targetTile.Controller.Hover();
+            TargetTile.Controller.Hover();
             return;
         }
 
         // Invariant: Character is selected
 
-        List<IHexTile> path = GridTraversalController.GetPath(SelectedCharacter.GetOccupiedTile(), targetTile);
+        List<IHexTile> path = GridTraversalController.GetPath(SelectedCharacter.GetOccupiedTile(), TargetTile);
         bool isReachable = path.Count > 0;
 
-        if (isLeftClickDown && !isCurrentSelectedTile && !isReachable) // Clicked on unreachable tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable) // Clicked on unreachable tile
         {
             GridSelectionController.ScrubPathAll();
-            targetTile.Controller.HoverError();
+            TargetTile.Controller.HoverError();
             return;
         }
 
-        if (isLeftClickDown && !isCurrentSelectedTile && !isOccupied) // Clicked reachable unoccupied tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied) // Clicked reachable unoccupied tile
         {
             GridSelectionController.ScrubPathAll();
-            MoveCharacter(SelectedCharacter, targetTile);
+            MoveCharacter(SelectedCharacter, TargetTile);
             return;
         }
 
-        if (isLeftClickDown && !isCurrentSelectedTile) // Clicked reachable occupied tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile) // Clicked reachable occupied tile
         {
             GridSelectionController.ScrubPathAll();
-            targetTile.Controller.HoverError();
+            TargetTile.Controller.HoverError();
             return;
         }
 
-        if (isLeftClickDown && isCurrentSelectedTile) // Clicked current selected tile
+        if (IsLeftClickDown && tileIsCurrentSelectedTile) // Clicked current selected tile
         {
             GridSelectionController.ScrubPathAll();
-            targetTile.Controller.Deselect();
-            statPanel.gameObject.SetActive(false);
+            TargetTile.Controller.Deselect();
+            StatPanel.GameObject.SetActive(false);
             return;
         }
 
@@ -145,11 +134,11 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.BlurAll();
-            targetTile.Controller.HoverError();
+            TargetTile.Controller.HoverError();
             return;
         }
 
-        if (!isOccupied) // Hovered over reachable unoccupied tile
+        if (!tileIsOccupied) // Hovered over reachable unoccupied tile
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.BlurAll();
@@ -160,7 +149,7 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
         // Hovered over reachable occupied tile
         GridSelectionController.ScrubPathAll();
         GridSelectionController.BlurAll();
-        targetTile.Controller.HoverError();
+        TargetTile.Controller.HoverError();
         return;
 
     }
@@ -177,15 +166,6 @@ public class SelectionController : MonoBehaviour, IMonoBehaviour, ICharacterSele
 
         endTile.Controller.OccupantCharacter = character;
         endTile.Controller.Select();
-    }
-
-    #endregion
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
     }
 
     #endregion

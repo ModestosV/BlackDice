@@ -13,7 +13,6 @@ public class StatPanel : MonoBehaviour, IStatPanel
     private void Awake()
     {
         controller.Init(new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>()));
-        gameObject.SetActive(false);
     }
 
     public StatPanelController Controller
