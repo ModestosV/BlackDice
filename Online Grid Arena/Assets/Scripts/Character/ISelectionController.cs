@@ -5,7 +5,10 @@ public interface ISelectionController
     ICharacter SelectedCharacter { get; set; }
     IGameManager GameManager { get; set; }
     IGridSelectionController GridSelectionController { get; set; }
+    IGridTraversalController GridTraversalController { get; set; }
     IStatPanel StatPanel { get; set; }
+
+    void Init(IGridTraversalController gridTraversalController, IGridSelectionController gridSelectionController);
 
     bool IsEscapeButtonDown { get; set; }
     bool MouseIsOverGrid { get; set; }

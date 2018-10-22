@@ -2,20 +2,28 @@
 
 public class GameManager : MonoBehaviour, IMonoBehaviour, IGameManager
 {
+    public SelectionController selectionController;
+    public GridSelectionController gridSelectionController;
+    public GridTraversalController gridTraversalController;
 
-    #region ICharacterSelectionController implementation
+    #region IGameManager implementation
 
-    public SelectionController SelectionController;
+    public ISelectionController SelectionController
+    {
+        get { return selectionController; }
+    }
 
     #endregion
 
-    private void Start()
+    private void Awake()
     {
-        SelectionController.GridSelectionController = FindObjectOfType<Grid>().controller.GridSelectionController;
-        SelectionController.GridTraversalController = FindObjectOfType<Grid>().controller.GridTraversalController;
-        SelectionController.GameManager = FindObjectOfType<GameManager>();
-        SelectionController.StatPanel = FindObjectOfType<StatPanel>();
-        SelectionController.StatPanel.GameObject.SetActive(false);
+        selectionController.GridSelectionController = gridSelectionController;
+        selectionController.GridTraversalController = gridTraversalController;
+        selectionController.GameManager = this;
+        selectionController.StatPanel = FindObjectOfType<StatPanel>();
+        selectionController.StatPanel.GameObject.SetActive(false);
+
+        FindObjectOfType<Grid>().Init(gridSelectionController, gridTraversalController);
     }
 
     void Update()
@@ -33,12 +41,12 @@ public class GameManager : MonoBehaviour, IMonoBehaviour, IGameManager
             targetTile = hit.collider.gameObject.GetComponent<HexTile>();
         }
 
-        SelectionController.IsEscapeButtonDown = isEscapeButtonDown;
-        SelectionController.MouseIsOverGrid = mouseIsOverGrid;
-        SelectionController.IsLeftClickDown = isLeftClickDown;
-        SelectionController.TargetTile = targetTile;
+        selectionController.IsEscapeButtonDown = isEscapeButtonDown;
+        selectionController.MouseIsOverGrid = mouseIsOverGrid;
+        selectionController.IsLeftClickDown = isLeftClickDown;
+        selectionController.TargetTile = targetTile;
 
-        SelectionController.Update();
+        selectionController.Update();
     }
 
     #region IGameManager implementation

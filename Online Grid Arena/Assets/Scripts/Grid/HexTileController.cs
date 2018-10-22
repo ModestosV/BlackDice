@@ -9,12 +9,12 @@ public class HexTileController
 
     public bool IsEnabled { get; set; }
     public bool IsSelected { get; set; }
-
+    
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
     public IGridTraversalController GridTraversalController { get; set; }
     public IHexTile HexTile { get; set; }
-    public ISelectionController CharacterSelectionController { get; set; }
+    public ISelectionController SelectionController { get; set; }
     public ICharacter OccupantCharacter { get; set; }
     
     public void HoverPathfinding()
@@ -42,7 +42,7 @@ public class HexTileController
             GridSelectionController.AddSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                CharacterSelectionController.SelectedCharacter = OccupantCharacter;
+                SelectionController.SelectedCharacter = OccupantCharacter;
             }
         }
         else
@@ -52,7 +52,7 @@ public class HexTileController
             GridSelectionController.RemoveSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                CharacterSelectionController.SelectedCharacter = null;
+                SelectionController.SelectedCharacter = null;
             }
         }
     }
@@ -101,7 +101,7 @@ public class HexTileController
             GridSelectionController.RemoveSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                CharacterSelectionController.SelectedCharacter = null;
+                SelectionController.SelectedCharacter = null;
             }
         }
     }

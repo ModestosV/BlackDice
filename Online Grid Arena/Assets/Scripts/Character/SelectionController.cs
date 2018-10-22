@@ -16,7 +16,13 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
     public bool MouseIsOverGrid { get; set; }
     public bool IsLeftClickDown { get; set; }
     public IHexTile TargetTile { get; set; }
- 
+    
+    public void Init(IGridTraversalController gridTraversalController, IGridSelectionController gridSelectionController)
+    {
+        GridSelectionController = gridSelectionController;
+        GridTraversalController = gridTraversalController;
+    }
+
     public void Update()
     {
         if (IsEscapeButtonDown) // Pressed escape to quit
