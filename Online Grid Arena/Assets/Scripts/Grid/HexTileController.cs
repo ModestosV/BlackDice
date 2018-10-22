@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 [System.Serializable]
-public class HexTileController
+public class HexTileController : IHexTileController
 {
     public int X { get; set; }
     public int Y { get; set; }

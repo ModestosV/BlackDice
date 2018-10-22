@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public interface IGridTraversalController
 {
+    Dictionary<Tuple<int, int, int>, IHexTile> HexTiles { get; set; }
+
     void Init();
     void SetHexTiles(Dictionary<Tuple<int, int, int>, IHexTile> hexTiles);
     IHexTile GetHexTile(Tuple<int, int, int> coordinates);

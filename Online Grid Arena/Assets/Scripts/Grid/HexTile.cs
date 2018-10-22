@@ -71,7 +71,7 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 
     #region IHexTile implementation
 
-    public HexTileController Controller
+    public IHexTileController Controller
     {
         get { return controller; }
     }
