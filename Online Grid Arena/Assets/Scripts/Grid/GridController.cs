@@ -11,7 +11,7 @@ public class GridController
     public IGridTraversalController GridTraversalController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
 
-    public void Init(IGridTraversalController traversalController, IGridSelectionController selectionController)
+    public void Init(IGridSelectionController selectionController, IGridTraversalController traversalController)
     {
         GridSelectionController = selectionController;
         GridSelectionController.Init();

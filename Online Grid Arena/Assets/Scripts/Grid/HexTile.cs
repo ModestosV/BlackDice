@@ -6,6 +6,20 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     public HexTileController controller;
     public HexTileMaterialSet materials;
 
+    private void Start()
+    {
+        controller.IsEnabled = GetComponent<Renderer>().enabled;
+        GetComponent<Renderer>().material = materials.DefaultMaterial;
+        controller.OccupantCharacter = GetComponentInChildren<Character>();
+
+        ISelectionController selectionController = FindObjectOfType<GameManager>().SelectionController;
+        controller.GridSelectionController = selectionController.GridSelectionController;
+        controller.GridTraversalController = selectionController.GridTraversalController;
+        controller.SelectionController = selectionController;
+        controller.HexTileSelectionController = this;
+        controller.HexTile = this;
+    }
+
     #region ISelectionController implementation
 
     public void Hover()
@@ -57,7 +71,7 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
 
     #region IHexTile implementation
 
-    public HexTileController Controller
+    public IHexTileController Controller
     {
         get { return controller; }
     }
@@ -87,23 +101,6 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     {
         return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
     }
-
-    private void Awake()
-    {
-        controller.IsEnabled = GetComponent<Renderer>().enabled;
-        GetComponent<Renderer>().material = materials.DefaultMaterial;
-        controller.OccupantCharacter = GetComponentInChildren<Character>();
-        controller.CharacterSelectionController = FindObjectOfType<SelectionController>();
-        controller.HexTileSelectionController = this;
-        controller.HexTile = this;
-    }
-
-    private void Start()
-    {
-        controller.GridSelectionController = GetComponentInParent<Grid>().controller.GridSelectionController;
-        controller.GridTraversalController = GetComponentInParent<Grid>().controller.GridTraversalController;
-    }
-
     private void OnMouseExit()
     {
         controller.Blur();

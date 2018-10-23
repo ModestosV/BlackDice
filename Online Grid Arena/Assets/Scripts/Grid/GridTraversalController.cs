@@ -5,24 +5,24 @@ using System.Collections.Generic;
 [Serializable]
 public class GridTraversalController : IGridTraversalController
 {
-    private Dictionary<Tuple<int, int, int>, IHexTile> hexTiles;
+    public Dictionary<Tuple<int, int, int>, IHexTile> HexTiles { get; set; }
 
     #region IGridTraversalController implementation
 
     public void Init()
     {
-        hexTiles = new Dictionary<Tuple<int, int, int>, IHexTile>();
+        HexTiles = new Dictionary<Tuple<int, int, int>, IHexTile>();
     }
 
     public void SetHexTiles(Dictionary<Tuple<int, int, int>, IHexTile> hexTiles)
     {
-        this.hexTiles = hexTiles;
+        this.HexTiles = hexTiles;
     }
 
     public IHexTile GetHexTile(Tuple<int, int, int> coordinates)
     {
         IHexTile tile;
-        hexTiles.TryGetValue(coordinates, out tile);
+        HexTiles.TryGetValue(coordinates, out tile);
         return tile;
     }
 
@@ -32,7 +32,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X + 1;
         int y = tile.Controller.Y;
         int z = tile.Controller.Z - 1;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthEast);
 
         //Debug.Log($"NE: {neighborNorthEast}");
         return neighborNorthEast;
@@ -44,7 +44,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X + 1;
         int y = tile.Controller.Y - 1;
         int z = tile.Controller.Z;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborEast);
 
         //Debug.Log($"E: {neighborEast}");
         return neighborEast;
@@ -56,7 +56,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X;
         int y = tile.Controller.Y - 1;
         int z = tile.Controller.Z + 1;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthEast);
 
         //Debug.Log($"SE: {neighborSouthEast}");
         return neighborSouthEast;
@@ -68,7 +68,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X - 1;
         int y = tile.Controller.Y;
         int z = tile.Controller.Z + 1;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborSouthWest);
 
         //Debug.Log($"SW: {neighborSouthWest}");
         return neighborSouthWest;
@@ -80,7 +80,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X - 1;
         int y = tile.Controller.Y + 1;
         int z = tile.Controller.Z;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborWest);
 
         //Debug.Log($"W: {neighborWest}");
         return neighborWest;
@@ -92,7 +92,7 @@ public class GridTraversalController : IGridTraversalController
         int x = tile.Controller.X;
         int y = tile.Controller.Y + 1;
         int z = tile.Controller.Z - 1;
-        hexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
+        HexTiles.TryGetValue(new Tuple<int, int, int>(x, y, z), out neighborNorthWest);
 
         //Debug.Log($"NW: {neighborNorthWest}");
         return neighborNorthWest;

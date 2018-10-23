@@ -16,7 +16,7 @@ class GridControllerTests
         gridSelectionController = Substitute.For<IGridSelectionController>();
         sut = new GridController();
         sut.isTestMode = true;
-        sut.Init(gridTraversalController, gridSelectionController);
+        sut.Init(gridSelectionController, gridTraversalController);
     }
 
     [Test]

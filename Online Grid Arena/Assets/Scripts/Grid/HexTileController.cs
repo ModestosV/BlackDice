@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-
-[System.Serializable]
-public class HexTileController
+﻿[System.Serializable]
+public class HexTileController : IHexTileController
 {
     public int X { get; set; }
     public int Y { get; set; }
@@ -9,24 +7,13 @@ public class HexTileController
 
     public bool IsEnabled { get; set; }
     public bool IsSelected { get; set; }
-
+    
+    public ISelectionController SelectionController { get; set; }
     public IHexTileSelectionController HexTileSelectionController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
     public IGridTraversalController GridTraversalController { get; set; }
     public IHexTile HexTile { get; set; }
-    public ICharacterSelectionController CharacterSelectionController { get; set; }
     public ICharacter OccupantCharacter { get; set; }
-    
-    public void HoverPathfinding()
-    {
-        GridSelectionController.ScrubPathAll();
-        Hover();
-        List<IHexTile> selectedTiles = GridSelectionController.SelectedTiles;
-        foreach (IHexTile selectedTile in selectedTiles)
-        {
-            GridSelectionController.HighlightPath(GridTraversalController.GetPath(selectedTile, HexTile));
-        }
-    }
 
     public void Select()
     {
@@ -42,7 +29,7 @@ public class HexTileController
             GridSelectionController.AddSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                CharacterSelectionController.SelectedCharacter = OccupantCharacter;
+                SelectionController.SelectedCharacter = OccupantCharacter;
             }
         }
         else
@@ -52,7 +39,23 @@ public class HexTileController
             GridSelectionController.RemoveSelectedTile(HexTile);
             if (OccupantCharacter != null)
             {
-                CharacterSelectionController.SelectedCharacter = null;
+                SelectionController.SelectedCharacter = null;
+            }
+        }
+    }
+
+    public void Deselect()
+    {
+        if (!IsEnabled) return;
+
+        if (IsSelected)
+        {
+            IsSelected = false;
+            HexTileSelectionController.Deselect();
+            GridSelectionController.RemoveSelectedTile(HexTile);
+            if (OccupantCharacter != null)
+            {
+                SelectionController.SelectedCharacter = null;
             }
         }
     }
@@ -87,22 +90,6 @@ public class HexTileController
         {
             HexTileSelectionController.Blur();
             GridSelectionController.RemoveHoveredTile(HexTile);
-        }
-    }
-
-    public void Deselect()
-    {
-        if (!IsEnabled) return;
-
-        if (IsSelected)
-        {
-            IsSelected = false;
-            HexTileSelectionController.Deselect();
-            GridSelectionController.RemoveSelectedTile(HexTile);
-            if (OccupantCharacter != null)
-            {
-                CharacterSelectionController.SelectedCharacter = null;
-            }
         }
     }
 
