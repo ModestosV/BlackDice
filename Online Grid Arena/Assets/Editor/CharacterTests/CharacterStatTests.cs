@@ -1,67 +1,80 @@
-﻿using NUnit.Framework;
+﻿using NSubstitute;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 public class CharacterStatTests
 {
-    private List<StatModifier> statModifiers;
+    CharacterStat sut;
 
-    private object sourceObject1;
-    private object sourceObject2;
+    List<IStatModifier> statModifiers;
 
-    private StatModifier flatMod1;
-    private StatModifier flatMod2;
-    private StatModifier percentAddMod1;
-    private StatModifier percentAddMod2;
-    private StatModifier percentMultMod1;
-    private StatModifier percentMultMod2;
+    object sourceObject1;
+    object sourceObject2;
 
-    private const float FINAL_VALUE_PRECISION = 0.0001f;
+    IStatModifier flatMod1;
+    IStatModifier flatMod2;
+    IStatModifier percentAddMod1;
+    IStatModifier percentAddMod2;
+    IStatModifier percentMultMod1;
+    IStatModifier percentMultMod2;
+
+    List<IStatModifier> statModifiersList;
+
+    const float FINAL_VALUE_PRECISION = 0.0001f;
 
     [SetUp]
     public void Init()
     {
-        statModifiers = new List<StatModifier>();
+        statModifiersList = new List<IStatModifier>();
 
         sourceObject1 = new object();
         sourceObject2 = new object();
 
-        flatMod1 = new StatModifier(2.0f, StatModType.Flat, sourceObject1);
-        flatMod2 = new StatModifier(5.0f, StatModType.Flat, sourceObject1);
-        percentAddMod1 = new StatModifier(0.05f, StatModType.PercentAdd, sourceObject1);
-        percentAddMod2 = new StatModifier(0.10f, StatModType.PercentAdd, sourceObject2);
-        percentMultMod1 = new StatModifier(0.3f, StatModType.PercentMult, sourceObject2);
-        percentMultMod2 = new StatModifier(0.2f, StatModType.PercentMult, sourceObject2);
 
-    }
+        flatMod1 = Substitute.For<IStatModifier>();
+        flatMod1.Value.Returns(2.0f);
+        flatMod1.Type.Returns(StatModType.Flat);
+        flatMod1.Order.Returns(100);
+        flatMod1.Source.Returns(sourceObject1);
 
-    [Test]
-    public void Trigger_log_statements()
-    {
-        CharacterStat stat = new CharacterStat();
-        object testObject1 = new object();
-        object testObject2 = new object();
-        object testObject3 = new object();
 
-        StatModifier mod1 = new StatModifier(1.0f, StatModType.Flat, testObject1);
-        StatModifier mod2 = new StatModifier(2.0f, StatModType.PercentAdd, testObject1);
-        StatModifier mod3 = new StatModifier(3.0f, StatModType.PercentMult, testObject2);
-        StatModifier mod4 = new StatModifier(4.0f, StatModType.Flat, testObject2);
-        stat.AddModifier(mod1);
-        stat.RemoveModifier(mod1);
-        stat.RemoveModifier(mod1);
+        flatMod2 = Substitute.For<IStatModifier>();
+        flatMod2.Value.Returns(5.0f);
+        flatMod2.Type.Returns(StatModType.Flat);
+        flatMod2.Order.Returns(100);
+        flatMod2.Source.Returns(sourceObject2);
 
-        stat.AddModifier(mod1);
-        stat.AddModifier(mod2);
-        stat.AddModifier(mod3);
-        stat.AddModifier(mod4);
-        stat.RemoveAllModifiersFromSource(testObject1);
-        stat.RemoveAllModifiersFromSource(testObject3);
+
+        percentAddMod1 = Substitute.For<IStatModifier>();
+        percentAddMod1.Value.Returns(0.05f);
+        percentAddMod1.Type.Returns(StatModType.PercentAdd);
+        percentAddMod1.Order.Returns(200);
+        percentAddMod1.Source.Returns(sourceObject1);
+
+        percentAddMod2 = Substitute.For<IStatModifier>();
+        percentAddMod2.Value.Returns(0.10f);
+        percentAddMod2.Type.Returns(StatModType.PercentAdd);
+        percentAddMod2.Order.Returns(200);
+        percentAddMod2.Source.Returns(sourceObject2);
+
+
+        percentMultMod1 = Substitute.For<IStatModifier>();
+        percentMultMod1.Value.Returns(0.3f);
+        percentMultMod1.Type.Returns(StatModType.PercentMult);
+        percentMultMod1.Order.Returns(300);
+        percentMultMod1.Source.Returns(sourceObject1);
+
+        percentMultMod2 = Substitute.For<IStatModifier>();
+        percentMultMod2.Value.Returns(0.2f);
+        percentMultMod2.Type.Returns(StatModType.PercentMult);
+        percentMultMod2.Order.Returns(300);
+        percentMultMod2.Source.Returns(sourceObject2);
     }
 
     [Test]
     public void Parameterized_constructor_initializes_the_base_value_with_passed_value()
     {
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         Assert.AreEqual(10.0f, sut.Value);
     }
@@ -69,55 +82,56 @@ public class CharacterStatTests
     [Test]
     public void Add_modifier_adds_the_passed_modifier_to_the_stat_modifiers_list()
     {
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         sut.AddModifier(flatMod1);
 
-        Assert.AreEqual(statModifiers.Count, 1);
-        Assert.Contains(flatMod1, statModifiers);
+        Assert.AreEqual(statModifiersList.Count, 1);
+        Assert.Contains(flatMod1, statModifiersList);
     }
 
     [Test]
     public void Remove_modifier_removes_the_passed_modifier_from_the_stat_modifier_list()
     {
-        statModifiers.Add(flatMod1);
-        var sut = new CharacterStat(10.0f, statModifiers);
+        statModifiersList.Add(flatMod1);
+
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         sut.RemoveModifier(flatMod1);
 
-        Assert.IsFalse(statModifiers.Contains(flatMod1));
-        Assert.IsEmpty(statModifiers);
+        Assert.IsFalse(statModifiersList.Contains(flatMod1));
+        Assert.IsEmpty(statModifiersList);
     }
 
     [Test]
     public void Remove_all_modifiers_from_source_removes_all_modifiers_with_passed_source_from_stat_modifier_list()
     {
-        statModifiers.Add(flatMod1);
-        statModifiers.Add(flatMod2);
-        statModifiers.Add(percentAddMod1);
-        statModifiers.Add(percentAddMod2);
-        statModifiers.Add(percentMultMod1);
-        statModifiers.Add(percentMultMod2);
+        statModifiersList.Add(flatMod1);
+        statModifiersList.Add(flatMod2);
+        statModifiersList.Add(percentAddMod1);
+        statModifiersList.Add(percentAddMod2);
+        statModifiersList.Add(percentMultMod1);
+        statModifiersList.Add(percentMultMod2);
         
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         sut.RemoveAllModifiersFromSource(sourceObject1);
 
-        Assert.IsFalse(statModifiers.Contains(flatMod1));
-        Assert.IsFalse(statModifiers.Contains(flatMod2));
-        Assert.IsFalse(statModifiers.Contains(percentAddMod1));
-        Assert.IsTrue(statModifiers.Contains(percentAddMod2));
-        Assert.IsTrue(statModifiers.Contains(percentMultMod1));
-        Assert.IsTrue(statModifiers.Contains(percentMultMod2));
+        Assert.IsFalse(statModifiersList.Contains(flatMod1));
+        Assert.IsTrue(statModifiersList.Contains(flatMod2));
+        Assert.IsFalse(statModifiersList.Contains(percentAddMod1));
+        Assert.IsTrue(statModifiersList.Contains(percentAddMod2));
+        Assert.IsFalse(statModifiersList.Contains(percentMultMod1));
+        Assert.IsTrue(statModifiersList.Contains(percentMultMod2));
     }
 
     [Test]
     public void Value_for_stat_with_flat_modifiers_calculates_correctly()
     {
-        statModifiers.Add(flatMod1);
-        statModifiers.Add(flatMod2);
+        statModifiersList.Add(flatMod1);
+        statModifiersList.Add(flatMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // 10 + 2 + 5 = 17
         Assert.AreEqual(17.0f, sut.Value, FINAL_VALUE_PRECISION);
@@ -126,10 +140,10 @@ public class CharacterStatTests
     [Test]
     public void Value_for_stat_with_percent_add_modifiers_calculates_correctly()
     {
-        statModifiers.Add(percentAddMod1);
-        statModifiers.Add(percentAddMod2);
+        statModifiersList.Add(percentAddMod1);
+        statModifiersList.Add(percentAddMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // 10 * (1.0 + 0.05 + 0.10) = 10 * 1.15 = 11.5
         Assert.AreEqual(sut.Value, 11.5f, FINAL_VALUE_PRECISION);
@@ -138,10 +152,10 @@ public class CharacterStatTests
     [Test]
     public void Value_for_stat_with_percent_mult_modifiers_calculates_correctly()
     {
-        statModifiers.Add(percentMultMod1);
-        statModifiers.Add(percentMultMod2);
+        statModifiersList.Add(percentMultMod1);
+        statModifiersList.Add(percentMultMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);;
+        sut = new CharacterStat(10.0f, statModifiersList);;
 
         // 10 * (1 + 0.3) * (1 + 0.2) = 10 * 1.3 * 1.2 = 15.6
         Assert.AreEqual(sut.Value, 15.6f, FINAL_VALUE_PRECISION);
@@ -150,12 +164,12 @@ public class CharacterStatTests
     [Test]
     public void Value_for_stat_with_flat_and_percent_add_modifiers_calculates_correctly()
     {
-        statModifiers.Add(percentAddMod1);
-        statModifiers.Add(flatMod1);
-        statModifiers.Add(percentAddMod2);
-        statModifiers.Add(flatMod2);
+        statModifiersList.Add(percentAddMod1);
+        statModifiersList.Add(flatMod1);
+        statModifiersList.Add(percentAddMod2);
+        statModifiersList.Add(flatMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // (10 + 2 + 5) * (1 + 0.05 + 0.10) = 17 * 1.15 = 19.55
         Assert.AreEqual(sut.Value, 19.55f, FINAL_VALUE_PRECISION);
@@ -165,12 +179,12 @@ public class CharacterStatTests
     public void Value_for_stat_with_flat_and_percent_mult_modifiers_calculates_correctly()
     {
 
-        statModifiers.Add(percentMultMod1);
-        statModifiers.Add(flatMod1);
-        statModifiers.Add(percentMultMod2);
-        statModifiers.Add(flatMod2);
+        statModifiersList.Add(percentMultMod1);
+        statModifiersList.Add(flatMod1);
+        statModifiersList.Add(percentMultMod2);
+        statModifiersList.Add(flatMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // (10 + 2 + 5) * (1 + 0.3) * (1 + 0.2) = 17 * 1.3 * 1.2 = 26.52
         Assert.AreEqual(sut.Value, 26.52f, FINAL_VALUE_PRECISION);
@@ -179,12 +193,12 @@ public class CharacterStatTests
     [Test]
     public void Value_for_stat_with_percent_add_and_percent_mult_modifiers_calculates_correctly()
     {
-        statModifiers.Add(percentAddMod1);
-        statModifiers.Add(percentMultMod1);
-        statModifiers.Add(percentAddMod2);
-        statModifiers.Add(percentMultMod2);
+        statModifiersList.Add(percentAddMod1);
+        statModifiersList.Add(percentMultMod1);
+        statModifiersList.Add(percentAddMod2);
+        statModifiersList.Add(percentMultMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // 10 * (1 + 0.05 + 0.10) * (1 + 0.3) * (1 + 0.2) = 10 * 1.15 * 1.3 * 1.2 = 17.94
         Assert.AreEqual(sut.Value, 17.94, FINAL_VALUE_PRECISION);
@@ -193,14 +207,14 @@ public class CharacterStatTests
     [Test]
     public void Value_for_stat_with_flat_and_percent_add_and_percent_mult_modifiers_calculates_correctly()
     {
-        statModifiers.Add(percentMultMod1);
-        statModifiers.Add(flatMod1);
-        statModifiers.Add(percentAddMod1);
-        statModifiers.Add(percentMultMod2);
-        statModifiers.Add(flatMod2);
-        statModifiers.Add(percentAddMod2);
+        statModifiersList.Add(percentMultMod1);
+        statModifiersList.Add(flatMod1);
+        statModifiersList.Add(percentAddMod1);
+        statModifiersList.Add(percentMultMod2);
+        statModifiersList.Add(flatMod2);
+        statModifiersList.Add(percentAddMod2);
 
-        var sut = new CharacterStat(10.0f, statModifiers);
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // (10 + 2 + 5) * (1 + 0.05 + 0.10) * (1 + 0.3) * (1 + 0.2) = 17 * 1.15 * 1.3 * 1.2 = 30.498
         Assert.AreEqual(sut.Value, 30.498f, FINAL_VALUE_PRECISION);
