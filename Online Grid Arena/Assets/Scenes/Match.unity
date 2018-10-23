@@ -2322,7 +2322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52df47564254e214b8af8dd64da8aaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statPanel: {fileID: 1803367056}
 --- !u!4 &1907987084
 Transform:
   m_ObjectHideFlags: 0
@@ -7432,6 +7431,11 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114427700101395922, guid: 610ede887b1638f4b89f64dcd099ec75,
+        type: 2}
+      propertyPath: controller.gridWidth
+      value: 19
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 610ede887b1638f4b89f64dcd099ec75, type: 2}
