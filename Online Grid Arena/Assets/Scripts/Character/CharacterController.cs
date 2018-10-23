@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 
 [System.Serializable]
-public class CharacterController
+public class CharacterController : ICharacterController
 {
     public CharacterStatNameSet characterStatNameSet;
     public List<CharacterStat> characterStats;
+
+    public CharacterStatNameSet CharacterStatNameSet { get { return characterStatNameSet; } }
 
     public List<ICharacterStat> CharacterStats
     {

@@ -5,18 +5,46 @@ public class StatDisplay : MonoBehaviour, IStatDisplay
 {
     public StatDisplayController controller;
 
-    public StatDisplayController Controller
+    public Text nameText;
+    public Text valueText;
+
+    public IStatDisplayController Controller
     {
         get { return controller; }
-        set { controller = value; }
+    }
+
+    public Text NameText
+    {
+        get { return nameText; }
+        set { nameText = value; }
+    }
+
+    public Text ValueText
+    {
+        get { return valueText; }
+        set { valueText = value; }
     }
 
     private void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();
-        controller.nameText = texts[0];
-        controller.valueText = texts[1];
+        nameText = texts[0];
+        valueText = texts[1];
     }
+
+    #region IStatDisplay implementation
+
+    public void SetNameText(string nameText)
+    {
+        this.nameText.text = nameText;
+    }
+
+    public void SetValueText(string valueText)
+    {
+        this.valueText.text = valueText;
+    }
+
+    #endregion
 
     #region IMonoBehaviour implementation
 

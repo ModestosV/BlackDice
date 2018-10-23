@@ -1,8 +1,3 @@
-/*
- * Credit: Kryzarel's free Unity asset titled "Character Stats".
- * Obtained from Unity Asset Store on 2018/09/14. https://assetstore.unity.com/packages/tools/integration/character-stats-106351
-*/
-
 public enum StatModType
 {
     Flat = 100,
@@ -10,12 +5,12 @@ public enum StatModType
     PercentMult = 300
 }
 
-public class StatModifier
+public class StatModifier : IStatModifier
 {
-    public readonly float Value;
-	public readonly StatModType Type;
-	public readonly int Order;
-	public readonly object Source;
+    public float Value { get; }
+	public StatModType Type { get; }
+	public int Order { get; }
+	public object Source { get; }
 
 	public StatModifier(float value, StatModType type, int order, object source)
 	{

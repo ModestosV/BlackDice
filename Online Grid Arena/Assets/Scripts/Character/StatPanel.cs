@@ -12,13 +12,12 @@ public class StatPanel : MonoBehaviour, IStatPanel
 
     private void Awake()
     {
-        controller.Init(new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>()));
+        controller.StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>());
     }
 
-    public StatPanelController Controller
+    public IStatPanelController Controller
     {
         get { return controller; }
-        set { controller = value; }
     }
 
     #region IMonoBehaviour implementation

@@ -13,8 +13,8 @@ using System.Collections.ObjectModel;
 public class CharacterStat : ICharacterStat
 {
     public float baseValue;
-    public readonly ReadOnlyCollection<StatModifier> readonlyStatModifiers;
-    protected readonly List<StatModifier> statModifiers;
+    public readonly ReadOnlyCollection<IStatModifier> readonlyStatModifiers;
+    protected readonly List<IStatModifier> statModifiers;
     protected bool isDirty = true;
     protected float lastBaseValue;
     protected float value;
@@ -36,24 +36,24 @@ public class CharacterStat : ICharacterStat
     }
 
 
-    public CharacterStat() : this(0.0f, new List<StatModifier>())
+    public CharacterStat() : this(0.0f, new List<IStatModifier>())
     {
 
     }
 
-    public CharacterStat(float baseValue) : this(baseValue, new List<StatModifier>())
+    public CharacterStat(float baseValue) : this(baseValue, new List<IStatModifier>())
     {
         this.baseValue = baseValue;
     }
 
-    public CharacterStat(float baseValue, List<StatModifier> statModifierList)
+    public CharacterStat(float baseValue, List<IStatModifier> statModifierList)
     {
         this.baseValue = baseValue;
         statModifiers = statModifierList;
         readonlyStatModifiers = statModifiers.AsReadOnly();
     }
 
-    public virtual void AddModifier(StatModifier mod)
+    public virtual void AddModifier(IStatModifier mod)
     {
         isDirty = true;
         statModifiers.Add(mod);
@@ -61,7 +61,7 @@ public class CharacterStat : ICharacterStat
         Debug.Log(string.Format("Added {0} to {1}", mod.ToString(), ToString()));
     }
 
-    public virtual bool RemoveModifier(StatModifier mod)
+    public virtual bool RemoveModifier(IStatModifier mod)
     {
         if (statModifiers.Remove(mod))
         {
@@ -76,7 +76,7 @@ public class CharacterStat : ICharacterStat
 
     public virtual bool RemoveAllModifiersFromSource(object source)
     {
-        List<StatModifier> removedModifiers = new List<StatModifier>();
+        List<IStatModifier> removedModifiers = new List<IStatModifier>();
 
         string sourceString = string.Format("({0}|{1})", source.ToString(), source.GetHashCode());
 
@@ -111,7 +111,7 @@ public class CharacterStat : ICharacterStat
         return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
     }
 
-    protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
+    protected virtual int CompareModifierOrder(IStatModifier a, IStatModifier b)
     {
         if (a.Order < b.Order)
             return -1;
@@ -129,7 +129,7 @@ public class CharacterStat : ICharacterStat
 
         for (int i = 0; i < statModifiers.Count; i++)
         {
-            StatModifier mod = statModifiers[i];
+            IStatModifier mod = statModifiers[i];
 
             if (mod.Type == StatModType.Flat)
             {
