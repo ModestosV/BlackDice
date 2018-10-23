@@ -1,11 +1,6 @@
 ﻿using System;
-using UnityEngine.UI;
 
 [Serializable]
-public class StatDisplayController {
-
-    public Text nameText;
-    public Text valueText;
-
+public class StatDisplayController : IStatDisplayController {
     public ICharacterStat CharacterStat { get; set; }
 }

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da2e6438b321944eb750f351cbf3d62, type: 3}
   m_Name: Default Character Stat Set
   m_EditorClassIdentifier: 
-  StatNames:
+  statNames:
   - Health
   - Damage
   - Speed

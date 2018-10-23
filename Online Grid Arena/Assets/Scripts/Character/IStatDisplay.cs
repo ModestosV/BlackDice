@@ -1,4 +1,11 @@
-﻿public interface IStatDisplay : IMonoBehaviour
+﻿using UnityEngine.UI;
+
+public interface IStatDisplay : IMonoBehaviour
 {
-    StatDisplayController Controller { get; set; }
+    IStatDisplayController Controller { get; }
+    Text NameText { get; set; }
+    Text ValueText { get; set; }
+
+    void SetNameText(string nameText);
+    void SetValueText(string valueText);
 }

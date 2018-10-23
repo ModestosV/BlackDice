@@ -3,21 +3,16 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class StatPanelController
+public class StatPanelController : IStatPanelController
 {
     public List<IStatDisplay> StatDisplays { get; set; }
     public ICharacter SelectedCharacter { get; set; }
-
-    public void Init(List<IStatDisplay> statDisplays)
-    {
-        StatDisplays = statDisplays;
-    }
 
     public void SetCharacter(ICharacter selectedCharacter)
     {
         SelectedCharacter = selectedCharacter;
 
-        if (!AssertCharacterStatCountIsConsistent()) return;
+        if (!AssertCharacterStatCountIsConsistentWithStatNameSet()) return;
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
@@ -27,11 +22,11 @@ public class StatPanelController
 
     public void UpdateStatValues()
     {
-        if (!AssertCharacterStatCountIsConsistent()) return;
+        if (!AssertCharacterStatCountIsConsistentWithStatNameSet()) return;
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].Controller.valueText.text = SelectedCharacter.Controller.CharacterStats[i].Value.ToString();
+            StatDisplays[i].SetValueText(SelectedCharacter.Controller.CharacterStats[i].Value.ToString());
         }
     }
 
@@ -39,19 +34,19 @@ public class StatPanelController
     {
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].Controller.nameText.text = SelectedCharacter.Controller.characterStatNameSet.StatNames[i];
+            StatDisplays[i].SetNameText(SelectedCharacter.Controller.CharacterStatNameSet.StatNames[i]);
         }
     }
 
-    private bool AssertCharacterStatCountIsConsistent()
+    private bool AssertCharacterStatCountIsConsistentWithStatNameSet()
     {
-        int characterStatSetCount = SelectedCharacter.Controller.characterStatNameSet.StatNames.Count;
+        int characterStatSetCount = SelectedCharacter.Controller.CharacterStatNameSet.StatNames.Count;
         int characterStatCount = SelectedCharacter.Controller.CharacterStats.Count;
         int statDisplaysCount = StatDisplays.Count;
 
         if (characterStatSetCount != statDisplaysCount)
         {
-            Debug.LogError($"The size of the selected charactar stats set ({characterStatSetCount}) does not match the number of stat displays ({statDisplaysCount}).");
+            Debug.Log($"The size of the selected charactar stats set ({characterStatSetCount}) does not match the number of stat displays ({statDisplaysCount}).");
             return false;
         }
 
