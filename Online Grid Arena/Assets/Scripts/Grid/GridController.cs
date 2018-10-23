@@ -9,14 +9,16 @@ public class GridController
     public IGridTraversalController GridTraversalController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
 
+    private const int DEFAULT_GRID_WIDTH = 19;
+
     public void Init(IGridSelectionController selectionController, IGridTraversalController traversalController)
     {
         GridSelectionController = selectionController;
         GridSelectionController.Init();
         GridTraversalController = traversalController;
         GridTraversalController.Init();
-        if (gridWidth == 0) // Possible bug. TODO: Investigate why this is sometimes 0.
-            gridWidth = 19;
+        if (gridWidth == 0)
+            gridWidth = DEFAULT_GRID_WIDTH;
     }
 
     public void SetHexTiles(IHexTile[] hexTiles)
