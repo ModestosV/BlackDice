@@ -18,6 +18,8 @@ public class Grid : MonoBehaviour, IGrid
         controller.Init(gridSelectionController, gridTraversalController);
     }
 
+    #endregion
+
     private void ArrangeHexTileInGridFormation(HexTile[] hexTiles)
     {
         for (int i = 0; i < hexTiles.Length; i++)
