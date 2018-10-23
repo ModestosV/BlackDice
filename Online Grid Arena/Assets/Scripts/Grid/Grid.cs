@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 
-public class Grid : MonoBehaviour, IMonoBehaviour
+public class Grid : MonoBehaviour, IGrid
 {
     public GridController controller;
     public GridTraversalController traversalController;
     public GridSelectionController selectionController;
 
-    private void Awake()
-    {
-        controller.Init(traversalController, selectionController);
-    }
-
     private void Start()
     {
         controller.SetHexTiles(GetComponentsInChildren<HexTile>());
+    }
+
+    #region IGrid implementation
+
+    public void Init(IGridSelectionController gridSelectionController, IGridTraversalController gridTraversalController)
+    {
+        controller.Init(gridSelectionController, gridTraversalController);
     }
 
     private void ArrangeHexTileInGridFormation(HexTile[] hexTiles)
