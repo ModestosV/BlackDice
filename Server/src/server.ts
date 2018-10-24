@@ -33,5 +33,7 @@ function logError(err: Error, req: Request, res: Response, next: NextFunction) {
 function listen() {
   let stringErr = 'Server is currently listing on: ';
   stringErr = stringErr.concat(host, ':', port.toString());
+  global.console.log('');
   global.console.log(stringErr);
+  global.console.log('');
 }

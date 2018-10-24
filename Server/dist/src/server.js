@@ -38,6 +38,8 @@ function logError(err, req, res, next) {
 function listen() {
     let stringErr = 'Server is currently listing on: ';
     stringErr = stringErr.concat(host, ':', port.toString());
+    global.console.log('');
     global.console.log(stringErr);
+    global.console.log('');
 }
 //# sourceMappingURL=server.js.map
