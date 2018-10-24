@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour, IMonoBehaviour, IGameManager
         selectionController.GridTraversalController = gridTraversalController;
         selectionController.GameManager = this;
         selectionController.StatPanel = FindObjectOfType<StatPanel>();
-        selectionController.StatPanel.GameObject.SetActive(false);
+        selectionController.StatPanel.Controller.DisableStatDisplays();
+        selectionController.PlayerPanel = FindObjectOfType<PlayerPanel>();
 
         FindObjectOfType<Grid>().Init(gridSelectionController, gridTraversalController);
     }

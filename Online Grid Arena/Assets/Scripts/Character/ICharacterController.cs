@@ -4,4 +4,5 @@ public interface ICharacterController
 {
     CharacterStatNameSet CharacterStatNameSet { get; }
     List<ICharacterStat> CharacterStats { get; }
+    int OwnedByPlayer { get; }
 }

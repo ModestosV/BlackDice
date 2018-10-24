@@ -7,6 +7,7 @@ public interface ISelectionController
     IGridSelectionController GridSelectionController { get; set; }
     IGridTraversalController GridTraversalController { get; set; }
     IStatPanel StatPanel { get; set; }
+    IPlayerPanel PlayerPanel { get; set; }
 
     void Init(IGridTraversalController gridTraversalController, IGridSelectionController gridSelectionController);
 

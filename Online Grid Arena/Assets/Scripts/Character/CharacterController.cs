@@ -5,6 +5,7 @@ public class CharacterController : ICharacterController
 {
     public CharacterStatNameSet characterStatNameSet;
     public List<CharacterStat> characterStats;
+    public int ownedByPlayer;
 
     public CharacterStatNameSet CharacterStatNameSet { get { return characterStatNameSet; } }
 
@@ -20,5 +21,7 @@ public class CharacterController : ICharacterController
             return stats;
         }
     }
+
+    public int OwnedByPlayer { get { return ownedByPlayer; } }
     
 }

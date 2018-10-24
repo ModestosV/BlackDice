@@ -11,6 +11,7 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
     public IGridSelectionController GridSelectionController { get; set; }
     public IGridTraversalController GridTraversalController { get; set; }
     public IStatPanel StatPanel { get; set; }
+    public IPlayerPanel PlayerPanel { get; set; }
 
     public bool IsEscapeButtonDown { get; set; }
     public bool MouseIsOverGrid { get; set; }
@@ -34,7 +35,8 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            StatPanel.GameObject.SetActive(false);
+            StatPanel.Controller.DisableStatDisplays();
+            PlayerPanel.ClearPlayerName();
             return;
         }
 
@@ -52,7 +54,8 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            StatPanel.GameObject.SetActive(false);
+            StatPanel.Controller.DisableStatDisplays();
+            PlayerPanel.ClearPlayerName();
             return;
         }
 
@@ -86,10 +89,11 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         {
             GridSelectionController.BlurAll();
             TargetTile.Controller.Select();
-            StatPanel.GameObject.SetActive(true);
+            StatPanel.Controller.EnableStatDisplays();
             StatPanel.Controller.SetCharacter(SelectedCharacter);
             StatPanel.Controller.UpdateStatNames();
             StatPanel.Controller.UpdateStatValues();
+            PlayerPanel.SetPlayerName($"Player {SelectedCharacter.Controller.OwnedByPlayer + 1}");
             return;
         }
 
@@ -130,7 +134,8 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         {
             GridSelectionController.ScrubPathAll();
             TargetTile.Controller.Deselect();
-            StatPanel.GameObject.SetActive(false);
+            StatPanel.Controller.DisableStatDisplays();
+            PlayerPanel.ClearPlayerName();
             return;
         }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Character
   - Tile
+  - Player Panel
   layers:
   - Default
   - TransparentFX

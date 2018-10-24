@@ -38,6 +38,22 @@ public class StatPanelController : IStatPanelController
         }
     }
 
+    public void DisableStatDisplays()
+    {
+        foreach (IStatDisplay display in StatDisplays)
+        {
+            display.GameObject.SetActive(false);
+        }
+    }
+
+    public void EnableStatDisplays()
+    {
+        foreach (IStatDisplay display in StatDisplays)
+        {
+            display.GameObject.SetActive(true);
+        }
+    }
+
     private bool AssertCharacterStatCountIsConsistentWithStatNameSet()
     {
         int characterStatSetCount = SelectedCharacter.Controller.CharacterStatNameSet.StatNames.Count;
