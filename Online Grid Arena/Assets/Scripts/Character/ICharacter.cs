@@ -1,4 +1,4 @@
-﻿public interface ICharacter : IMonoBehaviour
+﻿public interface ICharacter : IMonoBehaviour, ICharacterMovementController
 {
     IHexTile GetOccupiedTile();
     ICharacterController Controller { get; }

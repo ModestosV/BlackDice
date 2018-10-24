@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface ICharacterController
+public interface ICharacterController : ICharacterMovementController
 {
     CharacterStatNameSet CharacterStatNameSet { get; }
     List<ICharacterStat> CharacterStats { get; }

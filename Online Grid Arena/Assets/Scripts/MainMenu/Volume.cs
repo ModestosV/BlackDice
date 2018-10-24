@@ -3,15 +3,15 @@
 public class Volume : MonoBehaviour
 {
     private AudioSource audioSource;
-    private float mainVolume = 1f;
+    private float mainVolume = 0.15f;
 
-    void Awake ()
+    void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
         audioSource = GetComponent<AudioSource>();
     }
 	
-	void Update ()
+	void Update()
     {
         audioSource.volume = mainVolume;
     }

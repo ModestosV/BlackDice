@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SelectionController : ISelectionController, ICharacterMovementController
+public class SelectionController : ISelectionController
 {
     public ICharacter SelectedCharacter { get; set; }
 
@@ -90,10 +90,10 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
             GridSelectionController.BlurAll();
             TargetTile.Controller.Select();
             StatPanel.Controller.EnableStatDisplays();
-            StatPanel.Controller.SetCharacter(SelectedCharacter);
+            StatPanel.Controller.SetCharacter(TargetTile.Controller.OccupantCharacter);
             StatPanel.Controller.UpdateStatNames();
             StatPanel.Controller.UpdateStatValues();
-            PlayerPanel.SetPlayerName($"Player {SelectedCharacter.Controller.OwnedByPlayer + 1}");
+            PlayerPanel.SetPlayerName($"Player {TargetTile.Controller.OccupantCharacter.Controller.OwnedByPlayer + 1}");
             return;
         }
 
@@ -119,7 +119,7 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied) // Clicked reachable unoccupied tile
         {
             GridSelectionController.ScrubPathAll();
-            MoveCharacter(SelectedCharacter, TargetTile);
+            SelectedCharacter.Controller.MoveToTile(TargetTile);
             return;
         }
 
@@ -164,20 +164,4 @@ public class SelectionController : ISelectionController, ICharacterMovementContr
         return;
 
     }
-
-    #region ICharacterMovementController implementation
-
-    public void MoveCharacter(ICharacter character, IHexTile endTile)
-    {
-        character.GetOccupiedTile().Controller.Deselect();
-        character.GetOccupiedTile().Controller.OccupantCharacter = null;
-
-        endTile.SetChild(character.GameObject);
-        character.GameObject.transform.localPosition = new Vector3(0, 0, 0);
-
-        endTile.Controller.OccupantCharacter = character;
-        endTile.Controller.Select();
-    }
-
-    #endregion
 }
