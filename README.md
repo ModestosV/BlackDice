@@ -1,6 +1,6 @@
 # BlackDice
 
-Each developer should always stay up-to-date on our Ways of Working (in progress).
+Each developer should always stay up-to-date on our Ways of Working (in progress)..
 
 ## Ways of Working
 
