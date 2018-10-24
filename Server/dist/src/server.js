@@ -9,7 +9,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 // Starting the server code
 const console_stamp_1 = __importDefault(require("console-stamp"));
 const express_1 = __importDefault(require("express"));
@@ -37,9 +36,10 @@ function logError(err, req, res, next) {
 }
 function listen() {
     let stringErr = 'Server is currently listing on: ';
-    stringErr = stringErr.concat(host, ':', port.toString());
+    stringErr = stringErr.concat(host, ' ', port.toString());
     global.console.log('');
     global.console.log(stringErr);
     global.console.log('');
 }
+module.exports = app;
 //# sourceMappingURL=server.js.map

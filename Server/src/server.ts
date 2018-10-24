@@ -18,6 +18,7 @@ server.listen(port, host);
 server.on('error', logError);
 server.on('listening', listen);
 
+export = app;
 
 function logError(err: Error, req: Request, res: Response, next: NextFunction) {
   // If an error gets here everything should explode because I did something stupid or forgot to do something.
@@ -32,7 +33,7 @@ function logError(err: Error, req: Request, res: Response, next: NextFunction) {
 
 function listen() {
   let stringErr = 'Server is currently listing on: ';
-  stringErr = stringErr.concat(host, ':', port.toString());
+  stringErr = stringErr.concat(host, ' ', port.toString());
   global.console.log('');
   global.console.log(stringErr);
   global.console.log('');
