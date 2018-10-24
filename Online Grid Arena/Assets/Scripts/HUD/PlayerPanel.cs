@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPanel : MonoBehaviour, IMonoBehaviour, IPlayerPanel {
-
+public class PlayerPanel : MonoBehaviour, IPlayerPanel
+{
     public Text playerName;
 
     private void OnValidate()

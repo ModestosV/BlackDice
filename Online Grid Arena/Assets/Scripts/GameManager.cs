@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameManager : MonoBehaviour, IMonoBehaviour, IGameManager
+public class GameManager : MonoBehaviour, IGameManager
 {
     public SelectionController selectionController;
     public GridSelectionController gridSelectionController;

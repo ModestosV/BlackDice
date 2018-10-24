@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public interface ISelectionController
+﻿public interface ISelectionController
 {
     ICharacter SelectedCharacter { get; set; }
     IGameManager GameManager { get; set; }
