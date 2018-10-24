@@ -7,7 +7,6 @@ describe('Testing the inital call to the root location of the server', () => {
     const conn = request(app);
     const response = await conn.get('/');
     expect(response.status).toBe(200);
-    conn.
   })
 });
 
