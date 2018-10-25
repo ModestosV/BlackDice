@@ -4,6 +4,11 @@ public class Character : MonoBehaviour, ICharacter
 {
     public CharacterController controller;
 
+    private void Awake()
+    {
+        controller.Character = this;
+    }
+
     #region ICharacter implementation
 
     public IHexTile GetOccupiedTile()
@@ -12,6 +17,12 @@ public class Character : MonoBehaviour, ICharacter
     }
 
     public ICharacterController Controller { get { return controller; } }
+
+    public void MoveToTile(IHexTile targetTile)
+    {
+        targetTile.SetChild(GameObject);
+        GameObject.transform.localPosition = new Vector3(0, 0, 0);
+    }
 
     #endregion
 
