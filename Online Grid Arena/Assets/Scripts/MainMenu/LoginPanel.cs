@@ -6,6 +6,7 @@ using TMPro;
 
 public class LoginPanel : MonoBehaviour
 {
+    public LoginMenu loginMenu;
 
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
@@ -24,6 +25,7 @@ public class LoginPanel : MonoBehaviour
     private const string INVALID_PASSWORD_MESSAGE = "You didn't even try to put your password in, did you?";
     private const string LOGIN_SUCCESS_MESSAGE = "You have been logged in successfully. I am so impressed.";
     private const string LOGOUT_SUCCESS_MESSAGE = "You have been logged out. Good riddance.";
+    private const string LOGOUT_FAIL_MESSAGE = "You are not even logged in.";
     private const string INCORRECT_LOGIN_CREDENTIALS_MESSAGE = "The email and password combination you have entered is ridiculously incorrect. Try again... or don't.";
     private const string CONNECTIVITY_ISSUES_MESSAGE = "Good job chief, you broke the internet. How am I supposed to reach the login server now?";
 
@@ -111,7 +113,10 @@ public class LoginPanel : MonoBehaviour
     private IEnumerator MakeLoginWebRequest(string email, string password)
     {
         ClearStatus();
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:5500"))
+        string route = "http://localhost:5500/login";
+        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
+
+        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
         {
             yield return www.SendWebRequest();
 
@@ -121,11 +126,18 @@ public class LoginPanel : MonoBehaviour
             }
             else
             {
-                SetStatus($"{LOGIN_SUCCESS_MESSAGE} \n {www.downloadHandler.text}");
-                LoggedInEmail = email;
-                ClearEmail();
-                ClearPassword();
-                ToggleLoginLogoutButtons();
+                var response = www.downloadHandler.text;
+                if (response == "true")
+                {
+                    LoggedInEmail = email;
+                    SetStatus($"{LOGIN_SUCCESS_MESSAGE} \n Welcome {email}");
+                    ClearEmail();
+                    ClearPassword();
+                    ToggleLoginLogoutButtons();
+                } else
+                {
+                    SetStatus($"{INCORRECT_LOGIN_CREDENTIALS_MESSAGE}");
+                }
             }
         }
         loadingCircle.SetActive(false);
@@ -134,7 +146,10 @@ public class LoginPanel : MonoBehaviour
     private IEnumerator MakeLogoutWebRequest(string email)
     {
         ClearStatus();
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:5500"))
+        string route = "http://localhost:5500/logout";
+        string parameters = $"?email={WWW.EscapeURL(email)}";
+
+        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
         {
             yield return www.SendWebRequest();
 
@@ -144,10 +159,19 @@ public class LoginPanel : MonoBehaviour
             }
             else
             {
-                SetStatus($"{LOGOUT_SUCCESS_MESSAGE} \n {www.downloadHandler.text}");
-                ClearEmail();
-                ClearPassword();
-                ToggleLoginLogoutButtons();
+                var response = www.downloadHandler.text;
+                if (response == "true")
+                {
+                    LoggedInEmail = null;
+                    SetStatus($"{LOGOUT_SUCCESS_MESSAGE}");
+                    ClearEmail();
+                    ClearPassword();
+                    ToggleLoginLogoutButtons();
+                } else
+                {
+                    SetStatus($"{LOGOUT_FAIL_MESSAGE}");
+                }
+
             }
         }
         loadingCircle.SetActive(false);

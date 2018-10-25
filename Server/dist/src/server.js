@@ -23,6 +23,30 @@ server = httpServer.createServer(app_1.default);
 server.listen(port, host);
 server.on('error', handleError);
 server.on('listening', listen);
+// Routes (Weren't working properly in router.ts, investigate...)
+app_1.default.get('/register', (req, res, next) => {
+    app_1.default.locals.email = req.query.email;
+    app_1.default.locals.password = req.query.password;
+    return res.send('true');
+});
+app_1.default.get('/login', (req, res, next) => {
+    if (req.query.email == app_1.default.locals.email && req.query.password == app_1.default.locals.password) {
+        app_1.default.locals.loggedInUser = req.query.email;
+        res.send('true');
+    }
+    else {
+        res.send('false');
+    }
+});
+app_1.default.get('/logout', (req, res, next) => {
+    if (req.query.email == app_1.default.locals.loggedInUser) {
+        app_1.default.locals.loggedInUser = null;
+        res.send('true');
+    }
+    else {
+        res.send('false');
+    }
+});
 function handleError(err, req, res, next) {
     // If an error gets here everything should explode because I did something stupid or forgot to do something.
     let error = {

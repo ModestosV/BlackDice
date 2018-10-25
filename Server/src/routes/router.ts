@@ -1,19 +1,46 @@
 import bodyParser from 'body-parser';
 import express, { NextFunction, Request, Response } from 'express';
+import app from '../app'
 const router = express.Router();
-
-//router.use('/', bodyParser.json, validateRequest, errorHandler);
-
-router.get('/', 
+/*
+router.get('/register', 
   (req: Request, res: Response, next: NextFunction) => {
-    let response = {
-      greeting: 'Hello World'
-    };
 
-    return res.json(response);
+    app.locals.email = req.query.email;
+    app.locals.password = req.query.password;
+
+    return res.send('true');
   }
 );
 
+router.get('/login', 
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.email == app.locals.email && req.query.password == app.locals.password)
+    {
+      app.locals.loggedInUser = req.query.email;
+      res.send('true')
+    } else 
+    {
+      res.send('false');
+    }
+  }
+);
+
+router.get('/logout', 
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.email == app.locals.loggedInUser)
+    {
+      app.locals.loggedInUser = null;
+      res.send('true')
+    } else 
+    {
+      res.send('false');
+    }
+  }
+);
+*/
+
+/*
 router.get(
   '/chracterInfo',
   (req: Request, res: Response, next: NextFunction) => {
@@ -34,10 +61,11 @@ function validateRequest(req: Request, res: Response, next: NextFunction) {
 
   return next();
 }
+*/
 
-function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-  global.console.error('Error:');
-  global.console.error(err);
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) 
+{
+  global.console.error(`Error: ${err}`);
   return res.json(err);
 }
 

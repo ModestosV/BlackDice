@@ -4291,6 +4291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3ba9e505ca92245823dad227c4a2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loginMenu: {fileID: 1183277327}
   loginButton: {fileID: 194253374}
   logoutButton: {fileID: 942020834}
   loadingCircle: {fileID: 1979852862}
@@ -4811,10 +4812,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1183277325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372e30a3d164645aab0c161fae3b13c5, type: 3}
+  m_Script: {fileID: 11500000, guid: a7ac4e1327550374cab94cc93ca0a1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  webText: {fileID: 187292221}
 --- !u!1 &1225420405
 GameObject:
   m_ObjectHideFlags: 0
@@ -5473,6 +5473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbad017425987c74198023dba2102d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loginMenu: {fileID: 1183277327}
   registerButton: {fileID: 2033312393}
   loadingCircle: {fileID: 1982398230}
   LoginPanel: {fileID: 1019659618}

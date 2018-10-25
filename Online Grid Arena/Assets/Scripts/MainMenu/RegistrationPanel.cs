@@ -6,6 +6,7 @@ using TMPro;
 
 public class RegistrationPanel : MonoBehaviour
 {
+    public LoginMenu loginMenu;
 
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
@@ -90,7 +91,10 @@ public class RegistrationPanel : MonoBehaviour
     private IEnumerator MakeRegistrationWebRequest(string email, string password)
     {
         ClearStatus();
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost:5500"))
+        string route = "http://localhost:5500/register";
+        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
+
+        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
         {
             yield return www.SendWebRequest();
 
