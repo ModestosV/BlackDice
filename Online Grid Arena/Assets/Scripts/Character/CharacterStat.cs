@@ -1,6 +1,7 @@
 /*
  * Credit: Kryzarel's free Unity asset titled "Character Stats".
- * Obtained from Unity Asset Store on 2018/09/14. https://assetstore.unity.com/packages/tools/integration/character-stats-106351
+ * Obtained from Unity Asset Store on 2018/09/14 and modified for our specific purpose. 
+ * https://assetstore.unity.com/packages/tools/integration/character-stats-106351
  */
 
 using UnityEngine;
