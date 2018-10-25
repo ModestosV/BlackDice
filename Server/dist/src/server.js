@@ -21,22 +21,22 @@ const port = 5500;
 console_stamp_1.default(console, stamp);
 server = httpServer.createServer(app_1.default);
 server.listen(port, host);
-server.on('error', logError);
+server.on('error', handleError);
 server.on('listening', listen);
-function logError(err, req, res, next) {
+function handleError(err, req, res, next) {
     // If an error gets here everything should explode because I did something stupid or forgot to do something.
-    res.status(res.statusCode || 500);
-    global.console.error('Error:');
-    global.console.error(err.name);
-    global.console.error(err.message);
-    global.console.error(err.stack);
-    throw err;
+    let error = {
+        code: res.statusCode || 500,
+        name: err.name,
+        message: err.message
+    };
+    return res.json(error);
 }
 function listen() {
-    let stringErr = 'Server is currently listing on: ';
-    stringErr = stringErr.concat(host, ' ', port.toString());
+    let stringMessage = 'Server is currently listing on: ';
+    stringMessage = stringMessage.concat(host, ' ', port.toString());
     global.console.log('');
-    global.console.log(stringErr);
+    global.console.log(stringMessage);
     global.console.log('');
 }
 //# sourceMappingURL=server.js.map
