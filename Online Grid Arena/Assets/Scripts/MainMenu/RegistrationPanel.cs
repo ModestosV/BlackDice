@@ -92,7 +92,7 @@ public class RegistrationPanel : MonoBehaviour
     {
         ClearStatus();
         string route = "http://localhost:5500/register";
-        using (UnityWebRequest www = UnityWebRequest.Post(route + email + "&password=" + password, "POST method for registration"))
+        using (UnityWebRequest www = UnityWebRequest.Post(route + "?" + email + "&password=" + password, "POST method for registration"))
         {
             yield return www.SendWebRequest();
 
