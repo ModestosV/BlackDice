@@ -1,0 +1,12 @@
+
+#ignore node modules
+*node_modules/
+
+#ignore yarn lock
+*yarn.lock
+
+#ignore .vscode
+*.vscode
+
+#ignore the dist folder
+**/dist/src/*

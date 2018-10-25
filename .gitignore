@@ -37,12 +37,3 @@ sysinfo.txt
 
 # Loggers
 DeveloperLogs/
-
-#ignore node modules
-*node_modules/
-
-#ignore yarn lock
-*yarn.lock
-
-#ignore .vscode
-*.vscode
