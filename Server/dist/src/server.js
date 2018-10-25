@@ -9,19 +9,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 // Starting the server code
 const console_stamp_1 = __importDefault(require("console-stamp"));
-const express_1 = __importDefault(require("express"));
 const httpServer = __importStar(require("http"));
-const router = __importStar(require("./routes/router"));
+const app_1 = __importDefault(require("./app"));
 const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss".toString() };
-const app = express_1.default();
 let server = null;
 const host = 'localhost';
 const port = 5500;
 console_stamp_1.default(console, stamp);
-app.use(router.default);
-server = httpServer.createServer(app);
+server = httpServer.createServer(app_1.default);
 server.listen(port, host);
 server.on('error', logError);
 server.on('listening', listen);
@@ -41,5 +39,4 @@ function listen() {
     global.console.log(stringErr);
     global.console.log('');
 }
-module.exports = app;
 //# sourceMappingURL=server.js.map

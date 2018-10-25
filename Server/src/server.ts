@@ -1,24 +1,23 @@
 // Starting the server code
 import consoleStamp from 'console-stamp';
-import express, { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import * as httpServer from 'http';
-import * as router from './routes/router';
+import app from './app';
+
 
 const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss".toString() };
-const app = express();
+
 let server = null;
 const host = 'localhost';
 const port = 5500;
 
 consoleStamp(console, stamp);
 
-app.use(router.default);
 server = httpServer.createServer(app);
 server.listen(port, host);
 server.on('error', logError);
 server.on('listening', listen);
 
-export = app;
 
 function logError(err: Error, req: Request, res: Response, next: NextFunction) {
   // If an error gets here everything should explode because I did something stupid or forgot to do something.
