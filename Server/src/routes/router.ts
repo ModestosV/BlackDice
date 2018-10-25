@@ -3,16 +3,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import app from '../app'
 const router = express.Router();
 /*
-router.get('/register', 
-  (req: Request, res: Response, next: NextFunction) => {
-
-    app.locals.email = req.query.email;
-    app.locals.password = req.query.password;
-
-    return res.send('true');
-  }
-);
-
 router.get('/login', 
   (req: Request, res: Response, next: NextFunction) => {
     if (req.query.email == app.locals.email && req.query.password == app.locals.password)
@@ -38,9 +28,26 @@ router.get('/logout',
     }
   }
 );
-*/
 
-/*
+function validateRequest(req: Request, res: Response, next: NextFunction) {
+  // Add a form of validation that way we know if the the request is coming from a user
+  if (!req.body.userID) {
+    return next(new Error('Not a valide Request. Good luck Next Time'));
+  }
+
+  return next();
+}
+*/
+router.get('/', 
+  (req: Request, res: Response, next: NextFunction) => {
+    let response = {
+      greeting: 'Hello World'
+    };
+
+    return res.json(response);
+  }
+);
+
 router.get(
   '/chracterInfo',
   (req: Request, res: Response, next: NextFunction) => {
@@ -53,6 +60,19 @@ router.get(
   errorHandler,
 );
 
+router.post(
+	'/register',
+	(req: Request, res: Response, next: NextFunction) => {
+  global.console.log('register request going through');
+		let response1 = {
+			password: req.param("password", "super top secret password"),
+			email: req.param("email", "email")
+		};
+		return res.json(response1);
+	},
+	errorHandler
+);
+
 function validateRequest(req: Request, res: Response, next: NextFunction) {
   // Add a form of validation that way we know if the the request is coming from a user
   if (!req.body.userID) {
@@ -61,11 +81,10 @@ function validateRequest(req: Request, res: Response, next: NextFunction) {
 
   return next();
 }
-*/
 
-function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) 
-{
-  global.console.error(`Error: ${err}`);
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  global.console.error('Error:');
+  global.console.error(err);
   return res.json(err);
 }
 
