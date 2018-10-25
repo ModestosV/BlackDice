@@ -6,8 +6,6 @@ using TMPro;
 
 public class RegistrationPanel : MonoBehaviour
 {
-    public LoginMenu loginMenu;
-
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
     public TextMeshProUGUI PasswordText { get; set; }
@@ -18,10 +16,10 @@ public class RegistrationPanel : MonoBehaviour
 
     public LoginPanel LoginPanel;
 
-    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email. Come on, you know better.";
-    private const string INVALID_PASSWORD_MESSAGE = "Your password sucks! Don't you know your password has to conform to the 32 arbitrary constraints we impose on passwords?";
-    private const string REGISTRATION_SUCCESS_MESSAGE = "Well, you have successfully registered with those credentials, but you could probably do a lot better.";
-    private const string CONNECTIVITY_ISSUES_MESSAGE = "Good job chief, you broke the internet. How am I supposed to reach the login server now?";
+    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email.";
+    private const string INVALID_PASSWORD_MESSAGE = "Your password must be at least 8 characters long.";
+    private const string REGISTRATION_SUCCESS_MESSAGE = "You have successfully registered this account!";
+    private const string CONNECTIVITY_ISSUES_MESSAGE = "Error: Web connectivity issues.";
 
     private void OnValidate()
     {
@@ -55,7 +53,7 @@ public class RegistrationPanel : MonoBehaviour
         }
 
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeRegistrationWebRequest(EmailText.text, PasswordText.text));
+        StartCoroutine(MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
     }
 
     public void SetStatus(string statusText)
@@ -85,7 +83,7 @@ public class RegistrationPanel : MonoBehaviour
 
     private bool ValidatePassword(string password)
     {
-        return password.Length > 8;
+        return password.Length > 8; // There is an invisible unicode charater in the text fields of TextMesh Pro objects that I can't seem to get rid of.
     }
 
     private IEnumerator MakeRegistrationWebRequest(string email, string password)
@@ -104,7 +102,7 @@ public class RegistrationPanel : MonoBehaviour
             }
             else
             {
-                SetStatus($"{REGISTRATION_SUCCESS_MESSAGE} \n {www.downloadHandler.text}");
+                SetStatus($"{REGISTRATION_SUCCESS_MESSAGE}");
                 ClearEmail();
                 ClearPassword();
             }

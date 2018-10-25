@@ -3,11 +3,10 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Security.Cryptography;
 
 public class LoginPanel : MonoBehaviour
 {
-    public LoginMenu loginMenu;
-
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
     public TextMeshProUGUI PasswordText { get; set; }
@@ -20,14 +19,14 @@ public class LoginPanel : MonoBehaviour
     public RegistrationPanel registrationPanel;
 
     public string LoggedInEmail { get; set; }
+    
 
-    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email. Come on, you know better.";
-    private const string INVALID_PASSWORD_MESSAGE = "You didn't even try to put your password in, did you?";
-    private const string LOGIN_SUCCESS_MESSAGE = "You have been logged in successfully. I am so impressed.";
-    private const string LOGOUT_SUCCESS_MESSAGE = "You have been logged out. Good riddance.";
-    private const string LOGOUT_FAIL_MESSAGE = "You are not even logged in.";
-    private const string INCORRECT_LOGIN_CREDENTIALS_MESSAGE = "The email and password combination you have entered is ridiculously incorrect. Try again... or don't.";
-    private const string CONNECTIVITY_ISSUES_MESSAGE = "Good job chief, you broke the internet. How am I supposed to reach the login server now?";
+    private const string CONNECTIVITY_ISSUES_MESSAGE = "Error: Web connectivity issues.";
+    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email.";
+    private const string LOGIN_SUCCESS_MESSAGE = "Login successful!";
+    private const string LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
+    private const string LOGOUT_FAIL_MESSAGE = "You are not logged in.";
+    private const string INVALID_LOGIN_CREDENTIALS_MESSAGE = "The email and password you have entered is invalid.";
 
     private void OnValidate()
     {
@@ -54,14 +53,8 @@ public class LoginPanel : MonoBehaviour
             return;
         }
 
-        if (!ValidatePassword(PasswordText.text))
-        {
-            SetStatus(INVALID_PASSWORD_MESSAGE);
-            return;
-        }
-
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeLoginWebRequest(EmailText.text, PasswordText.text));
+        StartCoroutine(MakeLoginWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
     }
     
     public void Logout()
@@ -136,7 +129,7 @@ public class LoginPanel : MonoBehaviour
                     ToggleLoginLogoutButtons();
                 } else
                 {
-                    SetStatus($"{INCORRECT_LOGIN_CREDENTIALS_MESSAGE}");
+                    SetStatus($"{INVALID_LOGIN_CREDENTIALS_MESSAGE}");
                 }
             }
         }
