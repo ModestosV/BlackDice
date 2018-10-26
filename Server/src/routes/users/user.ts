@@ -22,7 +22,7 @@ router.post(
 
 router.get('/register', 
   (req: Request, res: Response, next: NextFunction) => {
-
+    app.locals = {};
     app.locals.email = req.query.email;
     app.locals.password = req.query.password;
 
