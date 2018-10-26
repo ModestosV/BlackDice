@@ -11,18 +11,15 @@ const router = express_1.default.Router();
 // TODO remove app variables and install proper data checks with database.
 router.post('/register', (req, res, next) => {
     global.console.log('register request going through');
+    app_1.default.locals = {};
+    app_1.default.locals.email = req.params.email;
+    app_1.default.locals.password = req.params.password;
     let response1 = {
-        password: req.param("password", "super top secret password"),
-        email: req.param("email", "email")
+        password: req.params.password,
+        email: req.params.email
     };
     return res.json(response1);
 }, middlewares_1.errorHandler);
-router.get('/register', (req, res, next) => {
-    app_1.default.locals = {};
-    app_1.default.locals.email = req.query.email;
-    app_1.default.locals.password = req.query.password;
-    return res.send('true');
-});
 router.get('/login', (req, res, next) => {
     if (req.query.email == app_1.default.locals.email && req.query.password == app_1.default.locals.password) {
         app_1.default.locals.loggedInUser = req.query.email;

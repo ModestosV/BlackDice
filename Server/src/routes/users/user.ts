@@ -10,24 +10,18 @@ const router = express.Router();
 router.post(
 	'/register',
 	(req: Request, res: Response, next: NextFunction) => {
-  global.console.log('register request going through');
-		let response1 = {
-			password: req.param("password", "super top secret password"),
-			email: req.param("email", "email")
+    global.console.log('register request going through');
+    app.locals = {};
+    app.locals.email = req.params.email;
+    app.locals.password = req.params.password;
+
+    let response1 = {
+			password: req.params.password,
+			email: req.params.email
 		};
 		return res.json(response1);
 	},
 	errorHandler
-);
-
-router.get('/register', 
-  (req: Request, res: Response, next: NextFunction) => {
-    app.locals = {};
-    app.locals.email = req.query.email;
-    app.locals.password = req.query.password;
-
-    return res.send('true');
-  }
 );
 
 router.get('/login', 
