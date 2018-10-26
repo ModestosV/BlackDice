@@ -24,8 +24,41 @@ public class SelectionController : ISelectionController
         GridTraversalController = gridTraversalController;
     }
 
+    private bool lastIsEscapeButtonDown;
+    private bool lastMouseIsOverGrid;
+    private bool lastIsLeftClickDown;
+    private IHexTile lastTargetTile;
+
+    private bool DebounceUpdate()
+    {
+        if (IsEscapeButtonDown != lastIsEscapeButtonDown)
+            return false;
+        if (MouseIsOverGrid != lastMouseIsOverGrid)
+            return false;
+        if (IsLeftClickDown != lastIsLeftClickDown)
+            return false;
+        if (TargetTile != lastTargetTile)
+            return false;
+        return true;
+    }
+
+    private void UpdateLastInputs()
+    {
+        lastIsEscapeButtonDown = IsEscapeButtonDown;
+        lastMouseIsOverGrid = MouseIsOverGrid;
+        lastIsLeftClickDown = IsLeftClickDown;
+        lastTargetTile = TargetTile;
+    }
+
     public void Update()
     {
+        if (DebounceUpdate())
+            return;
+
+        Debug.Log("WOW");
+
+        UpdateLastInputs();
+
         if (IsEscapeButtonDown) // Pressed escape to quit
         {
             GameManager.QuitApplication();

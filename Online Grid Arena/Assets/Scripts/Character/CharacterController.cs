@@ -35,5 +35,9 @@ public class CharacterController : ICharacterController
         targetTile.Controller.OccupantCharacter = Character;
         targetTile.Controller.Select();
     }
+
+
+
+
     
 }
