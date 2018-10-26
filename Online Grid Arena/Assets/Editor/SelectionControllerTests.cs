@@ -16,6 +16,7 @@ public class SelectionControllerTests
     IGridTraversalController gridTraversalController;
     IStatPanel statPanel;
     IPlayerPanel playerPanel;
+    ITurnController turnController;
     IHexTile targetHexTile;
     IHexTile otherCharacterHexTile;
     IHexTile selectCharacterHexTile;
@@ -43,6 +44,7 @@ public class SelectionControllerTests
         gridTraversalController = Substitute.For<IGridTraversalController>();
         statPanel = Substitute.For<IStatPanel>();
         playerPanel = Substitute.For<IPlayerPanel>();
+        turnController = Substitute.For<ITurnController>();
         targetHexTile = Substitute.For<IHexTile>();
         otherCharacterHexTile = Substitute.For<IHexTile>();
         selectCharacterHexTile = Substitute.For<IHexTile>();
@@ -57,9 +59,9 @@ public class SelectionControllerTests
 
         selectedHexTileList = new List<IHexTile>() { otherCharacterHexTile };
         gridSelectionController.SelectedTiles.Returns(selectedHexTileList);
-
-        selectedCharacter.Controller.OccupiedTile.Returns(selectCharacterHexTile);
+        
         selectedCharacter.Controller.Returns(selectedCharacterController);
+        selectedCharacterController.OccupiedTile.Returns(selectCharacterHexTile);
 
         otherCharacter.Controller.Returns(otherCharacterController);
         otherCharacterController.OwnedByPlayer.Returns(PLAYER_ID);
@@ -69,6 +71,8 @@ public class SelectionControllerTests
 
         gridTraversalController.GetPath(selectCharacterHexTile, targetHexTile).Returns(pathHexTileList);
 
+        turnController.ActiveCharacter.Returns(selectedCharacter);
+
         sut.SelectedCharacter = selectedCharacter;
         sut.GameManager = gameManager;
         sut.GridSelectionController = gridSelectionController;
@@ -76,6 +80,7 @@ public class SelectionControllerTests
         sut.StatPanel = statPanel;
         sut.PlayerPanel = playerPanel;
         sut.TargetTile = targetHexTile;
+        sut.TurnController = turnController;
     }
 
     [Test]
