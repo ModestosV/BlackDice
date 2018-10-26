@@ -106,7 +106,7 @@ public class LoginPanel : MonoBehaviour
     private IEnumerator MakeLoginWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/login";
+        string route = "http://localhost:5500/account/login";
         string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
 
         using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
@@ -139,7 +139,7 @@ public class LoginPanel : MonoBehaviour
     private IEnumerator MakeLogoutWebRequest(string email)
     {
         ClearStatus();
-        string route = "http://localhost:5500/logout";
+        string route = "http://localhost:5500/account/logout";
         string parameters = $"?email={WWW.EscapeURL(email)}";
 
         using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
