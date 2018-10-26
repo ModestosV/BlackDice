@@ -273,7 +273,7 @@ public class SelectionControllerTests
     }
 
     [Test]
-    public void Clicking_on_reachable_unoccupied_tile_with_character_selected_moves_character_to_tile()
+    public void Clicking_on_reachable_unoccupied_tile_with_active_character_selected_moves_character_to_tile()
     {
         sut.IsEscapeButtonDown = false;
         sut.MouseIsOverGrid = true;

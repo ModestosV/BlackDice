@@ -27,12 +27,14 @@ public class SelectionController : ISelectionController
 
     public void Update()
     {
-        if (IsEscapeButtonDown) // Pressed escape to quit
+        // Pressed escape to quit
+        if (IsEscapeButtonDown)
         {
             GameManager.QuitApplication();
         }
 
-        if (!MouseIsOverGrid && IsLeftClickDown) // Clicked off grid
+        // Clicked off grid
+        if (!MouseIsOverGrid && IsLeftClickDown)
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
@@ -41,7 +43,8 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (!MouseIsOverGrid) // Hovered off grid
+        // Hovered off grid
+        if (!MouseIsOverGrid)
         {
             GridSelectionController.ScrubPathAll();
             return;
@@ -51,7 +54,8 @@ public class SelectionController : ISelectionController
         
         bool tileIsEnabled = TargetTile.Controller.IsEnabled;
 
-        if (!tileIsEnabled && IsLeftClickDown) // Clicked on disabled tile
+        // Clicked on disabled tile
+        if (!tileIsEnabled && IsLeftClickDown)
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
@@ -60,7 +64,8 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (!tileIsEnabled) // Hovered over disabled tile
+        // Hovered over disabled tile
+        if (!tileIsEnabled)
         {
             GridSelectionController.ScrubPathAll();
             return;
@@ -72,21 +77,24 @@ public class SelectionController : ISelectionController
         bool tileIsOccupied = TargetTile.Controller.OccupantCharacter != null;
         bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == TargetTile;
 
-        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied && !tileIsCurrentSelectedTile) // Clicked unoccupied other tile w/o character selected
+        // Clicked unoccupied other tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied && !tileIsCurrentSelectedTile)
         {
             GridSelectionController.BlurAll();
             TargetTile.Controller.Select();
             return;
         }
 
-        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied) // Clicked unoccupied selected tile w/o character selected
+        // Clicked unoccupied selected tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied)
         {
             GridSelectionController.BlurAll();
             TargetTile.Controller.Deselect();
             return;
         }
 
-        if (IsLeftClickDown && !characterIsSelected) // Clicked occupied tile w/o character selected
+        // Clicked occupied tile w/o character selected
+        if (IsLeftClickDown && !characterIsSelected)
         {
             GridSelectionController.BlurAll();
             TargetTile.Controller.Select();
@@ -98,7 +106,8 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (!characterIsSelected) // Hovered over tile w/o character selected
+        // Hovered over tile w/o character selected
+        if (!characterIsSelected)
         {
             GridSelectionController.BlurAll();
             TargetTile.Controller.Hover();
@@ -111,28 +120,32 @@ public class SelectionController : ISelectionController
         bool isReachable = path.Count > 0;
         bool isSelectedCharacterActive = SelectedCharacter == TurnController.ActiveCharacter;
 
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable) // Clicked on unreachable tile
+        // Clicked on unreachable tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable && isSelectedCharacterActive)
         {
             GridSelectionController.ScrubPathAll();
             TargetTile.Controller.HoverError();
             return;
         }
 
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied && isSelectedCharacterActive) // Clicked reachable unoccupied tile
+        // Clicked reachable unoccupied tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied && isSelectedCharacterActive)
         {
             GridSelectionController.ScrubPathAll();
             SelectedCharacter.Controller.MoveToTile(TargetTile);
             return;
         }
 
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile) // Clicked reachable occupied tile
+        // Clicked reachable occupied tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && isSelectedCharacterActive)
         {
             GridSelectionController.ScrubPathAll();
             TargetTile.Controller.HoverError();
             return;
         }
 
-        if (IsLeftClickDown && tileIsCurrentSelectedTile) // Clicked current selected tile
+        // Clicked current selected tile
+        if (IsLeftClickDown && tileIsCurrentSelectedTile)
         {
             GridSelectionController.ScrubPathAll();
             TargetTile.Controller.Deselect();
@@ -143,7 +156,8 @@ public class SelectionController : ISelectionController
 
         // Invariant: Left mouse button not clicked        
 
-        if (!isReachable) // Hovered over unreachable tile
+        // Hovered over unreachable tile
+        if (!isReachable && isSelectedCharacterActive)
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.BlurAll();
@@ -151,7 +165,8 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (!tileIsOccupied && isSelectedCharacterActive) // Hovered over reachable unoccupied tile
+        // Hovered over reachable unoccupied tile
+        if (!tileIsOccupied && isSelectedCharacterActive)
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.BlurAll();
@@ -160,10 +175,42 @@ public class SelectionController : ISelectionController
         }
 
         // Hovered over reachable occupied tile
-        GridSelectionController.ScrubPathAll();
-        GridSelectionController.BlurAll();
-        TargetTile.Controller.HoverError();
-        return;
+        if (isSelectedCharacterActive)
+        {
+            GridSelectionController.ScrubPathAll();
+            GridSelectionController.BlurAll();
+            TargetTile.Controller.HoverError();
+            return;
+        }
 
+        // Clicked on other occupied tile with inactive character selected
+        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile && IsLeftClickDown && tileIsOccupied)  
+        {
+            GridSelectionController.BlurAll();
+            TargetTile.Controller.Select();
+            StatPanel.Controller.SetCharacter(TargetTile.Controller.OccupantCharacter);
+            StatPanel.Controller.UpdateStatNames();
+            StatPanel.Controller.UpdateStatValues();
+            PlayerPanel.SetPlayerName($"Player {TargetTile.Controller.OccupantCharacter.Controller.OwnedByPlayer + 1}");
+            return;
+        }
+
+        // Clicked on other unoccupied tile with inactive character selected
+        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile && IsLeftClickDown)
+        {
+            GridSelectionController.BlurAll();
+            TargetTile.Controller.Select();
+            StatPanel.Controller.DisableStatDisplays();
+            PlayerPanel.ClearPlayerName();
+            return;
+        }
+
+        // Hovered over other tile with inactive character selected
+        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile)
+        {
+            GridSelectionController.BlurAll();
+            TargetTile.Controller.Hover();
+            return;
+        }
     }
 }
