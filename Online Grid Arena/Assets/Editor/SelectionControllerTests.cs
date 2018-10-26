@@ -58,13 +58,13 @@ public class SelectionControllerTests
         selectedHexTileList = new List<IHexTile>() { otherCharacterHexTile };
         gridSelectionController.SelectedTiles.Returns(selectedHexTileList);
 
-        selectedCharacter.GetOccupiedTile().Returns(selectCharacterHexTile);
+        selectedCharacter.Controller.OccupiedTile.Returns(selectCharacterHexTile);
         selectedCharacter.Controller.Returns(selectedCharacterController);
 
         otherCharacter.Controller.Returns(otherCharacterController);
         otherCharacterController.OwnedByPlayer.Returns(PLAYER_ID);
 
-        otherCharacter.GetOccupiedTile().Returns(selectCharacterHexTile);
+        otherCharacter.Controller.OccupiedTile.Returns(selectCharacterHexTile);
         pathHexTileList = new List<IHexTile>() { selectCharacterHexTile, targetHexTile };
 
         gridTraversalController.GetPath(selectCharacterHexTile, targetHexTile).Returns(pathHexTileList);

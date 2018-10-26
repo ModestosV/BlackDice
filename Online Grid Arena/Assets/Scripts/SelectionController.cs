@@ -12,6 +12,7 @@ public class SelectionController : ISelectionController
     public IGridTraversalController GridTraversalController { get; set; }
     public IStatPanel StatPanel { get; set; }
     public IPlayerPanel PlayerPanel { get; set; }
+    public ITurnController TurnController { get; set; }
 
     public bool IsEscapeButtonDown { get; set; }
     public bool MouseIsOverGrid { get; set; }
@@ -106,8 +107,9 @@ public class SelectionController : ISelectionController
 
         // Invariant: Character is selected
 
-        List<IHexTile> path = GridTraversalController.GetPath(SelectedCharacter.GetOccupiedTile(), TargetTile);
+        List<IHexTile> path = GridTraversalController.GetPath(SelectedCharacter.Controller.OccupiedTile, TargetTile);
         bool isReachable = path.Count > 0;
+        bool isSelectedCharacterActive = SelectedCharacter == TurnController.ActiveCharacter;
 
         if (IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable) // Clicked on unreachable tile
         {
@@ -116,7 +118,7 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied) // Clicked reachable unoccupied tile
+        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied && isSelectedCharacterActive) // Clicked reachable unoccupied tile
         {
             GridSelectionController.ScrubPathAll();
             SelectedCharacter.Controller.MoveToTile(TargetTile);
@@ -149,7 +151,7 @@ public class SelectionController : ISelectionController
             return;
         }
 
-        if (!tileIsOccupied) // Hovered over reachable unoccupied tile
+        if (!tileIsOccupied && isSelectedCharacterActive) // Hovered over reachable unoccupied tile
         {
             GridSelectionController.ScrubPathAll();
             GridSelectionController.BlurAll();

@@ -23,7 +23,7 @@ public class CharacterControllerTests
         startTileController = Substitute.For<IHexTileController>();
         endTileController = Substitute.For<IHexTileController>();
 
-        character.GetOccupiedTile().Returns(startTile);
+        character.Controller.OccupiedTile.Returns(startTile);
         startTile.Controller.Returns(startTileController);
         endTile.Controller.Returns(endTileController);
 
