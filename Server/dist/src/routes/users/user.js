@@ -12,11 +12,11 @@ const router = express_1.default.Router();
 router.post('/register', (req, res, next) => {
     global.console.log('register request going through');
     app_1.default.locals = {};
-    app_1.default.locals.email = req.params.email;
-    app_1.default.locals.password = req.params.password;
+    app_1.default.locals.email = req.query.email;
+    app_1.default.locals.password = req.query.password;
     let response1 = {
-        password: req.params.password,
-        email: req.params.email
+        password: req.query.password,
+        email: req.query.email
     };
     return res.json(response1);
 }, middlewares_1.errorHandler);

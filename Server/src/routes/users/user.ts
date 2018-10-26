@@ -12,12 +12,12 @@ router.post(
 	(req: Request, res: Response, next: NextFunction) => {
     global.console.log('register request going through');
     app.locals = {};
-    app.locals.email = req.params.email;
-    app.locals.password = req.params.password;
+    app.locals.email = req.query.email;
+    app.locals.password = req.query.password;
 
     let response1 = {
-			password: req.params.password,
-			email: req.params.email
+			password: req.query.password,
+			email: req.query.email
 		};
 		return res.json(response1);
 	},
