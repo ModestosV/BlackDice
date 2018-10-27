@@ -89,10 +89,15 @@ public class RegistrationPanel : MonoBehaviour
     private IEnumerator MakeRegistrationWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/account/register";
-        using (UnityWebRequest www = UnityWebRequest.Post(route + "?email=" + email + "&password=" + password, "POST method for registration"))
+        string route = "http://localhost:5500/register";
+        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
+
+        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
         {
             yield return www.SendWebRequest();
+
+            var response = www.downloadHandler.text;
+            Debug.Log($"Logout response: {response}");
 
             if (www.isNetworkError || www.isHttpError)
             {
