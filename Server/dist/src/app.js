@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 const router = __importStar(require("./routes/router"));
 const express_1 = __importDefault(require("express"));
 const app = express_1.default();
+require('./connection');
 app.use(router.default);
 app.use(logErrorHandler);
 function logErrorHandler(req, res, next) {
