@@ -7,6 +7,7 @@ public class CharacterController : ICharacterController
     public List<CharacterStat> characterStats;
     public int ownedByPlayer;
     public ICharacter Character { get; set; }
+    public List<Ability> abilities;
 
     public CharacterStatNameSet CharacterStatNameSet { get { return characterStatNameSet; } }
 
@@ -14,12 +15,25 @@ public class CharacterController : ICharacterController
     {
         get
         {
-            List<ICharacterStat> stats = new List<ICharacterStat>();
+            List<ICharacterStat> statList = new List<ICharacterStat>();
             foreach (ICharacterStat stat in characterStats)
             {
-                stats.Add(stat);
+                statList.Add(stat);
             }
-            return stats;
+            return statList;
+        }
+    }
+
+    public List<IAbility> Abilities
+    {
+        get
+        {
+            List<IAbility> abilityList = new List<IAbility>();
+            foreach (IAbility ability in abilities)
+            {
+                abilityList.Add(ability);
+            }
+            return abilityList;
         }
     }
 
@@ -34,10 +48,10 @@ public class CharacterController : ICharacterController
 
         targetTile.Controller.OccupantCharacter = Character;
         targetTile.Controller.Select();
-    }
-
-
-
-
+    }  
     
+    public void Damage(float damage)
+    {
+        characterStats[0].AddModifier(new StatModifier(-1.0f, StatModType.Flat));
+    }
 }

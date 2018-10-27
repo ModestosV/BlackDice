@@ -819,7 +819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 255.60078, y: 0}
+  m_AnchoredPosition: {x: 255.60059, y: 0}
   m_SizeDelta: {x: -82.87988, y: -12.030029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &428649208
@@ -1135,7 +1135,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 339.70267, y: 0}
+  m_AnchoredPosition: {x: 339.70312, y: 0}
   m_SizeDelta: {x: -82.880005, y: -12.030029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670108231
@@ -1820,6 +1820,8 @@ MonoBehaviour:
     - baseValue: 20
     - baseValue: 5
     ownedByPlayer: 0
+    abilities:
+    - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
 --- !u!1 &1156470931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,6 +2415,8 @@ MonoBehaviour:
     - baseValue: 8
     - baseValue: 2
     ownedByPlayer: 1
+    abilities:
+    - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
 --- !u!1 &1894345465
 GameObject:
   m_ObjectHideFlags: 0

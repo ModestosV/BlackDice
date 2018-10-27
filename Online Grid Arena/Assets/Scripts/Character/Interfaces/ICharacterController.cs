@@ -5,4 +5,6 @@ public interface ICharacterController : ICharacterMovementController
     CharacterStatNameSet CharacterStatNameSet { get; }
     List<ICharacterStat> CharacterStats { get; }
     int OwnedByPlayer { get; }
+    List<IAbility> Abilities { get; }
+    void Damage(float damage);
 }

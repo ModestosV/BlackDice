@@ -20,7 +20,7 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
         controller.HexTile = this;
     }
 
-    #region ISelectionController implementation
+    #region IHexTileSelectionController implementation
 
     public void Hover()
     {

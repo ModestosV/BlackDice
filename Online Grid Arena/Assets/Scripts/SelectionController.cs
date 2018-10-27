@@ -6,6 +6,9 @@ using UnityEngine;
 public class SelectionController : ISelectionController
 {
     public ICharacter SelectedCharacter { get; set; }
+    public IAbility SelectedAbility { get; set; }
+
+    public IAbilitySelectionController AbilitySelectionController { get; set; }
 
     public IGameManager GameManager { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
@@ -17,12 +20,6 @@ public class SelectionController : ISelectionController
     public bool MouseIsOverGrid { get; set; }
     public bool IsLeftClickDown { get; set; }
     public IHexTile TargetTile { get; set; }
-    
-    public void Init(IGridTraversalController gridTraversalController, IGridSelectionController gridSelectionController)
-    {
-        GridSelectionController = gridSelectionController;
-        GridTraversalController = gridTraversalController;
-    }
 
     private bool lastIsEscapeButtonDown;
     private bool lastMouseIsOverGrid;
@@ -50,12 +47,36 @@ public class SelectionController : ISelectionController
         lastTargetTile = TargetTile;
     }
 
+    private void SendInputParameters(IAbilitySelectionController receivingController)
+    {
+        receivingController.IsEscapeButtonDown = IsEscapeButtonDown;
+        receivingController.MouseIsOverGrid = MouseIsOverGrid;
+        receivingController.IsLeftClickDown = IsLeftClickDown;
+        receivingController.TargetTile = TargetTile;
+    }
+
+    public void SetAbility(int abilityNumber)
+    {
+        if (SelectedCharacter != null)
+        {
+            if (abilityNumber >= SelectedCharacter.Controller.Abilities.Count)
+                return;
+
+            SelectedAbility = SelectedCharacter.Controller.Abilities[abilityNumber];
+        }
+    }
+
     public void Update()
     {
+        if (SelectedAbility != null)
+        {
+            SendInputParameters(AbilitySelectionController);
+            AbilitySelectionController.Update(SelectedAbility);
+            return;
+        }
+
         if (DebounceUpdate())
             return;
-
-        Debug.Log("WOW");
 
         UpdateLastInputs();
 
