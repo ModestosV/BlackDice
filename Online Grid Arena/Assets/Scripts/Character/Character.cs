@@ -7,14 +7,10 @@ public class Character : MonoBehaviour, ICharacter
     private void Awake()
     {
         controller.Character = this;
+        controller.OccupiedTile = GetComponentInParent<HexTile>();
     }
 
     #region ICharacter implementation
-
-    public IHexTile GetOccupiedTile()
-    {
-        return GetComponentInParent<HexTile>();
-    }
 
     public ICharacterController Controller { get { return controller; } }
 
