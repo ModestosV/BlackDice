@@ -3,7 +3,12 @@ const app = express()
 const port = 5500
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true })
+let mongooseOptions = { 
+  useNewUrlParser: true, 
+  useCreateIndex: true, 
+  useFindAndModify: false 
+}
+mongoose.connect('mongodb://localhost:27017', mongooseOptions)
 
 const Types = mongoose.Schema.Types;
 
@@ -29,7 +34,7 @@ mongoose.model('User', UserSchema)
 const User = mongoose.model('User')
 
 app.get('/', (req, res, next) => {
-  res.send('Welcome to the BlackDice web app.')
+  res.status(200).send('Welcome to the BlackDice web app.')
 })
 
 app.get('/register', (req, res, next) => {
@@ -47,13 +52,15 @@ app.get('/register', (req, res, next) => {
           return next(err)
         } else {
           if (!user) {
-            res.send('false')
+            res.status(200).send('false')
           } else {
-            res.send(user.email)
+            res.status(200).send(user.email)
           }
         }
       });
 
+    } else {
+      res.status(200).send('false')
     }
 	})
 
@@ -68,38 +75,49 @@ app.get('/login',
 
       User.findOneAndUpdate(loginQuery, { loggedIn: true }, function (err, user) {
         if (err) {
-          res.send('false')
+          res.status(200).send('false')
         } else {
           if (!user) {
-            res.send('false')
+            res.status(200).send('false')
           } else {
-            res.send(user.email)
+            res.status(200).send(user.email)
           }
         }
       });
 
+    } else {
+      res.status(200).send('false')
     }
 	})
 
 app.get('/logout', 
   (req, res, next) => {
+    if (req.query.email) {
 
-    let logoutQuery = {
-      'email' : req.query.email,
-      'loggedIn' : true
-    }
-
-    User.findOneAndUpdate(logoutQuery, { 'loggedIn': false }, (err, user) => {
-      if (err || !user) {
-        res.send('false')
-      } else {
-        if (!user) {
-          res.send('false')
-        } else {
-          res.send(user.email)
-        }
+      let logoutQuery = {
+        'email' : req.query.email,
+        'loggedIn' : true
       }
-    }).exec()
+
+      User.findOneAndUpdate(logoutQuery, { 'loggedIn': false }, (err, user) => {
+        if (err || !user) {
+          res.status(200).send('false')
+        } else {
+          if (!user) {
+            res.status(200).send('false')
+          } else {
+            res.status(200).send(user.email)
+          }
+        }
+      })
+
+    } else {
+      res.status(200).send('false')
+    }
   })
 
-app.listen(port, () => console.log(`BlackDice web app listening on port ${port}!`))
+var server = app.listen(port, () => {
+  console.log(`BlackDice web app listening on port ${port}!`)
+})
+
+module.exports = server
