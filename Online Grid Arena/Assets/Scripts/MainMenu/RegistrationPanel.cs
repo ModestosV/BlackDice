@@ -16,11 +16,6 @@ public class RegistrationPanel : MonoBehaviour
 
     public LoginPanel LoginPanel;
 
-    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email.";
-    private const string INVALID_PASSWORD_MESSAGE = "Your password must be at least 8 characters long.";
-    private const string REGISTRATION_SUCCESS_MESSAGE = "You have successfully registered this account!";
-    private const string CONNECTIVITY_ISSUES_MESSAGE = "Error: Web connectivity issues.";
-
     private void OnValidate()
     {
         StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
@@ -42,13 +37,13 @@ public class RegistrationPanel : MonoBehaviour
 
         if (!ValidateEmail(EmailText.text))
         {
-            SetStatus(INVALID_EMAIL_MESSAGE);
+            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
         if (!ValidatePassword(PasswordText.text))
         {
-            SetStatus(INVALID_PASSWORD_MESSAGE);
+            SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
             return;
         }
 
@@ -101,11 +96,11 @@ public class RegistrationPanel : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                SetStatus(CONNECTIVITY_ISSUES_MESSAGE);
+                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
             }
             else
             {
-                SetStatus($"{REGISTRATION_SUCCESS_MESSAGE}");
+                SetStatus($"{Strings.REGISTRATION_SUCCESS_MESSAGE}");
                 ClearEmail();
                 ClearPassword();
             }
