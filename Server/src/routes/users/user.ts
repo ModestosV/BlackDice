@@ -100,11 +100,11 @@ router.post(
       const userDoc = await User.findOne(loginQuery).exec();
 
       if (!userDoc) {
-        throw new Error("A database error occured while logging in");
+        throw new Error("A database error occured while logging out");
       } else {
         const hash = bcrypt.hash(passHash, userDoc.get("createdAt"));
         if (_.isEqual(hash, userDoc.get("password"))) {
-          userDoc.set("loggedIn", true);
+          userDoc.set("loggedIn", false);
           const updatedDoc = await userDoc.save();
           if (updatedDoc) {
             return res.json({ 200: "Request was completed successfully" });
@@ -117,12 +117,6 @@ router.post(
       }
     } catch (err) {
       return next(err);
-    }
-    if (req.query.email === app.locals.loggedInUser) {
-      app.locals.loggedInUser = null;
-      res.send("true");
-    } else {
-      res.send("false");
     }
   },
   errorHandler

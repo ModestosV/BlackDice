@@ -8,7 +8,6 @@ const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const moment_1 = __importDefault(require("moment"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("../../app"));
 const middlewares_1 = require("../../utils/middlewares");
 const router = express_1.default.Router();
 const User = mongoose_1.default.model("User");
@@ -84,12 +83,12 @@ router.post("/logout", async (req, res, next) => {
         };
         const userDoc = await User.findOne(loginQuery).exec();
         if (!userDoc) {
-            throw new Error("A database error occured while logging in");
+            throw new Error("A database error occured while logging out");
         }
         else {
             const hash = bcrypt_1.default.hash(passHash, userDoc.get("createdAt"));
             if (lodash_1.default.isEqual(hash, userDoc.get("password"))) {
-                userDoc.set("loggedIn", true);
+                userDoc.set("loggedIn", false);
                 const updatedDoc = await userDoc.save();
                 if (updatedDoc) {
                     return res.json({ 200: "Request was completed successfully" });
@@ -105,13 +104,6 @@ router.post("/logout", async (req, res, next) => {
     }
     catch (err) {
         return next(err);
-    }
-    if (req.query.email === app_1.default.locals.loggedInUser) {
-        app_1.default.locals.loggedInUser = null;
-        res.send("true");
-    }
-    else {
-        res.send("false");
     }
 }, middlewares_1.errorHandler);
 exports.default = router;
