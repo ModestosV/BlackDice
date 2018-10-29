@@ -16,27 +16,27 @@ const httpServer = __importStar(require("http"));
 const app_1 = __importDefault(require("./app"));
 const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss".toString() };
 let server = null;
-const host = 'localhost';
+const host = "localhost";
 const port = 5500;
 console_stamp_1.default(console, stamp);
 server = httpServer.createServer(app_1.default);
 server.listen(port, host);
-server.on('error', handleError);
-server.on('listening', listen);
+server.on("error", handleError);
+server.on("listening", listen);
 function handleError(err, req, res, next) {
     // If an error gets here everything should explode because I did something stupid or forgot to do something.
-    let error = {
+    const error = {
         code: res.statusCode || 500,
-        name: err.name,
-        message: err.message
+        message: err.message,
+        name: err.name
     };
     return res.json(error);
 }
 function listen() {
-    let stringMessage = 'Server is currently listing on: ';
-    stringMessage = stringMessage.concat(host, ' ', port.toString());
-    global.console.log('');
+    let stringMessage = "Server is currently listing on: ";
+    stringMessage = stringMessage.concat(host, " ", port.toString());
+    global.console.log("");
     global.console.log(stringMessage);
-    global.console.log('');
+    global.console.log("");
 }
 //# sourceMappingURL=server.js.map

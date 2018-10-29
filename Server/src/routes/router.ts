@@ -1,31 +1,29 @@
-import bodyParser from 'body-parser';
-import express, { NextFunction, Request, Response } from 'express';
-import { errorHandler } from '../utils/middlewares'
-import userRouter from './users/user' 
+import bodyParser from "body-parser";
+import express, { NextFunction, Request, Response } from "express";
+import { errorHandler } from "../utils/middlewares";
+import userRouter from "./users/user";
 const router = express.Router();
 
-router.get('/', 
-  (req: Request, res: Response, next: NextFunction) => {
-    let response = {
-      greeting: 'Hello World'
-    };
+router.get("/", (req: Request, res: Response, next: NextFunction) => {
+  const response = {
+    greeting: "Hello World"
+  };
 
-    return res.json(response);
-  }
-);
+  return res.json(response);
+});
 
-router.use('/account', userRouter);
+router.use("/account", userRouter);
 
 router.get(
-  '/chracterInfo',
+  "/chracterInfo",
   (req: Request, res: Response, next: NextFunction) => {
     if (!req.params.characterID) {
-      global.console.log('This character ID is empty. Nice');
-      global.console.log('Not really');
-      return next(new Error('Not valide Chracter ID'));
+      global.console.log("This character ID is empty. Nice");
+      global.console.log("Not really");
+      return next(new Error("Not valide Chracter ID"));
     }
   },
-  errorHandler,
+  errorHandler
 );
 
 export default router;

@@ -7,18 +7,18 @@ const express_1 = __importDefault(require("express"));
 const middlewares_1 = require("../utils/middlewares");
 const user_1 = __importDefault(require("./users/user"));
 const router = express_1.default.Router();
-router.get('/', (req, res, next) => {
-    let response = {
-        greeting: 'Hello World'
+router.get("/", (req, res, next) => {
+    const response = {
+        greeting: "Hello World"
     };
     return res.json(response);
 });
-router.use('/account', user_1.default);
-router.get('/chracterInfo', (req, res, next) => {
+router.use("/account", user_1.default);
+router.get("/chracterInfo", (req, res, next) => {
     if (!req.params.characterID) {
-        global.console.log('This character ID is empty. Nice');
-        global.console.log('Not really');
-        return next(new Error('Not valide Chracter ID'));
+        global.console.log("This character ID is empty. Nice");
+        global.console.log("Not really");
+        return next(new Error("Not valide Chracter ID"));
     }
 }, middlewares_1.errorHandler);
 exports.default = router;

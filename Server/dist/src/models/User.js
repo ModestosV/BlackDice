@@ -8,10 +8,11 @@ const Types = mongoose_1.default.Schema.Types;
 const userSchema = new mongoose_1.default.Schema({
     createdAt: { type: Types.Date, required: true },
     email: { type: Types.String, required: true, unique: true },
-    username: { type: Types.String, required: true, unique: true },
-    givenname: { type: Types.String, required: true },
+    givenname: { type: Types.String },
+    loggedIn: { type: Types.Boolean, required: true },
     passwordHash: { type: Types.String, required: true },
-    surname: { type: Types.String, required: true },
+    surname: { type: Types.String },
+    username: { type: Types.String, unique: true }
 });
 exports.default = userSchema;
 //# sourceMappingURL=User.js.map
