@@ -12,10 +12,14 @@ public class CharacterControllerTests
     IHexTileController startTileController;
     IHexTileController endTileController;
 
+    List<ICharacterStat> characterStats;
+    ICharacterStat health;
+
+    const float DAMAGE_AMOUNT = 1.0f;
+
     [SetUp]
     public void Init()
     {
-        sut = new CharacterController();
 
         character = Substitute.For<ICharacter>();
         startTile = Substitute.For<IHexTile>();
@@ -27,7 +31,13 @@ public class CharacterControllerTests
         startTile.Controller.Returns(startTileController);
         endTile.Controller.Returns(endTileController);
 
+        health = Substitute.For<ICharacterStat>();
+        characterStats = new List<ICharacterStat>() { health };
+
+        sut = new CharacterController();
+        sut.CharacterStats = characterStats;
         sut.Character = character;
+
     }
 
     [Test]
@@ -54,5 +64,13 @@ public class CharacterControllerTests
 
         endTileController.Received(1).OccupantCharacter = character;
         endTileController.Received(1).Select();
+    }
+
+    [Test]
+    public void Damage_adds_a_negative_flat_stat_modifier_to_health_stat()
+    {
+        sut.Damage(DAMAGE_AMOUNT);
+
+        sut.CharacterStats[0].Received(1).AddModifier(Arg.Any<IStatModifier>());
     }
 }

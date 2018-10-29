@@ -1,41 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-[System.Serializable]
+[Serializable]
 public class CharacterController : ICharacterController
 {
-    public CharacterStatNameSet characterStatNameSet;
-    public List<CharacterStat> characterStats;
     public int ownedByPlayer;
     public ICharacter Character { get; set; }
-    public List<Ability> abilities;
 
-    public CharacterStatNameSet CharacterStatNameSet { get { return characterStatNameSet; } }
+    public CharacterStatNameSet CharacterStatNameSet { get; set; }
 
-    public List<ICharacterStat> CharacterStats
-    {
-        get
-        {
-            List<ICharacterStat> statList = new List<ICharacterStat>();
-            foreach (ICharacterStat stat in characterStats)
-            {
-                statList.Add(stat);
-            }
-            return statList;
-        }
-    }
-
-    public List<IAbility> Abilities
-    {
-        get
-        {
-            List<IAbility> abilityList = new List<IAbility>();
-            foreach (IAbility ability in abilities)
-            {
-                abilityList.Add(ability);
-            }
-            return abilityList;
-        }
-    }
+    public List<ICharacterStat> CharacterStats { get; set; }
+    public List<IAbility> Abilities { get; set; }
 
     public int OwnedByPlayer { get { return ownedByPlayer; } }
 
@@ -52,6 +27,6 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
-        characterStats[0].AddModifier(new StatModifier(-1.0f, StatModType.Flat));
+        CharacterStats[0].AddModifier(new StatModifier(-1.0f, StatModType.Flat));
     }
 }

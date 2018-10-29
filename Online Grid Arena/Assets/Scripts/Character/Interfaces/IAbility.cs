@@ -3,6 +3,6 @@ using UnityEngine;
 
 public interface IAbility
 {
-    AbilityType Type { get; }
-    List<float> Values { get; }
+    AbilityType Type { get; set; }
+    List<float> Values { get; set; }
 }

@@ -19,6 +19,8 @@ public class SelectionControllerTests
     IHexTile targetHexTile;
     IHexTile otherCharacterHexTile;
     IHexTile selectCharacterHexTile;
+    IAbility ability;
+    IAbilitySelectionController abilitySelectionController;
 
     IStatPanelController statPanelController;
     IHexTileController hexTileController;
@@ -46,6 +48,8 @@ public class SelectionControllerTests
         targetHexTile = Substitute.For<IHexTile>();
         otherCharacterHexTile = Substitute.For<IHexTile>();
         selectCharacterHexTile = Substitute.For<IHexTile>();
+        ability = Substitute.For<IAbility>();
+        abilitySelectionController = Substitute.For<IAbilitySelectionController>();
 
         statPanelController = Substitute.For<IStatPanelController>();
         statPanel.Controller.Returns(statPanelController);
@@ -76,6 +80,7 @@ public class SelectionControllerTests
         sut.StatPanel = statPanel;
         sut.PlayerPanel = playerPanel;
         sut.TargetTile = targetHexTile;
+        sut.AbilitySelectionController = abilitySelectionController;
     }
 
     [Test]
@@ -382,6 +387,24 @@ public class SelectionControllerTests
         statPanelController.DidNotReceive();
         playerPanel.DidNotReceive();
         hexTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Selection_controller_delegates_to_ability_selection_controller_when_ability_selected()
+    {
+        sut.SelectedAbility = ability;
+        sut.IsEscapeButtonDown = true;
+        sut.MouseIsOverGrid = true;
+        sut.IsLeftClickDown = true;
+
+        sut.Update();
+
+        abilitySelectionController.Received(1).IsEscapeButtonDown = true;
+        abilitySelectionController.Received(1).MouseIsOverGrid = true;
+        abilitySelectionController.Received(1).IsLeftClickDown = true;
+        abilitySelectionController.Received(1).TargetTile = targetHexTile;
+
+        abilitySelectionController.Received(1).Update(ability);
     }
 }
 

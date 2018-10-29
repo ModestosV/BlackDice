@@ -1813,15 +1813,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
-      type: 2}
-    characterStats:
-    - baseValue: 120
-    - baseValue: 20
-    - baseValue: 5
     ownedByPlayer: 0
-    abilities:
-    - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  stats:
+  - baseValue: 100
+  - baseValue: 20
+  - baseValue: 3
+  abilities:
+  - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
+    type: 2}
 --- !u!1 &1156470931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,15 +2408,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller:
-    characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
-      type: 2}
-    characterStats:
-    - baseValue: 95
-    - baseValue: 8
-    - baseValue: 2
     ownedByPlayer: 1
-    abilities:
-    - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  stats:
+  - baseValue: 120
+  - baseValue: 15
+  - baseValue: 4
+  abilities:
+  - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
+    type: 2}
 --- !u!1 &1894345465
 GameObject:
   m_ObjectHideFlags: 0

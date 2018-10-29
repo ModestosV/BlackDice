@@ -15,6 +15,6 @@ public class Ability : ScriptableObject, IAbility
     public AbilityType type;
     public List<float> values;
 
-    public AbilityType Type { get { return type; } }
-    public List<float> Values { get { return values; } }
+    public AbilityType Type { get { return type; } set { type = value; } }
+    public List<float> Values { get { return values; } set { values = value; } }
 }
