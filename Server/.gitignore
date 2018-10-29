@@ -6,4 +6,4 @@
 *yarn.lock
 
 #ignore .vscode
-*.vscode
+*.vscode/*
