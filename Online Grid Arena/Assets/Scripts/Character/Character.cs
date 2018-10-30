@@ -21,6 +21,7 @@ public class Character : MonoBehaviour, ICharacter
         InitStats();
         InitAbilities();
         controller.CharacterStatNameSet = characterStatNameSet;
+        controller.OccupiedTile = GetComponentInParent<HexTile>();
     }
 
     private void InitStats()
@@ -44,11 +45,6 @@ public class Character : MonoBehaviour, ICharacter
     }
 
     #region ICharacter implementation
-
-    public IHexTile GetOccupiedTile()
-    {
-        return GetComponentInParent<HexTile>();
-    }
 
     public ICharacterController Controller { get { return controller; } }
 

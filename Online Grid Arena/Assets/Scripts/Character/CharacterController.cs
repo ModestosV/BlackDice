@@ -5,7 +5,11 @@ using System.Collections.Generic;
 public class CharacterController : ICharacterController
 {
     public int ownedByPlayer;
+    public IHexTile OccupiedTile { get; set; }
     public ICharacter Character { get; set; }
+    public ITurnController TurnController { get; set; }
+    public int MovesRemaining { get; set; }
+    public int AbilitiesRemaining { get; set; }
 
     public CharacterStatNameSet CharacterStatNameSet { get; set; }
 
@@ -16,14 +20,47 @@ public class CharacterController : ICharacterController
 
     public void MoveToTile(IHexTile targetTile)
     {
-        Character.GetOccupiedTile().Controller.Deselect();
-        Character.GetOccupiedTile().Controller.OccupantCharacter = null;
+        if (!(MovesRemaining > 0)) return;
+
+        IHexTile currentTile = Character.Controller.OccupiedTile;
+        currentTile.Controller.Deselect();
+        currentTile.Controller.OccupantCharacter = null;
 
         Character.MoveToTile(targetTile);
+        Character.Controller.OccupiedTile = targetTile;
 
         targetTile.Controller.OccupantCharacter = Character;
         targetTile.Controller.Select();
-    }  
+        MovesRemaining--;
+        CheckExhausted();
+    }
+
+    public void UseAbility()
+    {
+        AbilitiesRemaining--;
+        CheckExhausted();
+    }
+
+    private bool CheckExhausted()
+    {
+        if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
+        {
+            TurnController.EndTurn();
+            return true;
+        }
+        return false;
+    }
+
+    public void Refresh()
+    {
+        MovesRemaining = 1;
+        AbilitiesRemaining = 0;
+    }
+
+    public float GetInitiative()
+    {
+        return 1.0f;
+    }
     
     public void Damage(float damage)
     {

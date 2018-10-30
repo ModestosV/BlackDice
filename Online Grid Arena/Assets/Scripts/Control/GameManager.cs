@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour, IGameManager
 {
@@ -7,6 +9,7 @@ public class GameManager : MonoBehaviour, IGameManager
     public GridTraversalController gridTraversalController;
     public AbilitySelectionController abilitySelectionController;
     public AbilityExecutionController abilityExecutionController;
+    public TurnController turnController;
 
     #region IGameManager implementation
 
@@ -36,6 +39,20 @@ public class GameManager : MonoBehaviour, IGameManager
         selectionController.StatPanel.Controller.DisableStatDisplays();
         selectionController.PlayerPanel = FindObjectOfType<PlayerPanel>();
 
+        turnController.Init();
+        Character[] charactersArray = FindObjectsOfType<Character>();
+        List<ICharacter> charactersList = new List<ICharacter>();
+        foreach (ICharacter character in charactersArray)
+        {
+            character.Controller.TurnController = turnController;
+            charactersList.Add(character);
+        }
+
+        turnController.RefreshedCharacters = charactersList;
+
+        selectionController.TurnController = turnController;
+
+
         FindObjectOfType<Grid>().Init(gridSelectionController, gridTraversalController);
     }
 
@@ -57,6 +74,11 @@ public class GameManager : MonoBehaviour, IGameManager
         {
             selectionController.SetAbility(3);
         }
+    }
+    
+    private void Start()
+    {
+        turnController.StartNextTurn();
     }
 
     void Update()
