@@ -7,14 +7,21 @@ public class CharacterControllerTests
     CharacterController sut;
 
     ICharacter character;
+    ICharacter targetCharacter;
+    ICharacterController targetCharacterController;
     IHexTile startTile;
     IHexTile endTile;
     IHexTileController startTileController;
     IHexTileController endTileController;
     ITurnController turnController;
 
+    IAbility ability;
+    List<float> abilityValues;
+
     const int INITIAL_MOVES_REMAINING_COUNT = 2;
     const int INITIAL_ABILITIES_REMAINING_COUNT = 0;
+
+    const float ABILITY_DAMAGE = 1.0f;
 
     List<ICharacterStat> characterStats;
     ICharacterStat health;
@@ -26,6 +33,8 @@ public class CharacterControllerTests
     {
 
         character = Substitute.For<ICharacter>();
+        targetCharacter = Substitute.For<ICharacter>();
+        targetCharacterController = Substitute.For<ICharacterController>();
         startTile = Substitute.For<IHexTile>();
         endTile = Substitute.For<IHexTile>();
         startTileController = Substitute.For<IHexTileController>();
@@ -38,6 +47,14 @@ public class CharacterControllerTests
 
         health = Substitute.For<ICharacterStat>();
         characterStats = new List<ICharacterStat>() { health };
+
+        ability = Substitute.For<IAbility>();
+        targetCharacter.Controller.Returns(targetCharacterController);
+
+        abilityValues = new List<float>();
+        abilityValues.Add(ABILITY_DAMAGE);
+
+        ability.Values = abilityValues;
 
         sut = new CharacterController();
         sut.CharacterStats = characterStats;
@@ -111,5 +128,13 @@ public class CharacterControllerTests
         sut.MoveToTile(endTile);
 
         turnController.Received(1).EndTurn();
+    }
+
+    [Test]
+    public void Execute_attack_ability_damages_character_and_updates_stat_panel()
+    {
+        sut.ExecuteAbility(0, character);
+
+        targetCharacterController.Received(1).Damage(ABILITY_DAMAGE);
     }
 }

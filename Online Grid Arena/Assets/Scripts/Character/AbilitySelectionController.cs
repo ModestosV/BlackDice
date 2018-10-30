@@ -1,120 +1,100 @@
 ﻿using System;
 
 [Serializable]
-public class AbilitySelectionController : IAbilitySelectionController
+public class AbilitySelectionController : InputController, IAbilitySelectionController
 {
-    public bool IsEscapeButtonDown { get; set; }
-    public bool MouseIsOverGrid { get; set; }
-    public bool IsLeftClickDown { get; set; }
-    public IHexTile TargetTile { get; set; }
-
+    public IHUDController HUDController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
     public IGridTraversalController GridTraversalController { get; set; }
-    public IAbilityExecutionController AbilityExecutionController { get; set; }
+    public IGameManager GameManager { get; set; }
 
-    public ISelectionController SelectionController { get; set; }
+    private int activeAbilityNumber;
 
-    private bool lastIsEscapeButtonDown;
-    private bool lastMouseIsOverGrid;
-    private bool lastIsLeftClickDown;
-    private IHexTile lastTargetTile;
-
-    private bool DebounceUpdate()
+    private void ActivateAbility()
     {
-        if (IsEscapeButtonDown != lastIsEscapeButtonDown)
-            return false;
-        if (MouseIsOverGrid != lastMouseIsOverGrid)
-            return false;
-        if (IsLeftClickDown != lastIsLeftClickDown)
-            return false;
-        if (TargetTile != lastTargetTile)
-            return false;
-        return true;
+        int inputAbilityNumber = InputParameters.GetAbilityNumber();
+        if (inputAbilityNumber > -1)
+        {
+            activeAbilityNumber = inputAbilityNumber;
+        }
     }
 
-    private void UpdateLastInputs()
-    {
-        lastIsEscapeButtonDown = IsEscapeButtonDown;
-        lastMouseIsOverGrid = MouseIsOverGrid;
-        lastIsLeftClickDown = IsLeftClickDown;
-        lastTargetTile = TargetTile;
-    }
-
-    public void Update(IAbility selectedAbility)
+    public override void Update()
     {
         if (DebounceUpdate())
             return;
 
+        GridSelectionController.BlurAll();
+        GridSelectionController.ScrubPathAll();
+
         // Escape buton pressed
-        if (IsEscapeButtonDown)
+        if (InputParameters.IsKeyEscapeDown)
         {
-            SelectionController.SelectedAbility = null;
+            GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
 
-        if (!MouseIsOverGrid && IsLeftClickDown) // Clicked off grid
+        // Clicked off grid
+        if (!InputParameters.IsMouseOverGrid && InputParameters.IsLeftClickDown)
         {
-            SelectionController.SelectedAbility = null;
             return;
         }
 
-        if (!MouseIsOverGrid) // Hovered off grid
+        if (!InputParameters.IsMouseOverGrid) // Hovered off grid
         {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
             return;
         }
 
         // Invariant: Mouse is over grid
 
-        bool tileIsEnabled = TargetTile.Controller.IsEnabled;
+        bool tileIsEnabled = InputParameters.TargetTile.Controller.IsEnabled;
 
-        if (!tileIsEnabled && IsLeftClickDown) // Clicked on disabled tile
+        if (!tileIsEnabled && InputParameters.IsLeftClickDown) // Clicked on disabled tile
         {
-            SelectionController.SelectedAbility = null;
             return;
         }
 
         if (!tileIsEnabled) // Hovered over disabled tile
         {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
             return;
         }
 
         // Invariant: Target tile is enabled
-        
-        bool tileIsOccupied = TargetTile.Controller.OccupantCharacter != null;
-        //bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == TargetTile;
 
-        if (IsLeftClickDown && !tileIsOccupied ) // Clicked unoccupied other tile
+
+        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
+        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
+        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
+
+        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
+            && selectedTile == InputParameters.TargetTile;
+
+        if (InputParameters.IsLeftClickDown && !tileIsOccupied ) // Clicked unoccupied other tile
         {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.HoverError();
             return;
         }
 
-        if (IsLeftClickDown) // Clicked occupied tile
+        if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile) // Clicked occupied other tile
         {
-            AbilityExecutionController.ExecuteAbility(selectedAbility, TargetTile.Controller.OccupantCharacter);
+            selectedCharacter.Controller.ExecuteAbility(activeAbilityNumber, targetCharacter);
+            GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
 
         // Invariant: Left-click is not down
 
-        if (!tileIsOccupied) // Hovered over unoccupied tile
+        // Hovered over unoccupied tile
+        if (!tileIsOccupied)
         {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.Controller.HoverError();
+            HUDController.ClearTargetHUD();
             return;
         }
 
-        // Hovered over occupied tile
-        GridSelectionController.ScrubPathAll();
-        GridSelectionController.BlurAll();
-        TargetTile.Controller.MarkPath();
+        // Hover over occupied tile
+        InputParameters.TargetTile.Controller.MarkPath();
+        HUDController.UpdateTargetHUD(InputParameters.TargetTile.Controller.OccupantCharacter);
         return;
     }
 }

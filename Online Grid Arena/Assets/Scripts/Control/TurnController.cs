@@ -9,6 +9,8 @@ public class TurnController : ITurnController
     public List<ICharacter> ExhaustedCharacters { get; set; }
     public ICharacter ActiveCharacter { get; set; }
 
+    public IHUDController HUDController { get; set; }
+
     public void Init()
     {
         RefreshedCharacters = new List<ICharacter>();
@@ -30,14 +32,13 @@ public class TurnController : ITurnController
         RefreshedCharacters.RemoveAt(0);
 
         ActiveCharacter.Controller.Refresh();
-        ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
-        ActiveCharacter.Controller.OccupiedTile.Controller.Select();
     }
 
     public void EndTurn()
     {
         ExhaustedCharacters.Add(ActiveCharacter);
-
+        ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
+        HUDController.ClearSelectedHUD();
         StartNextTurn();
     }
 }

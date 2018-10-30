@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 
+public enum SelectionMode
+{
+    SELECTION,
+    ABILITY,
+    MOVEMENT
+}
+
 public class GameManager : MonoBehaviour, IGameManager
 {
     public SelectionController selectionController;
+    public AbilitySelectionController abilitySelectionController;
+    public MovementController movementController;
+
     public GridSelectionController gridSelectionController;
     public GridTraversalController gridTraversalController;
-    public AbilitySelectionController abilitySelectionController;
-    public AbilityExecutionController abilityExecutionController;
     public TurnController turnController;
+    public HUDController hudController;
+
+    private InputParameters inputParameters;
+
+    public SelectionMode SelectionMode { get; set; }
 
     #region IGameManager implementation
 
@@ -22,24 +35,29 @@ public class GameManager : MonoBehaviour, IGameManager
 
     private void Awake()
     {
+        StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
+        PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
+        hudController.SelectedStatPanel = statPanels[1];
+        hudController.SelectedPlayerPanel = playerPanels[1];
+        hudController.TargetStatPanel = statPanels[0];
+        hudController.TargetPlayerPanel = playerPanels[0];
+
         selectionController.GridSelectionController = gridSelectionController;
-        selectionController.GridTraversalController = gridTraversalController;
-        selectionController.AbilitySelectionController = abilitySelectionController;
-        selectionController.AbilitySelectionController.SelectionController = selectionController;
+        abilitySelectionController.GridSelectionController = gridSelectionController;
+        movementController.GridSelectionController = gridSelectionController;
 
-        selectionController.AbilitySelectionController.GridSelectionController = gridSelectionController;
-        selectionController.AbilitySelectionController.GridTraversalController = gridTraversalController;
-        selectionController.AbilitySelectionController.AbilityExecutionController = abilityExecutionController;
+        selectionController.HUDController = hudController;
+        abilitySelectionController.HUDController = hudController;
+        movementController.HUDController = hudController;
 
-        IStatPanel statPanel = FindObjectOfType<StatPanel>();
-        abilityExecutionController.StatPanel = statPanel;
+        movementController.GridTraversalController = gridTraversalController;
 
-        selectionController.GameManager = this;
-        selectionController.StatPanel = statPanel;
-        selectionController.StatPanel.Controller.DisableStatDisplays();
-        selectionController.PlayerPanel = FindObjectOfType<PlayerPanel>();
+        abilitySelectionController.GameManager = this;
+        movementController.GameManager = this;
 
         turnController.Init();
+        turnController.HUDController = hudController;
+
         Character[] charactersArray = FindObjectsOfType<Character>();
         List<ICharacter> charactersList = new List<ICharacter>();
         foreach (ICharacter character in charactersArray)
@@ -47,35 +65,117 @@ public class GameManager : MonoBehaviour, IGameManager
             character.Controller.TurnController = turnController;
             charactersList.Add(character);
         }
-
         turnController.RefreshedCharacters = charactersList;
 
-        selectionController.TurnController = turnController;
-
+        HexTile[] hexTilesArray = FindObjectsOfType<HexTile>();
+        foreach (IHexTile hexTile in hexTilesArray)
+        {
+            hexTile.Controller.SelectionController = selectionController;
+            hexTile.Controller.GridSelectionController = gridSelectionController;
+            hexTile.Controller.GridTraversalController = gridTraversalController;
+        }
 
         FindObjectOfType<Grid>().Init(gridSelectionController, gridTraversalController);
+
+        SelectionMode = SelectionMode.SELECTION;
     }
 
-    private void HandleAbilityInput()
+    private void UpdateInputParameters()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        bool isMouseOverGrid = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Tile";
+        IHexTile targetTile = null;
+        if (isMouseOverGrid)
         {
-            selectionController.SetAbility(0);
+            targetTile = hit.collider.gameObject.GetComponent<HexTile>();
         }
-        if (Input.GetKeyDown(KeyCode.W))
+
+        inputParameters = new InputParameters()
         {
-            selectionController.SetAbility(1);
+            IsKeyQDown = Input.GetKeyDown(KeyCode.Q),
+            IsKeyWDown = Input.GetKeyDown(KeyCode.W),
+            IsKeyEDown = Input.GetKeyDown(KeyCode.E),
+            IsKeyRDown = Input.GetKeyDown(KeyCode.R),
+            IsKeyFDown = Input.GetKeyDown(KeyCode.F),
+            IsKeyEscapeDown = Input.GetKeyDown(KeyCode.Escape),
+
+            IsLeftClickDown = Input.GetMouseButtonDown(0),
+            IsRightClickDown = Input.GetMouseButtonDown(1),
+
+            IsMouseOverGrid = isMouseOverGrid,
+            TargetTile = targetTile
+        };
+
+        selectionController.InputParameters = inputParameters;
+        abilitySelectionController.InputParameters = inputParameters;
+        movementController.InputParameters = inputParameters;
+    }
+
+    private bool IsSelectedCharacterActive()
+    {
+        if (!(gridSelectionController.SelectedTiles.Count > 0))
+            return false;
+
+        IHexTile selectedTile = gridSelectionController.SelectedTiles[0];
+        if (selectedTile == null)
+            return false;
+
+        ICharacter selectedCharacter = gridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
+        if (selectedCharacter == null)
+            return false;
+
+        return turnController.ActiveCharacter == selectedCharacter;
+    }
+
+    private bool HasAbilitiesRemaining()
+    {
+        if (!(gridSelectionController.SelectedTiles.Count > 0))
+            return false;
+
+        IHexTile selectedTile = gridSelectionController.SelectedTiles[0];
+        if (selectedTile == null)
+            return false;
+
+        ICharacter selectedCharacter = gridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
+        if (selectedCharacter == null)
+            return false;
+
+        return selectedCharacter.Controller.AbilitiesRemaining > 0;
+    }
+
+    private bool HasMovesRemaining()
+    {
+        if (!(gridSelectionController.SelectedTiles.Count > 0))
+            return false;
+
+        IHexTile selectedTile = gridSelectionController.SelectedTiles[0];
+        if (selectedTile == null)
+            return false;
+
+        ICharacter selectedCharacter = gridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
+        if (selectedCharacter == null)
+            return false;
+
+        return selectedCharacter.Controller.MovesRemaining > 0;
+    }
+
+    private void SetSelectionMode()
+    {
+        if ((inputParameters.IsKeyQDown
+            || inputParameters.IsKeyWDown
+            || inputParameters.IsKeyEDown
+            || inputParameters.IsKeyRDown)
+            && IsSelectedCharacterActive() && HasAbilitiesRemaining())
+        {
+            SelectionMode = SelectionMode.ABILITY;
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        else if (inputParameters.IsKeyFDown && IsSelectedCharacterActive() && HasMovesRemaining())
         {
-            selectionController.SetAbility(2);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            selectionController.SetAbility(3);
+            SelectionMode = SelectionMode.MOVEMENT;
         }
     }
-    
+
     private void Start()
     {
         turnController.StartNextTurn();
@@ -83,27 +183,23 @@ public class GameManager : MonoBehaviour, IGameManager
 
     void Update()
     {
-        HandleAbilityInput();
+        UpdateInputParameters();
+        SetSelectionMode();
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        bool isEscapeButtonDown = Input.GetKeyDown(KeyCode.Escape);
-        bool mouseIsOverGrid = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Tile";
-        bool isLeftClickDown = Input.GetMouseButtonDown(0);
-
-        IHexTile targetTile = null;
-        if (mouseIsOverGrid)
+        switch (SelectionMode)
         {
-            targetTile = hit.collider.gameObject.GetComponent<HexTile>();
+            case SelectionMode.SELECTION:
+                selectionController.Update();
+                break;
+            case SelectionMode.MOVEMENT:
+                movementController.Update();
+                break;
+            case SelectionMode.ABILITY:
+                abilitySelectionController.Update();
+                break;
+            default:
+                break;
         }
-
-        selectionController.IsEscapeButtonDown = isEscapeButtonDown;
-        selectionController.MouseIsOverGrid = mouseIsOverGrid;
-        selectionController.IsLeftClickDown = isLeftClickDown;
-        selectionController.TargetTile = targetTile;
-
-        selectionController.Update();
     }
 
     #region IGameManager implementation

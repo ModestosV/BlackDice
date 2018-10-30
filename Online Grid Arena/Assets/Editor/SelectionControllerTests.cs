@@ -29,6 +29,8 @@ public class SelectionControllerTests
     List<IHexTile> selectedHexTileList;
     List<IHexTile> pathHexTileList;
 
+    InputParameters inputParameters;
+
     const string PLAYER_NAME_PREFIX = "Player ";
     const int PLAYER_ID = 1;
 
@@ -78,21 +80,18 @@ public class SelectionControllerTests
 
         turnController.ActiveCharacter.Returns(selectedCharacter);
 
-        sut.SelectedCharacter = selectedCharacter;
-        sut.GameManager = gameManager;
+        inputParameters = new InputParameters()
+        {
+            //TargetTile = targetTile
+        };
+        
         sut.GridSelectionController = gridSelectionController;
-        sut.GridTraversalController = gridTraversalController;
-        sut.StatPanel = statPanel;
-        sut.PlayerPanel = playerPanel;
-        sut.TargetTile = targetHexTile;
-        sut.AbilitySelectionController = abilitySelectionController;
-        sut.TurnController = turnController;
     }
 
     [Test]
     public void Quit_when_escape_button_down()
     {
-        sut.IsEscapeButtonDown = true;
+        inputParameters.IsKeyEscapeDown = true;
 
         sut.Update();
         
@@ -107,9 +106,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_off_grid_deselects_all()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = false;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = false;
+        inputParameters.IsLeftClickDown = true;
 
         sut.Update();
         
@@ -125,9 +124,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_off_grid_scrubs_all_paths()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = false;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = false;
+        inputParameters.IsLeftClickDown = false;
 
         sut.Update();
         
@@ -142,9 +141,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_disabled_tile_deselects_all()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = false;
 
         sut.Update();
@@ -161,9 +160,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_disabled_tile_scrubs_all_paths()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = false;
 
         sut.Update();
@@ -179,11 +178,10 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_unoccupied_other_tile_without_character_selected_selects_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
-        sut.SelectedCharacter = null;
         targetHexTileController.OccupantCharacter.Returns(nullCharacter);
         gridSelectionController.SelectedTiles.Returns(new List<IHexTile>());
 
@@ -200,11 +198,10 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_unoccupied_current_tile_without_character_selected_deselects_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
-        sut.SelectedCharacter = null;
         targetHexTileController.OccupantCharacter.Returns(nullCharacter);
         gridSelectionController.SelectedTiles.Returns(new List<IHexTile>() { targetHexTile });
 
@@ -221,11 +218,10 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_occupied_current_tile_without_character_selected_selects_tile_and_character()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
-        sut.SelectedCharacter = null;
 
         sut.Update();
         
@@ -243,11 +239,10 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_tile_without_character_selected_hover_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = true;
-        sut.SelectedCharacter = null;
 
         sut.Update();
         
@@ -262,9 +257,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_unreachable_tile_with_character_selected_error_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
         gridTraversalController.GetPath(selectCharacterHexTile, targetHexTile).Returns(new List<IHexTile>());
 
@@ -281,9 +276,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_reachable_unoccupied_tile_with_active_character_selected_moves_character_to_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
         targetHexTileController.OccupantCharacter.Returns(nullCharacter);
 
@@ -300,9 +295,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_reachable_occupied_tile_with_character_selected_error_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
 
         sut.Update();
@@ -318,9 +313,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_current_selected_tile_deselects_tile_and_character()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
         gridSelectionController.SelectedTiles.Returns(new List<IHexTile>() { targetHexTile });
 
@@ -337,9 +332,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_unreachable_tile_with_character_selected_error_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = true;
         gridTraversalController.GetPath(selectCharacterHexTile, targetHexTile).Returns(new List<IHexTile>());
 
@@ -357,9 +352,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_reachable_unoccupied_tile_with_character_selected_highlights_path()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = true;
         targetHexTileController.OccupantCharacter.Returns(nullCharacter);
 
@@ -379,9 +374,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_reachable_occupied_tile_with_character_selected_error_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = true;
 
         sut.Update();
@@ -398,9 +393,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_other_occupied_tile_with_inactive_character_selected_selects_tile_and_character()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
         turnController.ActiveCharacter.Returns(otherCharacter);
 
@@ -419,9 +414,9 @@ public class SelectionControllerTests
     [Test]
     public void Clicking_on_other_unoccupied_tile_with_inactive_character_selected_selects_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
         targetHexTile.Controller.IsEnabled = true;
         turnController.ActiveCharacter.Returns(otherCharacter);
         targetHexTileController.OccupantCharacter.Returns(nullCharacter);
@@ -439,9 +434,9 @@ public class SelectionControllerTests
     [Test]
     public void Hovering_over_other_tile_with_inactive_character_selected_hover_highlights_tile()
     {
-        sut.IsEscapeButtonDown = false;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = false;
+        inputParameters.IsKeyEscapeDown = false;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = false;
         targetHexTile.Controller.IsEnabled = true;
         turnController.ActiveCharacter.Returns(otherCharacter);
 
@@ -458,19 +453,11 @@ public class SelectionControllerTests
     [Test]
     public void Selection_controller_delegates_to_ability_selection_controller_when_ability_selected()
     {
-        sut.SelectedAbility = ability;
-        sut.IsEscapeButtonDown = true;
-        sut.MouseIsOverGrid = true;
-        sut.IsLeftClickDown = true;
+        inputParameters.IsKeyEscapeDown = true;
+        inputParameters.IsMouseOverGrid = true;
+        inputParameters.IsLeftClickDown = true;
 
         sut.Update();
-
-        abilitySelectionController.Received(1).IsEscapeButtonDown = true;
-        abilitySelectionController.Received(1).MouseIsOverGrid = true;
-        abilitySelectionController.Received(1).IsLeftClickDown = true;
-        abilitySelectionController.Received(1).TargetTile = targetHexTile;
-
-        abilitySelectionController.Received(1).Update(ability);
     }
 }
 

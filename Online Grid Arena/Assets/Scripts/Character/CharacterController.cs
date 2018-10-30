@@ -35,8 +35,17 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
-    public void UseAbility()
+    public void ExecuteAbility(int abilityNumber, ICharacter targetCharacter)
     {
+        if (!(AbilitiesRemaining > 0)) return;
+
+        IAbility ability = Abilities[abilityNumber];
+
+        if (ability.Type == AbilityType.ATTACK)
+        {
+            targetCharacter.Controller.Damage(ability.Values[0]);
+        }
+
         AbilitiesRemaining--;
         CheckExhausted();
     }
@@ -54,7 +63,7 @@ public class CharacterController : ICharacterController
     public void Refresh()
     {
         MovesRemaining = 1;
-        AbilitiesRemaining = 0;
+        AbilitiesRemaining = 1;
     }
 
     public float GetInitiative()

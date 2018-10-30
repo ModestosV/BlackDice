@@ -6,6 +6,8 @@ public interface ITurnController
     List<ICharacter> ExhaustedCharacters { get; set; }
     ICharacter ActiveCharacter { get; set; }
 
+    IHUDController HUDController { get; set; }
+
     void StartNextTurn();
     void EndTurn();
 }

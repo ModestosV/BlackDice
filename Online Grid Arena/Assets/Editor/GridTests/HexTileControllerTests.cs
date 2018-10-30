@@ -43,7 +43,6 @@ public class HexTileControllerTests
         sut.Select();
 
         selectionController.DidNotReceive();
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
         gridSelectionController.DidNotReceive();
         gridTraversalController.DidNotReceive();
         hexTileSelectionController.DidNotReceive();
@@ -64,7 +63,6 @@ public class HexTileControllerTests
         Assert.IsTrue(sut.IsSelected);
         hexTileSelectionController.Received(1).Select();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
     }
 
     [Test]
@@ -82,8 +80,6 @@ public class HexTileControllerTests
         Assert.IsTrue(sut.IsSelected);
         hexTileSelectionController.Received(1).Select();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = null;
-        selectionController.Received().SelectedCharacter = occupantCharacter;
     }
 
     [Test]
@@ -100,7 +96,6 @@ public class HexTileControllerTests
         Assert.IsFalse(sut.IsSelected);
         hexTileSelectionController.Received(1).Deselect();
         gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
     }
 
     [Test]
@@ -117,7 +112,6 @@ public class HexTileControllerTests
         Assert.IsFalse(sut.IsSelected);
         hexTileSelectionController.Received(1).Deselect();
         gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        selectionController.Received().SelectedCharacter = null;
     }
 
     #endregion
@@ -178,7 +172,6 @@ public class HexTileControllerTests
 
         Assert.IsFalse(sut.IsSelected);
         hexTileSelectionController.Received(1).Deselect();
-        selectionController.Received(1).SelectedCharacter = null;
         gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
         gridTraversalController.DidNotReceive();
     }
