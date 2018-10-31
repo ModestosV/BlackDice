@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour, IGameManager
         hudController.TargetStatPanel = statPanels[0];
         hudController.TargetPlayerPanel = playerPanels[0];
 
+        selectionController.TurnController = turnController;
+
         selectionController.GridSelectionController = gridSelectionController;
         abilitySelectionController.GridSelectionController = gridSelectionController;
         movementSelectionController.GridSelectionController = gridSelectionController;
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour, IGameManager
             IsKeyRDown = Input.GetKeyDown(KeyCode.R),
             IsKeyFDown = Input.GetKeyDown(KeyCode.F),
             IsKeyEscapeDown = Input.GetKeyDown(KeyCode.Escape),
+            IsKeyTabDown = Input.GetKeyDown(KeyCode.Tab),
 
             IsLeftClickDown = Input.GetMouseButtonDown(0),
             IsRightClickDown = Input.GetMouseButtonDown(1),

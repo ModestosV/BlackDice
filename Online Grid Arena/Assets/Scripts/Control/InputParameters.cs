@@ -9,6 +9,7 @@ public class InputParameters : IInputParameters, IEquatable<InputParameters>
     public bool IsKeyRDown { get; set; }
     public bool IsKeyFDown { get; set; }
     public bool IsKeyEscapeDown { get; set; }
+    public bool IsKeyTabDown { get; set; }
 
     public bool IsLeftClickDown { get; set; }
     public bool IsRightClickDown { get; set; }
@@ -38,6 +39,8 @@ public class InputParameters : IInputParameters, IEquatable<InputParameters>
         if (this.IsKeyFDown != that.IsKeyFDown)
             return false;
         if (this.IsKeyEscapeDown != that.IsKeyEscapeDown)
+            return false;
+        if (this.IsKeyTabDown != that.IsKeyTabDown)
             return false;
         if (this.IsLeftClickDown != that.IsLeftClickDown)
             return false;

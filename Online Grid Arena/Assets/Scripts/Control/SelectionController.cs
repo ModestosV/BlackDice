@@ -5,6 +5,7 @@ public class SelectionController : InputController, ISelectionController
 {    
     public IHUDController HUDController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
+    public ITurnController TurnController { get; set; }
 
     public override void Update()
     {
@@ -20,6 +21,11 @@ public class SelectionController : InputController, ISelectionController
             GridSelectionController.DeselectAll();
             HUDController.ClearSelectedHUD();
             return;
+        }
+
+        if (InputParameters.IsKeyTabDown)
+        {
+            TurnController.ActiveCharacter.Controller.OccupiedTile.Controller.Select();
         }
 
         // Clicked off grid

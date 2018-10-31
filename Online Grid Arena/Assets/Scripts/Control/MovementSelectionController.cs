@@ -17,13 +17,6 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         GridSelectionController.BlurAll();
         GridSelectionController.ScrubPathAll();
 
-        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
-        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
-
-        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0
-            && selectedTile == InputParameters.TargetTile;
-
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
         {
@@ -60,6 +53,13 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         }
 
         // Invariant: Target tile is enabled
+
+        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
+        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
+
+        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0
+            && selectedTile == InputParameters.TargetTile;
 
         List<IHexTile> path = GridTraversalController.GetPath(selectedTile, InputParameters.TargetTile);
         bool isReachable = path.Count > 0;

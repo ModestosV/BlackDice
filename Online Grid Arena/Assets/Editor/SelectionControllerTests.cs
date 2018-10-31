@@ -18,6 +18,8 @@ public class SelectionControllerTests
     ICharacterController selectedCharacterController;
     ICharacter targetCharacter;
     ICharacterController targetCharacterController;
+    ICharacter activeCharacter;
+    ICharacterController activeCharacterController;
     ICharacter nullCharacter = null;
 
     IInputParameters inputParameters;
@@ -26,6 +28,10 @@ public class SelectionControllerTests
     IHexTileController selectedTileController;
     IHexTile targetTile;
     IHexTileController targetTileController;
+    IHexTile activeTile;
+    IHexTileController activeTileController;
+
+    ITurnController turnController;
 
     List<IHexTile> selectedTiles;
 
@@ -53,6 +59,11 @@ public class SelectionControllerTests
         targetCharacterController = Substitute.For<ICharacterController>();
         targetCharacter.Controller.Returns(targetCharacterController);
 
+        activeCharacter = Substitute.For<ICharacter>();
+        activeCharacterController = Substitute.For<ICharacterController>();
+        activeCharacter.Controller.Returns(activeCharacterController);
+        activeCharacterController.OccupiedTile.Returns(activeTile);
+
         inputParameters = Substitute.For<IInputParameters>();
 
         selectedTile = Substitute.For<IHexTile>();
@@ -66,7 +77,13 @@ public class SelectionControllerTests
         targetTileController.OccupantCharacter.Returns(targetCharacter);
         targetTileController.IsEnabled.Returns(true);
 
+        activeTile = Substitute.For<IHexTile>();
+        activeTileController = Substitute.For<IHexTileController>();
+        activeTile.Controller.Returns(activeTileController);
+
         inputParameters.TargetTile.Returns(targetTile);
+
+        turnController = Substitute.For<ITurnController>();
 
         selectedTiles = new List<IHexTile>() { selectedTile };
         gridSelectionController.SelectedTiles.Returns(selectedTiles);
@@ -74,6 +91,15 @@ public class SelectionControllerTests
         sut.HUDController = hudController;
         sut.GridSelectionController = gridSelectionController;
         sut.InputParameters = inputParameters;
+    }
+
+    public void Pressing_tab_key_selects_active_character()
+    {
+        inputParameters.IsKeyTabDown = true;
+
+        sut.Update();
+
+        activeTileController.Received(1).Select();
     }
 
     [Test]

@@ -32,13 +32,6 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         GridSelectionController.BlurAll();
         GridSelectionController.ScrubPathAll();
 
-        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
-        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
-        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
-
-        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
-            && selectedTile == InputParameters.TargetTile;
 
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
@@ -77,6 +70,13 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
 
         // Invariant: Target tile is enabled
 
+        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
+        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
+        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
+
+        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
+            && selectedTile == InputParameters.TargetTile;
 
         // Clicked unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsOccupied )
