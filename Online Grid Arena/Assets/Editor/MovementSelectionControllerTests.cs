@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
-public class AbilitySelectionControllerTests
+public class MovementSelectionControllerTests
 {
-    AbilitySelectionController sut;
+    MovementSelectionController sut;
 
     IHUDController hudController;
     IStatPanel selectedStatPanel;
@@ -21,7 +21,7 @@ public class AbilitySelectionControllerTests
     ICharacter targetCharacter;
     ICharacterController targetCharacterController;
     ICharacter nullCharacter = null;
-    
+
     IInputParameters inputParameters;
 
     IHexTile selectedTile;
@@ -30,14 +30,13 @@ public class AbilitySelectionControllerTests
     IHexTileController targetTileController;
 
     List<IHexTile> selectedTiles;
-
-    const int ACTIVE_ABILITY_NUMBER = 0;
+    List<IHexTile> pathList;
 
     [SetUp]
     public void Init()
     {
-        sut = new AbilitySelectionController();
-        
+        sut = new MovementSelectionController();
+
         hudController = Substitute.For<IHUDController>();
         selectedStatPanel = Substitute.For<IStatPanel>();
         selectedStatPanelController = Substitute.For<IStatPanelController>();
@@ -50,6 +49,7 @@ public class AbilitySelectionControllerTests
 
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gridTraversalController = Substitute.For<IGridTraversalController>();
+
         gameManager = Substitute.For<IGameManager>();
 
         selectedCharacter = Substitute.For<ICharacter>();
@@ -60,7 +60,6 @@ public class AbilitySelectionControllerTests
         targetCharacter.Controller.Returns(targetCharacterController);
 
         inputParameters = Substitute.For<IInputParameters>();
-        inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
 
         selectedTile = Substitute.For<IHexTile>();
         selectedTileController = Substitute.For<IHexTileController>();
@@ -76,7 +75,11 @@ public class AbilitySelectionControllerTests
         inputParameters.TargetTile.Returns(targetTile);
 
         selectedTiles = new List<IHexTile>() { selectedTile };
+        pathList = new List<IHexTile>() { selectedTile, targetTile };
+
         gridSelectionController.SelectedTiles.Returns(selectedTiles);
+        gridTraversalController.GetPath(selectedTile, targetTile).Returns(pathList);
+        gridTraversalController.GetPath(targetTile, targetTile).Returns(new List<IHexTile>() { targetTile });
 
         sut.HUDController = hudController;
         sut.GridSelectionController = gridSelectionController;
@@ -86,7 +89,7 @@ public class AbilitySelectionControllerTests
     }
 
     [Test]
-    public void Pressing_escape_key_cancels_ability()
+    public void Pressing_escape_key_cancels_movement()
     {
         inputParameters.IsKeyEscapeDown.Returns(true);
 
@@ -153,10 +156,99 @@ public class AbilitySelectionControllerTests
     }
 
     [Test]
-    public void Clicking_on_unoccupied_tile_clears_highlighted_tiles()
+    public void Clicking_on_unreachable_tile_error_highlights_tile()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
+        gridTraversalController.GetPath(selectedTile, targetTile).Returns(new List<IHexTile>());
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        targetTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Clicking_on_reachable_unoccupied_tile_moves_character()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(true);
+        targetTileController.OccupantCharacter.Returns(nullCharacter);
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.Received().SelectionMode = SelectionMode.SELECTION;
+        selectedCharacterController.Received(1).ExecuteMove(targetTile);
+    }
+
+    [Test]
+    public void Clicking_on_reachable_occupied_tile_error_highlights_tile()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(true);
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        targetTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Clicking_on_selected_tile_error_highlights_tile()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(true);
+        gridSelectionController.SelectedTiles.Returns(new List<IHexTile>() { targetTile });
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        targetTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Hovering_over_selected_tile_error_highlights_tile()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(false);
+        gridSelectionController.SelectedTiles.Returns(new List<IHexTile>() { targetTile });
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        targetTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Hovering_over_unreachable_tile_error_highlights_tile()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(false);
+        gridTraversalController.GetPath(selectedTile, targetTile).Returns(new List<IHexTile>());
+
+        sut.Update();
+
+        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        targetTileController.Received(1).HoverError();
+    }
+
+    [Test]
+    public void Hovering_over_reachable_unoccupied_tile_highlights_path()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(false);
         targetTileController.OccupantCharacter.Returns(nullCharacter);
 
         sut.Update();
@@ -164,49 +256,20 @@ public class AbilitySelectionControllerTests
         gridSelectionController.Received(1).ScrubPathAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        gridSelectionController.HighlightPath(pathList);
     }
 
     [Test]
-    public void Clicking_on_occupied_other_tile_executes_ability_and_updates_hud()
-    {
-        inputParameters.IsMouseOverGrid.Returns(true);
-        inputParameters.IsLeftClickDown.Returns(true);
-
-        sut.Update();
-
-        gridSelectionController.Received(1).ScrubPathAll();
-        gridSelectionController.Received(1).BlurAll();
-        selectedCharacterController.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacter);
-        targetStatPanelController.Received(1).UpdateStatValues();
-        gameManager.Received(1).SelectionMode = SelectionMode.SELECTION;
-    }
-
-    [Test]
-    public void Hovering_over_unoccupied_tile_error_highlights_tile_and_clears_target_hud()
+    public void Hovering_over_reachable_occupied_tile_error_highlights_tile()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        targetTileController.OccupantCharacter.Returns(nullCharacter);
 
         sut.Update();
 
         gridSelectionController.Received(1).ScrubPathAll();
         gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTileController.Received(1).HoverError();
-        hudController.Received(1).ClearTargetHUD();
-    }
-
-    [Test]
-    public void Hovering_over_occupied_tile_highlights_tile_and_updates_target_hud()
-    {
-        inputParameters.IsMouseOverGrid.Returns(true);
-        inputParameters.IsLeftClickDown.Returns(false);
-
-        sut.Update();
-
-        gridSelectionController.Received(1).ScrubPathAll();
-        gridSelectionController.Received(1).BlurAll();
-        targetTileController.Received(1).MarkPath();
-        hudController.Received(1).UpdateTargetHUD(targetCharacter);
-    }
+    }    
 }

@@ -1,4 +1,4 @@
-﻿public interface IMovementController
+﻿public interface IMovementSelectionController
 {
     IHUDController HUDController { get; set; }
     IGridSelectionController GridSelectionController { get; set; }

@@ -13,7 +13,7 @@ public interface ICharacterController
     int AbilitiesRemaining { get; set; }
 
     void ExecuteAbility(int abilityNumber, ICharacter targetCharacter);
-    void MoveToTile(IHexTile targetTile);
+    void ExecuteMove(IHexTile targetTile);
     void Refresh();
     float GetInitiative();
 }

@@ -1,5 +1,5 @@
 ﻿public interface IInputController
 {
-    InputParameters InputParameters { get; set; }
+    IInputParameters InputParameters { get; set; }
     void Update();
 }

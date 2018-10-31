@@ -2,7 +2,7 @@
 using System;
 
 [Serializable]
-public class MovementController : InputController, IMovementController
+public class MovementSelectionController : InputController, IMovementSelectionController
 {
     public IHUDController HUDController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
@@ -75,7 +75,7 @@ public class MovementController : InputController, IMovementController
         // Clicked reachable unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied)
         {
-            selectedCharacter.Controller.MoveToTile(InputParameters.TargetTile);
+            selectedCharacter.Controller.ExecuteMove(InputParameters.TargetTile);
             GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
@@ -90,9 +90,14 @@ public class MovementController : InputController, IMovementController
         // Clicked current selected tile
         if (InputParameters.IsLeftClickDown && tileIsCurrentSelectedTile)
         {
-            InputParameters.TargetTile.Controller.Deselect();
-            HUDController.ClearSelectedHUD();
-            GameManager.SelectionMode = SelectionMode.SELECTION;
+            InputParameters.TargetTile.Controller.HoverError();
+            return;
+        }
+
+        // Hovered over current selected tile
+        if (tileIsCurrentSelectedTile)
+        {
+            InputParameters.TargetTile.Controller.HoverError();
             return;
         }
 

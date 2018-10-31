@@ -67,7 +67,7 @@ public class SelectionController : InputController, ISelectionController
             return;
         }
 
-        // Clicked unoccupied selected tile 
+        // Clicked selected tile 
         if (InputParameters.IsLeftClickDown && tileIsCurrentSelectedTile)
         {
             InputParameters.TargetTile.Controller.Deselect();
@@ -75,7 +75,7 @@ public class SelectionController : InputController, ISelectionController
             return;
         }
 
-        // Clicked occupied tile
+        // Clicked occupied other tile
         if (InputParameters.IsLeftClickDown)
         {
             InputParameters.TargetTile.Controller.Select();

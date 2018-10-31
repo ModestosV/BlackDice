@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class InputParameters : IEquatable<InputParameters>
+public class InputParameters : IInputParameters, IEquatable<InputParameters>
 {
     public bool IsKeyQDown { get; set; }
     public bool IsKeyWDown { get; set; }

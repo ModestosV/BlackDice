@@ -1,7 +1,7 @@
 ﻿public abstract class InputController : IInputController
 {
-    public InputParameters InputParameters { get; set; }
-    protected InputParameters lastInputParameters;
+    public IInputParameters InputParameters { get; set; }
+    protected IInputParameters lastInputParameters;
 
     protected bool DebounceUpdate()
     {

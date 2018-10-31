@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 
 public enum SelectionMode
 {
@@ -13,7 +12,7 @@ public class GameManager : MonoBehaviour, IGameManager
 {
     public SelectionController selectionController;
     public AbilitySelectionController abilitySelectionController;
-    public MovementController movementController;
+    public MovementSelectionController movementSelectionController;
 
     public GridSelectionController gridSelectionController;
     public GridTraversalController gridTraversalController;
@@ -44,16 +43,16 @@ public class GameManager : MonoBehaviour, IGameManager
 
         selectionController.GridSelectionController = gridSelectionController;
         abilitySelectionController.GridSelectionController = gridSelectionController;
-        movementController.GridSelectionController = gridSelectionController;
+        movementSelectionController.GridSelectionController = gridSelectionController;
 
         selectionController.HUDController = hudController;
         abilitySelectionController.HUDController = hudController;
-        movementController.HUDController = hudController;
+        movementSelectionController.HUDController = hudController;
 
-        movementController.GridTraversalController = gridTraversalController;
+        movementSelectionController.GridTraversalController = gridTraversalController;
 
         abilitySelectionController.GameManager = this;
-        movementController.GameManager = this;
+        movementSelectionController.GameManager = this;
 
         turnController.Init();
         turnController.HUDController = hudController;
@@ -109,7 +108,7 @@ public class GameManager : MonoBehaviour, IGameManager
 
         selectionController.InputParameters = inputParameters;
         abilitySelectionController.InputParameters = inputParameters;
-        movementController.InputParameters = inputParameters;
+        movementSelectionController.InputParameters = inputParameters;
     }
 
     private bool IsSelectedCharacterActive()
@@ -192,7 +191,7 @@ public class GameManager : MonoBehaviour, IGameManager
                 selectionController.Update();
                 break;
             case SelectionMode.MOVEMENT:
-                movementController.Update();
+                movementSelectionController.Update();
                 break;
             case SelectionMode.ABILITY:
                 abilitySelectionController.Update();

@@ -18,7 +18,7 @@ public class CharacterController : ICharacterController
 
     public int OwnedByPlayer { get { return ownedByPlayer; } }
 
-    public void MoveToTile(IHexTile targetTile)
+    public void ExecuteMove(IHexTile targetTile)
     {
         if (!(MovesRemaining > 0)) return;
 
@@ -73,6 +73,6 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
-        CharacterStats[0].AddModifier(new StatModifier(-1.0f, StatModType.Flat));
+        CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
     }
 }
