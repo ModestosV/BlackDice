@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour, IGameManager
         movementSelectionController.InputParameters = inputParameters;
     }
 
-    private bool IsSelectedCharacterActive()
+    private bool CanMove()
     {
         if (!(gridSelectionController.SelectedTiles.Count > 0))
             return false;
@@ -124,10 +124,16 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return turnController.ActiveCharacter == selectedCharacter;
+        if (!(turnController.ActiveCharacter == selectedCharacter))
+            return false;
+
+        if (!(selectedCharacter.Controller.MovesRemaining > 0))
+            return false;
+
+        return true;
     }
 
-    private bool HasAbilitiesRemaining()
+    private bool CanUseAbility()
     {
         if (!(gridSelectionController.SelectedTiles.Count > 0))
             return false;
@@ -140,23 +146,16 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.Controller.AbilitiesRemaining > 0;
-    }
-
-    private bool HasMovesRemaining()
-    {
-        if (!(gridSelectionController.SelectedTiles.Count > 0))
+        if (!(turnController.ActiveCharacter == selectedCharacter))
             return false;
 
-        IHexTile selectedTile = gridSelectionController.SelectedTiles[0];
-        if (selectedTile == null)
+        if (!(inputParameters.GetAbilityNumber() < selectedCharacter.Controller.Abilities.Count))
             return false;
 
-        ICharacter selectedCharacter = gridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
-        if (selectedCharacter == null)
+        if (!(selectedCharacter.Controller.AbilitiesRemaining > 0))
             return false;
 
-        return selectedCharacter.Controller.MovesRemaining > 0;
+        return true;
     }
 
     private void SetSelectionMode()
@@ -165,11 +164,11 @@ public class GameManager : MonoBehaviour, IGameManager
             || inputParameters.IsKeyWDown
             || inputParameters.IsKeyEDown
             || inputParameters.IsKeyRDown)
-            && IsSelectedCharacterActive() && HasAbilitiesRemaining())
+            && CanUseAbility())
         {
             SelectionMode = SelectionMode.ABILITY;
         }
-        else if (inputParameters.IsKeyFDown && IsSelectedCharacterActive() && HasMovesRemaining())
+        else if (inputParameters.IsKeyFDown && CanMove())
         {
             SelectionMode = SelectionMode.MOVEMENT;
         }

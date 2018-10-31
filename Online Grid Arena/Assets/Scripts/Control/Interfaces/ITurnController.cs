@@ -9,5 +9,4 @@ public interface ITurnController
     IHUDController HUDController { get; set; }
 
     void StartNextTurn();
-    void EndTurn();
 }

@@ -19,10 +19,17 @@ public class TurnController : ITurnController
 
     public void StartNextTurn()
     {
+        if (ActiveCharacter != null)
+        {
+            ExhaustedCharacters.Add(ActiveCharacter);
+            ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
+            HUDController.ClearSelectedHUD();
+        }
+
         if (!(RefreshedCharacters.Count > 0))
         {
-            RefreshedCharacters = ExhaustedCharacters.ToList();
-            ExhaustedCharacters.Clear();
+            RefreshedCharacters = ExhaustedCharacters;
+            ExhaustedCharacters = new List<ICharacter>();
         }
 
         // Sort characters by ascending initiative
@@ -32,13 +39,5 @@ public class TurnController : ITurnController
         RefreshedCharacters.RemoveAt(0);
 
         ActiveCharacter.Controller.Refresh();
-    }
-
-    public void EndTurn()
-    {
-        ExhaustedCharacters.Add(ActiveCharacter);
-        ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
-        HUDController.ClearSelectedHUD();
-        StartNextTurn();
     }
 }

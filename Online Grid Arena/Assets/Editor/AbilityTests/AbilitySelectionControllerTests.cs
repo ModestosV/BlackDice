@@ -30,6 +30,8 @@ public class AbilitySelectionControllerTests
     IHexTileController targetTileController;
 
     List<IHexTile> selectedTiles;
+    List<IAbility> abilitiesList;
+    IAbility ability;
 
     const int ACTIVE_ABILITY_NUMBER = 0;
 
@@ -77,6 +79,10 @@ public class AbilitySelectionControllerTests
 
         selectedTiles = new List<IHexTile>() { selectedTile };
         gridSelectionController.SelectedTiles.Returns(selectedTiles);
+
+        ability = Substitute.For<IAbility>();
+        abilitiesList = new List<IAbility>() { ability };
+        selectedCharacterController.Abilities.Returns(abilitiesList);
 
         sut.HUDController = hudController;
         sut.GridSelectionController = gridSelectionController;

@@ -129,7 +129,7 @@ public class CharacterControllerTests
 
         sut.ExecuteMove(endTile);
 
-        turnController.Received(1).EndTurn();
+        turnController.Received(1).StartNextTurn();
     }
 
     [Test]
@@ -147,7 +147,7 @@ public class CharacterControllerTests
 
         sut.ExecuteAbility(0, targetCharacter);
 
-        turnController.Received(1).EndTurn();
+        turnController.Received(1).StartNextTurn();
     }
 
     [Test]

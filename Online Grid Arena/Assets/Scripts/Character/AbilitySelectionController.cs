@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class AbilitySelectionController : InputController, IAbilitySelectionController
@@ -13,7 +14,9 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
     private void ActivateAbility()
     {
         int inputAbilityNumber = InputParameters.GetAbilityNumber();
-        if (inputAbilityNumber > -1)
+        ICharacter selectedCharacter = GridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
+
+        if (inputAbilityNumber > -1 && inputAbilityNumber < selectedCharacter.Controller.Abilities.Count)
         {
             activeAbilityNumber = inputAbilityNumber;
         }
@@ -24,8 +27,18 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         if (DebounceUpdate())
             return;
 
+        ActivateAbility();
+
         GridSelectionController.BlurAll();
         GridSelectionController.ScrubPathAll();
+
+        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
+        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
+        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
+
+        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
+            && selectedTile == InputParameters.TargetTile;
 
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
@@ -64,14 +77,6 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
 
         // Invariant: Target tile is enabled
 
-
-        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
-        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
-        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
-
-        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
-            && selectedTile == InputParameters.TargetTile;
 
         // Clicked unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsOccupied )

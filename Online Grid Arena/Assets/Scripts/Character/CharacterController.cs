@@ -54,7 +54,7 @@ public class CharacterController : ICharacterController
     {
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
-            TurnController.EndTurn();
+            TurnController.StartNextTurn();
             return true;
         }
         return false;
