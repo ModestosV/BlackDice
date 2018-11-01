@@ -43,7 +43,7 @@ public class CharacterController : ICharacterController
 
         if (ability.Type == AbilityType.ATTACK)
         {
-            targetCharacter.Controller.Damage(ability.Values[0]);
+            targetCharacter.Controller.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
         AbilitiesRemaining--;

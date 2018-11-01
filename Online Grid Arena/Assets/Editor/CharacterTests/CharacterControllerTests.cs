@@ -22,10 +22,12 @@ public class CharacterControllerTests
     const int INITIAL_MOVES_REMAINING_COUNT = 1;
     const int INITIAL_ABILITIES_REMAINING_COUNT = 1;
 
-    const float ABILITY_DAMAGE = 10.0f;
+    const float ABILITY_DAMAGE_MULTIPLIER = 1.0f;
+    const float CHARACTER_DAMAGE = 15.0f;
 
     List<ICharacterStat> characterStats;
     ICharacterStat health;
+    ICharacterStat damage;
 
     const float DAMAGE_AMOUNT = 1.0f;
 
@@ -47,12 +49,14 @@ public class CharacterControllerTests
         endTile.Controller.Returns(endTileController);
 
         health = Substitute.For<ICharacterStat>();
-        characterStats = new List<ICharacterStat>() { health };
+        damage = Substitute.For<ICharacterStat>();
+        damage.Value.Returns(CHARACTER_DAMAGE);
+        characterStats = new List<ICharacterStat>() { health, damage };
 
         targetCharacter.Controller.Returns(targetCharacterController);
 
         ability = Substitute.For<IAbility>();
-        abilityValues = new List<float>() { ABILITY_DAMAGE };
+        abilityValues = new List<float>() { ABILITY_DAMAGE_MULTIPLIER };
         ability.Values.Returns(abilityValues);
         ability.Type.Returns(AbilityType.ATTACK);
 
@@ -96,11 +100,11 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Damage_adds_a_flat_stat_modifier_to_health_stat()
+    public void Damage_adds_a_negative_flat_stat_modifier_to_health_stat_equal_to_the_damage_amount()
     {
         sut.Damage(DAMAGE_AMOUNT);
 
-        sut.CharacterStats[0].Received(1).AddModifier(Arg.Any<IStatModifier>());
+        sut.CharacterStats[0].Received(1).AddModifier(Arg.Is<IStatModifier>(x => x.Type == StatModType.Flat && x.Value == -DAMAGE_AMOUNT));
     }
 
     public void Execute_move_does_nothing_when_no_moves_remaining()
@@ -156,7 +160,7 @@ public class CharacterControllerTests
 
         sut.ExecuteAbility(0, targetCharacter);
 
-        targetCharacterController.Received(1).Damage(ABILITY_DAMAGE);
+        targetCharacterController.Received(1).Damage(ABILITY_DAMAGE_MULTIPLIER * CHARACTER_DAMAGE);
     }
 
     [Test]
