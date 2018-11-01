@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour, IGameManager
         }
         
         SelectionMode = SelectionMode.SELECTION;
+
+        FindObjectOfType<SkipTurnButton>().Controller.TurnController = turnController;
     }
 
     private void Start()
