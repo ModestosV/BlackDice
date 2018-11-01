@@ -26,6 +26,7 @@ public class SelectionController : InputController, ISelectionController
         if (InputParameters.IsKeyTabDown)
         {
             TurnController.ActiveCharacter.Controller.OccupiedTile.Controller.Select();
+            HUDController.UpdateSelectedHUD(TurnController.ActiveCharacter);
         }
 
         // Clicked off grid
