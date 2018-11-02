@@ -4,23 +4,21 @@ import express, { NextFunction, Request, Response } from "express";
 import _ from "lodash";
 import moment from "moment";
 import mongoose from "mongoose";
-import app from "../../app";
+import getStatus from "../../utils/errors";
 import { errorHandler } from "../../utils/middlewares";
 
 const router = express.Router();
 const User = mongoose.model("User");
 
-// using the app to store local variables is a bad practice but fro local dev it is ok, until we get the database up...
-// TODO remove app variables and install proper data checks with database.
-
 router.post(
   "/register",
+  bodyParser.json,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       global.console.log("register request going through");
 
-      const passHash = req.query.password;
-      const email = req.query.email;
+      const passHash = req.body.password;
+      const email = req.body.email;
 
       if (passHash && email) {
         const salt = moment();
@@ -36,12 +34,12 @@ router.post(
         const userDoc = await User.create(userData);
 
         if (userDoc) {
-          return res.json({ 200: "Request was completed successfully" });
+          return res.json(getStatus(200));
         } else {
           throw new Error("A database error occured while registering");
         }
       }
-      return res.json({ 400: "Bad Request" });
+      return res.json(getStatus(400));
     } catch (err) {
       return next(err);
     }
@@ -51,10 +49,11 @@ router.post(
 
 router.post(
   "/login",
+  bodyParser.json,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const email = req.query.email;
-      const passHash = req.query.password;
+      const passHash = req.body.password;
+      const email = req.body.email;
 
       const loginQuery = {
         email: { email }
@@ -70,12 +69,12 @@ router.post(
           userDoc.set("loggedIn", true);
           const updatedDoc = await userDoc.save();
           if (updatedDoc) {
-            return res.json({ 200: "Request was completed successfully" });
+            return res.json(getStatus(200));
           } else {
-            return res.send({ 500: "Update failed" });
+            throw new Error("A database error occured while logging");
           }
         } else {
-          return res.send({ 400: "Bad Request" });
+          return res.send(getStatus(400));
         }
       }
     } catch (err) {
@@ -87,14 +86,13 @@ router.post(
 
 router.post(
   "/logout",
+  bodyParser.json,
   async (req: Request, res: Response, next: NextFunction) => {
-    // TODO finish the logout router.
     try {
-      const email = req.query.email;
-      const passHash = req.query.password;
-
+      const passHash = req.body.password;
+      const email = req.body.email;
       const loginQuery = {
-        email
+        email: { email }
       };
 
       const userDoc = await User.findOne(loginQuery).exec();
@@ -107,12 +105,12 @@ router.post(
           userDoc.set("loggedIn", false);
           const updatedDoc = await userDoc.save();
           if (updatedDoc) {
-            return res.json({ 200: "Request was completed successfully" });
+            return res.json(getStatus(200));
           } else {
-            return res.send({ 500: "Update failed" });
+            throw new Error("A database error occured while logging out");
           }
         } else {
-          return res.send({ 400: "Bad Request" });
+          return res.send(getStatus(400));
         }
       }
     } catch (err) {
