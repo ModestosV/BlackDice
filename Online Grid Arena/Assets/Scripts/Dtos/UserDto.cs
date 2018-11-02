@@ -2,13 +2,13 @@
 
 public class UserDto
 {
-    private DateTime CreatedAt { get; }
-    private string Email { get; }
-    private string GivenName { get; }
-    private bool LoggedIn { get; }
-    private string PasswordHash { get; }
-    private string Surname { get; }
-    private string Username { get; }
+    public DateTime CreatedAt { get; }
+    public string Email { get; }
+    public string GivenName { get; }
+    public bool LoggedIn { get; }
+    public string PasswordHash { get; }
+    public string Surname { get; }
+    public string Username { get; }
 
     public UserDto
     (
