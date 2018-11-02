@@ -6,11 +6,15 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     public HexTileController controller;
     public HexTileMaterialSet materials;
 
+    private void Awake()
+    {
+        controller.OccupantCharacter = GetComponentInChildren<Character>();
+    }
+
     private void Start()
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        controller.OccupantCharacter = GetComponentInChildren<Character>();
 
         ISelectionController selectionController = FindObjectOfType<GameManager>().SelectionController;
         controller.GridSelectionController = selectionController.GridSelectionController;

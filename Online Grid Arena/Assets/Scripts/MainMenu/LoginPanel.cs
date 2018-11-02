@@ -19,14 +19,6 @@ public class LoginPanel : MonoBehaviour
     public RegistrationPanel registrationPanel;
 
     public string LoggedInEmail { get; set; }
-    
-
-    private const string CONNECTIVITY_ISSUES_MESSAGE = "Error: Web connectivity issues.";
-    private const string INVALID_EMAIL_MESSAGE = "You have not entered a valid email.";
-    private const string LOGIN_SUCCESS_MESSAGE = "Login successful!";
-    private const string LOGOUT_SUCCESS_MESSAGE = "You have been logged out.";
-    private const string LOGOUT_FAIL_MESSAGE = "You are not logged in.";
-    private const string INVALID_LOGIN_CREDENTIALS_MESSAGE = "The email and password you have entered is invalid.";
 
     private void OnValidate()
     {
@@ -49,7 +41,7 @@ public class LoginPanel : MonoBehaviour
 
         if (!ValidateEmail(EmailText.text))
         {
-            SetStatus(INVALID_EMAIL_MESSAGE);
+            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
@@ -115,7 +107,7 @@ public class LoginPanel : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                SetStatus(CONNECTIVITY_ISSUES_MESSAGE);
+                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
             }
             else
             {
@@ -124,13 +116,13 @@ public class LoginPanel : MonoBehaviour
                 if (response != "false")
                 {
                     LoggedInEmail = response;
-                    SetStatus($"{LOGIN_SUCCESS_MESSAGE} \n Welcome {email}");
+                    SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE} \n Welcome {email}");
                     ClearEmail();
                     ClearPassword();
                     ToggleLoginLogoutButtons();
                 } else
                 {
-                    SetStatus($"{INVALID_LOGIN_CREDENTIALS_MESSAGE}");
+                    SetStatus($"{Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE}");
                 }
             }
         }
@@ -149,7 +141,7 @@ public class LoginPanel : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                SetStatus(CONNECTIVITY_ISSUES_MESSAGE);
+                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
             }
             else
             {
@@ -158,13 +150,13 @@ public class LoginPanel : MonoBehaviour
                 if (response != "false")
                 {
                     LoggedInEmail = null;
-                    SetStatus($"{LOGOUT_SUCCESS_MESSAGE}");
+                    SetStatus($"{Strings.LOGOUT_SUCCESS_MESSAGE}");
                     ClearEmail();
                     ClearPassword();
                     ToggleLoginLogoutButtons();
                 } else
                 {
-                    SetStatus($"{LOGOUT_FAIL_MESSAGE}");
+                    SetStatus($"{Strings.LOGOUT_FAIL_MESSAGE}");
                 }
 
             }
