@@ -4,10 +4,10 @@ using System.Collections.Generic;
 [Serializable]
 public class CharacterController : ICharacterController
 {
-    public int ownedByPlayer;
-    public IHexTile OccupiedTile { get; set; }
     public ICharacter Character { get; set; }
+    public IHexTileController OccupiedTile { get; set; }
     public ITurnController TurnController { get; set; }
+    public int ownedByPlayer;
     public int MovesRemaining { get; set; }
     public int AbilitiesRemaining { get; set; }
 
@@ -18,24 +18,33 @@ public class CharacterController : ICharacterController
 
     public int OwnedByPlayer { get { return ownedByPlayer; } }
 
-    public void ExecuteMove(IHexTile targetTile)
+    public void Select()
+    {
+        OccupiedTile.Select();
+    }
+
+    public void Deselect()
+    {
+        OccupiedTile.Deselect();
+    }
+
+    public void ExecuteMove(IHexTileController targetTile)
     {
         if (!(MovesRemaining > 0)) return;
 
-        IHexTile currentTile = Character.Controller.OccupiedTile;
-        currentTile.Controller.Deselect();
-        currentTile.Controller.OccupantCharacter = null;
+        OccupiedTile.Deselect();
+        OccupiedTile.OccupantCharacter = null;
 
-        Character.MoveToTile(targetTile);
-        Character.Controller.OccupiedTile = targetTile;
+        Character.MoveToTile(targetTile.HexTile);
+        OccupiedTile = targetTile;
 
-        targetTile.Controller.OccupantCharacter = Character;
-        targetTile.Controller.Select();
+        targetTile.OccupantCharacter = Character;
+        targetTile.Select();
         MovesRemaining--;
         CheckExhausted();
     }
 
-    public void ExecuteAbility(int abilityNumber, ICharacter targetCharacter)
+    public void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter)
     {
         if (!(AbilitiesRemaining > 0)) return;
 
@@ -43,7 +52,7 @@ public class CharacterController : ICharacterController
 
         if (ability.Type == AbilityType.ATTACK)
         {
-            targetCharacter.Controller.Damage(ability.Values[0] * CharacterStats[1].Value);
+            targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
         AbilitiesRemaining--;

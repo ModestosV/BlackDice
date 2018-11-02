@@ -27,14 +27,7 @@ public class HexTileController : IHexTileController
             IsSelected = true;
             HexTileSelectionController.Select();
             GridSelectionController.AddSelectedTile(HexTile);
-        }/*
-        else
-        {
-            IsSelected = false;
-            HexTileSelectionController.Deselect();
-            GridSelectionController.RemoveSelectedTile(HexTile);
         }
-        */
     }
 
     public void Deselect()

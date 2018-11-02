@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour, ICharacter
 {
+    // Public members to be instantiated by/through Unity
     public CharacterController controller;
     public List<CharacterStat> stats;
     public List<Ability> abilities;
@@ -21,7 +22,7 @@ public class Character : MonoBehaviour, ICharacter
         InitStats();
         InitAbilities();
         controller.CharacterStatNameSet = characterStatNameSet;
-        controller.OccupiedTile = GetComponentInParent<HexTile>();
+        controller.OccupiedTile = GetComponentInParent<HexTile>().Controller;
     }
 
     private void InitStats()
