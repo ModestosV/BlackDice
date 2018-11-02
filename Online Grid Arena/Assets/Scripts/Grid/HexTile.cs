@@ -1,84 +1,63 @@
 ﻿using System;
 using UnityEngine;
 
-public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
+public class HexTile : MonoBehaviour, IHexTile
 {
+    // Public members to be instantiated by/through Unity
     public HexTileController controller;
     public HexTileMaterialSet materials;
 
     private void Awake()
     {
-        controller.OccupantCharacter = GetComponentInChildren<Character>();
+        controller.OccupantCharacter = GetComponentInChildren<Character>().Controller;
     }
 
     private void Start()
     {
         controller.IsEnabled = GetComponent<Renderer>().enabled;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        
-        controller.HexTileSelectionController = this;
+
         controller.HexTile = this;
     }
 
-    #region IHexTileSelectionController implementation
+    #region IHexTile implementation
 
-    public void Hover()
+    public void SetHoverMaterial()
     {
         GetComponent<Renderer>().material = materials.HoveredMaterial;
     }
 
-    public void HoverError()
+    public void SetErrorMaterial()
     {
         GetComponent<Renderer>().material = materials.HoveredErrorMaterial;
     }
 
-    public void Blur()
+    public void SetDefaultMaterial()
     {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
-    public void Select()
+    public void SetClickedMaterial()
     {
         GetComponent<Renderer>().material = materials.ClickedMaterial;
     }
 
-    public void Deselect()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.GetComponent<HexTile>() == this)
-        {
-            GetComponent<Renderer>().material = materials.HoveredMaterial;
-        }
-        else
-        {
-            GetComponent<Renderer>().material = materials.DefaultMaterial;
-        }
-    }
-
-    public void MarkPath()
+    public void SetHighlightMaterial()
     {
         GetComponent<Renderer>().material = materials.PathMaterial;
     }
 
-    public void ScrubPath()
+    public bool IsMouseOver()
     {
-        GetComponent<Renderer>().material = materials.DefaultMaterial;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        return Physics.Raycast(ray, out hit) && hit.collider.gameObject.GetComponent<HexTile>() == this;
     }
-
-    #endregion
-
-    #region IHexTile implementation
 
     public IHexTileController Controller
     {
         get { return controller; }
-    }
-
-    public Tuple<int, int, int> Coordinates()
-    {
-        return new Tuple<int, int, int>(controller.X, controller.Y, controller.Z);
     }
 
     public void SetChild(GameObject childObject)
@@ -100,10 +79,6 @@ public class HexTile : MonoBehaviour, IHexTile, IHexTileSelectionController
     public override string ToString()
     {
         return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
-    }
-    private void OnMouseExit()
-    {
-        controller.Blur();
     }
 }
 

@@ -110,8 +110,8 @@ public class GridSelectionControllerTests
 
         sut.ScrubPathAll();
 
-        controller1.Received(1).ScrubPath();
-        controller2.Received(1).ScrubPath();
+        controller1.Received(1).Dehighlight();
+        controller2.Received(1).Dehighlight();
     }
 
     [Test]

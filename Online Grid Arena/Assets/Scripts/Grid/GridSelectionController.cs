@@ -66,7 +66,7 @@ public class GridSelectionController : IGridSelectionController
     {
         for (int i = PathTiles.Count - 1; i >= 0; i--)
         {
-            PathTiles[i].Controller.ScrubPath();
+            PathTiles[i].Controller.Dehighlight();
         }
     }
 

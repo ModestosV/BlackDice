@@ -61,7 +61,7 @@ public class HexTileControllerTests
         gridSelectionController.Received(1).ScrubPathAll();
         gridSelectionController.Received(1).DeselectAll();
         Assert.IsTrue(sut.IsSelected);
-        hexTileSelectionController.Received(1).Select();
+        hexTileSelectionController.Received(1).SetClickedMaterial();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
     }
 
@@ -78,7 +78,7 @@ public class HexTileControllerTests
         gridSelectionController.Received(1).ScrubPathAll();
         gridSelectionController.Received(1).DeselectAll();
         Assert.IsTrue(sut.IsSelected);
-        hexTileSelectionController.Received(1).Select();
+        hexTileSelectionController.Received(1).SetClickedMaterial();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
     }
 
@@ -186,7 +186,7 @@ public class HexTileControllerTests
         selectionController.DidNotReceive();
         gridSelectionController.Received().AddHoveredTile(hexTile);
         gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().Hover();
+        hexTileSelectionController.Received().SetHoverMaterial();
     }
 
     #endregion
@@ -231,7 +231,7 @@ public class HexTileControllerTests
         selectionController.DidNotReceive();
         gridSelectionController.Received().AddHoveredTile(hexTile);
         gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().HoverError();
+        hexTileSelectionController.Received().SetErrorMaterial();
     }
 
     #endregion
@@ -276,7 +276,7 @@ public class HexTileControllerTests
         selectionController.DidNotReceive();
         gridSelectionController.Received().RemoveHoveredTile(hexTile);
         gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().Blur();
+        hexTileSelectionController.Received().SetDefaultMaterial();
     }
 
     #endregion
@@ -321,7 +321,7 @@ public class HexTileControllerTests
         selectionController.DidNotReceive();
         gridSelectionController.Received().AddPathTile(hexTile);
         gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().MarkPath();
+        hexTileSelectionController.Received().SetValidMaterial();
     }
 
     #endregion
@@ -333,7 +333,7 @@ public class HexTileControllerTests
     {
         sut.IsEnabled = false;
 
-        sut.ScrubPath();
+        sut.Dehighlight();
 
         selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
@@ -347,7 +347,7 @@ public class HexTileControllerTests
         sut.IsEnabled = true;
         sut.IsSelected = true;
 
-        sut.ScrubPath();
+        sut.Dehighlight();
 
         selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
@@ -361,7 +361,7 @@ public class HexTileControllerTests
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
-        sut.ScrubPath();
+        sut.Dehighlight();
 
         selectionController.DidNotReceive();
         gridSelectionController.Received().RemovePathTile(hexTile);
