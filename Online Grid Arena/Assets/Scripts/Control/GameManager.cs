@@ -11,6 +11,7 @@ public enum SelectionMode
 
 public class GameManager : MonoBehaviour, IGameManager
 {
+<<<<<<< HEAD
     public SelectionMode SelectionMode { protected get; set; }
 
     private InputParameters inputParameters;
@@ -21,6 +22,13 @@ public class GameManager : MonoBehaviour, IGameManager
     private MovementSelectionController movementSelectionController;
     private AbilitySelectionController abilitySelectionController;
 
+=======
+    public SelectionController selectionController;
+    public GridSelectionController gridSelectionController;
+    public GridTraversalController gridTraversalController;
+    public TurnController turnController;
+    public SkipTurnButtonController skipTurnButtonController;
+>>>>>>> #40 add interfaces for button and its controller and make button work
 
     #region IGameManager implementation
 
@@ -84,7 +92,13 @@ public class GameManager : MonoBehaviour, IGameManager
         
         SelectionMode = SelectionMode.SELECTION;
 
+<<<<<<< HEAD
         FindObjectOfType<SkipTurnButton>().Controller.TurnController = turnController;
+=======
+        skipTurnButtonController.TurnController = turnController;
+        FindObjectOfType<SkipTurnButton>().Controller = skipTurnButtonController;
+        FindObjectOfType<Grid>().Init(gridSelectionController, gridTraversalController);
+>>>>>>> #40 add interfaces for button and its controller and make button work
     }
 
     private void Start()

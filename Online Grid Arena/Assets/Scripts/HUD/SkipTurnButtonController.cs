@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 
-public class SkipTurnButtonController
+[Serializable]
+public class SkipTurnButtonController: ISkipTurnButtonController
 {
     public ITurnController TurnController { get; set; }
 

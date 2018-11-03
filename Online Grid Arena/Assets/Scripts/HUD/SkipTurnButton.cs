@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class SkipTurnButton : MonoBehaviour
+public class SkipTurnButton : MonoBehaviour, ISkipTurnButton
 {
     public SkipTurnButtonController Controller { get; set; }
 
@@ -9,4 +9,13 @@ public class SkipTurnButton : MonoBehaviour
     {
         Controller.SkipTurn();
     }
+
+    #region IMonoBehaviour implementation
+
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+
+    #endregion
 }
