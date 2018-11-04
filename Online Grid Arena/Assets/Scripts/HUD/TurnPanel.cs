@@ -53,6 +53,11 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
                 if (n > turnTiles.Count) break;
             }
 
+            if (gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters.Count < 2)
+            {
+                turnTiles[gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters.Count + 1].SetActive(false);
+            }
+
             foreach (GameObject tile in turnTiles)
             {
                 if (tile.GetComponent<TurnTile>().character == null)
