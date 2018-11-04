@@ -19,7 +19,7 @@ public class TurnTile : MonoBehaviour, ITurnTile
             if (character.GetComponent<Character>().controller.ownedByPlayer == 0)
                 this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
             else
-                this.GameObject.GetComponent<Image>().color = new Color32(255, 50, 0, 255);
+                this.GameObject.GetComponent<Image>().color = new Color32(255, 150, 0, 255);
         }
         catch
         {
