@@ -38,7 +38,7 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
     }
 
     private void refreshTiles()
-    {
+    {        
         try
         {
             activate(turnTiles[0], gameManager.GetComponent<GameManager>().turnController.ActiveCharacter.GameObject);
@@ -46,16 +46,18 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
             int n = 1;
             foreach (Character character in gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters)
             {
-
                 activate(turnTiles[n], character.gameObject);
                 turnTiles[n].SetActive(true);
                 n++;
                 if (n > turnTiles.Count) break;
             }
 
-            if (gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters.Count < 2)
+            foreach (Character character in gameManager.GetComponent<GameManager>().turnController.ExhaustedCharacters)
             {
-                turnTiles[gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters.Count + 1].SetActive(false);
+                activate(turnTiles[n], character.gameObject);
+                turnTiles[n].SetActive(true);
+                n++;
+                if (n > turnTiles.Count) break;
             }
 
             foreach (GameObject tile in turnTiles)
@@ -74,7 +76,6 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
 
     private void activate(GameObject activeTile, GameObject character)
     {
-        Debug.Log(character);
         activeTile.GetComponent<TurnTile>().character = character;
     }    
 }
