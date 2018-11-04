@@ -4,17 +4,27 @@ using UnityEngine.UI;
 public class TurnTile : MonoBehaviour, ITurnTile
 {
     public TurnTileController controller;
+    public GameObject character;
 
-    [SerializeField]
-    GameObject character;
-
-    private void Awake()
+    private void Start()
     {
-        this.GameObject.transform.GetChild(0).GetComponent<RawImage>().texture = character.GetComponent<Character>().characterIcon;
-        if (character.GetComponent<Character>().controller.ownedByPlayer == 0)
-            this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
-        else
-            this.GameObject.GetComponent<Image>().color = new Color32(255, 50, 0, 255);
+        
+    }
+
+    private void Update()
+    {
+        try
+        {
+            this.GameObject.transform.GetChild(0).GetComponent<RawImage>().texture = character.GetComponent<Character>().characterIcon;
+            if (character.GetComponent<Character>().controller.ownedByPlayer == 0)
+                this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
+            else
+                this.GameObject.GetComponent<Image>().color = new Color32(255, 50, 0, 255);
+        }
+        catch
+        {
+            // logging
+        }
     }
 
     public ITurnTileController Controller { get { return controller; } }

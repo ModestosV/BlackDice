@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour, ICharacter
 {
     public CharacterController controller;
+
     [SerializeField]
     public Texture characterIcon;
 
