@@ -4,10 +4,13 @@ public class TurnPanelController : ITurnPanelController
 { 
     public ITurnController TurnController { get; set; }
 
-    public List<ICharacter> Characters { get; set; } // may be unnecessary
+    public List<ITurnTile> turnTiles { get; set; }
 
     public void updateQueue()
     {
-        
+        foreach (ITurnTile tile in turnTiles)
+        {
+            tile.updateTile();
+        }
     }
 }

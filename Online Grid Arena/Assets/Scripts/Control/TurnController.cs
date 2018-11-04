@@ -8,6 +8,7 @@ public class TurnController : ITurnController
     public List<ICharacter> RefreshedCharacters { get; set; }
     public List<ICharacter> ExhaustedCharacters { get; set; }
     public ICharacter ActiveCharacter { get; set; }
+    public ITurnPanel TurnTracker { get; set; }
 
     public void Init()
     {
@@ -32,6 +33,8 @@ public class TurnController : ITurnController
         ActiveCharacter.Controller.Refresh();
         ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
         ActiveCharacter.Controller.OccupiedTile.Controller.Select();
+
+        TurnTracker.updateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void EndTurn()

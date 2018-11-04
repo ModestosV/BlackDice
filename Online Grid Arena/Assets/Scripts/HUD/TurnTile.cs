@@ -11,7 +11,7 @@ public class TurnTile : MonoBehaviour, ITurnTile
         
     }
 
-    private void Update()
+    public void updateTile()
     {
         try
         {

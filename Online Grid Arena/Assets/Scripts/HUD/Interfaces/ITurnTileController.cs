@@ -2,5 +2,5 @@
 
 public interface ITurnTileController
 {
-    
+    void updateTile();
 }

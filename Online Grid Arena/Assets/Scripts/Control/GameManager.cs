@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour, IGameManager
         }
 
         turnController.RefreshedCharacters = charactersList;
+        turnController.TurnTracker = FindObjectOfType<TurnPanel>();
 
         selectionController.TurnController = turnController;
 

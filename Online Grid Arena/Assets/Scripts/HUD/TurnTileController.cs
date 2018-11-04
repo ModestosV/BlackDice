@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TurnTileController : ITurnTileController
 {
-    [SerializeField]
-    GameObject character;
+    public void updateTile()
+    {
+        
+    }
 	
 }

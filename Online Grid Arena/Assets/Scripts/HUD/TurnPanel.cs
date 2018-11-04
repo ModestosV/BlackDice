@@ -18,10 +18,9 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
     public List<GameObject> turnTiles;
     private GameObject gameManager;
 
-    private void Start()
+    private void Awake()
     {
         turnTiles = new List<GameObject>();
-        gameManager = GameObject.Find("GameManager");
 
         foreach (GameObject tile in GameObject.FindGameObjectsWithTag("TurnTile").OrderBy(go=>go.name))
         {
@@ -29,22 +28,14 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
         }
     }
 
-    private void Update()
+    public void updateQueue(ICharacter ActiveCharacter, List<ICharacter> RefreshedCharacters, List<ICharacter> ExhaustedCharacters)
     {
-        if (turnTiles[0].GetComponent<TurnTile>().character != gameManager.GetComponent<GameManager>().turnController.ActiveCharacter.GameObject)
-        {
-            refreshTiles();
-        }
-    }
-
-    private void refreshTiles()
-    {        
         try
         {
-            activate(turnTiles[0], gameManager.GetComponent<GameManager>().turnController.ActiveCharacter.GameObject);
+            activate(turnTiles[0], ActiveCharacter.GameObject);
 
             int n = 1;
-            foreach (Character character in gameManager.GetComponent<GameManager>().turnController.RefreshedCharacters)
+            foreach (Character character in RefreshedCharacters)
             {
                 activate(turnTiles[n], character.gameObject);
                 turnTiles[n].SetActive(true);
@@ -52,7 +43,7 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
                 if (n > turnTiles.Count) break;
             }
 
-            foreach (Character character in gameManager.GetComponent<GameManager>().turnController.ExhaustedCharacters)
+            foreach (Character character in ExhaustedCharacters)
             {
                 activate(turnTiles[n], character.gameObject);
                 turnTiles[n].SetActive(true);
@@ -77,5 +68,6 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
     private void activate(GameObject activeTile, GameObject character)
     {
         activeTile.GetComponent<TurnTile>().character = character;
+        activeTile.GetComponent<TurnTile>().updateTile();
     }    
 }

@@ -2,5 +2,5 @@
 
 public interface ITurnPanelController
 {
-
+    void updateQueue();
 }
