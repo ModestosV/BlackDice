@@ -14,8 +14,8 @@ public interface IHexTileController
     
     IGridSelectionController GridSelectionController { set; }
     IGridController GridController { set; }
-    IHexTile HexTile { set; }
-    ICharacterController OccupantCharacter { set; }
+    IHexTile HexTile { get; set; }
+    ICharacterController OccupantCharacter { get; set; }
 
     IHexTileController GetNorthEastNeighbor();
     IHexTileController GetEastNeighbor();
@@ -33,4 +33,6 @@ public interface IHexTileController
     void HoverError();
     void Highlight();
     void Dehighlight();
+
+    bool IsOccupied();
 }

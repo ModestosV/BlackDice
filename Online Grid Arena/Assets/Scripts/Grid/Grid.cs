@@ -8,8 +8,13 @@ public class Grid : MonoBehaviour, IGrid
     private GridController gridController;
     private GridSelectionController gridSelectionController;
 
-    private void Awake()
+    private const int DEFAULT_GRID_WIDTH = 19;
+
+    public void InitializeGrid(IGridSelectionController gridSelectionController)
     {
+        if (!(gridWidth > 0))
+            gridWidth = DEFAULT_GRID_WIDTH;
+
         gridController = new GridController()
         {
             GridWidth = gridWidth
@@ -21,13 +26,12 @@ public class Grid : MonoBehaviour, IGrid
         List<IHexTileController> hexTilesList = hexTiles.Select(x => x.Controller).ToList();
         gridController.GenerateGridMap(hexTilesList);
 
-        gridSelectionController = new GridSelectionController();
-        foreach (IHexTileController hexTile in hexTiles)
+        foreach (IHexTileController hexTile in hexTilesList)
         {
             hexTile.GridSelectionController = gridSelectionController;
         }
     }
-
+    
     private void ArrangeHexTilesInGridFormation(HexTile[] hexTiles)
     {
         for (int i = 0; i < hexTiles.Length; i++)
@@ -41,6 +45,7 @@ public class Grid : MonoBehaviour, IGrid
             hexTile.GameObject.transform.position = new Vector3(col * meshSize.x + rowOffset, 0, -(row * 0.75f * meshSize.z));
         }
     }
+
 
     #region IMonoBehaviour implementation
 

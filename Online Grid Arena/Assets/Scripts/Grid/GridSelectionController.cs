@@ -69,5 +69,23 @@ public class GridSelectionController : IGridSelectionController
         }
     }
 
+    public bool IsSelectedTile(IHexTileController targetTile)
+    {
+        return SelectedTiles.Count > 0 && targetTile == SelectedTiles[0];
+    }
+
+    public IHexTileController GetSelectedTile()
+    {
+        return SelectedTiles.Count > 0 ? SelectedTiles[0] : null;
+    }
+
+    public ICharacterController GetSelectedCharacter()
+    {
+        if (!(SelectedTiles.Count > 0))
+            return null;
+
+        return SelectedTiles[0].IsOccupied() ? SelectedTiles[0].OccupantCharacter : null;
+    }
+
     #endregion
 }

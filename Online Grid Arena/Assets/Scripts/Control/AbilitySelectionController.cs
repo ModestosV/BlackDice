@@ -1,25 +1,15 @@
-﻿using System;
-using UnityEngine;
-
-[Serializable]
-public class AbilitySelectionController : InputController, IAbilitySelectionController
+﻿public class AbilitySelectionController : InputController, IAbilitySelectionController
 {
-    public IHUDController HUDController { get; set; }
-    public IGridSelectionController GridSelectionController { get; set; }
-    public IGridTraversalController GridTraversalController { get; set; }
-    public IGameManager GameManager { get; set; }
+    public IGridSelectionController GridSelectionController { protected get; set; }
+    public IGameManager GameManager { protected get; set; }
 
     private int activeAbilityNumber;
-
-    private void ActivateAbility()
+    
+    private void SetActiveAbility()
     {
-        int inputAbilityNumber = InputParameters.GetAbilityNumber();
-        ICharacter selectedCharacter = GridSelectionController.SelectedTiles[0].Controller.OccupantCharacter;
+        if (!(InputParameters.GetAbilityNumber() > -1)) return;
 
-        if (inputAbilityNumber > -1 && inputAbilityNumber < selectedCharacter.Controller.Abilities.Count)
-        {
-            activeAbilityNumber = inputAbilityNumber;
-        }
+        activeAbilityNumber = InputParameters.GetAbilityNumber();
     }
 
     public override void Update()
@@ -27,11 +17,10 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         if (DebounceUpdate())
             return;
 
-        ActivateAbility();
-
+        SetActiveAbility();
+        
         GridSelectionController.BlurAll();
-        GridSelectionController.ScrubPathAll();
-
+        GridSelectionController.DehighlightAll();
 
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
@@ -54,7 +43,7 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
 
         // Invariant: Mouse is over grid
 
-        bool tileIsEnabled = InputParameters.TargetTile.Controller.IsEnabled;
+        bool tileIsEnabled = InputParameters.TargetTile.IsEnabled;
 
         // Clicked on disabled tile
         if (!tileIsEnabled && InputParameters.IsLeftClickDown) 
@@ -69,14 +58,12 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         }
 
         // Invariant: Target tile is enabled
+        
+        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController targetCharacter = InputParameters.TargetTile.OccupantCharacter;
 
-        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
-        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
-        ICharacter targetCharacter = InputParameters.TargetTile.Controller.OccupantCharacter;
-
-        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 
-            && selectedTile == InputParameters.TargetTile;
+        bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
+        bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
 
         // Clicked unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsOccupied )
@@ -87,8 +74,7 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         // Clicked occupied other tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile)
         {
-            selectedCharacter.Controller.ExecuteAbility(activeAbilityNumber, targetCharacter);
-            HUDController.TargetStatPanel.Controller.UpdateStatValues();
+            selectedCharacter.ExecuteAbility(activeAbilityNumber, targetCharacter);
             GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
@@ -98,14 +84,12 @@ public class AbilitySelectionController : InputController, IAbilitySelectionCont
         // Hovered over unoccupied tile
         if (!tileIsOccupied)
         {
-            InputParameters.TargetTile.Controller.HoverError();
-            HUDController.ClearTargetHUD();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
         // Hovered over occupied tile
-        InputParameters.TargetTile.Controller.MarkPath();
-        HUDController.UpdateTargetHUD(InputParameters.TargetTile.Controller.OccupantCharacter);
+        InputParameters.TargetTile.Highlight();
         return;
     }
 }

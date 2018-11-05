@@ -2546,8 +2546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller:
-    ownedByPlayer: 0
   stats:
   - baseValue: 100
   - baseValue: 20
@@ -2556,6 +2554,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
+  playerName: 1
 --- !u!1 &1156470931
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,8 +3389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller:
-    ownedByPlayer: 1
   stats:
   - baseValue: 120
   - baseValue: 15
@@ -3400,6 +3397,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
+  playerName: 2
 --- !u!1 &1894345465
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,25 +4,32 @@ using System.Linq;
 
 public class Character : MonoBehaviour, ICharacter
 {
-    private CharacterController controller;
+    private CharacterController characterController;
     public List<CharacterStat> stats;
     public List<Ability> abilities;
     public CharacterStatNameSet characterStatNameSet;
+    public string playerName;
 
     private void Awake()
     {
-        controller = new CharacterController
+        characterController = new CharacterController
         {
             StatNames = characterStatNameSet.StatNames,
             CharacterStats = stats.ToList<ICharacterStat>(),
             Abilities = abilities.ToList<IAbility>(),
-            OccupiedTile = GetComponentInParent<HexTile>().Controller
+            Character = this,
+            OwnedByPlayer = playerName
         };
+    }
+
+    private void Start()
+    {
+        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
     }
 
     #region ICharacter implementation
 
-    public ICharacterController Controller { get { return controller; } }
+    public ICharacterController Controller { get { return characterController; } }
 
     public void MoveToTile(IHexTile targetTile)
     {
@@ -34,7 +41,7 @@ public class Character : MonoBehaviour, ICharacter
 
     public override string ToString()
     {
-        return string.Format("(Character|{0}: {1})", this.GetHashCode(), controller.ToString());
+        return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
     }
 
     #region IMonoBehaviour implementation

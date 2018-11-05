@@ -1,39 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
 public class TurnController : ITurnController
 {
-    private List<ICharacter> RefreshedCharacters { get; set; }
-    private List<ICharacter> ExhaustedCharacters { get; set; }
-    private ICharacter ActiveCharacter { get; set; }
-    private IHUDController HUDController { get; set; }
+    private List<ICharacterController> RefreshedCharacters { get; set; }
+    private List<ICharacterController> ExhaustedCharacters { get; set; }
+    private ICharacterController ActiveCharacter { get; set; }
 
-    private TurnController()
+    public TurnController()
     {
-        RefreshedCharacters = new List<ICharacter>();
-        ExhaustedCharacters = new List<ICharacter>();
+        RefreshedCharacters = new List<ICharacterController>();
+        ExhaustedCharacters = new List<ICharacterController>();
     }
-
-    public TurnController(IHUDController hudController) : this()
+    
+    public void AddCharacters(List<ICharacterController> characters)
     {
-        HUDController = hudController;
-    }
-
-    public void AddCharacters(List<ICharacter> characters)
-    {
-        foreach (ICharacter character in characters)
+        foreach (ICharacterController character in characters)
         {
             RefreshedCharacters.Add(character);
         }
     }
 
-    public void AddCharacter(ICharacter character)
+    public void AddCharacter(ICharacterController character)
     {
         RefreshedCharacters.Add(character);
     }
 
-    public void RemoveCharacter(ICharacter character)
+    public void RemoveCharacter(ICharacterController character)
     {
         RefreshedCharacters.Remove(character);
         ExhaustedCharacters.Remove(character);
@@ -46,22 +39,26 @@ public class TurnController : ITurnController
         if (ActiveCharacter != null)
         {
             ExhaustedCharacters.Add(ActiveCharacter);
-            ActiveCharacter.Controller.OccupiedTile.Deselect();
-            HUDController.ClearSelectedHUD();
+            ActiveCharacter.Deselect();
         }
 
         if (!(RefreshedCharacters.Count > 0))
         {
             RefreshedCharacters = ExhaustedCharacters;
-            ExhaustedCharacters = new List<ICharacter>();
+            ExhaustedCharacters = new List<ICharacterController>();
         }
 
         // Sort characters by ascending initiative
-        RefreshedCharacters.Sort((x, y) => x.Controller.GetInitiative().CompareTo(y.Controller.GetInitiative()));
+        RefreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
 
         ActiveCharacter = RefreshedCharacters.ElementAt(0);
         RefreshedCharacters.RemoveAt(0);
 
-        ActiveCharacter.Controller.Refresh();
+        ActiveCharacter.Refresh();
+    }
+
+    public void SelectActiveCharacter()
+    {
+        ActiveCharacter.Select();
     }
 }

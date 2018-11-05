@@ -3,7 +3,8 @@
 public interface ITurnController
 {
     void StartNextTurn();
-    void AddCharacters(List<ICharacter> characters);
-    void AddCharacter(ICharacter character);
-    void RemoveCharacter(ICharacter character);
+    void AddCharacters(List<ICharacterController> characters);
+    void AddCharacter(ICharacterController character);
+    void RemoveCharacter(ICharacterController character);
+    void SelectActiveCharacter();
 }

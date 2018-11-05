@@ -15,7 +15,7 @@ public class InputParameters : IInputParameters, IEquatable<InputParameters>
     public bool IsRightClickDown { get; set; }
 
     public bool IsMouseOverGrid { get; set; }
-    public IHexTile TargetTile { get; set; }
+    public IHexTileController TargetTile { get; set; }
 
     public int GetAbilityNumber()
     {

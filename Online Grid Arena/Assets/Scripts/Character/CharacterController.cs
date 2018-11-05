@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class CharacterController : ICharacterController
 {
@@ -20,13 +19,31 @@ public class CharacterController : ICharacterController
     public void Select()
     {
         OccupiedTile.Select();
-        HUDController.UpdateSelectedHUD(StatNames, CharacterStats, OwnedByPlayer);
     }
 
     public void Deselect()
     {
         OccupiedTile.Deselect();
+    }
+
+    public void UpdateSelectedHUD()
+    {
+        HUDController.UpdateSelectedHUD(StatNames, CharacterStats, OwnedByPlayer);
+    }
+
+    public void ClearSelectedHUD()
+    {
         HUDController.ClearSelectedHUD();
+    }
+
+    public void UpdateTargetHUD()
+    {
+        HUDController.UpdateTargetHUD(StatNames, CharacterStats, OwnedByPlayer);
+    }
+
+    public void ClearTargetHUD()
+    {
+        HUDController.ClearTargetHUD();
     }
 
     public void ExecuteMove(IHexTileController targetTile)
@@ -48,6 +65,8 @@ public class CharacterController : ICharacterController
     public void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter)
     {
         if (!(AbilitiesRemaining > 0)) return;
+
+        if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
         IAbility ability = Abilities[abilityNumber];
 
@@ -85,5 +104,15 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
+    }
+
+    public bool CanMove()
+    {
+        return MovesRemaining > 0;
+    }
+
+    public bool CanUseAbility()
+    {
+        return AbilitiesRemaining > 0;
     }
 }

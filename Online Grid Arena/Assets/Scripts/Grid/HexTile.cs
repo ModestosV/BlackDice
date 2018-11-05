@@ -2,18 +2,26 @@
 
 public class HexTile : MonoBehaviour, IHexTile
 {
-    private HexTileController controller;
+    private HexTileController hexTileController;
     public HexTileMaterialSet materials;
 
     private void Awake()
     {
-        controller = new HexTileController
+        hexTileController = new HexTileController
         {
-            OccupantCharacter = GetComponentInChildren<Character>().Controller,
             HexTile = this,
             IsEnabled = GetComponent<Renderer>().enabled
         };
         GetComponent<Renderer>().material = materials.DefaultMaterial;
+    }
+
+    private void Start()
+    {
+        ICharacter occupantCharacter = GetComponentInChildren<Character>();
+
+        if (occupantCharacter == null) return;
+
+        occupantCharacter.Controller.OccupiedTile = hexTileController;
     }
 
     #region IHexTile implementation
@@ -53,7 +61,7 @@ public class HexTile : MonoBehaviour, IHexTile
 
     public IHexTileController Controller
     {
-        get { return controller; }
+        get { return hexTileController; }
     }
 
     #endregion

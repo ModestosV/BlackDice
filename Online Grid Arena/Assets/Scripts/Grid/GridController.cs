@@ -4,15 +4,11 @@ using System;
 public class GridController : IGridController
 {
     public int GridWidth { protected get; set; }
-    private const int DEFAULT_GRID_WIDTH = 19;
 
     private Dictionary<Tuple<int, int, int>, IHexTileController> GridMap { get; set; }
     
     public void GenerateGridMap(List<IHexTileController> hexTiles)
     {
-        if (GridWidth == 0)
-            GridWidth = DEFAULT_GRID_WIDTH;
-
         GridMap = new Dictionary<Tuple<int, int, int>, IHexTileController>();
 
         for (int i = 0; i < hexTiles.Count; i++)

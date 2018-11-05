@@ -11,18 +11,27 @@ public class HexTileController : IHexTileController
 
     public IGridSelectionController GridSelectionController { protected get; set; }
     public IGridController GridController { protected get; set; }
-    public IHexTile HexTile { protected get; set; }
-    public ICharacterController OccupantCharacter { protected get; set; }
+    public IHexTile HexTile { get; set; }
+    public ICharacterController OccupantCharacter { get; set; }
 
     public int X { get { return Coordinates.Item1; } }
     public int Y { get { return Coordinates.Item2; } }
     public int Z { get { return Coordinates.Item3; } }
 
+    public bool IsOccupied()
+    {
+        return OccupantCharacter != null;
+    }
+
     public void Select()
     {
-        if (!IsEnabled || IsSelected) return;
+        if (!IsEnabled) return;
 
-        GridSelectionController.DeselectAll();
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateSelectedHUD();
+
+        if (IsSelected) return;
+
         IsSelected = true;
         HexTile.SetClickedMaterial();
         GridSelectionController.AddSelectedTile(this);
@@ -30,7 +39,12 @@ public class HexTileController : IHexTileController
 
     public void Deselect()
     {
-        if (!IsEnabled || !IsSelected) return;
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.ClearSelectedHUD();
+
+        if (!IsSelected) return;
 
         IsSelected = false;
         if (HexTile.IsMouseOver())
@@ -38,49 +52,79 @@ public class HexTileController : IHexTileController
             HexTile.SetHoverMaterial();
         } else
         {
-            HexTile.SetErrorMaterial();
+            HexTile.SetDefaultMaterial();
         }
         GridSelectionController.RemoveSelectedTile(this);
     }
 
     public void Hover()
     {
-        if (!IsEnabled || IsSelected) return;
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHoveredTile(this);
+
+        if (IsSelected) return;
 
         HexTile.SetHoverMaterial();
-        GridSelectionController.AddHoveredTile(this);
     }
 
     public void HoverError()
     {
-        if (!IsEnabled || IsSelected) return;
-        
-        HexTile.SetErrorMaterial();
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
         GridSelectionController.AddHoveredTile(this);
+
+        if (IsSelected) return;
+
+        HexTile.SetErrorMaterial();
     }
 
     public void Blur()
     {
-        if (!IsEnabled || IsSelected) return;
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.ClearTargetHUD();
+
+        GridSelectionController.RemoveHoveredTile(this);
+
+        if (IsSelected) return;
 
         HexTile.SetDefaultMaterial();
-        GridSelectionController.RemoveHoveredTile(this);
     }
 
     public void Highlight()
     {
-        if (!IsEnabled || IsSelected) return;
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHighlightedTile(this);
+
+        if (IsSelected) return;
 
         HexTile.SetHighlightMaterial();
-        GridSelectionController.AddHighlightedTile(this);
     }
 
     public void Dehighlight()
     {
-        if (!IsEnabled || IsSelected) return;
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.ClearTargetHUD();
+
+        GridSelectionController.RemoveHighlightedTile(this);
+
+        if (IsSelected) return;
 
         HexTile.SetDefaultMaterial();
-        GridSelectionController.RemoveHighlightedTile(this);
     }
 
 

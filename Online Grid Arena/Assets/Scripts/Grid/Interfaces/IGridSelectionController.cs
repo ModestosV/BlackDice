@@ -9,4 +9,7 @@
     void DeselectAll();
     void BlurAll();
     void DehighlightAll();
+    bool IsSelectedTile(IHexTileController targetTile);
+    IHexTileController GetSelectedTile();
+    ICharacterController GetSelectedCharacter();
 }

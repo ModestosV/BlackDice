@@ -5,6 +5,7 @@ public interface ICharacterController
     ICharacter Character { set; }
     IHexTileController OccupiedTile { set; }
     ITurnController TurnController { set; }
+    IHUDController HUDController { set; }
 
     List<string> StatNames { set; }
     List<ICharacterStat> CharacterStats { set; }
@@ -19,4 +20,12 @@ public interface ICharacterController
     void Refresh();
     float GetInitiative();
     void Damage(float damage);
+
+    void UpdateSelectedHUD();
+    void ClearSelectedHUD();
+    void UpdateTargetHUD();
+    void ClearTargetHUD();
+
+    bool CanMove();
+    bool CanUseAbility();
 }
