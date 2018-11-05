@@ -1,20 +1,12 @@
-﻿using System.Collections.Generic;
-
-public interface IGridSelectionController
+﻿public interface IGridSelectionController
 {
-    List<IHexTile> SelectedTiles { get; set; }
-    List<IHexTile> HoveredTiles { get; set; }
-    List<IHexTile> PathTiles { get; set; }
-    
-    void Init();
-    void AddSelectedTile(IHexTile selectedTile);
-    bool RemoveSelectedTile(IHexTile removedTile);
-    void AddHoveredTile(IHexTile hoveredTile);
-    bool RemoveHoveredTile(IHexTile removedTile);
-    void AddPathTile(IHexTile hoveredTile);
-    bool RemovePathTile(IHexTile removedTile);
-    void BlurAll();
+    void AddSelectedTile(IHexTileController selectedTile);
+    bool RemoveSelectedTile(IHexTileController removedTile);
+    void AddHoveredTile(IHexTileController hoveredTile);
+    bool RemoveHoveredTile(IHexTileController removedTile);
+    void AddHighlightedTile(IHexTileController hoveredTile);
+    bool RemoveHighlightedTile(IHexTileController removedTile);
     void DeselectAll();
-    void ScrubPathAll();
-    void HighlightPath(List<IHexTile> path);
+    void BlurAll();
+    void DehighlightAll();
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-public class GridController
+public class GridController : IGridController
 {
     public int GridWidth { protected get; set; }
     private const int DEFAULT_GRID_WIDTH = 19;
@@ -28,8 +28,16 @@ public class GridController
             Tuple<int, int, int> coordinates = new Tuple<int, int, int>(cubeX, cubeY, cubeZ);
 
             hexTile.Coordinates = coordinates;
+            hexTile.GridController = this;
 
             GridMap.Add(coordinates, hexTile);
         }
+    }
+
+    public IHexTileController GetTile(Tuple<int, int, int> coordinates)
+    {
+        IHexTileController tile;
+        GridMap.TryGetValue(coordinates, out tile);
+        return tile;
     }
 }

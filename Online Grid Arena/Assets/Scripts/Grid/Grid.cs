@@ -1,20 +1,31 @@
 ﻿using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class Grid : MonoBehaviour, IGrid
 {
     public int gridWidth;
-    private GridController controller;
+    private GridController gridController;
+    private GridSelectionController gridSelectionController;
 
     private void Awake()
     {
-        controller = new GridController()
+        gridController = new GridController()
         {
             GridWidth = gridWidth
         };
+
         HexTile[] hexTiles = GetComponentsInChildren<HexTile>();
         ArrangeHexTilesInGridFormation(hexTiles);
-        controller.GenerateGridMap(hexTiles.Select(x => x.Controller).ToList());
+
+        List<IHexTileController> hexTilesList = hexTiles.Select(x => x.Controller).ToList();
+        gridController.GenerateGridMap(hexTilesList);
+
+        gridSelectionController = new GridSelectionController();
+        foreach (IHexTileController hexTile in hexTiles)
+        {
+            hexTile.GridSelectionController = gridSelectionController;
+        }
     }
 
     private void ArrangeHexTilesInGridFormation(HexTile[] hexTiles)
