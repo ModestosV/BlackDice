@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour, IGameManager
 
         // Initialize grid
         gridSelectionController = new GridSelectionController();
-        FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
 
         // Initialize selection controllers
         selectionController = new SelectionController()
@@ -83,6 +82,12 @@ public class GameManager : MonoBehaviour, IGameManager
         }
         
         SelectionMode = SelectionMode.SELECTION;
+    }
+
+    private void Start()
+    {
+        FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
+        turnController.StartNextTurn();
     }
 
     private void UpdateInputParameters()
@@ -152,11 +157,6 @@ public class GameManager : MonoBehaviour, IGameManager
         {
             SelectionMode = SelectionMode.MOVEMENT;
         }
-    }
-
-    private void Start()
-    {
-        turnController.StartNextTurn();
     }
 
     void Update()
