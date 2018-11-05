@@ -43,7 +43,6 @@ public class HexTileControllerTests
         sut.Select();
 
         selectionController.DidNotReceive();
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
         gridSelectionController.DidNotReceive();
         gridTraversalController.DidNotReceive();
         hexTileSelectionController.DidNotReceive();
@@ -64,7 +63,6 @@ public class HexTileControllerTests
         Assert.IsTrue(sut.IsSelected);
         hexTileSelectionController.Received(1).Select();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
     }
 
     [Test]
@@ -82,42 +80,6 @@ public class HexTileControllerTests
         Assert.IsTrue(sut.IsSelected);
         hexTileSelectionController.Received(1).Select();
         gridSelectionController.Received(1).AddSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = null;
-        selectionController.Received().SelectedCharacter = occupantCharacter;
-    }
-
-    [Test]
-    public void Selecting_an_enabled_selected_tile_without_occupied_character_deselects_the_tile()
-    {
-        sut.IsEnabled = true;
-        sut.IsSelected = true;
-        sut.OccupantCharacter = null;
-
-        sut.Select();
-
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
-        Assert.IsFalse(sut.IsSelected);
-        hexTileSelectionController.Received(1).Deselect();
-        gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        selectionController.DidNotReceive().SelectedCharacter = Arg.Any<ICharacter>();
-    }
-
-    [Test]
-    public void Selecting_an_enabled_selected_tile_with_occupied_character_deselects_the_tile_and_character()
-    {
-        sut.IsEnabled = true;
-        sut.IsSelected = true;
-        sut.OccupantCharacter = occupantCharacter;
-
-        sut.Select();
-
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
-        Assert.IsFalse(sut.IsSelected);
-        hexTileSelectionController.Received(1).Deselect();
-        gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        selectionController.Received().SelectedCharacter = null;
     }
 
     #endregion
@@ -178,7 +140,6 @@ public class HexTileControllerTests
 
         Assert.IsFalse(sut.IsSelected);
         hexTileSelectionController.Received(1).Deselect();
-        selectionController.Received(1).SelectedCharacter = null;
         gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
         gridTraversalController.DidNotReceive();
     }

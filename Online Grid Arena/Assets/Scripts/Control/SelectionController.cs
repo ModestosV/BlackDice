@@ -1,216 +1,106 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
-public class SelectionController : ISelectionController
-{
-    public ICharacter SelectedCharacter { get; set; }
-
-    public IGameManager GameManager { get; set; }
+public class SelectionController : InputController, ISelectionController
+{    
+    public IHUDController HUDController { get; set; }
     public IGridSelectionController GridSelectionController { get; set; }
-    public IGridTraversalController GridTraversalController { get; set; }
-    public IStatPanel StatPanel { get; set; }
-    public IPlayerPanel PlayerPanel { get; set; }
     public ITurnController TurnController { get; set; }
 
-    public bool IsEscapeButtonDown { get; set; }
-    public bool MouseIsOverGrid { get; set; }
-    public bool IsLeftClickDown { get; set; }
-    public IHexTile TargetTile { get; set; }
-    
-    public void Init(IGridTraversalController gridTraversalController, IGridSelectionController gridSelectionController)
+    public override void Update()
     {
-        GridSelectionController = gridSelectionController;
-        GridTraversalController = gridTraversalController;
-    }
+        if (DebounceUpdate())
+            return;
 
-    public void Update()
-    {
-        // Pressed escape to quit
-        if (IsEscapeButtonDown)
+        GridSelectionController.BlurAll();
+        GridSelectionController.ScrubPathAll();
+
+        // Escape buton pressed
+        if (InputParameters.IsKeyEscapeDown)
         {
-            GameManager.QuitApplication();
+            GridSelectionController.DeselectAll();
+            HUDController.ClearSelectedHUD();
+            return;
+        }
+
+        if (InputParameters.IsKeyTabDown)
+        {
+            TurnController.ActiveCharacter.Controller.OccupiedTile.Controller.Select();
+            HUDController.UpdateSelectedHUD(TurnController.ActiveCharacter);
         }
 
         // Clicked off grid
-        if (!MouseIsOverGrid && IsLeftClickDown)
+        if (!InputParameters.IsMouseOverGrid && InputParameters.IsLeftClickDown)
         {
-            GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            StatPanel.Controller.DisableStatDisplays();
-            PlayerPanel.ClearPlayerName();
+            HUDController.ClearSelectedHUD();
             return;
         }
 
         // Hovered off grid
-        if (!MouseIsOverGrid)
+        if (!InputParameters.IsMouseOverGrid)
         {
-            GridSelectionController.ScrubPathAll();
             return;
         }
 
         // Invariant: Mouse is over grid
-        
-        bool tileIsEnabled = TargetTile.Controller.IsEnabled;
+
+        bool tileIsEnabled = InputParameters.TargetTile.Controller.IsEnabled;
 
         // Clicked on disabled tile
-        if (!tileIsEnabled && IsLeftClickDown)
+        if (!tileIsEnabled && InputParameters.IsLeftClickDown)
         {
-            GridSelectionController.ScrubPathAll();
             GridSelectionController.DeselectAll();
-            StatPanel.Controller.DisableStatDisplays();
-            PlayerPanel.ClearPlayerName();
+            HUDController.ClearSelectedHUD();
             return;
         }
 
         // Hovered over disabled tile
         if (!tileIsEnabled)
         {
-            GridSelectionController.ScrubPathAll();
             return;
         }
 
         // Invariant: Target tile is enabled
 
-        bool characterIsSelected = SelectedCharacter != null;
-        bool tileIsOccupied = TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == TargetTile;
+        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
+        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0 && GridSelectionController.SelectedTiles[0] == InputParameters.TargetTile;
 
-        // Clicked unoccupied other tile w/o character selected
-        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied && !tileIsCurrentSelectedTile)
+        // Clicked unoccupied other tile
+        if (InputParameters.IsLeftClickDown && !tileIsOccupied && !tileIsCurrentSelectedTile)
         {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Select();
+            InputParameters.TargetTile.Controller.Select();
+            HUDController.ClearSelectedHUD();
             return;
         }
 
-        // Clicked unoccupied selected tile w/o character selected
-        if (IsLeftClickDown && !characterIsSelected && !tileIsOccupied)
+        // Clicked selected tile 
+        if (InputParameters.IsLeftClickDown && tileIsCurrentSelectedTile)
         {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Deselect();
+            InputParameters.TargetTile.Controller.Deselect();
+            HUDController.ClearSelectedHUD();
             return;
         }
 
-        // Clicked occupied tile w/o character selected
-        if (IsLeftClickDown && !characterIsSelected)
+        // Clicked occupied other tile
+        if (InputParameters.IsLeftClickDown)
         {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Select();
-            StatPanel.Controller.EnableStatDisplays();
-            StatPanel.Controller.SetCharacter(TargetTile.Controller.OccupantCharacter);
-            StatPanel.Controller.UpdateStatNames();
-            StatPanel.Controller.UpdateStatValues();
-            PlayerPanel.SetPlayerName($"Player {TargetTile.Controller.OccupantCharacter.Controller.OwnedByPlayer + 1}");
+            InputParameters.TargetTile.Controller.Select();
+            HUDController.UpdateSelectedHUD(InputParameters.TargetTile.Controller.OccupantCharacter);
             return;
         }
 
-        // Hovered over tile w/o character selected
-        if (!characterIsSelected)
+        // Hovered over unoccupied tile
+        if (!tileIsOccupied)
         {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Hover();
+            InputParameters.TargetTile.Controller.Hover();
+            HUDController.ClearTargetHUD();
             return;
         }
 
-        // Invariant: Character is selected
-
-        List<IHexTile> path = GridTraversalController.GetPath(SelectedCharacter.Controller.OccupiedTile, TargetTile);
-        bool isReachable = path.Count > 0;
-        bool isSelectedCharacterActive = SelectedCharacter == TurnController.ActiveCharacter;
-
-        // Clicked on unreachable tile
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable && isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            TargetTile.Controller.HoverError();
-            return;
-        }
-
-        // Clicked reachable unoccupied tile
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied && isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            SelectedCharacter.Controller.MoveToTile(TargetTile);
-            return;
-        }
-
-        // Clicked reachable occupied tile
-        if (IsLeftClickDown && !tileIsCurrentSelectedTile && isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            TargetTile.Controller.HoverError();
-            return;
-        }
-
-        // Clicked current selected tile
-        if (IsLeftClickDown && tileIsCurrentSelectedTile)
-        {
-            GridSelectionController.ScrubPathAll();
-            TargetTile.Controller.Deselect();
-            StatPanel.Controller.DisableStatDisplays();
-            PlayerPanel.ClearPlayerName();
-            return;
-        }
-
-        // Invariant: Left mouse button not clicked        
-
-        // Hovered over unreachable tile
-        if (!isReachable && isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.HoverError();
-            return;
-        }
-
-        // Hovered over reachable unoccupied tile
-        if (!tileIsOccupied && isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
-            GridSelectionController.HighlightPath(path);
-            return;
-        }
-
-        // Hovered over reachable occupied tile
-        if (isSelectedCharacterActive)
-        {
-            GridSelectionController.ScrubPathAll();
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.HoverError();
-            return;
-        }
-
-        // Clicked on other occupied tile with inactive character selected
-        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile && IsLeftClickDown && tileIsOccupied)  
-        {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Select();
-            StatPanel.Controller.SetCharacter(TargetTile.Controller.OccupantCharacter);
-            StatPanel.Controller.UpdateStatNames();
-            StatPanel.Controller.UpdateStatValues();
-            PlayerPanel.SetPlayerName($"Player {TargetTile.Controller.OccupantCharacter.Controller.OwnedByPlayer + 1}");
-            return;
-        }
-
-        // Clicked on other unoccupied tile with inactive character selected
-        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile && IsLeftClickDown)
-        {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Select();
-            StatPanel.Controller.DisableStatDisplays();
-            PlayerPanel.ClearPlayerName();
-            return;
-        }
-
-        // Hovered over other tile with inactive character selected
-        if (!isSelectedCharacterActive && !tileIsCurrentSelectedTile)
-        {
-            GridSelectionController.BlurAll();
-            TargetTile.Controller.Hover();
-            return;
-        }
+        // Hover over occupied tile
+        InputParameters.TargetTile.Controller.Hover();
+        HUDController.UpdateTargetHUD(InputParameters.TargetTile.Controller.OccupantCharacter);
+        return;
     }
 }

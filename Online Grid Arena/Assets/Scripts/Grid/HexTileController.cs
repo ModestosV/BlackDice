@@ -27,21 +27,14 @@ public class HexTileController : IHexTileController
             IsSelected = true;
             HexTileSelectionController.Select();
             GridSelectionController.AddSelectedTile(HexTile);
-            if (OccupantCharacter != null)
-            {
-                SelectionController.SelectedCharacter = OccupantCharacter;
-            }
-        }
+        }/*
         else
         {
             IsSelected = false;
             HexTileSelectionController.Deselect();
             GridSelectionController.RemoveSelectedTile(HexTile);
-            if (OccupantCharacter != null)
-            {
-                SelectionController.SelectedCharacter = null;
-            }
         }
+        */
     }
 
     public void Deselect()
@@ -53,10 +46,6 @@ public class HexTileController : IHexTileController
             IsSelected = false;
             HexTileSelectionController.Deselect();
             GridSelectionController.RemoveSelectedTile(HexTile);
-            if (OccupantCharacter != null)
-            {
-                SelectionController.SelectedCharacter = null;
-            }
         }
     }
 

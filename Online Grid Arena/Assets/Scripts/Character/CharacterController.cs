@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-[System.Serializable]
+[Serializable]
 public class CharacterController : ICharacterController
 {
-    public CharacterStatNameSet characterStatNameSet;
-    public List<CharacterStat> characterStats;
     public int ownedByPlayer;
     public IHexTile OccupiedTile { get; set; }
     public ICharacter Character { get; set; }
@@ -12,24 +11,14 @@ public class CharacterController : ICharacterController
     public int MovesRemaining { get; set; }
     public int AbilitiesRemaining { get; set; }
 
-    public CharacterStatNameSet CharacterStatNameSet { get { return characterStatNameSet; } }
+    public CharacterStatNameSet CharacterStatNameSet { get; set; }
 
-    public List<ICharacterStat> CharacterStats
-    {
-        get
-        {
-            List<ICharacterStat> stats = new List<ICharacterStat>();
-            foreach (ICharacterStat stat in characterStats)
-            {
-                stats.Add(stat);
-            }
-            return stats;
-        }
-    }
+    public List<ICharacterStat> CharacterStats { get; set; }
+    public List<IAbility> Abilities { get; set; }
 
     public int OwnedByPlayer { get { return ownedByPlayer; } }
 
-    public void MoveToTile(IHexTile targetTile)
+    public void ExecuteMove(IHexTile targetTile)
     {
         if (!(MovesRemaining > 0)) return;
 
@@ -42,13 +31,21 @@ public class CharacterController : ICharacterController
 
         targetTile.Controller.OccupantCharacter = Character;
         targetTile.Controller.Select();
-
         MovesRemaining--;
         CheckExhausted();
     }
 
-    public void UseAbility()
+    public void ExecuteAbility(int abilityNumber, ICharacter targetCharacter)
     {
+        if (!(AbilitiesRemaining > 0)) return;
+
+        IAbility ability = Abilities[abilityNumber];
+
+        if (ability.Type == AbilityType.ATTACK)
+        {
+            targetCharacter.Controller.Damage(ability.Values[0] * CharacterStats[1].Value);
+        }
+
         AbilitiesRemaining--;
         CheckExhausted();
     }
@@ -57,7 +54,7 @@ public class CharacterController : ICharacterController
     {
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
-            TurnController.EndTurn();
+            TurnController.StartNextTurn();
             return true;
         }
         return false;
@@ -66,7 +63,7 @@ public class CharacterController : ICharacterController
     public void Refresh()
     {
         MovesRemaining = 1;
-        AbilitiesRemaining = 0;
+        AbilitiesRemaining = 1;
     }
 
     public float GetInitiative()
@@ -74,4 +71,8 @@ public class CharacterController : ICharacterController
         return 1.0f;
     }
     
+    public void Damage(float damage)
+    {
+        CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
+    }
 }
