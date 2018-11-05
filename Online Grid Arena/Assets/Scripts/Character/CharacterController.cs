@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 
-[Serializable]
 public class CharacterController : ICharacterController
 {
-    public ICharacter Character { get; set; }
-    public IHexTileController OccupiedTile { get; set; }
-    public ITurnController TurnController { get; set; }
-    public int ownedByPlayer;
-    public int MovesRemaining { get; set; }
-    public int AbilitiesRemaining { get; set; }
+    public ICharacter Character { protected get; set; }
+    public IHexTileController OccupiedTile { protected get; set; }
+    public ITurnController TurnController { protected get; set; }
+    public IHUDController HUDController { protected get; set; }
 
-    public CharacterStatNameSet CharacterStatNameSet { get; set; }
+    public List<string> StatNames { protected get; set; }
+    public List<ICharacterStat> CharacterStats { protected get; set; }
+    public List<IAbility> Abilities { protected get; set; }
 
-    public List<ICharacterStat> CharacterStats { get; set; }
-    public List<IAbility> Abilities { get; set; }
+    public string OwnedByPlayer { protected get; set; }
 
-    public int OwnedByPlayer { get { return ownedByPlayer; } }
-
+    private int MovesRemaining { get; set; }
+    private int AbilitiesRemaining { get; set; }
+    
     public void Select()
     {
         OccupiedTile.Select();
+        HUDController.UpdateSelectedHUD(StatNames, CharacterStats, OwnedByPlayer);
     }
 
     public void Deselect()
     {
         OccupiedTile.Deselect();
+        HUDController.ClearSelectedHUD();
     }
 
     public void ExecuteMove(IHexTileController targetTile)
@@ -38,7 +39,7 @@ public class CharacterController : ICharacterController
         Character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
-        targetTile.OccupantCharacter = Character;
+        targetTile.OccupantCharacter = this;
         targetTile.Select();
         MovesRemaining--;
         CheckExhausted();
@@ -77,6 +78,7 @@ public class CharacterController : ICharacterController
 
     public float GetInitiative()
     {
+        // TODO: Determine how initiative is calculated.
         return 1.0f;
     }
     

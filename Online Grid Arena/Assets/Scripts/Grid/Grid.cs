@@ -1,30 +1,26 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 public class Grid : MonoBehaviour, IGrid
 {
-    public GridController controller;
-    public GridTraversalController traversalController;
-    public GridSelectionController selectionController;
+    public int gridWidth;
+    private GridController controller;
 
-    private void Start()
+    private void Awake()
     {
-        controller.SetHexTiles(GetComponentsInChildren<HexTile>());
+        controller = new GridController()
+        {
+            GridWidth = gridWidth
+        };
+        HexTile[] hexTiles = GetComponentsInChildren<HexTile>();
+        ArrangeHexTilesInGridFormation(hexTiles);
+        controller.GenerateGridMap(hexTiles.Select(x => x.Controller).ToList());
     }
 
-    #region IGrid implementation
-
-    public void Init(IGridSelectionController gridSelectionController, IGridTraversalController gridTraversalController)
-    {
-        controller.Init(gridSelectionController, gridTraversalController);
-    }
-
-    #endregion
-
-    private void ArrangeHexTileInGridFormation(HexTile[] hexTiles)
+    private void ArrangeHexTilesInGridFormation(HexTile[] hexTiles)
     {
         for (int i = 0; i < hexTiles.Length; i++)
         {
-            int gridWidth = controller.gridWidth;
             IHexTile hexTile = hexTiles[i];
             int col = i % gridWidth;
             int row = i / gridWidth;

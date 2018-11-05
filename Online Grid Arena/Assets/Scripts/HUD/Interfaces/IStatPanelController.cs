@@ -1,6 +1,11 @@
-﻿public interface IStatPanelController
+﻿using System.Collections.Generic;
+
+public interface IStatPanelController
 {
-    void SetCharacter(ICharacter selectedCharacter);
+    List<IStatDisplay> StatDisplays { set; }
+    List<ICharacterStat> CharacterStats { set; }
+    List<string> StatNames { set; }
+
     void UpdateStatValues();
     void UpdateStatNames();
     void DisableStatDisplays();

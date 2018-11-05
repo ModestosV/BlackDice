@@ -1,17 +1,16 @@
-﻿[System.Serializable]
+﻿using System;
+
 public class HexTileController : IHexTileController
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Z { get; set; }
+    public Tuple<int, int, int> Coordinates { protected get; set; }
 
-    public bool IsEnabled { get; set; }
-    public bool IsSelected { get; set; }
+    public bool IsEnabled { protected get; set; }
+    public bool IsSelected { protected get; set; }
 
-    public IGridSelectionController GridSelectionController { get; set; }
-    public IGridTraversalController GridTraversalController { get; set; }
-    public IHexTile HexTile { get; set; }
-    public ICharacterController OccupantCharacter { get; set; }
+    public IGridSelectionController GridSelectionController { protected get; set; }
+    public IGridTraversalController GridTraversalController { protected get; set; }
+    public IHexTile HexTile { protected get; set; }
+    public ICharacterController OccupantCharacter { protected get; set; }
 
     public void Select()
     {

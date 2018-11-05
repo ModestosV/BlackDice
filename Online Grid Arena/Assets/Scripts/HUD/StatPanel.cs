@@ -3,15 +3,11 @@ using System.Collections.Generic;
 
 public class StatPanel : MonoBehaviour, IStatPanel
 {
-    public StatPanelController controller;
-
-    private void OnValidate()
-    {
-        controller.StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>());
-    }
+    private StatPanelController controller;
 
     private void Awake()
     {
+        controller = new StatPanelController();
         controller.StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>());
         controller.DisableStatDisplays();
     }

@@ -1,32 +1,19 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
 
-[Serializable]
 public class StatPanelController : IStatPanelController
 {
-    public List<IStatDisplay> StatDisplays { get; set; }
-    public ICharacter SelectedCharacter { get; set; }
-
-    public void SetCharacter(ICharacter selectedCharacter)
-    {
-        SelectedCharacter = selectedCharacter;
-
-        if (!AssertCharacterStatCountIsConsistentWithStatNameSet()) return;
-
-        for (int i = 0; i < StatDisplays.Count; i++)
-        {
-            StatDisplays[i].Controller.CharacterStat = SelectedCharacter.Controller.CharacterStats[i];
-        }
-    }
-
+    public List<IStatDisplay> StatDisplays { protected get; set; }
+    public List<ICharacterStat> CharacterStats { protected get; set; }
+    public List<string> StatNames { protected get; set; }
+    
     public void UpdateStatValues()
     {
         if (!AssertCharacterStatCountIsConsistentWithStatNameSet()) return;
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].SetValueText(SelectedCharacter.Controller.CharacterStats[i].Value.ToString());
+            StatDisplays[i].SetValueText(CharacterStats[i].Value.ToString());
         }
     }
 
@@ -34,7 +21,7 @@ public class StatPanelController : IStatPanelController
     {
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].SetNameText(SelectedCharacter.Controller.CharacterStatNameSet.StatNames[i]);
+            StatDisplays[i].SetNameText(StatNames[i]);
         }
     }
 
@@ -56,19 +43,16 @@ public class StatPanelController : IStatPanelController
 
     private bool AssertCharacterStatCountIsConsistentWithStatNameSet()
     {
-        int characterStatSetCount = SelectedCharacter.Controller.CharacterStatNameSet.StatNames.Count;
-        int characterStatCount = SelectedCharacter.Controller.CharacterStats.Count;
-        int statDisplaysCount = StatDisplays.Count;
 
-        if (characterStatSetCount != statDisplaysCount)
+        if (StatNames.Count != StatDisplays.Count)
         {
-            Debug.Log($"The size of the selected charactar stats set ({characterStatSetCount}) does not match the number of stat displays ({statDisplaysCount}).");
+            Debug.Log($"The size of the selected charactar stats set ({StatNames.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
             return false;
         }
 
-        if (characterStatCount != statDisplaysCount)
+        if (CharacterStats.Count != StatDisplays.Count)
         {
-            Debug.LogError($"The number of select charactar stats ({characterStatCount}) does not match the number of stat displays ({statDisplaysCount}).");
+            Debug.LogError($"The number of select charactar stats ({CharacterStats.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
             return false;
         }
 

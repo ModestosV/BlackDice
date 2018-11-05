@@ -1,22 +1,22 @@
-﻿public interface IHexTileController
-{
-    int X { get; set; }
-    int Y { get; set; }
-    int Z { get; set; }
+﻿using System;
 
-    bool IsEnabled { get; set; }
-    bool IsSelected { get; set; }
+public interface IHexTileController
+{
+    Tuple<int, int, int> Coordinates { set; }
+
+    bool IsEnabled { set; }
+    bool IsSelected { set; }
     
-    IGridSelectionController GridSelectionController { get; set; }
-    IGridTraversalController GridTraversalController { get; set; }
-    IHexTile HexTile { get; set; }
-    ICharacterController OccupantCharacter { get; set; }
+    IGridSelectionController GridSelectionController { set; }
+    IGridTraversalController GridTraversalController { set; }
+    IHexTile HexTile { set; }
+    ICharacterController OccupantCharacter { set; }
 
     void Select();
     void Deselect();
     void Hover();
     void Blur();
     void HoverError();
-    void MarkPath();
+    void Highlight();
     void Dehighlight();
 }

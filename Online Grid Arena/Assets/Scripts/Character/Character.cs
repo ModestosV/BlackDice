@@ -1,48 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Character : MonoBehaviour, ICharacter
 {
-    // Public members to be instantiated by/through Unity
-    public CharacterController controller;
+    private CharacterController controller;
     public List<CharacterStat> stats;
     public List<Ability> abilities;
     public CharacterStatNameSet characterStatNameSet;
 
-    private void OnValidate()
-    {
-        InitStats();
-        InitAbilities();
-        controller.CharacterStatNameSet = characterStatNameSet;
-    }
-
     private void Awake()
     {
-        controller.Character = this;
-        InitStats();
-        InitAbilities();
-        controller.CharacterStatNameSet = characterStatNameSet;
-        controller.OccupiedTile = GetComponentInParent<HexTile>().Controller;
-    }
-
-    private void InitStats()
-    {
-        List<ICharacterStat> statList = new List<ICharacterStat>();
-        foreach (CharacterStat stat in stats)
+        controller = new CharacterController
         {
-            statList.Add(stat);
-        }
-        controller.CharacterStats = statList;
-    }
-
-    private void InitAbilities()
-    {
-        List<IAbility> abilityList = new List<IAbility>();
-        foreach(Ability ability in abilities)
-        {
-            abilityList.Add(ability);
-        }
-        controller.Abilities = abilityList;
+            StatNames = characterStatNameSet.StatNames,
+            CharacterStats = stats.ToList<ICharacterStat>(),
+            Abilities = abilities.ToList<IAbility>(),
+            OccupiedTile = GetComponentInParent<HexTile>().Controller
+        };
     }
 
     #region ICharacter implementation
@@ -51,7 +26,7 @@ public class Character : MonoBehaviour, ICharacter
 
     public void MoveToTile(IHexTile targetTile)
     {
-        targetTile.SetChild(GameObject);
+        gameObject.transform.parent = targetTile.GameObject.transform;
         GameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 

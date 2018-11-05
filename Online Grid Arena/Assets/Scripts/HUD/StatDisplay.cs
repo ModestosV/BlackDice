@@ -3,27 +3,8 @@ using UnityEngine.UI;
 
 public class StatDisplay : MonoBehaviour, IStatDisplay
 {
-    public StatDisplayController controller;
-
     public Text nameText;
     public Text valueText;
-
-    public IStatDisplayController Controller
-    {
-        get { return controller; }
-    }
-
-    public Text NameText
-    {
-        get { return nameText; }
-        set { nameText = value; }
-    }
-
-    public Text ValueText
-    {
-        get { return valueText; }
-        set { valueText = value; }
-    }
 
     private void OnValidate()
     {

@@ -2,19 +2,43 @@
 using System.Linq;
 using System;
 
-[Serializable]
 public class TurnController : ITurnController
 {
-    public List<ICharacter> RefreshedCharacters { get; set; }
-    public List<ICharacter> ExhaustedCharacters { get; set; }
-    public ICharacter ActiveCharacter { get; set; }
+    private List<ICharacter> RefreshedCharacters { get; set; }
+    private List<ICharacter> ExhaustedCharacters { get; set; }
+    private ICharacter ActiveCharacter { get; set; }
+    private IHUDController HUDController { get; set; }
 
-    public IHUDController HUDController { get; set; }
-
-    public void Init()
+    private TurnController()
     {
         RefreshedCharacters = new List<ICharacter>();
         ExhaustedCharacters = new List<ICharacter>();
+    }
+
+    public TurnController(IHUDController hudController) : this()
+    {
+        HUDController = hudController;
+    }
+
+    public void AddCharacters(List<ICharacter> characters)
+    {
+        foreach (ICharacter character in characters)
+        {
+            RefreshedCharacters.Add(character);
+        }
+    }
+
+    public void AddCharacter(ICharacter character)
+    {
+        RefreshedCharacters.Add(character);
+    }
+
+    public void RemoveCharacter(ICharacter character)
+    {
+        RefreshedCharacters.Remove(character);
+        ExhaustedCharacters.Remove(character);
+        if (ActiveCharacter == character)
+            ActiveCharacter = null;
     }
 
     public void StartNextTurn()
@@ -22,7 +46,7 @@ public class TurnController : ITurnController
         if (ActiveCharacter != null)
         {
             ExhaustedCharacters.Add(ActiveCharacter);
-            ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
+            ActiveCharacter.Controller.OccupiedTile.Deselect();
             HUDController.ClearSelectedHUD();
         }
 

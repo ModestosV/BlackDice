@@ -1,14 +1,10 @@
-﻿public interface IHUDController
+﻿using System.Collections.Generic;
+
+public interface IHUDController
 {
-    IStatPanel SelectedStatPanel { get; set; }
-    IPlayerPanel SelectedPlayerPanel { get; set; }
-
-    IStatPanel TargetStatPanel { get; set; }
-    IPlayerPanel TargetPlayerPanel { get; set; }
-
     void ClearSelectedHUD();
-    void UpdateSelectedHUD(ICharacter character);
+    void UpdateSelectedHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName);
 
     void ClearTargetHUD();
-    void UpdateTargetHUD(ICharacter character);
+    void UpdateTargetHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName);
 }

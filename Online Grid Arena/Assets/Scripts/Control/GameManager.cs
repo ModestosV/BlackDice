@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour, IGameManager
 
     public GridSelectionController gridSelectionController;
     public GridTraversalController gridTraversalController;
-    public TurnController turnController;
     public HUDController hudController;
 
     private InputParameters inputParameters;
@@ -34,6 +33,8 @@ public class GameManager : MonoBehaviour, IGameManager
 
     private void Awake()
     {
+        ITurnController turnController = new TurnController()
+
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         hudController.SelectedStatPanel = statPanels[1];
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour, IGameManager
         movementSelectionController.GameManager = this;
 
         turnController.Init();
+        var temp = turnController.ActiveCharacter;
         turnController.HUDController = hudController;
 
         Character[] charactersArray = FindObjectsOfType<Character>();

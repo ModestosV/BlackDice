@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-public interface IHexTile : IMonoBehaviour
+﻿public interface IHexTile : IMonoBehaviour
 {
     void SetHoverMaterial();
     void SetErrorMaterial();
@@ -11,5 +8,4 @@ public interface IHexTile : IMonoBehaviour
     bool IsMouseOver();
 
     IHexTileController Controller { get; }
-    void SetChild(GameObject childObject);
 }

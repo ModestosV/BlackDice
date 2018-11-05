@@ -2,11 +2,8 @@
 
 public interface ITurnController
 {
-    List<ICharacter> RefreshedCharacters { get; set; }
-    List<ICharacter> ExhaustedCharacters { get; set; }
-    ICharacter ActiveCharacter { get; set; }
-
-    IHUDController HUDController { get; set; }
-
     void StartNextTurn();
+    void AddCharacters(List<ICharacter> characters);
+    void AddCharacter(ICharacter character);
+    void RemoveCharacter(ICharacter character);
 }

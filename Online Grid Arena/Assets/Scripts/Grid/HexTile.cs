@@ -1,23 +1,19 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HexTile : MonoBehaviour, IHexTile
 {
-    // Public members to be instantiated by/through Unity
-    public HexTileController controller;
+    private HexTileController controller;
     public HexTileMaterialSet materials;
 
     private void Awake()
     {
-        controller.OccupantCharacter = GetComponentInChildren<Character>().Controller;
-    }
-
-    private void Start()
-    {
-        controller.IsEnabled = GetComponent<Renderer>().enabled;
+        controller = new HexTileController
+        {
+            OccupantCharacter = GetComponentInChildren<Character>().Controller,
+            HexTile = this,
+            IsEnabled = GetComponent<Renderer>().enabled
+        };
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-
-        controller.HexTile = this;
     }
 
     #region IHexTile implementation
@@ -60,11 +56,6 @@ public class HexTile : MonoBehaviour, IHexTile
         get { return controller; }
     }
 
-    public void SetChild(GameObject childObject)
-    {
-        childObject.transform.parent = gameObject.transform;
-    }
-
     #endregion
 
     #region IMonoBehaviour implementation
@@ -76,10 +67,6 @@ public class HexTile : MonoBehaviour, IHexTile
 
     #endregion
 
-    public override string ToString()
-    {
-        return $"HexTile|x: {controller.X}, y: {controller.Y}, z: {controller.Z}";
-    }
 }
 
 

@@ -9,16 +9,6 @@ public class GridTraversalController : IGridTraversalController
 
     #region IGridTraversalController implementation
 
-    public void Init()
-    {
-        HexTiles = new Dictionary<Tuple<int, int, int>, IHexTile>();
-    }
-
-    public void SetHexTiles(Dictionary<Tuple<int, int, int>, IHexTile> hexTiles)
-    {
-        this.HexTiles = hexTiles;
-    }
-
     public IHexTile GetHexTile(Tuple<int, int, int> coordinates)
     {
         IHexTile tile;
