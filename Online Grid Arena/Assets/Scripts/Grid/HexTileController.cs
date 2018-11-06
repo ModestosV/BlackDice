@@ -258,23 +258,6 @@ public class HexTileController : IHexTileController
         int zDistance = Math.Abs(startTile.Z - endTile.Z);
 
         return (xDistance + yDistance + zDistance) / 2;
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

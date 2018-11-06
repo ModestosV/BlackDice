@@ -1,5 +1,7 @@
 using NSubstitute;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 public class HexTileControllerTests
 {
@@ -10,20 +12,49 @@ public class HexTileControllerTests
     IHexTile hexTile;
     ICharacterController occupantCharacter;
 
+    IHexTileController northEastHexTile;
+    IHexTileController eastHexTile;
+    IHexTileController southEastHexTile;
+    IHexTileController southWestHexTile;
+    IHexTileController westHexTile;
+    IHexTileController northWestHexTile;
+
+    const int X = 0;
+    const int Y = 0;
+    const int Z = 0;
+    readonly Tuple<int, int, int> coordinates = new Tuple<int, int, int>(X, Y, Z);
+
     [SetUp]
     public void Init()
     {
-        sut = new HexTileController();
         
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gridController = Substitute.For<IGridController>();
         hexTile = Substitute.For<IHexTile>();
         occupantCharacter = Substitute.For<ICharacterController>();
 
-        sut.GridSelectionController = gridSelectionController;
-        sut.GridController = gridController;
-        sut.HexTile = hexTile;
-        sut.OccupantCharacter = occupantCharacter;
+        northEastHexTile = Substitute.For<IHexTileController>();
+        eastHexTile = Substitute.For<IHexTileController>();
+        southEastHexTile = Substitute.For<IHexTileController>();
+        southWestHexTile = Substitute.For<IHexTileController>();
+        westHexTile = Substitute.For<IHexTileController>();
+        northWestHexTile = Substitute.For<IHexTileController>();
+
+        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1)).Returns(northEastHexTile);
+        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z)).Returns(eastHexTile);
+        gridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1)).Returns(southEastHexTile);
+        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y, Z + 1)).Returns(southWestHexTile);
+        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y + 1, Z)).Returns(westHexTile);
+        gridController.GetTile(new Tuple<int, int, int>(X, Y + 1, Z - 1)).Returns(northWestHexTile);
+
+        sut = new HexTileController
+        {
+            Coordinates = coordinates,
+            GridSelectionController = gridSelectionController,
+            GridController = gridController,
+            HexTile = hexTile,
+            OccupantCharacter = occupantCharacter
+        };
     }
 
     #region Select tests
@@ -291,4 +322,81 @@ public class HexTileControllerTests
         gridSelectionController.Received(1).RemoveHighlightedTile(sut);
     }
     #endregion
+
+    #region Neighbor tests
+
+    [Test]
+    public void Get_north_east_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetNorthEastNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1));
+    }
+
+    [Test]
+    public void Get_east_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetEastNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z));
+    }
+
+    [Test]
+    public void Get_south_east_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetSouthEastNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X , Y - 1, Z + 1));
+    }
+
+    [Test]
+    public void Get_south_west_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetSouthWestNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y, Z + 1));
+    }
+
+    [Test]
+    public void Get_west_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetWestNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y + 1, Z));
+    }
+
+    [Test]
+    public void Get_north_west_neighbor_looks_up_correct_tile_coordinates()
+    {
+        sut.GetNorthWestNeighbor();
+
+        gridController.GetTile(new Tuple<int, int, int>(X, Y + 1, Z - 1));
+    }
+
+    [Test]
+    public void Get_neighbors_returns_all_neighbors_correctly()
+    {
+        List<IHexTileController> expected = new List<IHexTileController>() {
+            northEastHexTile, eastHexTile, southEastHexTile,
+            southWestHexTile, westHexTile, northWestHexTile
+        };
+        List<IHexTileController> result = sut.GetNeighbors();
+
+        Assert.AreEqual(expected, result);
+    }
+
+    [Test]
+    public void Get_path_returns_all_tiles_on_path_to_target_tile()
+    {
+        List<IHexTileController> expected = new List<IHexTileController>()
+        {
+            sut, northEastHexTile
+        };
+        List<IHexTileController> result = sut.GetPath(northEastHexTile);
+
+        Assert.AreEqual(expected, result);
+    }
+
+    #endregion
+
 }
