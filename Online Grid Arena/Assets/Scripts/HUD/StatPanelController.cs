@@ -54,7 +54,7 @@ public class StatPanelController : IStatPanelController
 
         if (CharacterStats.Count != StatDisplays.Count)
         {
-            Debug.LogError($"The number of select charactar stats ({CharacterStats.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
+            Debug.Log($"The number of select charactar stats ({CharacterStats.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
             return false;
         }
 

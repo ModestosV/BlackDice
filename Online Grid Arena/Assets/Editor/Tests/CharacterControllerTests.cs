@@ -79,6 +79,14 @@ public class CharacterControllerTests
     }
 
     [Test]
+    public void Damage_adds_a_negative_flat_stat_modifier_to_health_stat_equal_to_the_damage_amount()
+    {
+        sut.Damage(DAMAGE_AMOUNT);
+
+        health.Received(1).AddModifier(Arg.Is<IStatModifier>(x => x.Type == StatModType.Flat && x.Value == -DAMAGE_AMOUNT));
+    }
+
+    [Test]
     public void Execute_move_deselects_start_tile_and_vacates_character()
     {
         sut.ExecuteMove(endTileController);
@@ -93,7 +101,6 @@ public class CharacterControllerTests
         sut.ExecuteMove(endTileController);
 
         character.Received(1).MoveToTile(endTile);
-        character.Controller.Received(1).OccupiedTile = endTileController;
     }
 
     [Test]
@@ -103,14 +110,6 @@ public class CharacterControllerTests
 
         endTileController.Received(1).OccupantCharacter = sut;
         endTileController.Received(1).Select();
-    }
-
-    [Test]
-    public void Damage_adds_a_negative_flat_stat_modifier_to_health_stat_equal_to_the_damage_amount()
-    {
-        sut.Damage(DAMAGE_AMOUNT);
-
-        health.Received(1).AddModifier(Arg.Is<IStatModifier>(x => x.Type == StatModType.Flat && x.Value == -DAMAGE_AMOUNT));
     }
 
     public void Execute_move_does_nothing_when_no_moves_remaining()

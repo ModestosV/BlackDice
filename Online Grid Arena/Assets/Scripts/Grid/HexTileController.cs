@@ -176,7 +176,7 @@ public class HexTileController : IHexTileController
         return neighbors;
     }
 
-    public List<IHexTileController> GetPath(IHexTileController startTile)
+    public List<IHexTileController> GetPath(IHexTileController goalTile)
     {
         List<IHexTileController> open = new List<IHexTileController>();
         HashSet<Tuple<int, int, int>> closed = new HashSet<Tuple<int, int, int>>();
@@ -184,10 +184,10 @@ public class HexTileController : IHexTileController
         Dictionary<Tuple<int, int, int>, int> gValues = new Dictionary<Tuple<int, int, int>, int>();
         Dictionary<Tuple<int, int, int>, IHexTileController> bestParents = new Dictionary<Tuple<int, int, int>, IHexTileController>();
 
-        open.Add(startTile);
-        gValues[startTile.Coordinates] = 0;
-        fValues[startTile.Coordinates] = gValues[startTile.Coordinates] + ManhattanDistance(startTile, this);
-        bestParents[startTile.Coordinates] = null;
+        open.Add(this);
+        gValues[this.Coordinates] = 0;
+        fValues[this.Coordinates] = gValues[this.Coordinates] + ManhattanDistance(this, goalTile);
+        bestParents[this.Coordinates] = null;
 
         while (open.Count > 0)
         {
@@ -197,7 +197,7 @@ public class HexTileController : IHexTileController
 
             closed.Add(currentTile.Coordinates);
 
-            if (currentTile == this)
+            if (currentTile == goalTile)
             {
                 return Backtrace(currentTile, bestParents);
             }

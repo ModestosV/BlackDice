@@ -112,7 +112,7 @@ public class StatPanelControllerTests
     [Test]
     public void Enable_stat_displays_activates_stat_displays()
     {
-        sut.DisableStatDisplays();
+        sut.EnableStatDisplays();
 
         display1.Received(1).Activate();
         display2.Received(1).Activate();

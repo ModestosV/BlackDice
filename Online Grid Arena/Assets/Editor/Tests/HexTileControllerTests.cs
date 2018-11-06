@@ -22,7 +22,15 @@ public class HexTileControllerTests
     const int X = 0;
     const int Y = 0;
     const int Z = 0;
+
     readonly Tuple<int, int, int> coordinates = new Tuple<int, int, int>(X, Y, Z);
+    readonly Tuple<int, int, int> northEastCoordinates = new Tuple<int, int, int>(1, 0, -1);
+    readonly Tuple<int, int, int> eastCoordinates = new Tuple<int, int, int>(1, -1, 0);
+    readonly Tuple<int, int, int> southEastCoordinates = new Tuple<int, int, int>(0, -1, 1);
+    readonly Tuple<int, int, int> southWestCoordinates = new Tuple<int, int, int>(-1, 0, 1);
+    readonly Tuple<int, int, int> westCoordinates = new Tuple<int, int, int>(-1, 1, 0);
+    readonly Tuple<int, int, int> northWestCoordinates = new Tuple<int, int, int>(0, 1, -1);
+
 
     [SetUp]
     public void Init()
@@ -40,6 +48,27 @@ public class HexTileControllerTests
         westHexTile = Substitute.For<IHexTileController>();
         northWestHexTile = Substitute.For<IHexTileController>();
 
+        northEastHexTile.Coordinates.Returns(northEastCoordinates);
+        eastHexTile.Coordinates.Returns(eastCoordinates);
+        southEastHexTile.Coordinates.Returns(southEastCoordinates);
+        southWestHexTile.Coordinates.Returns(southWestCoordinates);
+        westHexTile.Coordinates.Returns(westCoordinates);
+        northWestHexTile.Coordinates.Returns(northWestCoordinates);
+
+        northEastHexTile.IsEnabled.Returns(true);
+        eastHexTile.IsEnabled.Returns(true);
+        southEastHexTile.IsEnabled.Returns(true);
+        southWestHexTile.IsEnabled.Returns(true);
+        westHexTile.IsEnabled.Returns(true);
+        northWestHexTile.IsEnabled.Returns(true);
+
+        northEastHexTile.GetNeighbors().Returns(new List<IHexTileController>() { eastHexTile, sut, northWestHexTile });
+        eastHexTile.GetNeighbors().Returns(new List<IHexTileController>() { southEastHexTile, sut, northEastHexTile });
+        southEastHexTile.GetNeighbors().Returns(new List<IHexTileController>() { eastHexTile, southWestHexTile, sut });
+        southWestHexTile.GetNeighbors().Returns(new List<IHexTileController>() { sut, southEastHexTile, westHexTile });
+        westHexTile.GetNeighbors().Returns(new List<IHexTileController>() { northWestHexTile, sut, southWestHexTile });
+        northWestHexTile.GetNeighbors().Returns(new List<IHexTileController>() { northEastHexTile, sut, westHexTile });
+
         gridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1)).Returns(northEastHexTile);
         gridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z)).Returns(eastHexTile);
         gridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1)).Returns(southEastHexTile);
@@ -53,7 +82,8 @@ public class HexTileControllerTests
             GridSelectionController = gridSelectionController,
             GridController = gridController,
             HexTile = hexTile,
-            OccupantCharacter = occupantCharacter
+            OccupantCharacter = occupantCharacter,
+            IsEnabled = true
         };
     }
 
@@ -235,14 +265,14 @@ public class HexTileControllerTests
     }
 
     [Test]
-    public void Blurring_a_deselected_tile_hover_highlights_the_tile()
+    public void Blurring_a_deselected_tile_removes_hover_highlight_on_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
         sut.Blur();
 
-        hexTile.Received(1).SetHoverMaterial();
+        hexTile.Received(1).SetDefaultMaterial();
         gridSelectionController.Received(1).RemoveHoveredTile(sut);
     }
 
