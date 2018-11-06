@@ -23,8 +23,16 @@ public class GridSelectionControllerTests
         hexTile1 = Substitute.For<IHexTileController>();
         hexTile2 = Substitute.For<IHexTileController>();
 
-        character = Substitute.For<ICharacterController>();
+        selectedTilesList = new List<IHexTileController>();
+        hoveredTilesList = new List<IHexTileController>();
+        highlightedTilesList = new List<IHexTileController>();
 
+        sut.SelectedTiles = selectedTilesList;
+        sut.HoveredTiles = hoveredTilesList;
+        sut.HighlightedTiles = highlightedTilesList;
+
+        character = Substitute.For<ICharacterController>();
+        hexTile1.IsOccupied().Returns(true);
         hexTile1.OccupantCharacter.Returns(character);
     }
 
@@ -67,8 +75,8 @@ public class GridSelectionControllerTests
     [Test]
     public void Deselect_all_deselects_all_selected_tiles()
     {
-        sut.AddSelectedTile(hexTile1);
-        sut.AddSelectedTile(hexTile2);
+        selectedTilesList.Add(hexTile1);
+        selectedTilesList.Add(hexTile2);
 
         sut.DeselectAll();
 
@@ -79,8 +87,8 @@ public class GridSelectionControllerTests
     [Test]
     public void Blur_all_blurs_all_hovered_tiles()
     {
-        sut.AddHoveredTile(hexTile1);
-        sut.AddHoveredTile(hexTile2);
+        hoveredTilesList.Add(hexTile1);
+        hoveredTilesList.Add(hexTile2);
 
         sut.BlurAll();
 
@@ -91,8 +99,8 @@ public class GridSelectionControllerTests
     [Test]
     public void Dehighlight_all_dehighlights_all_highlighted_tiles()
     {
-        sut.AddHighlightedTile(hexTile1);
-        sut.AddHighlightedTile(hexTile2);
+        highlightedTilesList.Add(hexTile1);
+        highlightedTilesList.Add(hexTile2);
 
         sut.DehighlightAll();
 
@@ -103,7 +111,7 @@ public class GridSelectionControllerTests
     [Test]
     public void Is_selected_tile_matches_selected_tile_correctly()
     {
-        sut.AddSelectedTile(hexTile1);
+        selectedTilesList.Add(hexTile1);
 
         Assert.IsTrue(sut.IsSelectedTile(hexTile1));
         Assert.IsFalse(sut.IsSelectedTile(hexTile2));
@@ -112,8 +120,8 @@ public class GridSelectionControllerTests
     [Test]
     public void Get_selected_tile_returns_first_selected_tile()
     {
-        sut.AddSelectedTile(hexTile1);
-        sut.AddSelectedTile(hexTile2);
+        selectedTilesList.Add(hexTile1);
+        selectedTilesList.Add(hexTile2);
 
         Assert.AreEqual(hexTile1, sut.GetSelectedTile());
     }
@@ -121,8 +129,8 @@ public class GridSelectionControllerTests
     [Test]
     public void Get_selected_character_returns_occupant_character_in_first_selected_tile()
     {
-        sut.AddSelectedTile(hexTile1);
-        sut.AddSelectedTile(hexTile2);
+        selectedTilesList.Add(hexTile1);
+        selectedTilesList.Add(hexTile2);
 
         Assert.AreEqual(character, sut.GetSelectedCharacter());
     }

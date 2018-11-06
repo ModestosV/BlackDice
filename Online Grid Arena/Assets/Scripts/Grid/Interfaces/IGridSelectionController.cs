@@ -1,5 +1,11 @@
-﻿public interface IGridSelectionController
+﻿using System.Collections.Generic;
+
+public interface IGridSelectionController
 {
+    List<IHexTileController> SelectedTiles { set; }
+    List<IHexTileController> HoveredTiles { set; }
+    List<IHexTileController> HighlightedTiles { set; }
+
     void AddSelectedTile(IHexTileController selectedTile);
     bool RemoveSelectedTile(IHexTileController removedTile);
     void AddHoveredTile(IHexTileController hoveredTile);

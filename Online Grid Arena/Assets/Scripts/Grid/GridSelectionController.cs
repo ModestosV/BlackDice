@@ -2,9 +2,9 @@
 
 public class GridSelectionController : IGridSelectionController
 {
-    private List<IHexTileController> SelectedTiles { get; set; }
-    private List<IHexTileController> HoveredTiles { get; set; }
-    private List<IHexTileController> HighlightedTiles { get; set; }
+    public List<IHexTileController> SelectedTiles { protected get; set; }
+    public List<IHexTileController> HoveredTiles { protected get; set; }
+    public List<IHexTileController> HighlightedTiles { protected get; set; }
 
     #region IGridSelectionController implementation
 
