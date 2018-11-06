@@ -5,32 +5,25 @@ public class HexTileControllerTests
 {
     HexTileController sut;
 
-    ISelectionController selectionController;
-    IHexTileSelectionController hexTileSelectionController;
     IGridSelectionController gridSelectionController;
-    IGridTraversalController gridTraversalController;
-    ICharacter occupantCharacter;
-
+    IGridController gridController;
     IHexTile hexTile;
+    ICharacterController occupantCharacter;
 
     [SetUp]
     public void Init()
     {
         sut = new HexTileController();
-
-        selectionController = Substitute.For<ISelectionController>();
-        hexTileSelectionController = Substitute.For<IHexTileSelectionController>();
+        
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        gridTraversalController = Substitute.For<IGridTraversalController>();
-        occupantCharacter = Substitute.For<ICharacter>();
-
+        gridController = Substitute.For<IGridController>();
         hexTile = Substitute.For<IHexTile>();
+        occupantCharacter = Substitute.For<ICharacterController>();
 
-        sut.SelectionController = selectionController;
         sut.GridSelectionController = gridSelectionController;
-        sut.GridTraversalController = gridTraversalController;
+        sut.GridController = gridController;
         sut.HexTile = hexTile;
-        sut.HexTileSelectionController = hexTileSelectionController;
+        sut.OccupantCharacter = occupantCharacter;
     }
 
     #region Select tests
@@ -42,44 +35,31 @@ public class HexTileControllerTests
 
         sut.Select();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Selecting_an_enabled_deselected_tile_without_occupied_character_selects_the_tile()
+    public void Selecting_an_occupied_tile_updates_the_selected_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = false;
-        sut.OccupantCharacter = null;
 
         sut.Select();
 
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
-        gridSelectionController.Received(1).DeselectAll();
-        Assert.IsTrue(sut.IsSelected);
-        hexTileSelectionController.Received(1).SetClickedMaterial();
-        gridSelectionController.Received(1).AddSelectedTile(hexTile);
+        occupantCharacter.Received(1).UpdateSelectedHUD();
     }
 
     [Test]
-    public void Selecting_an_enabled_deselected_tile_with_occupied_character_selects_the_tile_and_character()
+    public void Selecting_an_deselected_tile_selects_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
-        sut.OccupantCharacter = occupantCharacter;
 
         sut.Select();
 
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
-        gridSelectionController.Received(1).DeselectAll();
-        Assert.IsTrue(sut.IsSelected);
-        hexTileSelectionController.Received(1).SetClickedMaterial();
-        gridSelectionController.Received(1).AddSelectedTile(hexTile);
+        hexTile.Received(1).SetClickedMaterial();
+        gridSelectionController.Received(1).AddSelectedTile(sut);
     }
 
     #endregion
@@ -93,55 +73,32 @@ public class HexTileControllerTests
 
         sut.Deselect();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Deselecting_an_enabled_deselected_tile_does_nothing()
+    public void Deselecting_an_occupied_tile_clears_the_selected_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = false;
 
         sut.Deselect();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).ClearSelectedHUD();
     }
 
     [Test]
-    public void Deselecting_an_enabled_selected_tile_without_occupied_character_deselects_the_tile()
+    public void Deselecting_an_selected_tile_deselects_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = true;
-        sut.OccupantCharacter = null;
+        hexTile.IsMouseOver().Returns(false);
 
         sut.Deselect();
 
-        Assert.IsFalse(sut.IsSelected);
-        hexTileSelectionController.Received(1).Deselect();
-        selectionController.DidNotReceive();
-        gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        gridTraversalController.DidNotReceive();
-    }
-
-    [Test]
-    public void Deselecting_an_enabled_selected_tile_with_occupied_character_deselects_the_tile_and_character()
-    {
-        sut.IsEnabled = true;
-        sut.IsSelected = true;
-        sut.OccupantCharacter = occupantCharacter;
-
-        sut.Deselect();
-
-        Assert.IsFalse(sut.IsSelected);
-        hexTileSelectionController.Received(1).Deselect();
-        gridSelectionController.Received(1).RemoveSelectedTile(hexTile);
-        gridTraversalController.DidNotReceive();
+        hexTile.Received(1).SetDefaultMaterial();
+        gridSelectionController.Received(1).RemoveSelectedTile(sut);
     }
 
     #endregion
@@ -155,38 +112,31 @@ public class HexTileControllerTests
 
         sut.Hover();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Hovering_an_enabled_selected_tile_does_nothing()
+    public void Hovering_an_occupied_tile_updates_the_target_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = true;
 
         sut.Hover();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).UpdateTargetHUD();
     }
 
     [Test]
-    public void Hovering_an_enabled_deselected_tile_hover_highlights_the_tile()
+    public void Hovering_a_deselected_tile_hover_highlights_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
         sut.Hover();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.Received().AddHoveredTile(hexTile);
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().SetHoverMaterial();
+        hexTile.Received(1).SetHoverMaterial();
+        gridSelectionController.Received(1).AddHoveredTile(sut);
     }
 
     #endregion
@@ -194,44 +144,37 @@ public class HexTileControllerTests
     #region HoverError tests
 
     [Test]
-    public void Hover_erroring_a_disabled_tile_does_nothing()
+    public void Error_hovering_a_disabled_tile_does_nothing()
     {
         sut.IsEnabled = false;
 
         sut.HoverError();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Hoverin_erroring_an_enabled_selected_tile_does_nothing()
+    public void Error_hovering_an_occupied_tile_updates_the_target_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = true;
 
         sut.HoverError();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).UpdateTargetHUD();
     }
 
     [Test]
-    public void Hover_erroring_an_enabled_deselected_tile_hover_error_highlights_the_tile()
+    public void Error_hovering_a_deselected_tile_hover_highlights_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
         sut.HoverError();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.Received().AddHoveredTile(hexTile);
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().SetErrorMaterial();
+        hexTile.Received(1).SetErrorMaterial();
+        gridSelectionController.Received(1).AddHoveredTile(sut);
     }
 
     #endregion
@@ -245,129 +188,107 @@ public class HexTileControllerTests
 
         sut.Blur();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Blurring_an_enabled_selected_tile_does_nothing()
+    public void Blurring_an_occupied_tile_clears_the_target_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = true;
 
         sut.Blur();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).ClearTargetHUD();
     }
 
     [Test]
-    public void Blurring_an_enabled_deselected_tile_removes_hover_highlight_from_tile()
+    public void Blurring_a_deselected_tile_hover_highlights_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
         sut.Blur();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.Received().RemoveHoveredTile(hexTile);
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().SetDefaultMaterial();
+        hexTile.Received(1).SetHoverMaterial();
+        gridSelectionController.Received(1).RemoveHoveredTile(sut);
     }
 
     #endregion
 
-    #region MarkPath tests
+    #region Highlight tests
 
     [Test]
-    public void Marking_path_on_a_disabled_tile_does_nothing()
+    public void Highlighting_a_disabled_tile_does_nothing()
     {
         sut.IsEnabled = false;
 
-        sut.MarkPath();
+        sut.Highlight();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Marking_path_on_an_enabled_selected_tile_does_nothing()
+    public void Highlighting_an_occupied_tile_updates_the_target_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = true;
 
-        sut.MarkPath();
+        sut.Highlight();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).UpdateTargetHUD();
     }
 
     [Test]
-    public void Marking_path_on_an_enabled_deselected_tile_path_highlights_the_tile()
+    public void Highlighting_a_deselected_tile_hover_highlights_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
-        sut.MarkPath();
+        sut.Highlight();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.Received().AddPathTile(hexTile);
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().SetValidMaterial();
+        hexTile.Received(1).SetHighlightMaterial();
+        gridSelectionController.Received(1).AddHighlightedTile(sut);
     }
 
     #endregion
 
-    #region ScrubPath tests
+    #region Dehighlight tests
 
     [Test]
-    public void Scrubbing_path_on_a_disabled_tile_does_nothing()
+    public void Dehighlighting_a_disabled_tile_does_nothing()
     {
         sut.IsEnabled = false;
 
         sut.Dehighlight();
 
-        selectionController.DidNotReceive();
         gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Scrubbing_path_on_an_enabled_selected_tile_does_nothing()
+    public void Dehighlighting_an_occupied_tile_clears_the_target_HUD()
     {
         sut.IsEnabled = true;
-        sut.IsSelected = true;
 
         sut.Dehighlight();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.DidNotReceive();
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.DidNotReceive();
+        occupantCharacter.Received(1).ClearTargetHUD();
     }
 
     [Test]
-    public void Scrubbing_path_on_an_enabled_deselected_tile_removes_path_highlights_from_the_tile()
+    public void Dehighlighting_a_deselected_tile_hover_highlights_the_tile()
     {
         sut.IsEnabled = true;
         sut.IsSelected = false;
 
         sut.Dehighlight();
 
-        selectionController.DidNotReceive();
-        gridSelectionController.Received().RemovePathTile(hexTile);
-        gridTraversalController.DidNotReceive();
-        hexTileSelectionController.Received().ScrubPath();
+        hexTile.Received(1).SetDefaultMaterial();
+        gridSelectionController.Received(1).RemoveHighlightedTile(sut);
     }
-
     #endregion
 }
