@@ -9,7 +9,7 @@ public class StatPanelController : IStatPanelController
     
     public void UpdateStatValues()
     {
-        if (!AssertCharacterStatCountIsConsistentWithStatNameSet()) return;
+        if (!StatsAndNamesAreConsistent()) return;
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
@@ -19,6 +19,8 @@ public class StatPanelController : IStatPanelController
 
     public void UpdateStatNames()
     {
+        if (!StatsAndNamesAreConsistent()) return;
+
         for (int i = 0; i < StatDisplays.Count; i++)
         {
             StatDisplays[i].SetNameText(StatNames[i]);
@@ -29,7 +31,7 @@ public class StatPanelController : IStatPanelController
     {
         foreach (IStatDisplay display in StatDisplays)
         {
-            display.GameObject.SetActive(false);
+            display.Deactivate();
         }
     }
 
@@ -37,11 +39,11 @@ public class StatPanelController : IStatPanelController
     {
         foreach (IStatDisplay display in StatDisplays)
         {
-            display.GameObject.SetActive(true);
+            display.Activate();
         }
     }
 
-    private bool AssertCharacterStatCountIsConsistentWithStatNameSet()
+    private bool StatsAndNamesAreConsistent()
     {
 
         if (StatNames.Count != StatDisplays.Count)
