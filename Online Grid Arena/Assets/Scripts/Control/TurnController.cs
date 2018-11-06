@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class TurnController : ITurnController
 {
@@ -61,5 +62,42 @@ public class TurnController : ITurnController
     {
         if (ActiveCharacter != null)
             ActiveCharacter.Select();
+    }
+
+    public void CheckWinCondition()
+    {
+        List<ICharacterController> livingCharacters = new List<ICharacterController>();
+
+        foreach (ICharacterController character in RefreshedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        foreach (ICharacterController character in ExhaustedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        if (ActiveCharacter != null)
+            livingCharacters.Add(ActiveCharacter);
+
+        List<string> livingPlayers = new List<string>();
+
+        foreach(ICharacterController character in livingCharacters)
+        {
+            string playerName = character.OwnedByPlayer;
+            if (!livingPlayers.Contains(playerName))
+            {
+                livingPlayers.Add(playerName);
+            }
+        }
+        
+        if (livingPlayers.Count == 1)
+        {
+            Debug.Log($"Player {livingPlayers[0]} wins!");
+        }
+
+        if (livingPlayers.Count == 0)
+        {
+            Debug.Log("Draw!");
+        }
     }
 }

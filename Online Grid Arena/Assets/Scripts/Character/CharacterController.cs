@@ -13,7 +13,7 @@ public class CharacterController : ICharacterController
 
     public int MovesRemaining { protected get; set; }
     public int AbilitiesRemaining { protected get; set; }
-    public string OwnedByPlayer { protected get; set; }
+    public string OwnedByPlayer { get; set; }
 
     public void Select()
     {
@@ -103,6 +103,18 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
+        if (CharacterStats[0].Value <= 0)
+        {
+            Die();
+            TurnController.CheckWinCondition();
+        }
+    }
+
+    public void Die()
+    {
+        OccupiedTile.ClearOccupant();
+        TurnController.RemoveCharacter(this);
+        Character.Destroy();
     }
 
     public bool CanMove()

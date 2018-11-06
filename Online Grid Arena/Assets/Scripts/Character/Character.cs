@@ -28,6 +28,11 @@ public class Character : MonoBehaviour, ICharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     #region ICharacter implementation
 
     public ICharacterController Controller { get { return characterController; } }

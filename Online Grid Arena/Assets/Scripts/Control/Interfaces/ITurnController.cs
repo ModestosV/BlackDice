@@ -11,4 +11,5 @@ public interface ITurnController
     void AddCharacter(ICharacterController character);
     void RemoveCharacter(ICharacterController character);
     void SelectActiveCharacter();
+    void CheckWinCondition();
 }

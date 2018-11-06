@@ -13,7 +13,7 @@ public interface ICharacterController
 
     int MovesRemaining { set; }
     int AbilitiesRemaining { set; }
-    string OwnedByPlayer { set; }    
+    string OwnedByPlayer { get; set; }    
 
     void Select();
     void Deselect();
