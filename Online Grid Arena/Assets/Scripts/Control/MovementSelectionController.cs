@@ -56,7 +56,7 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
         bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
 
-        List<IHexTileController> path = InputParameters.TargetTile.GetPath(selectedTile);
+        List<IHexTileController> path = selectedTile.GetPath(InputParameters.TargetTile);
         bool isReachable = path.Count > 0;
 
         // Clicked on unreachable tile

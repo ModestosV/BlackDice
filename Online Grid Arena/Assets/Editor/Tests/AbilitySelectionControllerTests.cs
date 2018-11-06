@@ -6,7 +6,6 @@ public class AbilitySelectionControllerTests
 {
     AbilitySelectionController sut;
 
-
     IGridSelectionController gridSelectionController;
     IGameManager gameManager;
     
@@ -23,12 +22,8 @@ public class AbilitySelectionControllerTests
     [SetUp]
     public void Init()
     {
-        sut = new AbilitySelectionController();
-        
-
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gameManager = Substitute.For<IGameManager>();
-
         
         selectedCharacterController = Substitute.For<ICharacterController>();
         targetCharacterController = Substitute.For<ICharacterController>();
@@ -42,17 +37,19 @@ public class AbilitySelectionControllerTests
         selectedTileController.OccupantCharacter.Returns(selectedCharacterController);
         
         targetTileController = Substitute.For<IHexTileController>();
-        targetTileController.OccupantCharacter.Returns(targetCharacterController);
         targetTileController.IsEnabled.Returns(true);
         targetTileController.IsOccupied().Returns(false);
 
         inputParameters.TargetTile.Returns(targetTileController);
 
         gridSelectionController.IsSelectedTile(targetTileController).Returns(false);
-        
-        sut.GridSelectionController = gridSelectionController;
-        sut.GameManager = gameManager;
-        sut.InputParameters = inputParameters;
+
+        sut = new AbilitySelectionController
+        {
+            GridSelectionController = gridSelectionController,
+            GameManager = gameManager,
+            InputParameters = inputParameters
+        };
     }
 
     [Test]
@@ -141,6 +138,7 @@ public class AbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
         targetTileController.IsOccupied().Returns(true);
+        targetTileController.OccupantCharacter.Returns(targetCharacterController);
 
         sut.Update();
 
@@ -169,6 +167,7 @@ public class AbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
         targetTileController.IsOccupied().Returns(true);
+        targetTileController.OccupantCharacter.Returns(targetCharacterController);
 
         sut.Update();
 
