@@ -1,41 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class HUDController : IHUDController
 {
-    public IStatPanel SelectedStatPanel { get; set; }
-    public IPlayerPanel SelectedPlayerPanel { get; set; }
+    public IStatPanelController SelectedStatPanel { protected get; set; }
+    public IPlayerPanel SelectedPlayerPanel { protected get; set; }
 
-    public IStatPanel TargetStatPanel { get; set; }
-    public IPlayerPanel TargetPlayerPanel { get; set; }
+    public IStatPanelController TargetStatPanel { protected get; set; }
+    public IPlayerPanel TargetPlayerPanel { protected get; set; }
 
     public void ClearSelectedHUD()
     {
-        SelectedStatPanel.Controller.DisableStatDisplays();
+        SelectedStatPanel.DisableStatDisplays();
         SelectedPlayerPanel.ClearPlayerName();
     }
 
-    public void UpdateSelectedHUD(ICharacter character)
+    public void UpdateSelectedHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName)
     {
-        SelectedStatPanel.Controller.EnableStatDisplays();
-        SelectedStatPanel.Controller.SetCharacter(character);
-        SelectedStatPanel.Controller.UpdateStatNames();
-        SelectedStatPanel.Controller.UpdateStatValues();
-        SelectedPlayerPanel.SetPlayerName($"Player {character.Controller.OwnedByPlayer + 1}");
+        SelectedStatPanel.EnableStatDisplays();
+        SelectedStatPanel.StatNames = statNames;
+        SelectedStatPanel.CharacterStats = characterStats;
+        SelectedStatPanel.UpdateStatNames();
+        SelectedStatPanel.UpdateStatValues();
+        SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
     }
 
     public void ClearTargetHUD()
     {
-        TargetStatPanel.Controller.DisableStatDisplays();
+        TargetStatPanel.DisableStatDisplays();
         TargetPlayerPanel.ClearPlayerName();
     }
 
-    public void UpdateTargetHUD(ICharacter character)
+    public void UpdateTargetHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName)
     {
-        TargetStatPanel.Controller.EnableStatDisplays();
-        TargetStatPanel.Controller.SetCharacter(character);
-        TargetStatPanel.Controller.UpdateStatNames();
-        TargetStatPanel.Controller.UpdateStatValues();
-        TargetPlayerPanel.SetPlayerName($"Player {character.Controller.OwnedByPlayer + 1}");
+        TargetStatPanel.EnableStatDisplays();
+        TargetStatPanel.StatNames = statNames;
+        TargetStatPanel.CharacterStats = characterStats;
+        TargetStatPanel.UpdateStatNames();
+        TargetStatPanel.UpdateStatValues();
+        TargetPlayerPanel.SetPlayerName($"Player {playerName}");
     }
 }

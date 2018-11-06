@@ -2,18 +2,32 @@
 
 public interface ICharacterController
 {
-    CharacterStatNameSet CharacterStatNameSet { get; }
-    List<ICharacterStat> CharacterStats { get; }
-    ITurnController TurnController { get; set; }
-    IHexTile OccupiedTile { get; set; }
-    int OwnedByPlayer { get; }
-    List<IAbility> Abilities { get; }
-    void Damage(float damage);
-    int MovesRemaining { get; set; }
-    int AbilitiesRemaining { get; set; }
+    ICharacter Character { set; }
+    IHexTileController OccupiedTile { set; }
+    ITurnController TurnController { set; }
+    IHUDController HUDController { set; }
 
-    void ExecuteAbility(int abilityNumber, ICharacter targetCharacter);
-    void ExecuteMove(IHexTile targetTile);
+    List<string> StatNames { set; }
+    List<ICharacterStat> CharacterStats { set; }
+    List<IAbility> Abilities { set; }
+
+    int MovesRemaining { set; }
+    int AbilitiesRemaining { set; }
+    string OwnedByPlayer { set; }    
+
+    void Select();
+    void Deselect();
+    void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter);
+    void ExecuteMove(IHexTileController targetTile);
     void Refresh();
     float GetInitiative();
+    void Damage(float damage);
+
+    void UpdateSelectedHUD();
+    void ClearSelectedHUD();
+    void UpdateTargetHUD();
+    void ClearTargetHUD();
+
+    bool CanMove();
+    bool CanUseAbility();
 }

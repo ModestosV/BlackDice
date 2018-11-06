@@ -1,34 +1,37 @@
-﻿public class SelectionController : InputController, ISelectionController
+﻿public class AbilitySelectionController : InputController, IAbilitySelectionController
 {
     public IGridSelectionController GridSelectionController { protected get; set; }
-    public ITurnController TurnController { protected get; set; }
+    public IGameManager GameManager { protected get; set; }
+
+    private int activeAbilityNumber;
+    
+    private void SetActiveAbility()
+    {
+        if (!(InputParameters.GetAbilityNumber() > -1)) return;
+
+        activeAbilityNumber = InputParameters.GetAbilityNumber();
+    }
 
     public override void Update()
     {
         if (DebounceUpdate())
             return;
 
+        SetActiveAbility();
+        
         GridSelectionController.BlurAll();
         GridSelectionController.DehighlightAll();
 
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
         {
-            GridSelectionController.DeselectAll();
+            GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
-        }
-
-        // Tab button pressed
-        if (InputParameters.IsKeyTabDown)
-        {
-            GridSelectionController.DeselectAll();
-            TurnController.SelectActiveCharacter();
         }
 
         // Clicked off grid
         if (!InputParameters.IsMouseOverGrid && InputParameters.IsLeftClickDown)
         {
-            GridSelectionController.DeselectAll();
             return;
         }
 
@@ -43,9 +46,8 @@
         bool tileIsEnabled = InputParameters.TargetTile.IsEnabled;
 
         // Clicked on disabled tile
-        if (!tileIsEnabled && InputParameters.IsLeftClickDown)
+        if (!tileIsEnabled && InputParameters.IsLeftClickDown) 
         {
-            GridSelectionController.DeselectAll();
             return;
         }
 
@@ -56,42 +58,38 @@
         }
 
         // Invariant: Target tile is enabled
+        
+        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController targetCharacter = InputParameters.TargetTile.OccupantCharacter;
 
         bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
         bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
 
-        // Clicked unoccupied other tile
-        if (InputParameters.IsLeftClickDown && !tileIsOccupied && !tileIsCurrentSelectedTile)
+        // Clicked unoccupied tile
+        if (InputParameters.IsLeftClickDown && !tileIsOccupied )
         {
-            GridSelectionController.DeselectAll();
-            InputParameters.TargetTile.Select();
-            return;
-        }
-
-        // Clicked selected tile 
-        if (InputParameters.IsLeftClickDown && tileIsCurrentSelectedTile)
-        {
-            InputParameters.TargetTile.Deselect();
             return;
         }
 
         // Clicked occupied other tile
-        if (InputParameters.IsLeftClickDown)
+        if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile)
         {
-            GridSelectionController.DeselectAll();
-            InputParameters.TargetTile.Select();
+            selectedCharacter.ExecuteAbility(activeAbilityNumber, targetCharacter);
+            GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
+
+        // Invariant: Left-click is not down
 
         // Hovered over unoccupied tile
         if (!tileIsOccupied)
         {
-            InputParameters.TargetTile.Hover();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
-        // Hover over occupied tile
-        InputParameters.TargetTile.Hover();
+        // Hovered over occupied tile
+        InputParameters.TargetTile.Highlight();
         return;
     }
 }

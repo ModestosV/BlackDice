@@ -12,7 +12,7 @@
     bool IsRightClickDown { get; set; }
 
     bool IsMouseOverGrid { get; set; }
-    IHexTile TargetTile { get; set; }
+    IHexTileController TargetTile { get; set; }
 
     int GetAbilityNumber();
 }

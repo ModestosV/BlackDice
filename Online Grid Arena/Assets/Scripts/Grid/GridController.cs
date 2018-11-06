@@ -1,47 +1,39 @@
 ﻿using System.Collections.Generic;
 using System;
 
-[Serializable]
-public class GridController
+public class GridController : IGridController
 {
-    public int gridWidth;
+    public int GridWidth { protected get; set; }
 
-    public IGridTraversalController GridTraversalController { get; set; }
-    public IGridSelectionController GridSelectionController { get; set; }
-
-    private const int DEFAULT_GRID_WIDTH = 19;
-
-    public void Init(IGridSelectionController selectionController, IGridTraversalController traversalController)
+    private Dictionary<Tuple<int, int, int>, IHexTileController> GridMap { get; set; }
+    
+    public void GenerateGridMap(List<IHexTileController> hexTiles)
     {
-        GridSelectionController = selectionController;
-        GridSelectionController.Init();
-        GridTraversalController = traversalController;
-        GridTraversalController.Init();
-        if (gridWidth == 0)
-            gridWidth = DEFAULT_GRID_WIDTH;
-    }
+        GridMap = new Dictionary<Tuple<int, int, int>, IHexTileController>();
 
-    public void SetHexTiles(IHexTile[] hexTiles)
-    {
-        Dictionary<Tuple<int, int, int>, IHexTile> hexTilesMap = new Dictionary<Tuple<int, int, int>, IHexTile>();
-
-        for (int i = 0; i < hexTiles.Length; i++)
+        for (int i = 0; i < hexTiles.Count; i++)
         {
-            IHexTile hexTile = hexTiles[i];
-            int col = i % gridWidth;
-            int row = i / gridWidth;
+            IHexTileController hexTile = hexTiles[i];
+            int col = i % GridWidth;
+            int row = i / GridWidth;
 
             int cubeX = col - row / 2;
             int cubeY = -(col + (row + 1) / 2);
             int cubeZ = row;
 
-            hexTile.Controller.X = cubeX;
-            hexTile.Controller.Y = cubeY;
-            hexTile.Controller.Z = cubeZ;
+            Tuple<int, int, int> coordinates = new Tuple<int, int, int>(cubeX, cubeY, cubeZ);
 
-            hexTilesMap.Add(new Tuple<int, int, int>(cubeX, cubeY, cubeZ), hexTile);
+            hexTile.Coordinates = coordinates;
+            hexTile.GridController = this;
+
+            GridMap.Add(coordinates, hexTile);
         }
+    }
 
-        GridTraversalController.SetHexTiles(hexTilesMap);
+    public IHexTileController GetTile(Tuple<int, int, int> coordinates)
+    {
+        IHexTileController tile;
+        GridMap.TryGetValue(coordinates, out tile);
+        return tile;
     }
 }

@@ -1,49 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-[Serializable]
 public class CharacterController : ICharacterController
 {
-    public int ownedByPlayer;
-    public IHexTile OccupiedTile { get; set; }
-    public ICharacter Character { get; set; }
-    public ITurnController TurnController { get; set; }
-    public int MovesRemaining { get; set; }
-    public int AbilitiesRemaining { get; set; }
+    public ICharacter Character { protected get; set; }
+    public IHexTileController OccupiedTile { protected get; set; }
+    public ITurnController TurnController { protected get; set; }
+    public IHUDController HUDController { protected get; set; }
 
-    public CharacterStatNameSet CharacterStatNameSet { get; set; }
+    public List<string> StatNames { protected get; set; }
+    public List<ICharacterStat> CharacterStats { protected get; set; }
+    public List<IAbility> Abilities { protected get; set; }
 
-    public List<ICharacterStat> CharacterStats { get; set; }
-    public List<IAbility> Abilities { get; set; }
+    public int MovesRemaining { protected get; set; }
+    public int AbilitiesRemaining { protected get; set; }
+    public string OwnedByPlayer { protected get; set; }
 
-    public int OwnedByPlayer { get { return ownedByPlayer; } }
+    public void Select()
+    {
+        OccupiedTile.Select();
+    }
 
-    public void ExecuteMove(IHexTile targetTile)
+    public void Deselect()
+    {
+        OccupiedTile.Deselect();
+    }
+
+    public void UpdateSelectedHUD()
+    {
+        HUDController.UpdateSelectedHUD(StatNames, CharacterStats, OwnedByPlayer);
+    }
+
+    public void ClearSelectedHUD()
+    {
+        HUDController.ClearSelectedHUD();
+    }
+
+    public void UpdateTargetHUD()
+    {
+        HUDController.UpdateTargetHUD(StatNames, CharacterStats, OwnedByPlayer);
+    }
+
+    public void ClearTargetHUD()
+    {
+        HUDController.ClearTargetHUD();
+    }
+
+    public void ExecuteMove(IHexTileController targetTile)
     {
         if (!(MovesRemaining > 0)) return;
 
-        IHexTile currentTile = Character.Controller.OccupiedTile;
-        currentTile.Controller.Deselect();
-        currentTile.Controller.OccupantCharacter = null;
+        OccupiedTile.Deselect();
+        OccupiedTile.OccupantCharacter = null;
 
-        Character.MoveToTile(targetTile);
-        Character.Controller.OccupiedTile = targetTile;
+        Character.MoveToTile(targetTile.HexTile);
+        OccupiedTile = targetTile;
 
-        targetTile.Controller.OccupantCharacter = Character;
-        targetTile.Controller.Select();
+        targetTile.OccupantCharacter = this;
+        targetTile.Select();
         MovesRemaining--;
         CheckExhausted();
     }
 
-    public void ExecuteAbility(int abilityNumber, ICharacter targetCharacter)
+    public void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter)
     {
         if (!(AbilitiesRemaining > 0)) return;
+
+        if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
         IAbility ability = Abilities[abilityNumber];
 
         if (ability.Type == AbilityType.ATTACK)
         {
-            targetCharacter.Controller.Damage(ability.Values[0] * CharacterStats[1].Value);
+            targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
         AbilitiesRemaining--;
@@ -68,11 +96,22 @@ public class CharacterController : ICharacterController
 
     public float GetInitiative()
     {
+        // TODO: Determine how initiative is calculated.
         return 1.0f;
     }
     
     public void Damage(float damage)
     {
         CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
+    }
+
+    public bool CanMove()
+    {
+        return MovesRemaining > 0;
+    }
+
+    public bool CanUseAbility()
+    {
+        return AbilitiesRemaining > 0;
     }
 }

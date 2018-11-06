@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using System;
 
-[Serializable]
 public class MovementSelectionController : InputController, IMovementSelectionController
 {
-    public IHUDController HUDController { get; set; }
-    public IGridSelectionController GridSelectionController { get; set; }
-    public IGridTraversalController GridTraversalController { get; set; }
-    public IGameManager GameManager { get; set; }
+    public IGridSelectionController GridSelectionController { protected get; set; }
+    public IGameManager GameManager { protected get; set; }
 
     public override void Update()
     {
@@ -15,7 +11,7 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
             return;
 
         GridSelectionController.BlurAll();
-        GridSelectionController.ScrubPathAll();
+        GridSelectionController.DehighlightAll();
 
         // Escape buton pressed
         if (InputParameters.IsKeyEscapeDown)
@@ -38,7 +34,7 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
 
         // Invariant: Mouse is over grid
 
-        bool tileIsEnabled = InputParameters.TargetTile.Controller.IsEnabled;
+        bool tileIsEnabled = InputParameters.TargetTile.IsEnabled;
 
         // Clicked on disabled tile
         if (!tileIsEnabled && InputParameters.IsLeftClickDown)
@@ -54,20 +50,19 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
 
         // Invariant: Target tile is enabled
 
-        IHexTile selectedTile = GridSelectionController.SelectedTiles[0];
-        ICharacter selectedCharacter = selectedTile.Controller.OccupantCharacter;
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
-        bool tileIsOccupied = InputParameters.TargetTile.Controller.OccupantCharacter != null;
-        bool tileIsCurrentSelectedTile = GridSelectionController.SelectedTiles.Count > 0
-            && selectedTile == InputParameters.TargetTile;
+        bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
+        bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
 
-        List<IHexTile> path = GridTraversalController.GetPath(selectedTile, InputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(InputParameters.TargetTile);
         bool isReachable = path.Count > 0;
 
         // Clicked on unreachable tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable)
         {
-            InputParameters.TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
@@ -75,7 +70,7 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         // Clicked reachable unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied)
         {
-            selectedCharacter.Controller.ExecuteMove(InputParameters.TargetTile);
+            selectedCharacter.ExecuteMove(InputParameters.TargetTile);
             GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
@@ -83,21 +78,21 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         // Clicked reachable occupied tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile)
         {
-            InputParameters.TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
         // Clicked current selected tile
         if (InputParameters.IsLeftClickDown && tileIsCurrentSelectedTile)
         {
-            InputParameters.TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
         // Hovered over current selected tile
         if (tileIsCurrentSelectedTile)
         {
-            InputParameters.TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
@@ -106,19 +101,22 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
         // Hovered over unreachable tile
         if (!isReachable)
         {
-            InputParameters.TargetTile.Controller.HoverError();
+            InputParameters.TargetTile.HoverError();
             return;
         }
 
         // Hovered over reachable unoccupied tile
         if (!tileIsOccupied)
         {
-            GridSelectionController.HighlightPath(path);
+            foreach (IHexTileController hexTile in path)
+            {
+                hexTile.Highlight();
+            }
             return;
         }
 
         // Hovered over reachable occupied tile
-        InputParameters.TargetTile.Controller.HoverError();
+        InputParameters.TargetTile.HoverError();
         return;
     }
 }

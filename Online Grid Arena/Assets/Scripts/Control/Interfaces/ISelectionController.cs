@@ -1,8 +1,7 @@
 ﻿public interface ISelectionController
 {
-    IHUDController HUDController { get; set; }
-    IGridSelectionController GridSelectionController { get; set; }
-    ITurnController TurnController { get; set; }
+    IGridSelectionController GridSelectionController { set; }
+    ITurnController TurnController { set; }
 
     void Update();
 }
