@@ -13,6 +13,8 @@ public class Volume : MonoBehaviour
 	
 	void Update()
     {
+        if (audioSource == null) return;
+
         audioSource.volume = mainVolume;
     }
 

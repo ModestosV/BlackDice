@@ -12,6 +12,10 @@ public class MainMenuButton : MonoBehaviour {
 	
 	public void LoadMainMenu()
     {
+        AudioSource music = FindObjectOfType<AudioSource>();
+        if (music != null)
+            Destroy(music);
+
         SceneManager.LoadScene(0);
     }
 }

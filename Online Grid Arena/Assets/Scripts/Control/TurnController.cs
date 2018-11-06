@@ -68,19 +68,8 @@ public class TurnController : ITurnController
 
     public void CheckWinCondition()
     {
-        List<ICharacterController> livingCharacters = new List<ICharacterController>();
 
-        foreach (ICharacterController character in RefreshedCharacters)
-        {
-            livingCharacters.Add(character);
-        }
-        foreach (ICharacterController character in ExhaustedCharacters)
-        {
-            livingCharacters.Add(character);
-        }
-        if (ActiveCharacter != null)
-            livingCharacters.Add(ActiveCharacter);
-
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
         List<string> livingPlayers = new List<string>();
 
         foreach(ICharacterController character in livingCharacters)
@@ -103,5 +92,37 @@ public class TurnController : ITurnController
             EndMatchPanel.Hide();
             EndMatchPanel.SetWinnerText("Draw!");
         }
+    }
+
+    public void Surrender()
+    {
+        string activePlayerName = ActiveCharacter.OwnedByPlayer;
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        foreach(ICharacterController character in livingCharacters)
+        {
+            if (character.OwnedByPlayer == activePlayerName)
+            {
+                character.Die();
+            }
+        }
+        CheckWinCondition();
+    }
+
+    private List<ICharacterController> GetLivingCharacters()
+    {
+        List<ICharacterController> livingCharacters = new List<ICharacterController>();
+
+        foreach (ICharacterController character in RefreshedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        foreach (ICharacterController character in ExhaustedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        if (ActiveCharacter != null)
+            livingCharacters.Add(ActiveCharacter);
+
+        return livingCharacters;
     }
 }

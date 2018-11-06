@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour, IGameManager
             character.TurnController = turnController;
             turnController.AddCharacter(character);
         }
+
+        // Initialize Menu
+        FindObjectOfType<SurrenderButton>().TurnController = turnController;
         
         // Initialize HUD
         hudController = new HUDController();
