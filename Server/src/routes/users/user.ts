@@ -17,6 +17,8 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       global.console.log("register request going through");
+      global.console.log(req);
+      global.console.log(req.body);
 
       const passHash = req.body.password;
       const email = req.body.email;

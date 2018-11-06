@@ -17,6 +17,8 @@ const User = mongoose_1.default.model("User", User_1.default);
 router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
     try {
         global.console.log("register request going through");
+        global.console.log(req);
+        global.console.log(req.body);
         const passHash = req.body.password;
         const email = req.body.email;
         if (passHash && email) {

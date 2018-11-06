@@ -48,7 +48,7 @@ public class RegistrationPanel : MonoBehaviour
         }
 
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
+        MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
     }
 
     public void SetStatus(string statusText)
@@ -73,39 +73,19 @@ public class RegistrationPanel : MonoBehaviour
 
     private bool ValidateEmail(string email)
     {
-        return email.Contains("@");
+        return true;
     }
 
     private bool ValidatePassword(string password)
     {
-        return password.Length > 8; // There is an invisible unicode charater in the text fields of TextMesh Pro objects that I can't seem to get rid of.
+        return true; // There is an invisible unicode charater in the text fields of TextMesh Pro objects that I can't seem to get rid of.
     }
 
-    private IEnumerator MakeRegistrationWebRequest(string email, string password)
+    private void MakeRegistrationWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/register";
-        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
-        {
-            yield return www.SendWebRequest();
-
-            var response = www.downloadHandler.text;
-            Debug.Log($"Logout response: {response}");
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                SetStatus($"{Strings.REGISTRATION_SUCCESS_MESSAGE}");
-                ClearEmail();
-                ClearPassword();
-            }
-            loadingCircle.SetActive(false);
-        }
+        UserNetworkManager unm = new UserNetworkManager();
+        StartCoroutine(unm.CreateUser(new UserDto(email, "defaultUserName", password)));
     }
 
     private IEnumerator FlickerStatus()

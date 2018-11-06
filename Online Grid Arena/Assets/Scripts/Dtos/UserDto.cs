@@ -12,10 +12,10 @@ public class UserDto
 
     public UserDto
     (
-        DateTime CreatedAt,
         string Email,
         string Username,
         string PasswordHash,
+        DateTime CreatedAt = new DateTime(),
         bool LoggedIn = false,
         string Surname = "",
         string GivenName = ""
