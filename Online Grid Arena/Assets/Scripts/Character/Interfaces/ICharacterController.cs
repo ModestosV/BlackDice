@@ -11,6 +11,8 @@ public interface ICharacterController
     List<ICharacterStat> CharacterStats { set; }
     List<IAbility> Abilities { set; }
 
+    int MovesRemaining { set; }
+    int AbilitiesRemaining { set; }
     string OwnedByPlayer { set; }    
 
     void Select();
@@ -28,7 +30,4 @@ public interface ICharacterController
 
     bool CanMove();
     bool CanUseAbility();
-
-    int MovesRemaining { set; }
-    int AbilitiesRemaining { set; }
 }

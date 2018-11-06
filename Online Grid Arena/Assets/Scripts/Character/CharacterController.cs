@@ -11,11 +11,10 @@ public class CharacterController : ICharacterController
     public List<ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
 
-    public string OwnedByPlayer { protected get; set; }
-
     public int MovesRemaining { protected get; set; }
     public int AbilitiesRemaining { protected get; set; }
-    
+    public string OwnedByPlayer { protected get; set; }
+
     public void Select()
     {
         OccupiedTile.Select();
