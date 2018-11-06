@@ -6,40 +6,26 @@ public class GridSelectionControllerTests
 {
     GridSelectionController sut;
 
-    IHexTile hexTile1;
-    IHexTile hexTile2;
+    IHexTileController hexTile1;
+    IHexTileController hexTile2;
 
-    IHexTileController controller1;
-    IHexTileController controller2;
+    List<IHexTileController> selectedTilesList;
+    List<IHexTileController> hoveredTilesList;
+    List<IHexTileController> highlightedTilesList;
 
-    List<IHexTile> selectedTilesList;
-    List<IHexTile> hoveredTilesList;
-    List<IHexTile> pathTilesList;
-    List<IHexTile> pathTilesToAddList;
+    ICharacterController character;
 
     [SetUp]
     public void Init()
     {
         sut = new GridSelectionController();
-        sut.Init();
 
-        hexTile1 = Substitute.For<IHexTile>();
-        hexTile2 = Substitute.For<IHexTile>();
+        hexTile1 = Substitute.For<IHexTileController>();
+        hexTile2 = Substitute.For<IHexTileController>();
 
-        controller1 = Substitute.For<IHexTileController>();
-        controller2 = Substitute.For<IHexTileController>();
+        character = Substitute.For<ICharacterController>();
 
-        hexTile1.Controller.Returns(controller1);
-        hexTile2.Controller.Returns(controller2);
-
-        selectedTilesList = new List<IHexTile>();
-        hoveredTilesList = new List<IHexTile>();
-        pathTilesList = new List<IHexTile>();
-        pathTilesToAddList = new List<IHexTile>();
-
-        sut.SelectedTiles = selectedTilesList;
-        sut.HoveredTiles = hoveredTilesList;
-        sut.PathTiles = pathTilesList;
+        hexTile1.OccupantCharacter.Returns(character);
     }
 
     [Test]
@@ -70,59 +56,74 @@ public class GridSelectionControllerTests
     public void Add_and_remove_path_tiles_manipulates_path_tile_list_correctly()
     {
         // Add both tiles, remove first, only second is left
-        sut.AddPathTile(hexTile1);
-        sut.AddPathTile(hexTile2);
-        sut.RemovePathTile(hexTile1);
+        sut.AddHighlightedTile(hexTile1);
+        sut.AddHighlightedTile(hexTile2);
+        sut.RemoveHighlightedTile(hexTile1);
 
-        Assert.AreEqual(1, pathTilesList.Count);
-        Assert.AreEqual(hexTile2, pathTilesList[0]);
+        Assert.AreEqual(1, highlightedTilesList.Count);
+        Assert.AreEqual(hexTile2, highlightedTilesList[0]);
     }
 
     [Test]
     public void Deselect_all_deselects_all_selected_tiles()
     {
-        selectedTilesList.Add(hexTile1);
-        selectedTilesList.Add(hexTile2);
+        sut.AddSelectedTile(hexTile1);
+        sut.AddSelectedTile(hexTile2);
 
         sut.DeselectAll();
 
-        controller1.Received(1).Deselect();
-        controller2.Received(1).Deselect();
+        hexTile1.Received(1).Deselect();
+        hexTile2.Received(1).Deselect();
     }
 
     [Test]
     public void Blur_all_blurs_all_hovered_tiles()
     {
-        hoveredTilesList.Add(hexTile1);
-        hoveredTilesList.Add(hexTile2);
+        sut.AddHoveredTile(hexTile1);
+        sut.AddHoveredTile(hexTile2);
 
         sut.BlurAll();
 
-        controller1.Received(1).Blur();
-        controller2.Received(1).Blur();
+        hexTile1.Received(1).Blur();
+        hexTile2.Received(1).Blur();
     }
 
     [Test]
-    public void Scrub_path_all_scrubs_path_on_all_path_tiles()
+    public void Dehighlight_all_dehighlights_all_highlighted_tiles()
     {
-        pathTilesList.Add(hexTile1);
-        pathTilesList.Add(hexTile2);
+        sut.AddHighlightedTile(hexTile1);
+        sut.AddHighlightedTile(hexTile2);
 
-        sut.ScrubPathAll();
+        sut.DehighlightAll();
 
-        controller1.Received(1).Dehighlight();
-        controller2.Received(1).Dehighlight();
+        hexTile1.Received(1).Dehighlight();
+        hexTile2.Received(1).Dehighlight();
     }
 
     [Test]
-    public void Highlight_path_marks_path_on_all_path_tiles()
+    public void Is_selected_tile_matches_selected_tile_correctly()
     {
-        pathTilesToAddList.Add(hexTile1);
-        pathTilesToAddList.Add(hexTile2);
+        sut.AddSelectedTile(hexTile1);
 
-        sut.HighlightPath(pathTilesToAddList);
+        Assert.IsTrue(sut.IsSelectedTile(hexTile1));
+        Assert.IsFalse(sut.IsSelectedTile(hexTile2));
+    }
+    
+    [Test]
+    public void Get_selected_tile_returns_first_selected_tile()
+    {
+        sut.AddSelectedTile(hexTile1);
+        sut.AddSelectedTile(hexTile2);
 
-        controller1.Received(1).MarkPath();
-        controller2.Received(1).MarkPath();
+        Assert.AreEqual(hexTile1, sut.GetSelectedTile());
+    }
+
+    [Test]
+    public void Get_selected_character_returns_occupant_character_in_first_selected_tile()
+    {
+        sut.AddSelectedTile(hexTile1);
+        sut.AddSelectedTile(hexTile2);
+
+        Assert.AreEqual(character, sut.GetSelectedCharacter());
     }
 }
