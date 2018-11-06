@@ -1,6 +1,5 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 public class AbilitySelectionControllerTests
 {
@@ -9,13 +8,13 @@ public class AbilitySelectionControllerTests
     IGridSelectionController gridSelectionController;
     IGameManager gameManager;
     
-    ICharacterController selectedCharacterController;
-    ICharacterController targetCharacterController;
+    ICharacterController selectedCharacter;
+    ICharacterController targetCharacter;
     
     IInputParameters inputParameters;
 
-    IHexTileController selectedTileController;
-    IHexTileController targetTileController;
+    IHexTileController selectedTile;
+    IHexTileController targetTile;
 
     const int ACTIVE_ABILITY_NUMBER = 0;
 
@@ -25,24 +24,24 @@ public class AbilitySelectionControllerTests
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gameManager = Substitute.For<IGameManager>();
         
-        selectedCharacterController = Substitute.For<ICharacterController>();
-        targetCharacterController = Substitute.For<ICharacterController>();
+        selectedCharacter = Substitute.For<ICharacterController>();
+        targetCharacter = Substitute.For<ICharacterController>();
 
-        gridSelectionController.GetSelectedCharacter().Returns(selectedCharacterController);
+        gridSelectionController.GetSelectedCharacter().Returns(selectedCharacter);
 
         inputParameters = Substitute.For<IInputParameters>();
         inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
         
-        selectedTileController = Substitute.For<IHexTileController>();
-        selectedTileController.OccupantCharacter.Returns(selectedCharacterController);
+        selectedTile = Substitute.For<IHexTileController>();
+        selectedTile.OccupantCharacter.Returns(selectedCharacter);
         
-        targetTileController = Substitute.For<IHexTileController>();
-        targetTileController.IsEnabled.Returns(true);
-        targetTileController.IsOccupied().Returns(false);
+        targetTile = Substitute.For<IHexTileController>();
+        targetTile.IsEnabled.Returns(true);
+        targetTile.IsOccupied().Returns(false);
 
-        inputParameters.TargetTile.Returns(targetTileController);
+        inputParameters.TargetTile.Returns(targetTile);
 
-        gridSelectionController.IsSelectedTile(targetTileController).Returns(false);
+        gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
         sut = new AbilitySelectionController
         {
@@ -96,7 +95,7 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
-        targetTileController.IsEnabled.Returns(false);
+        targetTile.IsEnabled.Returns(false);
 
         sut.Update();
 
@@ -110,7 +109,7 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        targetTileController.IsEnabled.Returns(false);
+        targetTile.IsEnabled.Returns(false);
 
         sut.Update();
 
@@ -137,14 +136,14 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
-        targetTileController.IsOccupied().Returns(true);
-        targetTileController.OccupantCharacter.Returns(targetCharacterController);
+        targetTile.IsOccupied().Returns(true);
+        targetTile.OccupantCharacter.Returns(targetCharacter);
 
         sut.Update();
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectedCharacterController.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacterController);
+        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacter);
         gameManager.Received(1).SelectionMode = SelectionMode.SELECTION;
     }
 
@@ -158,7 +157,7 @@ public class AbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTileController.Received(1).HoverError();
+        targetTile.Received(1).HoverError();
     }
 
     [Test]
@@ -166,13 +165,13 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        targetTileController.IsOccupied().Returns(true);
-        targetTileController.OccupantCharacter.Returns(targetCharacterController);
+        targetTile.IsOccupied().Returns(true);
+        targetTile.OccupantCharacter.Returns(targetCharacter);
 
         sut.Update();
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTileController.Received(1).Highlight();
+        targetTile.Received(1).Highlight();
     }
 }
