@@ -12,16 +12,11 @@ public class AbilitySelectionControllerTests
     
     ICharacterController selectedCharacterController;
     ICharacterController targetCharacterController;
-    ICharacter nullCharacter = null;
     
     IInputParameters inputParameters;
 
     IHexTileController selectedTileController;
     IHexTileController targetTileController;
-
-    List<IHexTile> selectedTiles;
-    List<IAbility> abilitiesList;
-    IAbility ability;
 
     const int ACTIVE_ABILITY_NUMBER = 0;
 

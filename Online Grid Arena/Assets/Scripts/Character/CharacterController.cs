@@ -13,8 +13,8 @@ public class CharacterController : ICharacterController
 
     public string OwnedByPlayer { protected get; set; }
 
-    private int MovesRemaining { get; set; }
-    private int AbilitiesRemaining { get; set; }
+    public int MovesRemaining { protected get; set; }
+    public int AbilitiesRemaining { protected get; set; }
     
     public void Select()
     {

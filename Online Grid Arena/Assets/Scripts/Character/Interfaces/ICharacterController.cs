@@ -28,4 +28,7 @@ public interface ICharacterController
 
     bool CanMove();
     bool CanUseAbility();
+
+    int MovesRemaining { set; }
+    int AbilitiesRemaining { set; }
 }
