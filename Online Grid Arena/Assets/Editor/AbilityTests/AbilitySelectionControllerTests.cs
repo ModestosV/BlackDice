@@ -6,27 +6,17 @@ public class AbilitySelectionControllerTests
 {
     AbilitySelectionController sut;
 
-    IHUDController hudController;
-    IStatPanel selectedStatPanel;
-    IStatPanelController selectedStatPanelController;
-    IStatPanel targetStatPanel;
-    IStatPanelController targetStatPanelController;
 
     IGridSelectionController gridSelectionController;
-    IGridTraversalController gridTraversalController;
     IGameManager gameManager;
-
-    ICharacter selectedCharacter;
+    
     ICharacterController selectedCharacterController;
-    ICharacter targetCharacter;
     ICharacterController targetCharacterController;
     ICharacter nullCharacter = null;
     
     IInputParameters inputParameters;
 
-    IHexTile selectedTile;
     IHexTileController selectedTileController;
-    IHexTile targetTile;
     IHexTileController targetTileController;
 
     List<IHexTile> selectedTiles;
@@ -40,53 +30,32 @@ public class AbilitySelectionControllerTests
     {
         sut = new AbilitySelectionController();
         
-        hudController = Substitute.For<IHUDController>();
-        selectedStatPanel = Substitute.For<IStatPanel>();
-        selectedStatPanelController = Substitute.For<IStatPanelController>();
-        selectedStatPanel.Controller.Returns(selectedStatPanelController);
-        targetStatPanel = Substitute.For<IStatPanel>();
-        targetStatPanelController = Substitute.For<IStatPanelController>();
-        targetStatPanel.Controller.Returns(targetStatPanelController);
-        hudController.SelectedStatPanel.Returns(selectedStatPanel);
-        hudController.TargetStatPanel.Returns(targetStatPanel);
 
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        gridTraversalController = Substitute.For<IGridTraversalController>();
         gameManager = Substitute.For<IGameManager>();
 
-        selectedCharacter = Substitute.For<ICharacter>();
+        
         selectedCharacterController = Substitute.For<ICharacterController>();
-        selectedCharacter.Controller.Returns(selectedCharacterController);
-        targetCharacter = Substitute.For<ICharacter>();
         targetCharacterController = Substitute.For<ICharacterController>();
-        targetCharacter.Controller.Returns(targetCharacterController);
+
+        gridSelectionController.GetSelectedCharacter().Returns(selectedCharacterController);
 
         inputParameters = Substitute.For<IInputParameters>();
         inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
-
-        selectedTile = Substitute.For<IHexTile>();
+        
         selectedTileController = Substitute.For<IHexTileController>();
-        selectedTile.Controller.Returns(selectedTileController);
-        selectedTileController.OccupantCharacter.Returns(selectedCharacter);
-
-        targetTile = Substitute.For<IHexTile>();
+        selectedTileController.OccupantCharacter.Returns(selectedCharacterController);
+        
         targetTileController = Substitute.For<IHexTileController>();
-        targetTile.Controller.Returns(targetTileController);
-        targetTileController.OccupantCharacter.Returns(targetCharacter);
+        targetTileController.OccupantCharacter.Returns(targetCharacterController);
         targetTileController.IsEnabled.Returns(true);
+        targetTileController.IsOccupied().Returns(false);
 
-        inputParameters.TargetTile.Returns(targetTile);
+        inputParameters.TargetTile.Returns(targetTileController);
 
-        selectedTiles = new List<IHexTile>() { selectedTile };
-        gridSelectionController.SelectedTiles.Returns(selectedTiles);
-
-        ability = Substitute.For<IAbility>();
-        abilitiesList = new List<IAbility>() { ability };
-        selectedCharacterController.Abilities.Returns(abilitiesList);
-
-        sut.HUDController = hudController;
+        gridSelectionController.IsSelectedTile(targetTileController).Returns(false);
+        
         sut.GridSelectionController = gridSelectionController;
-        sut.GridTraversalController = gridTraversalController;
         sut.GameManager = gameManager;
         sut.InputParameters = inputParameters;
     }
@@ -99,7 +68,7 @@ public class AbilitySelectionControllerTests
         sut.Update();
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gameManager.Received(1).SelectionMode = SelectionMode.SELECTION;
     }
 
@@ -113,7 +82,7 @@ public class AbilitySelectionControllerTests
         sut.Update();
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
@@ -125,7 +94,7 @@ public class AbilitySelectionControllerTests
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
@@ -139,7 +108,7 @@ public class AbilitySelectionControllerTests
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
@@ -153,7 +122,7 @@ public class AbilitySelectionControllerTests
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
@@ -163,27 +132,26 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
-        targetTileController.OccupantCharacter.Returns(nullCharacter);
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
-    public void Clicking_on_occupied_other_tile_executes_ability_and_updates_hud()
+    public void Clicking_on_occupied_other_tile_executes_ability_and_returns_to_selection_mode()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
+        targetTileController.IsOccupied().Returns(true);
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectedCharacterController.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacter);
-        targetStatPanelController.Received(1).UpdateStatValues();
+        selectedCharacterController.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacterController);
         gameManager.Received(1).SelectionMode = SelectionMode.SELECTION;
     }
 
@@ -192,14 +160,12 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        targetTileController.OccupantCharacter.Returns(nullCharacter);
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         targetTileController.Received(1).HoverError();
-        hudController.Received(1).ClearTargetHUD();
     }
 
     [Test]
@@ -207,12 +173,12 @@ public class AbilitySelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
+        targetTileController.IsOccupied().Returns(true);
 
         sut.Update();
 
-        gridSelectionController.Received(1).ScrubPathAll();
+        gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTileController.Received(1).MarkPath();
-        hudController.Received(1).UpdateTargetHUD(targetCharacter);
+        targetTileController.Received(1).Highlight();
     }
 }
