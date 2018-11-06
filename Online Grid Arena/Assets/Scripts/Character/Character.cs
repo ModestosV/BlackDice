@@ -4,11 +4,12 @@ using System.Linq;
 
 public class Character : MonoBehaviour, ICharacter
 {
-    private CharacterController characterController;
     public List<CharacterStat> stats;
     public List<Ability> abilities;
     public CharacterStatNameSet characterStatNameSet;
     public string playerName;
+
+    private CharacterController characterController;
 
     private void Awake()
     {

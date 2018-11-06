@@ -11,6 +11,8 @@ public enum SelectionMode
 
 public class GameManager : MonoBehaviour, IGameManager
 {
+    public SelectionMode SelectionMode { protected get; set; }
+
     private InputParameters inputParameters;
     private TurnController turnController;
     private HUDController hudController;
@@ -19,7 +21,6 @@ public class GameManager : MonoBehaviour, IGameManager
     private MovementSelectionController movementSelectionController;
     private AbilitySelectionController abilitySelectionController;
 
-    public SelectionMode SelectionMode { protected get; set; }
 
     #region IGameManager implementation
 

@@ -2,8 +2,9 @@
 
 public class HexTile : MonoBehaviour, IHexTile
 {
-    private HexTileController hexTileController;
     public HexTileMaterialSet materials;
+
+    private HexTileController hexTileController;
 
     private void Awake()
     {

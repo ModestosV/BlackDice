@@ -15,6 +15,7 @@ public class CharacterStat : ICharacterStat
 {
     public float baseValue;
     public List<IStatModifier> StatModifiers { get; set; }
+
     protected bool isDirty = true;
     protected float lastBaseValue;
     protected float value;

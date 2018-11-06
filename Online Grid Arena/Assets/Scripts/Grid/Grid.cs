@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Grid : MonoBehaviour, IGrid
 {
     public int gridWidth;
+
     private GridController gridController;
     private GridSelectionController gridSelectionController;
 
