@@ -9,39 +9,35 @@ const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const moment_1 = __importDefault(require("moment"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const User_1 = __importDefault(require("../../models/User"));
 const errors_1 = __importDefault(require("../../utils/errors"));
 const middlewares_1 = require("../../utils/middlewares");
 const router = express_1.default.Router();
-const User = mongoose_1.default.model("User");
-router.post("/register", body_parser_1.default.json, async (req, res, next) => {
+const User = mongoose_1.default.model("User", User_1.default);
+router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
     try {
         global.console.log("register request going through");
         const passHash = req.body.password;
         const email = req.body.email;
         if (passHash && email) {
             const salt = moment_1.default();
-            const finalHash = await bcrypt_1.default.hash(passHash, moment_1.default.toString());
+            const finalHash = passHash;
             const userData = {
                 createdAt: salt,
-                email: { email },
+                email,
                 loggedIn: false,
-                password: finalHash
+                passwordHash: finalHash
             };
-            const userDoc = await User.create(userData);
-            if (userDoc) {
-                return res.json(errors_1.default(200));
-            }
-            else {
-                throw new Error("A database error occured while registering");
-            }
+            User.create(userData);
+            return res.json(errors_1.default(200));
         }
         return res.json(errors_1.default(400));
     }
     catch (err) {
-        return next(err);
+        return next(new Error("A database error occured while registering"));
     }
 }, middlewares_1.errorHandler);
-router.post("/login", body_parser_1.default.json, async (req, res, next) => {
+router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
     try {
         const passHash = req.body.password;
         const email = req.body.email;
@@ -73,7 +69,7 @@ router.post("/login", body_parser_1.default.json, async (req, res, next) => {
         return next(err);
     }
 }, middlewares_1.errorHandler);
-router.post("/logout", body_parser_1.default.json, async (req, res, next) => {
+router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
     try {
         const passHash = req.body.password;
         const email = req.body.email;

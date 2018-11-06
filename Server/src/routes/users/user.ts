@@ -4,15 +4,16 @@ import express, { NextFunction, Request, Response } from "express";
 import _ from "lodash";
 import moment from "moment";
 import mongoose from "mongoose";
+import UserSchema from "../../models/User";
 import getStatus from "../../utils/errors";
 import { errorHandler } from "../../utils/middlewares";
 
 const router = express.Router();
-const User = mongoose.model("User");
+const User = mongoose.model("User", UserSchema);
 
 router.post(
   "/register",
-  bodyParser.json,
+  bodyParser.json(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       global.console.log("register request going through");
@@ -22,26 +23,21 @@ router.post(
 
       if (passHash && email) {
         const salt = moment();
-        const finalHash = await bcrypt.hash(passHash, moment.toString());
+        const finalHash = passHash;
 
         const userData = {
           createdAt: salt,
-          email: { email },
+          email,
           loggedIn: false,
-          password: finalHash
+          passwordHash: finalHash
         };
 
-        const userDoc = await User.create(userData);
-
-        if (userDoc) {
-          return res.json(getStatus(200));
-        } else {
-          throw new Error("A database error occured while registering");
-        }
+        User.create(userData);
+        return res.json(getStatus(200));
       }
       return res.json(getStatus(400));
     } catch (err) {
-      return next(err);
+      return next(new Error("A database error occured while registering"));
     }
   },
   errorHandler
@@ -49,7 +45,7 @@ router.post(
 
 router.post(
   "/login",
-  bodyParser.json,
+  bodyParser.json(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const passHash = req.body.password;
@@ -86,7 +82,7 @@ router.post(
 
 router.post(
   "/logout",
-  bodyParser.json,
+  bodyParser.json(),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const passHash = req.body.password;
