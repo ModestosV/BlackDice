@@ -34,7 +34,10 @@ public class GameManager : MonoBehaviour, IGameManager
     private void Awake()
     {
         // Initialize turn controller
-        turnController = new TurnController();
+        turnController = new TurnController
+        {
+            EndMatchPanel = FindObjectOfType<EndMatchPanel>()
+        };
         List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {

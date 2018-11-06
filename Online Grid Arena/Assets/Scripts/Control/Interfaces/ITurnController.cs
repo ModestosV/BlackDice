@@ -6,6 +6,8 @@ public interface ITurnController
     List<ICharacterController> ExhaustedCharacters { set; }
     ICharacterController ActiveCharacter { set; }
 
+    IEndMatchPanel EndMatchPanel { set; }
+
     void StartNextTurn();
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);

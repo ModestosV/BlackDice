@@ -8,6 +8,8 @@ public class TurnController : ITurnController
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
     public ICharacterController ActiveCharacter { protected get; set; }
 
+    public IEndMatchPanel EndMatchPanel { protected get; set; }
+
     public TurnController()
     {
         RefreshedCharacters = new List<ICharacterController>();
@@ -92,12 +94,14 @@ public class TurnController : ITurnController
         
         if (livingPlayers.Count == 1)
         {
-            Debug.Log($"Player {livingPlayers[0]} wins!");
+            EndMatchPanel.Show();
+            EndMatchPanel.SetWinnerText($"Player {livingPlayers[0]} wins!");
         }
 
         if (livingPlayers.Count == 0)
         {
-            Debug.Log("Draw!");
+            EndMatchPanel.Hide();
+            EndMatchPanel.SetWinnerText("Draw!");
         }
     }
 }
