@@ -68,7 +68,6 @@ public class TurnController : ITurnController
 
     public void CheckWinCondition()
     {
-
         List<ICharacterController> livingCharacters = GetLivingCharacters();
         List<string> livingPlayers = new List<string>();
 
@@ -89,7 +88,7 @@ public class TurnController : ITurnController
 
         if (livingPlayers.Count == 0)
         {
-            EndMatchPanel.Hide();
+            EndMatchPanel.Show();
             EndMatchPanel.SetWinnerText("Draw!");
         }
     }
