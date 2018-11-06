@@ -3,9 +3,9 @@ using System.Linq;
 
 public class TurnController : ITurnController
 {
-    private List<ICharacterController> RefreshedCharacters { get; set; }
-    private List<ICharacterController> ExhaustedCharacters { get; set; }
-    private ICharacterController ActiveCharacter { get; set; }
+    public List<ICharacterController> RefreshedCharacters { protected get; set; }
+    public List<ICharacterController> ExhaustedCharacters { protected get; set; }
+    public ICharacterController ActiveCharacter { protected get; set; }
 
     public TurnController()
     {
@@ -59,6 +59,7 @@ public class TurnController : ITurnController
 
     public void SelectActiveCharacter()
     {
-        ActiveCharacter.Select();
+        if (ActiveCharacter != null)
+            ActiveCharacter.Select();
     }
 }

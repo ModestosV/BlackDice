@@ -10,7 +10,6 @@ public class MovementSelectionControllerTests
     IGameManager gameManager;
 
     ICharacterController selectedCharacter;
-    ICharacterController targetCharacter;
 
     IInputParameters inputParameters;
 
@@ -26,7 +25,6 @@ public class MovementSelectionControllerTests
         gameManager = Substitute.For<IGameManager>();
 
         selectedCharacter = Substitute.For<ICharacterController>();
-        targetCharacter = Substitute.For<ICharacterController>();
 
         gridSelectionController.GetSelectedCharacter().Returns(selectedCharacter);
 

@@ -1,102 +1,69 @@
-﻿//using NSubstitute;
-//using NUnit.Framework;
-//using System.Collections.Generic;
+﻿using NSubstitute;
+using NUnit.Framework;
+using System.Collections.Generic;
 
-//public class TurnControllerTests
-//{
-//    TurnController sut;
+public class TurnControllerTests
+{
+    TurnController sut;
 
-//    ICharacter firstCharacter;
-//    ICharacterController firstCharacterController;
-//    ICharacter secondCharacter;
-//    ICharacterController secondCharacterController;
-//    ICharacter thirdCharacter;
-//    ICharacterController thirdCharacterController;
+    ICharacterController firstCharacter;
+    ICharacterController secondCharacter;
+    ICharacterController thirdCharacter;
 
-//    IHexTile activeTile;
-//    IHexTileController activeTileController;
+    List<ICharacterController> refreshedCharactersList;
+    List<ICharacterController> exhaustedCharactersList;
 
-//    List<ICharacter> refreshedCharactersList;
-//    List<ICharacter> exhaustedCharactersList;
+    [SetUp]
+    public void Init()
+    {
 
-//    IHUDController hudController;
+        firstCharacter = Substitute.For<ICharacterController>();
+        secondCharacter = Substitute.For<ICharacterController>();
+        thirdCharacter = Substitute.For<ICharacterController>();
 
-//    [SetUp]
-//    public void Init()
-//    {
-//        sut = new TurnController();
+        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter };
+        exhaustedCharactersList = new List<ICharacterController>();
 
-//        firstCharacter = Substitute.For<ICharacter>();
-//        firstCharacterController = Substitute.For<ICharacterController>();
-//        firstCharacter.Controller.Returns(firstCharacterController);
-//        secondCharacter = Substitute.For<ICharacter>();
-//        secondCharacterController = Substitute.For<ICharacterController>();
-//        secondCharacter.Controller.Returns(secondCharacterController);
-//        thirdCharacter = Substitute.For<ICharacter>();
-//        thirdCharacterController = Substitute.For<ICharacterController>();
-//        thirdCharacter.Controller.Returns(thirdCharacterController);
+        firstCharacter.GetInitiative().Returns(1.0f);
+        secondCharacter.GetInitiative().Returns(2.0f);
 
-//        activeTile = Substitute.For<IHexTile>();
-//        activeTileController = Substitute.For<IHexTileController>();
-//        activeTile.Controller.Returns(activeTileController);
+        sut = new TurnController
+        {
+            RefreshedCharacters = refreshedCharactersList,
+            ExhaustedCharacters = exhaustedCharactersList,
+            ActiveCharacter = null
+        };
+    }
 
-//        thirdCharacterController.OccupiedTile.Returns(activeTile);
+    [Test]
+    public void Start_next_turn_refreshes_active_character()
+    {
+        sut.StartNextTurn();
 
-//        refreshedCharactersList = new List<ICharacter>() { firstCharacter, secondCharacter };
-//        exhaustedCharactersList = new List<ICharacter>();
+        firstCharacter.Received(1).Refresh();
+        secondCharacter.DidNotReceive();
+    }
 
-//        firstCharacterController.GetInitiative().Returns(1.0f);
-//        secondCharacterController.GetInitiative().Returns(2.0f);
+    [Test]
+    public void Start_next_turn_activates_character_with_lowest_initiative()
+    {
+        firstCharacter.GetInitiative().Returns(2.0f);
+        secondCharacter.GetInitiative().Returns(1.0f);
 
-//        hudController = Substitute.For<IHUDController>();
+        sut.StartNextTurn();
 
-//        sut.RefreshedCharacters = refreshedCharactersList;
-//        sut.ExhaustedCharacters = exhaustedCharactersList;
-//        sut.HUDController = hudController;
-//        sut.ActiveCharacter = null;
-//    }
+        firstCharacter.DidNotReceive();
+        secondCharacter.Received(1).Refresh();
+    }
 
-//    [Test]
-//    public void Start_next_turn_moves_all_exhausted_characters_to_refreshed_characters_list_when_refreshed_characters_list_empty()
-//    {
-//        refreshedCharactersList = new List<ICharacter>();
-//        exhaustedCharactersList = new List<ICharacter>() { firstCharacter, secondCharacter };
-//        sut.RefreshedCharacters = refreshedCharactersList;
-//        sut.ExhaustedCharacters = exhaustedCharactersList;
 
-//        sut.StartNextTurn();
+    [Test]
+    public void Start_next_turn_deselects_previously_active_character()
+    {
+        sut.ActiveCharacter = thirdCharacter;
 
-//        Assert.AreEqual(exhaustedCharactersList, sut.RefreshedCharacters);
-//    }
+        sut.StartNextTurn();
 
-//    [Test]
-//    public void Start_next_turn_activates_character_with_lowest_initiative()
-//    {
-//        firstCharacterController.GetInitiative().Returns(2.0f);
-//        secondCharacterController.GetInitiative().Returns(1.0f);
-
-//        sut.StartNextTurn();
-
-//        Assert.AreEqual(secondCharacter, sut.ActiveCharacter);
-//    }
-
-//    [Test]
-//    public void Start_next_turn_refreshes_active_character()
-//    {
-//        sut.StartNextTurn();
-
-//        firstCharacterController.Refresh();
-//    }
-
-//    [Test]
-//    public void Start_next_turn_deselects_previously_active_character()
-//    {
-//        sut.ActiveCharacter = thirdCharacter;
-
-//        sut.StartNextTurn();
-
-//        Assert.AreEqual(thirdCharacter, exhaustedCharactersList[0]);
-//        activeTileController.Received(1).Deselect();
-//        hudController.Received(1).ClearSelectedHUD();
-//    }
-//}
+        thirdCharacter.Received(1).Deselect();
+    }
+}
