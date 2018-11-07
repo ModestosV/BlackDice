@@ -4,13 +4,15 @@ using UnityEngine.UI;
 public class StatDisplay : MonoBehaviour, IStatDisplay
 {
     public Text nameText;
-    public Text valueText;
+    public Text currentValueText;
+    public Text maxValueText;
 
     private void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();
         nameText = texts[0];
-        valueText = texts[1];
+        currentValueText = texts[1];
+        maxValueText = texts[3];
     }
 
     #region IStatDisplay implementation
@@ -20,9 +22,14 @@ public class StatDisplay : MonoBehaviour, IStatDisplay
         this.nameText.text = nameText;
     }
 
-    public void SetValueText(string valueText)
+    public void SetCurrentValueText(string currentValueText)
     {
-        this.valueText.text = valueText;
+        this.currentValueText.text = currentValueText;
+    }
+
+    public void SetMaxValueText(string maxValueText)
+    {
+        this.maxValueText.text = maxValueText;
     }
 
     public void Activate()

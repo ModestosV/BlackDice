@@ -19,15 +19,20 @@ public class CharacterControllerTests
     List<float> abilityValues;
     const int FIRST_ABILITY_INDEX = 0;
 
-    const int INITIAL_MOVES_REMAINING_COUNT = 1;
     const int INITIAL_ABILITIES_REMAINING_COUNT = 1;
 
     const float ABILITY_DAMAGE_MULTIPLIER = 1.0f;
     const float CHARACTER_DAMAGE = 15.0f;
+    const float CHARACTER_MAX_HEALTH = 100.0f;
+    const float CHARACTER_CURRENT_HEALTH = 100.0f;
+    const float CHARACTER_MAX_MOVES = 7.0f;
+    const float CHARACTER_CURRENT_MOVES = 7.0f;
+
 
     List<ICharacterStat> characterStats;
     ICharacterStat health;
     ICharacterStat damage;
+    ICharacterStat moves;
 
     List<IHexTileController> pathList;
 
@@ -52,9 +57,14 @@ public class CharacterControllerTests
         hudController = Substitute.For<IHUDController>();
 
         health = Substitute.For<ICharacterStat>();
+        health.CurrentValue.Returns(CHARACTER_CURRENT_HEALTH);
+        health.Value.Returns(CHARACTER_MAX_HEALTH);
         damage = Substitute.For<ICharacterStat>();
         damage.Value.Returns(CHARACTER_DAMAGE);
-        characterStats = new List<ICharacterStat>() { health, damage };
+        moves = Substitute.For<ICharacterStat>();
+        moves.CurrentValue.Returns(CHARACTER_CURRENT_MOVES);
+        moves.Value.Returns(CHARACTER_MAX_MOVES);
+        characterStats = new List<ICharacterStat>() { health, damage, moves };
         
         ability = Substitute.For<IAbility>();
         abilityValues = new List<float>() { ABILITY_DAMAGE_MULTIPLIER };
@@ -77,17 +87,16 @@ public class CharacterControllerTests
             CharacterStats = characterStats,
             Abilities = abilities,
             OwnedByPlayer = PLAYER_NAME,
-            MovesRemaining = INITIAL_MOVES_REMAINING_COUNT,
             AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT
         };
     }
 
     [Test]
-    public void Damage_adds_a_negative_flat_stat_modifier_to_health_stat_equal_to_the_damage_amount()
+    public void Damage_substracts_damage_amount_from_health_stat()
     {
         sut.Damage(DAMAGE_AMOUNT);
 
-        health.Received(1).AddModifier(Arg.Is<IStatModifier>(x => x.Type == StatModType.Flat && x.Value == -DAMAGE_AMOUNT));
+        health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
     }
 
     [Test]
@@ -116,9 +125,10 @@ public class CharacterControllerTests
         endTileController.Received(1).Select();
     }
 
+    [Test]
     public void Execute_move_does_nothing_when_no_moves_remaining()
     {
-        sut.MovesRemaining = 0;
+        moves.CurrentValue.Returns(0);
 
         sut.ExecuteMove(pathList);
 
@@ -128,9 +138,19 @@ public class CharacterControllerTests
     }
 
     [Test]
+    public void Execute_move_consumes_available_moves_and_updates_selected_hud()
+    {
+        sut.ExecuteMove(pathList);
+
+        moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
+        hudController.Received(1).UpdateSelectedHUD(statNames, characterStats, PLAYER_NAME);
+    }
+
+    [Test]
     public void Execute_move_ends_turn_when_no_moves_or_abilities_remaining()
     {
         sut.AbilitiesRemaining = 0;
+        moves.CurrentValue.Returns(1);
 
         sut.ExecuteMove(pathList);
 
@@ -140,7 +160,7 @@ public class CharacterControllerTests
     [Test]
     public void Execute_ability_ends_turn_when_no_moves_or_abilities_remaining()
     {
-        sut.MovesRemaining = 0;
+        moves.CurrentValue.Returns(0);
 
         sut.ExecuteAbility(FIRST_ABILITY_INDEX, targetCharacterController);
 
@@ -150,7 +170,6 @@ public class CharacterControllerTests
     [Test]
     public void Execute_attack_ability_damages_character_and_updates_stat_panel()
     {
-
         sut.ExecuteAbility(FIRST_ABILITY_INDEX, targetCharacterController);
 
         targetCharacterController.Received(1).Damage(ABILITY_DAMAGE_MULTIPLIER * CHARACTER_DAMAGE);

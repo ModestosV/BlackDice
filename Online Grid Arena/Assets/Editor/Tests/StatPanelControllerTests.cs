@@ -24,9 +24,12 @@ public class StatPanelControllerTests
     const string STAT_NAME_2 = "Damage";
     const string STAT_NAME_3 = "Speed";
 
-    const float STAT_VALUE_1 = 100.0f;
-    const float STAT_VALUE_2 = 20.0f;
-    const float STAT_VALUE_3 = 5.0f;
+    const float STAT_MAX_VALUE_1 = 100.0f;
+    const float STAT_MAX_VALUE_2 = 20.0f;
+    const float STAT_MAX_VALUE_3 = 5.0f;
+    const float STAT_CURRENT_VALUE_1 = 100.0f;
+    const float STAT_CURRENT_VALUE_2 = 20.0f;
+    const float STAT_CURRENT_VALUE_3 = 5.0f;
 
     [SetUp]
     public void Init()
@@ -37,9 +40,12 @@ public class StatPanelControllerTests
         stat2 = Substitute.For<ICharacterStat>();
         stat3 = Substitute.For<ICharacterStat>();
 
-        stat1.Value.Returns(STAT_VALUE_1);
-        stat2.Value.Returns(STAT_VALUE_2);
-        stat3.Value.Returns(STAT_VALUE_3);
+        stat1.Value.Returns(STAT_MAX_VALUE_1);
+        stat2.Value.Returns(STAT_MAX_VALUE_2);
+        stat3.Value.Returns(STAT_MAX_VALUE_3);
+        stat1.CurrentValue.Returns(STAT_CURRENT_VALUE_1);
+        stat2.CurrentValue.Returns(STAT_CURRENT_VALUE_2);
+        stat3.CurrentValue.Returns(STAT_CURRENT_VALUE_3);
 
         display1 = Substitute.For<IStatDisplay>();
         display2 = Substitute.For<IStatDisplay>();
@@ -60,9 +66,12 @@ public class StatPanelControllerTests
     {
         sut.UpdateStatValues();
 
-        display1.Received(1).SetValueText(STAT_VALUE_1.ToString());
-        display2.Received(1).SetValueText(STAT_VALUE_2.ToString());
-        display3.Received(1).SetValueText(STAT_VALUE_3.ToString());
+        display1.Received(1).SetMaxValueText(STAT_MAX_VALUE_1.ToString());
+        display2.Received(1).SetMaxValueText(STAT_MAX_VALUE_2.ToString());
+        display3.Received(1).SetMaxValueText(STAT_MAX_VALUE_3.ToString());
+        display1.Received(1).SetCurrentValueText(STAT_CURRENT_VALUE_1.ToString());
+        display2.Received(1).SetCurrentValueText(STAT_CURRENT_VALUE_2.ToString());
+        display3.Received(1).SetCurrentValueText(STAT_CURRENT_VALUE_3.ToString());
     }
 
     [Test]

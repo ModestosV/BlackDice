@@ -13,7 +13,8 @@ public class StatPanelController : IStatPanelController
 
         for (int i = 0; i < StatDisplays.Count; i++)
         {
-            StatDisplays[i].SetValueText(CharacterStats[i].Value.ToString());
+            StatDisplays[i].SetCurrentValueText(CharacterStats[i].CurrentValue.ToString());
+            StatDisplays[i].SetMaxValueText(CharacterStats[i].Value.ToString());
         }
     }
 
