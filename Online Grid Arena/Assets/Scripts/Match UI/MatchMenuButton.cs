@@ -6,7 +6,7 @@ public class MatchMenuButton : MonoBehaviour
     public Button matchMenuButton;
     public IMatchMenu MatchMenu { protected get; set; }
 
-    private void OnValidate()
+    void OnValidate()
     {
         matchMenuButton = GetComponent<Button>();
         MatchMenu = FindObjectOfType<MatchMenu>();

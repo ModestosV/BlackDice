@@ -6,7 +6,7 @@ public class EndMatchPanel : MonoBehaviour, IEndMatchPanel {
     public Text text;
     public CanvasGroup canvasGroup;
 
-    private void OnValidate()
+    void OnValidate()
     {
         text = GetComponentInChildren<Text>();
         canvasGroup = GetComponent<CanvasGroup>();

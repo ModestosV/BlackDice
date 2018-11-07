@@ -5,12 +5,12 @@ public class PlayerPanel : MonoBehaviour, IPlayerPanel
 {
     public Text playerName;
 
-    private void OnValidate()
+    void OnValidate()
     {
         playerName = gameObject.GetComponentInChildren<Text>();
     }
 
-    private void Awake()
+    void Awake()
     {
         playerName = gameObject.GetComponentInChildren<Text>();
     }

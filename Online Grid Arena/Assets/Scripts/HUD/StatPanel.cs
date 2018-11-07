@@ -5,7 +5,7 @@ public class StatPanel : MonoBehaviour, IStatPanel
 {
     private StatPanelController controller;
 
-    private void Awake()
+    void Awake()
     {
         controller = new StatPanelController();
         controller.StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>());

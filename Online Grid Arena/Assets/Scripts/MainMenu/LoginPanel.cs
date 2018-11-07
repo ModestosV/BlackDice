@@ -20,14 +20,14 @@ public class LoginPanel : MonoBehaviour
 
     public string LoggedInEmail { get; set; }
 
-    private void OnValidate()
+    void OnValidate()
     {
         StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
         EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
         PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
     }
 
-    private void Awake()
+    void Awake()
     {
         StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
         EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
