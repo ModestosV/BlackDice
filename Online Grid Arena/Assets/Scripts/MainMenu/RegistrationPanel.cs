@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-public class RegistrationPanel : MonoBehaviour
+public class RegistrationPanel : MonoBehaviour, IPanel
 {
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
@@ -98,20 +98,8 @@ public class RegistrationPanel : MonoBehaviour
     {
         ClearStatus();
         UserNetworkManager unm = new UserNetworkManager();
+        unm.Panel = this;
         StartCoroutine(unm.CreateUser(new UserDto(email, password, username)));
-        if (unm.StatusCode == "200")
-        {
-            SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
-        }
-        if (unm.StatusCode == "400")
-        {
-            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
-        }
-
-        if (unm.StatusCode == "500")
-        {
-            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-        }
         loadingCircle.SetActive(false);
     }
 
@@ -120,6 +108,22 @@ public class RegistrationPanel : MonoBehaviour
         StatusText.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
         StatusText.gameObject.SetActive(true);
+    }
+
+    public void GetStatus(AbstractNetworkManager anm)
+    {
+        if (anm.StatusCode == "200")
+        {
+            SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
+        }
+        if (anm.StatusCode == "400")
+        {
+            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        }
+        if (anm.StatusCode == "500")
+        {
+            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        }
     }
 
     #region IMonoBehaviour implementation

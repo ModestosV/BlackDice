@@ -4,6 +4,7 @@ public class UserNetworkManager : AbstractNetworkManager
 {
     private readonly string baseUrl = "http://localhost:5500/account";
     private UserDto userDto;
+    public RegistrationPanel regPanel { get; set; }
 
     public IEnumerator CreateUser(UserDto userDto)
     {
@@ -16,6 +17,7 @@ public class UserNetworkManager : AbstractNetworkManager
         this.userDto = userDto;
         yield return Post(baseUrl + "/login", $"{{\"password\":\"{userDto.PasswordHash}\",\"email\":\"{userDto.Email}\"}}");
     }
+
     public IEnumerator Logout(UserDto userDto)
     {
         this.userDto = userDto;
