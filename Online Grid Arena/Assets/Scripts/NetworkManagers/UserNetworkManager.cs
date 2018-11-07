@@ -2,9 +2,9 @@
 
 public class UserNetworkManager : AbstractNetworkManager
 {
+    public RegistrationPanel RegPanel { get; set; }
     private readonly string baseUrl = "http://localhost:5500/account";
     private UserDto userDto;
-    public RegistrationPanel regPanel { get; set; }
 
     public IEnumerator CreateUser(UserDto userDto)
     {
