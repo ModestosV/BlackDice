@@ -9,4 +9,5 @@ public static class Strings
     public const string INVALID_LOGIN_CREDENTIALS_MESSAGE = "The email and password you have entered is invalid.";
     public const string INVALID_PASSWORD_MESSAGE = "Your password must be at least 8 characters long.";
     public const string REGISTRATION_SUCCESS_MESSAGE = "You have successfully registered this account!";
+    public const string INVALID_REGISTRATION_REQUEST = "Your registration request did not go through as planned.";
 }

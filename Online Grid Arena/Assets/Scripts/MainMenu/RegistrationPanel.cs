@@ -51,6 +51,7 @@ public class RegistrationPanel : MonoBehaviour
 
         loadingCircle.SetActive(true);
         MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString(), UsernameText.text);
+        loadingCircle.SetActive(false);
     }
 
     public void SetStatus(string statusText)
@@ -98,6 +99,14 @@ public class RegistrationPanel : MonoBehaviour
         ClearStatus();
         UserNetworkManager unm = new UserNetworkManager();
         StartCoroutine(unm.CreateUser(new UserDto(email, username, password)));
+        if (unm.StatusCode== "200")
+        {
+            SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
+        }
+        if (unm.StatusCode == "400")
+        {
+            SetStatus(Strings.INVALID_REGISTRATION_REQUEST);
+        }
     }
 
     private IEnumerator FlickerStatus()
