@@ -2549,7 +2549,7 @@ MonoBehaviour:
   stats:
   - baseValue: 100
   - baseValue: 20
-  - baseValue: 3
+  - baseValue: 6
   abilities:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
@@ -3392,7 +3392,7 @@ MonoBehaviour:
   stats:
   - baseValue: 120
   - baseValue: 15
-  - baseValue: 4
+  - baseValue: 7
   abilities:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,

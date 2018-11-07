@@ -29,6 +29,8 @@ public class CharacterControllerTests
     ICharacterStat health;
     ICharacterStat damage;
 
+    List<IHexTileController> pathList;
+
     const string STAT_NAME_1 = "Health";
     const string STAT_NAME_2 = "Damage";
     List<string> statNames = new List<string>() { STAT_NAME_1, STAT_NAME_2 };
@@ -61,6 +63,8 @@ public class CharacterControllerTests
 
         abilities = new List<IAbility>() { ability };
 
+        pathList = new List<IHexTileController>() { startTileController, endTileController };
+
         endTileController.HexTile.Returns(endTile);
 
         sut = new CharacterController
@@ -89,7 +93,7 @@ public class CharacterControllerTests
     [Test]
     public void Execute_move_deselects_start_tile_and_vacates_character()
     {
-        sut.ExecuteMove(endTileController);
+        sut.ExecuteMove(pathList);
 
         startTileController.Received(1).Deselect();
         startTileController.Received(1).OccupantCharacter = null;
@@ -98,7 +102,7 @@ public class CharacterControllerTests
     [Test]
     public void Execute_move_relocates_character_to_target_tile()
     {
-        sut.ExecuteMove(endTileController);
+        sut.ExecuteMove(pathList);
 
         character.Received(1).MoveToTile(endTile);
     }
@@ -106,7 +110,7 @@ public class CharacterControllerTests
     [Test]
     public void Execute_move_selects_end_tile_and_inserts_character()
     {
-        sut.ExecuteMove(endTileController);
+        sut.ExecuteMove(pathList);
 
         endTileController.Received(1).OccupantCharacter = sut;
         endTileController.Received(1).Select();
@@ -116,7 +120,7 @@ public class CharacterControllerTests
     {
         sut.MovesRemaining = 0;
 
-        sut.ExecuteMove(endTileController);
+        sut.ExecuteMove(pathList);
 
         startTileController.DidNotReceive();
         endTileController.DidNotReceive();
@@ -128,7 +132,7 @@ public class CharacterControllerTests
     {
         sut.AbilitiesRemaining = 0;
 
-        sut.ExecuteMove(endTileController);
+        sut.ExecuteMove(pathList);
 
         turnController.Received(1).StartNextTurn();
     }

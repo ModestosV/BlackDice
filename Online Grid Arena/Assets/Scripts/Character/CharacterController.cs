@@ -45,9 +45,12 @@ public class CharacterController : ICharacterController
         HUDController.ClearTargetHUD();
     }
 
-    public void ExecuteMove(IHexTileController targetTile)
+    public void ExecuteMove(List<IHexTileController> path)
     {
         if (!(MovesRemaining > 0)) return;
+
+        int distance = path.Count - 1;
+        IHexTileController targetTile = path[distance];
 
         OccupiedTile.Deselect();
         OccupiedTile.OccupantCharacter = null;
@@ -57,7 +60,7 @@ public class CharacterController : ICharacterController
 
         targetTile.OccupantCharacter = this;
         targetTile.Select();
-        MovesRemaining--;
+        MovesRemaining -= distance;
         CheckExhausted();
     }
 
@@ -90,7 +93,7 @@ public class CharacterController : ICharacterController
 
     public void Refresh()
     {
-        MovesRemaining = 1;
+        MovesRemaining = (int)CharacterStats[2].Value;
         AbilitiesRemaining = 1;
     }
 
@@ -105,9 +108,9 @@ public class CharacterController : ICharacterController
         CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
     }
 
-    public bool CanMove()
+    public bool CanMove(int distance = 1)
     {
-        return MovesRemaining > 0;
+        return distance <= MovesRemaining;
     }
 
     public bool CanUseAbility()

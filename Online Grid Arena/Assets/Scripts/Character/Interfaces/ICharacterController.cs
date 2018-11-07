@@ -18,7 +18,7 @@ public interface ICharacterController
     void Select();
     void Deselect();
     void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter);
-    void ExecuteMove(IHexTileController targetTile);
+    void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
     void Damage(float damage);
@@ -28,6 +28,6 @@ public interface ICharacterController
     void UpdateTargetHUD();
     void ClearTargetHUD();
 
-    bool CanMove();
+    bool CanMove(int distance = 1);
     bool CanUseAbility();
 }

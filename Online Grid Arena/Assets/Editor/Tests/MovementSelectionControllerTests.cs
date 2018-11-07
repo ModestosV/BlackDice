@@ -146,7 +146,7 @@ public class MovementSelectionControllerTests
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         gameManager.Received(1).SelectionMode = SelectionMode.SELECTION;
-        selectedCharacter.Received(1).ExecuteMove(targetTile);
+        selectedCharacter.Received(1).ExecuteMove(pathList);
     }
 
     [Test]
