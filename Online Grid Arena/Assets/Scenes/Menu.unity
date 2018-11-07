@@ -4448,10 +4448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3ba9e505ca92245823dad227c4a2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginButton: {fileID: 0}
-  logoutButton: {fileID: 0}
-  loadingCircle: {fileID: 0}
-  registrationPanel: {fileID: 0}
+  loginButton: {fileID: 194253374}
+  logoutButton: {fileID: 942020834}
+  loadingCircle: {fileID: 1979852862}
+  registrationPanel: {fileID: 1591473887}
 --- !u!1 &1026873786
 GameObject:
   m_ObjectHideFlags: 0
@@ -5837,9 +5837,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbad017425987c74198023dba2102d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerButton: {fileID: 0}
-  loadingCircle: {fileID: 0}
-  LoginPanel: {fileID: 0}
+  registerButton: {fileID: 2033312393}
+  loadingCircle: {fileID: 1982398230}
+  LoginPanel: {fileID: 1019659618}
 --- !u!1 &1599836441
 GameObject:
   m_ObjectHideFlags: 0
