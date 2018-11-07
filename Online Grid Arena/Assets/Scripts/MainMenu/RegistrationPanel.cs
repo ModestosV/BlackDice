@@ -8,6 +8,7 @@ public class RegistrationPanel : MonoBehaviour
     public TextMeshProUGUI StatusText { get; set; }
     public TextMeshProUGUI EmailText { get; set; }
     public TextMeshProUGUI PasswordText { get; set; }
+    public TextMeshProUGUI UsernameText { get; set; }
 
     public Button registerButton;
 
@@ -20,6 +21,7 @@ public class RegistrationPanel : MonoBehaviour
         StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
         EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
         PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        UsernameText = GetComponentsInChildren<TextMeshProUGUI>()[4];
     }
 
     private void Awake()
@@ -27,6 +29,7 @@ public class RegistrationPanel : MonoBehaviour
         StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
         EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
         PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        UsernameText = GetComponentsInChildren<TextMeshProUGUI>()[6];
     }
 
     public void Register()
@@ -47,7 +50,7 @@ public class RegistrationPanel : MonoBehaviour
         }
 
         loadingCircle.SetActive(true);
-        MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
+        MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString(), UsernameText.text);
     }
 
     public void SetStatus(string statusText)
@@ -70,6 +73,11 @@ public class RegistrationPanel : MonoBehaviour
         PasswordText.text = "";
     }
 
+    public void ClearUsername()
+    {
+        UsernameText.text = "";
+    }
+
     private bool ValidateEmail(string email)
     {
         return true; // TODO: Add validation
@@ -80,11 +88,16 @@ public class RegistrationPanel : MonoBehaviour
         return true; // TODO: Add validation
     }
 
-    private void MakeRegistrationWebRequest(string email, string password)
+    private bool ValidateUsername(string username)
+    {
+        return true; // TODO: Add valdiation 
+    }
+
+    private void MakeRegistrationWebRequest(string email, string password, string username)
     {
         ClearStatus();
         UserNetworkManager unm = new UserNetworkManager();
-        StartCoroutine(unm.CreateUser(new UserDto(email, "defaultUserName", password)));
+        StartCoroutine(unm.CreateUser(new UserDto(email, username, password)));
     }
 
     private IEnumerator FlickerStatus()

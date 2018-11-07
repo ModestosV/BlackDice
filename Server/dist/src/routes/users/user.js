@@ -20,18 +20,20 @@ router.post("/register", body_parser_1.default.json(), async (req, res, next) =>
         global.console.log(req.body);
         const passHash = req.body.password;
         const email = req.body.email;
+        const userName = req.body.username;
         if (passHash && email) {
             const salt = moment_1.default();
             const finalHash = passHash;
             const userData = {
                 createdAt: salt,
                 email,
+                username: userName,
                 loggedIn: false,
                 passwordHash: finalHash
             };
             User.create(userData);
             res.status(200);
-            return res.json(userData); // Should return user content
+            return res.json(userData);
         }
         res.status(400);
         return res.json("Request invalid");

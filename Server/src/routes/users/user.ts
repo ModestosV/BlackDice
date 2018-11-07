@@ -21,6 +21,7 @@ router.post(
 
       const passHash = req.body.password;
       const email = req.body.email;
+      const userName = req.body.username;
 
       if (passHash && email) {
         const salt = moment();
@@ -29,6 +30,7 @@ router.post(
         const userData = {
           createdAt: salt,
           email,
+          username: userName,
           loggedIn: false,
           passwordHash: finalHash
         };
