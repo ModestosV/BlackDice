@@ -1,39 +1,25 @@
 ﻿using System.Collections;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class UserNetworkManager
 {
-    private WWWForm Form { get; set; }
     private string baseUrl = "http://localhost:5500/account";
 
-    public UserNetworkManager(): this(new WWWForm())
-    {
-
-    }
-
-    public UserNetworkManager( WWWForm Form)
-    {
-        this.Form = Form;
-    }
-
+    // TODO: Do JSON stuff better + remove Debug.Logs
     public IEnumerator CreateUser(UserDto userDto)
     {
-        Form.AddField("createdAt", userDto.CreatedAt.ToString());
-        Form.AddField("email", userDto.Email);
-        Form.AddField("givenName", userDto.GivenName);
-        Form.AddField("loggedIn", userDto.LoggedIn.ToString());
-        Form.AddField("passwordHash", userDto.PasswordHash);
-        Form.AddField("surname", userDto.Surname);
-        Form.AddField("username", userDto.Username);
+        var request = new UnityWebRequest(baseUrl + "/register", "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes($"{{\"password\":\"{userDto.PasswordHash}\",\"email\":\"{userDto.Email}\"}}");
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
 
-        using (UnityWebRequest www = UnityWebRequest.Post(baseUrl + "/register", Form))
-        {
-            www.SetRequestHeader("Content-Type", "application/json");
-            yield return www.SendWebRequest();
-            
-            var marc = www.downloadHandler.text;
-            Debug.Log(marc);
-        }
+        yield return request.SendWebRequest();
+
+        Debug.Log("Response Body: " + request.downloadHandler.text);
+        Debug.Log("Response Code: " + request.responseCode);
+        
     }
 }

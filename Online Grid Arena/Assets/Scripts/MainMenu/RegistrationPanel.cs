@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
@@ -73,12 +72,12 @@ public class RegistrationPanel : MonoBehaviour
 
     private bool ValidateEmail(string email)
     {
-        return true;
+        return true; // TODO: Add validation
     }
 
     private bool ValidatePassword(string password)
     {
-        return true; // There is an invisible unicode charater in the text fields of TextMesh Pro objects that I can't seem to get rid of.
+        return true; // TODO: Add validation
     }
 
     private void MakeRegistrationWebRequest(string email, string password)

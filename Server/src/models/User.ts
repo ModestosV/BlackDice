@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   loggedIn: { type: Types.Boolean, required: true },
   passwordHash: { type: Types.String, required: true },
   surname: { type: Types.String },
-  username: { type: Types.String } // TODO: Make this required
+  username: { type: Types.String } // TODO: Make this unique + required
 });
 
 export default userSchema;

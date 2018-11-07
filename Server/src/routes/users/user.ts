@@ -17,7 +17,6 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       global.console.log("register request going through");
-      global.console.log(req);
       global.console.log(req.body);
 
       const passHash = req.body.password;
@@ -35,9 +34,11 @@ router.post(
         };
 
         User.create(userData);
-        return res.json(getStatus(200));
+        res.status(200);
+        return res.json(userData);
       }
-      return res.json(getStatus(400));
+      res.status(400);
+      return res.json("Request invalid");
     } catch (err) {
       return next(new Error("A database error occured while registering"));
     }

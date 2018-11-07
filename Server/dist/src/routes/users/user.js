@@ -17,7 +17,6 @@ const User = mongoose_1.default.model("User", User_1.default);
 router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
     try {
         global.console.log("register request going through");
-        global.console.log(req);
         global.console.log(req.body);
         const passHash = req.body.password;
         const email = req.body.email;
@@ -31,9 +30,11 @@ router.post("/register", body_parser_1.default.json(), async (req, res, next) =>
                 passwordHash: finalHash
             };
             User.create(userData);
-            return res.json(errors_1.default(200));
+            res.status(200);
+            return res.json(userData); // Should return user content
         }
-        return res.json(errors_1.default(400));
+        res.status(400);
+        return res.json("Request invalid");
     }
     catch (err) {
         return next(new Error("A database error occured while registering"));
