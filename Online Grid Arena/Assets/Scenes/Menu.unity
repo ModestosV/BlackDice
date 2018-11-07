@@ -1919,7 +1919,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -75}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &451218058
@@ -2479,7 +2479,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Enter email...
+  m_text: Enter username...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec1977a10e6dd5e459b981ff595f13fc, type: 2}
   m_sharedMaterial: {fileID: 21769463285187352, guid: ec1977a10e6dd5e459b981ff595f13fc,
@@ -3490,7 +3490,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec1977a10e6dd5e459b981ff595f13fc, type: 2}
   m_sharedMaterial: {fileID: 21769463285187352, guid: ec1977a10e6dd5e459b981ff595f13fc,
@@ -4448,10 +4448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f3ba9e505ca92245823dad227c4a2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginButton: {fileID: 194253374}
-  logoutButton: {fileID: 942020834}
-  loadingCircle: {fileID: 1979852862}
-  registrationPanel: {fileID: 1591473887}
+  loginButton: {fileID: 0}
+  logoutButton: {fileID: 0}
+  loadingCircle: {fileID: 0}
+  registrationPanel: {fileID: 0}
 --- !u!1 &1026873786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4956,7 +4956,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1178269576
@@ -5837,9 +5837,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbad017425987c74198023dba2102d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerButton: {fileID: 2033312393}
-  loadingCircle: {fileID: 1982398230}
-  LoginPanel: {fileID: 1019659618}
+  registerButton: {fileID: 0}
+  loadingCircle: {fileID: 0}
+  LoginPanel: {fileID: 0}
 --- !u!1 &1599836441
 GameObject:
   m_ObjectHideFlags: 0
