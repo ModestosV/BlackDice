@@ -3,14 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const moment_1 = __importDefault(require("moment"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = __importDefault(require("../../models/User"));
-const errors_1 = __importDefault(require("../../utils/errors"));
 const middlewares_1 = require("../../utils/middlewares");
 const router = express_1.default.Router();
 const User = mongoose_1.default.model("User", User_1.default);
@@ -18,16 +16,16 @@ router.post("/register", body_parser_1.default.json(), async (req, res, next) =>
     try {
         global.console.log("register request going through");
         global.console.log(req.body);
+        const username = req.body.username;
         const passHash = req.body.password;
         const email = req.body.email;
-        const userName = req.body.username;
-        if (passHash && email) {
+        if (username && passHash && email) {
             const salt = moment_1.default();
             const finalHash = passHash;
             const userData = {
                 createdAt: salt,
-                email,
-                username: userName,
+                email: email,
+                username: username,
                 loggedIn: false,
                 passwordHash: finalHash
             };
@@ -44,29 +42,34 @@ router.post("/register", body_parser_1.default.json(), async (req, res, next) =>
 }, middlewares_1.errorHandler);
 router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
     try {
+        global.console.log("login request going through");
+        global.console.log(req.body);
         const passHash = req.body.password;
         const email = req.body.email;
         const loginQuery = {
-            email: { email }
+            email: email
         };
         const userDoc = await User.findOne(loginQuery).exec();
         if (!userDoc) {
-            throw new Error("A database error occured while logging in");
+            res.status(400);
+            return res.json("Email does not exist");
         }
         else {
-            const hash = bcrypt_1.default.hash(passHash, userDoc.get("createdAt"));
-            if (lodash_1.default.isEqual(hash, userDoc.get("password"))) {
+            if (lodash_1.default.isEqual(passHash, userDoc.get("passwordHash"))) {
                 userDoc.set("loggedIn", true);
                 const updatedDoc = await userDoc.save();
                 if (updatedDoc) {
-                    return res.json(errors_1.default(200));
+                    res.status(200);
+                    return res.json(updatedDoc);
                 }
                 else {
-                    throw new Error("A database error occured while logging");
+                    res.status(500);
+                    return res.json("Server error");
                 }
             }
             else {
-                return res.send(errors_1.default(400));
+                res.status(400);
+                return res.json("Incorrect password");
             }
         }
     }
@@ -76,29 +79,34 @@ router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
 }, middlewares_1.errorHandler);
 router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
     try {
+        global.console.log("logout request going through");
+        global.console.log(req.body);
         const passHash = req.body.password;
         const email = req.body.email;
         const loginQuery = {
-            email: { email }
+            email: email
         };
         const userDoc = await User.findOne(loginQuery).exec();
         if (!userDoc) {
-            throw new Error("A database error occured while logging out");
+            res.status(400);
+            return res.json("Email does not exist");
         }
         else {
-            const hash = bcrypt_1.default.hash(passHash, userDoc.get("createdAt"));
-            if (lodash_1.default.isEqual(hash, userDoc.get("password"))) {
+            if (lodash_1.default.isEqual(passHash, userDoc.get("passwordHash"))) {
                 userDoc.set("loggedIn", false);
                 const updatedDoc = await userDoc.save();
                 if (updatedDoc) {
-                    return res.json(errors_1.default(200));
+                    res.status(200);
+                    return res.json(updatedDoc);
                 }
                 else {
-                    throw new Error("A database error occured while logging out");
+                    res.status(500);
+                    return res.json("Server error");
                 }
             }
             else {
-                return res.send(errors_1.default(400));
+                res.status(400);
+                return res.json("Incorrect password");
             }
         }
     }

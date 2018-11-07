@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Text;
-using UnityEngine;
 using UnityEngine.Networking;
 
 public abstract class AbstractNetworkManager : IHttpRequests
@@ -15,8 +14,9 @@ public abstract class AbstractNetworkManager : IHttpRequests
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SendWebRequest();
-        while (request.responseCode == 0){ }
-        yield return StatusCode = request.responseCode.ToString();
+        yield return request.SendWebRequest();
+        //while (request.responseCode == 0){ }
+        //Data = request.downloadHandler.text;
+        //yield return StatusCode = request.responseCode.ToString();
     }
 }

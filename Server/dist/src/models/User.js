@@ -12,7 +12,7 @@ const userSchema = new mongoose_1.default.Schema({
     loggedIn: { type: Types.Boolean, required: true },
     passwordHash: { type: Types.String, required: true },
     surname: { type: Types.String },
-    username: { type: Types.String, unique: true, required: true }
+    username: { type: Types.String, required: true, unique: true }
 });
 exports.default = userSchema;
 //# sourceMappingURL=User.js.map

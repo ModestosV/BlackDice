@@ -1,29 +1,33 @@
-﻿using System;
+﻿
+using System;
 
 public class UserDto
 {
-    public DateTime createdAt { get; }
-    public string email { get; }
-    public bool loggedIn { get; }
-    public string passwordHash { get; }
-    public string username { get; }
+    public DateTime CreatedAt { get; }
+    public string Email { get; }
+    public string GivenName { get; }
+    public bool LoggedIn { get; }
+    public string PasswordHash { get; }
+    public string Surname { get; }
+    public string Username { get; }
 
     public UserDto
     (
         string Email,
-        string Username,
         string PasswordHash,
+        string Username = "",
         DateTime CreatedAt = new DateTime(),
         bool LoggedIn = false,
         string Surname = "",
         string GivenName = ""
     )
     {
-        this.createdAt = CreatedAt;
-        this.email = Email;
-        this.loggedIn = LoggedIn;
-        this.passwordHash = PasswordHash;
-        this.username = Username;
+        this.CreatedAt = CreatedAt;
+        this.Email = Email;
+        this.GivenName = GivenName;
+        this.LoggedIn = LoggedIn;
+        this.PasswordHash = PasswordHash;
+        this.Surname = Surname;
+        this.Username = Username;
     }
 }
-

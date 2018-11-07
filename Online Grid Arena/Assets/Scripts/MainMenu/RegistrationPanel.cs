@@ -91,22 +91,28 @@ public class RegistrationPanel : MonoBehaviour
 
     private bool ValidateUsername(string username)
     {
-        return true; // TODO: Add valdiation 
+        return true; // TODO: Add validation 
     }
 
     private void MakeRegistrationWebRequest(string email, string password, string username)
     {
         ClearStatus();
         UserNetworkManager unm = new UserNetworkManager();
-        StartCoroutine(unm.CreateUser(new UserDto(email, username, password)));
-        if (unm.StatusCode== "200")
+        StartCoroutine(unm.CreateUser(new UserDto(email, password, username)));
+        if (unm.StatusCode == "200")
         {
             SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
         }
         if (unm.StatusCode == "400")
         {
-            SetStatus(Strings.INVALID_REGISTRATION_REQUEST);
+            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
+
+        if (unm.StatusCode == "500")
+        {
+            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        }
+        loadingCircle.SetActive(false);
     }
 
     private IEnumerator FlickerStatus()

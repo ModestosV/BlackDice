@@ -3,7 +3,6 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using System.Security.Cryptography;
 
 public class LoginPanel : MonoBehaviour
 {
@@ -39,19 +38,17 @@ public class LoginPanel : MonoBehaviour
         registrationPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
-        if (!ValidateEmail(EmailText.text))
-        {
-            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
-            return;
-        }
-
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeLoginWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
+        MakeLoginWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
     }
-    
+
     public void Logout()
     {
-        StartCoroutine(MakeLogoutWebRequest(LoggedInEmail));
+        registrationPanel.ClearStatus();
+        StartCoroutine(FlickerStatus());
+
+        loadingCircle.SetActive(true);
+        MakeLogoutWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
     }
 
     public void SetStatus(string statusText)
@@ -85,81 +82,46 @@ public class LoginPanel : MonoBehaviour
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
     }
 
-    private bool ValidateEmail(string email)
-    {
-        return email.Contains("@");
-    }
-
-    private bool ValidatePassword(string password)
-    {
-        return password.Length > 1;
-    }
-
-    private IEnumerator MakeLoginWebRequest(string email, string password)
+    private void MakeLoginWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/login";
-        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
+        UserNetworkManager unm = new UserNetworkManager();
+        StartCoroutine(unm.Login(new UserDto(email, password)));
+        if (unm.StatusCode == "200")
         {
-            yield return www.SendWebRequest();
+            SetStatus(Strings.LOGIN_SUCCESS_MESSAGE);
+            ToggleLoginLogoutButtons();
+        }
+        if (unm.StatusCode == "400")
+        {
+            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        }
 
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                var response = www.downloadHandler.text;
-                Debug.Log($"Login response: {response}");
-                if (response != "false")
-                {
-                    LoggedInEmail = response;
-                    SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE} \n Welcome {email}");
-                    ClearEmail();
-                    ClearPassword();
-                    ToggleLoginLogoutButtons();
-                } else
-                {
-                    SetStatus($"{Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE}");
-                }
-            }
+        if (unm.StatusCode == "500")
+        {
+            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
         loadingCircle.SetActive(false);
     }
 
-    private IEnumerator MakeLogoutWebRequest(string email)
+    private void MakeLogoutWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/logout";
-        string parameters = $"?email={WWW.EscapeURL(email)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
+        UserNetworkManager unm = new UserNetworkManager();
+        StartCoroutine(unm.Logout(new UserDto(email, password)));
+        if (unm.StatusCode == "200")
         {
-            yield return www.SendWebRequest();
+            SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+            ToggleLoginLogoutButtons();
+        }
+        if (unm.StatusCode == "400")
+        {
+            SetStatus(Strings.LOGOUT_FAIL_MESSAGE);
+        }
 
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                var response = www.downloadHandler.text;
-                Debug.Log($"Logout response: {response}");
-                if (response != "false")
-                {
-                    LoggedInEmail = null;
-                    SetStatus($"{Strings.LOGOUT_SUCCESS_MESSAGE}");
-                    ClearEmail();
-                    ClearPassword();
-                    ToggleLoginLogoutButtons();
-                } else
-                {
-                    SetStatus($"{Strings.LOGOUT_FAIL_MESSAGE}");
-                }
-
-            }
+        if (unm.StatusCode == "500")
+        {
+            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
         loadingCircle.SetActive(false);
     }
