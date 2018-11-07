@@ -136,10 +136,29 @@ public class MovementSelectionControllerTests
     }
 
     [Test]
-    public void Clicking_on_reachable_unoccupied_tile_moves_character()
+    public void Clicking_on_reachable_out_of_range_unoccupied_tile_error_highlights_path()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
+
+        sut.Update();
+
+        gridSelectionController.Received(1).DehighlightAll();
+        gridSelectionController.Received(1).BlurAll();
+        foreach (IHexTileController pathTile in pathList)
+        {
+            pathTile.Received(1).HoverError();
+        }
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectedCharacter.DidNotReceive().ExecuteMove(Arg.Any<List<IHexTileController>>());
+    }
+
+    [Test]
+    public void Clicking_on_reachable_in_range_unoccupied_tile_moves_character()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(true);
+        selectedCharacter.CanMove(pathList.Count - 1).Returns(true);
 
         sut.Update();
 
@@ -210,10 +229,28 @@ public class MovementSelectionControllerTests
     }
 
     [Test]
-    public void Hovering_over_reachable_unoccupied_tile_highlights_path()
+    public void Hovering_over_reachable_out_of_range_unoccupied_tile_error_highlights_path()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
+
+        sut.Update();
+
+        gridSelectionController.Received(1).DehighlightAll();
+        gridSelectionController.Received(1).BlurAll();
+        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        foreach (IHexTileController pathTile in pathList)
+        {
+            pathTile.Received(1).HoverError();
+        }
+    }
+
+    [Test]
+    public void Hovering_over_reachable_in_range_unoccupied_tile_error_highlights_path()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(false);
+        selectedCharacter.CanMove(pathList.Count - 1).Returns(true);
 
         sut.Update();
 
