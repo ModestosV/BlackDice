@@ -55,9 +55,8 @@ router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
             return res.json("Email does not exist");
         }
         else {
-            // const finalHash = crypto.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
-            // if (_.isEqual(finalHash, userDoc.get("passwordHash"))) {
-            if (lodash_1.default.isEqual(passHash, userDoc.get("passwordHash"))) {
+            const finalHash = crypto_js_1.default.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
+            if (lodash_1.default.isEqual(finalHash, userDoc.get("passwordHash"))) {
                 userDoc.set("loggedIn", true);
                 const updatedDoc = await userDoc.save();
                 if (updatedDoc) {
@@ -96,7 +95,8 @@ router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
         }
         else {
             // TODO: Needs to be changed to use token validation and check if the user is logged in.
-            if (lodash_1.default.isEqual(passHash, userDoc.get("passwordHash"))) {
+            const finalHash = crypto_js_1.default.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
+            if (lodash_1.default.isEqual(finalHash, userDoc.get("passwordHash"))) {
                 userDoc.set("loggedIn", false);
                 const updatedDoc = await userDoc.save();
                 if (updatedDoc) {

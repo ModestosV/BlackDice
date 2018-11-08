@@ -71,10 +71,9 @@ router.post(
         return res.json("Email does not exist");
       } else {
 
-        // const finalHash = crypto.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
+        const finalHash = crypto.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
 
-        // if (_.isEqual(finalHash, userDoc.get("passwordHash"))) {
-        if  (_.isEqual(passHash, userDoc.get("passwordHash"))) {
+        if (_.isEqual(finalHash, userDoc.get("passwordHash"))) {
           userDoc.set("loggedIn", true);
           const updatedDoc = await userDoc.save();
           if (updatedDoc) {
@@ -117,7 +116,9 @@ router.post(
         return res.json("Email does not exist");
       } else {
         // TODO: Needs to be changed to use token validation and check if the user is logged in.
-        if (_.isEqual(passHash, userDoc.get("passwordHash"))) {
+        const finalHash = crypto.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
+
+        if (_.isEqual(finalHash, userDoc.get("passwordHash"))) {
           userDoc.set("loggedIn", false);
           const updatedDoc = await userDoc.save();
           if (updatedDoc) {
