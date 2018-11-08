@@ -1,4 +1,4 @@
 ﻿public interface IGrid : IMonoBehaviour
 {
-    void Init(IGridSelectionController gridSelectionController, IGridTraversalController gridTraversalController);
+    void InitializeGrid(IGridSelectionController gridSelectionController);
 }

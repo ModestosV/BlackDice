@@ -1,5 +1,5 @@
 ﻿public interface IGameManager : IMonoBehaviour
 {
-    ISelectionController SelectionController { get; }
+    SelectionMode SelectionMode { set; }
     void QuitApplication();
 }
