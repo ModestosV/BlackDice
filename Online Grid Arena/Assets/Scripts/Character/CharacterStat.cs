@@ -14,8 +14,8 @@ using System.Collections.ObjectModel;
 public class CharacterStat : ICharacterStat
 {
     public float baseValue;
-    public readonly ReadOnlyCollection<IStatModifier> readonlyStatModifiers;
-    protected readonly List<IStatModifier> statModifiers;
+    public List<IStatModifier> StatModifiers { get; set; }
+
     protected bool isDirty = true;
     protected float lastBaseValue;
     protected float value;
@@ -36,7 +36,6 @@ public class CharacterStat : ICharacterStat
         }
     }
 
-
     public CharacterStat() : this(0.0f, new List<IStatModifier>())
     {
 
@@ -50,21 +49,20 @@ public class CharacterStat : ICharacterStat
     public CharacterStat(float baseValue, List<IStatModifier> statModifierList)
     {
         this.baseValue = baseValue;
-        statModifiers = statModifierList;
-        readonlyStatModifiers = statModifiers.AsReadOnly();
+        StatModifiers = statModifierList;
     }
 
     public virtual void AddModifier(IStatModifier mod)
     {
         isDirty = true;
-        statModifiers.Add(mod);
+        StatModifiers.Add(mod);
 
         Debug.Log(string.Format("Added {0} to {1}", mod.ToString(), ToString()));
     }
 
     public virtual bool RemoveModifier(IStatModifier mod)
     {
-        if (statModifiers.Remove(mod))
+        if (StatModifiers.Remove(mod))
         {
             isDirty = true;
             Debug.Log(string.Format("Successfully removed {0} from {1}", mod.ToString(), ToString()));
@@ -81,12 +79,12 @@ public class CharacterStat : ICharacterStat
 
         string sourceString = string.Format("({0}|{1})", source.ToString(), source.GetHashCode());
 
-        for (int i = statModifiers.Count - 1; i >= 0; i--)
+        for (int i = StatModifiers.Count - 1; i >= 0; i--)
         {
-            if (statModifiers[i].Source == source)
+            if (StatModifiers[i].Source == source)
             {
-                removedModifiers.Add(statModifiers[i]);
-                statModifiers.RemoveAt(i);
+                removedModifiers.Add(StatModifiers[i]);
+                StatModifiers.RemoveAt(i);
             }
         }
 
@@ -106,7 +104,7 @@ public class CharacterStat : ICharacterStat
     
     public override string ToString()
     {
-        var modifiersString = string.Join("|", statModifiers.Select(mod => mod.ToString()).ToArray());
+        var modifiersString = string.Join("|", StatModifiers.Select(mod => mod.ToString()).ToArray());
         var fieldsString = string.Join(", ", baseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
         return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
@@ -126,11 +124,11 @@ public class CharacterStat : ICharacterStat
         float finalValue = baseValue;
         float sumPercentAdd = 0;
 
-        statModifiers.Sort(CompareModifierOrder);
+        StatModifiers.Sort(CompareModifierOrder);
 
-        for (int i = 0; i < statModifiers.Count; i++)
+        for (int i = 0; i < StatModifiers.Count; i++)
         {
-            IStatModifier mod = statModifiers[i];
+            IStatModifier mod = StatModifiers[i];
 
             if (mod.Type == StatModType.Flat)
             {
@@ -140,7 +138,7 @@ public class CharacterStat : ICharacterStat
             {
                 sumPercentAdd += mod.Value;
 
-                if (i + 1 >= statModifiers.Count || statModifiers[i + 1].Type != StatModType.PercentAdd)
+                if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].Type != StatModType.PercentAdd)
                 {
                     finalValue *= 1 + sumPercentAdd;
                     sumPercentAdd = 0;

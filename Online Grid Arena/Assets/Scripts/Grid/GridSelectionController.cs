@@ -1,56 +1,55 @@
 ﻿using System.Collections.Generic;
 
-[System.Serializable]
 public class GridSelectionController : IGridSelectionController
 {
-    public List<IHexTile> SelectedTiles { get; set; }
-    public List<IHexTile> HoveredTiles { get; set; }
-    public List<IHexTile> PathTiles { get; set; }
+    public List<IHexTileController> SelectedTiles { protected get; set; }
+    public List<IHexTileController> HoveredTiles { protected get; set; }
+    public List<IHexTileController> HighlightedTiles { protected get; set; }
 
     #region IGridSelectionController implementation
 
-    public void Init()
+    public GridSelectionController()
     {
-        SelectedTiles = new List<IHexTile>();
-        HoveredTiles = new List<IHexTile>();
-        PathTiles = new List<IHexTile>();
+        SelectedTiles = new List<IHexTileController>();
+        HoveredTiles = new List<IHexTileController>();
+        HighlightedTiles = new List<IHexTileController>();
     }
 
-    public void AddSelectedTile(IHexTile selectedTile)
+    public void AddSelectedTile(IHexTileController selectedTile)
     {
         SelectedTiles.Add(selectedTile);
     }
 
-    public bool RemoveSelectedTile(IHexTile removedTile)
+    public bool RemoveSelectedTile(IHexTileController removedTile)
     {
         return SelectedTiles.Remove(removedTile);
     }
 
-    public void AddHoveredTile(IHexTile hoveredTile)
+    public void AddHoveredTile(IHexTileController hoveredTile)
     {
         HoveredTiles.Add(hoveredTile);
     }
 
-    public bool RemoveHoveredTile(IHexTile removedTile)
+    public bool RemoveHoveredTile(IHexTileController removedTile)
     {
         return HoveredTiles.Remove(removedTile);
     }
 
-    public void AddPathTile(IHexTile pathTile)
+    public void AddHighlightedTile(IHexTileController pathTile)
     {
-        PathTiles.Add(pathTile);
+        HighlightedTiles.Add(pathTile);
     }
 
-    public bool RemovePathTile(IHexTile pathTile)
+    public bool RemoveHighlightedTile(IHexTileController pathTile)
     {
-        return PathTiles.Remove(pathTile);
+        return HighlightedTiles.Remove(pathTile);
     }
 
     public void DeselectAll()
     {
         for (int i = SelectedTiles.Count - 1; i >= 0; i--)
         {
-            SelectedTiles[i].Controller.Deselect();
+            SelectedTiles[i].Deselect();
         }
     }
 
@@ -58,24 +57,34 @@ public class GridSelectionController : IGridSelectionController
     {
         for (int i = HoveredTiles.Count - 1; i >= 0; i--)
         {
-            HoveredTiles[i].Controller.Blur();
+            HoveredTiles[i].Blur();
         }
     }
 
-    public void ScrubPathAll()
+    public void DehighlightAll()
     {
-        for (int i = PathTiles.Count - 1; i >= 0; i--)
+        for (int i = HighlightedTiles.Count - 1; i >= 0; i--)
         {
-            PathTiles[i].Controller.ScrubPath();
+            HighlightedTiles[i].Dehighlight();
         }
     }
 
-    public void HighlightPath(List<IHexTile> path)
+    public bool IsSelectedTile(IHexTileController targetTile)
     {
-        foreach (IHexTile tile in path)
-        {
-            tile.Controller.MarkPath();
-        }
+        return SelectedTiles.Count > 0 && targetTile == SelectedTiles[0];
+    }
+
+    public IHexTileController GetSelectedTile()
+    {
+        return SelectedTiles.Count > 0 ? SelectedTiles[0] : null;
+    }
+
+    public ICharacterController GetSelectedCharacter()
+    {
+        if (!(SelectedTiles.Count > 0))
+            return null;
+
+        return SelectedTiles[0].IsOccupied() ? SelectedTiles[0].OccupantCharacter : null;
     }
 
     #endregion

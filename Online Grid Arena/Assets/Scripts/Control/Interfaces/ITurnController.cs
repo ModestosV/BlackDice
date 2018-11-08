@@ -2,10 +2,13 @@
 
 public interface ITurnController
 {
-    List<ICharacter> RefreshedCharacters { get; set; }
-    List<ICharacter> ExhaustedCharacters { get; set; }
-    ICharacter ActiveCharacter { get; set; }
+    List<ICharacterController> RefreshedCharacters { set; }
+    List<ICharacterController> ExhaustedCharacters { set; }
+    ICharacterController ActiveCharacter { set; }
 
     void StartNextTurn();
-    void EndTurn();
+    void AddCharacters(List<ICharacterController> characters);
+    void AddCharacter(ICharacterController character);
+    void RemoveCharacter(ICharacterController character);
+    void SelectActiveCharacter();
 }
