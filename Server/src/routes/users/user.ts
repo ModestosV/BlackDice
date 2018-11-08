@@ -33,7 +33,7 @@ router.post(
           passwordHash: finalHash
         };
 
-        User.create(userData);
+        User.create(userData); // TODO: Catch duplicates
         res.status(200);
         return res.json(userData);
       }

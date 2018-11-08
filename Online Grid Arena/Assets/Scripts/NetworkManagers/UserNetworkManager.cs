@@ -2,25 +2,19 @@
 
 public class UserNetworkManager : AbstractNetworkManager
 {
-    public RegistrationPanel RegPanel { get; set; }
     private readonly string baseUrl = "http://localhost:5500/account";
-    private UserDto userDto;
 
-    public IEnumerator CreateUser(UserDto userDto)
+    public IEnumerator CreateUser(UserDTO userDto)
     {
-        this.userDto = userDto; 
         yield return Post(baseUrl + "/register", $"{{\"password\":\"{userDto.PasswordHash}\",\"email\":\"{userDto.Email}\",\"username\":\"{userDto.Username}\"}}");
     }
 
-    public IEnumerator Login(UserDto userDto)
+    public IEnumerator Login(UserDTO userDto)
     {
-        this.userDto = userDto;
         yield return Post(baseUrl + "/login", $"{{\"password\":\"{userDto.PasswordHash}\",\"email\":\"{userDto.Email}\"}}");
     }
-
-    public IEnumerator Logout(UserDto userDto)
+    public IEnumerator Logout(UserDTO userDto)
     {
-        this.userDto = userDto;
         yield return Post(baseUrl + "/logout", $"{{\"password\":\"{userDto.PasswordHash}\",\"email\":\"{userDto.Email}\"}}");
     }
 }

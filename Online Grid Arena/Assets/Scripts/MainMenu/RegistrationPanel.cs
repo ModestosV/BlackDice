@@ -5,10 +5,10 @@ using TMPro;
 
 public class RegistrationPanel : MonoBehaviour, IPanel
 {
-    public TextMeshProUGUI StatusText { get; set; }
-    public TextMeshProUGUI EmailText { get; set; }
-    public TextMeshProUGUI PasswordText { get; set; }
-    public TextMeshProUGUI UsernameText { get; set; }
+    public TextMeshProUGUI StatusGUI { get; set; }
+    public TextMeshProUGUI EmailGUI { get; set; }
+    public TextMeshProUGUI PasswordGUI { get; set; }
+    public TextMeshProUGUI UsernameGUI { get; set; }
 
     public Button registerButton;
 
@@ -16,20 +16,23 @@ public class RegistrationPanel : MonoBehaviour, IPanel
 
     public LoginPanel LoginPanel;
 
+    private UserNetworkManager UserNetworkManager { get; set; }
+
     private void OnValidate()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
-        UsernameText = GetComponentsInChildren<TextMeshProUGUI>()[4];
+        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        UsernameGUI = GetComponentsInChildren<TextMeshProUGUI>()[4];
     }
 
     private void Awake()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
-        UsernameText = GetComponentsInChildren<TextMeshProUGUI>()[6];
+        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        UsernameGUI = GetComponentsInChildren<TextMeshProUGUI>()[6];
+        UserNetworkManager = new UserNetworkManager();
     }
 
     public void Register()
@@ -37,46 +40,37 @@ public class RegistrationPanel : MonoBehaviour, IPanel
         LoginPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
-        if (!ValidateEmail(EmailText.text))
+        if (!ValidateEmail(EmailGUI.text))
         {
             SetStatus(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
-        if (!ValidatePassword(PasswordText.text))
+        if (!ValidatePassword(PasswordGUI.text))
         {
             SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
             return;
         }
 
+        if (!ValidateUsername(UsernameGUI.text))
+        {
+            SetStatus(Strings.INVALID_USERNAME_MESSAGE);
+            return;
+        }
+
         loadingCircle.SetActive(true);
-        MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString(), UsernameText.text);
+        MakeRegistrationWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString(), UsernameGUI.text);
         loadingCircle.SetActive(false);
     }
 
     public void SetStatus(string statusText)
     {
-        StatusText.text = statusText;
+        StatusGUI.text = statusText;
     }
 
     public void ClearStatus()
     {
-        StatusText.text = "";
-    }
-
-    public void ClearEmail()
-    {
-        EmailText.text = "";
-    }
-
-    public void ClearPassword()
-    {
-        PasswordText.text = "";
-    }
-
-    public void ClearUsername()
-    {
-        UsernameText.text = "";
+        StatusGUI.text = "";
     }
 
     private bool ValidateEmail(string email)
@@ -97,30 +91,29 @@ public class RegistrationPanel : MonoBehaviour, IPanel
     private void MakeRegistrationWebRequest(string email, string password, string username)
     {
         ClearStatus();
-        UserNetworkManager unm = new UserNetworkManager();
-        unm.Panel = this;
-        StartCoroutine(unm.CreateUser(new UserDto(email, password, username)));
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.CreateUser(new UserDTO(email, password, username)));
         loadingCircle.SetActive(false);
     }
 
     private IEnumerator FlickerStatus()
     {
-        StatusText.gameObject.SetActive(false);
+        StatusGUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        StatusText.gameObject.SetActive(true);
+        StatusGUI.gameObject.SetActive(true);
     }
 
-    public void GetStatus(AbstractNetworkManager anm)
+    public void GetStatus(string statusCode)
     {
-        if (anm.StatusCode == "200")
+        if (statusCode == "200")
         {
             SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
         }
-        if (anm.StatusCode == "400")
+        if (statusCode == "400")
         {
             SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
-        if (anm.StatusCode == "500")
+        if (statusCode == "500")
         {
             SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }

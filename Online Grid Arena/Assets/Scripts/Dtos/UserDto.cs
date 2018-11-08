@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-public class UserDto
+public class UserDTO
 {
     public DateTime CreatedAt { get; }
     public string Email { get; }
@@ -11,7 +11,7 @@ public class UserDto
     public string Surname { get; }
     public string Username { get; }
 
-    public UserDto
+    public UserDTO
     (
         string Email,
         string PasswordHash,

@@ -6,9 +6,9 @@ using TMPro;
 
 public class LoginPanel : MonoBehaviour, IPanel
 {
-    public TextMeshProUGUI StatusText { get; set; }
-    public TextMeshProUGUI EmailText { get; set; }
-    public TextMeshProUGUI PasswordText { get; set; }
+    public TextMeshProUGUI StatusGUI { get; set; }
+    public TextMeshProUGUI EmailGUI { get; set; }
+    public TextMeshProUGUI PasswordGUI { get; set; }
 
     public Button loginButton;
     public Button logoutButton;
@@ -18,19 +18,21 @@ public class LoginPanel : MonoBehaviour, IPanel
     public RegistrationPanel registrationPanel;
 
     public string LoggedInEmail { get; set; }
+    private UserNetworkManager UserNetworkManager { get; set; }
 
     private void OnValidate()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
     }
 
     private void Awake()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        UserNetworkManager = new UserNetworkManager();
     }
 
     public void Login()
@@ -39,7 +41,7 @@ public class LoginPanel : MonoBehaviour, IPanel
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        MakeLoginWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
+        MakeLoginWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
     public void Logout()
@@ -48,39 +50,34 @@ public class LoginPanel : MonoBehaviour, IPanel
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        MakeLogoutWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString());
+        MakeLogoutWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
     public void SetStatus(string statusText)
     {
-        StatusText.text = statusText;
-    }
-
-    public void ClearStatusText()
-    {
-        StatusText.text = "";
+        StatusGUI.text = statusText;
     }
 
     public void ClearStatus()
     {
-        StatusText.text = "";
+        StatusGUI.text = "";
     }
 
     public void ClearEmail()
     {
-        EmailText.text = "";
+        EmailGUI.text = "";
     }
 
     public void ClearPassword()
     {
-        PasswordText.text = "";
+        PasswordGUI.text = "";
     }
 
     public void ToggleLoginLogoutButtons()
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
-        if (loginButton.gameObject.activeSelf)
+        if(loginButton.gameObject.activeSelf)
         {
             SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
         }
@@ -93,39 +90,37 @@ public class LoginPanel : MonoBehaviour, IPanel
     private void MakeLoginWebRequest(string email, string password)
     {
         ClearStatus();
-        UserNetworkManager unm = new UserNetworkManager();
-        unm.Panel = this;
-        StartCoroutine(unm.Login(new UserDto(email, password)));
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.Login(new UserDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
     private void MakeLogoutWebRequest(string email, string password)
     {
         ClearStatus();
-        UserNetworkManager unm = new UserNetworkManager();
-        unm.Panel = this;
-        StartCoroutine(unm.Logout(new UserDto(email, password)));
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.Logout(new UserDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
     private IEnumerator FlickerStatus()
     {
-        StatusText.gameObject.SetActive(false);
+        StatusGUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        StatusText.gameObject.SetActive(true);
+        StatusGUI.gameObject.SetActive(true);
     }
 
-    public void GetStatus(AbstractNetworkManager anm)
+    public void GetStatus(string statusCode)
     {
-        if (anm.StatusCode == "200")
+        if (statusCode == "200")
         {
             ToggleLoginLogoutButtons();
         }
-        if (anm.StatusCode == "400")
+        if (statusCode == "400")
         {
             SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
-        if (anm.StatusCode == "500")
+        if (statusCode == "500")
         {
             SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
