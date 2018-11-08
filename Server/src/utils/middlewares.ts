@@ -5,5 +5,6 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
   global.console.error("Error:");
   global.console.error(err.message);
   global.console.error(err.stack);
+  res.status(500);
   return res.json(getStatus(500));
 }

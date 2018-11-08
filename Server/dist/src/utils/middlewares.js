@@ -8,6 +8,7 @@ function errorHandler(err, req, res, next) {
     global.console.error("Error:");
     global.console.error(err.message);
     global.console.error(err.stack);
+    res.status(500);
     return res.json(errors_1.default(500));
 }
 exports.errorHandler = errorHandler;
