@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
 public class TurnController : ITurnController
 {
+<<<<<<< HEAD
+    public List<ICharacter> RefreshedCharacters { get; set; }
+    public List<ICharacter> ExhaustedCharacters { get; set; }
+    public ICharacter ActiveCharacter { get; set; }
+    public ITurnPanel TurnTracker { get; set; }
+=======
     public List<ICharacterController> RefreshedCharacters { protected get; set; }
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
     public ICharacterController ActiveCharacter { protected get; set; }
-    public ITurnPanelController TurnTracker { protected get; set; }
+>>>>>>> master
 
     public TurnController()
     {
@@ -56,8 +61,15 @@ public class TurnController : ITurnController
         ActiveCharacter = RefreshedCharacters.ElementAt(0);
         RefreshedCharacters.RemoveAt(0);
 
-        ActiveCharacter.Refresh();
+<<<<<<< HEAD
+        ActiveCharacter.Controller.Refresh();
+        ActiveCharacter.Controller.OccupiedTile.Controller.Deselect();
+        ActiveCharacter.Controller.OccupiedTile.Controller.Select();
+
         TurnTracker.updateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+=======
+        ActiveCharacter.Refresh();
+>>>>>>> master
     }
 
     public void SelectActiveCharacter()

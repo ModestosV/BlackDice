@@ -2,5 +2,5 @@
 
 public interface ITurnPanelController
 {
-    void updateQueue();
+    void updateQueue(ICharacterController ActiveCharacter, List<ICharacterController> RefreshedCharacters, List<ICharacterController> ExhaustedCharacters);
 }

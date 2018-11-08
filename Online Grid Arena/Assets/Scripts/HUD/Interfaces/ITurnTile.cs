@@ -2,5 +2,5 @@
 {
     ITurnTileController Controller { get; }
 
-    void updateTile();
+    void updateTile(ICharacterController character);
 }
