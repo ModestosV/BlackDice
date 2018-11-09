@@ -18,6 +18,7 @@ public class TurnPanelTest
     List<ICharacterController> exhaustedCharactersList;
 
     List<ITurnTileController> turnTiles;
+    List<string> playerNames;
 
     [SetUp]
     public void Init()
@@ -37,13 +38,19 @@ public class TurnPanelTest
         secondCharacter.GetInitiative().Returns(2.0f);
         thirdCharacter.GetInitiative().Returns(3.0f);
 
+        firstCharacter.OwnedByPlayer.Returns("0");
+        secondCharacter.OwnedByPlayer.Returns("0");
+        thirdCharacter.OwnedByPlayer.Returns("1");
+
         turnTiles = new List<ITurnTileController>(3);
+        playerNames = new List<string>() { "0", "1" };
 
         sut = new TurnPanelController
         {
             TurnPanel = null,
             TurnTiles = turnTiles,
-            CharacterOrder = new List<ICharacterController>()
+            CharacterOrder = new List<ICharacterController>(),
+            PlayerNames = playerNames
         };
     }
 
@@ -81,7 +88,7 @@ public class TurnPanelTest
         sut.SetTiles();
 
         turnTiles[0].Received(1).UpdateTile(firstCharacter, 0);
-        turnTiles[1].Received(1).UpdateTile(secondCharacter, 1);
-        turnTiles[2].Received(1).UpdateTile(thirdCharacter, 2);
+        turnTiles[1].Received(1).UpdateTile(secondCharacter, 0);
+        turnTiles[2].Received(1).UpdateTile(thirdCharacter, 1);
     }
 }
