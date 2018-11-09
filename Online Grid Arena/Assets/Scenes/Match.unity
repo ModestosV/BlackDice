@@ -555,7 +555,7 @@ MonoBehaviour:
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 1
-  characterIcon: {fileID: 2800000, guid: 429a7c654ab157047b70b00e7c488da3, type: 3}
+  characterIcon: {fileID: 2800000, guid: 1b2e23c2cba399246923a70a3d064f73, type: 3}
 --- !u!1 &123949728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,7 +3073,7 @@ MonoBehaviour:
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 1
-  characterIcon: {fileID: 2800000, guid: 429a7c654ab157047b70b00e7c488da3, type: 3}
+  characterIcon: {fileID: 2800000, guid: a584b4335e575314cbf4facedab3b138, type: 3}
 --- !u!1 &1156470931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,7 +4106,7 @@ MonoBehaviour:
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 2
-  characterIcon: {fileID: 2800000, guid: 429a7c654ab157047b70b00e7c488da3, type: 3}
+  characterIcon: {fileID: 2800000, guid: 218c2514a0c05354d82acec421517df2, type: 3}
 --- !u!1 &1894345465
 GameObject:
   m_ObjectHideFlags: 0

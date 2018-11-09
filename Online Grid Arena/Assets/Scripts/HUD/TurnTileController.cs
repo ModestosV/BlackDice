@@ -10,10 +10,10 @@ public class TurnTileController : ITurnTileController
     public void UpdateTile(ICharacterController character)
     {
         Character = character;
-        CharacterIcon = Character.GetIcon();
-        PlayerName = Character.GetPlayerName();
+        CharacterIcon = Character.CharacterIcon;
+        PlayerName = Character.OwnedByPlayer;
 
-        TurnTile.updateTile(CharacterIcon, PlayerName);
+        TurnTile.UpdateTile(CharacterIcon, PlayerName);
     }
 	
     public void Hide()

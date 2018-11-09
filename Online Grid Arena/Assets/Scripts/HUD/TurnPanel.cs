@@ -20,7 +20,7 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
         turnPanelController = new TurnPanelController()
         {
             TurnPanel = this,
-            TurnTiles = new List<ITurnTileController>(3),
+            TurnTiles = new List<ITurnTileController>(),
             CharacterOrder = new List<ICharacterController>()
         };
 

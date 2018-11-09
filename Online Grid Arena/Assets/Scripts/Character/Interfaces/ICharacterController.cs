@@ -14,7 +14,9 @@ public interface ICharacterController
 
     int MovesRemaining { set; }
     int AbilitiesRemaining { set; }
-    string OwnedByPlayer { set; }    
+
+    string OwnedByPlayer { get; set; }    
+    Texture CharacterIcon { get; set; }
 
     void Select();
     void Deselect();
@@ -32,6 +34,4 @@ public interface ICharacterController
     bool CanMove();
     bool CanUseAbility();
 
-    Texture GetIcon();
-    string GetPlayerName();
 }

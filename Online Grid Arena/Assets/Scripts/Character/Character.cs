@@ -10,8 +10,7 @@ public class Character : MonoBehaviour, ICharacter
     public string playerName;
 
     private CharacterController characterController;
-
-    [SerializeField]
+    
     public Texture characterIcon;
 
     private void Awake()

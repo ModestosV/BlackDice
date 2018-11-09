@@ -13,6 +13,8 @@ public class TurnControllerTests
     List<ICharacterController> refreshedCharactersList;
     List<ICharacterController> exhaustedCharactersList;
 
+    ITurnPanelController turnTracker;
+
     [SetUp]
     public void Init()
     {
@@ -26,14 +28,15 @@ public class TurnControllerTests
 
         firstCharacter.GetInitiative().Returns(1.0f);
         secondCharacter.GetInitiative().Returns(2.0f);
-       
+
+        turnTracker = Substitute.For<ITurnPanelController>();
 
         sut = new TurnController
         {
             RefreshedCharacters = refreshedCharactersList,
             ExhaustedCharacters = exhaustedCharactersList,
             ActiveCharacter = null,
-            TurnTracker = Substitute.For<ITurnPanelController>()
+            TurnTracker = turnTracker
     };
     }
 

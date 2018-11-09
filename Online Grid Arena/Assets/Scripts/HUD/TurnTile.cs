@@ -21,14 +21,14 @@ public class TurnTile : MonoBehaviour, ITurnTile
         };
     }
 
-    public void updateTile(Texture icon, string player)
+    public void UpdateTile(Texture icon, string player)
     {
         characterIcon = icon;
         playerName = player;
 
         try
         {
-            this.GameObject.transform.GetChild(0).GetComponent<RawImage>().texture = characterIcon;
+            GetComponentInChildren<RawImage>().texture = characterIcon;
             if (playerName == "1")
                 this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
             else
@@ -36,7 +36,7 @@ public class TurnTile : MonoBehaviour, ITurnTile
         }
         catch
         {
-            // logging
+            Debug.Log(playerName + "; " + this.GameObject);
         }
     }
 
