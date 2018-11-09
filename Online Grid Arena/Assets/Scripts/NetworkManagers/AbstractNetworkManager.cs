@@ -6,6 +6,13 @@ public abstract class AbstractNetworkManager : IHttpRequests
 {
     public IPanel Panel { get; set; }
 
+    protected readonly string mainURL;
+
+    protected AbstractNetworkManager(string extensionURL)
+    {
+        mainURL = URLs.BASE_URL + "/" + extensionURL;
+    }
+
     public IEnumerator Post(string url, string body)
     {
         var request = new UnityWebRequest(url, "POST");
