@@ -1,6 +1,8 @@
-﻿public interface ITurnTile : IMonoBehaviour
+﻿using UnityEngine;
+
+public interface ITurnTile : IMonoBehaviour
 {
     ITurnTileController Controller { get; }
 
-    void updateTile(ICharacterController character);
+    void updateTile(Texture icon, string name);
 }

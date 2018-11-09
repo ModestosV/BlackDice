@@ -1,44 +1,35 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TurnPanelController : ITurnPanelController
 { 
-    public ITurnPanel turnPanel { protected get; set; }
-    public List<ITurnTileController> turnTiles { protected get; set; }
+    public ITurnPanel TurnPanel { protected get; set; }
+    public List<ITurnTileController> TurnTiles { protected get; set; }
+    public List<ICharacterController> CharacterOrder { protected get; set; }
 
-    public void addTurnTile(ITurnTileController tile)
+    public void AddTurnTile(ITurnTileController tile)
     {
-        turnTiles.Add(tile);
+        TurnTiles.Add(tile);
     }
 
-    public void activate(ITurnTileController tile, ICharacterController character)
+    public void SetTiles()
     {
-        tile.Character = character;
-        tile.updateTile();
-    }
-
-    public void updateQueue(ICharacterController ActiveCharacter, List<ICharacterController> RefreshedCharacters, List<ICharacterController> ExhaustedCharacters)
-    {
-        foreach (ITurnTile tile in turnTiles)
+        for (int n = 0; n < TurnTiles.Count; n++)
         {
-            activate(turnTiles[0], ActiveCharacter);
-
-            int n = 1;
-            foreach (ICharacterController character in RefreshedCharacters)
-            {
-                activate(turnTiles[n], character);
-                n++;
-                if (n > turnTiles.Count) break;
-            }
-
-            foreach (ICharacterController character in ExhaustedCharacters)
-            {
-                activate(turnTiles[n], character);
-                n++;
-                if (n > turnTiles.Count) break;
-            }
-
+            if (n >= CharacterOrder.Count) break;
+            TurnTiles[n].Character = CharacterOrder[n];
+            TurnTiles[n].updateTile();
         }
+    }
 
-        turnPanel.updateQueue();
+    public void UpdateQueue(ICharacterController ActiveCharacter, List<ICharacterController> RefreshedCharacters, List<ICharacterController> ExhaustedCharacters)
+    {
+        CharacterOrder.Clear();
+
+        CharacterOrder.Add(ActiveCharacter);
+        CharacterOrder.AddRange(RefreshedCharacters);
+        CharacterOrder.AddRange(ExhaustedCharacters);
+
+        SetTiles();
     }
 }

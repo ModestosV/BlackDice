@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class TurnTileController : ITurnTileController
 {
-    public ITurnTile turnTile;
+    public ITurnTile TurnTile;
     public ICharacterController Character { protected get; set; }
+    public Texture CharacterIcon { protected get; set; }
+    public string PlayerName { protected get; set; }
 
     public void updateTile()
     {
-        turnTile.updateTile();
+        TurnTile.updateTile(Character.GetIcon(), Character.GetPlayerName());
     }
 	
 }

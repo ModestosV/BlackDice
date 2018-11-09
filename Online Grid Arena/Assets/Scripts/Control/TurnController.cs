@@ -57,7 +57,8 @@ public class TurnController : ITurnController
         RefreshedCharacters.RemoveAt(0);
 
         ActiveCharacter.Refresh();
-        TurnTracker.updateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void SelectActiveCharacter()

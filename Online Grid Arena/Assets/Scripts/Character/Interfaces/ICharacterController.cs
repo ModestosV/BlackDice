@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public interface ICharacterController
 {
@@ -30,4 +31,7 @@ public interface ICharacterController
 
     bool CanMove();
     bool CanUseAbility();
+
+    Texture GetIcon();
+    string GetPlayerName();
 }

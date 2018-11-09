@@ -4,26 +4,41 @@ using UnityEngine.UI;
 public class TurnTile : MonoBehaviour, ITurnTile
 {
     private TurnTileController controller;
-    public GameObject character;
+
+    public ITurnTileController Controller { get { return controller; } }
+
+    private Texture characterIcon;
+    private string playerName;
     
-    public void updateTile(ICharacterController character)
+    private void Awake()
     {
-        // TO-DO: Refactor to get texture through characterController
+        controller = new TurnTileController
+        {
+            TurnTile = this,
+            Character = null,
+            CharacterIcon = null,
+            PlayerName = null
+        };
+    }
+
+    public void updateTile(Texture icon, string player)
+    {
+        characterIcon = icon;
+        playerName = player;
+
         try
         {
-            //this.GameObject.transform.GetChild(0).GetComponent<RawImage>().texture = character;
-            //if (character.OwnedByPlayer == "0")
-            //    this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
-            //else
-            //    this.GameObject.GetComponent<Image>().color = new Color32(255, 150, 0, 255);
+            this.GameObject.transform.GetChild(0).GetComponent<RawImage>().texture = characterIcon;
+            if (playerName == "1")
+                this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
+            else
+                this.GameObject.GetComponent<Image>().color = new Color32(255, 150, 0, 255);
         }
         catch
         {
             // logging
         }
     }
-
-    public ITurnTileController Controller { get { return controller; } }
 
     public GameObject GameObject
     {

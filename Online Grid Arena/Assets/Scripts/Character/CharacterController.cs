@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterController : ICharacterController
 {
@@ -14,6 +15,8 @@ public class CharacterController : ICharacterController
     public int MovesRemaining { protected get; set; }
     public int AbilitiesRemaining { protected get; set; }
     public string OwnedByPlayer { protected get; set; }
+
+    public Texture CharacterIcon { protected get; set; }
 
     public void Select()
     {
@@ -113,5 +116,15 @@ public class CharacterController : ICharacterController
     public bool CanUseAbility()
     {
         return AbilitiesRemaining > 0;
+    }
+
+    public Texture GetIcon()
+    {
+        return CharacterIcon;
+    }
+
+    public string GetPlayerName()
+    {
+        return OwnedByPlayer;
     }
 }

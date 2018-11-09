@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.UI;
 
 public class Character : MonoBehaviour, ICharacter
 {
@@ -23,7 +22,8 @@ public class Character : MonoBehaviour, ICharacter
             CharacterStats = stats.ToList<ICharacterStat>(),
             Abilities = abilities.ToList<IAbility>(),
             Character = this,
-            OwnedByPlayer = playerName
+            OwnedByPlayer = playerName,
+            CharacterIcon = characterIcon
         };
     }
 
