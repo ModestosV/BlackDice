@@ -5,15 +5,15 @@ public class TurnTileController : ITurnTileController
     public ITurnTile TurnTile;
     public ICharacterController Character { protected get; set; }
     public Texture CharacterIcon { protected get; set; }
-    public string PlayerName { protected get; set; }
+    public int Player { protected get; set; }
 
-    public void UpdateTile(ICharacterController character)
+    public void UpdateTile(ICharacterController character, int player)
     {
         Character = character;
         CharacterIcon = Character.CharacterIcon;
-        PlayerName = Character.OwnedByPlayer;
+        Player = player;
 
-        TurnTile.UpdateTile(CharacterIcon, PlayerName);
+        TurnTile.UpdateTile(CharacterIcon, Player);
     }
 	
     public void Hide()

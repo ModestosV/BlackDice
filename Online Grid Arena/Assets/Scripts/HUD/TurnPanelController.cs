@@ -6,6 +6,7 @@ public class TurnPanelController : ITurnPanelController
     public ITurnPanel TurnPanel { protected get; set; }
     public List<ITurnTileController> TurnTiles { protected get; set; }
     public List<ICharacterController> CharacterOrder { protected get; set; }
+    public List<string> PlayerNames { protected get; set; }
 
     public void AddTurnTile(ITurnTileController tile)
     {
@@ -23,7 +24,7 @@ public class TurnPanelController : ITurnPanelController
             else
             {
                 TurnTiles[n].Show();
-                TurnTiles[n].UpdateTile(CharacterOrder[n]);
+                TurnTiles[n].UpdateTile(CharacterOrder[n], PlayerNames.IndexOf(CharacterOrder[n].OwnedByPlayer));
             }
         }
     }

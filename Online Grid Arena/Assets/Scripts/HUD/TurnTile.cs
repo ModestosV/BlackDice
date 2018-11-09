@@ -7,8 +7,8 @@ public class TurnTile : MonoBehaviour, ITurnTile
 
     public ITurnTileController Controller { get { return controller; } }
 
-    private Texture characterIcon;
-    private string playerName;
+    private Image border;
+    private RawImage characterIcon;
     
     private void Awake()
     {
@@ -17,26 +17,31 @@ public class TurnTile : MonoBehaviour, ITurnTile
             TurnTile = this,
             Character = null,
             CharacterIcon = null,
-            PlayerName = null
+            Player = 0
         };
+
+        characterIcon = GetComponentInChildren<RawImage>();
+        border = GetComponent<Image>();
     }
 
-    public void UpdateTile(Texture icon, string player)
+    public void UpdateTile(Texture icon, int player)
     {
-        characterIcon = icon;
-        playerName = player;
+        characterIcon.texture = icon;
 
-        try
+        switch (player)
         {
-            GetComponentInChildren<RawImage>().texture = characterIcon;
-            if (playerName == "1")
-                this.GameObject.GetComponent<Image>().color = new Color32(0, 150, 255, 255);
-            else
-                this.GameObject.GetComponent<Image>().color = new Color32(255, 150, 0, 255);
-        }
-        catch
-        {
-            Debug.Log(playerName + "; " + this.GameObject);
+            case 0:
+                border.color = new Color32(0, 150, 255, 255);
+                break;
+            case 1:
+                border.color = new Color32(255, 150, 0, 255);
+                break;
+            case 2:
+                border.color = new Color32(150, 0, 255, 255);
+                break;
+            default:
+                border.color = new Color32(255, 255, 255, 255);
+                break;
         }
     }
 

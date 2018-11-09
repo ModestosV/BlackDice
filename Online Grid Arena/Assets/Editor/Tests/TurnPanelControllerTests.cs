@@ -65,8 +65,8 @@ public class TurnPanelTest
 
         sut.SetTiles();
 
-        turnTiles[0].Received(1).UpdateTile(secondCharacter);
-        turnTiles[1].Received(1).UpdateTile(thirdCharacter);
+        turnTiles[0].Received(1).UpdateTile(secondCharacter, 0);
+        turnTiles[1].Received(1).UpdateTile(thirdCharacter, 1);
     }
 
     [Test]
@@ -80,8 +80,8 @@ public class TurnPanelTest
 
         sut.SetTiles();
 
-        turnTiles[0].Received(1).UpdateTile(firstCharacter);
-        turnTiles[1].Received(1).UpdateTile(secondCharacter);
-        turnTiles[2].Received(1).UpdateTile(thirdCharacter);
+        turnTiles[0].Received(1).UpdateTile(firstCharacter, 0);
+        turnTiles[1].Received(1).UpdateTile(secondCharacter, 1);
+        turnTiles[2].Received(1).UpdateTile(thirdCharacter, 2);
     }
 }
