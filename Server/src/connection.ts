@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import User from "./models/User";
 
-mongoose.connect("mongodb://localhost/blackdice", { useNewUrlParser: true });
+mongoose.connect(
+    "mongodb://localhost/blackdice",
+    { useNewUrlParser: true }
+);
 mongoose.set("useCreateIndex", true);
 
 /**
