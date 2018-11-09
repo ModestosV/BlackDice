@@ -3,32 +3,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const crypto_js_1 = __importDefault(require("crypto-js"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const crypto_js_1 = __importDefault(require("crypto-js"));
+const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const moment_1 = __importDefault(require("moment"));
-const models_1 = __importDefault(require("../../app/models"));
-const middlewares_1 = require("../../utils/middlewares");
-class UserRoutersClass {
-    constructor(r) {
-        this.router = r;
-        this.User = models_1.default("User");
+const models_1 = __importDefault(require("../app/models"));
+const middlewares_1 = require("../utils/middlewares");
+class UserRoutes {
+    constructor(router, user) {
+        this.router = router;
+        this.user = user;
     }
     Register() {
         this.router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("register request going through");
-                global.console.log("BOI");
                 const username = req.body.username;
                 const passHash = req.body.password;
                 const email = req.body.email;
-                global.console.log("BOI1");
                 if (username && passHash && email) {
-                    global.console.log("BOI2");
                     const salt = moment_1.default();
                     const finalHash = crypto_js_1.default.SHA512(passHash, salt.toString()).toString();
-                    global.console.log("BOI3");
-                    const userData = new this.User({
+                    const userData = new this.user({
                         createdAt: salt,
                         email,
                         loggedIn: false,
@@ -39,12 +36,10 @@ class UserRoutersClass {
                     res.status(200);
                     return res.json(userData); // TODO: Add the passwordless token generation
                 }
-                global.console.log("BOI4");
                 res.status(400);
                 return res.json("Request invalid");
             }
             catch (err) {
-                global.console.log("BOI5 >:(");
                 return next(err);
             }
         }, middlewares_1.errorHandler);
@@ -60,7 +55,7 @@ class UserRoutersClass {
                 const loginQuery = {
                     email
                 };
-                const userDoc = await this.User.findOne(loginQuery).exec();
+                const userDoc = await this.user.findOne(loginQuery).exec();
                 if (!userDoc) {
                     res.status(400);
                     return res.json("Email does not exist");
@@ -101,7 +96,7 @@ class UserRoutersClass {
                 const loginQuery = {
                     email
                 };
-                const userDoc = await this.User.findOne(loginQuery).exec();
+                const userDoc = await this.user.findOne(loginQuery).exec();
                 if (!userDoc) {
                     res.status(400);
                     return res.json("Email does not exist");
@@ -133,5 +128,10 @@ class UserRoutersClass {
         }, middlewares_1.errorHandler);
     }
 }
-exports.UserRoutersClass = UserRoutersClass;
-//# sourceMappingURL=UserRoutersClass.js.map
+exports.UserRoutes = UserRoutes;
+const userRoutes = new UserRoutes(express_1.default.Router(), models_1.default("User"));
+userRoutes.Register();
+userRoutes.Login();
+userRoutes.Logout();
+exports.default = userRoutes.router;
+//# sourceMappingURL=UserRoutes.js.map

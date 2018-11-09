@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const middlewares_1 = require("../utils/middlewares");
-const user_1 = __importDefault(require("./users/user"));
+const UserRoutes_1 = __importDefault(require("./UserRoutes"));
 const router = express_1.default.Router();
 router.get("/", (req, res, next) => {
     const response = {
@@ -13,7 +13,7 @@ router.get("/", (req, res, next) => {
     };
     return res.json(response);
 });
-router.use("/account", user_1.default);
+router.use("/account", UserRoutes_1.default);
 router.get("/chracterInfo", (req, res, next) => {
     if (!req.params.characterID) {
         global.console.log("This character ID is empty. Nice");

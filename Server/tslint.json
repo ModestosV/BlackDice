@@ -3,7 +3,8 @@
   "rulesDirectory": [],
   "rules": {
     "align" : true,
-    "eofline" : false, 
+    "eofline" : false,
+    "indent": [true, "tabs", 4],
     "max-line-length": {
       "options": [200]
     },
