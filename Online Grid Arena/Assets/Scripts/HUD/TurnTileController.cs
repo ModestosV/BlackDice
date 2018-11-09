@@ -7,7 +7,7 @@ public class TurnTileController : ITurnTileController
     public Texture CharacterIcon { protected get; set; }
     public string PlayerName { protected get; set; }
 
-    public void updateTile(ICharacterController character)
+    public void UpdateTile(ICharacterController character)
     {
         Character = character;
         CharacterIcon = Character.GetIcon();
@@ -16,4 +16,13 @@ public class TurnTileController : ITurnTileController
         TurnTile.updateTile(CharacterIcon, PlayerName);
     }
 	
+    public void Hide()
+    {
+        TurnTile.GameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        TurnTile.GameObject.SetActive(true);
+    }
 }
