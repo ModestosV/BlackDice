@@ -3,5 +3,5 @@
 public interface ITurnTileController
 {
     ICharacterController Character { set; }
-    void updateTile();
+    void updateTile(ICharacterController character);
 }

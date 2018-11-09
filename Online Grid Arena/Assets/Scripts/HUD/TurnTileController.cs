@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurnTileController : ITurnTileController
 {
@@ -9,9 +7,13 @@ public class TurnTileController : ITurnTileController
     public Texture CharacterIcon { protected get; set; }
     public string PlayerName { protected get; set; }
 
-    public void updateTile()
+    public void updateTile(ICharacterController character)
     {
-        TurnTile.updateTile(Character.GetIcon(), Character.GetPlayerName());
+        Character = character;
+        CharacterIcon = Character.GetIcon();
+        PlayerName = Character.GetPlayerName();
+
+        TurnTile.updateTile(CharacterIcon, PlayerName);
     }
 	
 }

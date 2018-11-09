@@ -17,8 +17,7 @@ public class TurnPanelController : ITurnPanelController
         for (int n = 0; n < TurnTiles.Count; n++)
         {
             if (n >= CharacterOrder.Count) break;
-            TurnTiles[n].Character = CharacterOrder[n];
-            TurnTiles[n].updateTile();
+            TurnTiles[n].updateTile(CharacterOrder[n]);
         }
     }
 

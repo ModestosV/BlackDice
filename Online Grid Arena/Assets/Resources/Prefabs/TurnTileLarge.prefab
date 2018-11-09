@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114729860637459842}
   - component: {fileID: 114026154771523746}
   m_Layer: 5
-  m_Name: TurnTile
+  m_Name: TurnTileLarge
   m_TagString: TurnTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb929ccf847b5443a307b2213c7db37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
 --- !u!114 &114729860637459842
 MonoBehaviour:
   m_ObjectHideFlags: 1
