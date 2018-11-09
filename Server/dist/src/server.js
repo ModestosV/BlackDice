@@ -12,12 +12,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Starting the server code
 const console_stamp_1 = __importDefault(require("console-stamp"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const httpServer = __importStar(require("http"));
 const app_1 = __importDefault(require("./app"));
-const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss".toString() };
+const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss" };
+dotenv_1.default.config();
 let server = null;
-const host = "localhost";
-const port = 5500;
+const host = process.env.HOST || "localhost";
+const port = parseInt(process.env.PORT ? process.env.PORT : "5500", 10);
 console_stamp_1.default(console, stamp);
 server = httpServer.createServer(app_1.default);
 server.listen(port, host);
