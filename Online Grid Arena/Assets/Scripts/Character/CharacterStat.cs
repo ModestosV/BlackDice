@@ -1,6 +1,6 @@
 /*
  * Credit: Kryzarel's free Unity asset titled "Character Stats".
- * Obtained from Unity Asset Store on 2018/09/14 and modified for our specific purpose. 
+ * Obtained from Unity Asset Store on 2018/09/14 and modified for our purposes. 
  * https://assetstore.unity.com/packages/tools/integration/character-stats-106351
  */
 
@@ -8,12 +8,21 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 [Serializable]
 public class CharacterStat : ICharacterStat
 {
     public float baseValue;
+    public float currentValue;
+    public float CurrentValue
+    {
+        get
+        {
+            currentValue = Mathf.Clamp(currentValue, 0.0f, Value);
+            return currentValue;
+        }
+        set { currentValue = Mathf.Clamp(value, 0.0f, Value); }
+    }
     public List<IStatModifier> StatModifiers { get; set; }
 
     protected bool isDirty = true;
@@ -100,6 +109,11 @@ public class CharacterStat : ICharacterStat
 
         Debug.Log(string.Format("Failed to remove modifiers with source {0} from {1}. No matching modifiers found", sourceString, ToString()));
         return false;
+    }
+
+    public void Refresh()
+    {
+        currentValue = Value;
     }
     
     public override string ToString()
