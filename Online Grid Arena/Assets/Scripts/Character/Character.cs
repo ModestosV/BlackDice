@@ -31,6 +31,7 @@ public class Character : MonoBehaviour, ICharacter
     private void Start()
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
+        characterController.RefreshStats();
     }
 
     #region ICharacter implementation
