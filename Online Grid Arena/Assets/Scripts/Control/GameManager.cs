@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour, IGameManager
         hudController.SelectedPlayerPanel = playerPanels[1];
         hudController.TargetStatPanel = statPanels[0].Controller;
         hudController.TargetPlayerPanel = playerPanels[0];
+        FindObjectOfType<EndTurnButton>().TurnController = turnController;
 
         // Initialize grid
         gridSelectionController = new GridSelectionController();
