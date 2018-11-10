@@ -17,6 +17,7 @@ public class CharacterController : ICharacterController
 
     public string OwnedByPlayer { get; set; }
     public Texture CharacterIcon { get; set; }
+    public Color32 BorderColor { get; set; }
 
     public void Select()
     {

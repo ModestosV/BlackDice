@@ -2,7 +2,5 @@
 
 public interface ITurnTile : IMonoBehaviour
 {
-    ITurnTileController Controller { get; }
-
-    void UpdateTile(Texture icon, int name);
+    void UpdateTile(Texture icon, Color32 borderColor);
 }

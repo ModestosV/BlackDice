@@ -17,6 +17,7 @@ public interface ICharacterController
 
     string OwnedByPlayer { get; set; }    
     Texture CharacterIcon { get; set; }
+    Color32 BorderColor { get; set; }
 
     void Select();
     void Deselect();

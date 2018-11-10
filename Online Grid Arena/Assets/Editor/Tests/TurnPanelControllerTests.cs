@@ -11,20 +11,20 @@ public class TurnPanelTest
     ICharacterController secondCharacter;
     ICharacterController thirdCharacter;
 
-    ITurnTileController firstTile;
-    ITurnTileController secondTile;
-    ITurnTileController thirdTile;
+    TurnTile firstTile;
+    TurnTile secondTile;
+    TurnTile thirdTile;
 
     List<ICharacterController> refreshedCharactersList;
     List<ICharacterController> exhaustedCharactersList;
 
-    List<ITurnTileController> turnTiles;
+    List<TurnTile> turnTiles;
     List<string> playerNames;
 
     List<ICharacterController> characterOrder;
 
-    const string PLAYER_1_NAME = "0";
-    const string PLAYER_2_NAME = "1";
+    Texture CHARACTER_ICON;
+    Color32 BORDER_COLOR;
 
     const int FIRST_INDEX = 0;
     const int SECOND_INDEX = 1;
@@ -42,29 +42,31 @@ public class TurnPanelTest
         refreshedCharactersList = new List<ICharacterController> { secondCharacter };
         exhaustedCharactersList = new List<ICharacterController>();
 
-        firstTile = Substitute.For<ITurnTileController>();
-        secondTile = Substitute.For<ITurnTileController>();
-        thirdTile = Substitute.For<ITurnTileController>();
+        firstTile = Substitute.For<TurnTile>();
+        secondTile = Substitute.For<TurnTile>();
+        thirdTile = Substitute.For<TurnTile>();
 
         firstCharacter.GetInitiative().Returns(1.0f);
         secondCharacter.GetInitiative().Returns(2.0f);
         thirdCharacter.GetInitiative().Returns(3.0f);
 
-        firstCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
-        secondCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
-        thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
-        
-        playerNames = new List<string>() { PLAYER_1_NAME, PLAYER_2_NAME };
+        firstCharacter.CharacterIcon.Returns(CHARACTER_ICON);
+        secondCharacter.CharacterIcon.Returns(CHARACTER_ICON);
 
-        turnTiles = new List<ITurnTileController>(TURN_TILES_SIZE) { firstTile, secondTile };
+        firstCharacter.BorderColor.Returns(BORDER_COLOR);
+        secondCharacter.BorderColor.Returns(BORDER_COLOR);
+
+        turnTiles = new List<TurnTile>(TURN_TILES_SIZE) { firstTile, secondTile };
         characterOrder = new List<ICharacterController>();
+
+        CHARACTER_ICON = Substitute.For<Texture>();
+        BORDER_COLOR = new Color32(0, 0, 0, 0);
 
         sut = new TurnPanelController
         {
             TurnPanel = null,
             TurnTiles = turnTiles,
-            CharacterOrder = characterOrder,
-            PlayerNames = playerNames
+            CharacterOrder = characterOrder
         };
     }
 
@@ -85,8 +87,8 @@ public class TurnPanelTest
 
         sut.SetTiles();
 
-        turnTiles[FIRST_INDEX].Received(1).UpdateTile(secondCharacter, 0);
-        turnTiles[SECOND_INDEX].Received(1).Hide();
+        turnTiles[FIRST_INDEX].Received(1).UpdateTile(CHARACTER_ICON, BORDER_COLOR);
+        turnTiles[SECOND_INDEX].Received(1).GameObject.SetActive(false);
     }
 
     [Test]
@@ -96,7 +98,7 @@ public class TurnPanelTest
 
         sut.UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
 
-        turnTiles[FIRST_INDEX].Received(1).UpdateTile(firstCharacter, FIRST_INDEX);
-        turnTiles[SECOND_INDEX].Received(1).UpdateTile(secondCharacter, FIRST_INDEX);
+        turnTiles[FIRST_INDEX].Received(1).UpdateTile(CHARACTER_ICON, BORDER_COLOR);
+        turnTiles[SECOND_INDEX].Received(1).UpdateTile(CHARACTER_ICON, BORDER_COLOR);
     }
 }

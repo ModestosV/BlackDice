@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TurnPanel : MonoBehaviour, ITurnPanel
@@ -12,33 +11,20 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
     {
         get { return gameObject; }
     }
-  
-    public List<GameObject> turnTiles;
-    public List<string> players;
 
     private void Awake()
     {
-        players = new List<string>();
-        foreach (Character character in FindObjectsOfType<Character>())
-        {
-            if (!players.Contains(character.playerName))
-                players.Add(character.playerName);
-        }
-
+        
         turnPanelController = new TurnPanelController()
         {
             TurnPanel = this,
-            TurnTiles = new List<ITurnTileController>(),
-            CharacterOrder = new List<ICharacterController>(),
-            PlayerNames = players
+            TurnTiles = new List<TurnTile>(),
+            CharacterOrder = new List<ICharacterController>()
         };
-
-        turnTiles = new List<GameObject>();
-        foreach (GameObject tile in GameObject.FindGameObjectsWithTag("TurnTile").OrderBy(go=>go.name))
+        
+        foreach (TurnTile tile in GetComponentsInChildren<TurnTile>())
         {
-            turnPanelController.AddTurnTile(tile.GetComponent<TurnTile>().Controller);
-            turnTiles.Add(tile);
+            turnPanelController.AddTurnTile(tile);
         }
     }
-    
 }
