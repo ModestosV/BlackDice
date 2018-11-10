@@ -1278,6 +1278,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 105.65, y: 105.25}
   m_EdgeRadius: 0
+--- !u!225 &286178904
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 286178902}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &296056164 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1903839669436202, guid: 5a18e0e93471c304195d4c21ca4cfb7c,
@@ -1308,6 +1319,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 105.65, y: 105.25}
   m_EdgeRadius: 0
+--- !u!225 &296056166
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 296056164}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &305271665
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,6 +2749,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 105.65, y: 105.25}
   m_EdgeRadius: 0
+--- !u!225 &801827843
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 801827841}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &822420609
 GameObject:
   m_ObjectHideFlags: 0

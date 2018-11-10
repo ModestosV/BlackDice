@@ -17,12 +17,10 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
         
         turnPanelController = new TurnPanelController()
         {
-            TurnPanel = this,
-            TurnTiles = new List<TurnTile>(),
-            CharacterOrder = new List<ICharacterController>()
+            TurnPanel = this
         };
         
-        foreach (TurnTile tile in GetComponentsInChildren<TurnTile>())
+        foreach (ITurnTile tile in GetComponentsInChildren<TurnTile>())
         {
             turnPanelController.AddTurnTile(tile);
         }

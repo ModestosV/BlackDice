@@ -4,10 +4,16 @@ using UnityEngine;
 public class TurnPanelController : ITurnPanelController
 { 
     public ITurnPanel TurnPanel { protected get; set; }
-    public List<TurnTile> TurnTiles { protected get; set; }
+    public List<ITurnTile> TurnTiles { protected get; set; }
     public List<ICharacterController> CharacterOrder { protected get; set; }
 
-    public void AddTurnTile(TurnTile tile)
+    public TurnPanelController()
+    {
+        TurnTiles = new List<ITurnTile>();
+        CharacterOrder = new List<ICharacterController>();
+    }
+
+    public void AddTurnTile(ITurnTile tile)
     {
         TurnTiles.Add(tile);
     }
@@ -18,11 +24,11 @@ public class TurnPanelController : ITurnPanelController
         {
             if (n >= CharacterOrder.Count)
             {
-                TurnTiles[n].GameObject.SetActive(false);
+                TurnTiles[n].Hide();
             }
             else
             {
-                TurnTiles[n].GameObject.SetActive(true);
+                TurnTiles[n].Show();
                 TurnTiles[n].UpdateTile(CharacterOrder[n].CharacterIcon, CharacterOrder[n].BorderColor);
             }
         }

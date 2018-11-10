@@ -11,14 +11,14 @@ public class TurnPanelTest
     ICharacterController secondCharacter;
     ICharacterController thirdCharacter;
 
-    TurnTile firstTile;
-    TurnTile secondTile;
-    TurnTile thirdTile;
+    ITurnTile firstTile;
+    ITurnTile secondTile;
+    ITurnTile thirdTile;
 
     List<ICharacterController> refreshedCharactersList;
     List<ICharacterController> exhaustedCharactersList;
 
-    List<TurnTile> turnTiles;
+    List<ITurnTile> turnTiles;
     List<string> playerNames;
 
     List<ICharacterController> characterOrder;
@@ -42,9 +42,15 @@ public class TurnPanelTest
         refreshedCharactersList = new List<ICharacterController> { secondCharacter };
         exhaustedCharactersList = new List<ICharacterController>();
 
-        firstTile = Substitute.For<TurnTile>();
-        secondTile = Substitute.For<TurnTile>();
-        thirdTile = Substitute.For<TurnTile>();
+        firstTile = Substitute.For<ITurnTile>();
+        secondTile = Substitute.For<ITurnTile>();
+        thirdTile = Substitute.For<ITurnTile>();
+
+        turnTiles = new List<ITurnTile>(TURN_TILES_SIZE) { firstTile, secondTile };
+        characterOrder = new List<ICharacterController>();
+
+        CHARACTER_ICON = Substitute.For<Texture>();
+        BORDER_COLOR = new Color32(0, 0, 0, 0);
 
         firstCharacter.GetInitiative().Returns(1.0f);
         secondCharacter.GetInitiative().Returns(2.0f);
@@ -52,15 +58,11 @@ public class TurnPanelTest
 
         firstCharacter.CharacterIcon.Returns(CHARACTER_ICON);
         secondCharacter.CharacterIcon.Returns(CHARACTER_ICON);
+        thirdCharacter.CharacterIcon.Returns(CHARACTER_ICON);
 
         firstCharacter.BorderColor.Returns(BORDER_COLOR);
         secondCharacter.BorderColor.Returns(BORDER_COLOR);
-
-        turnTiles = new List<TurnTile>(TURN_TILES_SIZE) { firstTile, secondTile };
-        characterOrder = new List<ICharacterController>();
-
-        CHARACTER_ICON = Substitute.For<Texture>();
-        BORDER_COLOR = new Color32(0, 0, 0, 0);
+        thirdCharacter.BorderColor.Returns(BORDER_COLOR);
 
         sut = new TurnPanelController
         {
@@ -88,7 +90,7 @@ public class TurnPanelTest
         sut.SetTiles();
 
         turnTiles[FIRST_INDEX].Received(1).UpdateTile(CHARACTER_ICON, BORDER_COLOR);
-        turnTiles[SECOND_INDEX].Received(1).GameObject.SetActive(false);
+        turnTiles[SECOND_INDEX].Received(1).Hide();
     }
 
     [Test]
