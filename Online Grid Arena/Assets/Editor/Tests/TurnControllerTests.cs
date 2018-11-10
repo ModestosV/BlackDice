@@ -71,4 +71,14 @@ public class TurnControllerTests
 
         thirdCharacter.Received(1).Deselect();
     }
+
+    [Test]
+    public void Start_next_turn_updates_turn_tracker_with_new_character_order()
+    {
+        sut.ActiveCharacter = thirdCharacter;
+
+        sut.StartNextTurn();
+
+        turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
+    }
 }
