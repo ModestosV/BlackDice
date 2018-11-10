@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EndMatchPanel : MonoBehaviour, IEndMatchPanel {
+public class EndMatchMenu : MonoBehaviour, IEndMatchPanel {
 
     public Text text;
     public CanvasGroup canvasGroup;

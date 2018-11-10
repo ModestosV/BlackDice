@@ -58,6 +58,7 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
 
         List<IHexTileController> path = selectedTile.GetPath(InputParameters.TargetTile);
         bool isReachable = path.Count > 0;
+        bool inRange = selectedCharacter.CanMove(path.Count - 1);
 
         // Clicked on unreachable tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !isReachable)
@@ -66,11 +67,20 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
             return;
         }
 
+        // Clicked reachable out of range unoccupied tile
+        if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied && !inRange)
+        {
+            foreach (IHexTileController hexTile in path)
+            {
+                hexTile.HoverError();
+            }
+            return;
+        }
 
-        // Clicked reachable unoccupied tile
+        // Clicked reachable in range unoccupied tile
         if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile && !tileIsOccupied)
         {
-            selectedCharacter.ExecuteMove(InputParameters.TargetTile);
+            selectedCharacter.ExecuteMove(path);
             GameManager.SelectionMode = SelectionMode.SELECTION;
             return;
         }
@@ -105,7 +115,17 @@ public class MovementSelectionController : InputController, IMovementSelectionCo
             return;
         }
 
-        // Hovered over reachable unoccupied tile
+        // Hovered over reachable out of range unoccupied tile
+        if (!tileIsOccupied && !inRange)
+        {
+            foreach (IHexTileController hexTile in path)
+            {
+                hexTile.HoverError();
+            }
+            return;
+        }
+
+        // Hovered over reachable in range unoccupied tile
         if (!tileIsOccupied)
         {
             foreach (IHexTileController hexTile in path)

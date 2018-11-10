@@ -26,6 +26,7 @@ public class Character : MonoBehaviour, ICharacter
     void Start()
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
+        characterController.RefreshStats();
     }
 
     public void Destroy()

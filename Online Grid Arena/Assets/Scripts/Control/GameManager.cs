@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour, IGameManager
         // Initialize turn controller
         turnController = new TurnController
         {
-            EndMatchPanel = FindObjectOfType<EndMatchPanel>()
+            EndMatchPanel = FindObjectOfType<EndMatchMenu>()
         };
         List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
