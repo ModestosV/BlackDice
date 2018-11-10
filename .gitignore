@@ -38,5 +38,5 @@ sysinfo.txt
 # Loggers
 DeveloperLogs/
 
-# Mac generated files
-**/.DS_Store
+# OS X DS_Store
+.DS_Store

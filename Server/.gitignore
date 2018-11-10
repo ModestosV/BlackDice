@@ -11,3 +11,6 @@
 #ignore .env
 .env
 
+# OS X DS_Store
+.DS_Store
+
