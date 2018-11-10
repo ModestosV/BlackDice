@@ -1,14 +1,16 @@
 ﻿
+using Newtonsoft.Json;
 using System;
 
 public class UserDTO
 {
-    public DateTime CreatedAt { get; }
+    [JsonProperty("email")]
     public string Email { get; }
-    public string GivenName { get; }
+    [JsonProperty("loggedIn")]
     public bool LoggedIn { get; }
+    [JsonProperty("password")]
     public string PasswordHash { get; }
-    public string Surname { get; }
+    [JsonProperty("username")]
     public string Username { get; }
 
     public UserDTO
@@ -16,18 +18,12 @@ public class UserDTO
         string Email,
         string PasswordHash,
         string Username = "",
-        DateTime CreatedAt = new DateTime(),
-        bool LoggedIn = false,
-        string Surname = "",
-        string GivenName = ""
+        bool LoggedIn = false
     )
     {
-        this.CreatedAt = CreatedAt;
         this.Email = Email;
-        this.GivenName = GivenName;
         this.LoggedIn = LoggedIn;
         this.PasswordHash = PasswordHash;
-        this.Surname = Surname;
         this.Username = Username;
     }
 }

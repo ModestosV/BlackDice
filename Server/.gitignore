@@ -1,11 +1,13 @@
 #ignore node modules
 *node_modules/
 
-#ignore yarn lock
+#ignore locks
 *yarn.lock
+*package-lock.json
 
 #ignore .vscode
 *.vscode/*
 
 #ignore .env
 .env
+

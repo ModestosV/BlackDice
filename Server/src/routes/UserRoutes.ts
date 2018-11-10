@@ -58,7 +58,6 @@ export class UserRoutes {
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     global.console.log("login request going through");
-                    global.console.log(req.body);
 
                     // TODO: Token Validation & password validation
 
