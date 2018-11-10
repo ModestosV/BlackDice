@@ -102,7 +102,7 @@ public class CharacterControllerTests
     [Test]
     public void Damaging_beyond_zero_health_removes_character_from_match_and_checks_win_condition()
     {
-        health.Value.Returns(0.0f);
+        health.CurrentValue.Returns(0.0f);
 
         sut.Damage(DAMAGE_AMOUNT);
 

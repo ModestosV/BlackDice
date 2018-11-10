@@ -7,8 +7,14 @@ public class StatPanel : MonoBehaviour, IStatPanel
 
     void Awake()
     {
-        controller = new StatPanelController();
-        controller.StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>());
+        controller = new StatPanelController
+        {
+            StatDisplays = new List<IStatDisplay>(GetComponentsInChildren<StatDisplay>())
+        };
+    }
+
+    void Start()
+    {
         controller.DisableStatDisplays();
     }
 

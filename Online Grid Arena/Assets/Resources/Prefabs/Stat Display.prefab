@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224056433944623438}
   - component: {fileID: 114535109854205658}
+  - component: {fileID: 225544860558578050}
   m_Layer: 5
   m_Name: Stat Display
   m_TagString: Untagged
@@ -156,9 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf0289774c1bd846b427268f9cbb8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 114601112905161262}
-  currentValueText: {fileID: 114683122049508790}
-  maxValueText: {fileID: 114952771978674342}
 --- !u!114 &114601112905161262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,3 +431,14 @@ RectTransform:
   m_AnchoredPosition: {x: 14.17, y: -2.9}
   m_SizeDelta: {x: 85.26, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225544860558578050
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1181448962291810}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

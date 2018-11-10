@@ -3,19 +3,19 @@ using UnityEngine.UI;
 
 public class MatchMenuButton : MonoBehaviour
 {
-    public Button matchMenuButton;
     public IMatchMenu MatchMenu { protected get; set; }
+    private Button Button { get; set; }
 
     void OnValidate()
     {
-        matchMenuButton = GetComponent<Button>();
+        Button = GetComponent<Button>();
         MatchMenu = FindObjectOfType<MatchMenu>();
     }
 
-    void Start () {
-        matchMenuButton = GetComponent<Button>();
+    void Awake() {
+        Button = GetComponent<Button>();
         MatchMenu = FindObjectOfType<MatchMenu>();
-        matchMenuButton.onClick.AddListener(ToggleMatchMenu);
+        Button.onClick.AddListener(ToggleMatchMenu);
 	}
 	
 	public void ToggleMatchMenu()

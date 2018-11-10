@@ -3,43 +3,68 @@ using UnityEngine.UI;
 
 public class StatDisplay : MonoBehaviour, IStatDisplay
 {
-    public Text nameText;
-    public Text currentValueText;
-    public Text maxValueText;
+    private Text NameText { get; set; }
+    private Text CurrentValueText { get; set; }
+    private Text MaxValueText { get; set; }
+    private CanvasGroup CanvasGroup { get; set; }
 
     void OnValidate()
     {
         Text[] texts = GetComponentsInChildren<Text>();
-        nameText = texts[0];
-        currentValueText = texts[1];
-        maxValueText = texts[3];
+        NameText = texts[0];
+        CurrentValueText = texts[1];
+        MaxValueText = texts[3];
+        CanvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    void Awake()
+    {
+        Text[] texts = GetComponentsInChildren<Text>();
+        NameText = texts[0];
+        CurrentValueText = texts[1];
+        MaxValueText = texts[3];
+        CanvasGroup = GetComponent<CanvasGroup>();
     }
 
     #region IStatDisplay implementation
 
     public void SetNameText(string nameText)
     {
-        this.nameText.text = nameText;
+        NameText.text = nameText;
     }
 
     public void SetCurrentValueText(string currentValueText)
     {
-        this.currentValueText.text = currentValueText;
+        CurrentValueText.text = currentValueText;
     }
 
     public void SetMaxValueText(string maxValueText)
     {
-        this.maxValueText.text = maxValueText;
+        MaxValueText.text = maxValueText;
     }
 
     public void Activate()
     {
-        gameObject.SetActive(true);
+        Show();
     }
 
     public void Deactivate()
     {
-        gameObject.SetActive(false);
+        Hide();
+    }
+
+    private void Hide()
+    {
+        CanvasGroup.alpha = 0.0f;
+        CanvasGroup.interactable = false;
+        CanvasGroup.blocksRaycasts = false;
+    }
+
+    private void Show()
+    {
+        CanvasGroup.alpha = 1.0f;
+        CanvasGroup.interactable = true;
+        CanvasGroup.blocksRaycasts = true;
     }
 
     #endregion

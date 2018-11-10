@@ -3,26 +3,26 @@ using UnityEngine.UI;
 
 public class SurrenderButton : MonoBehaviour {
 
-    public Button surrenderButton;
-    public IMatchMenu matchMenu;
+    private Button Button { get; set; }
+    private IMatchMenu MatchMenu { get; set; }
     public ITurnController TurnController { protected get; set; }
 
     void OnValidate()
     {
-        surrenderButton = GetComponent<Button>();
-        matchMenu = GetComponentInParent<MatchMenu>();
+        Button = GetComponent<Button>();
+        MatchMenu = GetComponentInParent<MatchMenu>();
     }
 
-    void Start ()
+    void Awake()
     {
-        surrenderButton = GetComponent<Button>();
-        matchMenu = GetComponentInParent<MatchMenu>();
-        surrenderButton.onClick.AddListener(Surrender);
+        Button = GetComponent<Button>();
+        MatchMenu = GetComponentInParent<MatchMenu>();
+        Button.onClick.AddListener(Surrender);
 	}
 
     public void Surrender()
     {
         TurnController.Surrender();
-        matchMenu.Toggle();
+        MatchMenu.Toggle();
     }
 }

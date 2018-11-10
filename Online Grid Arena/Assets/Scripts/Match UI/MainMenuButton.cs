@@ -2,12 +2,19 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenuButton : MonoBehaviour {
+public class MainMenuButton : MonoBehaviour
+{
+    private Button Button { get; set; }
 
-    public Button mainMenuButton;
+    void OnValidate()
+    {
+        Button = GetComponent<Button>();
+    }
 
-	void Start () {
-        mainMenuButton.onClick.AddListener(LoadMainMenu);
+    void Awake()
+    {
+        Button = GetComponent<Button>();
+        Button.onClick.AddListener(LoadMainMenu);
 	}
 	
 	public void LoadMainMenu()

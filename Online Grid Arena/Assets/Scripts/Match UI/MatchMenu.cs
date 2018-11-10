@@ -2,12 +2,17 @@
 
 public class MatchMenu : MonoBehaviour, IMatchMenu {
     
-    public bool Visible { protected get; set; }
-    public CanvasGroup canvasGroup;
+    private bool Visible { get; set; }
+    private CanvasGroup CanvasGroup { get; set; }
 
     void OnValidate()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        CanvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    void Awake()
+    {
+        CanvasGroup = GetComponent<CanvasGroup>();
         Hide();
     }
 
@@ -26,15 +31,15 @@ public class MatchMenu : MonoBehaviour, IMatchMenu {
 
     private void Hide()
     {
-        canvasGroup.alpha = 0.0f;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        CanvasGroup.alpha = 0.0f;
+        CanvasGroup.interactable = false;
+        CanvasGroup.blocksRaycasts = false;
     }
 
     private void Show()
     {
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        CanvasGroup.alpha = 1.0f;
+        CanvasGroup.interactable = true;
+        CanvasGroup.blocksRaycasts = true;
     }
 }

@@ -3,39 +3,39 @@ using UnityEngine.UI;
 
 public class EndMatchMenu : MonoBehaviour, IEndMatchPanel {
 
-    public Text text;
-    public CanvasGroup canvasGroup;
+    private Text Text { get; set; }
+    private CanvasGroup CanvasGroup { get; set; }
 
     void OnValidate()
     {
-        text = GetComponentInChildren<Text>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        Text = GetComponentInChildren<Text>();
+        CanvasGroup = GetComponent<CanvasGroup>();
         Hide();
     }
 
-    void Start()
+    void Awake()
     {
-        text = GetComponentInChildren<Text>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        Text = GetComponentInChildren<Text>();
+        CanvasGroup = GetComponent<CanvasGroup>();
         Hide();
     }
 
     public void Show()
     {
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+        CanvasGroup.alpha = 1.0f;
+        CanvasGroup.interactable = true;
+        CanvasGroup.blocksRaycasts = true;
     }
 
     public void Hide()
     {
-        canvasGroup.alpha = 0.0f;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        CanvasGroup.alpha = 0.0f;
+        CanvasGroup.interactable = false;
+        CanvasGroup.blocksRaycasts = false;
     }
 
     public void SetWinnerText(string winnerText)
     {
-        text.text = winnerText;
+        Text.text = winnerText;
     }
 }
