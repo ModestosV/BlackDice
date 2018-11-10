@@ -75,17 +75,32 @@ public class RegistrationPanel : MonoBehaviour, IPanel
 
     private bool ValidateEmail(string email)
     {
-        return true; // TODO: Add validation
+        bool isEmailValid = email.Contains("@");
+        if (!isEmailValid)
+        {
+            StatusGUI.text = Strings.INVALID_EMAIL_MESSAGE;
+        }
+        return isEmailValid;
     }
 
     private bool ValidatePassword(string password)
     {
-        return true; // TODO: Add validation
+        bool isPasswordLongEnough = password.Length > 8;
+        if (!isPasswordLongEnough)
+        {
+            StatusGUI.text = Strings.INVALID_PASSWORD_MESSAGE;
+        }
+        return isPasswordLongEnough;
     }
 
     private bool ValidateUsername(string username)
     {
-        return true; // TODO: Add validation 
+        bool isUsernameLongEnough = username.Length > 3;
+        if(!isUsernameLongEnough)
+        {
+            StatusGUI.text = Strings.INVALID_USERNAME_MESSAGE;
+        }
+        return isUsernameLongEnough;
     }
 
     private void MakeRegistrationWebRequest(string email, string password, string username)
