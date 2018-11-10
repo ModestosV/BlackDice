@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public interface ITurnTile : IMonoBehaviour
 {
-    void UpdateTile(Texture icon, Color32 borderColor);
+    Texture CharacterIcon { set; }
+    Color32 BorderColor { set; }
+
+    void UpdateTile();
     void Show();
     void Hide();
 }

@@ -17,9 +17,17 @@ public class TurnPanelController : ITurnPanelController
     {
         TurnTiles.Add(tile);
     }
-    
-    public void SetTiles()
+
+    public void UpdateQueue(ICharacterController ActiveCharacter, List<ICharacterController> RefreshedCharacters, List<ICharacterController> ExhaustedCharacters)
     {
+        // Update Character Order
+        CharacterOrder.Clear();
+
+        CharacterOrder.Add(ActiveCharacter);
+        CharacterOrder.AddRange(RefreshedCharacters);
+        CharacterOrder.AddRange(ExhaustedCharacters);
+
+        // Update Turn Tiles
         for (int n = 0; n < TurnTiles.Count; n++)
         {
             if (n >= CharacterOrder.Count)
@@ -29,19 +37,8 @@ public class TurnPanelController : ITurnPanelController
             else
             {
                 TurnTiles[n].Show();
-                TurnTiles[n].UpdateTile(CharacterOrder[n].CharacterIcon, CharacterOrder[n].BorderColor);
+                CharacterOrder[n].UpdateTurnTile(TurnTiles[n]);
             }
         }
-    }
-
-    public void UpdateQueue(ICharacterController ActiveCharacter, List<ICharacterController> RefreshedCharacters, List<ICharacterController> ExhaustedCharacters)
-    {
-        CharacterOrder.Clear();
-
-        CharacterOrder.Add(ActiveCharacter);
-        CharacterOrder.AddRange(RefreshedCharacters);
-        CharacterOrder.AddRange(ExhaustedCharacters);
-
-        SetTiles();
     }
 }

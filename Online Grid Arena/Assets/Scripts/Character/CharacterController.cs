@@ -16,8 +16,8 @@ public class CharacterController : ICharacterController
     public int AbilitiesRemaining { protected get; set; }
 
     public string OwnedByPlayer { get; set; }
-    public Texture CharacterIcon { get; set; }
-    public Color32 BorderColor { get; set; }
+    public Texture CharacterIcon { protected get; set; }
+    public Color32 BorderColor { protected get; set; }
 
     public void Select()
     {
@@ -129,5 +129,12 @@ public class CharacterController : ICharacterController
     public bool CanUseAbility()
     {
         return AbilitiesRemaining > 0;
+    }
+
+    public void UpdateTurnTile(ITurnTile turnTileToUpdate)
+    {
+        turnTileToUpdate.CharacterIcon = CharacterIcon;
+        turnTileToUpdate.BorderColor = BorderColor;
+        turnTileToUpdate.UpdateTile();
     }
 }

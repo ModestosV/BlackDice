@@ -3,22 +3,24 @@ using UnityEngine.UI;
 
 public class TurnTile : MonoBehaviour, ITurnTile
 {
-    private Image border;
-    private RawImage characterIcon;
+    public Color32 BorderColor { protected get; set; }
+    public Texture CharacterIcon { protected get; set; }
+
     private CanvasGroup canvasGroup;
+    private RawImage characterIcon;
+    private Image border;
     
     private void Awake()
     {
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = GetComponent<CanvasGroup>();     
     }
 
-    public void UpdateTile(Texture icon, Color32 borderColor)
+    public void UpdateTile()
     {
-        characterIcon.texture = icon;
-
-        border.color = borderColor;
+        characterIcon.texture = CharacterIcon;
+        border.color = BorderColor;
     }
 
     public void Show()

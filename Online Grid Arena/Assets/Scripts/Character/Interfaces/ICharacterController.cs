@@ -15,8 +15,8 @@ public interface ICharacterController
     int AbilitiesRemaining { set; }
 
     string OwnedByPlayer { get; set; }    
-    Texture CharacterIcon { get; set; }
-    Color32 BorderColor { get; set; }
+    Texture CharacterIcon { set; }
+    Color32 BorderColor { set; }
 
     void Select();
     void Deselect();
@@ -34,4 +34,5 @@ public interface ICharacterController
     bool CanMove(int distance = 1);
     bool CanUseAbility();
 
+    void UpdateTurnTile(ITurnTile turnTileToUpdate);
 }
