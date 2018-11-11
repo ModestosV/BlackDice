@@ -88,7 +88,7 @@ public class CharacterController : ICharacterController
 
         if (ability.Type == AbilityType.HEAL)
         {
-            targetCharacter.Heal(ability.Values[1] * CharacterStats[1].Value);
+            targetCharacter.Heal(ability.Values[1] * CharacterStats[3].Value);
         }
 
         AbilitiesRemaining--;
@@ -129,7 +129,9 @@ public class CharacterController : ICharacterController
             CharacterStats[0].CurrentValue = CharacterStats[0].Value;
         }
         else
+        {
             CharacterStats[0].CurrentValue += heal;
+        }
     }
 
     public bool CanMove(int distance = 1)

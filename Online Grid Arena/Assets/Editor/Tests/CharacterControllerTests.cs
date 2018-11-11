@@ -43,6 +43,7 @@ public class CharacterControllerTests
     const string PLAYER_NAME = "1";
 
     const float DAMAGE_AMOUNT = 1.0f;
+    const float HEAL_AMOUNT = 10.0f;
 
     [SetUp]
     public void Init()
@@ -97,6 +98,26 @@ public class CharacterControllerTests
         sut.Damage(DAMAGE_AMOUNT);
 
         health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
+    }
+
+    [Test]
+    public void Heal_adds_health_amount_to_health_stat()
+    {
+        health.CurrentValue.Returns(75.0f); //CHARACTER_HURT?
+
+        sut.Heal(HEAL_AMOUNT);
+
+        health.Received(1).CurrentValue = 75.0f + HEAL_AMOUNT;
+    }
+
+    [Test]
+    public void Heal_does_not_heal_more_than_max_health_stat()
+    {
+        health.CurrentValue.Returns(95.0f);
+
+        sut.Heal(HEAL_AMOUNT);
+
+        health.Received(1).CurrentValue = CHARACTER_MAX_HEALTH;
     }
 
     [Test]
