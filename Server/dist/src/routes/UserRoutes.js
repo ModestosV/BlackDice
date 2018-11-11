@@ -3,13 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * IMPORTS FOR INTERFACES, CLASSES OR DEPENDENCIES
+ */
 const body_parser_1 = __importDefault(require("body-parser"));
 const crypto_js_1 = __importDefault(require("crypto-js"));
 const express_1 = __importDefault(require("express"));
 const lodash_1 = __importDefault(require("lodash"));
 const moment_1 = __importDefault(require("moment"));
+/**
+ * HELPER FUNCTIONS
+ */
 const models_1 = __importDefault(require("../app/models"));
 const middlewares_1 = require("../utils/middlewares");
+const utils_1 = require("../utils/utils");
 class UserRoutes {
     constructor(router, user) {
         this.router = router;
@@ -28,13 +35,13 @@ class UserRoutes {
                     const userData = new this.user({
                         createdAt: salt,
                         email,
-                        loggedIn: false,
+                        loggedInToken: undefined,
                         passwordHash: finalHash,
                         username
                     });
                     await userData.save();
                     res.status(200);
-                    return res.json(userData); // TODO: Add the passwordless token generation
+                    return res.json(userData);
                 }
                 res.status(400);
                 return res.json("Request invalid");
@@ -48,8 +55,6 @@ class UserRoutes {
         this.router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("login request going through");
-                global.console.log(req.body);
-                // TODO: Token Validation & password validation
                 const passHash = req.body.password;
                 const email = req.body.email;
                 const loginQuery = {
@@ -62,12 +67,13 @@ class UserRoutes {
                 }
                 else {
                     const finalHash = crypto_js_1.default.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
+                    const token = utils_1.getToken(20); // Random token each time this request is made.
                     if (lodash_1.default.isEqual(finalHash, userDoc.get("passwordHash"))) {
-                        userDoc.set("loggedIn", true);
+                        userDoc.set("loggedInToken", token);
                         const updatedDoc = await userDoc.save();
                         if (updatedDoc) {
                             res.status(200);
-                            return res.json(updatedDoc);
+                            return res.json(token);
                         }
                         else {
                             res.status(500);
@@ -90,7 +96,6 @@ class UserRoutes {
             try {
                 global.console.log("logout request going through");
                 global.console.log(req.body);
-                // TODO: Token Validation needs to be done
                 const passHash = req.body.password;
                 const email = req.body.email;
                 const loginQuery = {
@@ -102,10 +107,8 @@ class UserRoutes {
                     return res.json("Email does not exist");
                 }
                 else {
-                    // TODO: Needs to be changed to use token validation and check if the user is logged in.
-                    const finalHash = crypto_js_1.default.SHA512(passHash, userDoc.get("createdAt").toString()).toString();
-                    if (lodash_1.default.isEqual(finalHash, userDoc.get("passwordHash"))) {
-                        userDoc.set("loggedIn", false);
+                    if (userDoc.get("loggedInToken")) {
+                        userDoc.set("loggedInToken", undefined);
                         const updatedDoc = await userDoc.save();
                         if (updatedDoc) {
                             res.status(200);
@@ -118,7 +121,7 @@ class UserRoutes {
                     }
                     else {
                         res.status(400);
-                        return res.json("Incorrect password");
+                        return res.json("User is not loggedIn");
                     }
                 }
             }

@@ -9,7 +9,7 @@ const router_1 = __importDefault(require("./routes/router"));
 app.use(router_1.default);
 app.use(logErrorHandler);
 function logErrorHandler(req, res, next) {
-    // If an error gets here everything should explode because I did something stupid or forgot to do something.
+    // If an error gets here everything should explode because something stupid happened or forgot to catch an error.
     const err = new Error("404 - Not Found");
     err.name = "404";
     res.statusCode = 404;

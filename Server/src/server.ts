@@ -21,7 +21,6 @@ server.on("error", handleError);
 server.on("listening", listen);
 
 function handleError(err: Error, req: Request, res: Response, next: NextFunction) {
-    // If an error gets here everything should explode because I did something stupid or forgot to do something.
 
     const error = {
         code: res.statusCode || 500,
