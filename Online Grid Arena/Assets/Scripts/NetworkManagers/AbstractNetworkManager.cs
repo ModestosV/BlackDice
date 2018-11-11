@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public abstract class AbstractNetworkManager : IHttpRequests
 {
-    public IPanel Panel { get; set; }
+    public IOnlineMenuPanel Panel { get; set; }
 
     protected readonly string mainURL;
 

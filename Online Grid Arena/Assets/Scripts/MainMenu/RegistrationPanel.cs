@@ -2,8 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
-public class RegistrationPanel : MonoBehaviour, IPanel
+public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 {
     public TextMeshProUGUI StatusGUI { get; set; }
     public TextMeshProUGUI EmailGUI { get; set; }
@@ -75,12 +77,16 @@ public class RegistrationPanel : MonoBehaviour, IPanel
 
     private bool ValidateEmail(string email)
     {
-        bool isEmailValid = email.Contains("@");
-        if (!isEmailValid)
+        try
+        {
+            MailAddress mailAddress = new MailAddress(email);
+            return mailAddress.Address == email;
+        }
+        catch
         {
             StatusGUI.text = Strings.INVALID_EMAIL_MESSAGE;
+            return false;
         }
-        return isEmailValid;
     }
 
     private bool ValidatePassword(string password)
@@ -95,12 +101,13 @@ public class RegistrationPanel : MonoBehaviour, IPanel
 
     private bool ValidateUsername(string username)
     {
-        bool isUsernameLongEnough = username.Length > 3;
-        if(!isUsernameLongEnough)
+        Regex regex = new Regex("[a-zA-Z0-9]{3,24}");
+        bool isUserNameValid = regex.IsMatch(username);
+        if(!isUserNameValid)
         {
             StatusGUI.text = Strings.INVALID_USERNAME_MESSAGE;
         }
-        return isUsernameLongEnough;
+        return isUserNameValid;
     }
 
     private void MakeRegistrationWebRequest(string email, string password, string username)

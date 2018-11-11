@@ -4,12 +4,8 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-public class LoginPanel : MonoBehaviour, IPanel
+public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
 {
-    public TextMeshProUGUI StatusGUI { get; set; }
-    public TextMeshProUGUI EmailGUI { get; set; }
-    public TextMeshProUGUI PasswordGUI { get; set; }
-
     public Button loginButton;
     public Button logoutButton;
 
@@ -18,6 +14,10 @@ public class LoginPanel : MonoBehaviour, IPanel
     public RegistrationPanel registrationPanel;
 
     public string LoggedInEmail { get; set; }
+
+    private TextMeshProUGUI StatusGUI { get; set; }
+    private TextMeshProUGUI EmailGUI { get; set; }
+    private TextMeshProUGUI PasswordGUI { get; set; }
     private UserNetworkManager UserNetworkManager { get; set; }
 
     private void OnValidate()
