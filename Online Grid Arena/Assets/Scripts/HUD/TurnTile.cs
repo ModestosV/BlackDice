@@ -37,8 +37,10 @@ public class TurnTile : MonoBehaviour, ITurnTile
         canvasGroup.interactable = false;
     }
 
+    #region IMonoBehaviour implementation
     public GameObject GameObject
     {
         get { return gameObject; }
     }
+    #endregion
 }

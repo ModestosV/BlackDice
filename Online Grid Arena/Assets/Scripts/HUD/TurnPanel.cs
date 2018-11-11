@@ -1,16 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TurnPanel : MonoBehaviour, ITurnPanel
 {
     private TurnPanelController turnPanelController;
 
     public ITurnPanelController Controller { get { return turnPanelController; } }
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
 
     private void Awake()
     {
@@ -25,4 +19,11 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
             turnPanelController.AddTurnTile(tile);
         }
     }
+
+    #region IMonobehavior implementation
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+    #endregion
 }
