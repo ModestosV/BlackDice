@@ -2,4 +2,5 @@
 {
     ICharacterController Controller { get; }
     void MoveToTile(IHexTile targetTile);
+    void Destroy();
 }

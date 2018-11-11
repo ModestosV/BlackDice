@@ -100,6 +100,29 @@ public class CharacterControllerTests
     }
 
     [Test]
+    public void Damaging_beyond_zero_health_removes_character_from_match_and_checks_win_condition()
+    {
+        health.CurrentValue.Returns(0.0f);
+
+        sut.Damage(DAMAGE_AMOUNT);
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
+        turnController.Received(1).CheckWinCondition();
+    }
+
+    [Test]
+    public void Die_removes_character_from_the_match()
+    {
+        sut.Die();
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
+    }
+
+    [Test]
     public void Execute_move_deselects_start_tile_and_vacates_character()
     {
         sut.ExecuteMove(pathList);

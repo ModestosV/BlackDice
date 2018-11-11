@@ -13,7 +13,7 @@ public class CharacterController : ICharacterController
 
     private int MovesRemaining { get { return (int)CharacterStats[2].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
-    public string OwnedByPlayer { protected get; set; }
+    public string OwnedByPlayer { get; set; }
 
     public void Select()
     {
@@ -115,6 +115,18 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].CurrentValue -= damage;
+        if (CharacterStats[0].CurrentValue <= 0)
+        {
+            Die();
+            TurnController.CheckWinCondition();
+        }
+    }
+
+    public void Die()
+    {
+        OccupiedTile.ClearOccupant();
+        TurnController.RemoveCharacter(this);
+        Character.Destroy();
     }
 
     public bool CanMove(int distance = 1)
@@ -125,5 +137,10 @@ public class CharacterController : ICharacterController
     public bool CanUseAbility()
     {
         return AbilitiesRemaining > 0;
+    }
+
+    public bool IsActiveCharacter()
+    {
+        return TurnController.IsActiveCharacter(this);
     }
 }

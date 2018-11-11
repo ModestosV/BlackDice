@@ -11,7 +11,7 @@ public class Character : MonoBehaviour, ICharacter
 
     private CharacterController characterController;
 
-    private void Awake()
+    void Awake()
     {
         characterController = new CharacterController
         {
@@ -23,10 +23,15 @@ public class Character : MonoBehaviour, ICharacter
         };
     }
 
-    private void Start()
+    void Start()
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 
     #region ICharacter implementation

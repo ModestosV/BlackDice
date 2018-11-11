@@ -2,16 +2,16 @@
 
 public class LoadingCircle : MonoBehaviour
 {
-    private RectTransform rectComponent;
-    private float rotateSpeed = -200f;
+    private RectTransform RectComponent { get; set; }
+    private const float ROTATE_SPEED = -200f;
 
-    private void Start()
+    void Start()
     {
-        rectComponent = GetComponent<RectTransform>();
+        RectComponent = GetComponent<RectTransform>();
     }
 
-    private void Update()
+    void Update()
     {
-        rectComponent.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
+        RectComponent.Rotate(0f, 0f, ROTATE_SPEED * Time.deltaTime);
     }
 }

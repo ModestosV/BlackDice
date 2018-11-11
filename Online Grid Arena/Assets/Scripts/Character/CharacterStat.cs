@@ -13,7 +13,7 @@ using System.Collections.Generic;
 public class CharacterStat : ICharacterStat
 {
     public float baseValue;
-    public float currentValue;
+    protected float currentValue;
     public float CurrentValue
     {
         get
