@@ -6,8 +6,8 @@ public class UserDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
-    [JsonProperty("loggedIn")]
-    public bool LoggedIn { get; }
+    [JsonProperty("loggedInToken")]
+    public string LoggedInToken { get; }
     [JsonProperty("password")]
     public string PasswordHash { get; }
     [JsonProperty("username")]
@@ -18,11 +18,11 @@ public class UserDTO
         string Email,
         string PasswordHash,
         string Username = "",
-        bool LoggedIn = false
+        string LoggedInToken = ""
     )
     {
         this.Email = Email;
-        this.LoggedIn = LoggedIn;
+        this.LoggedInToken = LoggedInToken;
         this.PasswordHash = PasswordHash;
         this.Username = Username;
     }

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import User from "./models/User";
 
 mongoose.connect(
-    "mongodb://localhost/blackdice",
+    "mongodb://192.168.99.100/blackdice",
     { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);

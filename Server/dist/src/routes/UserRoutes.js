@@ -96,7 +96,6 @@ class UserRoutes {
             try {
                 global.console.log("logout request going through");
                 global.console.log(req.body);
-                const passHash = req.body.password;
                 const email = req.body.email;
                 const loginQuery = {
                     email

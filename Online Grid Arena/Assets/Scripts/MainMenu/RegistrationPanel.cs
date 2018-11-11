@@ -7,11 +7,6 @@ using System.Text.RegularExpressions;
 
 public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 {
-    public TextMeshProUGUI StatusGUI { get; set; }
-    public TextMeshProUGUI EmailGUI { get; set; }
-    public TextMeshProUGUI PasswordGUI { get; set; }
-    public TextMeshProUGUI UsernameGUI { get; set; }
-
     public Button registerButton;
 
     public GameObject loadingCircle;
@@ -19,6 +14,10 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
     public LoginPanel LoginPanel;
 
     private UserNetworkManager UserNetworkManager { get; set; }
+    private TextMeshProUGUI StatusGUI { get; set; }
+    private TextMeshProUGUI EmailGUI { get; set; }
+    private TextMeshProUGUI PasswordGUI { get; set; }
+    private TextMeshProUGUI UsernameGUI { get; set; }
 
     private void OnValidate()
     {

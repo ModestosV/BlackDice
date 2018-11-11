@@ -8,7 +8,7 @@ const Types = mongoose_1.default.Schema.Types;
 const userSchema = new mongoose_1.default.Schema({
     createdAt: { type: Types.Date, required: true },
     email: { type: Types.String, required: true, unique: true },
-    loggedInToken: { type: Types.String, required: true },
+    loggedInToken: { type: Types.String },
     passwordHash: { type: Types.String, required: true },
     username: { type: Types.String, required: true, unique: true }
 });
