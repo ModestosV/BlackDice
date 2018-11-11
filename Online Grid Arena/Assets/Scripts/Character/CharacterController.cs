@@ -86,6 +86,11 @@ public class CharacterController : ICharacterController
             targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
+        if (ability.Type == AbilityType.HEAL)
+        {
+            targetCharacter.Heal(ability.Values[1] * CharacterStats[1].Value);
+        }
+
         AbilitiesRemaining--;
         CheckExhausted();
     }
@@ -115,6 +120,16 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].CurrentValue -= damage;
+    }
+
+    public void Heal(float heal)
+    {
+        if (CharacterStats[0].CurrentValue + heal > CharacterStats[0].Value)
+        {
+            CharacterStats[0].CurrentValue = CharacterStats[0].Value;
+        }
+        else
+            CharacterStats[0].CurrentValue += heal;
     }
 
     public bool CanMove(int distance = 1)

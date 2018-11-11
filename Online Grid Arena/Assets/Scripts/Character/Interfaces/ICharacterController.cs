@@ -21,6 +21,7 @@ public interface ICharacterController
     void Refresh();
     float GetInitiative();
     void Damage(float damage);
+    void Heal(float heal);
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
