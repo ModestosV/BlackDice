@@ -138,4 +138,9 @@ public class CharacterController : ICharacterController
     {
         return AbilitiesRemaining > 0;
     }
+
+    public bool IsActiveCharacter()
+    {
+        return TurnController.IsActiveCharacter(this);
+    }
 }

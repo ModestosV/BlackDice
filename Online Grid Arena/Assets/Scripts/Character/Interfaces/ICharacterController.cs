@@ -30,4 +30,5 @@ public interface ICharacterController
 
     bool CanMove(int distance = 1);
     bool CanUseAbility();
+    bool IsActiveCharacter();
 }

@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.CanMove();
+        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanMove();
     }
 
     private bool CanUseAbility()
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.CanUseAbility();
+        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility();
     }
 
     private void SetSelectionMode()

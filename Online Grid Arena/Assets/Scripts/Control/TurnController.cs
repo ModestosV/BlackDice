@@ -107,7 +107,7 @@ public class TurnController : ITurnController
         CheckWinCondition();
     }
 
-    private List<ICharacterController> GetLivingCharacters()
+    public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();
 
@@ -123,5 +123,10 @@ public class TurnController : ITurnController
             livingCharacters.Add(ActiveCharacter);
 
         return livingCharacters;
+    }
+
+    public bool IsActiveCharacter(ICharacterController character)
+    {
+        return ActiveCharacter == character;
     }
 }

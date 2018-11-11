@@ -15,4 +15,6 @@ public interface ITurnController
     void SelectActiveCharacter();
     void CheckWinCondition();
     void Surrender();
+    List<ICharacterController> GetLivingCharacters();
+    bool IsActiveCharacter(ICharacterController character);
 }
