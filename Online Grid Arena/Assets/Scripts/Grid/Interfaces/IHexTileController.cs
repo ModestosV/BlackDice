@@ -17,6 +17,17 @@ public interface IHexTileController
     IHexTile HexTile { get; set; }
     ICharacterController OccupantCharacter { get; set; }
 
+    void Select();
+    void Deselect();
+    void Hover();
+    void Blur();
+    void HoverError();
+    void Highlight();
+    void Dehighlight();
+
+    void ClearOccupant();
+    bool IsOccupied();
+
     IHexTileController GetNorthEastNeighbor();
     IHexTileController GetEastNeighbor();
     IHexTileController GetSouthEastNeighbor();
@@ -26,13 +37,4 @@ public interface IHexTileController
     List<IHexTileController> GetNeighbors();
     List<IHexTileController> GetPath(IHexTileController startTile);
 
-    void Select();
-    void Deselect();
-    void Hover();
-    void Blur();
-    void HoverError();
-    void Highlight();
-    void Dehighlight();
-
-    bool IsOccupied();
 }

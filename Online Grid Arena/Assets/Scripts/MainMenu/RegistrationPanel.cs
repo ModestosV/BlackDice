@@ -27,7 +27,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         UsernameGUI = GetComponentsInChildren<TextMeshProUGUI>()[4];
     }
 
-    private void Awake()
+    void Awake()
     {
         StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
         EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
