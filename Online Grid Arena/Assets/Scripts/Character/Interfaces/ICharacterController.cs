@@ -25,6 +25,7 @@ public interface ICharacterController
     void Refresh();
     float GetInitiative();
     void Damage(float damage);
+    void Die();
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
@@ -33,6 +34,7 @@ public interface ICharacterController
 
     bool CanMove(int distance = 1);
     bool CanUseAbility();
-
+    bool IsActiveCharacter();
+    
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
 }

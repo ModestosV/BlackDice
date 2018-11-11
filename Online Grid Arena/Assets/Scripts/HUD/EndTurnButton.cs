@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class EndTurnButton : MonoBehaviour
 {
-    public Button endTurnButton;
+    private Button Button { get; set; }
     public ITurnController TurnController {protected get; set; }
 
     void OnValidate()
     {
-        endTurnButton = GetComponent<Button>();
+        Button = GetComponent<Button>();
     }
 
     void Start()
     {
-        endTurnButton = GetComponent<Button>();
-        endTurnButton.onClick.AddListener(EndTurn);
+        Button = GetComponent<Button>();
+        Button.onClick.AddListener(EndTurn);
     }
 
     public void EndTurn()

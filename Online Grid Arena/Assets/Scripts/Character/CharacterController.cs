@@ -119,6 +119,18 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].CurrentValue -= damage;
+        if (CharacterStats[0].CurrentValue <= 0)
+        {
+            Die();
+            TurnController.CheckWinCondition();
+        }
+    }
+
+    public void Die()
+    {
+        OccupiedTile.ClearOccupant();
+        TurnController.RemoveCharacter(this);
+        Character.Destroy();
     }
 
     public bool CanMove(int distance = 1)
@@ -129,6 +141,11 @@ public class CharacterController : ICharacterController
     public bool CanUseAbility()
     {
         return AbilitiesRemaining > 0;
+    }
+
+    public bool IsActiveCharacter()
+    {
+        return TurnController.IsActiveCharacter(this);
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)

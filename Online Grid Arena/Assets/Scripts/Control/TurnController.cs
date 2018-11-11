@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using UnityEngine;
 
 public class TurnController : ITurnController
 {
@@ -8,6 +9,8 @@ public class TurnController : ITurnController
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
     public ICharacterController ActiveCharacter { protected get; set; }
     public ITurnPanelController TurnTracker { protected get; set; }
+
+    public IEndMatchPanel EndMatchPanel { protected get; set; }
 
     public TurnController()
     {
@@ -65,5 +68,69 @@ public class TurnController : ITurnController
     {
         if (ActiveCharacter != null)
             ActiveCharacter.Select();
+    }
+
+    public void CheckWinCondition()
+    {
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        List<string> livingPlayers = new List<string>();
+
+        foreach(ICharacterController character in livingCharacters)
+        {
+            string playerName = character.OwnedByPlayer;
+            if (!livingPlayers.Contains(playerName))
+            {
+                livingPlayers.Add(playerName);
+            }
+        }
+        
+        if (livingPlayers.Count == 1)
+        {
+            EndMatchPanel.Show();
+            EndMatchPanel.SetWinnerText($"Player {livingPlayers[0]} wins!");
+        }
+
+        if (livingPlayers.Count == 0)
+        {
+            EndMatchPanel.Show();
+            EndMatchPanel.SetWinnerText("Draw!");
+        }
+    }
+
+    public void Surrender()
+    {
+        string activePlayerName = ActiveCharacter.OwnedByPlayer;
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        foreach(ICharacterController character in livingCharacters)
+        {
+            if (character.OwnedByPlayer == activePlayerName)
+            {
+                character.Die();
+            }
+        }
+        CheckWinCondition();
+    }
+
+    public List<ICharacterController> GetLivingCharacters()
+    {
+        List<ICharacterController> livingCharacters = new List<ICharacterController>();
+
+        foreach (ICharacterController character in RefreshedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        foreach (ICharacterController character in ExhaustedCharacters)
+        {
+            livingCharacters.Add(character);
+        }
+        if (ActiveCharacter != null)
+            livingCharacters.Add(ActiveCharacter);
+
+        return livingCharacters;
+    }
+
+    public bool IsActiveCharacter(ICharacterController character)
+    {
+        return ActiveCharacter == character;
     }
 }

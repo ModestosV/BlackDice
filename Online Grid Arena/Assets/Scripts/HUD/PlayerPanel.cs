@@ -3,28 +3,28 @@ using UnityEngine.UI;
 
 public class PlayerPanel : MonoBehaviour, IPlayerPanel
 {
-    public Text playerName;
+    private Text PlayerName { get; set; }
 
-    private void OnValidate()
+    void OnValidate()
     {
-        playerName = gameObject.GetComponentInChildren<Text>();
+        PlayerName = gameObject.GetComponentInChildren<Text>();
     }
 
-    private void Awake()
+    void Awake()
     {
-        playerName = gameObject.GetComponentInChildren<Text>();
+        PlayerName = gameObject.GetComponentInChildren<Text>();
     }
 
     #region IPlayerPanel implementation
 
     public void SetPlayerName(string playerName)
     {
-        this.playerName.text = playerName;
+        this.PlayerName.text = playerName;
     }
 
     public void ClearPlayerName()
     {
-        this.playerName.text = "";
+        this.PlayerName.text = "";
     }
 
     #endregion
