@@ -1,8 +1,7 @@
-﻿
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
-public class UserDTO
+public class AccountDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
@@ -13,7 +12,7 @@ public class UserDTO
     [JsonProperty("username")]
     public string Username { get; }
 
-    public UserDTO
+    public AccountDTO
     (
         string Email,
         string PasswordHash,
@@ -25,5 +24,16 @@ public class UserDTO
         this.LoggedInToken = LoggedInToken;
         this.PasswordHash = PasswordHash;
         this.Username = Username;
+    }
+
+    public WWWForm GetForm()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("email", Email);
+        form.AddField("passwordHash", Hash128.Compute(PasswordHash).ToString());
+        form.AddField("username", Username);
+        form.AddField("loggedIn", LoggedInToken);
+
+        return form;
     }
 }

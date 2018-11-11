@@ -113,7 +113,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.CreateUser(new UserDTO(email, password, username)));
+        StartCoroutine(UserNetworkManager.CreateUser(new AccountDTO(email, password, username)));
         loadingCircle.SetActive(false);
     }
 

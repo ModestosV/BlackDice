@@ -91,7 +91,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.Login(new UserDTO(email, password)));
+        StartCoroutine(UserNetworkManager.Login(new AccountDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
@@ -99,7 +99,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.Logout(new UserDTO(email, password)));
+        StartCoroutine(UserNetworkManager.Logout(new AccountDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
