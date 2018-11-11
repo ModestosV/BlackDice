@@ -55,6 +55,11 @@ export class UserRoutes {
                     res.status(400);
                     return res.json("Request invalid");
                 } catch (err) {
+                    const isDuplicate = err.message.toString().indexOf("duplicate") !== -1 ? true : false;
+                    if (isDuplicate) {
+                      res.status(412);
+                      return res.json("Duplicate Key");
+                    }
                     return next(err);
                 }
             },
