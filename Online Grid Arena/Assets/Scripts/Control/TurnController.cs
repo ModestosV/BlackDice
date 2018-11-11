@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 
 public class TurnController : ITurnController
@@ -7,6 +8,7 @@ public class TurnController : ITurnController
     public List<ICharacterController> RefreshedCharacters { protected get; set; }
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
     public ICharacterController ActiveCharacter { protected get; set; }
+    public ITurnPanelController TurnTracker { protected get; set; }
 
     public IEndMatchPanel EndMatchPanel { protected get; set; }
 
@@ -58,6 +60,8 @@ public class TurnController : ITurnController
         RefreshedCharacters.RemoveAt(0);
 
         ActiveCharacter.Refresh();
+
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void SelectActiveCharacter()

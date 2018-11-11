@@ -10,6 +10,9 @@ public class Character : MonoBehaviour, ICharacter
     public string playerName;
 
     private CharacterController characterController;
+    
+    public Texture characterIcon;
+    public Color32 borderColor;
 
     void Awake()
     {
@@ -19,7 +22,9 @@ public class Character : MonoBehaviour, ICharacter
             CharacterStats = stats.ToList<ICharacterStat>(),
             Abilities = abilities.ToList<IAbility>(),
             Character = this,
-            OwnedByPlayer = playerName
+            OwnedByPlayer = playerName,
+            CharacterIcon = characterIcon,
+            BorderColor = borderColor
         };
     }
 

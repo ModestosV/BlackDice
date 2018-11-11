@@ -14,11 +14,13 @@ public class TurnControllerTests
 
     List<ICharacterController> refreshedCharactersList;
     List<ICharacterController> exhaustedCharactersList;
-    
-     const string PLAYER_1_NAME = "1";
-    const string PLAYER_2_NAME = "2";
 
+<<<<<<< HEAD
     ITurnPanelController turnTracker;
+=======
+    const string PLAYER_1_NAME = "1";
+    const string PLAYER_2_NAME = "2";
+>>>>>>> master
 
     [SetUp]
     public void Init()
@@ -33,9 +35,8 @@ public class TurnControllerTests
         exhaustedCharactersList = new List<ICharacterController>();
 
         firstCharacter.GetInitiative().Returns(1.0f);
-        secondCharacter.GetInitiative().Returns(2.0f);
-
         firstCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
+        secondCharacter.GetInitiative().Returns(2.0f);
         secondCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
         thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
 
@@ -45,10 +46,15 @@ public class TurnControllerTests
         {
             RefreshedCharacters = refreshedCharactersList,
             ExhaustedCharacters = exhaustedCharactersList,
-            EndMatchPanel = endMatchPanel,
+<<<<<<< HEAD
             ActiveCharacter = null,
             TurnTracker = turnTracker
+    };
+=======
+            EndMatchPanel = endMatchPanel,
+            ActiveCharacter = null
         };
+>>>>>>> master
     }
 
     [Test]
@@ -84,6 +90,7 @@ public class TurnControllerTests
     }
 
     [Test]
+<<<<<<< HEAD
     public void Start_next_turn_updates_turn_tracker_with_new_character_order()
     {
         sut.ActiveCharacter = thirdCharacter;
@@ -91,9 +98,7 @@ public class TurnControllerTests
         sut.StartNextTurn();
 
         turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
-    }
-
-    [Test]
+=======
     public void Check_win_condition_does_not_end_game_when_more_than_one_players_characters_remain()
     {
         sut.CheckWinCondition();
@@ -121,5 +126,6 @@ public class TurnControllerTests
 
         firstCharacter.DidNotReceive();
         secondCharacter.Received(1).Die();
+>>>>>>> master
     }
 }

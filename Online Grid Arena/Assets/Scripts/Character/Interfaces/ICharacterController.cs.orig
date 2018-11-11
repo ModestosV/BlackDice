@@ -13,10 +13,14 @@ public interface ICharacterController
     List<IAbility> Abilities { set; }
 
     int AbilitiesRemaining { set; }
+<<<<<<< HEAD
 
     string OwnedByPlayer { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
+=======
+    string OwnedByPlayer { get; set; }    
+>>>>>>> master
 
     void Select();
     void Deselect();
@@ -34,7 +38,10 @@ public interface ICharacterController
 
     bool CanMove(int distance = 1);
     bool CanUseAbility();
-    bool IsActiveCharacter();
-    
+<<<<<<< HEAD
+
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
+=======
+    bool IsActiveCharacter();
+>>>>>>> master
 }

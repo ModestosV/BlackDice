@@ -8,7 +8,7 @@ let mongooseOptions = {
   useCreateIndex: true, 
   useFindAndModify: false 
 }
-mongoose.connect('mongodb://localhost:27017', mongooseOptions)
+mongoose.connect('mongodb://192.168.99.100:27017/blackdice', mongooseOptions)
 
 const Types = mongoose.Schema.Types;
 

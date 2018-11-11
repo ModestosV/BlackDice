@@ -88,7 +88,10 @@ public class GameManager : MonoBehaviour, IGameManager
             character.HUDController = hudController;
             character.TurnController = turnController;
         }
-        
+
+        // Initialize turn panel
+        turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
+
         SelectionMode = SelectionMode.SELECTION;
     }
 

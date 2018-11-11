@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterController : ICharacterController
 {
@@ -13,7 +14,10 @@ public class CharacterController : ICharacterController
 
     private int MovesRemaining { get { return (int)CharacterStats[2].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
+
     public string OwnedByPlayer { get; set; }
+    public Texture CharacterIcon { protected get; set; }
+    public Color32 BorderColor { protected get; set; }
 
     public void Select()
     {
@@ -142,5 +146,12 @@ public class CharacterController : ICharacterController
     public bool IsActiveCharacter()
     {
         return TurnController.IsActiveCharacter(this);
+    }
+
+    public void UpdateTurnTile(ITurnTile turnTileToUpdate)
+    {
+        turnTileToUpdate.CharacterIcon = CharacterIcon;
+        turnTileToUpdate.BorderColor = BorderColor;
+        turnTileToUpdate.UpdateTile();
     }
 }
