@@ -11,7 +11,7 @@ public class CharacterController : ICharacterController
     public List<ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
 
-    public int MovesRemaining { protected get; set; }
+    private int MovesRemaining { get { return (int)CharacterStats[2].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
     public string OwnedByPlayer { protected get; set; }
 
@@ -45,9 +45,20 @@ public class CharacterController : ICharacterController
         HUDController.ClearTargetHUD();
     }
 
-    public void ExecuteMove(IHexTileController targetTile)
+    public void RefreshStats()
     {
-        if (!(MovesRemaining > 0)) return;
+        foreach (ICharacterStat stat in CharacterStats)
+        {
+            stat.Refresh();
+        }
+    }
+
+    public void ExecuteMove(List<IHexTileController> path)
+    {
+        if (!(MovesRemaining > 0 && MovesRemaining >= path.Count -1)) return;
+
+        int distance = path.Count - 1;
+        IHexTileController targetTile = path[distance];
 
         OccupiedTile.Deselect();
         OccupiedTile.OccupantCharacter = null;
@@ -57,7 +68,8 @@ public class CharacterController : ICharacterController
 
         targetTile.OccupantCharacter = this;
         targetTile.Select();
-        MovesRemaining--;
+        CharacterStats[2].CurrentValue -= distance;
+        UpdateSelectedHUD();
         CheckExhausted();
     }
 
@@ -90,7 +102,7 @@ public class CharacterController : ICharacterController
 
     public void Refresh()
     {
-        MovesRemaining = 1;
+        CharacterStats[2].Refresh();
         AbilitiesRemaining = 1;
     }
 
@@ -102,12 +114,12 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
-        CharacterStats[0].AddModifier(new StatModifier(-damage, StatModType.Flat));
+        CharacterStats[0].CurrentValue -= damage;
     }
 
-    public bool CanMove()
+    public bool CanMove(int distance = 1)
     {
-        return MovesRemaining > 0;
+        return distance <= MovesRemaining;
     }
 
     public bool CanUseAbility()
