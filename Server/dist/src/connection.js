@@ -16,5 +16,5 @@ mongoose_1.default.model("User", User_1.default);
  */
 const db = mongoose_1.default.connection;
 db.on("error", global.console.error.bind(console, "Connection error:"));
-db.once("open", () => global.console.log("Connected to blackdice"));
+db.once("open", () => global.console.log("Connected to the database named blackdice"));
 //# sourceMappingURL=connection.js.map
