@@ -49,6 +49,7 @@ public class CharacterControllerTests
     const string PLAYER_NAME = "1";
 
     const float DAMAGE_AMOUNT = 1.0f;
+    const float HEAL_AMOUNT = 10.0f;
 
     [SetUp]
     public void Init()
