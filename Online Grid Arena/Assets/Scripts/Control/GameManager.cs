@@ -34,13 +34,19 @@ public class GameManager : MonoBehaviour, IGameManager
     private void Awake()
     {
         // Initialize turn controller
-        turnController = new TurnController();
+        turnController = new TurnController
+        {
+            EndMatchPanel = FindObjectOfType<EndMatchMenu>()
+        };
         List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {
             character.TurnController = turnController;
             turnController.AddCharacter(character);
         }
+
+        // Initialize Menu
+        FindObjectOfType<SurrenderButton>().TurnController = turnController;
         
         // Initialize HUD
         hudController = new HUDController();
@@ -132,7 +138,7 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.CanMove();
+        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanMove();
     }
 
     private bool CanUseAbility()
@@ -142,7 +148,7 @@ public class GameManager : MonoBehaviour, IGameManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.CanUseAbility();
+        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility();
     }
 
     private void SetSelectionMode()

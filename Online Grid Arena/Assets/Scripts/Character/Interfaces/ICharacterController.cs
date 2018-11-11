@@ -12,7 +12,7 @@ public interface ICharacterController
     List<IAbility> Abilities { set; }
 
     int AbilitiesRemaining { set; }
-    string OwnedByPlayer { set; }    
+    string OwnedByPlayer { get; set; }    
 
     void Select();
     void Deselect();
@@ -22,6 +22,7 @@ public interface ICharacterController
     float GetInitiative();
     void Damage(float damage);
     void Heal(float heal);
+    void Die();
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
@@ -30,4 +31,5 @@ public interface ICharacterController
 
     bool CanMove(int distance = 1);
     bool CanUseAbility();
+    bool IsActiveCharacter();
 }

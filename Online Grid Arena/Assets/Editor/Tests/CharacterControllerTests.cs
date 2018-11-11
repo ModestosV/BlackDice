@@ -101,10 +101,32 @@ public class CharacterControllerTests
         health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
     }
 
+    public void Damaging_beyond_zero_health_removes_character_from_match_and_checks_win_condition()
+    {
+        health.CurrentValue.Returns(0.0f);
+
+        sut.Damage(DAMAGE_AMOUNT);
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
+        turnController.Received(1).CheckWinCondition();
+    }
+
+    [Test]
+    public void Die_removes_character_from_the_match()
+    {
+        sut.Die();
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
+    }
+
     [Test]
     public void Heal_adds_health_amount_to_health_stat()
     {
-        health.CurrentValue.Returns(CHARACTER_HURT_LARGE_AMOUNT); //CHARACTER_HURT?
+        health.CurrentValue.Returns(CHARACTER_HURT_LARGE_AMOUNT);
 
         sut.Heal(HEAL_AMOUNT);
 
