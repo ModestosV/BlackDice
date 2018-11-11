@@ -28,7 +28,8 @@ public class CharacterControllerTests
     const float CHARACTER_CURRENT_HEALTH = 100.0f;
     const float CHARACTER_MAX_MOVES = 7.0f;
     const float CHARACTER_CURRENT_MOVES = 7.0f;
-
+    const float CHARACTER_HURT_LARGE_AMOUNT = 25.0f;
+    const float CHARACTER_HURT_SMALL_AMOUNT = 95.0f;
 
     List<ICharacterStat> characterStats;
     ICharacterStat health;
@@ -132,6 +133,27 @@ public class CharacterControllerTests
         turnController.Received(1).RemoveCharacter(sut);
         character.Received(1).Destroy();
     }
+
+    [Test]
+    public void Heal_adds_health_amount_to_health_stat()
+    {
+        health.CurrentValue.Returns(CHARACTER_HURT_LARGE_AMOUNT);
+
+        sut.Heal(HEAL_AMOUNT);
+
+        health.Received(1).CurrentValue = CHARACTER_HURT_LARGE_AMOUNT + HEAL_AMOUNT;
+    }
+
+    [Test]
+    public void Heal_does_not_heal_more_than_max_health_stat()
+    {
+        health.CurrentValue.Returns(CHARACTER_HURT_SMALL_AMOUNT);
+
+        sut.Heal(HEAL_AMOUNT);
+
+        health.Received(1).CurrentValue = CHARACTER_MAX_HEALTH;
+    }
+
 
     [Test]
     public void Execute_move_deselects_start_tile_and_vacates_character()

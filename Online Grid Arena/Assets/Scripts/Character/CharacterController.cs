@@ -126,6 +126,11 @@ public class CharacterController : ICharacterController
         }
     }
 
+    public void Heal(float heal)
+    {
+        CharacterStats[0].CurrentValue += heal;
+    }
+
     public void Die()
     {
         OccupiedTile.ClearOccupant();
