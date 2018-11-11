@@ -134,6 +134,10 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         {
             SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
+        if (statusCode == "412")
+        {
+            SetStatus(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
+        }
         if (statusCode == "500")
         {
             SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
