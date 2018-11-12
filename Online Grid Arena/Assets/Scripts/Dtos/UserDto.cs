@@ -17,7 +17,7 @@ public class UserDTO
     (
         string Email,
         string PasswordHash,
-        string Username = "",
+        string Username,
         string LoggedInToken = ""
     )
     {

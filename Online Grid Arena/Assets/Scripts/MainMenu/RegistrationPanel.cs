@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 /* 
  * A bug with the GUIs we are using causes user input length to show up as 1 size higher than intended,
- * affecting our password and username length. Our intent is for username lengths to be >=3 and passwords
+ * affecting our password and username length. Our intent is for username lengths to be >=3, <=16 and passwords
  * to be >=8. Our current implementation skips the "=" in order to account for this. 
 */
 public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
@@ -125,7 +125,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 
     private bool ValidateUsername(string username)
     {
-        Regex regex = new Regex("[a-zA-Z0-9]{4,24}");
+        Regex regex = new Regex("[a-zA-Z0-9]{4,17}");
         bool isUserNameValid = regex.IsMatch(username);
         if(!isUserNameValid)
         {
