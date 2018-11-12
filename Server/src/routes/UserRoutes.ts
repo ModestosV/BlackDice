@@ -59,8 +59,8 @@ export class UserRoutes {
                 } catch (err) {
                     const isDuplicate = err.message.toString().indexOf("duplicate") !== -1 ? true : false;
                     if (isDuplicate) {
-                      res.status(412);
-                      return res.json("Duplicate Key");
+                        res.status(412);
+                        return res.json("Duplicate Key");
                     }
                     return next(err);
                 }
@@ -118,8 +118,8 @@ export class UserRoutes {
                     }
 
                 } catch (err) {
-                  return next(err);
-              }
+                    return next(err);
+                }
             },
             errorHandler
         );

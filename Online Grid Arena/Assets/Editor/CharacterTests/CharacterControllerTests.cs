@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterControllerTests
 {
@@ -35,6 +36,10 @@ public class CharacterControllerTests
     ICharacterStat moves;
 
     List<IHexTileController> pathList;
+
+    ITurnTile turnTile;
+    Texture CHARACTER_ICON;
+    Color32 BORDER_COLOR;
 
     const string STAT_NAME_1 = "Health";
     const string STAT_NAME_2 = "Damage";
@@ -77,6 +82,10 @@ public class CharacterControllerTests
 
         endTileController.HexTile.Returns(endTile);
 
+        turnTile = Substitute.For<ITurnTile>();
+        CHARACTER_ICON = Substitute.For<Texture>();
+        BORDER_COLOR = new Color32(0, 0, 0, 0);
+
         sut = new CharacterController
         {
             Character = character,
@@ -87,7 +96,9 @@ public class CharacterControllerTests
             CharacterStats = characterStats,
             Abilities = abilities,
             OwnedByPlayer = PLAYER_NAME,
-            AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT
+            AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
+            CharacterIcon = CHARACTER_ICON,
+            BorderColor = BORDER_COLOR
         };
     }
 
@@ -97,6 +108,29 @@ public class CharacterControllerTests
         sut.Damage(DAMAGE_AMOUNT);
 
         health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
+    }
+
+    [Test]
+    public void Damaging_beyond_zero_health_removes_character_from_match_and_checks_win_condition()
+    {
+        health.CurrentValue.Returns(0.0f);
+
+        sut.Damage(DAMAGE_AMOUNT);
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
+        turnController.Received(1).CheckWinCondition();
+    }
+
+    [Test]
+    public void Die_removes_character_from_the_match()
+    {
+        sut.Die();
+
+        startTileController.Received(1).ClearOccupant();
+        turnController.Received(1).RemoveCharacter(sut);
+        character.Received(1).Destroy();
     }
 
     [Test]
@@ -184,5 +218,16 @@ public class CharacterControllerTests
 
         targetCharacterController.DidNotReceive();
         turnController.DidNotReceive();
+    }
+
+    [Test]
+    public void Update_turn_tile_updates_turn_tile_with_new_color_and_texture()
+    {
+        sut.UpdateTurnTile(turnTile);
+
+        turnTile.Received(1).CharacterIcon = CHARACTER_ICON;
+        turnTile.Received(1).BorderColor = BORDER_COLOR;
+
+        turnTile.Received(1).UpdateTile();
     }
 }

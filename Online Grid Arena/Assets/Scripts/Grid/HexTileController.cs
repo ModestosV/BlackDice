@@ -18,11 +18,6 @@ public class HexTileController : IHexTileController
     public int Y { get { return Coordinates.Item2; } }
     public int Z { get { return Coordinates.Item3; } }
 
-    public bool IsOccupied()
-    {
-        return OccupantCharacter != null;
-    }
-
     public void Select()
     {
         if (!IsEnabled) return;
@@ -127,7 +122,15 @@ public class HexTileController : IHexTileController
         HexTile.SetDefaultMaterial();
     }
 
+    public void ClearOccupant()
+    {
+        OccupantCharacter = null;
+    }
 
+    public bool IsOccupied()
+    {
+        return OccupantCharacter != null;
+    }
 
     public IHexTileController GetNorthEastNeighbor()
     {

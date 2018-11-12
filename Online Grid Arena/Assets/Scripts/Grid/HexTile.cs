@@ -18,6 +18,11 @@ public class HexTile : MonoBehaviour, IHexTile
 
     private void Start()
     {
+        LinkOccupiedCharacter();
+    }
+
+    private void LinkOccupiedCharacter()
+    {
         ICharacter occupantCharacter = GetComponentInChildren<Character>();
 
         if (occupantCharacter == null) return;

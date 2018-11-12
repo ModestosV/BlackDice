@@ -10,8 +10,11 @@ public class Character : MonoBehaviour, ICharacter
     public string playerName;
 
     private CharacterController characterController;
+    
+    public Texture characterIcon;
+    public Color32 borderColor;
 
-    private void Awake()
+    void Awake()
     {
         characterController = new CharacterController
         {
@@ -19,14 +22,21 @@ public class Character : MonoBehaviour, ICharacter
             CharacterStats = stats.ToList<ICharacterStat>(),
             Abilities = abilities.ToList<IAbility>(),
             Character = this,
-            OwnedByPlayer = playerName
+            OwnedByPlayer = playerName,
+            CharacterIcon = characterIcon,
+            BorderColor = borderColor
         };
     }
 
-    private void Start()
+    void Start()
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 
     #region ICharacter implementation

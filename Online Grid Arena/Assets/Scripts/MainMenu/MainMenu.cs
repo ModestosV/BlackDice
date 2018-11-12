@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using System.Collections;
 using TMPro;
 
 public class MainMenu : HideableUI

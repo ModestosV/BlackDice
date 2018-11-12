@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = __importDefault(require("./models/User"));
-mongoose_1.default.connect("mongodb://localhost:27017/blackdice", { useNewUrlParser: true });
+mongoose_1.default.connect("mongodb://localhost/blackdice", { useNewUrlParser: true });
 mongoose_1.default.set("useCreateIndex", true);
 /**
  * THIS IS WERE WE INSTANTIATE THE DB MODELS
