@@ -30,5 +30,6 @@ public class MenuManager : MonoBehaviour
         };
 
         accountWebRequester.AccountController = accountController;
+        onlineMenuController.AccountController = accountController;
     }
 }

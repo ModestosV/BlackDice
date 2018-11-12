@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TMPro;
 
-public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
+public class RegistrationPanel : MonoBehaviour, IRegistrationPanel
 {
     public Button registerButton;
     public GameObject loadingCircle;
@@ -54,5 +53,15 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
     public void DeactivateLoadingCircle()
     {
         loadingCircle.SetActive(false);
+    }
+
+    public void EnableRegisterButton()
+    {
+        registerButton.interactable = true;
+    }
+
+    public void DisableRegisterButton()
+    {
+        registerButton.interactable = false;
     }
 }

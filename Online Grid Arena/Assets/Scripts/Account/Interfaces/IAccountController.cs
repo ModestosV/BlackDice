@@ -1,6 +1,8 @@
 ﻿
 public interface IAccountController
 {
+    string Email { get; }
+
     IOnlineMenuController OnlineMenuController { set; }
 
     void Register(AccountDTO user);
@@ -12,4 +14,6 @@ public interface IAccountController
     void Logout(AccountDTO user);
     void InvalidLogout();
     void ErroredLogout();
+
+    bool IsLoggedIn();
 }

@@ -100,7 +100,6 @@ class UserRoutes {
         this.router.post("/logout", body_parser_1.default.urlencoded({ extended: true }), body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("Logout request going through.");
-                global.console.log(req.body);
                 const email = req.body.email;
                 const loginQuery = {
                     email
@@ -125,7 +124,7 @@ class UserRoutes {
                     }
                     else {
                         res.status(400);
-                        return res.json("User is not loggedIn");
+                        return res.json("User is not logged in.");
                     }
                 }
             }

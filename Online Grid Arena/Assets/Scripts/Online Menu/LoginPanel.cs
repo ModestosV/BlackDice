@@ -37,7 +37,7 @@ public class LoginPanel : MonoBehaviour, ILoginPanel
 
     public void Logout()
     {
-        OnlineMenuController.Logout(EmailText.text, PasswordText.text);
+        OnlineMenuController.Logout();
     }
 
     public void SetStatus(string statusText)
@@ -64,6 +64,18 @@ public class LoginPanel : MonoBehaviour, ILoginPanel
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
+    }
+
+    public void EnableLoginLogoutButtons()
+    {
+        loginButton.interactable = true;
+        logoutButton.interactable = true;
+    }
+
+    public void DisableLoginLogoutButtons()
+    {
+        loginButton.interactable = false;
+        logoutButton.interactable = false;
     }
 
     public void ActivateLoadingCircle()

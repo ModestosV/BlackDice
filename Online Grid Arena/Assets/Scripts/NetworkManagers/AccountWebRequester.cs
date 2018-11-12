@@ -29,7 +29,6 @@ public class AccountWebRequester : WebRequester, IAccountWebRequester
                     break;
                 case 412:
                     AccountController.InvalidRegistration();
-                    Debug.Log(www.downloadHandler.text);
                     break;
                 case 500:
                     AccountController.ErroredRegistration();
@@ -68,9 +67,9 @@ public class AccountWebRequester : WebRequester, IAccountWebRequester
         });
     }
 
-    public void Logout(string email, string password)
+    public void Logout(string email)
     {
-        AccountDTO dto = new AccountDTO(email, Hash128.Compute(password).ToString());
+        AccountDTO dto = new AccountDTO(email);
         WWWForm body = dto.GetForm();
 
         Post($"{URLs.BASE_URL}{URLs.LOGOUT_URL_PATH}", body, delegate ()

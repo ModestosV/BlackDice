@@ -164,7 +164,7 @@ export class UserRoutes {
 
                         } else {
                             res.status(400);
-                            return res.json("User is not loggedIn");
+                            return res.json("User is not logged in.");
                         }
                     }
 

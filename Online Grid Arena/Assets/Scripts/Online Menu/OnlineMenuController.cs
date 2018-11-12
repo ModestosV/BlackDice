@@ -4,10 +4,11 @@ using System.Text.RegularExpressions;
 
 public class OnlineMenuController : IOnlineMenuController
 {
-    public IOnlineMenuPanel RegistrationPanel { protected get; set; }
+    public IRegistrationPanel RegistrationPanel { protected get; set; }
     public ILoginPanel LoginPanel { protected get; set; }
 
     public IAccountWebRequester AccountWebRequester { protected get; set; }
+    public IAccountController AccountController { protected get; set; }
 
     public void SetLoginStatus(string status)
     {
@@ -46,6 +47,7 @@ public class OnlineMenuController : IOnlineMenuController
             return;
         }
 
+        RegistrationPanel.DisableRegisterButton();
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
         AccountWebRequester.Register(email, password, username);
@@ -53,16 +55,35 @@ public class OnlineMenuController : IOnlineMenuController
 
     public void Login(string email, string password)
     {
+        if (AccountController.IsLoggedIn()) return;
+        LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
         AccountWebRequester.Login(email, password);
     }
 
-    public void Logout(string email, string password)
+    public void Logout()
     {
+        if (!AccountController.IsLoggedIn()) return;
+        LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
-        AccountWebRequester.Logout(email, password);
+        AccountWebRequester.Logout(AccountController.Email);
+    }
+
+    public void DisableLoginLogoutButtons()
+    {
+        LoginPanel.DisableLoginLogoutButtons();
+    }
+
+    public void EnableLoginLogoutButtons()
+    {
+        LoginPanel.EnableLoginLogoutButtons();
+    }
+
+    public void EnableRegisterButton()
+    {
+        RegistrationPanel.EnableRegisterButton();
     }
 
     private bool ValidateEmail(string email)
