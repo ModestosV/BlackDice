@@ -5,6 +5,11 @@ using TMPro;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
+/* 
+ * A bug with the GUIs we are using causes user input length to show up as 1 size higher than intended,
+ * affecting our password and username length. Our intent is for username lengths to be >=3 and passwords
+ * to be >=8. Our current implementation skips the "=" in order to account for this. 
+*/
 public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 {
     public Button registerButton;
@@ -43,19 +48,19 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 
         if (!ValidateEmail(EmailGUI.text))
         {
-            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
+            SetStatusText(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
         if (!ValidatePassword(PasswordGUI.text))
         {
-            SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
+            SetStatusText(Strings.INVALID_PASSWORD_MESSAGE);
             return;
         }
 
         if (!ValidateUsername(UsernameGUI.text))
         {
-            SetStatus(Strings.INVALID_USERNAME_MESSAGE);
+            SetStatusText(Strings.INVALID_USERNAME_MESSAGE);
             return;
         }
 
@@ -64,7 +69,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         loadingCircle.SetActive(false);
     }
 
-    public void SetStatus(string statusText)
+    public void SetStatusText(string statusText)
     {
         StatusGUI.text = statusText;
     }
@@ -72,6 +77,26 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
     public void ClearStatus()
     {
         StatusGUI.text = "";
+    }
+
+    public void UpdateStatusText(string statusCode)
+    {
+        if (statusCode == "200")
+        {
+            SetStatusText(Strings.REGISTRATION_SUCCESS_MESSAGE);
+        }
+        if (statusCode == "400")
+        {
+            SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        }
+        if (statusCode == "412")
+        {
+            SetStatusText(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
+        }
+        if (statusCode == "500")
+        {
+            SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        }
     }
 
     private bool ValidateEmail(string email)
@@ -100,7 +125,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 
     private bool ValidateUsername(string username)
     {
-        Regex regex = new Regex("[a-zA-Z0-9]{3,24}");
+        Regex regex = new Regex("[a-zA-Z0-9]{4,24}");
         bool isUserNameValid = regex.IsMatch(username);
         if(!isUserNameValid)
         {
@@ -122,26 +147,6 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         StatusGUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
         StatusGUI.gameObject.SetActive(true);
-    }
-
-    public void GetStatus(string statusCode)
-    {
-        if (statusCode == "200")
-        {
-            SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
-        }
-        if (statusCode == "400")
-        {
-            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
-        }
-        if (statusCode == "412")
-        {
-            SetStatus(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
-        }
-        if (statusCode == "500")
-        {
-            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-        }
     }
 
     #region IMonoBehaviour implementation

@@ -53,7 +53,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         MakeLogoutWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
-    public void SetStatus(string statusText)
+    public void SetStatusText(string statusText)
     {
         StatusGUI.text = statusText;
     }
@@ -79,11 +79,11 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
         if(loginButton.gameObject.activeSelf)
         {
-            SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+            SetStatusText(Strings.LOGOUT_SUCCESS_MESSAGE);
         }
         else
         {
-            SetStatus(Strings.LOGIN_SUCCESS_MESSAGE);
+            SetStatusText(Strings.LOGIN_SUCCESS_MESSAGE);
         }
     }
 
@@ -110,7 +110,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         StatusGUI.gameObject.SetActive(true);
     }
 
-    public void GetStatus(string statusCode)
+    public void UpdateStatusText(string statusCode)
     {
         if (statusCode == "200")
         {
@@ -118,11 +118,11 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         }
         if (statusCode == "400")
         {
-            SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+            SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
         if (statusCode == "500")
         {
-            SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+            SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
     }
 

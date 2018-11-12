@@ -1,6 +1,6 @@
 ﻿public interface IOnlineMenuPanel
 {
-    void GetStatus(string responseCode);
-    void SetStatus(string statusCode);
+    void UpdateStatusText(string responseCode);
+    void SetStatusText(string statusText);
     void ClearStatus();
 }

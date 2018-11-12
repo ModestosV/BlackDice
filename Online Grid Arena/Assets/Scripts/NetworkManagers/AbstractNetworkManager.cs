@@ -21,6 +21,6 @@ public abstract class AbstractNetworkManager : IHttpRequests
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
-        Panel.GetStatus(request.responseCode.ToString());
+        Panel.UpdateStatusText(request.responseCode.ToString());
     }
 }
