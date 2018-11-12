@@ -100,7 +100,6 @@ class UserRoutes {
         this.router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("logout request going through");
-                global.console.log(req.body);
                 const email = req.body.email;
                 const loginQuery = {
                     email

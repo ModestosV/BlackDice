@@ -57,8 +57,8 @@ export class UserRoutes {
                 } catch (err) {
                     const isDuplicate = err.message.toString().indexOf("duplicate") !== -1 ? true : false;
                     if (isDuplicate) {
-                      res.status(412);
-                      return res.json("Duplicate Key");
+                        res.status(412);
+                        return res.json("Duplicate Key");
                     }
                     return next(err);
                 }
@@ -73,7 +73,6 @@ export class UserRoutes {
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
-
                     global.console.log("login request going through");
 
                     const passHash = req.body.password;
@@ -115,8 +114,8 @@ export class UserRoutes {
                     }
 
                 } catch (err) {
-                  return next(err);
-              }
+                    return next(err);
+                }
             },
             errorHandler
         );
@@ -128,9 +127,7 @@ export class UserRoutes {
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
-
                     global.console.log("logout request going through");
-                    global.console.log(req.body);
 
                     const email = req.body.email;
                     const loginQuery = {

@@ -14,8 +14,7 @@ describe("Testing the inital call to the root location of the server", () => {
     });
     test("Test Register Router Improperly", () => {
         const conn = supertest_1.default(app_1.default);
-        conn.post("/account/register")
-            .expect(400);
+        conn.post("/account/register").expect(400);
     });
     test("Test Register Router", async (done) => {
         const json = {
