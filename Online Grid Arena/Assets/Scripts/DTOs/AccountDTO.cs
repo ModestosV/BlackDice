@@ -12,25 +12,19 @@ public class AccountDTO
     [JsonProperty("username")]
     public string Username { get; }
 
-    public AccountDTO
-    (
-        string Email,
-        string PasswordHash,
-        string Username = "",
-        string LoggedInToken = ""
-    )
+    public AccountDTO(string Email, string PasswordHash, string Username = "", string LoggedInToken = "")
     {
         this.Email = Email;
-        this.LoggedInToken = LoggedInToken;
         this.PasswordHash = PasswordHash;
         this.Username = Username;
+        this.LoggedInToken = LoggedInToken;
     }
 
     public WWWForm GetForm()
     {
         WWWForm form = new WWWForm();
         form.AddField("email", Email);
-        form.AddField("passwordHash", Hash128.Compute(PasswordHash).ToString());
+        form.AddField("password", PasswordHash);
         form.AddField("username", Username);
         form.AddField("loggedIn", LoggedInToken);
 

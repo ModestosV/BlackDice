@@ -1,54 +1,55 @@
 ﻿public class AccountController : IAccountController
 {
-    public IOnlineMenuPanel RegistrationPanel { protected get; set; }
-    public IOnlineMenuPanel LoginPanel { protected get; set; }
+    public IOnlineMenuController OnlineMenuController { protected get; set; }
 
     public AccountDTO Account { protected get; set; }
 
     public void InvalidRegistration()
     {
-        RegistrationPanel.SetStatus(Strings.INVALID_REGISTRATION_REQUEST);
+        OnlineMenuController.SetRegistrationStatus(Strings.INVALID_REGISTRATION_REQUEST);
     }
 
     public void ErroredRegistration()
     {
-        RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        OnlineMenuController.SetRegistrationStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
     }
 
     public void InvalidLogin()
     {
-        LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        OnlineMenuController.SetLoginStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
     }
 
     public void ErroredLogin()
     {
-        LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        OnlineMenuController.SetLoginStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
     }
 
     public void InvalidLogout()
     {
-        LoginPanel.SetStatus(Strings.LOGOUT_FAIL_MESSAGE);
+        OnlineMenuController.SetLoginStatus(Strings.LOGOUT_FAIL_MESSAGE);
     }
 
     public void ErroredLogout()
     {
-        LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        OnlineMenuController.SetLoginStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
     }
 
     public void Login(AccountDTO user)
     {
         Account = user;
-        LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE} Welcome {user.Username}");
+        OnlineMenuController.SetLoginStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {user.Username}.");
+        OnlineMenuController.ToggleLoginLogoutButtons();
     }
 
     public void Logout(AccountDTO user)
     {
         Account = null;
-        LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+        OnlineMenuController.SetLoginStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+        OnlineMenuController.ToggleLoginLogoutButtons();
     }
 
     public void Register(AccountDTO user)
     {
-        RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
+        OnlineMenuController.SetRegistrationStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
     }
 }

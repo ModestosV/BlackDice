@@ -1,8 +1,7 @@
 ﻿
 public interface IAccountController
 {
-    IOnlineMenuPanel RegistrationPanel { set; }
-    IOnlineMenuPanel LoginPanel { set; }
+    IOnlineMenuController OnlineMenuController { set; }
 
     void Register(AccountDTO user);
     void InvalidRegistration();

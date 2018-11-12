@@ -3,11 +3,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class WebRequester
+public abstract class WebRequester : MonoBehaviour
 {
     protected UnityWebRequest www;
 
-    protected IEnumerator Get(string url, Action<long, string> callback)
+    protected void Get(string url, Action callback)
+    {
+        StartCoroutine(url, callback);
+    }
+
+    private IEnumerator GetCoroutine(string url, Action callback)
     {
         www = UnityWebRequest.Get(url);
         yield return www.SendWebRequest();
@@ -16,13 +21,16 @@ public abstract class WebRequester
         {
             Debug.Log(www.error);
         }
-        else
-        {
-            callback(www.responseCode, www.downloadHandler.text);
-        }
+
+        callback();
     }
 
-    protected IEnumerator Post(string url, WWWForm body, Action<long, string> callback)
+    protected void Post(string url, WWWForm body, Action callback)
+    {
+        StartCoroutine(PostCoroutine(url, body, callback));
+    }
+
+    private IEnumerator PostCoroutine(string url, WWWForm body, Action callback)
     {
         www = UnityWebRequest.Post(url, body);
         yield return www.SendWebRequest();
@@ -31,9 +39,7 @@ public abstract class WebRequester
         {
             Debug.Log(www.error);
         }
-        else
-        {
-            callback(www.responseCode, www.downloadHandler.text);
-        }
+
+        callback();
     }
 }
