@@ -4,7 +4,7 @@ public interface IOnlineMenuController
 {
     IRegistrationPanel RegistrationPanel { set; }
     ILoginPanel LoginPanel { set; }
-    IAccountWebRequester AccountWebRequester { set; }
+    IUserWebRequestService AccountWebRequester { set; }
 
     void SetRegistrationStatus(string status);
     void SetLoginStatus(string status);

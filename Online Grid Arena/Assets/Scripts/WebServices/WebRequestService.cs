@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class WebRequester : MonoBehaviour
+public abstract class WebRequestService : MonoBehaviour
 {
     protected UnityWebRequest www;
 

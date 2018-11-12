@@ -8,8 +8,8 @@ public class OnlineMenuControllerTests
     IRegistrationPanel registrationPanel;
     ILoginPanel loginPanel;
 
-    IAccountWebRequester accountWebRequester;
-    IAccountController accountController;
+    IUserWebRequestService accountWebRequester;
+    IUserController accountController;
 
     const string VALID_EMAIL = "test@domain.com";
     const string INVALID_EMAIL = "09v8r0#3ur!jv9^8jasd(ofi8";
@@ -26,8 +26,8 @@ public class OnlineMenuControllerTests
         registrationPanel = Substitute.For<IRegistrationPanel>();
         loginPanel = Substitute.For<ILoginPanel>();
 
-        accountWebRequester = Substitute.For<IAccountWebRequester>();
-        accountController = Substitute.For<IAccountController>();
+        accountWebRequester = Substitute.For<IUserWebRequestService>();
+        accountController = Substitute.For<IUserController>();
         accountController.Email.Returns(VALID_EMAIL);
         accountController.IsLoggedIn().Returns(false);
 

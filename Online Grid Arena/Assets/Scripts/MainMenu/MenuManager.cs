@@ -5,14 +5,14 @@ public class MenuManager : MonoBehaviour
     private LoginPanel loginPanel;
     private RegistrationPanel registrationPanel;
     private OnlineMenuController onlineMenuController;
-    private AccountWebRequester accountWebRequester;
-    private AccountController accountController;
+    private UserWebRequestService accountWebRequester;
+    private UserController accountController;
 
     private void Awake()
     {
         loginPanel = FindObjectOfType<LoginPanel>();
         registrationPanel = FindObjectOfType<RegistrationPanel>();
-        accountWebRequester = FindObjectOfType<AccountWebRequester>();
+        accountWebRequester = FindObjectOfType<UserWebRequestService>();
 
         onlineMenuController = new OnlineMenuController
         {
@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
         loginPanel.OnlineMenuController = onlineMenuController;
         registrationPanel.OnlineMenuController = onlineMenuController;
 
-        accountController = new AccountController()
+        accountController = new UserController()
         {
             OnlineMenuController = onlineMenuController
         };

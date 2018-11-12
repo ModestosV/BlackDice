@@ -1,6 +1,6 @@
-﻿public interface IAccountWebRequester
+﻿public interface IUserWebRequestService
 {
-    IAccountController AccountController { set; }
+    IUserController AccountController { set; }
 
     void Register(string email, string password, string username);
     void Login(string email, string password);

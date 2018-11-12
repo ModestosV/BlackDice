@@ -1,4 +1,4 @@
-﻿public class AccountController : IAccountController
+﻿public class UserController : IUserController
 {
     public IOnlineMenuController OnlineMenuController { protected get; set; }
     public string Email
@@ -10,7 +10,7 @@
         }
     }
 
-    public AccountDTO Account { protected get; set; }
+    public UserDTO Account { protected get; set; }
 
     public void InvalidRegistration()
     {
@@ -48,7 +48,7 @@
         OnlineMenuController.EnableLoginLogoutButtons();
     }
 
-    public void Login(AccountDTO user)
+    public void Login(UserDTO user)
     {
         Account = user;
         OnlineMenuController.SetLoginStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {user.Username}.");
@@ -56,7 +56,7 @@
         OnlineMenuController.EnableLoginLogoutButtons();
     }
 
-    public void Logout(AccountDTO user)
+    public void Logout(UserDTO user)
     {
         Account = null;
         OnlineMenuController.SetLoginStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
@@ -64,7 +64,7 @@
         OnlineMenuController.EnableLoginLogoutButtons();
     }
 
-    public void Register(AccountDTO user)
+    public void Register(UserDTO user)
     {
         OnlineMenuController.SetRegistrationStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
         OnlineMenuController.EnableRegisterButton();

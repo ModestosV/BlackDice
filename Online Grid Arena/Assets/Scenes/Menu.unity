@@ -5316,7 +5316,7 @@ GameObject:
   - component: {fileID: 1252038881}
   - component: {fileID: 1252038880}
   m_Layer: 5
-  m_Name: AccountWebRequester
+  m_Name: UserWebRequestService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

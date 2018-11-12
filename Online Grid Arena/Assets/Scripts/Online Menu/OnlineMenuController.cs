@@ -7,8 +7,8 @@ public class OnlineMenuController : IOnlineMenuController
     public IRegistrationPanel RegistrationPanel { protected get; set; }
     public ILoginPanel LoginPanel { protected get; set; }
 
-    public IAccountWebRequester AccountWebRequester { protected get; set; }
-    public IAccountController AccountController { protected get; set; }
+    public IUserWebRequestService AccountWebRequester { protected get; set; }
+    public IUserController AccountController { protected get; set; }
 
     public void SetLoginStatus(string status)
     {

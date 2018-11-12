@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
 
-public class AccountDTO
+public class UserDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
@@ -12,7 +12,7 @@ public class AccountDTO
     [JsonProperty("username")]
     public string Username { get; }
 
-    public AccountDTO(string Email, string PasswordHash = "", string Username = "", string LoggedInToken = "")
+    public UserDTO(string Email, string PasswordHash = "", string Username = "", string LoggedInToken = "")
     {
         this.Email = Email;
         this.PasswordHash = PasswordHash;
