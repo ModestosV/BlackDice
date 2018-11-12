@@ -1,31 +1,14 @@
-﻿using System.Collections;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 public class OnlineMenuController : IOnlineMenuController
 {
     public IRegistrationPanel RegistrationPanel { protected get; set; }
     public ILoginPanel LoginPanel { protected get; set; }
 
-    public IUserWebRequestService AccountWebRequester { protected get; set; }
-    public IUserController AccountController { protected get; set; }
-
-    public void SetLoginStatus(string status)
-    {
-        LoginPanel.SetStatus(status);
-        LoginPanel.DeactivateLoadingCircle();
-    }
-
-    public void SetRegistrationStatus(string status)
-    {
-        RegistrationPanel.SetStatus(status);
-        RegistrationPanel.DeactivateLoadingCircle();
-    }
-
-    public void ToggleLoginLogoutButtons()
-    {
-        LoginPanel.ToggleLoginLogoutButtons();
-    }
+    public IUserWebRequestService UserWebRequestService { protected get; set; }
+    public IUserController UserController { protected get; set; }
 
     public void Register(string email, string password, string username)
     {
@@ -50,40 +33,109 @@ public class OnlineMenuController : IOnlineMenuController
         RegistrationPanel.DisableRegisterButton();
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
-        AccountWebRequester.Register(email, password, username);
+
+        UserWebRequestService.Register(email, password, username, delegate (IWebResponse response)
+        {
+            RegistrationPanel.EnableRegisterButton();
+            RegistrationPanel.DeactivateLoadingCircle();
+
+            if (response.IsNetworkError)
+            {
+                RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                return;
+            }
+
+            switch (response.ResponseCode)
+            {
+                case 200:
+                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                    RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
+                    break;
+                case 400:
+                    RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                    break;
+                case 412:
+                    RegistrationPanel.SetStatus(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
+                    break;
+                case 500:
+                    RegistrationPanel.SetStatus(Strings.SERVER_ERROR_MESSAGE);
+                    break;
+            }
+        });
     }
 
     public void Login(string email, string password)
     {
-        if (AccountController.IsLoggedIn()) return;
+        if (UserController.IsLoggedIn()) return;
+
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
-        AccountWebRequester.Login(email, password);
+
+        UserWebRequestService.Login(email, password, delegate (IWebResponse response) {
+
+            LoginPanel.EnableLoginLogoutButtons();
+            LoginPanel.DeactivateLoadingCircle();
+
+            if (response.IsNetworkError)
+            {
+                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                return;
+            }
+
+            switch (response.ResponseCode)
+            {
+                case 200:
+                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                    UserController.LoggedInUser = responseUser;
+                    LoginPanel.ToggleLoginLogoutButtons();
+                    LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
+                    break;
+                case 400:
+                    LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+                    break;
+                case 500:
+                    LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                    break;
+            }
+        });
     }
 
     public void Logout()
     {
-        if (!AccountController.IsLoggedIn()) return;
+        if (!UserController.IsLoggedIn()) return;
+
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
-        AccountWebRequester.Logout(AccountController.Email);
-    }
 
-    public void DisableLoginLogoutButtons()
-    {
-        LoginPanel.DisableLoginLogoutButtons();
-    }
+        UserWebRequestService.Logout(UserController.Email, delegate (IWebResponse response)
+        {
+            LoginPanel.EnableLoginLogoutButtons();
+            LoginPanel.DeactivateLoadingCircle();
 
-    public void EnableLoginLogoutButtons()
-    {
-        LoginPanel.EnableLoginLogoutButtons();
-    }
+            if (response.IsNetworkError)
+            {
+                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                return;
+            }
 
-    public void EnableRegisterButton()
-    {
-        RegistrationPanel.EnableRegisterButton();
+            switch (response.ResponseCode)
+            {
+                case 200:
+                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                    UserController.LoggedInUser = null;
+                    LoginPanel.ToggleLoginLogoutButtons();
+                    LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+                    break;
+                case 400:
+                    LoginPanel.SetStatus(Strings.LOGOUT_FAIL_MESSAGE);
+                    break;
+                case 500:
+                    LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                    break;
+            }
+        });
     }
 
     private bool ValidateEmail(string email)

@@ -1,8 +1,8 @@
-﻿public interface IUserWebRequestService
-{
-    IUserController AccountController { set; }
+﻿using System;
 
-    void Register(string email, string password, string username);
-    void Login(string email, string password);
-    void Logout(string email);
+public interface IUserWebRequestService
+{
+    void Register(string email, string password, string username, Action<IWebResponse> callback);
+    void Login(string email, string password, Action<IWebResponse> callback);
+    void Logout(string email, Action<IWebResponse> callback);
 }
