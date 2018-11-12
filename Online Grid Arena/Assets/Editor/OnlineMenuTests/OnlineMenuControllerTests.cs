@@ -1,4 +1,4 @@
-﻿/*
+﻿using System;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -9,8 +9,8 @@ public class OnlineMenuControllerTests
     IRegistrationPanel registrationPanel;
     ILoginPanel loginPanel;
 
-    IUserWebRequestService accountWebRequester;
-    IUserController accountController;
+    IUserWebRequestService userWebRequestService;
+    IUserController userController;
 
     const string VALID_EMAIL = "test@domain.com";
     const string INVALID_EMAIL = "09v8r0#3ur!jv9^8jasd(ofi8";
@@ -21,23 +21,30 @@ public class OnlineMenuControllerTests
     const string VALID_USERNAME = "0matleb2";
     const string INVALID_USERNAME = "0!";
 
+    Action<IWebResponse> callback;
+    IWebResponse webResponse;
+
     [SetUp]
     public void Init()
     {
         registrationPanel = Substitute.For<IRegistrationPanel>();
         loginPanel = Substitute.For<ILoginPanel>();
 
-        accountWebRequester = Substitute.For<IUserWebRequestService>();
-        accountController = Substitute.For<IUserController>();
-        accountController.Email.Returns(VALID_EMAIL);
-        accountController.IsLoggedIn().Returns(false);
+        userWebRequestService = Substitute.For<IUserWebRequestService>();
+        callback = Substitute.For<Action<IWebResponse>>();
+        webResponse = Substitute.For<IWebResponse>();
+
+        userController = Substitute.For<IUserController>();
+        userController.Email.Returns(VALID_EMAIL);
+        userController.IsLoggedIn().Returns(false);
+
 
         sut = new OnlineMenuController
         {
             RegistrationPanel = registrationPanel,
             LoginPanel = loginPanel,
-            UserWebRequestService = accountWebRequester,
-            UserController = accountController
+            UserWebRequestService = userWebRequestService,
+            UserController = userController
         };
     }
 
@@ -48,7 +55,7 @@ public class OnlineMenuControllerTests
 
         registrationPanel.Received(1).ActivateLoadingCircle();
         registrationPanel.Received(1).ClearStatus();
-        accountWebRequester.Received(1).Register(VALID_EMAIL, VALID_PASSWORD, VALID_USERNAME);
+        userWebRequestService.Received(1).Register(VALID_EMAIL, VALID_PASSWORD, VALID_USERNAME, Arg.Any<Action<IWebResponse>>());
     }
 
     [Test]
@@ -57,7 +64,7 @@ public class OnlineMenuControllerTests
         sut.Register(INVALID_EMAIL, VALID_PASSWORD, VALID_USERNAME);
 
         registrationPanel.Received(1).SetStatus(Strings.INVALID_EMAIL_MESSAGE);
-        accountWebRequester.DidNotReceive();
+        userWebRequestService.DidNotReceive();
     }
 
     [Test]
@@ -66,7 +73,7 @@ public class OnlineMenuControllerTests
         sut.Register(VALID_EMAIL, INVALID_PASSWORD, VALID_USERNAME);
 
         registrationPanel.Received(1).SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
-        accountWebRequester.DidNotReceive();
+        userWebRequestService.DidNotReceive();
     }
 
     [Test]
@@ -75,7 +82,7 @@ public class OnlineMenuControllerTests
         sut.Register(VALID_EMAIL, VALID_PASSWORD, INVALID_USERNAME);
 
         registrationPanel.Received(1).SetStatus(Strings.INVALID_USERNAME_MESSAGE);
-        accountWebRequester.DidNotReceive();
+        userWebRequestService.DidNotReceive();
     }
 
     [Test]
@@ -86,20 +93,19 @@ public class OnlineMenuControllerTests
         loginPanel.Received(1).DisableLoginLogoutButtons();
         loginPanel.Received(1).ActivateLoadingCircle();
         loginPanel.Received(1).ClearStatus();
-        accountWebRequester.Received(1).Login(VALID_EMAIL, VALID_PASSWORD);
+        userWebRequestService.Received(1).Login(VALID_EMAIL, VALID_PASSWORD, Arg.Any<Action<IWebResponse>>());
     }
 
     [Test]
     public void Logout_indicates_activity_and_sends_logout_request_for_active_account()
     {
-        accountController.IsLoggedIn().Returns(true);
+        userController.IsLoggedIn().Returns(true);
 
         sut.Logout();
 
         loginPanel.Received(1).DisableLoginLogoutButtons();
         loginPanel.Received(1).ActivateLoadingCircle();
         loginPanel.Received(1).ClearStatus();
-        accountWebRequester.Received(1).Logout(VALID_EMAIL);
+        userWebRequestService.Received(1).Logout(VALID_EMAIL, Arg.Any<Action<IWebResponse>>());
     }
 }
-*/

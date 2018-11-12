@@ -36,32 +36,37 @@ public class OnlineMenuController : IOnlineMenuController
 
         UserWebRequestService.Register(email, password, username, delegate (IWebResponse response)
         {
-            RegistrationPanel.EnableRegisterButton();
-            RegistrationPanel.DeactivateLoadingCircle();
-
-            if (response.IsNetworkError)
-            {
-                RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                return;
-            }
-
-            switch (response.ResponseCode)
-            {
-                case 200:
-                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
-                    RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
-                    break;
-                case 400:
-                    RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                    break;
-                case 412:
-                    RegistrationPanel.SetStatus(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
-                    break;
-                case 500:
-                    RegistrationPanel.SetStatus(Strings.SERVER_ERROR_MESSAGE);
-                    break;
-            }
+            RegisterCallback(response);
         });
+    }
+
+    public void RegisterCallback(IWebResponse response)
+    {
+        RegistrationPanel.EnableRegisterButton();
+        RegistrationPanel.DeactivateLoadingCircle();
+
+        if (response.IsNetworkError)
+        {
+            RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+            return;
+        }
+
+        switch (response.ResponseCode)
+        {
+            case 200:
+                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
+                break;
+            case 400:
+                RegistrationPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                break;
+            case 412:
+                RegistrationPanel.SetStatus(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
+                break;
+            case 500:
+                RegistrationPanel.SetStatus(Strings.SERVER_ERROR_MESSAGE);
+                break;
+        }
     }
 
     public void Login(string email, string password)
@@ -72,33 +77,38 @@ public class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        UserWebRequestService.Login(email, password, delegate (IWebResponse response) {
-
-            LoginPanel.EnableLoginLogoutButtons();
-            LoginPanel.DeactivateLoadingCircle();
-
-            if (response.IsNetworkError)
-            {
-                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                return;
-            }
-
-            switch (response.ResponseCode)
-            {
-                case 200:
-                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
-                    UserController.LoggedInUser = responseUser;
-                    LoginPanel.ToggleLoginLogoutButtons();
-                    LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
-                    break;
-                case 400:
-                    LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
-                    break;
-                case 500:
-                    LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                    break;
-            }
+        UserWebRequestService.Login(email, password, delegate (IWebResponse response) 
+        {
+            LoginCallback(response);
         });
+    }
+
+    public void LoginCallback(IWebResponse response)
+    {
+        LoginPanel.EnableLoginLogoutButtons();
+        LoginPanel.DeactivateLoadingCircle();
+
+        if (response.IsNetworkError)
+        {
+            LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+            return;
+        }
+
+        switch (response.ResponseCode)
+        {
+            case 200:
+                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                UserController.LoggedInUser = responseUser;
+                LoginPanel.ToggleLoginLogoutButtons();
+                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
+                break;
+            case 400:
+                LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+                break;
+            case 500:
+                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                break;
+        }
     }
 
     public void Logout()
@@ -111,31 +121,36 @@ public class OnlineMenuController : IOnlineMenuController
 
         UserWebRequestService.Logout(UserController.Email, delegate (IWebResponse response)
         {
-            LoginPanel.EnableLoginLogoutButtons();
-            LoginPanel.DeactivateLoadingCircle();
-
-            if (response.IsNetworkError)
-            {
-                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                return;
-            }
-
-            switch (response.ResponseCode)
-            {
-                case 200:
-                    UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
-                    UserController.LoggedInUser = null;
-                    LoginPanel.ToggleLoginLogoutButtons();
-                    LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
-                    break;
-                case 400:
-                    LoginPanel.SetStatus(Strings.LOGOUT_FAIL_MESSAGE);
-                    break;
-                case 500:
-                    LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-                    break;
-            }
+            LogoutCallback(response);
         });
+    }
+
+    public void LogoutCallback(IWebResponse response)
+    {
+        LoginPanel.EnableLoginLogoutButtons();
+        LoginPanel.DeactivateLoadingCircle();
+
+        if (response.IsNetworkError)
+        {
+            LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+            return;
+        }
+
+        switch (response.ResponseCode)
+        {
+            case 200:
+                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
+                UserController.LoggedInUser = null;
+                LoginPanel.ToggleLoginLogoutButtons();
+                LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
+                break;
+            case 400:
+                LoginPanel.SetStatus(Strings.LOGOUT_FAIL_MESSAGE);
+                break;
+            case 500:
+                LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+                break;
+        }
     }
 
     private bool ValidateEmail(string email)
