@@ -1,17 +1,17 @@
 # BlackDice
 
-Each developer should always stay up-to-date on our Ways of Working (in progress)..
+Each developer should always stay up-to-date on our Ways of Working
 
 ## Ways of Working
 
 Branching, Commits, and Pull Requests
 
 ```
-Branches shall be named Feature/Issue_xxx, where xxx is the issue # in question, unless you are working on a technical task within an issue, which will then be called Issue_xxx_technical.
+Branches shall be named issue_xxx, where xxx is the issue number in question.
 
-Commits should be clear, to the point, and reference the issue being worked on. They should not be written from a personal POV. '#554 Add unit tests to Character class' rather than 'I added unit tests to Character class'
+Commits should be clear, to the point, and reference the issue being worked on. They should not be written from a personal POV. '#554 Add unit tests to Character class' rather than '#554 I added unit tests to Character class'
 
-Pull Requests need 2 reviewers to approve the pull request before being accepted into master. Only code that meets the following criteria should ever be marked as approved: (closes the issue in question + adequate testing + passing build). 
+Pull Requests' names should describe the feature being implemented and needs 2 reviewers to approve the pull request before being accepted into master. Only code that meets the following criteria should ever be marked as approved: (closes the issue in question + adequate testing + passing build). 
 We can make exceptions to these rules in 2 cases: 
     1) Technical story is complete independently of its containing user story.
     2) Critical bug-fix.
@@ -22,6 +22,7 @@ We can make exceptions to these rules in 2 cases:
 ```
 Unity Editor Personal: https://store.unity.com/download?ref=personal
 Visual Studio Enterprise: https://visualstudio.microsoft.com/vs/enterprise/ (License found when you click 'go here': https://aits.encs.concordia.ca/aits/public/top/MSDNAA/)
+Visual Studio Code: https://code.visualstudio.com/
 ```
 
 ## Running Unit Tests

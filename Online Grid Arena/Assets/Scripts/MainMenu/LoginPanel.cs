@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using System.Security.Cryptography;
 
-public class LoginPanel : MonoBehaviour
+public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
 {
-    public TextMeshProUGUI StatusText { get; set; }
-    public TextMeshProUGUI EmailText { get; set; }
-    public TextMeshProUGUI PasswordText { get; set; }
-
     public Button loginButton;
     public Button logoutButton;
 
@@ -20,18 +14,17 @@ public class LoginPanel : MonoBehaviour
 
     public string LoggedInEmail { get; set; }
 
-    void OnValidate()
-    {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
-    }
+    private TextMeshProUGUI StatusGUI { get; set; }
+    private TextMeshProUGUI EmailGUI { get; set; }
+    private TextMeshProUGUI PasswordGUI { get; set; }
+    private UserNetworkManager UserNetworkManager { get; set; }
 
     void Awake()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailGUI = GameObject.Find("EmailField").GetComponentInChildren<TextMeshProUGUI>();
+        PasswordGUI = GameObject.Find("PasswordField").GetComponentInChildren<TextMeshProUGUI>();
+        UserNetworkManager = new UserNetworkManager();
     }
 
     public void Login()
@@ -39,136 +32,90 @@ public class LoginPanel : MonoBehaviour
         registrationPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
-        if (!ValidateEmail(EmailText.text))
-        {
-            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
-            return;
-        }
-
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeLoginWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
+        MakeLoginWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
-    
+
     public void Logout()
     {
-        StartCoroutine(MakeLogoutWebRequest(LoggedInEmail));
+        registrationPanel.ClearStatus();
+        StartCoroutine(FlickerStatus());
+
+        loadingCircle.SetActive(true);
+        MakeLogoutWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
-    public void SetStatus(string statusText)
+    public void SetStatusText(string statusText)
     {
-        StatusText.text = statusText;
-    }
-
-    public void ClearStatusText()
-    {
-        StatusText.text = "";
+        StatusGUI.text = statusText;
     }
 
     public void ClearStatus()
     {
-        StatusText.text = "";
+        StatusGUI.text = "";
     }
 
     public void ClearEmail()
     {
-        EmailText.text = "";
+        EmailGUI.text = "";
     }
 
     public void ClearPassword()
     {
-        PasswordText.text = "";
+        PasswordGUI.text = "";
     }
 
     public void ToggleLoginLogoutButtons()
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
+        if(loginButton.gameObject.activeSelf)
+        {
+            SetStatusText(Strings.LOGOUT_SUCCESS_MESSAGE);
+        }
+        else
+        {
+            SetStatusText(Strings.LOGIN_SUCCESS_MESSAGE);
+        }
     }
 
-    private bool ValidateEmail(string email)
-    {
-        return email.Contains("@");
-    }
-
-    private bool ValidatePassword(string password)
-    {
-        return password.Length > 1;
-    }
-
-    private IEnumerator MakeLoginWebRequest(string email, string password)
+    private void MakeLoginWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/login";
-        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                var response = www.downloadHandler.text;
-                Debug.Log($"Login response: {response}");
-                if (response != "false")
-                {
-                    LoggedInEmail = response;
-                    SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE} \n Welcome {email}");
-                    ClearEmail();
-                    ClearPassword();
-                    ToggleLoginLogoutButtons();
-                } else
-                {
-                    SetStatus($"{Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE}");
-                }
-            }
-        }
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.Login(new UserDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
-    private IEnumerator MakeLogoutWebRequest(string email)
+    private void MakeLogoutWebRequest(string email, string password)
     {
         ClearStatus();
-        string route = "http://localhost:5500/logout";
-        string parameters = $"?email={WWW.EscapeURL(email)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                var response = www.downloadHandler.text;
-                Debug.Log($"Logout response: {response}");
-                if (response != "false")
-                {
-                    LoggedInEmail = null;
-                    SetStatus($"{Strings.LOGOUT_SUCCESS_MESSAGE}");
-                    ClearEmail();
-                    ClearPassword();
-                    ToggleLoginLogoutButtons();
-                } else
-                {
-                    SetStatus($"{Strings.LOGOUT_FAIL_MESSAGE}");
-                }
-
-            }
-        }
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.Logout(new UserDTO(email, password)));
         loadingCircle.SetActive(false);
     }
 
     private IEnumerator FlickerStatus()
     {
-        StatusText.gameObject.SetActive(false);
+        StatusGUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        StatusText.gameObject.SetActive(true);
+        StatusGUI.gameObject.SetActive(true);
+    }
+
+    public void UpdateStatusText(string statusCode)
+    {
+        if (statusCode == "200")
+        {
+            ToggleLoginLogoutButtons();
+        }
+        if (statusCode == "400")
+        {
+            SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        }
+        if (statusCode == "500")
+        {
+            SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        }
     }
 
     #region IMonoBehaviour implementation
