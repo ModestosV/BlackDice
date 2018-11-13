@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections;
+using UnityEngine;
 
 public class UserNetworkManager : AbstractNetworkManager
 {

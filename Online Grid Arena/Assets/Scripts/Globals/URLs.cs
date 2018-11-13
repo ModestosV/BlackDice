@@ -1,6 +1,7 @@
 ﻿public static class URLs
 {
-    private const bool IS_PROD = false;
-    public const string BASE_URL = IS_PROD ? "http://159.203.27.234:5500" : "http://localhost:5500";
-    public const string USER_URL = "account";
+    // Developers by default will have requests pointed to local server. Users by default will have requests pointed to remote server.
+    private static readonly string env = System.Environment.GetEnvironmentVariable("BLACK_DICE", System.EnvironmentVariableTarget.Machine);
+    public static readonly string BASE_URL = string.Equals(env, "dev") ? "http://localhost:5500" : "http://159.203.27.234:5500";
+    public static readonly string USER_URL = "account";
 }
