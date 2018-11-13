@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using UnityEngine;
 
 public class OnlineMenuController : IOnlineMenuController
 {
@@ -79,6 +80,7 @@ public class OnlineMenuController : IOnlineMenuController
 
         UserWebRequestService.Login(email, password, delegate (IWebResponse response) 
         {
+            Debug.Log(response.ResponseText);
             LoginCallback(response);
         });
     }
