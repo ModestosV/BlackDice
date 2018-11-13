@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
@@ -20,18 +19,11 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
     private TextMeshProUGUI PasswordGUI { get; set; }
     private UserNetworkManager UserNetworkManager { get; set; }
 
-    private void OnValidate()
-    {
-        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
-    }
-
     void Awake()
     {
-        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailGUI = GameObject.Find("EmailField").GetComponentInChildren<TextMeshProUGUI>();
+        PasswordGUI = GameObject.Find("PasswordField").GetComponentInChildren<TextMeshProUGUI>();
         UserNetworkManager = new UserNetworkManager();
     }
 

@@ -8,7 +8,6 @@ public class TurnPanelControllerTest
 
     ICharacterController firstCharacter;
     ICharacterController secondCharacter;
-    ICharacterController thirdCharacter;
 
     ITurnTile firstTile;
     ITurnTile secondTile;
@@ -32,7 +31,6 @@ public class TurnPanelControllerTest
     {
         firstCharacter = Substitute.For<ICharacterController>();
         secondCharacter = Substitute.For<ICharacterController>();
-        thirdCharacter = Substitute.For<ICharacterController>();
 
         refreshedCharactersList = new List<ICharacterController> { secondCharacter };
         exhaustedCharactersList = new List<ICharacterController>();

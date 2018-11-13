@@ -24,20 +24,12 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
     private TextMeshProUGUI PasswordGUI { get; set; }
     private TextMeshProUGUI UsernameGUI { get; set; }
 
-    private void OnValidate()
-    {
-        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
-        UsernameGUI = GetComponentsInChildren<TextMeshProUGUI>()[4];
-    }
-
     void Awake()
     {
-        StatusGUI = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailGUI = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordGUI = GetComponentsInChildren<TextMeshProUGUI>()[3];
-        UsernameGUI = GetComponentsInChildren<TextMeshProUGUI>()[6];
+        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailGUI = GameObject.Find("EmailField").GetComponentInChildren<TextMeshProUGUI>();
+        PasswordGUI = GameObject.Find("PasswordField").GetComponentInChildren<TextMeshProUGUI>();
+        UsernameGUI = GameObject.Find("UsernameField").GetComponentInChildren<TextMeshProUGUI>();
         UserNetworkManager = new UserNetworkManager();
     }
 
