@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour, IGameManager
     private SelectionController selectionController;
     private MovementSelectionController movementSelectionController;
     private AbilitySelectionController abilitySelectionController;
+    private AttackAbilitySelectionController attackAbilitySelectionController;
+    private HealAbilitySelectionController healAbilitySelectionController;
 
 
     #region IGameManager implementation
@@ -75,10 +77,23 @@ public class GameManager : MonoBehaviour, IGameManager
             GameManager = this
         };
 
+        attackAbilitySelectionController = new AttackAbilitySelectionController()
+        {
+            GridSelectionController = gridSelectionController,
+            GameManager = this,
+        };
+
+        healAbilitySelectionController = new HealAbilitySelectionController()
+        {
+            GridSelectionController = gridSelectionController,
+            GameManager = this,
+        };
+
         abilitySelectionController = new AbilitySelectionController()
         {
             GridSelectionController = gridSelectionController,
-            GameManager = this
+            AttackAbilitySelectionController = attackAbilitySelectionController,
+            HealAbilitySelectionController = healAbilitySelectionController
         };
 
         // Initialize characters

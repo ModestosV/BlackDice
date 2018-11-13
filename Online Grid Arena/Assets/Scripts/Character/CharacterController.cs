@@ -164,4 +164,14 @@ public class CharacterController : ICharacterController
         turnTileToUpdate.BorderColor = BorderColor;
         turnTileToUpdate.UpdateTile();
     }
+
+    public AbilityType GetAbilityType(int abilityNumber)
+    {
+        return Abilities[abilityNumber].Type;
+    }
+
+    public bool IsAlly(ICharacterController otherCharacter)
+    {
+        return OwnedByPlayer == otherCharacter.OwnedByPlayer;
+    }
 }

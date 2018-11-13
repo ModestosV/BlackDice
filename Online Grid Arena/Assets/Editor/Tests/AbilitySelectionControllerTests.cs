@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 
-public class AbilitySelectionControllerTests
+public class AttackAbilitySelectionControllerTests
 {
-    AbilitySelectionController sut;
+    AttackAbilitySelectionController sut;
 
     IGridSelectionController gridSelectionController;
     IGameManager gameManager;
@@ -43,7 +43,7 @@ public class AbilitySelectionControllerTests
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
-        sut = new AbilitySelectionController
+        sut = new AttackAbilitySelectionController
         {
             GridSelectionController = gridSelectionController,
             GameManager = gameManager,

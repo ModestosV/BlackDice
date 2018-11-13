@@ -36,6 +36,8 @@ public interface ICharacterController
     bool CanMove(int distance = 1);
     bool CanUseAbility();
     bool IsActiveCharacter();
-    
+    AbilityType GetAbilityType(int abilityNumber);
+    bool IsAlly(ICharacterController otherCharacter);
+
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
 }
