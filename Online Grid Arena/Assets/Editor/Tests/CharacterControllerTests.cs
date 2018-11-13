@@ -146,17 +146,6 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Heal_does_not_heal_more_than_max_health_stat()
-    {
-        health.CurrentValue.Returns(CHARACTER_HURT_SMALL_AMOUNT);
-
-        sut.Heal(HEAL_AMOUNT);
-
-        health.Received(1).CurrentValue = CHARACTER_MAX_HEALTH;
-    }
-
-
-    [Test]
     public void Execute_move_deselects_start_tile_and_vacates_character()
     {
         sut.ExecuteMove(pathList);
