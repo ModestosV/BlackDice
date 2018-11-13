@@ -90,6 +90,11 @@ public class CharacterController : ICharacterController
             targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
+        if (ability.Type == AbilityType.HEAL)
+        {
+            targetCharacter.Heal(ability.Values[0]);
+        }
+
         AbilitiesRemaining--;
         CheckExhausted();
     }

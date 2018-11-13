@@ -3350,6 +3350,7 @@ MonoBehaviour:
   - baseValue: 6
   abilities:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  - {fileID: 11400000, guid: 0b9835e57cc88e049985c2abe499381b, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 1
@@ -3719,6 +3720,7 @@ MonoBehaviour:
   - baseValue: 6
   abilities:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  - {fileID: 11400000, guid: 0b9835e57cc88e049985c2abe499381b, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 1
@@ -4740,6 +4742,7 @@ MonoBehaviour:
   - baseValue: 7
   abilities:
   - {fileID: 11400000, guid: 018c0d4e9659f8942b4d42d40b0b01d6, type: 2}
+  - {fileID: 11400000, guid: 0b9835e57cc88e049985c2abe499381b, type: 2}
   characterStatNameSet: {fileID: 11400000, guid: e190af48b1a45c54ca4f810133d2af06,
     type: 2}
   playerName: 2
