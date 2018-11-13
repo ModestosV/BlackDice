@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
-public class RegistrationPanel : MonoBehaviour
+/* 
+ * A bug with the GUIs we are using causes user input length to show up as 1 size higher than intended,
+ * affecting our password and username length. Our intent is for username lengths to be >=3, <=16 and passwords
+ * to be >=8. Our current implementation skips the "=" in order to account for this. 
+*/
+public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 {
-    public TextMeshProUGUI StatusText { get; set; }
-    public TextMeshProUGUI EmailText { get; set; }
-    public TextMeshProUGUI PasswordText { get; set; }
-
     public Button registerButton;
 
     public GameObject loadingCircle;
 
     public LoginPanel LoginPanel;
 
-    void OnValidate()
-    {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
-    }
+    private UserNetworkManager UserNetworkManager { get; set; }
+    private TextMeshProUGUI StatusGUI { get; set; }
+    private TextMeshProUGUI EmailGUI { get; set; }
+    private TextMeshProUGUI PasswordGUI { get; set; }
+    private TextMeshProUGUI UsernameGUI { get; set; }
 
     void Awake()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailText = GetComponentsInChildren<TextMeshProUGUI>()[1];
-        PasswordText = GetComponentsInChildren<TextMeshProUGUI>()[3];
+        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailGUI = GameObject.Find("EmailField").GetComponentInChildren<TextMeshProUGUI>();
+        PasswordGUI = GameObject.Find("PasswordField").GetComponentInChildren<TextMeshProUGUI>();
+        UsernameGUI = GameObject.Find("UsernameField").GetComponentInChildren<TextMeshProUGUI>();
+        UserNetworkManager = new UserNetworkManager();
     }
 
     public void Register()
@@ -35,84 +38,107 @@ public class RegistrationPanel : MonoBehaviour
         LoginPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
-        if (!ValidateEmail(EmailText.text))
+        if (!ValidateEmail(EmailGUI.text))
         {
-            SetStatus(Strings.INVALID_EMAIL_MESSAGE);
+            SetStatusText(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
-        if (!ValidatePassword(PasswordText.text))
+        if (!ValidatePassword(PasswordGUI.text))
         {
-            SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
+            SetStatusText(Strings.INVALID_PASSWORD_MESSAGE);
+            return;
+        }
+
+        if (!ValidateUsername(UsernameGUI.text))
+        {
+            SetStatusText(Strings.INVALID_USERNAME_MESSAGE);
             return;
         }
 
         loadingCircle.SetActive(true);
-        StartCoroutine(MakeRegistrationWebRequest(EmailText.text, Hash128.Compute(PasswordText.text).ToString()));
+        MakeRegistrationWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString(), UsernameGUI.text);
+        loadingCircle.SetActive(false);
     }
 
-    public void SetStatus(string statusText)
+    public void SetStatusText(string statusText)
     {
-        StatusText.text = statusText;
+        StatusGUI.text = statusText;
     }
 
     public void ClearStatus()
     {
-        StatusText.text = "";
+        StatusGUI.text = "";
     }
 
-    public void ClearEmail()
+    public void UpdateStatusText(string statusCode)
     {
-        EmailText.text = "";
-    }
-
-    public void ClearPassword()
-    {
-        PasswordText.text = "";
+        if (statusCode == "200")
+        {
+            SetStatusText(Strings.REGISTRATION_SUCCESS_MESSAGE);
+        }
+        if (statusCode == "400")
+        {
+            SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
+        }
+        if (statusCode == "412")
+        {
+            SetStatusText(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
+        }
+        if (statusCode == "500")
+        {
+            SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
+        }
     }
 
     private bool ValidateEmail(string email)
     {
-        return email.Contains("@");
+        try
+        {
+            MailAddress mailAddress = new MailAddress(email);
+            return mailAddress.Address == email;
+        }
+        catch
+        {
+            StatusGUI.text = Strings.INVALID_EMAIL_MESSAGE;
+            return false;
+        }
     }
 
     private bool ValidatePassword(string password)
     {
-        return password.Length > 8; // There is an invisible unicode charater in the text fields of TextMesh Pro objects that I can't seem to get rid of.
+        bool isPasswordLongEnough = password.Length > 8;
+        if (!isPasswordLongEnough)
+        {
+            StatusGUI.text = Strings.INVALID_PASSWORD_MESSAGE;
+        }
+        return isPasswordLongEnough;
     }
 
-    private IEnumerator MakeRegistrationWebRequest(string email, string password)
+    private bool ValidateUsername(string username)
+    {
+        Regex regex = new Regex("[a-zA-Z0-9]{4,17}");
+        bool isUserNameValid = regex.IsMatch(username);
+        if(!isUserNameValid)
+        {
+            StatusGUI.text = Strings.INVALID_USERNAME_MESSAGE;
+        }
+        return isUserNameValid;
+    }
+
+    private void MakeRegistrationWebRequest(string email, string password, string username)
     {
         ClearStatus();
-        string route = "http://localhost:5500/register";
-        string parameters = $"?email={WWW.EscapeURL(email)}&password={WWW.EscapeURL(password)}";
-
-        using (UnityWebRequest www = UnityWebRequest.Get($"{route}{parameters}"))
-        {
-            yield return www.SendWebRequest();
-
-            var response = www.downloadHandler.text;
-            Debug.Log($"Logout response: {response}");
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
-            }
-            else
-            {
-                SetStatus($"{Strings.REGISTRATION_SUCCESS_MESSAGE}");
-                ClearEmail();
-                ClearPassword();
-            }
-            loadingCircle.SetActive(false);
-        }
+        UserNetworkManager.Panel = this;
+        StartCoroutine(UserNetworkManager.CreateUser(new UserDTO(email, password, username)));
+        loadingCircle.SetActive(false);
     }
 
     private IEnumerator FlickerStatus()
     {
-        StatusText.gameObject.SetActive(false);
+        StatusGUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        StatusText.gameObject.SetActive(true);
+        StatusGUI.gameObject.SetActive(true);
     }
 
     #region IMonoBehaviour implementation

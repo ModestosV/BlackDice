@@ -1,0 +1,26 @@
+{
+  "extends": "tslint:recommended",
+  "rulesDirectory": [],
+  "rules": {
+    "align" : true,
+    "eofline" : false,
+    "indent": [true, "spaces", 4],
+    "max-line-length": {
+      "options": [200]
+    },
+    "new-parens": true,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": false,
+    "no-boolean-literal-compare": false,
+    "no-default-export" : false,
+    "whitespace" : true,
+    "trailing-comma" : false
+  },
+  "jsRules": {
+    "max-line-length": {
+        "options": [120]
+    }
+  }
+}

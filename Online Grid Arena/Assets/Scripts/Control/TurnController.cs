@@ -95,6 +95,8 @@ public class TurnController : ITurnController
             EndMatchPanel.Show();
             EndMatchPanel.SetWinnerText("Draw!");
         }
+
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void Surrender()
