@@ -26,6 +26,7 @@ public class AttackAbilitySelectionControllerTests
         
         selectedCharacter = Substitute.For<ICharacterController>();
         targetCharacter = Substitute.For<ICharacterController>();
+        selectedCharacter.IsAlly(targetCharacter).Returns(false);
 
         gridSelectionController.GetSelectedCharacter().Returns(selectedCharacter);
 
@@ -132,7 +133,7 @@ public class AttackAbilitySelectionControllerTests
     }
 
     [Test]
-    public void Clicking_on_occupied_other_tile_executes_ability_and_returns_to_selection_mode()
+    public void Clicking_on_enemy_occupied_other_tile_executes_ability_and_returns_to_selection_mode()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
@@ -161,7 +162,7 @@ public class AttackAbilitySelectionControllerTests
     }
 
     [Test]
-    public void Hovering_over_occupied_tile_highlights_tile_and_updates_target_hud()
+    public void Hovering_over_enemy_occupied_tile_highlights_tile_and_updates_target_hud()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
@@ -173,5 +174,21 @@ public class AttackAbilitySelectionControllerTests
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).Highlight();
+    }
+
+    [Test]
+    public void Hovering_over_ally_occupied_tile_error_highlights_tile_and_updates_target_hud()
+    {
+        inputParameters.IsMouseOverGrid.Returns(true);
+        inputParameters.IsLeftClickDown.Returns(false);
+        targetTile.IsOccupied().Returns(true);
+        targetTile.OccupantCharacter.Returns(targetCharacter);
+        selectedCharacter.IsAlly(targetCharacter).Returns(true);
+
+        sut.Update();
+
+        gridSelectionController.Received(1).DehighlightAll();
+        gridSelectionController.Received(1).BlurAll();
+        targetTile.Received(1).HoverError();
     }
 }

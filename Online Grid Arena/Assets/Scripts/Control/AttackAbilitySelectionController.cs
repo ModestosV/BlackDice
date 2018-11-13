@@ -52,6 +52,7 @@
 
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
         ICharacterController targetCharacter = InputParameters.TargetTile.OccupantCharacter;
+        bool targetCharacterIsAlly = targetCharacter != null ? selectedCharacter.IsAlly(targetCharacter) : false;
 
         bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
         bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
@@ -62,8 +63,8 @@
             return;
         }
 
-        // Clicked occupied other tile
-        if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile)
+        // Clicked enemy occupied other tile
+        if (InputParameters.IsLeftClickDown && !targetCharacterIsAlly)
         {
             selectedCharacter.ExecuteAbility(ActiveAbilityNumber, targetCharacter);
             GameManager.SelectionMode = SelectionMode.SELECTION;
@@ -79,8 +80,15 @@
             return;
         }
 
-        // Hovered over occupied tile
-        InputParameters.TargetTile.Highlight();
+        // Hovered over enemy occupied tile
+        if (!targetCharacterIsAlly)
+        {
+            InputParameters.TargetTile.Highlight();
+            return;
+        }
+
+        // Hovered over allied occupied tile
+        InputParameters.TargetTile.HoverError();
         return;
     }
 }
