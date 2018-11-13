@@ -1,7 +1,6 @@
 ﻿using System;
 using NSubstitute;
 using NUnit.Framework;
-using Newtonsoft.Json;
 
 public class OnlineMenuControllerTests
 {
@@ -25,9 +24,6 @@ public class OnlineMenuControllerTests
     const string RESPONSE_TEXT = "{\"_id\":\"5be912a46e634a45002951b7\",\"createdAt\":\"2018-11-12T05:41:56.887Z\",\"email\":\"aaa @aaa.com​\",\"passwordHash\":\"12ebb5319ff4f677c7588421aa0176ef82f4de5e8198fb9c044e96d8fccdd208fbc752d413348733f5c1c83f115e01a2fcd7aeda655d3bdc74ae6034b4f22bf6\",\"username\":\"aaaasdasdasd​\",\"__v\":0,\"loggedInToken\":\"DeyZgzaNHTKRfMs1eQyeUqTKr5v\"}";
     const string RESPONSE_USERNAME = "aaaasdasdasd​";
 
-    UserDTO userDTO;
-
-    Action<IWebResponse> callback;
     IWebResponse webResponse;
 
     [SetUp]
@@ -37,7 +33,6 @@ public class OnlineMenuControllerTests
         loginPanel = Substitute.For<ILoginPanel>();
 
         userWebRequestService = Substitute.For<IUserWebRequestService>();
-        callback = Substitute.For<Action<IWebResponse>>();
 
         webResponse = Substitute.For<IWebResponse>();
         webResponse.IsNetworkError.Returns(false);
@@ -47,8 +42,6 @@ public class OnlineMenuControllerTests
         userController = Substitute.For<IUserController>();
         userController.Email.Returns(VALID_EMAIL);
         userController.IsLoggedIn().Returns(false);
-
-        userDTO = JsonConvert.DeserializeObject<UserDTO>(RESPONSE_TEXT);
 
         sut = new OnlineMenuController
         {

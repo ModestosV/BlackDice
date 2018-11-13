@@ -55,7 +55,6 @@ public class OnlineMenuController : IOnlineMenuController
         switch (response.ResponseCode)
         {
             case 200:
-                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
                 RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
                 break;
             case 400:
@@ -80,7 +79,6 @@ public class OnlineMenuController : IOnlineMenuController
 
         UserWebRequestService.Login(email, password, delegate (IWebResponse response) 
         {
-            Debug.Log(response.ResponseText);
             LoginCallback(response);
         });
     }
@@ -141,7 +139,6 @@ public class OnlineMenuController : IOnlineMenuController
         switch (response.ResponseCode)
         {
             case 200:
-                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(response.ResponseText);
                 UserController.LoggedInUser = null;
                 LoginPanel.ToggleLoginLogoutButtons();
                 LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
