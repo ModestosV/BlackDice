@@ -18,9 +18,15 @@ public class CharacterStatTests
     IStatModifier percentMultMod1;
     IStatModifier percentMultMod2;
 
+    IStatModifier reductiveStatModifier;
+
     List<IStatModifier> statModifiersList;
 
     const float FINAL_VALUE_PRECISION = 0.0001f;
+    const float MAX_VALUE = 100.0f;
+    const float GT_MAX_VALUE = 200.0f;
+    const float CURRENT_VALUE = 50.0f;
+    const float CHANGE_VALUE = -30.0f;
 
     [SetUp]
     public void Init()
@@ -69,6 +75,13 @@ public class CharacterStatTests
         percentMultMod2.Type.Returns(StatModType.PercentMult);
         percentMultMod2.Order.Returns(300);
         percentMultMod2.Source.Returns(sourceObject2);
+
+        reductiveStatModifier = Substitute.For<IStatModifier>();
+        reductiveStatModifier.Value.Returns(CHANGE_VALUE);
+        reductiveStatModifier.Type.Returns(StatModType.Flat);
+        reductiveStatModifier.Order.Returns(100);
+        reductiveStatModifier.Source.Returns(sourceObject2);
+
     }
 
     [Test]
@@ -218,6 +231,55 @@ public class CharacterStatTests
 
         // (10 + 2 + 5) * (1 + 0.05 + 0.10) * (1 + 0.3) * (1 + 0.2) = 17 * 1.15 * 1.3 * 1.2 = 30.498
         Assert.AreEqual(sut.Value, 30.498f, FINAL_VALUE_PRECISION);
+    }
+
+    [Test]
+    public void Refresh_sets_current_value_to_max_value()
+    {
+        sut = new CharacterStat(MAX_VALUE, statModifiersList);
+
+        sut.Refresh();
+
+        Assert.AreEqual(MAX_VALUE, sut.CurrentValue);
+    }
+
+    [Test]
+    public void Current_value_cannot_be_reduced_below_zero()
+    {
+        sut = new CharacterStat(MAX_VALUE, statModifiersList)
+        {
+            CurrentValue = MAX_VALUE
+        };
+
+        sut.CurrentValue -= GT_MAX_VALUE;
+
+        Assert.AreEqual(0.0f, sut.CurrentValue);
+    }
+
+    [Test]
+    public void Current_value_cannot_be_increased_beyond_max_value()
+    {
+        sut = new CharacterStat(MAX_VALUE, statModifiersList)
+        {
+            CurrentValue = MAX_VALUE
+        };
+
+        sut.CurrentValue += GT_MAX_VALUE;
+
+        Assert.AreEqual(MAX_VALUE, sut.CurrentValue);
+    }
+
+    [Test]
+    public void Current_value_is_reduced_when_reductive_stat_modifier_is_applied()
+    {
+        sut = new CharacterStat(MAX_VALUE, statModifiersList)
+        {
+            CurrentValue = MAX_VALUE
+        };
+
+        sut.AddModifier(reductiveStatModifier);
+
+        Assert.AreEqual(MAX_VALUE + CHANGE_VALUE, sut.CurrentValue);
     }
 
 }

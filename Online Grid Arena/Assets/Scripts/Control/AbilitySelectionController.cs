@@ -1,15 +1,28 @@
-﻿public class AbilitySelectionController : InputController, IAbilitySelectionController
+﻿public class AbilitySelectionController : InputController
 {
     public IGridSelectionController GridSelectionController { protected get; set; }
-    public IGameManager GameManager { protected get; set; }
 
-    private int activeAbilityNumber;
+    public IAbilitySelectionController AttackAbilitySelectionController { protected get; set; }
+    public IAbilitySelectionController HealAbilitySelectionController { protected get; set; }
+
+    private AbilityType activeAbilityType;
     
     private void SetActiveAbility()
     {
         if (!(InputParameters.GetAbilityNumber() > -1)) return;
 
-        activeAbilityNumber = InputParameters.GetAbilityNumber();
+        int activeAbilityNumber = InputParameters.GetAbilityNumber();
+        AttackAbilitySelectionController.ActiveAbilityNumber = activeAbilityNumber;
+        HealAbilitySelectionController.ActiveAbilityNumber = activeAbilityNumber;
+
+        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        activeAbilityType = selectedCharacter.GetAbilityType(activeAbilityNumber);
+    }
+
+    private void UpdateInputParameters()
+    {
+        AttackAbilitySelectionController.InputParameters = InputParameters;
+        HealAbilitySelectionController.InputParameters = InputParameters;
     }
 
     public override void Update()
@@ -17,79 +30,18 @@
         if (DebounceUpdate())
             return;
 
+        UpdateInputParameters();
+
         SetActiveAbility();
-        
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
 
-        // Escape buton pressed
-        if (InputParameters.IsKeyEscapeDown)
+        switch (activeAbilityType)
         {
-            GameManager.SelectionMode = SelectionMode.SELECTION;
-            return;
+            case AbilityType.ATTACK:
+                AttackAbilitySelectionController.Update();
+                break;
+            case AbilityType.HEAL:
+                HealAbilitySelectionController.Update();
+                break;
         }
-
-        // Clicked off grid
-        if (!InputParameters.IsMouseOverGrid && InputParameters.IsLeftClickDown)
-        {
-            return;
-        }
-
-        // Hovered off grid
-        if (!InputParameters.IsMouseOverGrid)
-        {
-            return;
-        }
-
-        // Invariant: Mouse is over grid
-
-        bool tileIsEnabled = InputParameters.TargetTile.IsEnabled;
-
-        // Clicked on disabled tile
-        if (!tileIsEnabled && InputParameters.IsLeftClickDown) 
-        {
-            return;
-        }
-
-        // Hovered over disabled tile
-        if (!tileIsEnabled)
-        {
-            return;
-        }
-
-        // Invariant: Target tile is enabled
-        
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-        ICharacterController targetCharacter = InputParameters.TargetTile.OccupantCharacter;
-
-        bool tileIsOccupied = InputParameters.TargetTile.IsOccupied();
-        bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(InputParameters.TargetTile);
-
-        // Clicked unoccupied tile
-        if (InputParameters.IsLeftClickDown && !tileIsOccupied )
-        {
-            return;
-        }
-
-        // Clicked occupied other tile
-        if (InputParameters.IsLeftClickDown && !tileIsCurrentSelectedTile)
-        {
-            selectedCharacter.ExecuteAbility(activeAbilityNumber, targetCharacter);
-            GameManager.SelectionMode = SelectionMode.SELECTION;
-            return;
-        }
-
-        // Invariant: Left-click is not down
-
-        // Hovered over unoccupied tile
-        if (!tileIsOccupied)
-        {
-            InputParameters.TargetTile.HoverError();
-            return;
-        }
-
-        // Hovered over occupied tile
-        InputParameters.TargetTile.Highlight();
-        return;
     }
 }

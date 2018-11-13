@@ -90,6 +90,11 @@ public class CharacterController : ICharacterController
             targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
         }
 
+        if (ability.Type == AbilityType.HEAL)
+        {
+            targetCharacter.Heal(ability.Values[0]);
+        }
+
         AbilitiesRemaining--;
         CheckExhausted();
     }
@@ -126,6 +131,11 @@ public class CharacterController : ICharacterController
         }
     }
 
+    public void Heal(float heal)
+    {
+        CharacterStats[0].CurrentValue += heal;
+    }
+
     public void Die()
     {
         OccupiedTile.ClearOccupant();
@@ -153,5 +163,15 @@ public class CharacterController : ICharacterController
         turnTileToUpdate.CharacterIcon = CharacterIcon;
         turnTileToUpdate.BorderColor = BorderColor;
         turnTileToUpdate.UpdateTile();
+    }
+
+    public AbilityType GetAbilityType(int abilityNumber)
+    {
+        return Abilities[abilityNumber].Type;
+    }
+
+    public bool IsAlly(ICharacterController otherCharacter)
+    {
+        return OwnedByPlayer == otherCharacter.OwnedByPlayer;
     }
 }
