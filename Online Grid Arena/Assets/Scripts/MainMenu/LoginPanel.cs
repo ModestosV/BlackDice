@@ -21,9 +21,9 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
 
     void Awake()
     {
-        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
-        EmailInputField = GameObject.Find("EmailField").GetComponentInChildren<TMP_InputField>();
-        PasswordInputField = GameObject.Find("PasswordField").GetComponentInChildren<TMP_InputField>();
+        StatusGUI = gameObject.transform.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailInputField = gameObject.transform.Find("EmailField").GetComponentInChildren<TMP_InputField>();
+        PasswordInputField = gameObject.transform.Find("PasswordField").GetComponentInChildren<TMP_InputField>();
         UserNetworkManager = new UserNetworkManager();
     }
 

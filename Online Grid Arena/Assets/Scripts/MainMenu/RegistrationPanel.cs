@@ -21,10 +21,10 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 
     void Awake()
     {
-        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
-        EmailInputField = GameObject.Find("EmailField").GetComponentInChildren<TMP_InputField>();
-        PasswordInputField = GameObject.Find("PasswordField").GetComponentInChildren<TMP_InputField>();
-        UsernameInputField = GameObject.Find("UsernameField").GetComponentInChildren<TMP_InputField>();
+        StatusGUI = gameObject.transform.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailInputField = gameObject.transform.Find("EmailField").GetComponentInChildren<TMP_InputField>();
+        PasswordInputField = gameObject.transform.Find("PasswordField").GetComponentInChildren<TMP_InputField>();
+        UsernameInputField = gameObject.transform.Find("UsernameField").GetComponentInChildren<TMP_InputField>();
         UserNetworkManager = new UserNetworkManager();
     }
 
@@ -112,7 +112,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
 
     private bool ValidateUsername(string username)
     {
-        Regex regex = new Regex("[a-zA-Z0-9]{3,16}");
+        Regex regex = new Regex("^[a-zA-Z0-9]{3,16}$");
         bool isUserNameValid = regex.IsMatch(username);
         if (!isUserNameValid)
         {
