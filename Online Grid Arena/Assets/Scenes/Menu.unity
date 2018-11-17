@@ -1145,7 +1145,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1019659618}
-        m_MethodName: Login
+        m_MethodName: LoginAsync
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4195,7 +4195,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1019659618}
-        m_MethodName: Logout
+        m_MethodName: LogoutAsync
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7108,7 +7108,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1591473887}
-        m_MethodName: Register
+        m_MethodName: RegisterAsync
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

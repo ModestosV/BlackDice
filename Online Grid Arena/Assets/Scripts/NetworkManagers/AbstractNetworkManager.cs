@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System.Net.Http;
 using System.Text;
-using UnityEngine.Networking;
+using System.Threading.Tasks;
 
 public abstract class AbstractNetworkManager : IHttpRequests
 {
@@ -13,14 +13,11 @@ public abstract class AbstractNetworkManager : IHttpRequests
         mainURL = URLs.BASE_URL + "/" + extensionURL;
     }
 
-    public IEnumerator Post(string url, string body)
+    public async Task<HttpResponseMessage> PostAsync(string url, string body)
     {
-        var request = new UnityWebRequest(url, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(body);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        yield return request.SendWebRequest();
-        Panel.UpdateStatusText(request.responseCode.ToString());
+        using (var client = new HttpClient())
+        {
+            return await client.PostAsync(url, new StringContent(body, Encoding.UTF8, "application/json"));
+        }
     }
 }

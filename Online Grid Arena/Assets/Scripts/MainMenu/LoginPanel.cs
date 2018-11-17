@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
 {
@@ -27,22 +29,22 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         UserNetworkManager = new UserNetworkManager();
     }
 
-    public void Login()
+    public async void LoginAsync()
     {
         registrationPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        MakeLoginWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
+        await MakeLoginWebRequestAsync(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
-    public void Logout()
+    public async void LogoutAsync()
     {
         registrationPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        MakeLogoutWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
+        await MakeLogoutWebRequestAsync(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
     }
 
     public void SetStatusText(string statusText)
@@ -79,19 +81,21 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         }
     }
 
-    private void MakeLoginWebRequest(string email, string password)
+    private async Task MakeLoginWebRequestAsync(string email, string password)
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.Login(new UserDTO(email, password)));
+        HttpResponseMessage response = await UserNetworkManager.LoginAsync(new UserDTO(email, password));
+        UpdateStatusText((int)response.StatusCode);
         loadingCircle.SetActive(false);
     }
 
-    private void MakeLogoutWebRequest(string email, string password)
+    private async Task MakeLogoutWebRequestAsync(string email, string password)
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.Logout(new UserDTO(email, password)));
+        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(new UserDTO(email, password));
+        UpdateStatusText((int)response.StatusCode);
         loadingCircle.SetActive(false);
     }
 
@@ -102,17 +106,17 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         StatusGUI.gameObject.SetActive(true);
     }
 
-    public void UpdateStatusText(string statusCode)
+    public void UpdateStatusText(int statusCode)
     {
-        if (statusCode == "200")
+        if (statusCode == 200)
         {
             ToggleLoginLogoutButtons();
         }
-        if (statusCode == "400")
+        if (statusCode == 400)
         {
             SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
-        if (statusCode == "500")
+        if (statusCode == 500)
         {
             SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }

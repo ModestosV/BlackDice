@@ -4,6 +4,8 @@ using System.Collections;
 using TMPro;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 /* 
  * A bug with the GUIs we are using causes user input length to show up as 1 size higher than intended,
@@ -33,7 +35,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         UserNetworkManager = new UserNetworkManager();
     }
 
-    public void Register()
+    public async void RegisterAsync()
     {
         LoginPanel.ClearStatus();
         StartCoroutine(FlickerStatus());
@@ -57,8 +59,7 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         }
 
         loadingCircle.SetActive(true);
-        MakeRegistrationWebRequest(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString(), UsernameGUI.text);
-        loadingCircle.SetActive(false);
+        await MakeRegistrationWebRequestAsync(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString(), UsernameGUI.text);
     }
 
     public void SetStatusText(string statusText)
@@ -71,21 +72,21 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         StatusGUI.text = "";
     }
 
-    public void UpdateStatusText(string statusCode)
+    public void UpdateStatusText(int statusCode)
     {
-        if (statusCode == "200")
+        if (statusCode == 200)
         {
             SetStatusText(Strings.REGISTRATION_SUCCESS_MESSAGE);
         }
-        if (statusCode == "400")
+        if (statusCode == 400)
         {
             SetStatusText(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
         }
-        if (statusCode == "412")
+        if (statusCode == 412)
         {
             SetStatusText(Strings.INVALID_REQUEST_DUPLICATE_KEYS);
         }
-        if (statusCode == "500")
+        if (statusCode == 500)
         {
             SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
@@ -126,11 +127,12 @@ public class RegistrationPanel : MonoBehaviour, IOnlineMenuPanel
         return isUserNameValid;
     }
 
-    private void MakeRegistrationWebRequest(string email, string password, string username)
+    private async Task MakeRegistrationWebRequestAsync(string email, string password, string username)
     {
         ClearStatus();
         UserNetworkManager.Panel = this;
-        StartCoroutine(UserNetworkManager.CreateUser(new UserDTO(email, password, username)));
+        HttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDTO(email, password, username));
+        UpdateStatusText((int)response.StatusCode);
         loadingCircle.SetActive(false);
     }
 

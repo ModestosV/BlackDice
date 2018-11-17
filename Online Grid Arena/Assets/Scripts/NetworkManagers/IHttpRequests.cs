@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 
 public interface IHttpRequests
 {
-    IEnumerator Post(string url, string body);
+    Task<HttpResponseMessage> PostAsync(string url, string body);
 }
