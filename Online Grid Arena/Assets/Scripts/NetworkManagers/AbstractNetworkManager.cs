@@ -15,9 +15,7 @@ public abstract class AbstractNetworkManager : IHttpRequests
 
     public async Task<HttpResponseMessage> PostAsync(string url, string body)
     {
-        using (var client = new HttpClient())
-        {
-            return await client.PostAsync(url, new StringContent(body, Encoding.UTF8, "application/json"));
-        }
+        HttpClient client = HttpClientService.Instance;
+        return await client.PostAsync(url, new StringContent(body, Encoding.UTF8, "application/json"));
     }
 }
