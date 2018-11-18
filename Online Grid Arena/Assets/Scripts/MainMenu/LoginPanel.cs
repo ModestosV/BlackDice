@@ -17,15 +17,15 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
     public string LoggedInEmail { get; set; }
 
     private TextMeshProUGUI StatusGUI { get; set; }
-    private TextMeshProUGUI EmailGUI { get; set; }
-    private TextMeshProUGUI PasswordGUI { get; set; }
+    private TMP_InputField EmailInputField { get; set; }
+    private TMP_InputField PasswordInputField { get; set; }
     private UserNetworkManager UserNetworkManager { get; set; }
 
     void Awake()
     {
-        StatusGUI = GameObject.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
-        EmailGUI = GameObject.Find("EmailField").GetComponentInChildren<TextMeshProUGUI>();
-        PasswordGUI = GameObject.Find("PasswordField").GetComponentInChildren<TextMeshProUGUI>();
+        StatusGUI = gameObject.transform.Find("Status").GetComponentInChildren<TextMeshProUGUI>();
+        EmailInputField = gameObject.transform.Find("EmailField").GetComponentInChildren<TMP_InputField>();
+        PasswordInputField = gameObject.transform.Find("PasswordField").GetComponentInChildren<TMP_InputField>();
         UserNetworkManager = new UserNetworkManager();
     }
 
@@ -35,7 +35,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        await MakeLoginWebRequestAsync(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
+        await MakeLoginWebRequestAsync(EmailInputField.text, Hash128.Compute(PasswordInputField.text).ToString());
     }
 
     public async void LogoutAsync()
@@ -44,7 +44,7 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
         StartCoroutine(FlickerStatus());
 
         loadingCircle.SetActive(true);
-        await MakeLogoutWebRequestAsync(EmailGUI.text, Hash128.Compute(PasswordGUI.text).ToString());
+        await MakeLogoutWebRequestAsync(EmailInputField.text, Hash128.Compute(PasswordInputField.text).ToString());
     }
 
     public void SetStatusText(string statusText)
@@ -59,19 +59,19 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
 
     public void ClearEmail()
     {
-        EmailGUI.text = "";
+        EmailInputField.text = "";
     }
 
     public void ClearPassword()
     {
-        PasswordGUI.text = "";
+        PasswordInputField.text = "";
     }
 
     public void ToggleLoginLogoutButtons()
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);
         logoutButton.gameObject.SetActive(!logoutButton.gameObject.activeSelf);
-        if(loginButton.gameObject.activeSelf)
+        if (loginButton.gameObject.activeSelf)
         {
             SetStatusText(Strings.LOGOUT_SUCCESS_MESSAGE);
         }
@@ -121,13 +121,4 @@ public class LoginPanel : MonoBehaviour, IOnlineMenuPanel
             SetStatusText(Strings.CONNECTIVITY_ISSUES_MESSAGE);
         }
     }
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }
