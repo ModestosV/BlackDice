@@ -2,37 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public enum SelectionMode
-{
-    SELECTION,
-    ABILITY,
-    MOVEMENT
-}
-
-public class GameManager : MonoBehaviour, IGameManager
+public class GameManager : MonoBehaviour
 {
     public SelectionMode SelectionMode { protected get; set; }
 
-    private InputParameters inputParameters;
     private TurnController turnController;
     private HUDController hudController;
     private GridSelectionController gridSelectionController;
-    private SelectionController selectionController;
+
+    private FreeSelectionController freeSelectionController;
     private MovementSelectionController movementSelectionController;
-    private AbilitySelectionController abilitySelectionController;
-    private AttackAbilitySelectionController attackAbilitySelectionController;
-    private HealAbilitySelectionController healAbilitySelectionController;
+    private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
+    private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
+    private SelectionManager selectionManager;
 
-
-    #region IGameManager implementation
-
-    public ISelectionController SelectionController
-    {
-        get { return selectionController; }
-    }
-
-    #endregion
-
+    private InputManager inputManager;
+    
     private void Awake()
     {
         // Initialize turn controller
@@ -65,36 +50,51 @@ public class GameManager : MonoBehaviour, IGameManager
         gridSelectionController = new GridSelectionController();
 
         // Initialize selection controllers
-        selectionController = new SelectionController()
+        selectionManager = new SelectionManager()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController
+            SelectionMode = SelectionMode.FREE
+        };
+
+        freeSelectionController = new FreeSelectionController()
+        {
+            GridSelectionController = gridSelectionController,
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
 
         movementSelectionController = new MovementSelectionController()
         {
             GridSelectionController = gridSelectionController,
-            GameManager = this
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
 
-        attackAbilitySelectionController = new AttackAbilitySelectionController()
+        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
         {
             GridSelectionController = gridSelectionController,
-            GameManager = this,
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
 
-        healAbilitySelectionController = new HealAbilitySelectionController()
+        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
         {
             GridSelectionController = gridSelectionController,
-            GameManager = this,
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
 
-        abilitySelectionController = new AbilitySelectionController()
+        selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
         {
-            GridSelectionController = gridSelectionController,
-            AttackAbilitySelectionController = attackAbilitySelectionController,
-            HealAbilitySelectionController = healAbilitySelectionController
+            { "free", freeSelectionController },
+            { "movement", movementSelectionController },
+            { "target_enemy", targetEnemyAbilitySelectionController },
+            { "target_ally", targetAllyAbilitySelectionController }
         };
+
+        // Initialize input manager
+        inputManager = FindObjectOfType<InputManager>();
+        inputManager.SelectionManager = selectionManager;
 
         // Initialize characters
         List<ICharacterController> characters = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
@@ -106,8 +106,6 @@ public class GameManager : MonoBehaviour, IGameManager
 
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
-
-        SelectionMode = SelectionMode.SELECTION;
     }
 
     private void Start()
@@ -115,112 +113,4 @@ public class GameManager : MonoBehaviour, IGameManager
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
         turnController.StartNextTurn();
     }
-
-    private void UpdateInputParameters()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        bool isMouseOverGrid = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Tile";
-        IHexTileController targetTile = null;
-        if (isMouseOverGrid)
-        {
-            targetTile = hit.collider.gameObject.GetComponent<HexTile>().Controller;
-        }
-
-        inputParameters = new InputParameters()
-        {
-            IsKeyQDown = Input.GetKeyDown(KeyCode.Q),
-            IsKeyWDown = Input.GetKeyDown(KeyCode.W),
-            IsKeyEDown = Input.GetKeyDown(KeyCode.E),
-            IsKeyRDown = Input.GetKeyDown(KeyCode.R),
-            IsKeyFDown = Input.GetKeyDown(KeyCode.F),
-            IsKeyEscapeDown = Input.GetKeyDown(KeyCode.Escape),
-            IsKeyTabDown = Input.GetKeyDown(KeyCode.Tab),
-
-            IsLeftClickDown = Input.GetMouseButtonDown(0),
-            IsRightClickDown = Input.GetMouseButtonDown(1),
-
-            IsMouseOverGrid = isMouseOverGrid,
-            TargetTile = targetTile
-        };
-
-        selectionController.InputParameters = inputParameters;
-        abilitySelectionController.InputParameters = inputParameters;
-        movementSelectionController.InputParameters = inputParameters;
-    }
-
-    private bool CanMove()
-    {
-        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
-
-        if (selectedCharacter == null)
-            return false;
-
-        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanMove();
-    }
-
-    private bool CanUseAbility()
-    {
-        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
-
-        if (selectedCharacter == null)
-            return false;
-
-        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility();
-    }
-
-    private void SetSelectionMode()
-    {
-        if ((inputParameters.IsKeyQDown
-            || inputParameters.IsKeyWDown
-            || inputParameters.IsKeyEDown
-            || inputParameters.IsKeyRDown)
-            && CanUseAbility())
-        {
-            SelectionMode = SelectionMode.ABILITY;
-        }
-        else if (inputParameters.IsKeyFDown && CanMove())
-        {
-            SelectionMode = SelectionMode.MOVEMENT;
-        }
-    }
-
-    void Update()
-    {
-        UpdateInputParameters();
-        SetSelectionMode();
-
-        switch (SelectionMode)
-        {
-            case SelectionMode.SELECTION:
-                selectionController.Update();
-                break;
-            case SelectionMode.MOVEMENT:
-                movementSelectionController.Update();
-                break;
-            case SelectionMode.ABILITY:
-                abilitySelectionController.Update();
-                break;
-            default:
-                break;
-        }
-    }
-
-    #region IGameManager implementation
-
-    public void QuitApplication()
-    {
-        Application.Quit();
-    }
-
-    #endregion
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

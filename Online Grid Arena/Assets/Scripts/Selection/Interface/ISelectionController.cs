@@ -2,6 +2,7 @@
 {
     IGridSelectionController GridSelectionController { set; }
     ITurnController TurnController { set; }
+    ISelectionManager SelectionManager { set; }
 
-    void Update();
+    void Update(IInputParameters inputParameters);
 }

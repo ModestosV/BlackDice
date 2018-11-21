@@ -1,20 +1,16 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public enum AbilityType
 {
-    ATTACK,
-    HEAL,
-    BUFF,
-    DEBUFF
+    TARGET_ENEMY,
+    TARGET_ALLY
 }
 
-[CreateAssetMenu(menuName = "Ability")]
-public class Ability : ScriptableObject, IAbility
+public abstract class Ability : IAbility
 {
-    public AbilityType type;
-    public List<float> values;
+    public AbilityType Type { get; set; }
+    public Dictionary<string, float> Values { get; set; }
+    public ISelectionController SelectionController { get; set; }
 
-    public AbilityType Type { get { return type; } set { type = value; } }
-    public List<float> Values { get { return values; } set { values = value; } }
+    public abstract void Execute(IHexTileController targetTile);
 }

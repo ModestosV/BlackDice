@@ -3,8 +3,8 @@
 public interface IHUDController
 {
     void ClearSelectedHUD();
-    void UpdateSelectedHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName);
+    void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName);
 
     void ClearTargetHUD();
-    void UpdateTargetHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName);
+    void UpdateTargetHUD(Dictionary<string, ICharacterStat> characterStats, string playerName);
 }

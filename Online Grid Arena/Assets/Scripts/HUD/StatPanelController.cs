@@ -1,31 +1,18 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class StatPanelController : IStatPanelController
 {
     public List<IStatDisplay> StatDisplays { protected get; set; }
-    public List<ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
     public List<string> StatNames { protected get; set; }
     
     public void UpdateStatValues()
     {
-        if (!StatsAndNamesAreConsistent()) return;
+        StatDisplays[0].SetCurrentValueText(CharacterStats["health"].CurrentValue.ToString());
+        StatDisplays[0].SetMaxValueText(CharacterStats["health"].Value.ToString());
 
-        for (int i = 0; i < StatDisplays.Count; i++)
-        {
-            StatDisplays[i].SetCurrentValueText(CharacterStats[i].CurrentValue.ToString());
-            StatDisplays[i].SetMaxValueText(CharacterStats[i].Value.ToString());
-        }
-    }
-
-    public void UpdateStatNames()
-    {
-        if (!StatsAndNamesAreConsistent()) return;
-
-        for (int i = 0; i < StatDisplays.Count; i++)
-        {
-            StatDisplays[i].SetNameText(StatNames[i]);
-        }
+        StatDisplays[1].SetCurrentValueText(CharacterStats["moves"].CurrentValue.ToString());
+        StatDisplays[1].SetMaxValueText(CharacterStats["moves"].Value.ToString());
     }
 
     public void DisableStatDisplays()
@@ -42,23 +29,5 @@ public class StatPanelController : IStatPanelController
         {
             display.Activate();
         }
-    }
-
-    private bool StatsAndNamesAreConsistent()
-    {
-
-        if (StatNames.Count != StatDisplays.Count)
-        {
-            Debug.Log($"The size of the selected charactar stats set ({StatNames.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
-            return false;
-        }
-
-        if (CharacterStats.Count != StatDisplays.Count)
-        {
-            Debug.Log($"The number of select charactar stats ({CharacterStats.Count}) does not match the number of stat displays ({StatDisplays.Count}).");
-            return false;
-        }
-
-        return true;
     }
 }
