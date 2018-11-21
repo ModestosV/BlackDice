@@ -1,5 +1,4 @@
-﻿/*
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -8,7 +7,8 @@ public class MovementSelectionControllerTests
     MovementSelectionController sut;
 
     IGridSelectionController gridSelectionController;
-    IGameManager gameManager;
+    ITurnController turnController;
+    ISelectionManager selectionManager;
 
     ICharacterController selectedCharacter;
 
@@ -23,9 +23,11 @@ public class MovementSelectionControllerTests
     public void Init()
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        gameManager = Substitute.For<IGameManager>();
+        turnController = Substitute.For<ITurnController>();
+        selectionManager = Substitute.For<ISelectionManager>();
 
         selectedCharacter = Substitute.For<ICharacterController>();
+        selectedCharacter.CanMove(Arg.Any<int>()).Returns(true);
 
         gridSelectionController.GetSelectedCharacter().Returns(selectedCharacter);
 
@@ -49,8 +51,8 @@ public class MovementSelectionControllerTests
         sut = new MovementSelectionController
         {
             GridSelectionController = gridSelectionController,
-            GameManager = gameManager,
-            InputParameters = inputParameters
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
     }
 
@@ -59,11 +61,11 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsKeyEscapeDown.Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        gameManager.Received(1).SelectionMode = SelectionMode.FREE;
+        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
 
@@ -73,11 +75,11 @@ public class MovementSelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -86,11 +88,11 @@ public class MovementSelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -100,11 +102,11 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -114,44 +116,43 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
-    public void Clicking_on_unreachable_tile_error_highlights_tile()
+    public void Clicking_on_unreachable_tile_does_nothing()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
         selectedTile.GetPath(targetTile).Returns(new List<IHexTileController>());
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        targetTile.Received(1).HoverError();
+        selectionManager.DidNotReceive();
+        targetTile.DidNotReceive();
+        selectedCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Clicking_on_reachable_out_of_range_unoccupied_tile_error_highlights_path()
+    public void Clicking_on_reachable_out_of_range_unoccupied_tile_does_nothing()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
+        selectedCharacter.CanMove(Arg.Any<int>()).Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        foreach (IHexTileController pathTile in pathList)
-        {
-            pathTile.Received(1).HoverError();
-        }
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        selectedCharacter.DidNotReceive().ExecuteMove(Arg.Any<List<IHexTileController>>());
+        selectionManager.DidNotReceive();
+        selectedCharacter.DidNotReceive();
+        targetTile.DidNotReceive();
     }
 
     [Test]
@@ -161,11 +162,10 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         selectedCharacter.CanMove(pathList.Count - 1).Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.Received(1).SelectionMode = SelectionMode.FREE;
         selectedCharacter.Received(1).ExecuteMove(pathList);
     }
 
@@ -176,42 +176,44 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsOccupied().Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }
 
     [Test]
-    public void Clicking_on_selected_tile_error_highlights_tile()
+    public void Clicking_on_selected_tile_does_nothing()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
         gridSelectionController.IsSelectedTile(targetTile).Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        targetTile.Received(1).HoverError();
+        selectionManager.DidNotReceive();
+        selectedCharacter.DidNotReceive();
+        targetTile.DidNotReceive();
     }
 
     [Test]
-    public void Hovering_over_selected_tile_error_highlights_tile()
+    public void Hovering_over_selected_tile_does_nothing()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
         gridSelectionController.IsSelectedTile(targetTile).Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        targetTile.Received(1).HoverError();
+        selectionManager.DidNotReceive();
+        targetTile.DidNotReceive();
+        selectedCharacter.DidNotReceive();
     }
 
     [Test]
@@ -221,11 +223,11 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         selectedTile.GetPath(targetTile).Returns(new List<IHexTileController>());
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }
 
@@ -234,15 +236,16 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
+        selectedCharacter.CanMove(Arg.Any<int>()).Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        foreach (IHexTileController pathTile in pathList)
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        for (int i = 1; i < pathList.Count; i++)
         {
-            pathTile.Received(1).HoverError();
+            pathList[i].Received(1).HoverError();
         }
     }
 
@@ -251,16 +254,15 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        selectedCharacter.CanMove(pathList.Count - 1).Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
-        foreach (IHexTileController pathTile in pathList)
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        for (int i = 1; i < pathList.Count; i++)
         {
-            pathTile.Received(1).Highlight();
+            pathList[i].Received(1).Highlight();
         }
     }
 
@@ -271,12 +273,11 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsOccupied().Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }    
 }
-*/
