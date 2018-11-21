@@ -96,7 +96,10 @@ public class TurnController : ITurnController
             EndMatchPanel.SetWinnerText("Draw!");
         }
 
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+        if (ActiveCharacter == null)
+            StartNextTurn();
+        else
+            TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void Surrender()
