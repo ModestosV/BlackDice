@@ -37,9 +37,4 @@ public sealed class DefaultCharacterController : CharacterController
             {"moves", moves}
         };
     }
-
-    public DefaultCharacterController(List<IAbility> abilities)
-    {
-        Abilities = abilities;
-    }
 }
