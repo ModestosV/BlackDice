@@ -6,7 +6,7 @@ public abstract class HideableUI : MonoBehaviour
 
     private void Awake()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();
+        CanvasGroup = GetComponent<CanvasGroup>();    
     }
 
     public void Hide()

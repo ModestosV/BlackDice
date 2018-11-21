@@ -27,14 +27,16 @@ export class UserRoutes {
     public Register() {
         this.router.post(
             "/register",
+            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
 
-                    global.console.log("register request going through");
+                    global.console.log("Registration request going through.");
                     const username = req.body.username;
                     const passHash = req.body.password;
                     const email = req.body.email;
+
                     if (username && passHash && email) {
 
                         const salt = moment();
@@ -70,10 +72,12 @@ export class UserRoutes {
     public Login() {
         this.router.post(
             "/login",
+            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
-                    global.console.log("login request going through");
+
+                    global.console.log("Login request going through.");
 
                     const passHash = req.body.password;
                     const email = req.body.email;
@@ -101,7 +105,7 @@ export class UserRoutes {
 
                             if (updatedDoc) {
                                 res.status(200);
-                                return res.json(token);
+                                return res.json(updatedDoc);
                             } else {
                                 res.status(500);
                                 return res.json("Server error");
@@ -124,10 +128,12 @@ export class UserRoutes {
     public Logout() {
         this.router.post(
             "/logout",
+            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
-                    global.console.log("logout request going through");
+
+                    global.console.log("Logout request going through.");
 
                     const email = req.body.email;
                     const loginQuery = {
@@ -158,7 +164,7 @@ export class UserRoutes {
 
                         } else {
                             res.status(400);
-                            return res.json("User is not loggedIn");
+                            return res.json("User is not logged in.");
                         }
                     }
 
