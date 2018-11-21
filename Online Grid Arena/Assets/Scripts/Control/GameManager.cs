@@ -40,10 +40,14 @@ public class GameManager : MonoBehaviour
 
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
+        AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
+
         hudController.SelectedStatPanel = statPanels[1].Controller;
         hudController.SelectedPlayerPanel = playerPanels[1];
         hudController.TargetStatPanel = statPanels[0].Controller;
         hudController.TargetPlayerPanel = playerPanels[0];
+        hudController.AbilityPanel = abilityPanel;
+
         FindObjectOfType<EndTurnButton>().TurnController = turnController;
 
         // Initialize grid
