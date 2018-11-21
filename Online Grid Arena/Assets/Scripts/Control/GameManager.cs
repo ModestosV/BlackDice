@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
 
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
+        turnController.SelectionManager = selectionManager;
     }
 
     private void Start()

@@ -23,7 +23,8 @@ public class TurnPanelController : ITurnPanelController
         // Update Character Order
         CharacterOrder.Clear();
 
-        CharacterOrder.Add(ActiveCharacter);
+        if (ActiveCharacter != null)
+            CharacterOrder.Add(ActiveCharacter);
         CharacterOrder.AddRange(RefreshedCharacters);
         CharacterOrder.AddRange(ExhaustedCharacters);
 
