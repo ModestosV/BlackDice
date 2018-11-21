@@ -1,16 +1,22 @@
-import express, { NextFunction, Request, Response } from "express";
-
-const app = express();
-
-import "./connection";
+import express, { Express, NextFunction, Request, Response } from "express";
 import router from "./routes/router";
+export class Application {
+  private app: Express;
 
-app.use(router);
-app.use(logErrorHandler);
+  constructor() {
+    this.app = express();
+  }
 
-export = app;
+  /**
+   * initRouters
+   */
+  public initRouters() {
+    this.app.use(router);
+    this.app.use(this.logErrorHandler);
+    return this.app;
+  }
 
-function logErrorHandler(req: Request, res: Response, next: NextFunction) {
+  public logErrorHandler(req: Request, res: Response, next: NextFunction) {
     // If an error gets here everything should explode because something stupid happened or forgot to catch an error.
     const err = new Error("404 - Not Found");
     err.name = "404";
@@ -21,4 +27,6 @@ function logErrorHandler(req: Request, res: Response, next: NextFunction) {
     global.console.error(err.stack);
 
     throw err;
+}
+
 }
