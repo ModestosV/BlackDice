@@ -1,17 +1,17 @@
-﻿/*
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 
-public class HealAbilitySelectionControllerTests
+public class TargetEnemyAbilitySelectionControllerTests
 {
-    TargetAllyAbilitySelectionController sut;
+    TargetEnemyAbilitySelectionController sut;
 
     IGridSelectionController gridSelectionController;
-    IGameManager gameManager;
+    ITurnController turnController;
+    ISelectionManager selectionManager;
 
     ICharacterController selectedCharacter;
     ICharacterController targetCharacter;
-
+    
     IInputParameters inputParameters;
 
     IHexTileController selectedTile;
@@ -23,20 +23,21 @@ public class HealAbilitySelectionControllerTests
     public void Init()
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        gameManager = Substitute.For<IGameManager>();
+        turnController = Substitute.For<ITurnController>();
+        selectionManager = Substitute.For<ISelectionManager>();
 
         selectedCharacter = Substitute.For<ICharacterController>();
         targetCharacter = Substitute.For<ICharacterController>();
-        selectedCharacter.IsAlly(targetCharacter).Returns(true);
+        selectedCharacter.IsAlly(targetCharacter).Returns(false);
 
         gridSelectionController.GetSelectedCharacter().Returns(selectedCharacter);
 
         inputParameters = Substitute.For<IInputParameters>();
         inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
-
+        
         selectedTile = Substitute.For<IHexTileController>();
         selectedTile.OccupantCharacter.Returns(selectedCharacter);
-
+        
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
@@ -45,11 +46,11 @@ public class HealAbilitySelectionControllerTests
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
-        sut = new TargetAllyAbilitySelectionController
+        sut = new TargetEnemyAbilitySelectionController
         {
             GridSelectionController = gridSelectionController,
-            GameManager = gameManager,
-            InputParameters = inputParameters
+            TurnController = turnController,
+            SelectionManager = selectionManager
         };
     }
 
@@ -58,11 +59,11 @@ public class HealAbilitySelectionControllerTests
     {
         inputParameters.IsKeyEscapeDown.Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        gameManager.Received(1).SelectionMode = SelectionMode.FREE;
+        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
 
@@ -72,11 +73,11 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive();
     }
 
     [Test]
@@ -85,11 +86,11 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive();
     }
 
     [Test]
@@ -99,11 +100,11 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive();
     }
 
     [Test]
@@ -113,11 +114,11 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive();
     }
 
     [Test]
@@ -126,27 +127,27 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        gameManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
+        selectionManager.DidNotReceive();
     }
 
     [Test]
-    public void Clicking_on_ally_occupied_other_tile_executes_ability_and_returns_to_selection_mode()
+    public void Clicking_on_enemy_occupied_other_tile_executes_ability_and_returns_to_selection_mode()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsOccupied().Returns(true);
         targetTile.OccupantCharacter.Returns(targetCharacter);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetCharacter);
-        gameManager.Received(1).SelectionMode = SelectionMode.FREE;
+        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetTile);
+        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
     [Test]
@@ -155,7 +156,7 @@ public class HealAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -163,14 +164,14 @@ public class HealAbilitySelectionControllerTests
     }
 
     [Test]
-    public void Hovering_over_ally_occupied_tile_highlights_tile_and_updates_target_hud()
+    public void Hovering_over_enemy_occupied_tile_highlights_tile_and_updates_target_hud()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsOccupied().Returns(true);
         targetTile.OccupantCharacter.Returns(targetCharacter);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -178,19 +179,18 @@ public class HealAbilitySelectionControllerTests
     }
 
     [Test]
-    public void Hovering_over_enemy_occupied_tile_error_highlights_tile_and_updates_target_hud()
+    public void Hovering_over_ally_occupied_tile_error_highlights_tile_and_updates_target_hud()
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsOccupied().Returns(true);
         targetTile.OccupantCharacter.Returns(targetCharacter);
-        selectedCharacter.IsAlly(targetCharacter).Returns(false);
+        selectedCharacter.IsAlly(targetCharacter).Returns(true);
 
-        sut.Update();
+        sut.Update(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).HoverError();
     }
 }
-*/
