@@ -12,7 +12,6 @@ public class LoginPanel : Panel, ILoginPanel
 
     private TMP_InputField EmailInputField { get; set; }
     private TMP_InputField PasswordInputField { get; set; }
-    private TextMeshProUGUI StatusText { get; set; }
 
     private void OnValidate()
     {
@@ -54,15 +53,5 @@ public class LoginPanel : Panel, ILoginPanel
     {
         loginButton.interactable = false;
         logoutButton.interactable = false;
-    }
-
-    public override void SetStatus(string statusText)
-    {
-        StatusText.text = statusText;
-    }
-
-    public override void ClearStatus()
-    {
-        StatusText.text = "";
     }
 }

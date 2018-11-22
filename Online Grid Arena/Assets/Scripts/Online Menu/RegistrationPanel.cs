@@ -11,7 +11,6 @@ public class RegistrationPanel : Panel, IRegistrationPanel
     private TMP_InputField EmailInputField { get; set; }
     private TMP_InputField PasswordInputField { get; set; }
     private TMP_InputField UsernameInputField { get; set; }
-    private TextMeshProUGUI StatusText { get; set; }
 
     private void OnValidate()
     {
@@ -42,15 +41,5 @@ public class RegistrationPanel : Panel, IRegistrationPanel
     public void DisableRegisterButton()
     {
         registerButton.interactable = false;
-    }
-
-    public override void SetStatus(string statusText)
-    {
-        StatusText.text = statusText;
-    }
-
-    public override void ClearStatus()
-    {
-        StatusText.text = "";
     }
 }

@@ -7,6 +7,7 @@ using TMPro;
 public abstract class Panel : MonoBehaviour {
 
     public GameObject loadingCircle;
+    public TextMeshProUGUI StatusText;
 
     public void ActivateLoadingCircle()
     {
@@ -18,7 +19,13 @@ public abstract class Panel : MonoBehaviour {
         loadingCircle.SetActive(false);
     }
 
-    public abstract void SetStatus(string statusText);
+    public void SetStatus(string statusText)
+    {
+        StatusText.text = statusText;
+    }
 
-    public abstract void ClearStatus();
+    public void ClearStatus()
+    {
+        StatusText.text = "";
+    }
 }
