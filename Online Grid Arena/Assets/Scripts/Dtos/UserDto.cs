@@ -25,15 +25,4 @@ public class UserDTO
         this.Username = Username;
         this.LoggedInToken = LoggedInToken;
     }
-
-    public WWWForm GetForm()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("email", Email);
-        form.AddField("password", PasswordHash);
-        form.AddField("username", Username);
-        form.AddField("loggedIn", LoggedInToken);
-
-        return form;
-    }
 }

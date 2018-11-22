@@ -10,7 +10,7 @@ public class OnlineMenuController : IOnlineMenuController
     public ILoginPanel LoginPanel { protected get; set; }
 
     public IUserNetworkManager UserNetworkManager { protected get; set; }
-    public IUserController UserController { protected get; set; }
+    public IActivePlayer UserController { protected get; set; }
 
     public async void Register(string email, string password, string username)
     {
@@ -75,13 +75,10 @@ public class OnlineMenuController : IOnlineMenuController
         {
             case 200:
                 string content = await response.Content.ReadAsStringAsync();
-                Debug.Log(content);
-                //UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(content);
-                //UserController.LoggedInUser = responseUser;
-                UserController.LoggedInUser = new UserDTO("33@33.com");
+                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(content);
+                UserController.LoggedInUser = responseUser;
                 LoginPanel.ToggleLoginLogoutButtons();
-                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}");
-                //LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
+                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
                 break;
             case 400:
                 LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
@@ -100,7 +97,7 @@ public class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(new UserDTO(UserController.Email));
+        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(UserController.LoggedInUser);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
@@ -108,7 +105,7 @@ public class OnlineMenuController : IOnlineMenuController
         switch ((int)response.StatusCode)
         {
             case 200:
-                UserController.LoggedInUser = null;
+                UserController.Logout();
                 LoginPanel.ToggleLoginLogoutButtons();
                 LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
                 break;

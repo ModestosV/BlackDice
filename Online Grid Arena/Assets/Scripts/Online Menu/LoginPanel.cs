@@ -50,16 +50,6 @@ public class LoginPanel : MonoBehaviour, ILoginPanel
         StatusText.text = "";
     }
 
-    public void ClearEmail()
-    {
-        EmailInputField.text = "";
-    }
-
-    public void ClearPassword()
-    {
-        PasswordInputField.text = "";
-    }
-
     public void ToggleLoginLogoutButtons()
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);

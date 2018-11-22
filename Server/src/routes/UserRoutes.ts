@@ -27,7 +27,6 @@ export class UserRoutes {
     public Register() {
         this.router.post(
             "/register",
-            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
@@ -72,7 +71,6 @@ export class UserRoutes {
     public Login() {
         this.router.post(
             "/login",
-            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
@@ -128,7 +126,6 @@ export class UserRoutes {
     public Logout() {
         this.router.post(
             "/logout",
-            bodyParser.urlencoded({ extended: true }),
             bodyParser.json(),
             async (req: Request, res: Response, next: NextFunction) => {
                 try {
