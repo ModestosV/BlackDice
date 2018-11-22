@@ -45,6 +45,7 @@
     "compile": "tsc -p .",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
+    "prestart": "npm run compile",
     "start": "node dist/src/server.js",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
     "test": "jest",
