@@ -49,7 +49,7 @@ export class UserRoutes {
                         });
 
                         await userData.save();
-                        res.status(200);
+                        res.status(201);
                         return res.json(userData);
 
                     }
@@ -103,7 +103,7 @@ export class UserRoutes {
 
                             if (updatedDoc) {
                                 res.status(200);
-                                return res.json(updatedDoc);
+                                return res.json(updatedDoc.get("loggedInToken"));
                             } else {
                                 res.status(500);
                                 return res.json("Server error");

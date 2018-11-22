@@ -10,7 +10,7 @@ public class OnlineMenuController : IOnlineMenuController
     public ILoginPanel LoginPanel { protected get; set; }
 
     public IUserNetworkManager UserNetworkManager { protected get; set; }
-    public IActivePlayer UserController { protected get; set; }
+    public IActivePlayer IActivePlayer { protected get; set; }
 
     public async void Register(string email, string password, string username)
     {
@@ -43,7 +43,7 @@ public class OnlineMenuController : IOnlineMenuController
 
         switch ((int)response.StatusCode)
         {
-            case 200:
+            case 201:
                 RegistrationPanel.SetStatus(Strings.REGISTRATION_SUCCESS_MESSAGE);
                 break;
             case 400:
@@ -60,13 +60,15 @@ public class OnlineMenuController : IOnlineMenuController
 
     public async void Login(string email, string password)
     {
-        if (UserController.IsLoggedIn()) return;
+        if (IActivePlayer.IsLoggedIn()) return;
 
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.LoginAsync(new UserDTO(email, Hash128.Compute(password).ToString()));
+        UserDTO user = new UserDTO(email, Hash128.Compute(password).ToString());
+
+        HttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
@@ -74,11 +76,10 @@ public class OnlineMenuController : IOnlineMenuController
         switch ((int)response.StatusCode)
         {
             case 200:
-                string content = await response.Content.ReadAsStringAsync();
-                UserDTO responseUser = JsonConvert.DeserializeObject<UserDTO>(content);
-                UserController.LoggedInUser = responseUser;
+                user.LoggedInToken = await response.Content.ReadAsStringAsync();
+                IActivePlayer.LoggedInUser = user;
                 LoginPanel.ToggleLoginLogoutButtons();
-                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {responseUser.Username}.");
+                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {IActivePlayer.LoggedInUser.Username}.");
                 break;
             case 400:
                 LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
@@ -91,13 +92,13 @@ public class OnlineMenuController : IOnlineMenuController
 
     public async void Logout()
     {
-        if (!UserController.IsLoggedIn()) return;
+        if (!IActivePlayer.IsLoggedIn()) return;
 
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(UserController.LoggedInUser);
+        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(IActivePlayer.LoggedInUser);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
@@ -105,7 +106,7 @@ public class OnlineMenuController : IOnlineMenuController
         switch ((int)response.StatusCode)
         {
             case 200:
-                UserController.Logout();
+                IActivePlayer.Logout();
                 LoginPanel.ToggleLoginLogoutButtons();
                 LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
                 break;

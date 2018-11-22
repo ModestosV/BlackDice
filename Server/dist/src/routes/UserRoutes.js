@@ -23,7 +23,7 @@ class UserRoutes {
         this.user = user;
     }
     Register() {
-        this.router.post("/register", body_parser_1.default.urlencoded({ extended: true }), body_parser_1.default.json(), async (req, res, next) => {
+        this.router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("Registration request going through.");
                 const username = req.body.username;
@@ -40,7 +40,7 @@ class UserRoutes {
                         username
                     });
                     await userData.save();
-                    res.status(200);
+                    res.status(201);
                     return res.json(userData);
                 }
                 res.status(400);
@@ -57,7 +57,7 @@ class UserRoutes {
         }, middlewares_1.errorHandler);
     }
     Login() {
-        this.router.post("/login", body_parser_1.default.urlencoded({ extended: true }), body_parser_1.default.json(), async (req, res, next) => {
+        this.router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("Login request going through.");
                 const passHash = req.body.password;
@@ -78,7 +78,7 @@ class UserRoutes {
                         const updatedDoc = await userDoc.save();
                         if (updatedDoc) {
                             res.status(200);
-                            return res.json(updatedDoc);
+                            return res.json(updatedDoc.get("loggedInToken"));
                         }
                         else {
                             res.status(500);
@@ -97,7 +97,7 @@ class UserRoutes {
         }, middlewares_1.errorHandler);
     }
     Logout() {
-        this.router.post("/logout", body_parser_1.default.urlencoded({ extended: true }), body_parser_1.default.json(), async (req, res, next) => {
+        this.router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
             try {
                 global.console.log("Logout request going through.");
                 const email = req.body.email;

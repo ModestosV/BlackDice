@@ -6,7 +6,7 @@ public class UserDTO
     [JsonProperty("email")]
     public string Email { get; }
     [JsonProperty("loggedInToken")]
-    public string LoggedInToken { get; }
+    public string LoggedInToken { get; set; }
     [JsonProperty("password")]
     public string PasswordHash { get; }
     [JsonProperty("username")]

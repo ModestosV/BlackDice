@@ -6,21 +6,21 @@ public class MenuManager : MonoBehaviour
     private RegistrationPanel registrationPanel;
     private OnlineMenuController onlineMenuController;
     private UserNetworkManager userNetworkManager;
-    private ActivePlayer userController;
+    private ActivePlayer activePlayer;
 
     private void Awake()
     {
         loginPanel = FindObjectOfType<LoginPanel>();
         registrationPanel = FindObjectOfType<RegistrationPanel>();
         userNetworkManager = new UserNetworkManager();
-        userController = new ActivePlayer();
+        activePlayer = new ActivePlayer();
 
         onlineMenuController = new OnlineMenuController
         {
             LoginPanel = loginPanel,
             RegistrationPanel = registrationPanel,
             UserNetworkManager = userNetworkManager,
-            UserController = userController
+            IActivePlayer = activePlayer
         };
 
         loginPanel.OnlineMenuController = onlineMenuController;

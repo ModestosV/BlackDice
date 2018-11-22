@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
-public abstract class Panel : MonoBehaviour {
-
+public abstract class Panel : MonoBehaviour
+{
     public GameObject loadingCircle;
     public TextMeshProUGUI StatusText;
 

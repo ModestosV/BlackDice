@@ -1,10 +1,7 @@
 ﻿
 public interface IActivePlayer
 {
-    string Email { get; }
-    
-    UserDTO LoggedInUser { get;  set; }
-
+    UserDTO LoggedInUser { get; set; }
     bool IsLoggedIn();
     void Logout();
 }
