@@ -116,7 +116,6 @@ public abstract class CharacterController : ICharacterController
         if (CharacterStats["health"].CurrentValue <= 0)
         {
             Die();
-            TurnController.CheckWinCondition();
         }
     }
 
@@ -130,6 +129,7 @@ public abstract class CharacterController : ICharacterController
         OccupiedTile.ClearOccupant();
         TurnController.RemoveCharacter(this);
         Character.Destroy();
+        TurnController.CheckWinCondition();
     }
 
     public bool CanMove(int distance = 1)

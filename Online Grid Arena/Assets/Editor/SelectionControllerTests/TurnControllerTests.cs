@@ -19,6 +19,7 @@ public class TurnControllerTests
     const string PLAYER_2_NAME = "2";
 
     ITurnPanelController turnTracker;
+    ISelectionManager selectionManager;
 
     [SetUp]
     public void Init()
@@ -40,6 +41,7 @@ public class TurnControllerTests
         thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
 
         turnTracker = Substitute.For<ITurnPanelController>();
+        selectionManager = Substitute.For<ISelectionManager>();
 
         sut = new TurnController
         {
@@ -47,7 +49,8 @@ public class TurnControllerTests
             ExhaustedCharacters = exhaustedCharactersList,
             EndMatchPanel = endMatchPanel,
             ActiveCharacter = null,
-            TurnTracker = turnTracker
+            TurnTracker = turnTracker,
+            SelectionManager = selectionManager
         };
     }
 
@@ -91,6 +94,14 @@ public class TurnControllerTests
         sut.StartNextTurn();
 
         turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
+    }
+
+    [Test]
+    public void Start_next_turn_sets_selection_mode_to_free_selection()
+    {
+        sut.StartNextTurn();
+
+        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
     [Test]
