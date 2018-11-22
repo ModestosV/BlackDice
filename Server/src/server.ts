@@ -3,7 +3,8 @@ import consoleStamp from "console-stamp";
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import * as httpServer from "http";
-import app from "./app";
+import { Application } from "./app";
+import { Connection } from "./connection";
 
 const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss" };
 
@@ -15,7 +16,11 @@ const port = parseInt(process.env.PORT ? process.env.PORT : "5500", 10);
 
 consoleStamp(console, stamp);
 
-server = httpServer.createServer(app);
+const app = new Application();
+const connection = new Connection();
+
+connection.connect();
+server = httpServer.createServer(app.initRouters());
 server.listen(port, host);
 server.on("error", handleError);
 server.on("listening", listen);
