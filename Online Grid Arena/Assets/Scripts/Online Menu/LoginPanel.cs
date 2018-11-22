@@ -3,18 +3,16 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-public class LoginPanel : MonoBehaviour, ILoginPanel
+public class LoginPanel : Panel, ILoginPanel
 {
     public Button loginButton;
     public Button logoutButton;
 
-    public GameObject loadingCircle;
-
     public IOnlineMenuController OnlineMenuController { protected get; set; }
 
-    private TextMeshProUGUI StatusText { get; set; }
     private TMP_InputField EmailInputField { get; set; }
     private TMP_InputField PasswordInputField { get; set; }
+    private TextMeshProUGUI StatusText { get; set; }
 
     private void OnValidate()
     {
@@ -40,16 +38,6 @@ public class LoginPanel : MonoBehaviour, ILoginPanel
         OnlineMenuController.Logout();
     }
 
-    public void SetStatus(string statusText)
-    {
-        StatusText.text = statusText;
-    }
-
-    public void ClearStatus()
-    {
-        StatusText.text = "";
-    }
-
     public void ToggleLoginLogoutButtons()
     {
         loginButton.gameObject.SetActive(!loginButton.gameObject.activeSelf);
@@ -68,13 +56,13 @@ public class LoginPanel : MonoBehaviour, ILoginPanel
         logoutButton.interactable = false;
     }
 
-    public void ActivateLoadingCircle()
+    public override void SetStatus(string statusText)
     {
-        loadingCircle.SetActive(true);
+        StatusText.text = statusText;
     }
 
-    public void DeactivateLoadingCircle()
+    public override void ClearStatus()
     {
-        loadingCircle.SetActive(false);
+        StatusText.text = "";
     }
 }
