@@ -2,7 +2,6 @@
 {
     IRegistrationPanel RegistrationPanel { set; }
     ILoginPanel LoginPanel { set; }
-
     IUserNetworkManager UserNetworkManager { set; }
 
     void Register(string email, string password, string username);

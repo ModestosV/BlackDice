@@ -1,16 +1,14 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using Newtonsoft.Json;
 using System.Net.Http;
 
 public class OnlineMenuController : IOnlineMenuController
 {
     public IRegistrationPanel RegistrationPanel { protected get; set; }
     public ILoginPanel LoginPanel { protected get; set; }
-
     public IUserNetworkManager UserNetworkManager { protected get; set; }
-    public IActivePlayer IActivePlayer { protected get; set; }
+    public IActivePlayer ActivePlayer { protected get; set; }
 
     public async void Register(string email, string password, string username)
     {
@@ -60,7 +58,7 @@ public class OnlineMenuController : IOnlineMenuController
 
     public async void Login(string email, string password)
     {
-        if (IActivePlayer.IsLoggedIn()) return;
+        if (ActivePlayer.IsLoggedIn()) return;
 
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
@@ -77,9 +75,9 @@ public class OnlineMenuController : IOnlineMenuController
         {
             case 200:
                 user.LoggedInToken = await response.Content.ReadAsStringAsync();
-                IActivePlayer.LoggedInUser = user;
+                ActivePlayer.LoggedInUser = user;
                 LoginPanel.ToggleLoginLogoutButtons();
-                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {IActivePlayer.LoggedInUser.Username}.");
+                LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {ActivePlayer.LoggedInUser.Username}.");
                 break;
             case 400:
                 LoginPanel.SetStatus(Strings.INVALID_LOGIN_CREDENTIALS_MESSAGE);
@@ -92,13 +90,13 @@ public class OnlineMenuController : IOnlineMenuController
 
     public async void Logout()
     {
-        if (!IActivePlayer.IsLoggedIn()) return;
+        if (!ActivePlayer.IsLoggedIn()) return;
 
         LoginPanel.DisableLoginLogoutButtons();
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(IActivePlayer.LoggedInUser);
+        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(ActivePlayer.LoggedInUser);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
@@ -106,7 +104,7 @@ public class OnlineMenuController : IOnlineMenuController
         switch ((int)response.StatusCode)
         {
             case 200:
-                IActivePlayer.Logout();
+                ActivePlayer.Logout();
                 LoginPanel.ToggleLoginLogoutButtons();
                 LoginPanel.SetStatus(Strings.LOGOUT_SUCCESS_MESSAGE);
                 break;

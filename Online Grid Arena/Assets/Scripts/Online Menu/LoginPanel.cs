@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using UnityEngine.UI;
 using TMPro;
 
 public class LoginPanel : Panel, ILoginPanel

@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
             LoginPanel = loginPanel,
             RegistrationPanel = registrationPanel,
             UserNetworkManager = userNetworkManager,
-            IActivePlayer = activePlayer
+            ActivePlayer = activePlayer
         };
 
         loginPanel.OnlineMenuController = onlineMenuController;
