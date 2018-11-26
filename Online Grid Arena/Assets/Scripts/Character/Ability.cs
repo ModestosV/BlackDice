@@ -10,7 +10,6 @@ public abstract class Ability : IAbility
 {
     public AbilityType Type { get; set; }
     public Dictionary<string, float> Values { get; set; }
-    public ISelectionController SelectionController { get; set; }
 
     public abstract void Execute(IHexTileController targetTile);
 }
