@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour, ICharacter
 {
@@ -14,7 +15,7 @@ public class Character : MonoBehaviour, ICharacter
     public Texture characterIcon;
     public Color32 borderColor;
 
-    public Canvas healthBar;
+    public HealthBar healthBar;
 
     void Awake()
     {

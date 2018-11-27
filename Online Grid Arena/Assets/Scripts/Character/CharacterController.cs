@@ -20,7 +20,7 @@ public class CharacterController : ICharacterController
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
 
-    public Canvas HealthBar { get; set; }
+    public HealthBar HealthBar { get; set; }
 
     public void Select()
     {
@@ -182,6 +182,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateHealthBar()
     {
-        HealthBar.GetComponentsInChildren<Image>()[1].fillAmount = (float)CharacterStats[0].CurrentValue / CharacterStats[0].Value;
+        HealthBar.SetHealthBarRatio((float)CharacterStats[0].CurrentValue / CharacterStats[0].Value);
+        HealthBar.SetHealthText(CharacterStats[0].CurrentValue.ToString(), CharacterStats[0].CurrentValue.ToString());
     }
 }

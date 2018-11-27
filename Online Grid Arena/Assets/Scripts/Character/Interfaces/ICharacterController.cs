@@ -17,7 +17,7 @@ public interface ICharacterController
     string OwnedByPlayer { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
-    Canvas HealthBar { get; set; }
+    HealthBar HealthBar { get; set; }
 
     void Select();
     void Deselect();
