@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterController : ICharacterController
 {
@@ -18,6 +19,8 @@ public class CharacterController : ICharacterController
     public string OwnedByPlayer { get; set; }
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
+
+    public Canvas HealthBar { get; set; }
 
     public void Select()
     {
@@ -124,6 +127,7 @@ public class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats[0].CurrentValue -= damage;
+        UpdateHealthBar();
         if (CharacterStats[0].CurrentValue <= 0)
         {
             Die();
@@ -134,6 +138,7 @@ public class CharacterController : ICharacterController
     public void Heal(float heal)
     {
         CharacterStats[0].CurrentValue += heal;
+        UpdateHealthBar();
     }
 
     public void Die()
@@ -173,5 +178,10 @@ public class CharacterController : ICharacterController
     public bool IsAlly(ICharacterController otherCharacter)
     {
         return OwnedByPlayer == otherCharacter.OwnedByPlayer;
+    }
+
+    public void UpdateHealthBar()
+    {
+        HealthBar.GetComponentsInChildren<Image>()[1].fillAmount = (float)CharacterStats[0].CurrentValue / CharacterStats[0].Value;
     }
 }

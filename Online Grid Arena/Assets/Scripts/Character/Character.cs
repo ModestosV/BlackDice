@@ -14,6 +14,8 @@ public class Character : MonoBehaviour, ICharacter
     public Texture characterIcon;
     public Color32 borderColor;
 
+    public Canvas healthBar;
+
     void Awake()
     {
         characterController = new CharacterController
@@ -24,7 +26,8 @@ public class Character : MonoBehaviour, ICharacter
             Character = this,
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
-            BorderColor = borderColor
+            BorderColor = borderColor,
+            HealthBar = healthBar
         };
     }
 
