@@ -36,6 +36,7 @@ public class Character : MonoBehaviour, ICharacter
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+        characterController.UpdateHealthBar();
     }
 
     public void Destroy()
