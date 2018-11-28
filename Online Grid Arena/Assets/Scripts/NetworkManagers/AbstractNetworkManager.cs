@@ -2,9 +2,9 @@
 using System.Text;
 using System.Threading.Tasks;
 
-public abstract class AbstractNetworkManager : IHttpRequests
+public abstract class AbstractNetworkManager : INetworkManager
 {
-    protected readonly string mainURL;
+    private readonly string endpoint;
     private readonly HttpClient client;
 
     protected AbstractNetworkManager(string extensionURL) : this(extensionURL, HttpClientService.Instance)
@@ -13,12 +13,12 @@ public abstract class AbstractNetworkManager : IHttpRequests
 
     protected AbstractNetworkManager(string extensionURL, HttpClient client)
     {
-        mainURL = URLs.BASE_URL + extensionURL;
+        endpoint = URLs.BASE_URL + extensionURL;
         this.client = client;
     }
 
-    public async Task<HttpResponseMessage> PostAsync(string url, string body)
+    public async Task<HttpResponseMessage> PostAsync(string targetRequestUrl, string messageBody)
     {
-        return await client.PostAsync(url, new StringContent(body, Encoding.UTF8, "application/json"));
+        return await client.PostAsync(endpoint + targetRequestUrl, new StringContent(messageBody, Encoding.UTF8, "application/json"));
     }
 }
