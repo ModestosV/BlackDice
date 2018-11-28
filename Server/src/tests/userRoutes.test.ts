@@ -16,8 +16,8 @@ describe("User Register tests", () => {
         connDB.dropDB();
     });
 
-    it("Router Tests", () => {
-        test("Successful register returns 200", async (done) => {
+    describe("Router Tests", () => {
+        it("Successful register returns 200", async (done) => {
             const json = {
                 email: "test@marc.com",
                 password: "Thiscleartextisbad",
@@ -38,7 +38,7 @@ describe("User Register tests", () => {
                 });
         });
 
-        test("Duplicate entry returns 412", async (done) => {
+        it("Duplicate entry returns 412", async (done) => {
             const json = {
                 email: "test@marc.com",
                 password: "Thiscleartextisbad",
@@ -58,7 +58,7 @@ describe("User Register tests", () => {
                 });
         });
 
-        test("Request missing required body data returns 400", async (done) => {
+        it("Request missing required body data returns 400", async (done) => {
             const json = {
                 email: "test@marc2.com"
             };
@@ -77,8 +77,8 @@ describe("User Register tests", () => {
         });
     });
 
-    it("User Login tests", () => {
-        test("Successful login returns 200", async (done) => {
+    describe("User Login tests", () => {
+        it("Successful login returns 200", async (done) => {
             const json = {
                 email: "test@marc.com",
                 password: "Thiscleartextisbad"
@@ -97,7 +97,7 @@ describe("User Register tests", () => {
                 });
         });
 
-        test("Login attempt for non-existing user returns 400", async (done) => {
+        it("Login attempt for non-existing user returns 400", async (done) => {
             const json = {
                 email: "idontexist@marc.com",
                 password: "qqqqqq"
@@ -117,8 +117,8 @@ describe("User Register tests", () => {
         });
     });
 
-    it("User Logout tests", () => {
-        test("Successful logout returns 200", async (done) => {
+    describe("User Logout tests", () => {
+        it("Successful logout returns 200", async (done) => {
             const json = {
                 email: "test@marc.com"
             };
@@ -136,7 +136,7 @@ describe("User Register tests", () => {
                 });
         });
 
-        test("Logout attempt for non-existing user returns 400", async (done) => {
+        it("Logout attempt for non-existing user returns 400", async (done) => {
             const json = {
                 email: "idontexist@marc.com"
             };
