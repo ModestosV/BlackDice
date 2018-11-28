@@ -19,7 +19,7 @@ describe("User Register tests", () => {
         connDB.dropDB();
     });
     describe("Router Tests", () => {
-        it("Successful register returns 200", async (done) => {
+        it("Successful register returns 201", async (done) => {
             const json = {
                 email: "test@marc.com",
                 password: "Thiscleartextisbad",
@@ -30,7 +30,7 @@ describe("User Register tests", () => {
             conn.post("/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(200)
+                .expect(201)
                 .end((err) => {
                 if (err) {
                     return done(err);
