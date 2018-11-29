@@ -1,7 +1,6 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using System.Net.Http;
 
 public class OnlineMenuController : IOnlineMenuController
 {
@@ -34,7 +33,7 @@ public class OnlineMenuController : IOnlineMenuController
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDTO(email, Hash128.Compute(password).ToString(), username));
+        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDTO(email, Hash128.Compute(password).ToString(), username));
 
         RegistrationPanel.EnableRegisterButton();
         RegistrationPanel.DeactivateLoadingCircle();
@@ -66,7 +65,7 @@ public class OnlineMenuController : IOnlineMenuController
 
         UserDTO user = new UserDTO(email, Hash128.Compute(password).ToString());
 
-        HttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
+        IHttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
@@ -96,7 +95,7 @@ public class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        HttpResponseMessage response = await UserNetworkManager.LogoutAsync(ActivePlayer.LoggedInUser);
+        IHttpResponseMessage response = await UserNetworkManager.LogoutAsync(ActivePlayer.LoggedInUser);
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();

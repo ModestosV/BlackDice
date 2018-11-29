@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public interface IUserNetworkManager
 {
-    Task<HttpResponseMessage> CreateUserAsync(UserDTO userDto);
+    Task<IHttpResponseMessage> CreateUserAsync(UserDTO userDto);
 
-    Task<HttpResponseMessage> LoginAsync(UserDTO userDto);
-    Task<HttpResponseMessage> LogoutAsync(UserDTO userDto);
+    Task<IHttpResponseMessage> LoginAsync(UserDTO userDto);
+    Task<IHttpResponseMessage> LogoutAsync(UserDTO userDto);
 }

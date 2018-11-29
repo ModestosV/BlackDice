@@ -6,17 +6,20 @@ public class UserNetworkManager : AbstractNetworkManager, IUserNetworkManager
 {
     public UserNetworkManager() : base("/account") { }
 
-    public async Task<HttpResponseMessage> CreateUserAsync(UserDTO userDto)
+    public async Task<IHttpResponseMessage> CreateUserAsync(UserDTO userDto)
     {
-        return await PostAsync("/register", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/register", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
 
-    public async Task<HttpResponseMessage> LoginAsync(UserDTO userDto)
+    public async Task<IHttpResponseMessage> LoginAsync(UserDTO userDto)
     {
-        return await PostAsync("/login", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/login", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
-    public async Task<HttpResponseMessage> LogoutAsync(UserDTO userDto)
+    public async Task<IHttpResponseMessage> LogoutAsync(UserDTO userDto)
     {
-        return await PostAsync("/logout", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/logout", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
 }
