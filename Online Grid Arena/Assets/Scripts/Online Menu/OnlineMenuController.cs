@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using System;
 
 public class OnlineMenuController : IOnlineMenuController
 {
@@ -69,6 +70,7 @@ public class OnlineMenuController : IOnlineMenuController
 
         LoginPanel.EnableLoginLogoutButtons();
         LoginPanel.DeactivateLoadingCircle();
+        
 
         switch ((int)response.StatusCode)
         {
