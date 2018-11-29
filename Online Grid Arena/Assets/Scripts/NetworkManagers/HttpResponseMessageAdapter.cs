@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Net.Http;
-using System;
+﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 public class HttpResponseMessageAdapter : IHttpResponseMessage
 {
@@ -35,5 +34,10 @@ public class HttpResponseMessageAdapter : IHttpResponseMessage
     public HttpResponseMessage EnsureSuccessStatusCode()
     {
         return Adaptee.EnsureSuccessStatusCode();
+    }
+
+    public Task<string> ReadContentAsStringAsync()
+    {
+        return Adaptee.Content.ReadAsStringAsync();
     }
 }

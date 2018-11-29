@@ -73,7 +73,7 @@ public class OnlineMenuController : IOnlineMenuController
         switch ((int)response.StatusCode)
         {
             case 200:
-                user.LoggedInToken = await response.Content.ReadAsStringAsync();
+                user.LoggedInToken = await response.ReadContentAsStringAsync();
                 ActivePlayer.LoggedInUser = user;
                 LoginPanel.ToggleLoginLogoutButtons();
                 LoginPanel.SetStatus($"{Strings.LOGIN_SUCCESS_MESSAGE}\n Welcome {ActivePlayer.LoggedInUser.Username}.");
