@@ -29,8 +29,8 @@ class App extends Component {
   getDownloads() {
     this.setState({downloads: [
       {
-        title: "v0.1_Windows_x86",
-        link: "https://github.com/ModestosV/BlackDice/releases/download/Iteration4/Online_Grid_Arena_Setup_x86.exe" 
+        title: "v0.1_Windows_x86_Installer",
+        link: "https://drive.google.com/uc?export=download&id=1PloCi7eWnMWsdmUcarXXao1pBdsjh4II" 
       }
     ]})
   }
