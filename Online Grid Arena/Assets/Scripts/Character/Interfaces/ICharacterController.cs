@@ -8,8 +8,7 @@ public interface ICharacterController
     ITurnController TurnController { set; }
     IHUDController HUDController { set; }
 
-    List<string> StatNames { set; }
-    List<ICharacterStat> CharacterStats { set; }
+    Dictionary<string, ICharacterStat> CharacterStats { set; }
     List<IAbility> Abilities { set; }
 
     int AbilitiesRemaining { set; }
@@ -20,7 +19,7 @@ public interface ICharacterController
 
     void Select();
     void Deselect();
-    void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter);
+    void ExecuteAbility(int abilityNumber, IHexTileController targetTile);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
@@ -36,8 +35,8 @@ public interface ICharacterController
     bool CanMove(int distance = 1);
     bool CanUseAbility();
     bool IsActiveCharacter();
-    AbilityType GetAbilityType(int abilityNumber);
     bool IsAlly(ICharacterController otherCharacter);
 
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
+    AbilityType GetAbilityType(int abilityIndex);
 }

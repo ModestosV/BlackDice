@@ -61,8 +61,6 @@ public class HexTileController : IHexTileController
 
         GridSelectionController.AddHoveredTile(this);
 
-        if (IsSelected) return;
-
         HexTile.SetHoverMaterial();
     }
 
@@ -74,8 +72,6 @@ public class HexTileController : IHexTileController
             OccupantCharacter.UpdateTargetHUD();
 
         GridSelectionController.AddHoveredTile(this);
-
-        if (IsSelected) return;
 
         HexTile.SetErrorMaterial();
     }
@@ -89,9 +85,14 @@ public class HexTileController : IHexTileController
 
         GridSelectionController.RemoveHoveredTile(this);
 
-        if (IsSelected) return;
-
-        HexTile.SetDefaultMaterial();
+        if (IsSelected)
+        {
+            HexTile.SetClickedMaterial();
+        }
+        else
+        {
+            HexTile.SetDefaultMaterial();
+        }
     }
 
     public void Highlight()
@@ -102,9 +103,7 @@ public class HexTileController : IHexTileController
             OccupantCharacter.UpdateTargetHUD();
 
         GridSelectionController.AddHighlightedTile(this);
-
-        if (IsSelected) return;
-
+        
         HexTile.SetHighlightMaterial();
     }
 
@@ -117,9 +116,13 @@ public class HexTileController : IHexTileController
 
         GridSelectionController.RemoveHighlightedTile(this);
 
-        if (IsSelected) return;
-
-        HexTile.SetDefaultMaterial();
+        if (IsSelected)
+        {
+            HexTile.SetClickedMaterial();
+        } else
+        {
+            HexTile.SetDefaultMaterial();
+        }
     }
 
     public void ClearOccupant()

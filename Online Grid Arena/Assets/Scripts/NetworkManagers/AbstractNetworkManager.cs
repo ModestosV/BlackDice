@@ -1,26 +1,39 @@
-﻿using System.Collections;
+﻿using System.Net.Http;
 using System.Text;
-using UnityEngine.Networking;
+using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Net;
+using System;
+using UnityEngine;
 
-public abstract class AbstractNetworkManager : IHttpRequests
+public abstract class AbstractNetworkManager : INetworkManager
 {
-    public IOnlineMenuPanel Panel { get; set; }
+    private readonly string endpoint;
+    private readonly HttpClient client;
 
-    protected readonly string mainURL;
-
-    protected AbstractNetworkManager(string extensionURL)
+    protected AbstractNetworkManager(string extensionURL) : this(extensionURL, HttpClientService.Instance)
     {
-        mainURL = URLs.BASE_URL + "/" + extensionURL;
     }
 
-    public IEnumerator Post(string url, string body)
+    protected AbstractNetworkManager(string extensionURL, HttpClient client)
     {
-        var request = new UnityWebRequest(url, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(body);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        yield return request.SendWebRequest();
-        Panel.UpdateStatusText(request.responseCode.ToString());
+        endpoint = URLs.BASE_URL + extensionURL;
+        this.client = client;
+    }
+
+    public async Task<HttpResponseMessage> PostAsync(string targetRequestUrl, string messageBody)
+    {
+       HttpResponseMessage response = null;
+
+        try
+        {
+            response = await client.PostAsync(endpoint + targetRequestUrl, new StringContent(messageBody, Encoding.UTF8, "application/json"));
+        }
+        catch (HttpRequestException)
+        {
+            response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+        }
+
+        return response;
     }
 }

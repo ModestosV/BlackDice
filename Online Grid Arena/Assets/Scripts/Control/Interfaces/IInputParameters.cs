@@ -15,4 +15,5 @@
     IHexTileController TargetTile { get; set; }
 
     int GetAbilityNumber();
+    bool IsAbilityKeyPressed();
 }

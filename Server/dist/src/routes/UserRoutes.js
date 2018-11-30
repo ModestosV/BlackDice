@@ -25,7 +25,7 @@ class UserRoutes {
     Register() {
         this.router.post("/register", body_parser_1.default.json(), async (req, res, next) => {
             try {
-                global.console.log("register request going through");
+                global.console.log("Registration request going through.");
                 const username = req.body.username;
                 const passHash = req.body.password;
                 const email = req.body.email;
@@ -40,7 +40,7 @@ class UserRoutes {
                         username
                     });
                     await userData.save();
-                    res.status(200);
+                    res.status(201);
                     return res.json(userData);
                 }
                 res.status(400);
@@ -59,7 +59,7 @@ class UserRoutes {
     Login() {
         this.router.post("/login", body_parser_1.default.json(), async (req, res, next) => {
             try {
-                global.console.log("login request going through");
+                global.console.log("Login request going through.");
                 const passHash = req.body.password;
                 const email = req.body.email;
                 const loginQuery = {
@@ -78,7 +78,7 @@ class UserRoutes {
                         const updatedDoc = await userDoc.save();
                         if (updatedDoc) {
                             res.status(200);
-                            return res.json(token);
+                            return res.json(updatedDoc.get("loggedInToken"));
                         }
                         else {
                             res.status(500);
@@ -99,7 +99,7 @@ class UserRoutes {
     Logout() {
         this.router.post("/logout", body_parser_1.default.json(), async (req, res, next) => {
             try {
-                global.console.log("logout request going through");
+                global.console.log("Logout request going through.");
                 const email = req.body.email;
                 const loginQuery = {
                     email
@@ -124,7 +124,7 @@ class UserRoutes {
                     }
                     else {
                         res.status(400);
-                        return res.json("User is not loggedIn");
+                        return res.json("User is not logged in.");
                     }
                 }
             }
