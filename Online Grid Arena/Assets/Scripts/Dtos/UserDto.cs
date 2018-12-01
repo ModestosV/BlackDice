@@ -1,13 +1,12 @@
-﻿
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
 public class UserDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
     [JsonProperty("loggedInToken")]
-    public string LoggedInToken { get; }
+    public string LoggedInToken { get; set; }
     [JsonProperty("password")]
     public string PasswordHash { get; }
     [JsonProperty("username")]
@@ -16,14 +15,14 @@ public class UserDTO
     public UserDTO
     (
         string Email,
-        string PasswordHash,
+        string PasswordHash = "",
         string Username = "",
         string LoggedInToken = ""
     )
     {
         this.Email = Email;
-        this.LoggedInToken = LoggedInToken;
         this.PasswordHash = PasswordHash;
         this.Username = Username;
+        this.LoggedInToken = LoggedInToken;
     }
 }

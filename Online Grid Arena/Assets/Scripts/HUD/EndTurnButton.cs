@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class EndTurnButton : MonoBehaviour
 {
-    private Button Button { get; set; }
     public ITurnController TurnController {protected get; set; }
+
+    private Button Button { get; set; }
 
     void OnValidate()
     {

@@ -5,6 +5,8 @@ public interface ITurnController
     List<ICharacterController> RefreshedCharacters { set; }
     List<ICharacterController> ExhaustedCharacters { set; }
     ICharacterController ActiveCharacter { set; }
+    ITurnPanelController TurnTracker { set; }
+    ISelectionManager SelectionManager { set; }
 
     IEndMatchPanel EndMatchPanel { set; }
 

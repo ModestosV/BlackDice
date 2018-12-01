@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-
-public interface IAbility
+﻿public interface IAbility
 {
     AbilityType Type { get; set; }
-    List<float> Values { get; set; }
+    void Execute(IHexTileController targetTile);
 }

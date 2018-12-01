@@ -16,13 +16,13 @@ public class CharacterControllerTests
     IHUDController hudController;
 
     List<IAbility> abilities;
-    IAbility ability;
-    List<float> abilityValues;
-    const int FIRST_ABILITY_INDEX = 0;
+    IAbility ability1;
+    IAbility ability2;
+    const int SECOND_ABILITY_INDEX = 1;
 
     const int INITIAL_ABILITIES_REMAINING_COUNT = 1;
 
-    const float ABILITY_DAMAGE_MULTIPLIER = 1.0f;
+    const float ABILITY_DAMAGE = 20.0f;
     const float CHARACTER_DAMAGE = 15.0f;
     const float CHARACTER_MAX_HEALTH = 100.0f;
     const float CHARACTER_CURRENT_HEALTH = 100.0f;
@@ -31,9 +31,8 @@ public class CharacterControllerTests
     const float CHARACTER_HURT_LARGE_AMOUNT = 25.0f;
     const float CHARACTER_HURT_SMALL_AMOUNT = 95.0f;
 
-    List<ICharacterStat> characterStats;
+    Dictionary<string, ICharacterStat> characterStats;
     ICharacterStat health;
-    ICharacterStat damage;
     ICharacterStat moves;
 
     List<IHexTileController> pathList;
@@ -41,10 +40,6 @@ public class CharacterControllerTests
     ITurnTile turnTile;
     Texture CHARACTER_ICON;
     Color32 BORDER_COLOR;
-
-    const string STAT_NAME_1 = "Health";
-    const string STAT_NAME_2 = "Damage";
-    List<string> statNames = new List<string>() { STAT_NAME_1, STAT_NAME_2 };
 
     const string PLAYER_NAME = "1";
 
@@ -66,35 +61,35 @@ public class CharacterControllerTests
         health = Substitute.For<ICharacterStat>();
         health.CurrentValue.Returns(CHARACTER_CURRENT_HEALTH);
         health.Value.Returns(CHARACTER_MAX_HEALTH);
-        damage = Substitute.For<ICharacterStat>();
-        damage.Value.Returns(CHARACTER_DAMAGE);
         moves = Substitute.For<ICharacterStat>();
         moves.CurrentValue.Returns(CHARACTER_CURRENT_MOVES);
         moves.Value.Returns(CHARACTER_MAX_MOVES);
-        characterStats = new List<ICharacterStat>() { health, damage, moves };
+        characterStats = new Dictionary<string, ICharacterStat>()
+        {
+            { "health", health },
+            { "moves", moves }
+        };
         
-        ability = Substitute.For<IAbility>();
-        abilityValues = new List<float>() { ABILITY_DAMAGE_MULTIPLIER };
-        ability.Values.Returns(abilityValues);
-        ability.Type.Returns(AbilityType.ATTACK);
+        ability1 = Substitute.For<IAbility>();
+        ability2 = Substitute.For<IAbility>();
 
-        abilities = new List<IAbility>() { ability };
+        abilities = new List<IAbility>() { ability1, ability2 };
 
         pathList = new List<IHexTileController>() { startTileController, endTileController };
 
         endTileController.HexTile.Returns(endTile);
+        endTileController.OccupantCharacter.Returns(targetCharacterController);
 
         turnTile = Substitute.For<ITurnTile>();
         CHARACTER_ICON = Substitute.For<Texture>();
         BORDER_COLOR = new Color32(0, 0, 0, 0);
 
-        sut = new CharacterController
+        sut = new DefaultCharacterController()
         {
             Character = character,
             OccupiedTile = startTileController,
             TurnController = turnController,
             HUDController = hudController,
-            StatNames = statNames,
             CharacterStats = characterStats,
             Abilities = abilities,
             OwnedByPlayer = PLAYER_NAME,
@@ -189,7 +184,7 @@ public class CharacterControllerTests
         sut.ExecuteMove(pathList);
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
-        hudController.Received(1).UpdateSelectedHUD(statNames, characterStats, PLAYER_NAME);
+        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME);
     }
 
     [Test]
@@ -208,17 +203,20 @@ public class CharacterControllerTests
     {
         moves.CurrentValue.Returns(0);
 
-        sut.ExecuteAbility(FIRST_ABILITY_INDEX, targetCharacterController);
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
 
         turnController.Received(1).StartNextTurn();
     }
 
     [Test]
-    public void Execute_attack_ability_damages_character_and_updates_stat_panel()
+    public void Execute_ability_with_abilities_remaining_executes_indicated_ability()
     {
-        sut.ExecuteAbility(FIRST_ABILITY_INDEX, targetCharacterController);
+        moves.CurrentValue.Returns(0);
 
-        targetCharacterController.Received(1).Damage(ABILITY_DAMAGE_MULTIPLIER * CHARACTER_DAMAGE);
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
+
+        ability1.DidNotReceive();
+        ability2.Received(1).Execute(endTileController);
     }
 
     [Test]
@@ -226,10 +224,12 @@ public class CharacterControllerTests
     {
         sut.AbilitiesRemaining = 0;
 
-        sut.ExecuteAbility(FIRST_ABILITY_INDEX, targetCharacterController);
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
 
         targetCharacterController.DidNotReceive();
         turnController.DidNotReceive();
+        ability1.DidNotReceive();
+        ability2.DidNotReceive();
     }
 
     [Test]

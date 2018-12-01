@@ -1,5 +1,5 @@
-<package id="Castle.Core" version="4.2.0" />
-<package id="Newtonsoft.Json" version="11.0.2" />
+<package id="Castle.Core" version="4.2.0" /> -- .NET Standard --
+<package id="Newtonsoft.Json" version="11.0.2" /> -- .NET Standard --
 <package id="NSubstitute" version="3.1.0" />
 <package id="System.IO.Abstractions" version="1.2.0.0" />
 <package id="System.Runtime.CompilerServices.Unsafe" version="4.3.0" />
