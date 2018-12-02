@@ -26,7 +26,7 @@ describe("User Register tests", () => {
 
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/register")
+            conn.post("/api/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(201)
@@ -46,7 +46,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/register")
+            conn.post("/api/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(412)
@@ -64,7 +64,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/register")
+            conn.post("/api/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(400)
@@ -85,7 +85,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/login")
+            conn.post("/api/account/login")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(200)
@@ -104,7 +104,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/login")
+            conn.post("/api/account/login")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(400)
@@ -124,7 +124,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/logout")
+            conn.post("/api/account/logout")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(200)
@@ -142,7 +142,7 @@ describe("User Register tests", () => {
             };
             const conn = request(app.initRouters());
             spyOn(User("User"), "create").and.returnValue(Promise.resolve(json));
-            conn.post("/account/logout")
+            conn.post("/api/account/logout")
                 .send(json)
                 .set("Content-Type", "application/json")
                 .expect(400)
