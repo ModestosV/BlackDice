@@ -11,6 +11,10 @@ export class Application {
    * initRouters
    */
   public initRouters() {
+    
+    const cors = require('cors')
+    this.app.use(cors());
+
     this.app.use(router);
     this.app.use(this.logErrorHandler);
     return this.app;
@@ -19,6 +23,7 @@ export class Application {
   public logErrorHandler(req: Request, res: Response, next: NextFunction) {
     // If an error gets here everything should explode because something stupid happened or forgot to catch an error.
     const err = new Error("404 - Not Found");
+
     err.name = "404";
     res.statusCode = 404;
     global.console.error("Error:");
@@ -27,6 +32,5 @@ export class Application {
     global.console.error(err.stack);
 
     throw err;
-}
-
+  }
 }

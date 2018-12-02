@@ -9,13 +9,15 @@ class App extends Component {
     super()
     this.state = {
       downloads: [],
-      quoteOfTheDay: {}
+      quoteOfTheDay: {},
+      messageFromBackend: ""
     }
   }
 
   componentDidMount() {
     this.getDownloads()
     this.getQuoteOfTheDay()
+    this.greetBackendAPI();
   }
 
   getQuoteOfTheDay() {
@@ -35,6 +37,13 @@ class App extends Component {
     ]})
   }
 
+  greetBackendAPI() {
+    fetch('/api')
+      .then(response => response.json())
+      .then(json => {
+        this.setState({messageFromBackend: json.message})
+      })
+  }
 
   render() {
     return (
@@ -57,7 +66,8 @@ class App extends Component {
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
 
         <div className="Sidebar">
-          Sidebar
+          Sidebar<br/><br/>
+          {this.state.messageFromBackend}
         </div>
 
         <div className="Footer">

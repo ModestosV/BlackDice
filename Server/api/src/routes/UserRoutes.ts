@@ -24,6 +24,16 @@ export class UserRoutes {
         this.user = user;
     }
 
+    public Node() {
+      this.router.get(
+        "/",
+        (req: Request, res: Response, next: NextFunction) => {
+            return res.json({"message": "Hello from the account api server!"})
+        },
+        errorHandler
+      )
+    }
+
     public Register() {
         this.router.post(
             "/register",
@@ -176,6 +186,7 @@ export class UserRoutes {
 
 const userRoutes = new UserRoutes(express.Router(), getModel("User"));
 
+userRoutes.Node();
 userRoutes.Register();
 userRoutes.Login();
 userRoutes.Logout();
