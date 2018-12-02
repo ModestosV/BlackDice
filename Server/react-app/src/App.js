@@ -38,7 +38,7 @@ class App extends Component {
   }
 
   greetBackendAPI() {
-    fetch('/api')
+    fetch('/account')
       .then(response => response.json())
       .then(json => {
         this.setState({messageFromBackend: json.message})

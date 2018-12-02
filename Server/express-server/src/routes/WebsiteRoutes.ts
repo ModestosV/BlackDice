@@ -15,7 +15,7 @@ export class WebsiteRoutes {
         const path = require('path')
         
         // Serve React web app static files to "/"
-        this.router.use(express.static(path.join(__dirname, '../../../../client/build')))
+        this.router.use(express.static(path.join(__dirname, '../../../../react-app/build')))
     }
 }
 
