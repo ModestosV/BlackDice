@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 public class UserNetworkManager : AbstractNetworkManager, IUserNetworkManager
 {
-    public UserNetworkManager() : base("/api/account") { }
+    public UserNetworkManager() : base("/account") { }
 
     public async Task<IHttpResponseMessage> CreateUserAsync(UserDTO userDto)
     {
