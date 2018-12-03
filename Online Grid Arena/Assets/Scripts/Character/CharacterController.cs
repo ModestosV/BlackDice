@@ -20,7 +20,7 @@ public class CharacterController : ICharacterController
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
 
-    public HealthBar HealthBar { get; set; }
+    public IHealthBar HealthBar { get; set; }
 
     public void Select()
     {
