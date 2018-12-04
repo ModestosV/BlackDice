@@ -1,0 +1,18 @@
+#ignore node modules
+*node_modules/
+
+#ignore locks
+*yarn.lock
+*package-lock.json
+
+#ignore .vscode
+*.vscode/*
+
+#ignore .env
+.env
+
+# OS X DS_Store
+.DS_Store
+
+*dist/
+
