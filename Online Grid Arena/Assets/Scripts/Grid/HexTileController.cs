@@ -216,12 +216,19 @@ public sealed class HexTileController : IHexTileController
 
             List<IHexTileController> neighbors = currentTile.GetNeighbors();
             neighbors.RemoveAll(tile => !tile.IsEnabled);
+            neighbors.RemoveAll(tile => tile.IsObstructed());
 
             foreach (IHexTileController neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Coordinates)) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
                 if (!neighbor.IsEnabled) // Ignore disabled nodes.
+                {
+                    closed.Add(neighbor.Coordinates);
+                    continue;
+                }
+
+                if (neighbor.IsObstructed()) // Ignore obstructed nodes.
                 {
                     closed.Add(neighbor.Coordinates);
                     continue;
