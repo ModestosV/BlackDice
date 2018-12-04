@@ -13,7 +13,6 @@ public sealed class HexTileController : IHexTileController
     public IGridSelectionController GridSelectionController { private get; set; }
     public IGridController GridController { private get; set; }
     public IHexTile HexTile { get; set; }
-    public IObstruction Obstruction { get; set; }
     public ICharacterController OccupantCharacter { get; set; }
 
     public int X { get { return Coordinates.Item1; } }
@@ -139,7 +138,7 @@ public sealed class HexTileController : IHexTileController
 
     public bool IsObstructed()
     {
-        return Obstruction != null;
+        return HexTile.GetObstruction() != null;
     }
 
     public IHexTileController GetNorthEastNeighbor()

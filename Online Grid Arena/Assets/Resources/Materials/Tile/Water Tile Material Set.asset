@@ -17,3 +17,4 @@ MonoBehaviour:
   PathMaterial: {fileID: 2100000, guid: 731960bee06a1174683f3e96b29f5afb, type: 2}
   HoveredErrorMaterial: {fileID: 2100000, guid: 731960bee06a1174683f3e96b29f5afb,
     type: 2}
+  Obstruction: {fileID: 2100000, guid: 731960bee06a1174683f3e96b29f5afb, type: 2}
