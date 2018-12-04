@@ -29,6 +29,8 @@ public interface IHexTileController
     void ClearOccupant();
     bool IsOccupied();
 
+    bool IsObstructed();
+
     IHexTileController GetNorthEastNeighbor();
     IHexTileController GetEastNeighbor();
     IHexTileController GetSouthEastNeighbor();
