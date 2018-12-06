@@ -6,21 +6,26 @@ public sealed class HexTile : MonoBehaviour, IHexTile
     [SerializeField] private HexTileMaterialSet materials;
 =======
     public HexTileMaterialSet materials;
+<<<<<<< HEAD
     private Material Obstruction;
 >>>>>>> #15 Add in Hex Tile Material Set a Obstruction Material
+=======
+    private GameObject Obstruction;
+>>>>>>> #15 Make path NOT go through obstructed and occupied tiles
 
     private HexTileController hexTileController;
 
     private void Awake()
     {
+        Obstruction = materials.Obstruction;
+
         hexTileController = new HexTileController
         {
             HexTile = this,
-            IsEnabled = GetComponent<Renderer>().enabled
+            IsEnabled = GetComponent<Renderer>().enabled,
+            IsObstructed = GetObstruction() != null
         };
-        Obstruction = null;
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-
 
     }
 
@@ -65,12 +70,7 @@ public sealed class HexTile : MonoBehaviour, IHexTile
         GetComponent<Renderer>().material = materials.PathMaterial;
     }
 
-    public void SetObstruction()
-    {
-        GetComponent<Renderer>().material = materials.Obstruction;
-    }
-
-    public Material GetObstruction()
+    public GameObject GetObstruction()
     {
         return Obstruction;
     }

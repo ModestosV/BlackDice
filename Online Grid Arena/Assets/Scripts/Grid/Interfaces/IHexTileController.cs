@@ -11,6 +11,7 @@ public interface IHexTileController
     int Z { get; }
 
     bool IsEnabled { get; set; }
+    bool IsObstructed { get; set; }
     bool IsSelected { set; }
     
     IGridSelectionController GridSelectionController { set; }
@@ -28,8 +29,6 @@ public interface IHexTileController
 
     void ClearOccupant();
     bool IsOccupied();
-
-    bool IsObstructed();
 
     IHexTileController GetNorthEastNeighbor();
     IHexTileController GetEastNeighbor();

@@ -8,5 +8,5 @@ public class HexTileMaterialSet : ScriptableObject
     public Material HoveredMaterial;
     public Material PathMaterial;
     public Material HoveredErrorMaterial;
-    public Material Obstruction;
+    public GameObject Obstruction;
 }

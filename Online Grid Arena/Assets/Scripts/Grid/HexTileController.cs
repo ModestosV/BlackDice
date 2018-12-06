@@ -8,7 +8,12 @@ public sealed class HexTileController : IHexTileController
     public Tuple<int, int, int> Coordinates { get; set; }
 
     public bool IsEnabled { get; set; }
+<<<<<<< HEAD
     public bool IsSelected { private get; set; }
+=======
+    public bool IsObstructed { get; set; }
+    public bool IsSelected { protected get; set; }
+>>>>>>> #15 Make path NOT go through obstructed and occupied tiles
 
     public IGridSelectionController GridSelectionController { private get; set; }
     public IGridController GridController { private get; set; }
@@ -136,11 +141,6 @@ public sealed class HexTileController : IHexTileController
         return OccupantCharacter != null;
     }
 
-    public bool IsObstructed()
-    {
-        return HexTile.GetObstruction() != null;
-    }
-
     public IHexTileController GetNorthEastNeighbor()
     {
         return GridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1));
@@ -216,7 +216,8 @@ public sealed class HexTileController : IHexTileController
 
             List<IHexTileController> neighbors = currentTile.GetNeighbors();
             neighbors.RemoveAll(tile => !tile.IsEnabled);
-            neighbors.RemoveAll(tile => tile.IsObstructed());
+            neighbors.RemoveAll(tile => tile.IsObstructed);
+            neighbors.RemoveAll(tile => tile.IsOccupied());
 
             foreach (IHexTileController neighbor in neighbors)
             {
@@ -228,7 +229,13 @@ public sealed class HexTileController : IHexTileController
                     continue;
                 }
 
-                if (neighbor.IsObstructed()) // Ignore obstructed nodes.
+                if (neighbor.IsObstructed) // Ignore obstructed nodes.
+                {
+                    closed.Add(neighbor.Coordinates);
+                    continue;
+                }
+
+                if (neighbor.IsOccupied()) // Ignore obstructed nodes.
                 {
                     closed.Add(neighbor.Coordinates);
                     continue;
