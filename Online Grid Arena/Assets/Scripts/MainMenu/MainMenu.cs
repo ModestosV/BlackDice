@@ -2,11 +2,14 @@
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : HideableUI
 {
-    public TextMeshProUGUI webText;
+    void Start()
+    {
+        Show();
+    }
 
-	public void PlayGame()
+    public void PlayGame()
 	{
 		SceneManager.LoadScene(1);
 	}

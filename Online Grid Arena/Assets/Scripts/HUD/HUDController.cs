@@ -10,20 +10,22 @@ public class HUDController : IHUDController
     public IStatPanelController TargetStatPanel { protected get; set; }
     public IPlayerPanel TargetPlayerPanel { protected get; set; }
 
+    public IAbilityPanel AbilityPanel { protected get; set; }
+
     public void ClearSelectedHUD()
     {
         SelectedStatPanel.DisableStatDisplays();
         SelectedPlayerPanel.ClearPlayerName();
+        AbilityPanel.Hide();
     }
 
-    public void UpdateSelectedHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName)
+    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName)
     {
         SelectedStatPanel.EnableStatDisplays();
-        SelectedStatPanel.StatNames = statNames;
         SelectedStatPanel.CharacterStats = characterStats;
-        SelectedStatPanel.UpdateStatNames();
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
+        AbilityPanel.Show();
     }
 
     public void ClearTargetHUD()
@@ -32,12 +34,10 @@ public class HUDController : IHUDController
         TargetPlayerPanel.ClearPlayerName();
     }
 
-    public void UpdateTargetHUD(List<string> statNames, List<ICharacterStat> characterStats, string playerName)
+    public void UpdateTargetHUD(Dictionary<string, ICharacterStat> characterStats, string playerName)
     {
         TargetStatPanel.EnableStatDisplays();
-        TargetStatPanel.StatNames = statNames;
         TargetStatPanel.CharacterStats = characterStats;
-        TargetStatPanel.UpdateStatNames();
         TargetStatPanel.UpdateStatValues();
         TargetPlayerPanel.SetPlayerName($"Player {playerName}");
     }

@@ -9,6 +9,7 @@ public class TurnController : ITurnController
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
     public ICharacterController ActiveCharacter { protected get; set; }
     public ITurnPanelController TurnTracker { protected get; set; }
+    public ISelectionManager SelectionManager { protected get; set; }
 
     public IEndMatchPanel EndMatchPanel { protected get; set; }
 
@@ -37,6 +38,7 @@ public class TurnController : ITurnController
         ExhaustedCharacters.Remove(character);
         if (ActiveCharacter == character)
             ActiveCharacter = null;
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void StartNextTurn()
@@ -62,6 +64,8 @@ public class TurnController : ITurnController
         ActiveCharacter.Refresh();
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+
+        SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 
     public void SelectActiveCharacter()
@@ -95,8 +99,6 @@ public class TurnController : ITurnController
             EndMatchPanel.Show();
             EndMatchPanel.SetWinnerText("Draw!");
         }
-
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
     }
 
     public void Surrender()
@@ -110,7 +112,6 @@ public class TurnController : ITurnController
                 character.Die();
             }
         }
-        CheckWinCondition();
     }
 
     public List<ICharacterController> GetLivingCharacters()

@@ -1,22 +1,25 @@
 ﻿using Newtonsoft.Json;
-using System.Collections;
-using UnityEngine;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-public class UserNetworkManager : AbstractNetworkManager
+public class UserNetworkManager : AbstractNetworkManager, IUserNetworkManager
 {
-    public UserNetworkManager() : base(URLs.USER_URL) { }
+    public UserNetworkManager() : base("/account") { }
 
-    public IEnumerator CreateUser(UserDTO userDto)
+    public async Task<IHttpResponseMessage> CreateUserAsync(UserDTO userDto)
     {
-        yield return Post(mainURL + "/register", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/register", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
 
-    public IEnumerator Login(UserDTO userDto)
+    public async Task<IHttpResponseMessage> LoginAsync(UserDTO userDto)
     {
-        yield return Post(mainURL + "/login", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/login", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
-    public IEnumerator Logout(UserDTO userDto)
+    public async Task<IHttpResponseMessage> LogoutAsync(UserDTO userDto)
     {
-        yield return Post(mainURL + "/logout", JsonConvert.SerializeObject(userDto));
+        HttpResponseMessage response = await PostAsync("/logout", JsonConvert.SerializeObject(userDto));
+        return new HttpResponseMessageAdapter(response);
     }
 }

@@ -3,11 +3,10 @@
 public interface IStatPanelController
 {
     List<IStatDisplay> StatDisplays { set; }
-    List<ICharacterStat> CharacterStats { set; }
-    List<string> StatNames { set; }
+    Dictionary<string, ICharacterStat> CharacterStats { set; }
 
     void UpdateStatValues();
-    void UpdateStatNames();
+
     void DisableStatDisplays();
     void EnableStatDisplays();
 }

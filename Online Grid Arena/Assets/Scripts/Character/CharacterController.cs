@@ -2,18 +2,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterController : ICharacterController
+public abstract class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { protected get; set; }
     public ITurnController TurnController { protected get; set; }
     public IHUDController HUDController { protected get; set; }
 
-    public List<string> StatNames { protected get; set; }
-    public List<ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
 
-    private int MovesRemaining { get { return (int)CharacterStats[2].CurrentValue; } }
+    private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
 
     public string OwnedByPlayer { get; set; }
@@ -34,7 +33,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(StatNames, CharacterStats, OwnedByPlayer);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
     }
 
     public void ClearSelectedHUD()
@@ -44,7 +43,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateTargetHUD()
     {
-        HUDController.UpdateTargetHUD(StatNames, CharacterStats, OwnedByPlayer);
+        HUDController.UpdateTargetHUD(CharacterStats, OwnedByPlayer);
     }
 
     public void ClearTargetHUD()
@@ -54,7 +53,7 @@ public class CharacterController : ICharacterController
 
     public void RefreshStats()
     {
-        foreach (ICharacterStat stat in CharacterStats)
+        foreach (ICharacterStat stat in CharacterStats.Values)
         {
             stat.Refresh();
         }
@@ -75,28 +74,18 @@ public class CharacterController : ICharacterController
 
         targetTile.OccupantCharacter = this;
         targetTile.Select();
-        CharacterStats[2].CurrentValue -= distance;
+        CharacterStats["moves"].CurrentValue -= distance;
         UpdateSelectedHUD();
         CheckExhausted();
     }
 
-    public void ExecuteAbility(int abilityNumber, ICharacterController targetCharacter)
+    public void ExecuteAbility(int abilityNumber, IHexTileController targetTile)
     {
         if (!(AbilitiesRemaining > 0)) return;
 
         if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
-        IAbility ability = Abilities[abilityNumber];
-
-        if (ability.Type == AbilityType.ATTACK)
-        {
-            targetCharacter.Damage(ability.Values[0] * CharacterStats[1].Value);
-        }
-
-        if (ability.Type == AbilityType.HEAL)
-        {
-            targetCharacter.Heal(ability.Values[0]);
-        }
+        Abilities[abilityNumber].Execute(targetTile);
 
         AbilitiesRemaining--;
         CheckExhausted();
@@ -114,7 +103,7 @@ public class CharacterController : ICharacterController
 
     public void Refresh()
     {
-        CharacterStats[2].Refresh();
+        CharacterStats["moves"].Refresh();
         AbilitiesRemaining = 1;
     }
 
@@ -126,19 +115,21 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
-        CharacterStats[0].CurrentValue -= damage;
+        CharacterStats["health"].CurrentValue -= damage;
         UpdateHealthBar();
-        if (CharacterStats[0].CurrentValue <= 0)
+        if (CharacterStats["health"].CurrentValue <= 0)
+        CharacterStats["health"].CurrentValue -= damage;
+        if (CharacterStats["health"].CurrentValue <= 0)
         {
             Die();
-            TurnController.CheckWinCondition();
         }
     }
 
     public void Heal(float heal)
     {
-        CharacterStats[0].CurrentValue += heal;
+        CharacterStats["health"].CurrentValue += heal;
         UpdateHealthBar();
+        CharacterStats["health"].CurrentValue += heal;
     }
 
     public void Die()
@@ -146,6 +137,7 @@ public class CharacterController : ICharacterController
         OccupiedTile.ClearOccupant();
         TurnController.RemoveCharacter(this);
         Character.Destroy();
+        TurnController.CheckWinCondition();
     }
 
     public bool CanMove(int distance = 1)
@@ -170,19 +162,19 @@ public class CharacterController : ICharacterController
         turnTileToUpdate.UpdateTile();
     }
 
-    public AbilityType GetAbilityType(int abilityNumber)
-    {
-        return Abilities[abilityNumber].Type;
-    }
-
     public bool IsAlly(ICharacterController otherCharacter)
     {
         return OwnedByPlayer == otherCharacter.OwnedByPlayer;
     }
 
+    public AbilityType GetAbilityType(int abilityIndex)
+    {
+        return Abilities[abilityIndex].Type;
+    }
+
     public void UpdateHealthBar()
     {
-        HealthBar.SetHealthBarRatio((float)CharacterStats[0].CurrentValue / CharacterStats[0].Value);
-        HealthBar.SetHealthText(CharacterStats[0].CurrentValue.ToString(), CharacterStats[0].CurrentValue.ToString());
+        HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
+        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].CurrentValue.ToString());
     }
 }

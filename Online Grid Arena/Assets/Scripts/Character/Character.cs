@@ -1,13 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
 
 public class Character : MonoBehaviour, ICharacter
 {
-    public List<CharacterStat> stats;
-    public List<Ability> abilities;
-    public CharacterStatNameSet characterStatNameSet;
     public string playerName;
 
     private CharacterController characterController;
@@ -19,11 +13,8 @@ public class Character : MonoBehaviour, ICharacter
 
     void Awake()
     {
-        characterController = new CharacterController
+        characterController = new DefaultCharacterController
         {
-            StatNames = characterStatNameSet.StatNames,
-            CharacterStats = stats.ToList<ICharacterStat>(),
-            Abilities = abilities.ToList<IAbility>(),
             Character = this,
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
