@@ -2629,6 +2629,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 673354046}
   m_CullTransparentMesh: 0
+--- !u!114 &683552594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114041554253137034, guid: e26a4946f2189ff45a0c3b258b617f06,
+    type: 2}
+  m_PrefabInternal: {fileID: 1810359946}
+  m_Script: {fileID: 11500000, guid: 783ccf9593a55b24580c3047a9914781, type: 3}
 --- !u!1 &709207911
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,7 +3571,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294940160
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1923599812}
 --- !u!1 &1156470931
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,7 +4002,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294940160
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1853531918}
 --- !u!4 &1412704694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000014051384630, guid: 93ef639d2b0db154cb6d9e2146aa9d75,
@@ -4612,6 +4618,12 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e26a4946f2189ff45a0c3b258b617f06, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1853531918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114041554253137034, guid: e26a4946f2189ff45a0c3b258b617f06,
+    type: 2}
+  m_PrefabInternal: {fileID: 1424295570}
+  m_Script: {fileID: 11500000, guid: 783ccf9593a55b24580c3047a9914781, type: 3}
 --- !u!1 &1886894662 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000014202707908, guid: 93ef639d2b0db154cb6d9e2146aa9d75,
@@ -4638,7 +4650,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278228735
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 683552594}
 --- !u!1 &1893546680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4803,6 +4815,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1923599812 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114041554253137034, guid: e26a4946f2189ff45a0c3b258b617f06,
+    type: 2}
+  m_PrefabInternal: {fileID: 1020639208}
+  m_Script: {fileID: 11500000, guid: 783ccf9593a55b24580c3047a9914781, type: 3}
 --- !u!224 &1989707882 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224056433944623438, guid: b2eb4b2eafa7ab24ea00473c82531b09,
