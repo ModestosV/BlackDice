@@ -1,20 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour, IHealthBar
+public class HealthBarController : IHealthBar
 {
     private Text HealthText { get; set; }
     private Image HealthBarImage { get; set; }
     private Image HealthBarBackground { get; set; }
     private CanvasGroup Alpha { get; set; }
-
-    void Awake()
-    {
-        HealthText = GetComponentInChildren<Text>();
-        HealthBarImage = GetComponentsInChildren<Image>()[1];
-        HealthBarBackground = GetComponentsInChildren<Image>()[0];
-        Alpha = GetComponentInChildren<CanvasGroup>();
-    }
 
     public void SetHealthText(string currentHealth, string maxHealth)
     {
