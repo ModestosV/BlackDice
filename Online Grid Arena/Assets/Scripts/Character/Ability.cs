@@ -12,4 +12,8 @@ public abstract class Ability : IAbility
     public Dictionary<string, float> Values { get; set; }
 
     public abstract void Execute(IHexTileController targetTile);
+    public bool IsInRange(int range)
+    {
+        return Values["range"] >= range;
+    }
 }

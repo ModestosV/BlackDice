@@ -2,6 +2,7 @@
 
 public enum Hero
 {
+    DEFAULT,
     ROCKET_CAT,
     PENGWIN
 }
@@ -9,7 +10,8 @@ public enum Hero
 public class Character : MonoBehaviour, ICharacter
 {
     public string playerName;
-    public Hero hero;
+    [SerializeField]
+    private Hero hero;
 
     private CharacterController characterController;
     

@@ -3586,7 +3586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 1
+  playerName: 2
   hero: 0
   characterIcon: {fileID: 2800000, guid: a584b4335e575314cbf4facedab3b138, type: 3}
   borderColor:
@@ -3979,6 +3979,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114687249343748606, guid: aa0251096976a424ea491e7cf7343e24,
+        type: 2}
+      propertyPath: hero
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa0251096976a424ea491e7cf7343e24, type: 2}
   m_IsPrefabAsset: 0
@@ -4065,7 +4070,7 @@ MonoBehaviour:
   characterIcon: {fileID: 2800000, guid: 218c2514a0c05354d82acec421517df2, type: 3}
   borderColor:
     serializedVersion: 2
-    rgba: 4278228735
+    rgba: 4294940160
 --- !u!1 &1893546680
 GameObject:
   m_ObjectHideFlags: 0

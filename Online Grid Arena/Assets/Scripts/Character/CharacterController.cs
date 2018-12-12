@@ -159,8 +159,19 @@ public abstract class CharacterController : ICharacterController
         return OwnedByPlayer == otherCharacter.OwnedByPlayer;
     }
 
+    public bool HasAbility(int abilityIndex)
+    {
+        if (abilityIndex >= Abilities.Count) return false;
+        return true;
+    }
+
     public AbilityType GetAbilityType(int abilityIndex)
     {
         return Abilities[abilityIndex].Type;
+    }
+
+    public bool IsAbilityInRange(int abilityIndex, int range)
+    {
+        return Abilities[abilityIndex].IsInRange(range);
     }
 }

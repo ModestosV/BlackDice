@@ -17,7 +17,9 @@ public class SelectionManager : ISelectionManager
 
     public void Update(IInputParameters inputParameters)
     {
-        if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility())
+        int abilityIndex = inputParameters.GetAbilityNumber();
+
+        if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility(abilityIndex))
         {
             SelectionMode = SelectionMode.ABILITY;
         }
@@ -35,7 +37,6 @@ public class SelectionManager : ISelectionManager
                 activeSelectionController = SelectionControllers["movement"];
                 break;
             case SelectionMode.ABILITY:
-                int abilityIndex = inputParameters.GetAbilityNumber();
                 if (abilityIndex < 0) break;
                 activeSelectionController = GetAbilitySelectionController(abilityIndex);
                 break;
@@ -71,14 +72,16 @@ public class SelectionManager : ISelectionManager
         return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanMove();
     }
 
-    private bool SelectedCharacterCanUseAbility()
+    private bool SelectedCharacterCanUseAbility(int abilityIndex)
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility();
+        return selectedCharacter.IsActiveCharacter() 
+            && selectedCharacter.HasAbility(abilityIndex) 
+            && selectedCharacter.CanUseAbility();
     }
 }
 

@@ -1,4 +1,6 @@
-﻿public class TargetAllyAbilitySelectionController : AbilitySelectionController
+﻿using System.Collections.Generic;
+
+public class TargetAllyAbilitySelectionController : AbilitySelectionController
 {
     protected override void DoFirst()
     {
@@ -56,7 +58,11 @@
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        if (targetCharacterIsAlly)
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+
+        if (targetCharacterIsAlly && inRange)
         {
             selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
             SelectionManager.SelectionMode = SelectionMode.FREE;
@@ -80,7 +86,11 @@
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        if (targetCharacterIsAlly)
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+
+        if (targetCharacterIsAlly && inRange)
         {
             inputParameters.TargetTile.Highlight();
         }

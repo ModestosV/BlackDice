@@ -5,24 +5,10 @@ public sealed class DefaultCharacterController : CharacterController
     public DefaultCharacterController()
     {
         // Init abilities
-        
-        IAbility basicAttack = new BasicAttackAbility()
-        {
-            Type = AbilityType.TARGET_ENEMY,
-            Values = new Dictionary<string, float>()
-            {
-                {"power", 20},
-            }
-        };
 
-        IAbility basicHeal = new BasicHealAbility()
-        {
-            Type = AbilityType.TARGET_ALLY,
-            Values = new Dictionary<string, float>()
-            {
-                {"power", 15},
-            }
-        };
+        IAbility basicAttack = new BasicAttackAbility(20.0f, 5.0f);
+
+        IAbility basicHeal = new BasicHealAbility(15.0f, 5.0f);
 
         Abilities = new List<IAbility>() { basicAttack, basicHeal };
 

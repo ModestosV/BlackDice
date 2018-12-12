@@ -6,17 +6,9 @@ public sealed class RocketCatCharacterController : CharacterController
     {
         // Init abilities
 
-        IAbility scratch = new BasicAttackAbility()
-        {
-            Type = AbilityType.TARGET_ENEMY,
-            Values = new Dictionary<string, float>()
-            {
-                {"power", 25},
-                {"range", 1}
-            }
-        };
+        IAbility scratch = new BasicAttackAbility(25.0f, 1.0f);
 
-        Abilities = new List<IAbility>() { scratch};
+        Abilities = new List<IAbility>() { scratch };
 
         // Init stats
 
