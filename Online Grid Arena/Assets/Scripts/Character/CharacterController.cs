@@ -85,6 +85,8 @@ public abstract class CharacterController : ICharacterController
         Abilities[abilityNumber].Execute(targetTile);
 
         AbilitiesRemaining--;
+
+        UpdateSelectedHUD();
         CheckExhausted();
     }
 
