@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 
+public enum Hero
+{
+    ROCKET_CAT,
+    PENGWIN
+}
+
 public class Character : MonoBehaviour, ICharacter
 {
     public string playerName;
+    public Hero hero;
 
     private CharacterController characterController;
     
@@ -11,13 +18,23 @@ public class Character : MonoBehaviour, ICharacter
 
     void Awake()
     {
-        characterController = new DefaultCharacterController
+        switch (hero)
         {
-            Character = this,
-            OwnedByPlayer = playerName,
-            CharacterIcon = characterIcon,
-            BorderColor = borderColor
-        };
+            case Hero.ROCKET_CAT:
+                characterController = new RocketCatCharacterController();
+                break;
+            case Hero.PENGWIN:
+                // TODO: Pengwin hero
+                break;
+            default:
+                characterController = new DefaultCharacterController();
+                break;
+        }
+
+        characterController.Character = this;
+        characterController.OwnedByPlayer = playerName;
+        characterController.CharacterIcon = characterIcon;
+        characterController.BorderColor = borderColor;
     }
 
     void Start()
@@ -38,7 +55,7 @@ public class Character : MonoBehaviour, ICharacter
     public void MoveToTile(IHexTile targetTile)
     {
         gameObject.transform.parent = targetTile.GameObject.transform;
-        GameObject.transform.localPosition = new Vector3(0, 0, 0);
+        GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
     }
 
     #endregion
