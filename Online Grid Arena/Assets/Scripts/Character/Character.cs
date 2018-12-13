@@ -9,7 +9,8 @@ public class Character : MonoBehaviour, ICharacter
     public Texture characterIcon;
     public Color32 borderColor;
 
-    public HealthBar healthBar;
+    [SerializeField]
+    private HealthBar healthBar;
 
     void Awake()
     {
@@ -20,7 +21,7 @@ public class Character : MonoBehaviour, ICharacter
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
             HealthBar = healthBar
-        };
+    };
     }
 
     void Start()

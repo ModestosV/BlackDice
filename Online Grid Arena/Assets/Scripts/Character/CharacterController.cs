@@ -19,7 +19,7 @@ public abstract class CharacterController : ICharacterController
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
 
-    public IHealthBar HealthBar { get; set; }
+    public IHealthBar HealthBar { protected get; set; }
 
     public void Select()
     {

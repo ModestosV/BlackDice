@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour, IHealthBar
+public class HealthBar : HideableUI, IHealthBar
 {
     private Text HealthText { get; set; }
     private Image HealthBarImage { get; set; }
@@ -24,17 +24,5 @@ public class HealthBar : MonoBehaviour, IHealthBar
     public void SetHealthBarRatio(float healthRatio)
     {
         HealthBarImage.fillAmount = healthRatio;
-    }
-
-    public void Show()
-    {
-        Alpha.alpha = 1f;
-        Alpha.blocksRaycasts = true;
-    }
-
-    public void Hide()
-    {
-        Alpha.alpha = 0f;
-        Alpha.blocksRaycasts = false;
     }
 }
