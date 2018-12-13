@@ -118,8 +118,6 @@ public abstract class CharacterController : ICharacterController
         CharacterStats["health"].CurrentValue -= damage;
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
-        CharacterStats["health"].CurrentValue -= damage;
-        if (CharacterStats["health"].CurrentValue <= 0)
         {
             Die();
         }
@@ -129,7 +127,6 @@ public abstract class CharacterController : ICharacterController
     {
         CharacterStats["health"].CurrentValue += heal;
         UpdateHealthBar();
-        CharacterStats["health"].CurrentValue += heal;
     }
 
     public void Die()
