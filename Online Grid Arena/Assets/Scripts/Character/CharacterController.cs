@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class CharacterController : ICharacterController
 {
@@ -17,6 +18,8 @@ public abstract class CharacterController : ICharacterController
     public string OwnedByPlayer { get; set; }
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
+
+    public IHealthBar HealthBar { protected get; set; }
 
     public void Select()
     {
@@ -113,6 +116,7 @@ public abstract class CharacterController : ICharacterController
     public void Damage(float damage)
     {
         CharacterStats["health"].CurrentValue -= damage;
+        UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
         {
             Die();
@@ -122,6 +126,7 @@ public abstract class CharacterController : ICharacterController
     public void Heal(float heal)
     {
         CharacterStats["health"].CurrentValue += heal;
+        UpdateHealthBar();
     }
 
     public void Die()
@@ -162,5 +167,11 @@ public abstract class CharacterController : ICharacterController
     public AbilityType GetAbilityType(int abilityIndex)
     {
         return Abilities[abilityIndex].Type;
+    }
+
+    public void UpdateHealthBar()
+    {
+        HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
+        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
     }
 }
