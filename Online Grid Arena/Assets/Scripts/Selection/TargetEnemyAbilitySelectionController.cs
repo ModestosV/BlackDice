@@ -14,41 +14,6 @@ public class TargetEnemyAbilitySelectionController : AbilitySelectionController
         SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 
-    protected override void DoTabPressed()
-    {
-
-    }
-
-    protected override void DoClickOffGrid()
-    {
-
-    }
-
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
-    protected override void DoClickDisabledTile()
-    {
-
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
-    }
-
-    protected override void DoClickUnoccupiedOtherTile()
-    {
-
-    }
-
-    protected override void DoClickSelectedTile()
-    {
-
-    }
-
     protected override void DoClickOccupiedOtherTile()
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();

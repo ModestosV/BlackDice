@@ -6,20 +6,6 @@
 
     protected IInputParameters inputParameters;
 
-    protected abstract void DoFirst();
-    protected abstract void DoEscapePressed();
-    protected abstract void DoTabPressed();
-    protected abstract void DoClickOffGrid();
-    protected abstract void DoHoverOffGrid();
-    protected abstract void DoClickDisabledTile();
-    protected abstract void DoHoverDisabledTile();
-    protected abstract void DoClickUnoccupiedOtherTile();
-    protected abstract void DoClickSelectedTile();
-    protected abstract void DoClickOccupiedOtherTile();
-    protected abstract void DoHoverUnoccupiedTile();
-    protected abstract void DoHoverSelectedTile();
-    protected abstract void DoHoverOccupiedTile();
-
     public void Update(IInputParameters inputParameters)
     {
         this.inputParameters = inputParameters;
@@ -103,5 +89,70 @@
         }
         
         DoHoverOccupiedTile();
+    }
+
+    protected virtual void DoFirst()
+    {
+
+    }
+
+    protected virtual void DoEscapePressed()
+    {
+
+    }
+
+    protected virtual void DoTabPressed()
+    {
+
+    }
+
+    protected virtual void DoClickOffGrid()
+    {
+
+    }
+
+    protected virtual void DoHoverOffGrid()
+    {
+
+    }
+
+    protected virtual void DoClickDisabledTile()
+    {
+
+    }
+
+    protected virtual void DoHoverDisabledTile()
+    {
+
+    }
+
+    protected virtual void DoClickUnoccupiedOtherTile()
+    {
+
+    }
+
+    protected virtual void DoClickSelectedTile()
+    {
+
+    }
+
+    protected virtual void DoClickOccupiedOtherTile()
+    {
+
+    }
+
+    protected virtual void DoHoverUnoccupiedTile()
+    {
+
+    }
+
+    protected virtual void DoHoverSelectedTile()
+    {
+
+    }
+
+    protected virtual void DoHoverOccupiedTile()
+    {
+
     }
 }

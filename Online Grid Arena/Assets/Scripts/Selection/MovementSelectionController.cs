@@ -13,31 +13,6 @@ public sealed class MovementSelectionController : SelectionController
         SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 
-    protected override void DoTabPressed()
-    {
-
-    }
-
-    protected override void DoClickOffGrid()
-    {
-
-    }
-
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
-    protected override void DoClickDisabledTile()
-    {
-
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
-    }
-
     protected override void DoClickUnoccupiedOtherTile()
     {
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
@@ -55,11 +30,6 @@ public sealed class MovementSelectionController : SelectionController
         {
             SelectionManager.SelectionMode = SelectionMode.FREE;
         }
-    }
-
-    protected override void DoClickSelectedTile()
-    {
-
     }
 
     protected override void DoClickOccupiedOtherTile()
@@ -99,11 +69,6 @@ public sealed class MovementSelectionController : SelectionController
             path[i].Highlight();
         }
         return;
-    }
-
-    protected override void DoHoverSelectedTile()
-    {
-
     }
 
     protected override void DoHoverOccupiedTile()

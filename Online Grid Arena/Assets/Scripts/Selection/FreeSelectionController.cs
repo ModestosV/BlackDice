@@ -22,19 +22,9 @@
         GridSelectionController.DeselectAll();
     }
 
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
     protected override void DoClickDisabledTile()
     {
         GridSelectionController.DeselectAll();
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
     }
 
     protected override void DoClickUnoccupiedOtherTile()
@@ -57,11 +47,6 @@
     protected override void DoHoverUnoccupiedTile()
     {
         inputParameters.TargetTile.Hover();
-    }
-
-    protected override void DoHoverSelectedTile()
-    {
-
     }
 
     protected override void DoHoverOccupiedTile()
