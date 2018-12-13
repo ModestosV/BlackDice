@@ -112,6 +112,8 @@ public class TurnController : ITurnController
                 character.Die();
             }
         }
+
+        SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 
     public List<ICharacterController> GetLivingCharacters()
