@@ -3984,6 +3984,12 @@ Prefab:
       propertyPath: hero
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114687249343748606, guid: aa0251096976a424ea491e7cf7343e24,
+        type: 2}
+      propertyPath: scratchAbilityEffectPrefab
+      value: 
+      objectReference: {fileID: 224939346986348488, guid: a910c4603feaedb4b909137118a9adc4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa0251096976a424ea491e7cf7343e24, type: 2}
   m_IsPrefabAsset: 0

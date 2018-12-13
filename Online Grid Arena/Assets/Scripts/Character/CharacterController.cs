@@ -176,4 +176,10 @@ public abstract class CharacterController : ICharacterController
     {
         return Abilities[abilityIndex].IsInRange(range);
     }
+
+    public void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        Character.InstantiateAbilityAnimation(abilityAnimationPrefab);
+    }
+
 }

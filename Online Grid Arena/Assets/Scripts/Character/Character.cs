@@ -9,14 +9,13 @@ public enum Hero
 
 public class Character : MonoBehaviour, ICharacter
 {
-    public string playerName;
-    [SerializeField]
-    private Hero hero;
+    [SerializeField] private string playerName;
+    [SerializeField] private Hero hero;
 
     private CharacterController characterController;
-    
-    public Texture characterIcon;
-    public Color32 borderColor;
+
+    [SerializeField] private Texture characterIcon;
+    [SerializeField] private Color32 borderColor;
 
     void Awake()
     {
@@ -58,6 +57,11 @@ public class Character : MonoBehaviour, ICharacter
     {
         gameObject.transform.parent = targetTile.GameObject.transform;
         GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
+    }
+
+    public void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        Instantiate(abilityAnimationPrefab, gameObject.transform);
     }
 
     #endregion
