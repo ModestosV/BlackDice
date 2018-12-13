@@ -3,20 +3,22 @@ using UnityEngine;
 
 public sealed class BasicAttackAbility : Ability
 {
-    public BasicAttackAbility(float power, float range) : this(power, range, null, null)
+    public BasicAttackAbility(float power, int range) : this(power, range, 0, null, null)
     {
 
     }
 
-    public BasicAttackAbility(float power, float range, GameObject abilityAnimationPrefab, AudioClip abilitySound)
+    public BasicAttackAbility(float power, int range, int cooldown, GameObject abilityAnimationPrefab, AudioClip abilitySound)
     {
         Type = AbilityType.TARGET_ENEMY;
         Values = new Dictionary<string, float>() {
-            {"power", power },
-            {"range", range }
+            { "power", power },
+            { "range", range },
+            { "cooldown", cooldown }
         };
         AbilityAnimationPrefab = abilityAnimationPrefab;
         AbilitySound = abilitySound;
+        Cooldown = cooldown;
     }
 
     public override void Execute(IHexTileController targetTile)
@@ -27,9 +29,7 @@ public sealed class BasicAttackAbility : Ability
         if (AbilityAnimationPrefab != null)
             targetCharacter.InstantiateAbilityAnimation(AbilityAnimationPrefab);
         if (AbilitySound != null)
-        {
             targetCharacter.PlayAbilitySound(AbilitySound);
-        }
-            
+        Cooldown += (int)Values["cooldown"];
     }
 }

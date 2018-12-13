@@ -79,9 +79,7 @@ public class SelectionManager : ISelectionManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.IsActiveCharacter() 
-            && selectedCharacter.HasAbility(abilityIndex) 
-            && selectedCharacter.CanUseAbility();
+        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility(abilityIndex);
     }
 }
 

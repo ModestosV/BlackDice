@@ -104,6 +104,10 @@ public abstract class CharacterController : ICharacterController
     {
         CharacterStats["moves"].Refresh();
         AbilitiesRemaining = 1;
+        foreach (IAbility ability in Abilities)
+        {
+            ability.Refresh();
+        }
     }
 
     public float GetInitiative()
@@ -139,9 +143,9 @@ public abstract class CharacterController : ICharacterController
         return distance <= MovesRemaining;
     }
 
-    public bool CanUseAbility()
+    public bool CanUseAbility(int abilityIndex)
     {
-        return AbilitiesRemaining > 0;
+        return AbilitiesRemaining > 0 && HasAbility(abilityIndex) && !Abilities[abilityIndex].IsOnCooldown();
     }
 
     public bool IsActiveCharacter()

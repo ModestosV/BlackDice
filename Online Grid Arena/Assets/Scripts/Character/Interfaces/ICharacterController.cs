@@ -33,7 +33,7 @@ public interface ICharacterController
     void ClearTargetHUD();
 
     bool CanMove(int distance = 1);
-    bool CanUseAbility();
+    bool CanUseAbility(int abilityIndex);
     bool IsActiveCharacter();
     bool IsAlly(ICharacterController otherCharacter);
 
