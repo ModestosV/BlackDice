@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EndMatchMenu : MonoBehaviour, IEndMatchPanel {
+public class EndMatchMenu : MonoBehaviour, IEndMatchMenu, IEventSubscriber
+{
 
     private Text Text { get; set; }
     private CanvasGroup CanvasGroup { get; set; }
@@ -37,5 +38,16 @@ public class EndMatchMenu : MonoBehaviour, IEndMatchPanel {
     public void SetWinnerText(string winnerText)
     {
         Text.text = winnerText;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(EndMatchEvent))
+        {
+            var endGameEvent = (EndMatchEvent) @event;
+            Show();
+            SetWinnerText(endGameEvent.EndingText);
+        }
     }
 }

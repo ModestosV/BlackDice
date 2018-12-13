@@ -9,8 +9,6 @@ public class TurnController : ITurnController, IEventSubscriber
     public ITurnPanelController TurnTracker { protected get; set; }
     public ISelectionManager SelectionManager { protected get; set; }
 
-    public IEndMatchPanel EndMatchPanel { protected get; set; }
-
     public TurnController()
     {
         RefreshedCharacters = new List<ICharacterController>();
@@ -112,14 +110,12 @@ public class TurnController : ITurnController, IEventSubscriber
 
         if (livingPlayers.Count == 1)
         {
-            EndMatchPanel.Show();
-            EndMatchPanel.SetWinnerText($"Player {livingPlayers[0]} wins!");
+            EventBus.Publish(new EndMatchEvent($"Player {livingPlayers[0]} wins!"));
         }
 
         if (livingPlayers.Count == 0)
         {
-            EndMatchPanel.Show();
-            EndMatchPanel.SetWinnerText("Draw!");
+            EventBus.Publish(new EndMatchEvent($"Draw"));
         }
     }
 

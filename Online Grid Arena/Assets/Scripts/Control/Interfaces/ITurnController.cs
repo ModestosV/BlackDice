@@ -7,8 +7,6 @@ public interface ITurnController
     ICharacterController ActiveCharacter { set; }
     ITurnPanelController TurnTracker { set; }
     ISelectionManager SelectionManager { set; }
-
-    IEndMatchPanel EndMatchPanel { set; }
     
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);
