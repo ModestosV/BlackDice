@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
-using UnityEngine;
 
-public class TurnController : ITurnController
+public class TurnController : ITurnController, IEventSubscriber
 {
     public List<ICharacterController> RefreshedCharacters { protected get; set; }
     public List<ICharacterController> ExhaustedCharacters { protected get; set; }
@@ -32,73 +30,10 @@ public class TurnController : ITurnController
         RefreshedCharacters.Add(character);
     }
 
-    public void RemoveCharacter(ICharacterController character)
-    {
-        RefreshedCharacters.Remove(character);
-        ExhaustedCharacters.Remove(character);
-        if (ActiveCharacter == character)
-            ActiveCharacter = null;
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
-    }
-
-    public void StartNextTurn()
-    {
-        if (ActiveCharacter != null)
-        {
-            ExhaustedCharacters.Add(ActiveCharacter);
-            ActiveCharacter.Deselect();
-        }
-
-        if (!(RefreshedCharacters.Count > 0))
-        {
-            RefreshedCharacters = ExhaustedCharacters;
-            ExhaustedCharacters = new List<ICharacterController>();
-        }
-
-        // Sort characters by ascending initiative
-        RefreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
-
-        ActiveCharacter = RefreshedCharacters.ElementAt(0);
-        RefreshedCharacters.RemoveAt(0);
-
-        ActiveCharacter.Refresh();
-
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
-
-        SelectionManager.SelectionMode = SelectionMode.FREE;
-    }
-
     public void SelectActiveCharacter()
     {
         if (ActiveCharacter != null)
             ActiveCharacter.Select();
-    }
-
-    public void CheckWinCondition()
-    {
-        List<ICharacterController> livingCharacters = GetLivingCharacters();
-        List<string> livingPlayers = new List<string>();
-
-        foreach(ICharacterController character in livingCharacters)
-        {
-            string playerName = character.OwnedByPlayer;
-            if (!livingPlayers.Contains(playerName))
-            {
-                livingPlayers.Add(playerName);
-            }
-        }
-        
-        if (livingPlayers.Count == 1)
-        {
-            EndMatchPanel.Show();
-            EndMatchPanel.SetWinnerText($"Player {livingPlayers[0]} wins!");
-        }
-
-        if (livingPlayers.Count == 0)
-        {
-            EndMatchPanel.Show();
-            EndMatchPanel.SetWinnerText("Draw!");
-        }
     }
 
     public void Surrender()
@@ -135,5 +70,83 @@ public class TurnController : ITurnController
     public bool IsActiveCharacter(ICharacterController character)
     {
         return ActiveCharacter == character;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if(type == typeof(DeathEvent))
+        {
+            var deathEvent = (DeathEvent) @event;
+            RemoveCharacter(deathEvent.CharacterController);
+            CheckWinCondition();
+        }
+        if (type == typeof(StartNewTurnEvent))
+        {
+            StartNextTurn();
+        }
+    }
+
+    private void RemoveCharacter(ICharacterController character)
+    {
+        RefreshedCharacters.Remove(character);
+        ExhaustedCharacters.Remove(character);
+        if (ActiveCharacter == character)
+            ActiveCharacter = null;
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+    }
+
+    private void CheckWinCondition()
+    {
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        List<string> livingPlayers = new List<string>();
+
+        foreach (ICharacterController character in livingCharacters)
+        {
+            string playerName = character.OwnedByPlayer;
+            if (!livingPlayers.Contains(playerName))
+            {
+                livingPlayers.Add(playerName);
+            }
+        }
+
+        if (livingPlayers.Count == 1)
+        {
+            EndMatchPanel.Show();
+            EndMatchPanel.SetWinnerText($"Player {livingPlayers[0]} wins!");
+        }
+
+        if (livingPlayers.Count == 0)
+        {
+            EndMatchPanel.Show();
+            EndMatchPanel.SetWinnerText("Draw!");
+        }
+    }
+
+    private void StartNextTurn()
+    {
+        if (ActiveCharacter != null)
+        {
+            ExhaustedCharacters.Add(ActiveCharacter);
+            ActiveCharacter.Deselect();
+        }
+
+        if (!(RefreshedCharacters.Count > 0))
+        {
+            RefreshedCharacters = ExhaustedCharacters;
+            ExhaustedCharacters = new List<ICharacterController>();
+        }
+
+        // Sort characters by ascending initiative
+        RefreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
+
+        ActiveCharacter = RefreshedCharacters.ElementAt(0);
+        RefreshedCharacters.RemoveAt(0);
+
+        ActiveCharacter.Refresh();
+
+        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+
+        SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 }

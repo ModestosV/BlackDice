@@ -48,8 +48,6 @@ public class GameManager : MonoBehaviour
         hudController.TargetPlayerPanel = playerPanels[0];
         hudController.AbilityPanel = abilityPanel;
 
-        FindObjectOfType<EndTurnButton>().TurnController = turnController;
-
         // Initialize grid
         gridSelectionController = new GridSelectionController();
 
@@ -111,11 +109,15 @@ public class GameManager : MonoBehaviour
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
         turnController.SelectionManager = selectionManager;
+
+        // Initialize Event Subscribing
+        EventBus.Subscribe<DeathEvent>(turnController);
+        EventBus.Subscribe<StartNewTurnEvent>(turnController);
     }
 
     private void Start()
     {
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
-        turnController.StartNextTurn();
+        EventBus.Publish(new StartNewTurnEvent());
     }
 }

@@ -9,13 +9,10 @@ public interface ITurnController
     ISelectionManager SelectionManager { set; }
 
     IEndMatchPanel EndMatchPanel { set; }
-
-    void StartNextTurn();
+    
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);
-    void RemoveCharacter(ICharacterController character);
     void SelectActiveCharacter();
-    void CheckWinCondition();
     void Surrender();
     List<ICharacterController> GetLivingCharacters();
     bool IsActiveCharacter(ICharacterController character);

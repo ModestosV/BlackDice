@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class EndTurnButton : MonoBehaviour
 {
-    public ITurnController TurnController {protected get; set; }
-
     private Button Button { get; set; }
 
     void OnValidate()
@@ -21,7 +19,7 @@ public class EndTurnButton : MonoBehaviour
 
     public void EndTurn()
     {
-        TurnController.StartNextTurn();
+        EventBus.Publish(new StartNewTurnEvent());
     }
 
     #region IMonoBehaviour implementation

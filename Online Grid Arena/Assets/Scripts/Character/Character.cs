@@ -4,7 +4,7 @@ public class Character : MonoBehaviour, ICharacter
 {
     public string playerName;
 
-    private CharacterController characterController;
+    private AbstractCharacterController characterController;
     
     public Texture characterIcon;
     public Color32 borderColor;
