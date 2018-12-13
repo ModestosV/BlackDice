@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 public class TargetEnemyAbilitySelectionControllerTests
 {
@@ -37,14 +38,20 @@ public class TargetEnemyAbilitySelectionControllerTests
         
         selectedTile = Substitute.For<IHexTileController>();
         selectedTile.OccupantCharacter.Returns(selectedCharacter);
+
+        gridSelectionController.GetSelectedTile().Returns(selectedTile);
         
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
 
-        inputParameters.TargetTile.Returns(targetTile);
-
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
+
+        List<IHexTileController> pathList = new List<IHexTileController>() { selectedTile, targetTile };
+        selectedTile.GetPath(targetTile).Returns(pathList);
+        selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, pathList.Count - 1).Returns(true);
+
+        inputParameters.TargetTile.Returns(targetTile);
 
         sut = new TargetEnemyAbilitySelectionController
         {
