@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 2996d87c353a5488d99f9bdcfdf0da81
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/f9cf41c458e240f459f9208f6ec215a2
+    guid: f9cf41c458e240f459f9208f6ec215a2
   - enabled: 1
     path: Assets/Scenes/Match.unity
-    guid: f9cf41c458e240f459f9208f6ec215a2
+    guid: 2206a6a72f603d84089b10adc05f706d
   m_configObjects: {}
