@@ -16,6 +16,12 @@ public class HealthBar : HideableUI, IHealthBar
         alpha = GetComponentInChildren<CanvasGroup>();
     }
 
+    void Update()
+    {
+        Camera camera = Camera.main;
+        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
+    }
+
     public void SetHealthText(string currentHealth, string maxHealth)
     {
         healthText.text = $"{currentHealth} / {maxHealth}";
