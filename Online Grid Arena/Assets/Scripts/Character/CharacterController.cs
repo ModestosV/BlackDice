@@ -186,5 +186,4 @@ public abstract class CharacterController : ICharacterController
     {
         Character.PlayAbilitySound(abilitySound);
     }
-
 }

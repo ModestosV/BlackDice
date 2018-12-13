@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: 1
   hero: 1
-  characterIcon: {fileID: 2800000, guid: 54d9c0743c271674cb041b99b252763e, type: 3}
+  characterIcon: {fileID: 2800000, guid: 6b2ea23d0e4310043848b2886402c7a5, type: 3}
   borderColor:
     serializedVersion: 2
     rgba: 4278226687
