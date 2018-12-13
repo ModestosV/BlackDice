@@ -3,26 +3,26 @@ using UnityEngine.UI;
 
 public class HealthBar : HideableUI, IHealthBar
 {
-    private Text HealthText;
-    private Image HealthBarImage;
-    private Image HealthBarBackground;
-    private CanvasGroup Alpha;
+    private Text healthText;
+    private Image healthBarImage;
+    private Image healthBarBackground;
+    private CanvasGroup alpha;
 
     void Awake()
     {
-        HealthText = GetComponentInChildren<Text>();
-        HealthBarImage = GetComponentsInChildren<Image>()[1];
-        HealthBarBackground = GetComponentsInChildren<Image>()[0];
-        Alpha = GetComponentInChildren<CanvasGroup>();
+        healthText = GetComponentInChildren<Text>();
+        healthBarImage = GetComponentsInChildren<Image>()[1];
+        healthBarBackground = GetComponentsInChildren<Image>()[0];
+        alpha = GetComponentInChildren<CanvasGroup>();
     }
 
     public void SetHealthText(string currentHealth, string maxHealth)
     {
-        HealthText.text = $"{currentHealth} / {maxHealth}";
+        healthText.text = $"{currentHealth} / {maxHealth}";
     }
 
     public void SetHealthBarRatio(float healthRatio)
     {
-        HealthBarImage.fillAmount = healthRatio;
+        healthBarImage.fillAmount = healthRatio;
     }
 }
