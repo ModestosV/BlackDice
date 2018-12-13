@@ -14,6 +14,7 @@ public class CharacterControllerTests
     IHexTile endTile;
     ITurnController turnController;
     IHUDController hudController;
+    IHealthBar healthBar;
 
     List<IAbility> abilities;
     IAbility ability1;
@@ -57,6 +58,7 @@ public class CharacterControllerTests
         endTile = Substitute.For<IHexTile>();
         turnController = Substitute.For<ITurnController>();
         hudController = Substitute.For<IHUDController>();
+        healthBar = Substitute.For<IHealthBar>();
 
         health = Substitute.For<ICharacterStat>();
         health.CurrentValue.Returns(CHARACTER_CURRENT_HEALTH);
@@ -69,7 +71,7 @@ public class CharacterControllerTests
             { "health", health },
             { "moves", moves }
         };
-        
+
         ability1 = Substitute.For<IAbility>();
         ability2 = Substitute.For<IAbility>();
 
@@ -95,7 +97,8 @@ public class CharacterControllerTests
             OwnedByPlayer = PLAYER_NAME,
             AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
             CharacterIcon = CHARACTER_ICON,
-            BorderColor = BORDER_COLOR
+            BorderColor = BORDER_COLOR,
+            HealthBar = healthBar
         };
     }
 
@@ -105,6 +108,20 @@ public class CharacterControllerTests
         sut.Damage(DAMAGE_AMOUNT);
 
         health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
+    }
+
+    [Test]
+    public void Damage_updates_healthbar_UI_element()
+    {
+        sut.Damage(DAMAGE_AMOUNT);
+        healthBar.Received(1).SetHealthBarRatio((CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT) / CHARACTER_MAX_HEALTH);
+    }
+
+    [Test]
+    public void Damage_updates_healthbar_text_element()
+    {
+        sut.Damage(DAMAGE_AMOUNT);
+        healthBar.Received(1).SetHealthText(((int)(CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT)).ToString(), ((int)CHARACTER_MAX_HEALTH).ToString());
     }
 
     [Test]

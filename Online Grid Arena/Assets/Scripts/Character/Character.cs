@@ -36,12 +36,14 @@ public class Character : MonoBehaviour, ICharacter
         characterController.OwnedByPlayer = playerName;
         characterController.CharacterIcon = characterIcon;
         characterController.BorderColor = borderColor;
+        characterController.HealthBar = GetComponentInChildren<HealthBar>();
     }
 
     void Start()
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+        characterController.UpdateHealthBar();
     }
 
     public void Destroy()
