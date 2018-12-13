@@ -9,9 +9,6 @@ public class Character : MonoBehaviour, ICharacter
     public Texture characterIcon;
     public Color32 borderColor;
 
-    [SerializeField]
-    private HealthBar healthBar;
-
     void Awake()
     {
         characterController = new DefaultCharacterController
@@ -20,8 +17,8 @@ public class Character : MonoBehaviour, ICharacter
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = healthBar
-    };
+            HealthBar = GetComponentInChildren<HealthBar>()
+        };
     }
 
     void Start()
