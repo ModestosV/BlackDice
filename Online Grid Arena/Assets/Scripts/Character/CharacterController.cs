@@ -182,4 +182,9 @@ public abstract class CharacterController : ICharacterController
         Character.InstantiateAbilityAnimation(abilityAnimationPrefab);
     }
 
+    public void PlayAbilitySound(AudioClip abilitySound)
+    {
+        Character.PlayAbilitySound(abilitySound);
+    }
+
 }

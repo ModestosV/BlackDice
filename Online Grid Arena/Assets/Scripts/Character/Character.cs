@@ -64,6 +64,12 @@ public class Character : MonoBehaviour, ICharacter
         Instantiate(abilityAnimationPrefab, gameObject.transform);
     }
 
+    public void PlayAbilitySound(AudioClip abilitySound)
+    {
+        AudioSource audioSource = GameObject.FindWithTag("AbilitySound").GetComponent<AudioSource>();
+        audioSource.PlayOneShot(abilitySound);
+    }
+
     #endregion
 
     public override string ToString()

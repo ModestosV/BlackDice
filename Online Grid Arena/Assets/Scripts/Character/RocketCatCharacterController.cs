@@ -6,8 +6,10 @@ public sealed class RocketCatCharacterController : CharacterController
     public RocketCatCharacterController()
     {
         // Init abilities
-        GameObject scratchAbilityAnimationPrefab = (GameObject)Resources.Load("Prefabs/AbilityAnimations/Scratch", typeof(GameObject));
-        IAbility scratch = new BasicAttackAbility(25.0f, 1.0f, scratchAbilityAnimationPrefab);
+        GameObject scratchAbilityAnimationPrefab = Resources.Load<GameObject>("Prefabs/AbilityAnimations/Scratch");
+        AudioClip scratchAbilitySound = Resources.Load<AudioClip>("Audio/Ability/CottonRip");
+
+        IAbility scratch = new BasicAttackAbility(25.0f, 1.0f, scratchAbilityAnimationPrefab, scratchAbilitySound);
 
         Abilities = new List<IAbility>() { scratch };
 

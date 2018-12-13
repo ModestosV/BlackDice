@@ -43,4 +43,5 @@ public interface ICharacterController
     bool HasAbility(int abilityIndex);
 
     void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab);
+    void PlayAbilitySound(AudioClip abilitySound);
 }
