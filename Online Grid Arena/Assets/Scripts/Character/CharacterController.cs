@@ -172,6 +172,6 @@ public abstract class CharacterController : ICharacterController
     public void UpdateHealthBar()
     {
         HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
-        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].CurrentValue.ToString());
+        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
     }
 }
