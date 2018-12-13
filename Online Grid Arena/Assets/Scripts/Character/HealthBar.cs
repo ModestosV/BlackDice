@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class HealthBar : HideableUI, IHealthBar
 {
-    private Text HealthText { get; set; }
-    private Image HealthBarImage { get; set; }
-    private Image HealthBarBackground { get; set; }
-    private CanvasGroup Alpha { get; set; }
+    private Text HealthText;
+    private Image HealthBarImage;
+    private Image HealthBarBackground;
+    private CanvasGroup Alpha;
 
     void Awake()
     {
