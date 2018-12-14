@@ -10,25 +10,27 @@ public enum AbilityType
 public abstract class Ability : IAbility
 {
     public AbilityType Type { get; set; }
-    protected Dictionary<string, float> Values { get; set; }
-    protected GameObject AbilityAnimationPrefab { get; set; }
-    protected AudioClip AbilitySound { get; set; }
-    protected int Cooldown { get; set; }
+    protected float power;
+    protected int range;
+    protected int cooldown;
+    protected GameObject abilityAnimationPrefab;
+    protected AudioClip abilitySound;
+    protected int cooldownRemaining;
 
     public abstract void Execute(IHexTileController targetTile);
 
     public bool IsInRange(int range)
     {
-        return Values["range"] >= range;
+        return this.range >= range;
     }
 
     public bool IsOnCooldown()
     {
-        return Cooldown > 0;
+        return cooldownRemaining > 0;
     }
 
     public void Refresh()
     {
-        Cooldown = Mathf.Clamp(Cooldown - 1, 0, int.MaxValue);
+        cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
     }
 }

@@ -7,9 +7,9 @@ public sealed class DefaultCharacterController : CharacterController
     {
         // Init abilities
 
-        IAbility basicAttack = new BasicAttackAbility(20.0f, 5);
+        IAbility basicAttack = new BasicAttackAbility(20.0f, 5, 1, null, null);
 
-        IAbility basicHeal = new BasicHealAbility(15.0f, 5);
+        IAbility basicHeal = new BasicHealAbility(15.0f, 5, 1, null, null);
 
         Abilities = new List<IAbility>() { basicAttack, basicHeal };
 

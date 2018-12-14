@@ -3,20 +3,19 @@ using UnityEngine.UI;
 
 public class AbilityAnimation : MonoBehaviour {
 
-    private Image Image { get; set; }
-
-    private const float FADE_OUT_SPEED = 1.0f;
+    protected Image image;
+    protected readonly float fadeOutSpeed = 1.0f;
 
 	void Start ()
     {
-        Image = GetComponentInChildren<Image>();
+        image = GetComponentInChildren<Image>();
 	}
 
     void Update()
     {
-        Image.color = new Color(Image.color.r, Image.color.g, Image.color.b, Image.color.a - FADE_OUT_SPEED*Time.deltaTime);
+        image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - fadeOutSpeed * Time.deltaTime);
         
-        if (Image.color.a <= 0.0f)
+        if (image.color.a <= 0.0f)
         {
             Destroy(gameObject);
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum Hero
+public enum HeroType
 {
     DEFAULT,
     ROCKET_CAT,
@@ -10,7 +10,7 @@ public enum Hero
 public class Character : MonoBehaviour, ICharacter
 {
     [SerializeField] private string playerName;
-    [SerializeField] private Hero hero;
+    [SerializeField] private HeroType hero;
 
     private CharacterController characterController;
 
@@ -21,10 +21,10 @@ public class Character : MonoBehaviour, ICharacter
     {
         switch (hero)
         {
-            case Hero.ROCKET_CAT:
+            case HeroType.ROCKET_CAT:
                 characterController = new RocketCatCharacterController();
                 break;
-            case Hero.PENGWIN:
+            case HeroType.PENGWIN:
                 // TODO: Pengwin hero
                 break;
             default:
