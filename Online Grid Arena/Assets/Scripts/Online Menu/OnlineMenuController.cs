@@ -1,14 +1,13 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using System;
 
-public class OnlineMenuController : IOnlineMenuController
+public sealed class OnlineMenuController : IOnlineMenuController
 {
-    public IRegistrationPanel RegistrationPanel { protected get; set; }
-    public ILoginPanel LoginPanel { protected get; set; }
-    public IUserNetworkManager UserNetworkManager { protected get; set; }
-    public IActivePlayer ActivePlayer { protected get; set; }
+    public IRegistrationPanel RegistrationPanel { private get; set; }
+    public ILoginPanel LoginPanel { private get; set; }
+    public IUserNetworkManager UserNetworkManager { private get; set; }
+    public IActivePlayer ActivePlayer { private get; set; }
 
     public async void Register(string email, string password, string username)
     {

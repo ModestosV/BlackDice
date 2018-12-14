@@ -7,11 +7,11 @@ public enum SelectionMode
     MOVEMENT
 }
 
-public class SelectionManager : ISelectionManager
+public sealed class SelectionManager : ISelectionManager
 {
-    public IGridSelectionController GridSelectionController { protected get; set; }
-    public Dictionary<string, ISelectionController> SelectionControllers { protected get; set; }
-    public SelectionMode SelectionMode { protected get; set; }
+    public IGridSelectionController GridSelectionController { private get; set; }
+    public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
+    public SelectionMode SelectionMode { private get; set; }
 
     private ISelectionController activeSelectionController;
 

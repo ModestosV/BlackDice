@@ -4,40 +4,40 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-public class HttpResponseMessageAdapter : IHttpResponseMessage
+public sealed class HttpResponseMessageAdapter : IHttpResponseMessage
 {
-    private HttpResponseMessage Adaptee { get; set; }
+    private HttpResponseMessage adaptee;
 
     public HttpResponseMessageAdapter(HttpResponseMessage adaptee)
     {
-        Adaptee = adaptee;
+        this.adaptee = adaptee;
     }
 
-    public Version Version { get { return Adaptee.Version; } set { Adaptee.Version = value; } }
+    public Version Version { get { return adaptee.Version; } set { adaptee.Version = value; } }
 
-    public HttpContent Content { get { return Adaptee.Content; } set { Adaptee.Content = value; } }
-    public HttpStatusCode StatusCode { get { return Adaptee.StatusCode; } set { Adaptee.StatusCode = value; } }
-    public string ReasonPhrase { get { return Adaptee.ReasonPhrase; } set { Adaptee.ReasonPhrase = value; } }
+    public HttpContent Content { get { return adaptee.Content; } set { adaptee.Content = value; } }
+    public HttpStatusCode StatusCode { get { return adaptee.StatusCode; } set { adaptee.StatusCode = value; } }
+    public string ReasonPhrase { get { return adaptee.ReasonPhrase; } set { adaptee.ReasonPhrase = value; } }
 
-    public HttpResponseHeaders Headers { get { return Adaptee.Headers; } }
+    public HttpResponseHeaders Headers { get { return adaptee.Headers; } }
 
-    public HttpRequestMessage RequestMessage { get { return Adaptee.RequestMessage; } set { Adaptee.RequestMessage = value; } }
+    public HttpRequestMessage RequestMessage { get { return adaptee.RequestMessage; } set { adaptee.RequestMessage = value; } }
 
-    public bool IsSuccessStatusCode { get { return Adaptee.IsSuccessStatusCode; } }
+    public bool IsSuccessStatusCode { get { return adaptee.IsSuccessStatusCode; } }
 
 
     public void Dispose()
     {
-        Adaptee.Dispose();
+        adaptee.Dispose();
     }
 
     public HttpResponseMessage EnsureSuccessStatusCode()
     {
-        return Adaptee.EnsureSuccessStatusCode();
+        return adaptee.EnsureSuccessStatusCode();
     }
 
     public Task<string> ReadContentAsStringAsync()
     {
-        return Adaptee.Content.ReadAsStringAsync();
+        return adaptee.Content.ReadAsStringAsync();
     }
 }

@@ -886,11 +886,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -4146,7 +4146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &942020833
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4459,9 +4459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84486f5d6b6f1cc40bf5e01a54b217ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginButton: {fileID: 194253374}
-  logoutButton: {fileID: 942020834}
-  loadingCircle: {fileID: 1979852862}
 --- !u!1 &1026873786
 GameObject:
   m_ObjectHideFlags: 0
@@ -5911,8 +5908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b6484d4ea5a564aaa6b1914213f58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerButton: {fileID: 2033312393}
-  loadingCircle: {fileID: 1982398230}
 --- !u!1 &1599836441
 GameObject:
   m_ObjectHideFlags: 0
@@ -6580,7 +6575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1979852863
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6662,7 +6657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1982398231
 RectTransform:
   m_ObjectHideFlags: 0

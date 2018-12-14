@@ -1,10 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Sockets;
 using System.Net;
-using System;
-using UnityEngine;
 
 public abstract class AbstractNetworkManager : INetworkManager
 {
