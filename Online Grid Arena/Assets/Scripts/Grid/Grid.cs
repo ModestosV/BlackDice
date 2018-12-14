@@ -2,18 +2,18 @@
 using System.Linq;
 using System.Collections.Generic;
 
-public class Grid : MonoBehaviour, IGrid
+public sealed class Grid : MonoBehaviour, IGrid
 {
-    public int gridWidth;
+    [SerializeField] private int gridWidth;
 
     private GridController gridController;
 
-    private const int DEFAULT_GRID_WIDTH = 19;
+    private readonly int defaultGridWidth = 19;
 
     public void InitializeGrid(IGridSelectionController gridSelectionController)
     {
         if (!(gridWidth > 0))
-            gridWidth = DEFAULT_GRID_WIDTH;
+            gridWidth = defaultGridWidth;
 
         gridController = new GridController()
         {

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
-public class TurnPanelController : ITurnPanelController
+public sealed class TurnPanelController : ITurnPanelController
 { 
-    public ITurnPanel TurnPanel { protected get; set; }
-    public List<ITurnTile> TurnTiles { protected get; set; }
-    public List<ICharacterController> CharacterOrder { protected get; set; }
+    public ITurnPanel TurnPanel { private get; set; }
+    public List<ITurnTile> TurnTiles { private get; set; }
+    public List<ICharacterController> CharacterOrder { private get; set; }
 
     public TurnPanelController()
     {

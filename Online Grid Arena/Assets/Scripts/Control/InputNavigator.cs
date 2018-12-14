@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class InputNavigator : MonoBehaviour
+
+public sealed class InputNavigator : MonoBehaviour
 {
-    EventSystem system;
+    private EventSystem system;
 
     void Start()
     {

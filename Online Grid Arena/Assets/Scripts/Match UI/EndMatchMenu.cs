@@ -1,41 +1,25 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-public class EndMatchMenu : MonoBehaviour, IEndMatchPanel {
+public sealed class EndMatchMenu : HideableUI, IEndMatchPanel {
 
-    private Text Text { get; set; }
-    private CanvasGroup CanvasGroup { get; set; }
+    private Text text;
 
     void OnValidate()
     {
-        Text = GetComponentInChildren<Text>();
-        CanvasGroup = GetComponent<CanvasGroup>();
+        text = GetComponentInChildren<Text>();
+        base.Init();
         Hide();
     }
 
     void Awake()
     {
-        Text = GetComponentInChildren<Text>();
-        CanvasGroup = GetComponent<CanvasGroup>();
+        text = GetComponentInChildren<Text>();
+        base.Init();
         Hide();
-    }
-
-    public void Show()
-    {
-        CanvasGroup.alpha = 1.0f;
-        CanvasGroup.interactable = true;
-        CanvasGroup.blocksRaycasts = true;
-    }
-
-    public void Hide()
-    {
-        CanvasGroup.alpha = 0.0f;
-        CanvasGroup.interactable = false;
-        CanvasGroup.blocksRaycasts = false;
     }
 
     public void SetWinnerText(string winnerText)
     {
-        Text.text = winnerText;
+        text.text = winnerText;
     }
 }

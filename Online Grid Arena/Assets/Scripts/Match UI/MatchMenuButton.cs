@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MatchMenuButton : MonoBehaviour
+public sealed class MatchMenuButton : MonoBehaviour
 {
-    public IMatchMenu MatchMenu { protected get; set; }
-    private Button Button { get; set; }
+    public IMatchMenu MatchMenu { private get; set; }
+    private Button button;
 
     void OnValidate()
     {
-        Button = GetComponent<Button>();
+        button = GetComponent<Button>();
         MatchMenu = FindObjectOfType<MatchMenu>();
     }
 
-    void Awake() {
-        Button = GetComponent<Button>();
+    void Awake()
+    {
+        button = GetComponent<Button>();
         MatchMenu = FindObjectOfType<MatchMenu>();
-        Button.onClick.AddListener(ToggleMatchMenu);
+        button.onClick.AddListener(ToggleMatchMenu);
 	}
 	
 	public void ToggleMatchMenu()

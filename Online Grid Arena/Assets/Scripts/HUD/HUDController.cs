@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-[Serializable]
-public class HUDController : IHUDController
+public sealed class HUDController : IHUDController
 {
-    public IStatPanelController SelectedStatPanel { protected get; set; }
-    public IPlayerPanel SelectedPlayerPanel { protected get; set; }
+    public IStatPanelController SelectedStatPanel { private get; set; }
+    public IPlayerPanel SelectedPlayerPanel { private get; set; }
 
-    public IStatPanelController TargetStatPanel { protected get; set; }
-    public IPlayerPanel TargetPlayerPanel { protected get; set; }
+    public IStatPanelController TargetStatPanel { private get; set; }
+    public IPlayerPanel TargetPlayerPanel { private get; set; }
 
-    public IAbilityPanel AbilityPanel { protected get; set; }
+    public IAbilityPanel AbilityPanel { private get; set; }
 
     public void ClearSelectedHUD()
     {

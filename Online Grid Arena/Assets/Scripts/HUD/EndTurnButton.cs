@@ -2,9 +2,9 @@
 using UnityEngine.UI;
 
 
-public class EndTurnButton : MonoBehaviour
+public sealed class EndTurnButton : MonoBehaviour
 {
-    public ITurnController TurnController {protected get; set; }
+    public ITurnController TurnController { private get; set; }
 
     private Button Button { get; set; }
 

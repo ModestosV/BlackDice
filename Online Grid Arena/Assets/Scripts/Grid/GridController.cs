@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System;
 
-public class GridController : IGridController
+public sealed class GridController : IGridController
 {
-    public int GridWidth { protected get; set; }
+    public int GridWidth { private get; set; }
 
     private Dictionary<Tuple<int, int, int>, IHexTileController> GridMap { get; set; }
     

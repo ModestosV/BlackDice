@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class StatPanel : MonoBehaviour, IStatPanel
 {
-    private StatPanelController controller;
+    protected StatPanelController controller;
 
     void Awake()
     {

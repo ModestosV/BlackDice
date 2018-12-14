@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager : MonoBehaviour
+public sealed class GameManager : MonoBehaviour
 {
-    public SelectionMode SelectionMode { protected get; set; }
+    public SelectionMode SelectionMode { private get; set; }
 
     private TurnController turnController;
     private HUDController hudController;

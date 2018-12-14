@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
-public class MatchMenu : MonoBehaviour, IMatchMenu {
+public class MatchMenu : HideableUI, IMatchMenu {
     
     private bool Visible { get; set; }
     private CanvasGroup CanvasGroup { get; set; }
 
     void OnValidate()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();
+        base.Init();
     }
 
     void Awake()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();
+        base.Init();
         Hide();
     }
 
@@ -27,19 +27,5 @@ public class MatchMenu : MonoBehaviour, IMatchMenu {
         {
             Show();
         }
-    }
-
-    private void Hide()
-    {
-        CanvasGroup.alpha = 0.0f;
-        CanvasGroup.interactable = false;
-        CanvasGroup.blocksRaycasts = false;
-    }
-
-    private void Show()
-    {
-        CanvasGroup.alpha = 1.0f;
-        CanvasGroup.interactable = true;
-        CanvasGroup.blocksRaycasts = true;
     }
 }

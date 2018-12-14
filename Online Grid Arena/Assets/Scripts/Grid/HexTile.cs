@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class HexTile : MonoBehaviour, IHexTile
+public sealed class HexTile : MonoBehaviour, IHexTile
 {
-    public HexTileMaterialSet materials;
+    [SerializeField] private HexTileMaterialSet materials;
 
     private HexTileController hexTileController;
 

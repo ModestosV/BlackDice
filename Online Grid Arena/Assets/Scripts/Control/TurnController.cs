@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
-using UnityEngine;
 
-public class TurnController : ITurnController
+public sealed class TurnController : ITurnController
 {
-    public List<ICharacterController> RefreshedCharacters { protected get; set; }
-    public List<ICharacterController> ExhaustedCharacters { protected get; set; }
-    public ICharacterController ActiveCharacter { protected get; set; }
-    public ITurnPanelController TurnTracker { protected get; set; }
-    public ISelectionManager SelectionManager { protected get; set; }
+    public List<ICharacterController> RefreshedCharacters { private get; set; }
+    public List<ICharacterController> ExhaustedCharacters { private get; set; }
+    public ICharacterController ActiveCharacter { private get; set; }
+    public ITurnPanelController TurnTracker { private get; set; }
+    public ISelectionManager SelectionManager { private get; set; }
 
-    public IEndMatchPanel EndMatchPanel { protected get; set; }
+    public IEndMatchPanel EndMatchPanel { private get; set; }
 
     public TurnController()
     {
