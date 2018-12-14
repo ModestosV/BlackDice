@@ -9,7 +9,11 @@ public class AbilityAnimation : MonoBehaviour {
 	void Start ()
     {
         image = GetComponentInChildren<Image>();
-	}
+
+        Camera camera = Camera.main;
+        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
+        transform.position = Vector3.MoveTowards(transform.position, camera.transform.position, 1.5f);
+    }
 
     void Update()
     {

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public abstract class CharacterController : ICharacterController
+public class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { protected get; set; }

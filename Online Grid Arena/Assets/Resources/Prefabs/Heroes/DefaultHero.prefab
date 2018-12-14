@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4730947891553198}
-  - component: {fileID: 114487334074407822}
+  - component: {fileID: 114120901520843270}
   m_Layer: 0
   m_Name: DefaultHero
   m_TagString: Untagged
@@ -230,6 +230,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114120901520843270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1177355794829098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2ee15aa00a8e648968c308a28a7165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 2
+  characterIcon: {fileID: 2800000, guid: 20fbed71eb613e8418176f3ef159e78c, type: 3}
+  borderColor:
+    serializedVersion: 2
+    rgba: 4294949376
 --- !u!114 &114178337056872276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -336,23 +352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783ccf9593a55b24580c3047a9914781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114487334074407822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177355794829098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: 2
-  hero: 0
-  characterIcon: {fileID: 2800000, guid: 20fbed71eb613e8418176f3ef159e78c, type: 3}
-  borderColor:
-    serializedVersion: 2
-    rgba: 4278226687
 --- !u!114 &114553868871822370
 MonoBehaviour:
   m_ObjectHideFlags: 1

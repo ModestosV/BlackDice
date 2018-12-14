@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4047267220134562}
-  - component: {fileID: 114687249343748606}
+  - component: {fileID: 114503029147450936}
   m_Layer: 0
   m_Name: RocketCat
   m_TagString: Untagged
@@ -214,6 +214,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114503029147450936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294194566712638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ede309aad21fe4e9770fb17be93b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 1
+  characterIcon: {fileID: 2800000, guid: 6b2ea23d0e4310043848b2886402c7a5, type: 3}
+  borderColor:
+    serializedVersion: 2
+    rgba: 4278233599
 --- !u!114 &114521253801732236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,23 +293,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114687249343748606
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294194566712638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b17db4f229ad7b44292bceb12b7d82da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: 1
-  hero: 1
-  characterIcon: {fileID: 2800000, guid: 6b2ea23d0e4310043848b2886402c7a5, type: 3}
-  borderColor:
-    serializedVersion: 2
-    rgba: 4294943232
 --- !u!114 &114751981310803118
 MonoBehaviour:
   m_ObjectHideFlags: 1

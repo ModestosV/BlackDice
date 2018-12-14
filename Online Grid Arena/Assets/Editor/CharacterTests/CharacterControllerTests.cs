@@ -86,7 +86,7 @@ public class CharacterControllerTests
         CHARACTER_ICON = Substitute.For<Texture>();
         BORDER_COLOR = new Color32(0, 0, 0, 0);
 
-        sut = new DefaultCharacterController()
+        sut = new CharacterController()
         {
             Character = character,
             OccupiedTile = startTileController,

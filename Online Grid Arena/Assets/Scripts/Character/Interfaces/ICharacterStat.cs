@@ -2,6 +2,7 @@
 
 public interface ICharacterStat
 {
+    float BaseValue { get; }
     float Value { get; }
     float CurrentValue { get; set; }
     List<IStatModifier> StatModifiers { get; set; }

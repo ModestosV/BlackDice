@@ -9,10 +9,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-[Serializable]
 public class CharacterStat : ICharacterStat
 {
-    public float baseValue;
+    public float BaseValue { get; }
     protected float currentValue;
     public float CurrentValue
     {
@@ -33,9 +32,9 @@ public class CharacterStat : ICharacterStat
     {
         get
         {
-            if (isDirty || lastBaseValue != baseValue)
+            if (isDirty || lastBaseValue != BaseValue)
             {
-                lastBaseValue = baseValue;
+                lastBaseValue = BaseValue;
                 value = CalculateFinalValue();
                 isDirty = false;
 
@@ -52,12 +51,12 @@ public class CharacterStat : ICharacterStat
 
     public CharacterStat(float baseValue) : this(baseValue, new List<IStatModifier>())
     {
-        this.baseValue = baseValue;
+        this.BaseValue = baseValue;
     }
 
     public CharacterStat(float baseValue, List<IStatModifier> statModifierList)
     {
-        this.baseValue = baseValue;
+        this.BaseValue = baseValue;
         StatModifiers = statModifierList;
     }
 
@@ -119,7 +118,7 @@ public class CharacterStat : ICharacterStat
     public override string ToString()
     {
         var modifiersString = string.Join("|", StatModifiers.Select(mod => mod.ToString()).ToArray());
-        var fieldsString = string.Join(", ", baseValue, Value, modifiersString == "" ? "null" : modifiersString);
+        var fieldsString = string.Join(", ", BaseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
         return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
     }
@@ -135,7 +134,7 @@ public class CharacterStat : ICharacterStat
 
     protected virtual float CalculateFinalValue()
     {
-        float finalValue = baseValue;
+        float finalValue = BaseValue;
         float sumPercentAdd = 0;
 
         StatModifiers.Sort(CompareModifierOrder);
