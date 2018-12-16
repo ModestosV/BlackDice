@@ -22,6 +22,7 @@ public sealed class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        EventBus.Wipe();
         // Initialize turn controller
         turnController = new TurnController();
         List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();

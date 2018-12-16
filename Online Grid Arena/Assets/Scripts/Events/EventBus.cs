@@ -25,4 +25,9 @@ public static class EventBus
             }
         }
     }
+
+    public static void Wipe()
+    {
+        registry = new Dictionary<Type, List<IEventSubscriber>>();
+    }
 }
