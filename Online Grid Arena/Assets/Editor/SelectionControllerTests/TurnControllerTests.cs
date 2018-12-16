@@ -1,136 +1,112 @@
-﻿//using NSubstitute;
-//using NUnit.Framework;
-//using System.Collections.Generic;
+﻿using NSubstitute;
+using NUnit.Framework;
+using System.Collections.Generic;
 
-//public class TurnControllerTests
-//{
-//    TurnController sut;
+public class TurnControllerTests
+{
+    TurnController sut;
 
-//    IEndMatchPanel endMatchPanel;
+    ICharacterController firstCharacter;
+    ICharacterController secondCharacter;
+    ICharacterController thirdCharacter;
 
-//    ICharacterController firstCharacter;
-//    ICharacterController secondCharacter;
-//    ICharacterController thirdCharacter;
+    List<ICharacterController> refreshedCharactersList;
+    List<ICharacterController> exhaustedCharactersList;
 
-//    List<ICharacterController> refreshedCharactersList;
-//    List<ICharacterController> exhaustedCharactersList;
-    
-//     const string PLAYER_1_NAME = "1";
-//    const string PLAYER_2_NAME = "2";
+    const string PLAYER_1_NAME = "1";
+    const string PLAYER_2_NAME = "2";
 
-//    ITurnPanelController turnTracker;
-//    ISelectionManager selectionManager;
+    ITurnPanelController turnTracker;
+    ISelectionManager selectionManager;
 
-//    [SetUp]
-//    public void Init()
-//    {
-//        endMatchPanel = Substitute.For<IEndMatchPanel>();
+    [SetUp]
+    public void Init()
+    {
+        firstCharacter = Substitute.For<ICharacterController>();
+        secondCharacter = Substitute.For<ICharacterController>();
+        thirdCharacter = Substitute.For<ICharacterController>();
 
-//        firstCharacter = Substitute.For<ICharacterController>();
-//        secondCharacter = Substitute.For<ICharacterController>();
-//        thirdCharacter = Substitute.For<ICharacterController>();
+        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter };
+        exhaustedCharactersList = new List<ICharacterController>();
 
-//        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter };
-//        exhaustedCharactersList = new List<ICharacterController>();
+        firstCharacter.GetInitiative().Returns(1.0f);
+        secondCharacter.GetInitiative().Returns(2.0f);
 
-//        firstCharacter.GetInitiative().Returns(1.0f);
-//        secondCharacter.GetInitiative().Returns(2.0f);
+        firstCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
+        secondCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
+        thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
 
-//        firstCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
-//        secondCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
-//        thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
+        turnTracker = Substitute.For<ITurnPanelController>();
+        selectionManager = Substitute.For<ISelectionManager>();
 
-//        turnTracker = Substitute.For<ITurnPanelController>();
-//        selectionManager = Substitute.For<ISelectionManager>();
+        sut = new TurnController
+        {
+            RefreshedCharacters = refreshedCharactersList,
+            ExhaustedCharacters = exhaustedCharactersList,
+            ActiveCharacter = null,
+            TurnTracker = turnTracker,
+            SelectionManager = selectionManager
+        };
+    }
 
-//        sut = new TurnController
-//        {
-//            RefreshedCharacters = refreshedCharactersList,
-//            ExhaustedCharacters = exhaustedCharactersList,
-//            EndMatchPanel = endMatchPanel,
-//            ActiveCharacter = null,
-//            TurnTracker = turnTracker,
-//            SelectionManager = selectionManager
-//        };
-//    }
+    [Test]
+    public void Start_next_turn_event_refreshes_active_character()
+    {
+        sut.Handle(new StartNewTurnEvent());
 
-//    [Test]
-//    public void Start_next_turn_refreshes_active_character()
-//    {
-//        sut.StartNextTurn();
+        firstCharacter.Received(1).Refresh();
+        secondCharacter.DidNotReceive();
+    }
 
-//        firstCharacter.Received(1).Refresh();
-//        secondCharacter.DidNotReceive();
-//    }
+    [Test]
+    public void Start_next_turn_event_activates_character_with_lowest_initiative()
+    {
+        firstCharacter.GetInitiative().Returns(2.0f);
+        secondCharacter.GetInitiative().Returns(1.0f);
 
-//    [Test]
-//    public void Start_next_turn_activates_character_with_lowest_initiative()
-//    {
-//        firstCharacter.GetInitiative().Returns(2.0f);
-//        secondCharacter.GetInitiative().Returns(1.0f);
+        sut.Handle(new StartNewTurnEvent());
 
-//        sut.StartNextTurn();
-
-//        firstCharacter.DidNotReceive();
-//        secondCharacter.Received(1).Refresh();
-//    }
+        firstCharacter.DidNotReceive();
+        secondCharacter.Received(1).Refresh();
+    }
 
 
-//    [Test]
-//    public void Start_next_turn_deselects_previously_active_character()
-//    {
-//        sut.ActiveCharacter = thirdCharacter;
+    [Test]
+    public void Start_next_turn_event_deselects_previously_active_character()
+    {
+        sut.ActiveCharacter = thirdCharacter;
 
-//        sut.StartNextTurn();
+        sut.Handle(new StartNewTurnEvent());
 
-//        thirdCharacter.Received(1).Deselect();
-//    }
+        thirdCharacter.Received(1).Deselect();
+    }
 
-//    [Test]
-//    public void Start_next_turn_updates_turn_tracker_with_new_character_order()
-//    {
-//        sut.ActiveCharacter = thirdCharacter;
+    [Test]
+    public void Start_next_turn_event_updates_turn_tracker_with_new_character_order()
+    {
+        sut.ActiveCharacter = thirdCharacter;
 
-//        sut.StartNextTurn();
+        sut.Handle(new StartNewTurnEvent());
 
-//        turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
-//    }
+        turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
+    }
 
-//    [Test]
-//    public void Start_next_turn_sets_selection_mode_to_free_selection()
-//    {
-//        sut.StartNextTurn();
+    [Test]
+    public void Start_next_turn_event_sets_selection_mode_to_free_selection()
+    {
+        sut.Handle(new StartNewTurnEvent());
 
-//        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
-//    }
+        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
+    }
 
-//    [Test]
-//    public void Check_win_condition_does_not_end_game_when_more_than_one_players_characters_remain()
-//    {
-//        sut.CheckWinCondition();
+    [Test]
+    public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
+    {
+        sut.ActiveCharacter = thirdCharacter;
 
-//        endMatchPanel.DidNotReceive();
-//    }
+        sut.Surrender();
 
-//    [Test]
-//    public void Check_win_condition_ends_game_when_only_one_players_characters_remain()
-//    {
-//        sut.RefreshedCharacters = new List<ICharacterController>() { firstCharacter };
-
-//        sut.CheckWinCondition();
-
-//        endMatchPanel.Received(1).Show();
-//        endMatchPanel.Received(1).SetWinnerText($"Player {PLAYER_1_NAME} wins!");
-//    }
-
-//    [Test]
-//    public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
-//    {
-//        sut.ActiveCharacter = thirdCharacter;
-
-//        sut.Surrender();
-
-//        firstCharacter.DidNotReceive();
-//        secondCharacter.Received(1).Die();
-//    }
-//}
+        firstCharacter.DidNotReceive();
+        secondCharacter.Received(1).Die();
+    }
+}
