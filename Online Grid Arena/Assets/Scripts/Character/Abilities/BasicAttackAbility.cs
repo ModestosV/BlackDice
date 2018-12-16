@@ -4,7 +4,7 @@ public sealed class BasicAttackAbility : AbstractAbility
 {
     public BasicAttackAbility(float power, int range, int cooldown, GameObject abilityAnimationPrefab, AudioClip abilitySound)
     {
-        Type = AbilityType.TARGET_ENEMY;
+        AbilityType = AbilityType.TARGET_ENEMY;
 
         this.power = power;
         this.range = range;

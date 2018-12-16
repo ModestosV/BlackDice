@@ -5,7 +5,6 @@ public class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { protected get; set; }
-    public ITurnController TurnController { protected get; set; }
     public IHUDController HUDController { protected get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
@@ -141,11 +140,6 @@ public class CharacterController : ICharacterController
         return AbilitiesRemaining > 0 && HasAbility(abilityIndex) && !Abilities[abilityIndex].IsOnCooldown();
     }
 
-    public bool IsActiveCharacter()
-    {
-        return TurnController.IsActiveCharacter(this);
-    }
-
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
     {
         turnTileToUpdate.CharacterIcon = CharacterIcon;
@@ -166,7 +160,7 @@ public class CharacterController : ICharacterController
 
     public AbilityType GetAbilityType(int abilityIndex)
     {
-        return Abilities[abilityIndex].Type;
+        return Abilities[abilityIndex].AbilityType;
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)

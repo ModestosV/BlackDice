@@ -12,6 +12,7 @@ public sealed class SelectionManager : ISelectionManager
     public IGridSelectionController GridSelectionController { private get; set; }
     public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
     public SelectionMode SelectionMode { private get; set; }
+    public ITurnController TurnController { get; set; }
 
     private ISelectionController activeSelectionController;
 
@@ -69,7 +70,7 @@ public sealed class SelectionManager : ISelectionManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanMove();
+        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
     }
 
     private bool SelectedCharacterCanUseAbility(int abilityIndex)
@@ -79,7 +80,7 @@ public sealed class SelectionManager : ISelectionManager
         if (selectedCharacter == null)
             return false;
 
-        return selectedCharacter.IsActiveCharacter() && selectedCharacter.CanUseAbility(abilityIndex);
+        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
     }
 }
 

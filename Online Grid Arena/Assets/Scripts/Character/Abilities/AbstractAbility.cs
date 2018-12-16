@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum AbilityType
 {
@@ -9,7 +8,7 @@ public enum AbilityType
 
 public abstract class AbstractAbility : IAbility
 {
-    public AbilityType Type { get; set; }
+    public AbilityType AbilityType { get; set; }
     protected float power;
     protected int range;
     protected int cooldown;

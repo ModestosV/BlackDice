@@ -5,7 +5,6 @@ public interface ICharacterController
 {
     ICharacter Character { set; }
     IHexTileController OccupiedTile { set; }
-    ITurnController TurnController { set; }
     IHUDController HUDController { set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { set; }
@@ -36,7 +35,6 @@ public interface ICharacterController
 
     bool CanMove(int distance = 1);
     bool CanUseAbility(int abilityIndex);
-    bool IsActiveCharacter();
     bool IsAlly(ICharacterController otherCharacter);
 
     void UpdateTurnTile(ITurnTile turnTileToUpdate);

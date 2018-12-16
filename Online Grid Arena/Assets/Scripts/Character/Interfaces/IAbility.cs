@@ -1,6 +1,6 @@
 ﻿public interface IAbility
 {
-    AbilityType Type { get; set; }
+    AbilityType AbilityType { get; set; }
     void Execute(IHexTileController targetTile);
     bool IsInRange(int range);
     bool IsOnCooldown();

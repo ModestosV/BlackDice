@@ -4,7 +4,7 @@ public sealed class BasicHealAbility : AbstractAbility
 {
     public BasicHealAbility(float power, int range, int cooldown, GameObject abilityAnimationPrefab, AudioClip abilitySound)
     {
-        Type = AbilityType.TARGET_ALLY;
+        AbilityType = AbilityType.TARGET_ALLY;
 
         this.power = power;
         this.range = range;

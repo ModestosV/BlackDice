@@ -12,7 +12,6 @@ public class CharacterControllerTests
     IHexTileController startTileController;
     IHexTileController endTileController;
     IHexTile endTile;
-    ITurnController turnController;
     IHUDController hudController;
     IHealthBar healthBar;
 
@@ -56,7 +55,6 @@ public class CharacterControllerTests
         startTileController = Substitute.For<IHexTileController>();
         endTileController = Substitute.For<IHexTileController>();
         endTile = Substitute.For<IHexTile>();
-        turnController = Substitute.For<ITurnController>();
         hudController = Substitute.For<IHUDController>();
         healthBar = Substitute.For<IHealthBar>();
 
@@ -90,7 +88,6 @@ public class CharacterControllerTests
         {
             Character = character,
             OccupiedTile = startTileController,
-            TurnController = turnController,
             HUDController = hudController,
             CharacterStats = characterStats,
             Abilities = abilities,
@@ -206,7 +203,6 @@ public class CharacterControllerTests
         sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
 
         targetCharacterController.DidNotReceive();
-        turnController.DidNotReceive();
         ability1.DidNotReceive();
         ability2.DidNotReceive();
     }

@@ -27,14 +27,12 @@ public sealed class GameManager : MonoBehaviour
         List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {
-            character.TurnController = turnController;
             turnController.AddCharacter(character);
         }
 
         // Initialize Menus
         FindObjectOfType<SurrenderButton>().TurnController = turnController;
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
-        Debug.Log(endMatchMenu);
 
         // Initialize HUD
         hudController = new HUDController();
@@ -56,6 +54,7 @@ public sealed class GameManager : MonoBehaviour
         selectionManager = new SelectionManager()
         {
             GridSelectionController = gridSelectionController,
+            TurnController = turnController,
             SelectionMode = SelectionMode.FREE
         };
 
@@ -104,7 +103,6 @@ public sealed class GameManager : MonoBehaviour
         foreach (ICharacterController character in characters)
         {
             character.HUDController = hudController;
-            character.TurnController = turnController;
         }
 
         // Initialize turn panel
