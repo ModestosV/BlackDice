@@ -7,13 +7,14 @@ public enum SelectionMode
     MOVEMENT
 }
 
-public sealed class SelectionManager : ISelectionManager
+public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
     public IGridSelectionController GridSelectionController { private get; set; }
     public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
-    public SelectionMode SelectionMode { private get; set; }
     public ITurnController TurnController { get; set; }
 
+
+    private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
 
     public void Update(IInputParameters inputParameters)
@@ -22,14 +23,14 @@ public sealed class SelectionManager : ISelectionManager
 
         if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility(abilityIndex))
         {
-            SelectionMode = SelectionMode.ABILITY;
+            selectionMode = SelectionMode.ABILITY;
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            SelectionMode = SelectionMode.MOVEMENT;
+            selectionMode = SelectionMode.MOVEMENT;
         }
 
-        switch (SelectionMode)
+        switch (selectionMode)
         {
             case SelectionMode.FREE:
                 activeSelectionController = SelectionControllers["free"];
@@ -81,6 +82,16 @@ public sealed class SelectionManager : ISelectionManager
             return false;
 
         return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(UpdateSelectionModeEvent))
+        {
+            var newSelectionMode = (UpdateSelectionModeEvent) @event;
+            selectionMode = newSelectionMode.SelectionMode;
+        }
     }
 }
 

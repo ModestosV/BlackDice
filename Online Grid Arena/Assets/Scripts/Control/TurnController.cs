@@ -7,7 +7,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     public List<ICharacterController> ExhaustedCharacters { private get; set; }
     public ICharacterController ActiveCharacter { private get; set; }
     public ITurnPanelController TurnTracker { private get; set; }
-    public ISelectionManager SelectionManager { private get; set; }
 
     public TurnController()
     {
@@ -88,7 +87,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
         }
 
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     private void RemoveCharacter(ICharacterController character)
@@ -149,6 +148,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 }

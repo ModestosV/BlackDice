@@ -10,7 +10,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoEscapePressed()
     {
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickUnoccupiedOtherTile()
@@ -28,7 +28,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
         selectedCharacter.ExecuteMove(path);
         if (!selectedCharacter.CanMove())
         {
-            SelectionManager.SelectionMode = SelectionMode.FREE;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
         }
     }
 

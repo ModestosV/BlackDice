@@ -7,7 +7,6 @@ public class TargetAllyAbilitySelectionControllerTests
     TargetAllyAbilitySelectionController sut;
 
     IGridSelectionController gridSelectionController;
-    ITurnController turnController;
     ISelectionManager selectionManager;
 
     ICharacterController selectedCharacter;
@@ -24,7 +23,6 @@ public class TargetAllyAbilitySelectionControllerTests
     public void Init()
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        turnController = Substitute.For<ITurnController>();
         selectionManager = Substitute.For<ISelectionManager>();
 
         selectedCharacter = Substitute.For<ICharacterController>();
@@ -57,8 +55,7 @@ public class TargetAllyAbilitySelectionControllerTests
 
         sut = new TargetAllyAbilitySelectionController
         {
-            GridSelectionController = gridSelectionController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
     }
 
@@ -71,7 +68,6 @@ public class TargetAllyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
 
@@ -155,7 +151,6 @@ public class TargetAllyAbilitySelectionControllerTests
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetTile);
-        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
     [Test]

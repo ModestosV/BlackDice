@@ -11,7 +11,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
     protected override void DoEscapePressed()
     {
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickOccupiedOtherTile()
@@ -27,7 +27,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
         if (!targetCharacterIsAlly && inRange)
         {
             selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
-            SelectionManager.SelectionMode = SelectionMode.FREE;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
             return;
         }
     }

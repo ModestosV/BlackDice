@@ -57,33 +57,28 @@ public sealed class GameManager : MonoBehaviour
         selectionManager = new SelectionManager()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionMode = SelectionMode.FREE
+            TurnController = turnController
         };
 
         freeSelectionController = new FreeSelectionController()
         {
             GridSelectionController = gridSelectionController,
-            SelectionManager = selectionManager,
             TurnController = turnController
         };
 
         movementSelectionController = new MovementSelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
@@ -107,7 +102,6 @@ public sealed class GameManager : MonoBehaviour
 
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
-        turnController.SelectionManager = selectionManager;
 
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);
@@ -115,6 +109,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
     }
 
     private void Start()

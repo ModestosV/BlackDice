@@ -11,7 +11,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoEscapePressed()
     {
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickSelectedTile()
@@ -19,7 +19,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
         selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickOccupiedOtherTile()
@@ -35,7 +35,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
         if (targetCharacterIsAlly && inRange)
         {
             selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
-            SelectionManager.SelectionMode = SelectionMode.FREE;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
             return;
         }
     }
