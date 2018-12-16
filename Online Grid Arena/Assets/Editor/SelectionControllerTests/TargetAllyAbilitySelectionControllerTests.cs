@@ -58,7 +58,6 @@ public class TargetAllyAbilitySelectionControllerTests
         sut = new TargetAllyAbilitySelectionController
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
     }

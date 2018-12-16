@@ -33,7 +33,6 @@ public class FreeSelectionControllerTests
         sut = new FreeSelectionController
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
     }

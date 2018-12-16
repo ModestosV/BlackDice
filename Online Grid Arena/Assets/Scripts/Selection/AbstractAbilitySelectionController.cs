@@ -1,4 +1,4 @@
-﻿public abstract class AbilitySelectionController : SelectionController
+﻿public abstract class AbstractAbilitySelectionController : AbstractSelectionController
 {
     protected int activeAbilityIndex;
     

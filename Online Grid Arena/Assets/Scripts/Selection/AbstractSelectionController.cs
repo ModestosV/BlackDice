@@ -1,7 +1,6 @@
-﻿public abstract class SelectionController : ISelectionController
+﻿public abstract class AbstractSelectionController : ISelectionController
 {
     public IGridSelectionController GridSelectionController { protected get; set; }
-    public ITurnController TurnController { protected get; set; }
     public ISelectionManager SelectionManager { protected get; set; }
 
     protected IInputParameters inputParameters;

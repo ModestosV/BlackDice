@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class TargetAllyAbilitySelectionController : AbilitySelectionController
+public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelectionController
 {
     protected override void DoFirst()
     {

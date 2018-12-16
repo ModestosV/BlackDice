@@ -64,28 +64,25 @@ public sealed class GameManager : MonoBehaviour
         freeSelectionController = new FreeSelectionController()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            SelectionManager = selectionManager,
+            TurnController = turnController
         };
 
         movementSelectionController = new MovementSelectionController()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
 
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
 
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
 

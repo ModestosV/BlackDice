@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class MovementSelectionController : SelectionController
+public sealed class MovementSelectionController : AbstractSelectionController
 {
     protected override void DoFirst()
     {

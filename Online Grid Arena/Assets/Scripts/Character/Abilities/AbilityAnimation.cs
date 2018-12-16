@@ -6,7 +6,7 @@ public class AbilityAnimation : MonoBehaviour
     protected Image image;
     protected readonly float fadeOutSpeed = 1.0f;
 
-	void Start ()
+	void Start()
     {
         image = GetComponentInChildren<Image>();
 

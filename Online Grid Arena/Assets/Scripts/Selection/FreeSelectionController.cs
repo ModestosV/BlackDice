@@ -1,5 +1,7 @@
-﻿public sealed class FreeSelectionController : SelectionController
+﻿public sealed class FreeSelectionController : AbstractSelectionController
 {
+    public TurnController TurnController { private get; set; }
+
     protected override void DoFirst()
     {
         GridSelectionController.BlurAll();

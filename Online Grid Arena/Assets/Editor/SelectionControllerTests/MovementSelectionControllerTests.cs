@@ -51,7 +51,6 @@ public class MovementSelectionControllerTests
         sut = new MovementSelectionController
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
     }

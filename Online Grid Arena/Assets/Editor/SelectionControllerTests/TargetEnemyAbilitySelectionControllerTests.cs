@@ -56,7 +56,6 @@ public class TargetEnemyAbilitySelectionControllerTests
         sut = new TargetEnemyAbilitySelectionController
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
             SelectionManager = selectionManager
         };
     }
