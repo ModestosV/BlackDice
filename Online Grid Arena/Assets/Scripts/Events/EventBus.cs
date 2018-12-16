@@ -26,7 +26,7 @@ public static class EventBus
         }
     }
 
-    public static void Wipe()
+    public static void Reset()
     {
         registry = new Dictionary<Type, List<IEventSubscriber>>();
     }

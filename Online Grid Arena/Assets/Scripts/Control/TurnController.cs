@@ -34,21 +34,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             ActiveCharacter.Select();
     }
 
-    public void Surrender()
-    {
-        string activePlayerName = ActiveCharacter.OwnedByPlayer;
-        List<ICharacterController> livingCharacters = GetLivingCharacters();
-        foreach(ICharacterController character in livingCharacters)
-        {
-            if (character.OwnedByPlayer == activePlayerName)
-            {
-                character.Die();
-            }
-        }
-
-        SelectionManager.SelectionMode = SelectionMode.FREE;
-    }
-
     public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();
@@ -85,6 +70,25 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             StartNextTurn();
         }
+
+        if(type == typeof(SurrenderEvent))
+        {
+            Surrender();
+        }
+    }
+    private void Surrender()
+    {
+        string activePlayerName = ActiveCharacter.OwnedByPlayer;
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        foreach (ICharacterController character in livingCharacters)
+        {
+            if (character.OwnedByPlayer == activePlayerName)
+            {
+                character.Die();
+            }
+        }
+
+        SelectionManager.SelectionMode = SelectionMode.FREE;
     }
 
     private void RemoveCharacter(ICharacterController character)

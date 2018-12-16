@@ -18,11 +18,13 @@ public sealed class GameManager : MonoBehaviour
 
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
+    private MatchMenu matchMenu;
 
 
     private void Awake()
     {
-        EventBus.Wipe();
+        EventBus.Reset();
+
         // Initialize turn controller
         turnController = new TurnController();
         List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
@@ -32,8 +34,8 @@ public sealed class GameManager : MonoBehaviour
         }
 
         // Initialize Menus
-        FindObjectOfType<SurrenderButton>().TurnController = turnController;
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
+        matchMenu = FindObjectOfType<MatchMenu>();
 
         // Initialize HUD
         hudController = new HUDController();
@@ -112,8 +114,10 @@ public sealed class GameManager : MonoBehaviour
 
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);
-        EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
+        EventBus.Subscribe<StartNewTurnEvent>(turnController);
+        EventBus.Subscribe<SurrenderEvent>(turnController);
+        EventBus.Subscribe<SurrenderEvent>(matchMenu);
     }
 
     private void Start()

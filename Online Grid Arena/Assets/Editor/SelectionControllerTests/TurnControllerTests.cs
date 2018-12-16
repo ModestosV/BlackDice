@@ -104,7 +104,7 @@ public class TurnControllerTests
     {
         sut.ActiveCharacter = thirdCharacter;
 
-        sut.Surrender();
+        sut.Handle(new SurrenderEvent());
 
         firstCharacter.DidNotReceive();
         secondCharacter.Received(1).Die();

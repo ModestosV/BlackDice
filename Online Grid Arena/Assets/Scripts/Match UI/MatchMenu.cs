@@ -1,31 +1,40 @@
 ﻿using UnityEngine;
 
-public class MatchMenu : HideableUI, IMatchMenu {
-    
-    private bool Visible { get; set; }
-    private CanvasGroup CanvasGroup { get; set; }
+public class MatchMenu : HideableUI, IMatchMenu, IEventSubscriber
+{
+    private bool visible;
+    private CanvasGroup canvasGroup;
 
     void OnValidate()
     {
-        base.Init();
+        Init();
     }
 
     void Awake()
     {
-        base.Init();
+        Init();
         Hide();
     }
 
     public void Toggle()
     {
-        Visible = !Visible;
+        visible = !visible;
 
-        if (!Visible)
+        if (!visible)
         {
             Hide();
         } else
         {
             Show();
+        }
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(SurrenderEvent))
+        {
+            Toggle();
         }
     }
 }

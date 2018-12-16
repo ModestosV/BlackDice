@@ -11,7 +11,6 @@ public interface ITurnController
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);
     void SelectActiveCharacter();
-    void Surrender();
     List<ICharacterController> GetLivingCharacters();
     bool IsActiveCharacter(ICharacterController character);
 }

@@ -37,8 +37,6 @@ public class CharacterStat : ICharacterStat
                 lastBaseValue = BaseValue;
                 value = CalculateFinalValue();
                 isDirty = false;
-
-                Debug.Log(string.Format("Calculated final Value of {0} for {1}", value, ToString()));
             }
             return value;
         }
