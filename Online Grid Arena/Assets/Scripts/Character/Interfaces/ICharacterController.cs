@@ -16,6 +16,7 @@ public interface ICharacterController
     string OwnedByPlayer { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
+    IHealthBar HealthBar { set; }
 
     void Select();
     void Deselect();
@@ -26,6 +27,7 @@ public interface ICharacterController
     void Damage(float damage);
     void Die();
     void Heal(float heal);
+    void UpdateHealthBar();
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();

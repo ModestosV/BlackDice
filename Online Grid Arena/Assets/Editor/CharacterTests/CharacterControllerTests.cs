@@ -14,6 +14,7 @@ public class CharacterControllerTests
     IHexTile endTile;
     ITurnController turnController;
     IHUDController hudController;
+    IHealthBar healthBar;
 
     List<IAbility> abilities;
     IAbility ability1;
@@ -57,6 +58,7 @@ public class CharacterControllerTests
         endTile = Substitute.For<IHexTile>();
         turnController = Substitute.For<ITurnController>();
         hudController = Substitute.For<IHUDController>();
+        healthBar = Substitute.For<IHealthBar>();
 
         health = Substitute.For<ICharacterStat>();
         health.CurrentValue.Returns(CHARACTER_CURRENT_HEALTH);
@@ -95,7 +97,8 @@ public class CharacterControllerTests
             OwnedByPlayer = PLAYER_NAME,
             AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
             CharacterIcon = CHARACTER_ICON,
-            BorderColor = BORDER_COLOR
+            BorderColor = BORDER_COLOR,
+            HealthBar = healthBar
         };
     }
 

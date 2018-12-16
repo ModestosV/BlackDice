@@ -16,7 +16,8 @@ public class Character : MonoBehaviour, ICharacter
             Character = this,
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
-            BorderColor = borderColor
+            BorderColor = borderColor,
+            HealthBar = GetComponentInChildren<HealthBar>()
         };
     }
 
@@ -24,6 +25,7 @@ public class Character : MonoBehaviour, ICharacter
     {
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+        characterController.UpdateHealthBar();
     }
 
     public void Destroy()
