@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public sealed class InputManager : MonoBehaviour {
-
+public sealed class InputManager : MonoBehaviour
+{
     public ISelectionManager SelectionManager { private get; set; }
 
     private IInputParameters lastInputParameters;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterControllerTests
 {
-    DefaultCharacterController sut;
+    CharacterController sut;
 
     ICharacter character;
     ICharacterController targetCharacterController;

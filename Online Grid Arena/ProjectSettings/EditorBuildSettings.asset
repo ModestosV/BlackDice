@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 2996d87c353a5488d99f9bdcfdf0da81
   - enabled: 1
-    path: Assets/Scenes/MatchScratch.unity
+    path: Assets/Scenes/Match.unity
     guid: eb1295414650e6e419768e48dfd59f61
   m_configObjects: {}

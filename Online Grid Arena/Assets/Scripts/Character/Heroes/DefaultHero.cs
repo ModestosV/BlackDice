@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class DefaultHero : Character
+public sealed class DefaultHero : AbstractCharacter
 {
     void Awake()
     {
@@ -24,7 +24,7 @@ public sealed class DefaultHero : Character
             {"moves", moves}
         };
 
-        abstractCharacterController = new CharacterController()
+        characterController = new CharacterController()
         {
             Character = this,
             OwnedByPlayer = playerName,
@@ -38,8 +38,8 @@ public sealed class DefaultHero : Character
 
     void Start()
     {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = abstractCharacterController;
-        abstractCharacterController.RefreshStats();
-        abstractCharacterController.UpdateHealthBar();
+        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
+        characterController.RefreshStats();
+        characterController.UpdateHealthBar();
     }
 }

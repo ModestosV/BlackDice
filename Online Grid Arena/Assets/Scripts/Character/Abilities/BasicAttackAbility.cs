@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class BasicAttackAbility : Ability
+public sealed class BasicAttackAbility : AbstractAbility
 {
     public BasicAttackAbility(float power, int range, int cooldown, GameObject abilityAnimationPrefab, AudioClip abilitySound)
     {

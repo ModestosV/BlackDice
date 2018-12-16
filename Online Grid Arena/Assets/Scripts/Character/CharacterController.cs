@@ -92,16 +92,6 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
-    private bool CheckExhausted()
-    {
-        if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
-        {
-            TurnController.StartNextTurn();
-            return true;
-        }
-        return false;
-    }
-
     public void Refresh()
     {
         CharacterStats["moves"].Refresh();
@@ -136,10 +126,9 @@ public class CharacterController : ICharacterController
 
     public void Die()
     {
+        EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
-        TurnController.RemoveCharacter(this);
         Character.Destroy();
-        TurnController.CheckWinCondition();
     }
 
     public bool CanMove(int distance = 1)
@@ -199,5 +188,13 @@ public class CharacterController : ICharacterController
     {
         HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
         HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
+    }
+
+    private void CheckExhausted()
+    {
+        if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
+        {
+            EventBus.Publish(new StartNewTurnEvent());
+        }
     }
 }

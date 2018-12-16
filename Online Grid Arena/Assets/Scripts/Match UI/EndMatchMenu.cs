@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public sealed class EndMatchMenu : HideableUI, IEndMatchPanel, IEventSubscriber {
+public sealed class EndMatchMenu : HideableUI, IEventSubscriber {
 
     private Text text;
 

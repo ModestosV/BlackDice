@@ -24,7 +24,7 @@ public sealed class GameManager : MonoBehaviour
     {
         // Initialize turn controller
         turnController = new TurnController();
-        List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
+        List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {
             character.TurnController = turnController;
@@ -100,7 +100,7 @@ public sealed class GameManager : MonoBehaviour
         inputManager.SelectionManager = selectionManager;
 
         // Initialize characters
-        List<ICharacterController> characters = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
+        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in characters)
         {
             character.HUDController = hudController;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class BasicHealAbility : Ability
+public sealed class BasicHealAbility : AbstractAbility
 {
     public BasicHealAbility(float power, int range, int cooldown, GameObject abilityAnimationPrefab, AudioClip abilitySound)
     {

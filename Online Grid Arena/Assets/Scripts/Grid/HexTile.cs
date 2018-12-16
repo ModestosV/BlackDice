@@ -23,7 +23,7 @@ public sealed class HexTile : MonoBehaviour, IHexTile
 
     private void LinkOccupiedCharacter()
     {
-        ICharacter occupantCharacter = GetComponentInChildren<Character>();
+        ICharacter occupantCharacter = GetComponentInChildren<AbstractCharacter>();
 
         if (occupantCharacter == null) return;
 

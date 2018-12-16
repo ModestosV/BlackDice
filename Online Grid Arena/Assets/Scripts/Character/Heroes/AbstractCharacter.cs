@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public abstract class Character : MonoBehaviour, ICharacter
+public abstract class AbstractCharacter : MonoBehaviour, ICharacter
 {
     [SerializeField] protected string playerName;
 
-    protected AbstractCharacterController abstractCharacterController;
+    protected CharacterController characterController;
 
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour, ICharacter
 
     public override string ToString()
     {
-        return string.Format("(Character|{0}: {1})", this.GetHashCode(), abstractCharacterController.ToString());
+        return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
     }
 
     #region IMonoBehaviour implementation

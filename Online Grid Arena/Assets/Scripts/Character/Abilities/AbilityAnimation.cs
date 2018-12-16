@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AbilityAnimation : MonoBehaviour {
-
+public class AbilityAnimation : MonoBehaviour
+{
     protected Image image;
     protected readonly float fadeOutSpeed = 1.0f;
 

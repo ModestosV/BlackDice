@@ -7,7 +7,7 @@ public enum AbilityType
     TARGET_ALLY
 }
 
-public abstract class Ability : IAbility
+public abstract class AbstractAbility : IAbility
 {
     public AbilityType Type { get; set; }
     protected float power;
