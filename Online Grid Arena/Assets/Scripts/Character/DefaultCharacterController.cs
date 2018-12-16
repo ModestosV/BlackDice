@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class DefaultCharacterController : CharacterController
+public sealed class DefaultCharacterController : AbstractCharacterController
 {
     public DefaultCharacterController()
     {

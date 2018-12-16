@@ -7,15 +7,10 @@ public interface ITurnController
     ICharacterController ActiveCharacter { set; }
     ITurnPanelController TurnTracker { set; }
     ISelectionManager SelectionManager { set; }
-
-    IEndMatchPanel EndMatchPanel { set; }
-
-    void StartNextTurn();
+    
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);
-    void RemoveCharacter(ICharacterController character);
     void SelectActiveCharacter();
-    void CheckWinCondition();
     void Surrender();
     List<ICharacterController> GetLivingCharacters();
     bool IsActiveCharacter(ICharacterController character);

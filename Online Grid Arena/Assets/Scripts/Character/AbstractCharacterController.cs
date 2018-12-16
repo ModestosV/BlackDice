@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class CharacterController : ICharacterController
+public abstract class AbstractCharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { protected get; set; }
@@ -91,14 +91,12 @@ public abstract class CharacterController : ICharacterController
         CheckExhausted();
     }
 
-    private bool CheckExhausted()
+    private void CheckExhausted()
     {
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
-            TurnController.StartNextTurn();
-            return true;
+            EventBus.Publish(new StartNewTurnEvent());
         }
-        return false;
     }
 
     public void Refresh()
@@ -128,13 +126,12 @@ public abstract class CharacterController : ICharacterController
         CharacterStats["health"].CurrentValue += heal;
         UpdateHealthBar();
     }
-
+    
     public void Die()
     {
+        EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
-        TurnController.RemoveCharacter(this);
         Character.Destroy();
-        TurnController.CheckWinCondition();
     }
 
     public bool CanMove(int distance = 1)

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterControllerTests
 {
-    CharacterController sut;
+    DefaultCharacterController sut;
 
     ICharacter character;
     ICharacterController targetCharacterController;
@@ -111,39 +111,22 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Damage_updates_healthbar_UI_element()
-    {
-        sut.Damage(DAMAGE_AMOUNT);
-        healthBar.Received(1).SetHealthBarRatio((CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT) / CHARACTER_MAX_HEALTH);
-    }
-
-    [Test]
-    public void Damage_updates_healthbar_text_element()
-    {
-        sut.Damage(DAMAGE_AMOUNT);
-        healthBar.Received(1).SetHealthText(((int)(CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT)).ToString(), ((int)CHARACTER_MAX_HEALTH).ToString());
-    }
-
-    [Test]
-    public void Damaging_beyond_zero_health_removes_character_from_match_and_checks_win_condition()
+    public void Damaging_beyond_zero_health_removes_character_from_match()
     {
         health.CurrentValue.Returns(0.0f);
 
         sut.Damage(DAMAGE_AMOUNT);
 
         startTileController.Received(1).ClearOccupant();
-        turnController.Received(1).RemoveCharacter(sut);
         character.Received(1).Destroy();
-        turnController.Received(1).CheckWinCondition();
     }
 
     [Test]
-    public void Die_removes_character_from_the_match()
+    public void Die_destroys_character()
     {
         sut.Die();
 
         startTileController.Received(1).ClearOccupant();
-        turnController.Received(1).RemoveCharacter(sut);
         character.Received(1).Destroy();
     }
 
@@ -202,27 +185,6 @@ public class CharacterControllerTests
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
         hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME);
-    }
-
-    [Test]
-    public void Execute_move_ends_turn_when_no_moves_or_abilities_remaining()
-    {
-        sut.AbilitiesRemaining = 0;
-        moves.CurrentValue.Returns(1);
-
-        sut.ExecuteMove(pathList);
-
-        turnController.Received(1).StartNextTurn();
-    }
-
-    [Test]
-    public void Execute_ability_ends_turn_when_no_moves_or_abilities_remaining()
-    {
-        moves.CurrentValue.Returns(0);
-
-        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
-
-        turnController.Received(1).StartNextTurn();
     }
 
     [Test]
