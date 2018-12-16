@@ -24,7 +24,7 @@ public sealed class RocketCat : Character
             {"moves", moves}
         };
 
-        characterController = new CharacterController()
+        abstractCharacterController = new CharacterController()
         {
             Character = this,
             OwnedByPlayer = playerName,
@@ -38,8 +38,8 @@ public sealed class RocketCat : Character
 
     void Start()
     {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
+        GetComponentInParent<HexTile>().Controller.OccupantCharacter = abstractCharacterController;
+        abstractCharacterController.RefreshStats();
+        abstractCharacterController.UpdateHealthBar();
     }
 }

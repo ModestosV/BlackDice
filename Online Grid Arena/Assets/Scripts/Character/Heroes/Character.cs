@@ -4,7 +4,7 @@ public abstract class Character : MonoBehaviour, ICharacter
 {
     [SerializeField] protected string playerName;
 
-    protected CharacterController characterController;
+    protected AbstractCharacterController abstractCharacterController;
 
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour, ICharacter
 
     public override string ToString()
     {
-        return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
+        return string.Format("(Character|{0}: {1})", this.GetHashCode(), abstractCharacterController.ToString());
     }
 
     #region IMonoBehaviour implementation

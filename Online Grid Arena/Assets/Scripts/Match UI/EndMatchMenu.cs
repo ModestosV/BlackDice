@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public sealed class EndMatchMenu : HideableUI, IEndMatchPanel {
+public sealed class EndMatchMenu : HideableUI, IEndMatchPanel, IEventSubscriber {
 
     private Text text;
 
@@ -21,5 +21,16 @@ public sealed class EndMatchMenu : HideableUI, IEndMatchPanel {
     public void SetWinnerText(string winnerText)
     {
         text.text = winnerText;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(EndMatchEvent))
+        {
+            var endGameEvent = (EndMatchEvent) @event;
+            Show();
+            SetWinnerText(endGameEvent.EndingText);
+        }
     }
 }

@@ -17,14 +17,13 @@ public sealed class GameManager : MonoBehaviour
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
-    
+    private EndMatchMenu endMatchMenu;
+
+
     private void Awake()
     {
         // Initialize turn controller
-        turnController = new TurnController
-        {
-            EndMatchPanel = FindObjectOfType<EndMatchMenu>()
-        };
+        turnController = new TurnController();
         List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {
@@ -32,9 +31,11 @@ public sealed class GameManager : MonoBehaviour
             turnController.AddCharacter(character);
         }
 
-        // Initialize Menu
+        // Initialize Menus
         FindObjectOfType<SurrenderButton>().TurnController = turnController;
-        
+        endMatchMenu = FindObjectOfType<EndMatchMenu>();
+        Debug.Log(endMatchMenu);
+
         // Initialize HUD
         hudController = new HUDController();
 
@@ -47,8 +48,6 @@ public sealed class GameManager : MonoBehaviour
         hudController.TargetStatPanel = statPanels[0].Controller;
         hudController.TargetPlayerPanel = playerPanels[0];
         hudController.AbilityPanel = abilityPanel;
-
-        FindObjectOfType<EndTurnButton>().TurnController = turnController;
 
         // Initialize grid
         gridSelectionController = new GridSelectionController();
@@ -111,11 +110,16 @@ public sealed class GameManager : MonoBehaviour
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
         turnController.SelectionManager = selectionManager;
+
+        // Initialize Event Subscribing
+        EventBus.Subscribe<DeathEvent>(turnController);
+        EventBus.Subscribe<StartNewTurnEvent>(turnController);
+        EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
     }
 
     private void Start()
     {
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
-        turnController.StartNextTurn();
+        EventBus.Publish(new StartNewTurnEvent());
     }
 }

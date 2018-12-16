@@ -1,4 +1,4 @@
-﻿public interface IEndMatchPanel
+﻿public interface IEndMatchMenu
 {
     void Show();
     void Hide();
