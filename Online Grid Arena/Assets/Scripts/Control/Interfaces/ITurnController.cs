@@ -6,12 +6,10 @@ public interface ITurnController
     List<ICharacterController> ExhaustedCharacters { set; }
     ICharacterController ActiveCharacter { set; }
     ITurnPanelController TurnTracker { set; }
-    ISelectionManager SelectionManager { set; }
     
     void AddCharacters(List<ICharacterController> characters);
     void AddCharacter(ICharacterController character);
     void SelectActiveCharacter();
-    void Surrender();
     List<ICharacterController> GetLivingCharacters();
     bool IsActiveCharacter(ICharacterController character);
 }

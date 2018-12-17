@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-public class StatPanelController : IStatPanelController
+public sealed class StatPanelController : IStatPanelController
 {
-    public List<IStatDisplay> StatDisplays { protected get; set; }
-    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
-    public List<string> StatNames { protected get; set; }
+    public List<IStatDisplay> StatDisplays { private get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { private get; set; }
+    public List<string> StatNames { private get; set; }
     
     public void UpdateStatValues()
     {

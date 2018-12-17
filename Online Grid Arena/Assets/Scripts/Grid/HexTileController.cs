@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public class HexTileController : IHexTileController
+public sealed class HexTileController : IHexTileController
 {
     public Tuple<int, int, int> Coordinates { get; set; }
 
     public bool IsEnabled { get; set; }
-    public bool IsSelected { protected get; set; }
+    public bool IsSelected { private get; set; }
 
-    public IGridSelectionController GridSelectionController { protected get; set; }
-    public IGridController GridController { protected get; set; }
+    public IGridSelectionController GridSelectionController { private get; set; }
+    public IGridController GridController { private get; set; }
     public IHexTile HexTile { get; set; }
     public ICharacterController OccupantCharacter { get; set; }
 
@@ -238,6 +239,11 @@ public class HexTileController : IHexTileController
         }
 
         return new List<IHexTileController>();
+    }
+
+    public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        HexTile.PlayAbilityAnimation(abilityAnimationPrefab);
     }
 
     private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<Tuple<int, int, int>, IHexTileController> bestParents)

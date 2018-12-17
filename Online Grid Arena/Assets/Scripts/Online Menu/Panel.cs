@@ -3,26 +3,26 @@ using TMPro;
 
 public abstract class Panel : MonoBehaviour
 {
-    public GameObject loadingCircle;
-    public TextMeshProUGUI StatusText;
+    protected LoadingCircle loadingCircle;
+    protected TextMeshProUGUI statusText;
 
     public void ActivateLoadingCircle()
     {
-        loadingCircle.SetActive(true);
+        loadingCircle.gameObject.SetActive(true);
     }
 
     public void DeactivateLoadingCircle()
     {
-        loadingCircle.SetActive(false);
+        loadingCircle.gameObject.SetActive(false);
     }
 
     public void SetStatus(string statusText)
     {
-        StatusText.text = statusText;
+        this.statusText.text = statusText;
     }
 
     public void ClearStatus()
     {
-        StatusText.text = "";
+        statusText.text = "";
     }
 }

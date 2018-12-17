@@ -1,5 +1,7 @@
-﻿public sealed class FreeSelectionController : SelectionController
+﻿public sealed class FreeSelectionController : AbstractSelectionController
 {
+    public TurnController TurnController { private get; set; }
+
     protected override void DoFirst()
     {
         GridSelectionController.BlurAll();
@@ -22,19 +24,9 @@
         GridSelectionController.DeselectAll();
     }
 
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
     protected override void DoClickDisabledTile()
     {
         GridSelectionController.DeselectAll();
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
     }
 
     protected override void DoClickUnoccupiedOtherTile()
@@ -57,11 +49,6 @@
     protected override void DoHoverUnoccupiedTile()
     {
         inputParameters.TargetTile.Hover();
-    }
-
-    protected override void DoHoverSelectedTile()
-    {
-
     }
 
     protected override void DoHoverOccupiedTile()

@@ -1,28 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SurrenderButton : MonoBehaviour {
-
-    private Button Button { get; set; }
-    private IMatchMenu MatchMenu { get; set; }
-    public ITurnController TurnController { protected get; set; }
+public sealed class SurrenderButton : MonoBehaviour
+{
+    private Button button;
 
     void OnValidate()
     {
-        Button = GetComponent<Button>();
-        MatchMenu = GetComponentInParent<MatchMenu>();
+        button = GetComponent<Button>();
     }
 
     void Awake()
     {
-        Button = GetComponent<Button>();
-        MatchMenu = GetComponentInParent<MatchMenu>();
-        Button.onClick.AddListener(Surrender);
+        button = GetComponent<Button>();
+        button.onClick.AddListener(Surrender);
 	}
 
-    public void Surrender()
+    private void Surrender()
     {
-        TurnController.Surrender();
-        MatchMenu.Toggle();
+        EventBus.Publish(new SurrenderEvent());
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-public class EndTurnButton : MonoBehaviour
+public sealed class EndTurnButton : MonoBehaviour
 {
     private Button Button { get; set; }
 

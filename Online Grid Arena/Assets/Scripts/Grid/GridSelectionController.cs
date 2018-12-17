@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-public class GridSelectionController : IGridSelectionController
+public sealed class GridSelectionController : IGridSelectionController
 {
-    public List<IHexTileController> SelectedTiles { protected get; set; }
-    public List<IHexTileController> HoveredTiles { protected get; set; }
-    public List<IHexTileController> HighlightedTiles { protected get; set; }
+    public List<IHexTileController> SelectedTiles { private get; set; }
+    public List<IHexTileController> HoveredTiles { private get; set; }
+    public List<IHexTileController> HighlightedTiles { private get; set; }
 
     #region IGridSelectionController implementation
 

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class InputManager : MonoBehaviour {
-
-    public ISelectionManager SelectionManager { protected get; set; }
+public sealed class InputManager : MonoBehaviour
+{
+    public ISelectionManager SelectionManager { private get; set; }
 
     private IInputParameters lastInputParameters;
 

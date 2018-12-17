@@ -7,7 +7,6 @@ public class FreeSelectionControllerTests
 
     IGridSelectionController gridSelectionController;
     ITurnController turnController;
-    ISelectionManager selectionManager;
     
     IInputParameters inputParameters;
 
@@ -18,7 +17,6 @@ public class FreeSelectionControllerTests
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
         turnController = Substitute.For<ITurnController>();
-        selectionManager = Substitute.For<ISelectionManager>();
         
         inputParameters = Substitute.For<IInputParameters>();
         
@@ -32,9 +30,7 @@ public class FreeSelectionControllerTests
 
         sut = new FreeSelectionController
         {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
     }
 

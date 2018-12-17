@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public interface IHexTileController
 {
@@ -37,4 +38,5 @@ public interface IHexTileController
     List<IHexTileController> GetNeighbors();
     List<IHexTileController> GetPath(IHexTileController startTile);
 
+    void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 }

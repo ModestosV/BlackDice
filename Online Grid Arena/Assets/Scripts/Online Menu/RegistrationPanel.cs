@@ -1,36 +1,44 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using TMPro;
 
-public class RegistrationPanel : Panel, IRegistrationPanel 
+public sealed class RegistrationPanel : Panel, IRegistrationPanel 
 {
-    public Button registerButton;
+    private Button registerButton;
 
-    public IOnlineMenuController OnlineMenuController { protected get; set; }
+    public IOnlineMenuController OnlineMenuController { private get; set; }
 
-    private TMP_InputField EmailInputField { get; set; }
-    private TMP_InputField PasswordInputField { get; set; }
-    private TMP_InputField UsernameInputField { get; set; }
+    private TMP_InputField emailInputField;
+    private TMP_InputField passwordInputField;
+    private TMP_InputField usernameInputField;
 
     private void OnValidate()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailInputField = GetComponentsInChildren<TMP_InputField>()[0];
-        PasswordInputField = GetComponentsInChildren<TMP_InputField>()[1];
-        UsernameInputField = GetComponentsInChildren<TMP_InputField>()[2];
+        loadingCircle = GetComponentInChildren<LoadingCircle>();
+        statusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        registerButton = GetComponentInChildren<Button>();
+        emailInputField = GetComponentsInChildren<TMP_InputField>()[0];
+        passwordInputField = GetComponentsInChildren<TMP_InputField>()[1];
+        usernameInputField = GetComponentsInChildren<TMP_InputField>()[2];
     }
 
     private void Awake()
     {
-        StatusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-        EmailInputField = GetComponentsInChildren<TMP_InputField>()[0];
-        PasswordInputField = GetComponentsInChildren<TMP_InputField>()[1];
-        UsernameInputField = GetComponentsInChildren<TMP_InputField>()[2];
+        loadingCircle = GetComponentInChildren<LoadingCircle>();
+        statusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        registerButton = GetComponentInChildren<Button>();
+        emailInputField = GetComponentsInChildren<TMP_InputField>()[0];
+        passwordInputField = GetComponentsInChildren<TMP_InputField>()[1];
+        usernameInputField = GetComponentsInChildren<TMP_InputField>()[2];
+    }
+
+    void Start()
+    {
+        loadingCircle.gameObject.SetActive(false);
     }
 
     public void Register()
     {
-        OnlineMenuController.Register(EmailInputField.text, PasswordInputField.text, UsernameInputField.text);
+        OnlineMenuController.Register(emailInputField.text, passwordInputField.text, usernameInputField.text);
     }
 
     public void EnableRegisterButton()

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class MovementSelectionController : SelectionController
+public sealed class MovementSelectionController : AbstractSelectionController
 {
     protected override void DoFirst()
     {
@@ -10,32 +10,7 @@ public sealed class MovementSelectionController : SelectionController
 
     protected override void DoEscapePressed()
     {
-        SelectionManager.SelectionMode = SelectionMode.FREE;
-    }
-
-    protected override void DoTabPressed()
-    {
-
-    }
-
-    protected override void DoClickOffGrid()
-    {
-
-    }
-
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
-    protected override void DoClickDisabledTile()
-    {
-
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickUnoccupiedOtherTile()
@@ -53,13 +28,8 @@ public sealed class MovementSelectionController : SelectionController
         selectedCharacter.ExecuteMove(path);
         if (!selectedCharacter.CanMove())
         {
-            SelectionManager.SelectionMode = SelectionMode.FREE;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
         }
-    }
-
-    protected override void DoClickSelectedTile()
-    {
-
     }
 
     protected override void DoClickOccupiedOtherTile()
@@ -99,11 +69,6 @@ public sealed class MovementSelectionController : SelectionController
             path[i].Highlight();
         }
         return;
-    }
-
-    protected override void DoHoverSelectedTile()
-    {
-
     }
 
     protected override void DoHoverOccupiedTile()

@@ -1,4 +1,6 @@
-﻿public interface IHexTile : IMonoBehaviour
+﻿using UnityEngine;
+
+public interface IHexTile : IMonoBehaviour
 {
     void SetHoverMaterial();
     void SetErrorMaterial();
@@ -8,4 +10,6 @@
     bool IsMouseOver();
 
     IHexTileController Controller { get; }
+
+    void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 }

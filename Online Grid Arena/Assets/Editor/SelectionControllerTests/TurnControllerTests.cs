@@ -17,7 +17,6 @@ public class TurnControllerTests
     const string PLAYER_2_NAME = "2";
 
     ITurnPanelController turnTracker;
-    ISelectionManager selectionManager;
 
     [SetUp]
     public void Init()
@@ -37,15 +36,13 @@ public class TurnControllerTests
         thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
 
         turnTracker = Substitute.For<ITurnPanelController>();
-        selectionManager = Substitute.For<ISelectionManager>();
 
         sut = new TurnController
         {
             RefreshedCharacters = refreshedCharactersList,
             ExhaustedCharacters = exhaustedCharactersList,
             ActiveCharacter = null,
-            TurnTracker = turnTracker,
-            SelectionManager = selectionManager
+            TurnTracker = turnTracker
         };
     }
 
@@ -92,19 +89,11 @@ public class TurnControllerTests
     }
 
     [Test]
-    public void Start_next_turn_event_sets_selection_mode_to_free_selection()
-    {
-        sut.Handle(new StartNewTurnEvent());
-
-        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
-    }
-
-    [Test]
     public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
     {
         sut.ActiveCharacter = thirdCharacter;
 
-        sut.Surrender();
+        sut.Handle(new SurrenderEvent());
 
         firstCharacter.DidNotReceive();
         secondCharacter.Received(1).Die();

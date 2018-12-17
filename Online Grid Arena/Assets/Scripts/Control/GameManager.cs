@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager : MonoBehaviour
+public sealed class GameManager : MonoBehaviour
 {
-    public SelectionMode SelectionMode { protected get; set; }
+    public SelectionMode SelectionMode { private get; set; }
 
     private TurnController turnController;
     private HUDController hudController;
@@ -18,24 +18,23 @@ public class GameManager : MonoBehaviour
 
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
-
+    private MatchMenu matchMenu;
 
     private void Awake()
     {
-        EventBus.Wipe();
+        EventBus.Reset();
+
         // Initialize turn controller
         turnController = new TurnController();
-        List<ICharacterController> charactersList = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
+        List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in charactersList)
         {
-            character.TurnController = turnController;
             turnController.AddCharacter(character);
         }
 
         // Initialize Menus
-        FindObjectOfType<SurrenderButton>().TurnController = turnController;
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
-        Debug.Log(endMatchMenu);
+        matchMenu = FindObjectOfType<MatchMenu>();
 
         // Initialize HUD
         hudController = new HUDController();
@@ -57,35 +56,28 @@ public class GameManager : MonoBehaviour
         selectionManager = new SelectionManager()
         {
             GridSelectionController = gridSelectionController,
-            SelectionMode = SelectionMode.FREE
+            TurnController = turnController
         };
 
         freeSelectionController = new FreeSelectionController()
         {
             GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            TurnController = turnController
         };
 
         movementSelectionController = new MovementSelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
         {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
 
         selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
@@ -101,21 +93,22 @@ public class GameManager : MonoBehaviour
         inputManager.SelectionManager = selectionManager;
 
         // Initialize characters
-        List<ICharacterController> characters = FindObjectsOfType<Character>().Select(x => x.Controller).ToList();
+        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         foreach (ICharacterController character in characters)
         {
             character.HUDController = hudController;
-            character.TurnController = turnController;
         }
 
         // Initialize turn panel
         turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
-        turnController.SelectionManager = selectionManager;
 
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);
-        EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
+        EventBus.Subscribe<StartNewTurnEvent>(turnController);
+        EventBus.Subscribe<SurrenderEvent>(turnController);
+        EventBus.Subscribe<SurrenderEvent>(matchMenu);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
     }
 
     private void Start()

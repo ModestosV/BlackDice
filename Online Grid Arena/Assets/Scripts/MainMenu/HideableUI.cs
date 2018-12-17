@@ -2,22 +2,27 @@
 
 public abstract class HideableUI : MonoBehaviour
 {
-    private CanvasGroup CanvasGroup { get; set; }
+    private CanvasGroup canvasGroup;
 
-    private void Awake()
+    void Awake()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();    
+        canvasGroup = GetComponent<CanvasGroup>();    
+    }
+
+    public void Init()
+    {
+        Awake();
     }
 
     public void Hide()
     {
-        CanvasGroup.alpha = 0.0f;
-        CanvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0.0f;
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void Show()
     {
-        CanvasGroup.alpha = 1.0f;
-        CanvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.blocksRaycasts = true;
     }
 }

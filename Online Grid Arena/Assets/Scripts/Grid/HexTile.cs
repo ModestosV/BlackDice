@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class HexTile : MonoBehaviour, IHexTile
+public sealed class HexTile : MonoBehaviour, IHexTile
 {
-    public HexTileMaterialSet materials;
+    [SerializeField] private HexTileMaterialSet materials;
 
     private HexTileController hexTileController;
 
@@ -23,7 +23,7 @@ public class HexTile : MonoBehaviour, IHexTile
 
     private void LinkOccupiedCharacter()
     {
-        ICharacter occupantCharacter = GetComponentInChildren<Character>();
+        ICharacter occupantCharacter = GetComponentInChildren<AbstractCharacter>();
 
         if (occupantCharacter == null) return;
 
@@ -68,6 +68,11 @@ public class HexTile : MonoBehaviour, IHexTile
     public IHexTileController Controller
     {
         get { return hexTileController; }
+    }
+    
+    public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        Instantiate(abilityAnimationPrefab, gameObject.transform);
     }
 
     #endregion

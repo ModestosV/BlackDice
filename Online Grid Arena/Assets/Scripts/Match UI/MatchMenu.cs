@@ -1,26 +1,23 @@
-﻿using UnityEngine;
-
-public class MatchMenu : MonoBehaviour, IMatchMenu {
-    
-    private bool Visible { get; set; }
-    private CanvasGroup CanvasGroup { get; set; }
+﻿public class MatchMenu : HideableUI, IMatchMenu, IEventSubscriber
+{
+    private bool visible;
 
     void OnValidate()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();
+        Init();
     }
 
     void Awake()
     {
-        CanvasGroup = GetComponent<CanvasGroup>();
+        Init();
         Hide();
     }
 
     public void Toggle()
     {
-        Visible = !Visible;
+        visible = !visible;
 
-        if (!Visible)
+        if (!visible)
         {
             Hide();
         } else
@@ -29,17 +26,12 @@ public class MatchMenu : MonoBehaviour, IMatchMenu {
         }
     }
 
-    private void Hide()
+    public void Handle(IEvent @event)
     {
-        CanvasGroup.alpha = 0.0f;
-        CanvasGroup.interactable = false;
-        CanvasGroup.blocksRaycasts = false;
-    }
-
-    private void Show()
-    {
-        CanvasGroup.alpha = 1.0f;
-        CanvasGroup.interactable = true;
-        CanvasGroup.blocksRaycasts = true;
+        var type = @event.GetType();
+        if (type == typeof(SurrenderEvent))
+        {
+            Toggle();
+        }
     }
 }

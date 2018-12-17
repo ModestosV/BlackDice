@@ -7,7 +7,6 @@ public class MovementSelectionControllerTests
     MovementSelectionController sut;
 
     IGridSelectionController gridSelectionController;
-    ITurnController turnController;
     ISelectionManager selectionManager;
 
     ICharacterController selectedCharacter;
@@ -23,7 +22,6 @@ public class MovementSelectionControllerTests
     public void Init()
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        turnController = Substitute.For<ITurnController>();
         selectionManager = Substitute.For<ISelectionManager>();
 
         selectedCharacter = Substitute.For<ICharacterController>();
@@ -50,9 +48,7 @@ public class MovementSelectionControllerTests
 
         sut = new MovementSelectionController
         {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController,
-            SelectionManager = selectionManager
+            GridSelectionController = gridSelectionController
         };
     }
 
@@ -65,7 +61,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        selectionManager.Received(1).SelectionMode = SelectionMode.FREE;
     }
 
 
@@ -79,7 +74,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -92,7 +86,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -106,7 +99,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -120,7 +112,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
     }
 
     [Test]
@@ -180,7 +171,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }
 
@@ -227,7 +217,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }
 
@@ -242,7 +231,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         for (int i = 1; i < pathList.Count; i++)
         {
             pathList[i].Received(1).HoverError();
@@ -259,7 +247,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         for (int i = 1; i < pathList.Count; i++)
         {
             pathList[i].Received(1).Highlight();
@@ -277,7 +264,6 @@ public class MovementSelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectionManager.DidNotReceive().SelectionMode = Arg.Any<SelectionMode>();
         targetTile.Received(1).HoverError();
     }    
 }

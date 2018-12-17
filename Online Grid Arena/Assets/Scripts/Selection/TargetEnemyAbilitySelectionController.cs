@@ -1,4 +1,6 @@
-﻿public class TargetEnemyAbilitySelectionController : AbilitySelectionController
+﻿using System.Collections.Generic;
+
+public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelectionController
 {
     protected override void DoFirst()
     {
@@ -9,42 +11,7 @@
 
     protected override void DoEscapePressed()
     {
-        SelectionManager.SelectionMode = SelectionMode.FREE;
-    }
-
-    protected override void DoTabPressed()
-    {
-
-    }
-
-    protected override void DoClickOffGrid()
-    {
-
-    }
-
-    protected override void DoHoverOffGrid()
-    {
-
-    }
-
-    protected override void DoClickDisabledTile()
-    {
-
-    }
-
-    protected override void DoHoverDisabledTile()
-    {
-
-    }
-
-    protected override void DoClickUnoccupiedOtherTile()
-    {
-
-    }
-
-    protected override void DoClickSelectedTile()
-    {
-
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickOccupiedOtherTile()
@@ -53,10 +20,14 @@
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        if (!targetCharacterIsAlly)
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+
+        if (!targetCharacterIsAlly && inRange)
         {
             selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
-            SelectionManager.SelectionMode = SelectionMode.FREE;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
             return;
         }
     }
@@ -77,7 +48,11 @@
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        if (!targetCharacterIsAlly)
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+
+        if (!targetCharacterIsAlly && inRange)
         {
             inputParameters.TargetTile.Highlight();
         } else

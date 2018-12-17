@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public class UserNetworkManager : AbstractNetworkManager, IUserNetworkManager
+public sealed class UserNetworkManager : AbstractNetworkManager, IUserNetworkManager
 {
     public UserNetworkManager() : base("/account") { }
 

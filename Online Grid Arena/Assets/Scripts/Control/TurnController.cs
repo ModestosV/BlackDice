@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class TurnController : ITurnController, IEventSubscriber
+public sealed class TurnController : ITurnController, IEventSubscriber
 {
-    public List<ICharacterController> RefreshedCharacters { protected get; set; }
-    public List<ICharacterController> ExhaustedCharacters { protected get; set; }
-    public ICharacterController ActiveCharacter { protected get; set; }
-    public ITurnPanelController TurnTracker { protected get; set; }
-    public ISelectionManager SelectionManager { protected get; set; }
+    public List<ICharacterController> RefreshedCharacters { private get; set; }
+    public List<ICharacterController> ExhaustedCharacters { private get; set; }
+    public ICharacterController ActiveCharacter { private get; set; }
+    public ITurnPanelController TurnTracker { private get; set; }
 
     public TurnController()
     {
@@ -32,19 +31,6 @@ public class TurnController : ITurnController, IEventSubscriber
     {
         if (ActiveCharacter != null)
             ActiveCharacter.Select();
-    }
-
-    public void Surrender()
-    {
-        string activePlayerName = ActiveCharacter.OwnedByPlayer;
-        List<ICharacterController> livingCharacters = GetLivingCharacters();
-        foreach(ICharacterController character in livingCharacters)
-        {
-            if (character.OwnedByPlayer == activePlayerName)
-            {
-                character.Die();
-            }
-        }
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -83,6 +69,25 @@ public class TurnController : ITurnController, IEventSubscriber
         {
             StartNextTurn();
         }
+
+        if(type == typeof(SurrenderEvent))
+        {
+            Surrender();
+        }
+    }
+    private void Surrender()
+    {
+        string activePlayerName = ActiveCharacter.OwnedByPlayer;
+        List<ICharacterController> livingCharacters = GetLivingCharacters();
+        foreach (ICharacterController character in livingCharacters)
+        {
+            if (character.OwnedByPlayer == activePlayerName)
+            {
+                character.Die();
+            }
+        }
+
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     private void RemoveCharacter(ICharacterController character)
@@ -143,6 +148,6 @@ public class TurnController : ITurnController, IEventSubscriber
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 
-        SelectionManager.SelectionMode = SelectionMode.FREE;
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 }

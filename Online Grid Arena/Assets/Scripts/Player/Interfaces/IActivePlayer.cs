@@ -1,5 +1,4 @@
-﻿
-public interface IActivePlayer
+﻿public interface IActivePlayer
 {
     UserDTO LoggedInUser { get; set; }
     bool IsLoggedIn();

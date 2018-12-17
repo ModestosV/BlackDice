@@ -2,7 +2,7 @@
 
 public class TurnPanel : MonoBehaviour, ITurnPanel
 {
-    private TurnPanelController turnPanelController;
+    protected TurnPanelController turnPanelController;
 
     public ITurnPanelController Controller { get { return turnPanelController; } }
 
