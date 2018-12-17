@@ -13,7 +13,7 @@ public abstract class AbstractAbility : IAbility
     protected int range;
     protected int cooldown;
     protected GameObject abilityAnimationPrefab;
-    protected AudioClip abilitySound;
+    protected AudioClip soundEffect;
     protected int cooldownRemaining;
 
     public abstract void Execute(IHexTileController targetTile);
@@ -31,5 +31,17 @@ public abstract class AbstractAbility : IAbility
     public void Refresh()
     {
         cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
+    }
+
+    protected void PlaySoundEffect()
+    {
+        if (soundEffect != null)
+            EventBus.Publish(new AbilitySoundEvent(soundEffect));
+    }
+
+    protected void PlayAnimation(IHexTileController targetTile)
+    {
+        if (abilityAnimationPrefab != null)
+            targetTile.PlayAbilityAnimation(abilityAnimationPrefab);
     }
 }

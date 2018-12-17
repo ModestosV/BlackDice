@@ -11,7 +11,7 @@ public sealed class BasicAttackAbility : AbstractAbility
         this.cooldown = cooldown;
 
         this.abilityAnimationPrefab = abilityAnimationPrefab;
-        this.abilitySound = abilitySound;
+        this.soundEffect = abilitySound;
 
         cooldownRemaining = cooldown;
     }
@@ -22,11 +22,9 @@ public sealed class BasicAttackAbility : AbstractAbility
 
         targetCharacter.Damage(power);
 
-        if (abilityAnimationPrefab != null)
-            targetCharacter.InstantiateAbilityAnimation(abilityAnimationPrefab);
+        PlaySoundEffect();
 
-        if (abilitySound != null)
-            targetCharacter.PlayAbilitySound(abilitySound);
+        PlayAnimation(targetTile);
 
         cooldownRemaining += cooldown;
     }

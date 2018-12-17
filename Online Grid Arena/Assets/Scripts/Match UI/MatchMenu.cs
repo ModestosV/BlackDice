@@ -1,9 +1,6 @@
-﻿using UnityEngine;
-
-public class MatchMenu : HideableUI, IMatchMenu, IEventSubscriber
+﻿public class MatchMenu : HideableUI, IMatchMenu, IEventSubscriber
 {
     private bool visible;
-    private CanvasGroup canvasGroup;
 
     void OnValidate()
     {

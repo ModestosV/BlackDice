@@ -41,7 +41,4 @@ public interface ICharacterController
     AbilityType GetAbilityType(int abilityIndex);
     bool IsAbilityInRange(int abilityIndex, int range);
     bool HasAbility(int abilityIndex);
-
-    void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab);
-    void PlayAbilitySound(AudioClip abilitySound);
 }

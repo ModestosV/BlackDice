@@ -20,7 +20,6 @@ public sealed class GameManager : MonoBehaviour
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
 
-
     private void Awake()
     {
         EventBus.Reset();

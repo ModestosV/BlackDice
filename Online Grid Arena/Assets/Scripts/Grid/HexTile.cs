@@ -69,6 +69,11 @@ public sealed class HexTile : MonoBehaviour, IHexTile
     {
         get { return hexTileController; }
     }
+    
+    public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        Instantiate(abilityAnimationPrefab, gameObject.transform);
+    }
 
     #endregion
 

@@ -167,16 +167,6 @@ public class CharacterController : ICharacterController
     {
         return Abilities[abilityIndex].IsInRange(range);
     }
-
-    public void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab)
-    {
-        Character.InstantiateAbilityAnimation(abilityAnimationPrefab);
-    }
-
-    public void PlayAbilitySound(AudioClip abilitySound)
-    {
-        Character.PlayAbilitySound(abilitySound);
-    }
     
     public void UpdateHealthBar()
     {

@@ -24,17 +24,6 @@ public abstract class AbstractCharacter : MonoBehaviour, ICharacter
         GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
     }
 
-    public void InstantiateAbilityAnimation(GameObject abilityAnimationPrefab)
-    {
-        Instantiate(abilityAnimationPrefab, gameObject.transform);
-    }
-
-    public void PlayAbilitySound(AudioClip abilitySound)
-    {
-        AudioSource audioSource = GameObject.FindWithTag("AbilitySound").GetComponent<AudioSource>();
-        audioSource.PlayOneShot(abilitySound);
-    }
-
     #endregion
 
     public override string ToString()

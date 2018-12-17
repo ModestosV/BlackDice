@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public sealed class HexTileController : IHexTileController
 {
@@ -238,6 +239,11 @@ public sealed class HexTileController : IHexTileController
         }
 
         return new List<IHexTileController>();
+    }
+
+    public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
+    {
+        HexTile.PlayAbilityAnimation(abilityAnimationPrefab);
     }
 
     private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<Tuple<int, int, int>, IHexTileController> bestParents)

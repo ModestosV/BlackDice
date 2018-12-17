@@ -11,7 +11,7 @@ public sealed class BasicHealAbility : AbstractAbility
         this.cooldown = cooldown;
 
         this.abilityAnimationPrefab = abilityAnimationPrefab;
-        this.abilitySound = abilitySound;
+        this.soundEffect = abilitySound;
 
         cooldownRemaining = cooldown;
     }
@@ -21,12 +21,6 @@ public sealed class BasicHealAbility : AbstractAbility
         ICharacterController targetCharacter = targetTile.OccupantCharacter;
 
         targetCharacter.Heal(power);
-
-        if (abilityAnimationPrefab != null)
-            targetCharacter.InstantiateAbilityAnimation(abilityAnimationPrefab);
-
-        if (abilitySound != null)
-            targetCharacter.PlayAbilitySound(abilitySound);
 
         cooldownRemaining += cooldown;
     }
