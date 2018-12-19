@@ -12,9 +12,9 @@ public abstract class AbstractAbility : IAbility
     protected float power;
     protected int range;
     protected int cooldown;
+    protected int cooldownRemaining;
     protected GameObject abilityAnimationPrefab;
     protected AudioClip soundEffect;
-    protected int cooldownRemaining;
 
     public abstract void Execute(IHexTileController targetTile);
 

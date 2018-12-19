@@ -39,4 +39,7 @@ public interface IHexTileController
     List<IHexTileController> GetPath(IHexTileController startTile);
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
+
+    void Damage(float damage);
+    void Heal(float healing);
 }
