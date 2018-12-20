@@ -160,12 +160,20 @@ public class CharacterController : ICharacterController
 
     public AbilityType GetAbilityType(int abilityIndex)
     {
-        return Abilities[abilityIndex].AbilityType;
+        return Abilities[abilityIndex].Type;
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        return Abilities[abilityIndex].IsInRange(range);
+        TargetedAbility targetedAbility = Abilities[abilityIndex] as TargetedAbility;
+
+        if (targetedAbility != null)
+        {
+            return targetedAbility.IsInRange(range);
+        } else
+        {
+            return true;
+        }
     }
     
     public void UpdateHealthBar()

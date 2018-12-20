@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class DefaultHero : AbstractCharacter
+public sealed class DefaultCharacter : AbstractCharacter
 {
     void Awake()
     {
