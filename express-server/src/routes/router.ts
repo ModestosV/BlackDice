@@ -2,7 +2,7 @@
  * IMPORTS
  */
 import express from "express";
-import userRoutes from "./UserRoutes"
+import userRoutes from "./UserRoutes";
 import websiteRoutes from "./WebsiteRoutes";
 /**
  * CONSTANT PROPERTIES
@@ -10,6 +10,6 @@ import websiteRoutes from "./WebsiteRoutes";
 const router = express.Router();
 
 router.use("/account", userRoutes);
-router.use("/", websiteRoutes)
+router.use("/", websiteRoutes);
 
 export default router;

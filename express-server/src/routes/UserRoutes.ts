@@ -28,10 +28,10 @@ export class UserRoutes {
       this.router.get(
         "/",
         (req: Request, res: Response, next: NextFunction) => {
-            return res.json({"message": "Hello from the account api server!"})
+            return res.json({message: "Hello from the account api server!"});
         },
         errorHandler
-      )
+      );
     }
 
     public Register() {
