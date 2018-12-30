@@ -49,7 +49,6 @@ public class CharacterControllerTests
     [SetUp]
     public void Init()
     {
-
         character = Substitute.For<ICharacter>();
         targetCharacterController = Substitute.For<ICharacterController>();
         startTileController = Substitute.For<IHexTileController>();

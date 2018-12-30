@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StatDisplay : MonoBehaviour, IStatDisplay
+public class StatDisplay : HideableUI, IStatDisplay
 {
     protected Text nameText;
     protected Text currentValueText;
     protected Text maxValueText;
-    protected CanvasGroup canvasGroup;
 
     void OnValidate()
     {
@@ -14,7 +13,7 @@ public class StatDisplay : MonoBehaviour, IStatDisplay
         nameText = texts[0];
         currentValueText = texts[1];
         maxValueText = texts[3];
-        canvasGroup = GetComponent<CanvasGroup>();
+        Init();
     }
 
     void Awake()
@@ -23,7 +22,7 @@ public class StatDisplay : MonoBehaviour, IStatDisplay
         nameText = texts[0];
         currentValueText = texts[1];
         maxValueText = texts[3];
-        canvasGroup = GetComponent<CanvasGroup>();
+        Init();
     }
 
     #region IStatDisplay implementation
@@ -51,20 +50,6 @@ public class StatDisplay : MonoBehaviour, IStatDisplay
     public void Deactivate()
     {
         Hide();
-    }
-
-    private void Hide()
-    {
-        canvasGroup.alpha = 0.0f;
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
-    }
-
-    private void Show()
-    {
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
     }
 
     #endregion

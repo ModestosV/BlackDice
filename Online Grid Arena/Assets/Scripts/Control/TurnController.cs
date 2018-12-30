@@ -75,6 +75,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             Surrender();
         }
     }
+
     private void Surrender()
     {
         string activePlayerName = ActiveCharacter.OwnedByPlayer;

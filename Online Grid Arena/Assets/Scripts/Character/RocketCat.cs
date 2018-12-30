@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public sealed class RocketCat : AbstractCharacter
 {
@@ -7,9 +6,7 @@ public sealed class RocketCat : AbstractCharacter
     {
         // Init abilities
 
-        GameObject scratchAbilityAnimationPrefab = Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation");
-        AudioClip scratchAbilitySound = Resources.Load<AudioClip>("Audio/Ability/CottonRip");
-        IAbility scratch = new BasicAttackAbility(25.0f, 1, 1, scratchAbilityAnimationPrefab, scratchAbilitySound);
+        IAbility scratch = new Scratch();
 
         var abilities = new List<IAbility>() { scratch };
 

@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 
-public sealed class DefaultHero : AbstractCharacter
+public sealed class DefaultCharacter : AbstractCharacter
 {
     void Awake()
     {
         // Init abilities
 
-        IAbility basicAttack = new BasicAttackAbility(20.0f, 5, 1, null, null);
+        IAbility defaultAttack = new DefaultAttack();
+        IAbility defaultHeal = new DefaultHeal();
 
-        IAbility basicHeal = new BasicHealAbility(15.0f, 5, 1, null, null);
-
-        var abilities = new List<IAbility>() { basicAttack, basicHeal };
+        var abilities = new List<IAbility>() { defaultAttack, defaultHeal };
 
         // Init stats
 
