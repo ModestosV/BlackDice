@@ -1,6 +1,3 @@
-/**
- * IMPORTS FOR INTERFACES, CLASSES OR DEPENDENCIES
- */
 import bodyParser from "body-parser";
 import crypto from "crypto-js";
 import express, { NextFunction, Request, Response, Router } from "express";
@@ -8,9 +5,6 @@ import _ from "lodash";
 import moment from "moment";
 import { Model } from "mongoose";
 import { Document } from "mongoose";
-/**
- * HELPER FUNCTIONS
- */
 import getModel from "../app/models";
 import { errorHandler } from "../utils/middlewares";
 import { getToken } from "../utils/utils";
