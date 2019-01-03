@@ -262,6 +262,14 @@ public sealed class HexTileController : IHexTileController
         }
     }
 
+    public void ApplyEffect(AbstractEffect effect)
+    {
+        if (OccupantCharacter != null)
+        {
+            OccupantCharacter.AddEffect(effect);
+        }
+    }
+
     private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<Tuple<int, int, int>, IHexTileController> bestParents)
     {
         IHexTileController node = goalTile;
