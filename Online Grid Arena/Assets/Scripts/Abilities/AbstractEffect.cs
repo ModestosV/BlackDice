@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
-public enum EffectType
+public enum EffectType //stack, buff, and debuff, are all constant. the rest are only applied at the end of the turn
 {
     BUFF,
     DEBUFF,
     DAMAGE_OVER_TIME,
-    HEAL_OVER_TIME
+    HEAL_OVER_TIME,
+    STACK,
+    STACK_BUFF,
+    STACK_DAMAGE,
+    STACK_HEAL
 }
 
 public abstract class AbstractEffect : IEffect
