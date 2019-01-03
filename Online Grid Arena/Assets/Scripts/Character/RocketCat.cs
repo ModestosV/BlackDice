@@ -5,10 +5,10 @@ public sealed class RocketCat : AbstractCharacter
     void Awake()
     {
         // Init abilities
+        IAbility catScratchFeverAbility = new CatScratchFeverAbility();
+        IAbility scratch = new Scratch(catScratchFeverAbility);
 
-        IAbility scratch = new Scratch();
-
-        var abilities = new List<IAbility>() { scratch };
+        var abilities = new List<IAbility>() { scratch, catScratchFeverAbility };
         var effects = new List<IEffect>() { };
 
         // Init stats

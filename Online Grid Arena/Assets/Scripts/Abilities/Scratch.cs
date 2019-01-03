@@ -2,7 +2,8 @@
 
 public sealed class Scratch : TargetedAbility
 {
-    public Scratch() : base(
+    public IAbility passive;
+    public Scratch(IAbility passiveTrigger) : base(
         AbilityType.TARGET_ENEMY,
         1,
         25.0f,
@@ -11,7 +12,7 @@ public sealed class Scratch : TargetedAbility
         Resources.Load<AudioClip>("Audio/Ability/CottonRip")
         )
     {
-
+        passive = passiveTrigger;
     }
 
     public override void Execute(IHexTileController targetTile)
@@ -20,5 +21,6 @@ public sealed class Scratch : TargetedAbility
         PlaySoundEffect();
         PlayAnimation(targetTile);
         cooldownRemaining += cooldown;
+        //passive.Execute(); //apply on the current character
     }
 }
