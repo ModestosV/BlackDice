@@ -9,6 +9,7 @@ public interface ICharacterController
 
     Dictionary<string, ICharacterStat> CharacterStats { set; }
     List<IAbility> Abilities { set; }
+    List<IEffect> Effects { set; }
 
     int AbilitiesRemaining { set; }
 

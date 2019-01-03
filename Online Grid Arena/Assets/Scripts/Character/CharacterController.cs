@@ -9,6 +9,7 @@ public class CharacterController : ICharacterController
 
     public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
+    public List<IEffect> Effects { protected get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
@@ -121,6 +122,21 @@ public class CharacterController : ICharacterController
     {
         CharacterStats["health"].CurrentValue += heal;
         UpdateHealthBar();
+    }
+
+    public void AddEffect(AbstractEffect effect)
+    {
+        //look through list of effects, if tis a stack, add stack if necessary. if not a stack, refresh. otherwise, just add.
+    }
+
+    public void ApplyEndOfTurnEffects()
+    {
+        //decrement every effect's duration. if an effect has run out and it is not an over time effect, remove its buff or debuff.
+    }
+
+    public void ApplyEffect(AbstractEffect effect)
+    {
+        //this one is for constant effects like catscratch fever. apply the buff.
     }
 
     public void Die()
