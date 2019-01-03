@@ -27,4 +27,9 @@ public abstract class AbstractEffect : IEffect
     }
 
     public abstract void Apply(IHexTileController targetTile);
+
+    public void Refresh()
+    {
+        durationRemaining = duration;
+    }
 }
