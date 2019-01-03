@@ -12,4 +12,5 @@
     public const string INVALID_REGISTRATION_REQUEST = "Your registration request did not go through as planned.";
     public const string SERVER_ERROR_MESSAGE = "There is a problem with the server. Try again later.";
     public const string INVALID_REQUEST_DUPLICATE_KEYS = "The email or username entered already exists. Please enter a new username or email.";
+    public const string SEND_FEEDBACK_SUCCESS_MESSAGE = "Your feedback has been successfully submitted and will be read by our development team ASAP.";
 }

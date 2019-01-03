@@ -1,4 +1,4 @@
 ﻿public interface IFeedbackMenuController
 {
-    void SubmitFeedback(string email, string feedback);
+    void SubmitFeedbackAsync(string email, string message);
 }

@@ -1,7 +1,8 @@
 ﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class FeedbackPanel : Panel
+public sealed class FeedbackPanel : Panel, IFeedbackPanel
 {
     public IFeedbackMenuController FeedbackMenuController { private get; set; }
 
@@ -14,7 +15,7 @@ public sealed class FeedbackPanel : Panel
     {
         loadingCircle = GetComponentInChildren<LoadingCircle>();
         sendButton = GetComponentsInChildren<Button>()[0];
-        statusText = GetComponentsInChildren<TextMeshProUGUI>()[0];
+        statusText = GetComponentsInChildren<TextMeshProUGUI>()[1];
         emailInputField = GetComponentsInChildren<TMP_InputField>()[0];
         feedbackInputField = GetComponentsInChildren<TMP_InputField>()[1];
     }
@@ -24,8 +25,8 @@ public sealed class FeedbackPanel : Panel
         loadingCircle.gameObject.SetActive(false);
     }
 
-    public void Login()
+    public void Send()
     {
-        FeedbackMenuController.SubmitFeedback(emailInputField.text, feedbackInputField.text);
+        FeedbackMenuController.SubmitFeedbackAsync(emailInputField.text, feedbackInputField.text);
     }
 }

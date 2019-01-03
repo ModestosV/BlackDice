@@ -1,9 +1,4 @@
-﻿public interface IOnlineMenuPanel
+﻿public interface IOnlineMenuPanel : IPanel
 {
     IOnlineMenuController OnlineMenuController { set; }
-
-    void SetStatus(string statusText);
-    void ClearStatus();
-    void ActivateLoadingCircle();
-    void DeactivateLoadingCircle();
 }
