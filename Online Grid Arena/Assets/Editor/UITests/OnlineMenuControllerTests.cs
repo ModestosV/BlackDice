@@ -40,7 +40,8 @@ public class OnlineMenuControllerTests
             RegistrationPanel = registrationPanel,
             LoginPanel = loginPanel,
             UserNetworkManager = userNetworkManager,
-            ActivePlayer = activePlayer
+            ActivePlayer = activePlayer,
+            Validator = new Validator()
         };
     }
 
