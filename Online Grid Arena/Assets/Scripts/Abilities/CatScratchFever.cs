@@ -3,10 +3,11 @@
 public sealed class CatScratchFever : StackModifier
 {
     public CatScratchFever() : base(
-        EffectType.BUFF,
+        EffectType.STACK,
         3,
         10,
-        5
+        5,
+        "moves"
         )
     {
 
