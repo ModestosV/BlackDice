@@ -21,8 +21,6 @@ public abstract class AbstractEffect : IEffect
         durationRemaining = duration;
     }
 
-    public abstract void Execute(IHexTileController targetTile);
-
     public bool HasRunOut()
     {
         return durationRemaining > 0;
