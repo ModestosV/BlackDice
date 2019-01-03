@@ -9,6 +9,7 @@ public sealed class RocketCat : AbstractCharacter
         IAbility scratch = new Scratch();
 
         var abilities = new List<IAbility>() { scratch };
+        var effects = new List<IEffect>() { };
 
         // Init stats
 
@@ -29,7 +30,8 @@ public sealed class RocketCat : AbstractCharacter
             BorderColor = borderColor,
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
-            CharacterStats = characterStats
+            CharacterStats = characterStats,
+            Effects = effects
         };
     }
 

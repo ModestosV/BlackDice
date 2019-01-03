@@ -11,6 +11,8 @@ public sealed class DefaultCharacter : AbstractCharacter
 
         var abilities = new List<IAbility>() { defaultAttack, defaultHeal };
 
+        var effects = new List<IEffect>() { };
+
         // Init stats
 
         ICharacterStat health = new CharacterStat(100.0f);
@@ -30,7 +32,8 @@ public sealed class DefaultCharacter : AbstractCharacter
             BorderColor = borderColor,
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
-            CharacterStats = characterStats
+            CharacterStats = characterStats,
+            Effects = effects
         };
     }
 
