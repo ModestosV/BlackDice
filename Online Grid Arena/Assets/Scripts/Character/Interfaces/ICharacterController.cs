@@ -27,6 +27,9 @@ public interface ICharacterController
     void Die();
     void Heal(float heal);
     void UpdateHealthBar();
+    void AddEffect(AbstractEffect effect);
+    void ApplyEffect(AbstractEffect effect);
+    void ApplyEndOfTurnEffects();
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
