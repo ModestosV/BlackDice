@@ -124,19 +124,77 @@ public class CharacterController : ICharacterController
         UpdateHealthBar();
     }
 
-    public void AddEffect(AbstractEffect effect)
+    public void AddEffect(IEffect effect)
     {
-        //look through list of effects, if tis a stack, add stack if necessary. if not a stack, refresh. otherwise, just add.
+        if (Effects.Contains(effect))
+        {
+            effect.Refresh();
+        }
+        else
+        {
+            Effects.Add(effect);
+            if (effect.Type == EffectType.STACK || effect.Type == EffectType.BUFF || effect.Type == EffectType.DEBUFF)
+            {
+                ApplyEffect(effect);
+            }
+        }
     }
 
     public void ApplyEndOfTurnEffects()
     {
         //decrement every effect's duration. if an effect has run out and it is not an over time effect, remove its buff or debuff.
+        foreach (IEffect e in Effects)
+        {
+            e.Decrement();
+            Dictionary<string, float> modifiers = e.GetEffects();
+            if (e.Type == EffectType.DAMAGE_OVER_TIME || e.Type == EffectType.HEAL_OVER_TIME )
+            {
+                if (modifiers.ContainsKey("moves"))
+                {
+                    CharacterStats["moves"].CurrentValue += modifiers["moves"];
+                }
+                if (modifiers.ContainsKey("health"))
+                {
+                    CharacterStats["health"].CurrentValue += modifiers["health"];
+                }
+                if (e.HasRunOut())
+                {
+
+                    Effects.Remove(e);
+                }
+            }
+            if (e.Type == EffectType.STACK || e.Type == EffectType.BUFF || e.Type == EffectType.DEBUFF)
+            {
+                if (e.RemoveEffect())
+                {
+                    if (modifiers.ContainsKey("moves"))
+                    {
+                        CharacterStats["moves"].CurrentValue -= modifiers["moves"];
+                    }
+                    if (modifiers.ContainsKey("health"))
+                    {
+                        CharacterStats["health"].CurrentValue -= modifiers["health"];
+                    }
+                }
+            }
+        }
     }
 
-    public void ApplyEffect(AbstractEffect effect)
+    public void ApplyEffect(IEffect effect)
     {
-        //this one is for constant effects like catscratch fever. apply the buff.
+        Dictionary<string, float> modifiers = effect.GetEffects();
+        if (modifiers.ContainsKey("moves"))
+        {
+            CharacterStats["moves"].CurrentValue += modifiers["moves"];
+        }
+        if (modifiers.ContainsKey("health"))
+        {
+            CharacterStats["health"].CurrentValue += modifiers["health"];
+        }
+        if (modifiers.ContainsKey("0"))
+        {
+            Abilities[0].ModifyPower(modifiers["0"]);
+        }
     }
 
     public void Die()

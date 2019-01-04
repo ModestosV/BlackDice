@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 
 public enum EffectType //stack, buff, and debuff, are all constant. the rest are only applied at the end of the turn
 {
@@ -31,9 +31,17 @@ public abstract class AbstractEffect : IEffect
     }
 
     public abstract void Apply(IHexTileController targetTile);
+    public abstract Dictionary<string, float> GetEffects();
+    public abstract void RemoveStack();
+    public abstract bool RemoveEffect();
 
-    public void Refresh()
+    public virtual void Refresh()
     {
         durationRemaining = duration;
+    }
+
+    public virtual void Decrement()
+    {
+        durationRemaining--;
     }
 }

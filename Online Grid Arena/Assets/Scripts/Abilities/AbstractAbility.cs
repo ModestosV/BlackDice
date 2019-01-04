@@ -23,7 +23,8 @@ public abstract class AbstractAbility : IAbility
     }
 
     public abstract void Execute(IHexTileController targetTile);
-    
+    public abstract void ModifyPower(float amount);
+
     public bool IsOnCooldown()
     {
         return cooldownRemaining > 0;

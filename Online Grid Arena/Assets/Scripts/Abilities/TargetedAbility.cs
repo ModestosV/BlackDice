@@ -15,6 +15,11 @@ public abstract class TargetedAbility : AbstractAbility
         this.soundEffect = soundEffect;
     }
 
+    public override void ModifyPower(float amount)
+    {
+        power += amount;
+    }
+
     public bool IsInRange(int range)
     {
         return this.range >= range;

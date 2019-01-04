@@ -42,5 +42,5 @@ public interface IHexTileController
 
     void Damage(float damage);
     void Heal(float healing);
-    void ApplyEffect(AbstractEffect effect);
+    void ApplyEffect(IEffect effect);
 }

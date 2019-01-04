@@ -262,7 +262,7 @@ public sealed class HexTileController : IHexTileController
         }
     }
 
-    public void ApplyEffect(AbstractEffect effect)
+    public void ApplyEffect(IEffect effect)
     {
         if (OccupantCharacter != null)
         {

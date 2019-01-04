@@ -5,7 +5,7 @@ public sealed class RocketCat : AbstractCharacter
     void Awake()
     {
         // Init abilities
-        IAbility catScratchFeverAbility = new CatScratchFeverAbility();
+        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this);
         IAbility scratch = new Scratch(catScratchFeverAbility);
 
         var abilities = new List<IAbility>() { scratch, catScratchFeverAbility };
