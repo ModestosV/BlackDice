@@ -28,13 +28,9 @@ describe("Feedback Routes tests", () => {
             conn.post("/feedback/send")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(200)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(200);
+
+            done();
         });
 
         it("Request missing required body data returns 400", async (done) => {
@@ -46,13 +42,9 @@ describe("Feedback Routes tests", () => {
             conn.post("/feedback/send")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(400)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(400);
+
+            done();
         });
     });
 });
