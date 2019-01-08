@@ -7,12 +7,14 @@ public class MenuManager : MonoBehaviour
     private FeedbackPanel feedbackPanel;
     private OnlineMenuController onlineMenuController;
     private FeedbackMenuController feedbackMenuController;
+    private Validator validator;
 
     private void Awake()
     {
         loginPanel = FindObjectOfType<LoginPanel>();
         registrationPanel = FindObjectOfType<RegistrationPanel>();
         feedbackPanel = FindObjectOfType<FeedbackPanel>();
+        validator = new Validator();
 
         onlineMenuController = new OnlineMenuController
         {
@@ -20,13 +22,13 @@ public class MenuManager : MonoBehaviour
             RegistrationPanel = registrationPanel,
             UserNetworkManager = new UserNetworkManager(),
             ActivePlayer = new ActivePlayer(),
-            Validator = new Validator()
+            Validator = validator
         };
 
         loginPanel.OnlineMenuController = onlineMenuController;
         registrationPanel.OnlineMenuController = onlineMenuController;
 
-        feedbackMenuController = new FeedbackMenuController(feedbackPanel, new FeedbackNetworkManager(), new Validator());
+        feedbackMenuController = new FeedbackMenuController(feedbackPanel, new FeedbackNetworkManager(), validator);
         feedbackPanel.FeedbackMenuController = feedbackMenuController;
     }
 }
