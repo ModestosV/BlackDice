@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     private OnlineMenuController onlineMenuController;
     private UserNetworkManager userNetworkManager;
     private ActivePlayer activePlayer;
+    private LogHandler logHandler;
 
     private void Awake()
     {
@@ -14,6 +15,7 @@ public class MenuManager : MonoBehaviour
         registrationPanel = FindObjectOfType<RegistrationPanel>();
         userNetworkManager = new UserNetworkManager();
         activePlayer = new ActivePlayer();
+        logHandler = new LogHandler();
 
         onlineMenuController = new OnlineMenuController
         {

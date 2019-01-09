@@ -8,13 +8,13 @@ public abstract class AbstractNetworkManager : INetworkManager
     private readonly string endpoint;
     private readonly HttpClient client;
 
-    protected AbstractNetworkManager(string extensionURL) : this(extensionURL, HttpClientService.Instance)
+    protected AbstractNetworkManager(string endpoint) : this(endpoint, HttpClientService.Instance)
     {
     }
 
-    protected AbstractNetworkManager(string extensionURL, HttpClient client)
+    protected AbstractNetworkManager(string endpoint, HttpClient client)
     {
-        endpoint = URLs.BASE_URL + extensionURL;
+        this.endpoint = endpoint;
         this.client = client;
     }
 
