@@ -8,12 +8,8 @@ public sealed class HexTileController : IHexTileController
     public Tuple<int, int, int> Coordinates { get; set; }
 
     public bool IsEnabled { get; set; }
-<<<<<<< HEAD
     public bool IsSelected { private get; set; }
-=======
     public bool IsObstructed { get; set; }
-    public bool IsSelected { protected get; set; }
->>>>>>> #15 Make path NOT go through obstructed and occupied tiles
 
     public IGridSelectionController GridSelectionController { private get; set; }
     public IGridController GridController { private get; set; }

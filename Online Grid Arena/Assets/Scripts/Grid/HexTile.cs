@@ -2,16 +2,8 @@
 
 public sealed class HexTile : MonoBehaviour, IHexTile
 {
-<<<<<<< HEAD
     [SerializeField] private HexTileMaterialSet materials;
-=======
-    public HexTileMaterialSet materials;
-<<<<<<< HEAD
-    private Material Obstruction;
->>>>>>> #15 Add in Hex Tile Material Set a Obstruction Material
-=======
     private GameObject Obstruction;
->>>>>>> #15 Make path NOT go through obstructed and occupied tiles
 
     private HexTileController hexTileController;
 
