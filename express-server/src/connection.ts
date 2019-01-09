@@ -1,10 +1,14 @@
 import mongoose, { Mongoose } from "mongoose";
 export class Connection {
   private mongoose: Mongoose;
-  private connection: mongoose.Connection;
+  private connection: mongoose.Connection | undefined;
 
   constructor() {
     this.mongoose = mongoose;
+
+  }
+
+  public connect() {
     this.mongoose.connect(
       "mongodb://localhost/blackdice",
       { useNewUrlParser: true }
