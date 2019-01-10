@@ -33,6 +33,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             ActiveCharacter.Select();
     }
 
+    public void HighlightActiveCharacter()
+    {
+        if (ActiveCharacter != null)
+            ActiveCharacter.Highlight();
+    }
+
     public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();

@@ -6,6 +6,7 @@
     {
         GridSelectionController.BlurAll();
         GridSelectionController.DehighlightAll();
+        TurnController.HighlightActiveCharacter();
     }
 
     protected override void DoEscapePressed()

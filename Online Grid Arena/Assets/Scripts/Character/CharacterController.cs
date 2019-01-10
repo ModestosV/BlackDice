@@ -29,6 +29,11 @@ public class CharacterController : ICharacterController
         OccupiedTile.Deselect();
     }
 
+    public void Highlight()
+    {
+        OccupiedTile.Highlight();
+    }
+
     public void UpdateSelectedHUD()
     {
         HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
