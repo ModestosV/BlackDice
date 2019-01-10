@@ -7,8 +7,9 @@ public sealed class RocketCat : AbstractCharacter
         // Init abilities
 
         IAbility scratch = new Scratch();
+        IAbility blastoff = new BlastOff(this);
 
-        var abilities = new List<IAbility>() { scratch };
+        var abilities = new List<IAbility>() { scratch, blastoff };
 
         // Init stats
 

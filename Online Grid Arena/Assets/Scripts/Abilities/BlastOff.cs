@@ -2,14 +2,14 @@
 
 public class BlastOff : TargetedAbility {
     
-    private readonly ICharacterController activeCharacter;
+    private readonly ICharacter activeCharacter;
 
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
 
-    public BlastOff(ICharacterController activeCharacter) : base(
-        AbilityType.ACTIVATED,
+    public BlastOff(ICharacter activeCharacter) : base(
+        AbilityType.TARGET_TILE,
         1,
         25.0f,
         10,
@@ -27,7 +27,7 @@ public class BlastOff : TargetedAbility {
         {
             PlayAnimation(targetTile);
             PlaySoundEffect();
-            activeCharacter.ForceMove(targetTile);
+            activeCharacter.Controller.ForceMove(targetTile);
 
             // damage all characters at target location            
             foreach (IHexTileController target in targetTile.GetNeighbors())

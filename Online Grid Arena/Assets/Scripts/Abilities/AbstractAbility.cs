@@ -4,6 +4,7 @@ public enum AbilityType
 {
     TARGET_ENEMY,
     TARGET_ALLY,
+    TARGET_TILE,
     ACTIVATED,
     PASSIVE,
     TRIGGERED
