@@ -5,8 +5,6 @@
     protected override void DoFirst()
     {
         GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
-        TurnController.HighlightActiveCharacter();
     }
 
     protected override void DoEscapePressed()

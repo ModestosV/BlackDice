@@ -33,12 +33,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             ActiveCharacter.Select();
     }
 
-    public void HighlightActiveCharacter()
-    {
-        if (ActiveCharacter != null)
-            ActiveCharacter.Highlight();
-    }
-
     public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();
@@ -155,6 +149,10 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 
+        ActiveCharacter.DeHighlight();
+
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+
+        ActiveCharacter.Highlight();
     }
 }
