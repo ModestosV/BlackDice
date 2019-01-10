@@ -4,6 +4,10 @@ public class BlastOff : TargetedAbility {
     
     private readonly ICharacterController activeCharacter;
 
+    // need secondary animation/sound for landing
+    private readonly GameObject damageAnimation;
+    private readonly AudioClip damageClip;
+
     public BlastOff(ICharacterController activeCharacter) : base(
         AbilityType.ACTIVATED,
         1,
@@ -21,16 +25,20 @@ public class BlastOff : TargetedAbility {
         // check if target tile is open
         if (!targetTile.IsOccupied())
         {
+            PlayAnimation(targetTile);
+            PlaySoundEffect();
             activeCharacter.ForceMove(targetTile);
 
-            PlayAnimation(targetTile);
+            // damage all characters at target location            
+            foreach (IHexTileController target in targetTile.GetNeighbors())
+            {
+                target.Damage(power);
+                PlaySoundEffect();
+                PlayAnimation(target);
+            }
 
-            targetTile.OccupantCharacter = activeCharacter;
-
+            cooldownRemaining += cooldown;
         }
         else Debug.Log("Tile is occupied");
-        // trigger animation
-        // move character to targeted tile
-        // deal damage to all tiles around new location
     }
 }
