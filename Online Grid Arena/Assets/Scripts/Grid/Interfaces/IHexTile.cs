@@ -7,10 +7,10 @@ public interface IHexTile : IMonoBehaviour
     void SetDefaultMaterial();
     void SetClickedMaterial();
     void SetHighlightMaterial();
-    GameObject GetObstruction();
     bool IsMouseOver();
 
     IHexTileController Controller { get; }
+    GameObject Obstruction { get; }
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 }

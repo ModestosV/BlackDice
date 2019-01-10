@@ -3,7 +3,7 @@
 public sealed class HexTile : MonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
-    private GameObject Obstruction;
+    public GameObject Obstruction { get; set; }
 
     private HexTileController hexTileController;
 
