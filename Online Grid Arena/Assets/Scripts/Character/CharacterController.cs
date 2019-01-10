@@ -57,6 +57,16 @@ public class CharacterController : ICharacterController
         }
     }
 
+    public void ForceMove(IHexTileController targetTile)
+    {
+        OccupiedTile.OccupantCharacter = null;
+
+        Character.MoveToTile(targetTile.HexTile);
+        OccupiedTile = targetTile;
+
+        targetTile.OccupantCharacter = this;
+    }
+
     public void ExecuteMove(List<IHexTileController> path)
     {
         if (!(MovesRemaining > 0 && MovesRemaining >= path.Count -1)) return;
