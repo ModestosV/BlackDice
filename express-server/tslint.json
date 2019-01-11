@@ -15,8 +15,9 @@
     "no-consecutive-blank-lines": false,
     "no-boolean-literal-compare": false,
     "no-default-export" : false,
-    "whitespace" : true,
-    "trailing-comma" : false
+    "object-literal-sort-keys": false,
+    "whitespace": true,
+    "trailing-comma": false
   },
   "jsRules": {
     "max-line-length": {

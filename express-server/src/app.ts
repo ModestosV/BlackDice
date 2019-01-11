@@ -11,8 +11,8 @@ export class Application {
    * initRouters
    */
   public initRouters() {
-    
-    const cors = require('cors')
+
+    const cors = require("cors");
     this.app.use(cors());
 
     this.app.use(router);
