@@ -134,4 +134,20 @@ public class GridSelectionControllerTests
 
         Assert.AreEqual(character, sut.GetSelectedCharacter());
     }
+
+    [Test]
+    public void Deselect_all_tiles_event_deselects_and_deactives_all_tiles()
+    {
+        selectedTilesList.Add(hexTile1);
+        selectedTilesList.Add(hexTile2);
+        highlightedTilesList.Add(hexTile1);
+        highlightedTilesList.Add(hexTile2);
+
+        sut.Handle(new DeselectAllTilesEvent());
+
+        hexTile1.Received(1).Dehighlight();
+        hexTile2.Received(1).Dehighlight();
+        hexTile1.Received(1).Deselect();
+        hexTile2.Received(1).Deselect();
+    }
 }

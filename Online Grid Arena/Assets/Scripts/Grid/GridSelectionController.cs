@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class GridSelectionController : IGridSelectionController
+public sealed class GridSelectionController : IGridSelectionController, IEventSubscriber
 {
     public List<IHexTileController> SelectedTiles { private get; set; }
     public List<IHexTileController> HoveredTiles { private get; set; }
@@ -85,6 +85,16 @@ public sealed class GridSelectionController : IGridSelectionController
             return null;
 
         return SelectedTiles[0].IsOccupied() ? SelectedTiles[0].OccupantCharacter : null;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(DeselectAllTilesEvent))
+        {
+            DeselectAll();
+            DehighlightAll();
+        }
     }
 
     #endregion

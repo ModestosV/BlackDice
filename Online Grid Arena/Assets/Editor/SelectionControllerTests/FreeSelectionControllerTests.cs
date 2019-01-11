@@ -42,8 +42,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     public void Pressing_tab_key_selects_active_character()
@@ -53,7 +51,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         turnController.Received(1).SelectActiveCharacter();
     }
 
@@ -67,8 +64,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     [Test]
@@ -81,7 +76,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
     }
 
     [Test]
@@ -95,8 +89,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     [Test]
@@ -110,7 +102,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
     }
 
     [Test]
@@ -123,8 +114,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
         targetTile.Received(1).Select();
     }
 
@@ -139,7 +128,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         targetTile.Received(1).Deselect();
     }
 
@@ -154,8 +142,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
         targetTile.Received(1).Select();
     }
 
@@ -169,7 +155,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         targetTile.Received(1).Hover();
     }
 
@@ -184,7 +169,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         targetTile.Received(1).Hover();
     }
 }

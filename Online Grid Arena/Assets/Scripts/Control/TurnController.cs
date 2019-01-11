@@ -130,7 +130,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if (ActiveCharacter != null)
         {
             ExhaustedCharacters.Add(ActiveCharacter);
-            ActiveCharacter.Deselect();
         }
 
         if (!(RefreshedCharacters.Count > 0))
@@ -146,13 +145,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         RefreshedCharacters.RemoveAt(0);
 
         ActiveCharacter.Refresh();
+        ActiveCharacter.UpdateSelectedHUD();
+
+        ActiveCharacter.Select();
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 
-        ActiveCharacter.DeHighlight();
-
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-
-        ActiveCharacter.Highlight();
     }
 }

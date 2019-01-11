@@ -67,17 +67,6 @@ public class TurnControllerTests
         secondCharacter.Received(1).Refresh();
     }
 
-
-    [Test]
-    public void Start_next_turn_event_deselects_previously_active_character()
-    {
-        sut.ActiveCharacter = thirdCharacter;
-
-        sut.Handle(new StartNewTurnEvent());
-
-        thirdCharacter.Received(1).Deselect();
-    }
-
     [Test]
     public void Start_next_turn_event_updates_turn_tracker_with_new_character_order()
     {
