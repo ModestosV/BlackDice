@@ -1,6 +1,6 @@
-import bodyParser from "body-parser"
-import express, { NextFunction, Request, Response, Router } from "express"
-import { errorHandler } from "../utils/middlewares"
+import bodyParser from "body-parser";
+import express, { NextFunction, Request, Response, Router } from "express";
+import { errorHandler } from "../utils/middlewares";
 
 export class WebsiteRoutes {
 
@@ -11,25 +11,25 @@ export class WebsiteRoutes {
     }
 
     public Node() {
-        
-        const path = require('path')
-        
-        // Serve React web app static files to "/"                
-        const static_assets = path.join(__dirname,  '../../../../react-app/build')
-        this.router.use('/', express.static(static_assets))
+
+        const path = require("path");
+
+        // Serve React web app static files to "/"
+        const staticAssets = path.join(__dirname,  "../../../../react-app/build");
+        this.router.use("/", express.static(staticAssets));
 
         this.router.use(
-            '/',
+            "/",
             (req: Request, res: Response, next: NextFunction) => {
-                return res.sendFile(`${static_assets}/index.html)`)
+                return res.sendFile(`${staticAssets}/index.html)`);
             },
             errorHandler
-        )
+        );
     }
 }
 
-const websiteRoutes = new WebsiteRoutes(express.Router())
+const websiteRoutes = new WebsiteRoutes(express.Router());
 
-websiteRoutes.Node()
+websiteRoutes.Node();
 
-export default websiteRoutes.router
+export default websiteRoutes.router;

@@ -1,6 +1,4 @@
-﻿using System.Net.Mail;
-using System.Text.RegularExpressions;
-using UnityEngine;
+﻿using UnityEngine;
 
 public sealed class OnlineMenuController : IOnlineMenuController
 {
@@ -8,22 +6,24 @@ public sealed class OnlineMenuController : IOnlineMenuController
     public ILoginPanel LoginPanel { private get; set; }
     public IUserNetworkManager UserNetworkManager { private get; set; }
     public IActivePlayer ActivePlayer { private get; set; }
+    public IValidator Validator { private get; set; }
+    
 
     public async void Register(string email, string password, string username)
     {
-        if (!ValidateEmail(email))
+        if (!Validator.ValidateEmail(email))
         {
             RegistrationPanel.SetStatus(Strings.INVALID_EMAIL_MESSAGE);
             return;
         }
 
-        if (!ValidatePassword(password))
+        if (!Validator.ValidatePassword(password))
         {
             RegistrationPanel.SetStatus(Strings.INVALID_PASSWORD_MESSAGE);
             return;
         }
 
-        if (!ValidateUsername(username))
+        if (!Validator.ValidateUsername(username))
         {
             RegistrationPanel.SetStatus(Strings.INVALID_USERNAME_MESSAGE);
             return;
@@ -115,33 +115,5 @@ public sealed class OnlineMenuController : IOnlineMenuController
                 LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
                 break;
         }
-    }
-
-    private bool ValidateEmail(string email)
-    {
-        try
-        {
-            MailAddress mailAddress = new MailAddress(email);
-            return mailAddress.Address == email;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private bool ValidatePassword(string password)
-    {
-        bool isPasswordLongEnough = password.Length > 7;
-
-        return isPasswordLongEnough;
-    }
-
-    private bool ValidateUsername(string username)
-    {
-        Regex regex = new Regex("^[a-zA-Z0-9]{3,16}$");
-        bool isUserNameValid = regex.IsMatch(username);
-
-        return isUserNameValid;
     }
 }
