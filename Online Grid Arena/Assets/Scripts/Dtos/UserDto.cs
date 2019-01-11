@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using UnityEngine;
 
-public class UserDTO
+public sealed class UserDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
