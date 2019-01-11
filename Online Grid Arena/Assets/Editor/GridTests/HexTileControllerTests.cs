@@ -23,6 +23,8 @@ public class HexTileControllerTests
     const int Y = 0;
     const int Z = 0;
 
+    const int ONE = 1;
+
     readonly Tuple<int, int, int> coordinates = new Tuple<int, int, int>(X, Y, Z);
     readonly Tuple<int, int, int> northEastCoordinates = new Tuple<int, int, int>(1, 0, -1);
     readonly Tuple<int, int, int> eastCoordinates = new Tuple<int, int, int>(1, -1, 0);
@@ -425,6 +427,22 @@ public class HexTileControllerTests
         List<IHexTileController> result = sut.GetPath(northEastHexTile);
 
         Assert.AreEqual(expected, result);
+    }
+
+    [Test]
+    public void Get_distance_returns_correct_distance_in_straight_line()
+    {
+        int result = sut.GetDistance(eastHexTile);
+
+        Assert.AreEqual(ONE, result);
+    }
+
+    [Test]
+    public void Get_distance_returns_correct_distance_in_non_straight_line()
+    {
+        int result = sut.GetDistance(northEastHexTile);
+
+        Assert.AreEqual(ONE, result);
     }
 
     #endregion

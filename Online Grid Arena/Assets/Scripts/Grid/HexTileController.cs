@@ -243,7 +243,8 @@ public sealed class HexTileController : IHexTileController
 
     public int GetDistance(IHexTileController goalTile)
     {
-        return (int)(Math.Sqrt(Math.Pow((this.X - goalTile.X), 2) + Math.Pow((this.Y - goalTile.Y), 2)));
+        return (int)(Math.Sqrt(Math.Pow((this.Coordinates.Item1 - goalTile.Coordinates.Item1), 2) + 
+                               Math.Pow((this.Coordinates.Item2 - goalTile.Coordinates.Item2), 2)));
     }
 
     public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
