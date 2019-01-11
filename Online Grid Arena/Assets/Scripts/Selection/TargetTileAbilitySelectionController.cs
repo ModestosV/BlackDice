@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelectionController
 {
@@ -19,8 +20,8 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
-        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+        int distance = selectedTile.GetDistance(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
         if (inRange)
         {
@@ -35,8 +36,9 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
-        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
+        int distance = selectedTile.GetDistance(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
+        Debug.Log(distance);
 
         if (inRange)
         {

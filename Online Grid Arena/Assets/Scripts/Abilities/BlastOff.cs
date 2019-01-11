@@ -12,9 +12,9 @@ public class BlastOff : TargetedAbility {
         AbilityType.TARGET_TILE,
         1,
         25.0f,
-        10,
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/CottonRip")
+        30,
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
+        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker")
         )
     {
         this.activeCharacter = activeCharacter;
