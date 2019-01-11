@@ -30,7 +30,7 @@ public sealed class HexTileController : IHexTileController
 
         IsSelected = true;
         HexTile.SetClickedMaterial();
-        GridSelectionController.AddSelectedTile(this);
+        GridSelectionController.SelectedTile = this;
     }
 
     public void Deselect()
@@ -50,7 +50,7 @@ public sealed class HexTileController : IHexTileController
         {
             HexTile.SetDefaultMaterial();
         }
-        GridSelectionController.RemoveSelectedTile(this);
+        EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
     public void Hover()

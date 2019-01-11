@@ -20,7 +20,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
 
@@ -48,7 +48,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
 

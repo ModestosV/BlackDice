@@ -41,7 +41,7 @@ public class MovementSelectionControllerTests
         inputParameters.TargetTile.Returns(targetTile);
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
-        gridSelectionController.GetSelectedTile().Returns(selectedTile);
+        gridSelectionController.SelectedTile.Returns(selectedTile);
 
         pathList = new List<IHexTileController>() { selectedTile, targetTile };
         selectedTile.GetPath(targetTile).Returns(pathList);
@@ -265,5 +265,5 @@ public class MovementSelectionControllerTests
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).HoverError();
-    }    
+    }
 }

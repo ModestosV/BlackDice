@@ -80,6 +80,8 @@ public class CharacterController : ICharacterController
 
         Abilities[abilityNumber].Execute(targetTile);
 
+        targetTile.Deselect();
+
         AbilitiesRemaining--;
 
         UpdateSelectedHUD();

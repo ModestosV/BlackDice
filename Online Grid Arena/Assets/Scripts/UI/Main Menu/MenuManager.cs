@@ -8,13 +8,12 @@ public class MenuManager : MonoBehaviour
     private OnlineMenuController onlineMenuController;
     private FeedbackMenuController feedbackMenuController;
     private Validator validator;
-    private LogHandler logHandler;
 
     private void Awake()
     {
+        new LogHandler();
         loginPanel = FindObjectOfType<LoginPanel>();
         registrationPanel = FindObjectOfType<RegistrationPanel>();
-        logHandler = new LogHandler();
         feedbackPanel = FindObjectOfType<FeedbackPanel>();
         validator = new Validator();
 

@@ -9,28 +9,28 @@
 
     protected override void DoEscapePressed()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
     protected override void DoTabPressed()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         TurnController.SelectActiveCharacter();
     }
 
     protected override void DoClickOffGrid()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
     protected override void DoClickDisabledTile()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         inputParameters.TargetTile.Select();
     }
 
@@ -41,7 +41,7 @@
 
     protected override void DoClickOccupiedOtherTile()
     {
-        GridSelectionController.DeselectAll();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         inputParameters.TargetTile.Select();
     }
 

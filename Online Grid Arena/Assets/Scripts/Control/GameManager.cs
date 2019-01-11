@@ -109,7 +109,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
-        EventBus.Subscribe<DeselectAllTilesEvent>(gridSelectionController);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
     }
 
     private void Start()

@@ -11,7 +11,7 @@ public class TargetEnemyAbilitySelectionControllerTests
 
     ICharacterController selectedCharacter;
     ICharacterController targetCharacter;
-    
+
     IInputParameters inputParameters;
 
     IHexTileController selectedTile;
@@ -33,12 +33,12 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         inputParameters = Substitute.For<IInputParameters>();
         inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
-        
+
         selectedTile = Substitute.For<IHexTileController>();
         selectedTile.OccupantCharacter.Returns(selectedCharacter);
 
-        gridSelectionController.GetSelectedTile().Returns(selectedTile);
-        
+        gridSelectionController.SelectedTile.Returns(selectedTile);
+
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
