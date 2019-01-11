@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 public class FeedbackNetworkManager : AbstractNetworkManager, IFeedbackNetworkManager
 {
-    public FeedbackNetworkManager() : base("/feedback") { }
+    public FeedbackNetworkManager() : base(URLs.BASE_URL + "/feedback") { }
 
     public async Task<IHttpResponseMessage> SendFeedbackAsync(FeedbackDto feedbackDto)
     {

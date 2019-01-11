@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-public class UserDTO
+public sealed class UserDTO
 {
     [JsonProperty("email")]
     public string Email { get; }
