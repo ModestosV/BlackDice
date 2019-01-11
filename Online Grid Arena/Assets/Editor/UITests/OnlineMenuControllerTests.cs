@@ -40,14 +40,14 @@ public class OnlineMenuControllerTests
             RegistrationPanel = registrationPanel,
             LoginPanel = loginPanel,
             UserNetworkManager = userNetworkManager,
-            ActivePlayer = activePlayer
+            ActivePlayer = activePlayer,
+            Validator = new Validator()
         };
     }
 
     [Test]
     public void Register_with_valid_information_indicates_activity_and_sends_registration_request()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
@@ -65,7 +65,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_disables_register_button_while_in_progress()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
@@ -79,7 +78,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_with_201_response_code_sets_registration_success_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         responseMessage.StatusCode.Returns(HttpStatusCode.Created);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
@@ -93,7 +91,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_with_400_response_code_sets_connectivity_issues_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         responseMessage.StatusCode.Returns(HttpStatusCode.BadRequest);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
@@ -107,7 +104,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_with_412_response_code_sets_duplicate_keys_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         responseMessage.StatusCode.Returns((HttpStatusCode)412);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
@@ -121,7 +117,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_with_500_response_code_sets_registration_success_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash, VALID_USERNAME);
         responseMessage.StatusCode.Returns(HttpStatusCode.InternalServerError);
         userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
@@ -163,7 +158,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_indicates_activity_and_sends_login_request()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash);
         userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
@@ -181,7 +175,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_disables_login_logout_while_in_progress()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash);
         userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
@@ -195,7 +188,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_with_200_response_code_updates_active_player_and_status_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash);
         responseMessage.StatusCode.Returns(HttpStatusCode.OK);
         userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
@@ -213,7 +205,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_with_400_response_code_sets_invalid_credentials_status_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash);
         responseMessage.StatusCode.Returns(HttpStatusCode.BadRequest);
         userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
@@ -227,7 +218,6 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_with_500_response_code_sets_invalid_credentials_status_message()
     {
-        userDTO = new UserDTO(VALID_EMAIL, validPasswordHash);
         responseMessage.StatusCode.Returns(HttpStatusCode.InternalServerError);
         userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
