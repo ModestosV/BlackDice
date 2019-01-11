@@ -26,6 +26,12 @@ public sealed class FeedbackMenuController : IFeedbackMenuController
             return;
         }
 
+        if (feedback.Length < 10)
+        {
+            feedbackPanel.SetStatus(Strings.SEND_FEEDBACK_SHORT_MESSAGE);
+            return;
+        }
+
         feedbackPanel.ActivateLoadingCircle();
 
         IHttpResponseMessage response = await feedbackNetworkManager.SendFeedbackAsync(new FeedbackDto(email, feedback));

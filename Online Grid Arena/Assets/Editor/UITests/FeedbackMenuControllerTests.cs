@@ -37,7 +37,7 @@ public class FeedbackMenuControllerTests
     }
 
     [Test]
-    public void Send_feedback_with_invalid_email()
+    public void Send_feedback_with_invalid_email_shows_error_prompt()
     {
         string validEmail = "foo";
         string message = "Message goes here";
@@ -49,5 +49,19 @@ public class FeedbackMenuControllerTests
         feedbackNetworkManager.Received(0).SendFeedbackAsync(Arg.Any<FeedbackDto>());
         feedbackPanel.Received(0).DeactivateLoadingCircle();
         feedbackPanel.Received(1).SetStatus(Strings.INVALID_EMAIL_MESSAGE);
+    }
+
+    public void Send_feedback_with_short_number_of_characters_error_prompt()
+    {
+        string validEmail = "foo";
+        string message = "6chrs";
+        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == validEmail && x.Message == message)).Returns(responseMessage);
+
+        sut.SubmitFeedbackAsync(validEmail, message);
+
+        feedbackPanel.Received(0).ActivateLoadingCircle();
+        feedbackNetworkManager.Received(0).SendFeedbackAsync(Arg.Any<FeedbackDto>());
+        feedbackPanel.Received(0).DeactivateLoadingCircle();
+        feedbackPanel.Received(1).SetStatus(Strings.SEND_FEEDBACK_SHORT_MESSAGE);
     }
 }
