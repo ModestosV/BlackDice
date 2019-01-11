@@ -38,7 +38,6 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
         int distance = selectedTile.GetDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
-        Debug.Log(distance);
 
         if (inRange)
         {

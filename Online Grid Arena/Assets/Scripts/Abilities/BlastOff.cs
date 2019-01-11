@@ -22,23 +22,20 @@ public class BlastOff : TargetedAbility {
 
     public override void Execute(IHexTileController targetTile)
     {
-        // check if target tile is open
-        if (!targetTile.IsOccupied())
+        // move character
+        activeCharacter.Controller.OccupiedTile.OccupantCharacter = null;
+        activeCharacter.MoveToTile(targetTile.HexTile);
+        activeCharacter.Controller.OccupiedTile = targetTile;
+        targetTile.OccupantCharacter = activeCharacter.Controller;
+        
+        // damage all characters at target location            
+        foreach (IHexTileController target in targetTile.GetNeighbors())
         {
-            PlayAnimation(targetTile);
+            target.Damage(power);
             PlaySoundEffect();
-            activeCharacter.Controller.ForceMove(targetTile);
-
-            // damage all characters at target location            
-            foreach (IHexTileController target in targetTile.GetNeighbors())
-            {
-                target.Damage(power);
-                PlaySoundEffect();
-                PlayAnimation(target);
-            }
-
-            cooldownRemaining += cooldown;
+            PlayAnimation(target);
         }
-        else Debug.Log("Tile is occupied");
+
+        cooldownRemaining += cooldown;
     }
 }

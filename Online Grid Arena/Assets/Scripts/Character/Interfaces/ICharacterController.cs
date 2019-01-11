@@ -4,7 +4,7 @@ using UnityEngine;
 public interface ICharacterController
 {
     ICharacter Character { set; }
-    IHexTileController OccupiedTile { set; }
+    IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { set; }
