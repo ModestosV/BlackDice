@@ -9,7 +9,7 @@ public class CharacterController : ICharacterController
 
     public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
-    public List<IEffect> Effects { protected get; set; }
+    public List<IEffect> Effects { get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
@@ -165,7 +165,7 @@ public class CharacterController : ICharacterController
             }
             if (e.Type == EffectType.STACK || e.Type == EffectType.BUFF || e.Type == EffectType.DEBUFF)
             {
-                if (e.RemoveEffect())
+                if (e.StacksRanOut())
                 {
                     if (modifiers.ContainsKey("moves"))
                     {

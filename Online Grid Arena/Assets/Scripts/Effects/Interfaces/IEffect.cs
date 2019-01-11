@@ -8,5 +8,5 @@ public interface IEffect
     void Refresh();
     void Decrement();
     Dictionary<string, float> GetEffects();
-    bool RemoveEffect();
+    bool StacksRanOut();
 }

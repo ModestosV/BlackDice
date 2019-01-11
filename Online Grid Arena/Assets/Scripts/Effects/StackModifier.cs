@@ -20,7 +20,7 @@ public abstract class StackModifier : AbstractEffect
         stacks--;
     }
 
-    public override bool RemoveEffect()
+    public override bool StacksRanOut()
     {
         return stacks <= 0;
     }

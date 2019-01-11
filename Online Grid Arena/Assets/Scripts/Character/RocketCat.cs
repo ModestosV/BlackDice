@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class RocketCat : AbstractCharacter
 {
@@ -7,7 +8,6 @@ public sealed class RocketCat : AbstractCharacter
         // Init abilities
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this);
         IAbility scratch = new Scratch(catScratchFeverAbility);
-
         var abilities = new List<IAbility>() { scratch, catScratchFeverAbility };
         var effects = new List<IEffect>() { };
 

@@ -33,7 +33,7 @@ public abstract class AbstractEffect : IEffect
     public abstract void Apply(IHexTileController targetTile);
     public abstract Dictionary<string, float> GetEffects();
     public abstract void RemoveStack();
-    public abstract bool RemoveEffect();
+    public abstract bool StacksRanOut();
 
     public virtual void Refresh()
     {
