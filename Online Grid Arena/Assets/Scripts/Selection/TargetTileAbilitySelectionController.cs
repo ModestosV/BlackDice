@@ -42,6 +42,10 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
         if (inRange)
         {
             inputParameters.TargetTile.Highlight();
+            foreach (IHexTileController affected in inputParameters.TargetTile.GetNeighbors())
+            {
+                affected.HoverError();
+            }
         }
         else
         {
