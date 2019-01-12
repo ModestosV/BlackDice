@@ -21,5 +21,8 @@ public sealed class Scratch : TargetedAbility
         PlaySoundEffect();
         PlayAnimation(targetTile);
         cooldownRemaining += cooldown;
+        Debug.LogWarning("SCRATCH");
+        Debug.LogWarning("calling passive now");
+        passive.Execute(targetTile);
     }
 }

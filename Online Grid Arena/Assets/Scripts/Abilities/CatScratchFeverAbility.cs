@@ -16,12 +16,14 @@ public class CatScratchFeverAbility : PassiveAbility
 
     public override void Execute(IHexTileController targetTile)
     {
-        self.Controller.AddEffect((IEffect)this);
-        Debug.Log("THE ABILITY HAS ADDED THE EFFECT TO KITTY");
+        Debug.LogWarning("PASSIVE BEING CALLED");
+        //here we just add the passive to the cat
+        ActivatePassive();
     }
 
     public override void ActivatePassive()
     {
         //Add the stack to self
+        self.Controller.ApplyEffect(this.effect);
     }
 }

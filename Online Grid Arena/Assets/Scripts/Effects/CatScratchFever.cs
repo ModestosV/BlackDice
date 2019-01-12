@@ -3,7 +3,7 @@
 public sealed class CatScratchFever : StackModifier
 {
     public CatScratchFever() : base(
-        EffectType.STACK,
+        EffectType.CONSTANT,
         3,
         5,
         new Dictionary<string, float>()
@@ -12,7 +12,7 @@ public sealed class CatScratchFever : StackModifier
         }
         )
     {
-
+        Name = "CatScratchFever";
     }
 
     public override void Apply(IHexTileController targetTile)
@@ -24,5 +24,10 @@ public sealed class CatScratchFever : StackModifier
     public override Dictionary<string, float> GetEffects()
     {
         return statModifier;
+    }
+
+    public override string Print()
+    {
+        return "catscratchfever: "+this.GetName()+"------ duration: "+this.duration+" time left:"+this.durationRemaining+" maxstacks: "+this.maxStacks+" currentStacks: "+this.stacks;
     }
 }

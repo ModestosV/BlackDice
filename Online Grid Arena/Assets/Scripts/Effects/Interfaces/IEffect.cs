@@ -9,4 +9,6 @@ public interface IEffect
     void Decrement();
     Dictionary<string, float> GetEffects();
     bool StacksRanOut();
+    string Print();
+    string GetName();
 }

@@ -182,19 +182,34 @@ public class CharacterController : ICharacterController
 
     public void ApplyEffect(IEffect effect)
     {
-        Dictionary<string, float> modifiers = effect.GetEffects();
-        if (modifiers.ContainsKey("moves"))
+        Debug.LogWarning("APPLY EFFECT CALLED");
+        Debug.LogWarning("current effects size: "+Effects.ToArray().Length);
+        //check to see if we already contain an effect of this type
+        bool exists = false;
+        IEffect existingEf = null;
+        foreach (IEffect e in Effects)
         {
-            CharacterStats["moves"].CurrentValue += modifiers["moves"];
+            if (e.GetName() == effect.GetName())
+            {
+                exists = true;
+                existingEf = e;
+            }
         }
-        if (modifiers.ContainsKey("health"))
+        if (exists)
         {
-            CharacterStats["health"].CurrentValue += modifiers["health"];
+            existingEf.Refresh();
+            Debug.LogWarning(existingEf.Print());
         }
-        if (modifiers.ContainsKey("0"))
+        else
         {
-            Abilities[0].ModifyPower(modifiers["0"]);
+            //add
+            this.Effects.Add(effect);
+            Debug.LogWarning(effect.Print());
+            //NOW WHAT
         }
+
+
+        Debug.LogWarning("new effects size: " + Effects.ToArray().Length);
     }
 
     public void Die()

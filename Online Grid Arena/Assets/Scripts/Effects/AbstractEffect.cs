@@ -2,19 +2,15 @@
 
 public enum EffectType //stack, buff, and debuff, are all constant. the rest are only applied at the end of the turn
 {
-    BUFF,
-    DEBUFF,
-    DAMAGE_OVER_TIME,
-    HEAL_OVER_TIME,
-    STACK,
-    STACK_BUFF,
-    STACK_DAMAGE,
-    STACK_HEAL
+    CONSTANT,
+    END_OF_TURN,
+    START_OF_TURN
 }
 
 public abstract class AbstractEffect : IEffect
 {
     public EffectType Type { get; set; }
+    public string Name { get; set; }
     protected int duration;
     protected int durationRemaining;
 
@@ -23,6 +19,7 @@ public abstract class AbstractEffect : IEffect
         Type = type;
         this.duration = duration;
         durationRemaining = duration;
+        Name = "abstract effect";
     }
 
     public bool HasRunOut()
@@ -34,7 +31,7 @@ public abstract class AbstractEffect : IEffect
     public abstract Dictionary<string, float> GetEffects();
     public abstract void RemoveStack();
     public abstract bool StacksRanOut();
-
+    public abstract string Print();
     public virtual void Refresh()
     {
         durationRemaining = duration;
@@ -43,5 +40,10 @@ public abstract class AbstractEffect : IEffect
     public virtual void Decrement()
     {
         durationRemaining--;
+    }
+
+    public virtual string GetName()
+    {
+        return Name;
     }
 }
