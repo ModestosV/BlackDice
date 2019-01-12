@@ -14,7 +14,8 @@ public class BlastOff : TargetedAbility {
         25.0f,
         30,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker")
+        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<Sprite>("Sprites/jetpack-png-3")
         )
     {
         this.activeCharacter = activeCharacter;

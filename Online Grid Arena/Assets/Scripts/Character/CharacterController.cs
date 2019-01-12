@@ -31,7 +31,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities);
     }
 
     public void ClearSelectedHUD()

@@ -4,6 +4,8 @@ public class AbilitySoundSource : MonoBehaviour, IEventSubscriber {
 
     private AudioSource audioSource;
 
+    protected Texture abilityIcon;
+
     void Start ()
     {
         audioSource = GetComponent<AudioSource>();

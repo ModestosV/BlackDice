@@ -8,7 +8,8 @@ public sealed class DefaultAttack : TargetedAbility
         20.0f,
         5,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker")
+        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<Sprite>("Sprites/cursorSword_gold")
         )
     {
 

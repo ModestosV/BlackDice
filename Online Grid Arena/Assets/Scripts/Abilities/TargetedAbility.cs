@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class TargetedAbility : AbstractAbility
 {
@@ -7,7 +8,7 @@ public abstract class TargetedAbility : AbstractAbility
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
     
-    protected TargetedAbility(AbilityType type, int cooldown, float power, int range, GameObject animationPrefab, AudioClip soundEffect) : base(type, cooldown)
+    protected TargetedAbility(AbilityType type, int cooldown, float power, int range, GameObject animationPrefab, AudioClip soundEffect, Sprite abilityIcon) : base(type, cooldown, abilityIcon)
     {
         this.power = power;
         this.range = range;

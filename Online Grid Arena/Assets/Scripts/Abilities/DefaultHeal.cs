@@ -8,7 +8,8 @@ public sealed class DefaultHeal : TargetedAbility
         35.0f,
         5,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultHealAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/SmallSplash")
+        Resources.Load<AudioClip>("Audio/Ability/SmallSplash"),
+        Resources.Load<Sprite>("Sprites/Heal_Icon")
         )
     {
 

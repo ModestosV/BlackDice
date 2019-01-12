@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public enum AbilityType
 {
@@ -13,14 +14,16 @@ public enum AbilityType
 public abstract class AbstractAbility : IAbility
 {
     public AbilityType Type { get; set; }
+    public Sprite AbilityIcon { get; set; }
     protected int cooldown;
     protected int cooldownRemaining;
 
-    protected AbstractAbility(AbilityType type, int cooldown)
+    protected AbstractAbility(AbilityType type, int cooldown, Sprite abilityIcon)
     {
         Type = type;
         this.cooldown = cooldown;
         cooldownRemaining = cooldown;
+        AbilityIcon = abilityIcon;
     }
 
     public abstract void Execute(IHexTileController targetTile);
