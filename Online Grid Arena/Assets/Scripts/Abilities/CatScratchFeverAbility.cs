@@ -16,7 +16,6 @@ public class CatScratchFeverAbility : PassiveAbility
 
     public override void Execute(IHexTileController targetTile)
     {
-        Debug.LogWarning("PASSIVE BEING CALLED");
         //here we just add the passive to the cat
         ActivatePassive();
     }
