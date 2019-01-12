@@ -9,6 +9,8 @@ public interface IEffect
     Dictionary<string, float> GetEffects();
     bool StacksRanOut();
     bool MaxStacks();
+    void RemoveStack();
     string Print();
     string GetName();
+    void Reset();
 }

@@ -23,6 +23,12 @@ public abstract class StackModifier : AbstractEffect
         stacks--;
     }
 
+    public override void Reset()
+    {
+        durationRemaining = duration;
+        stacks = 1;
+    }
+
     public override bool StacksRanOut()
     {
         return stacks <= 0;
@@ -31,10 +37,7 @@ public abstract class StackModifier : AbstractEffect
     public override void Decrement()
     {
         durationRemaining--;
-        if (HasRunOut())
-        {
-            RemoveStack();
-        }
+        if (durationRemaining < 0) durationRemaining = 0;
     }
 
     public override void Refresh()

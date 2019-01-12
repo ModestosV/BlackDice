@@ -200,21 +200,35 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (IEffect e in Effects)
         {
+            Debug.LogWarning(e.Print());
             e.Decrement();
+            Debug.LogWarning("all effects decremented");
+            Debug.LogWarning(e.Print());
             if (e.HasRunOut())
             {
                 //has 0 turns left
                 //if stack, remove stack
+                Debug.LogWarning("time has run out, have 0 duration left");
                 if (e.Type == EffectType.STACK)
                 {
+                    Debug.LogWarning("is stack!");
+                    e.RemoveStack();
+                    RemoveStack(e);
+                    Debug.LogWarning(e.Print());
                     if (e.StacksRanOut())
                     {
+                        Debug.LogWarning("no more stacks!");
+                        e.Reset();
                         Effects.Remove(e);
+                        Debug.LogWarning(Effects.Count);
+                        break;
                     }
                 }
                 else
                 {
                     Effects.Remove(e);
+                    Debug.LogWarning(Effects.Count);
+                    break;
                 }
             }
         }
@@ -231,7 +245,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
                     break;
                 case "moves":
                     break;
-                case "0": //this means first ability, i.e. Q
+                case "0":
                     this.Abilities[0].ModifyPower(-ef.Value);
                     break;
                 default:
@@ -309,7 +323,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void Handle(IEvent @event)
     {
-        Debug.LogWarning("END TURN");
         var type = @event.GetType();
         if (type == typeof(StartNewTurnEvent))
         {

@@ -34,6 +34,7 @@ public abstract class AbstractEffect : IEffect
     public abstract void RemoveStack();
     public abstract bool StacksRanOut();
     public abstract string Print();
+    public abstract void Reset();
     public virtual void Refresh()
     {
         durationRemaining = duration;
