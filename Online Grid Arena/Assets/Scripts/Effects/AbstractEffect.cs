@@ -28,7 +28,6 @@ public abstract class AbstractEffect : IEffect
         return durationRemaining > 0;
     }
 
-    public abstract void Apply(IHexTileController targetTile);
     public abstract Dictionary<string, float> GetEffects();
     public abstract void RemoveStack();
     public abstract bool StacksRanOut();

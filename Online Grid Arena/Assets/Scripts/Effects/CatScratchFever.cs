@@ -8,17 +8,11 @@ public sealed class CatScratchFever : StackModifier
         5,
         new Dictionary<string, float>()
         {
-            {"moves", 1.0f}, {"0", 5.0f }
+            {"0", 10.0f }
         }
         )
     {
         Name = "CatScratchFever";
-    }
-
-    public override void Apply(IHexTileController targetTile)
-    {
-        durationRemaining = duration;
-        targetTile.ApplyEffect(this);
     }
 
     public override Dictionary<string, float> GetEffects()

@@ -110,6 +110,7 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
+        Debug.LogWarning("DAMAGE DONE: "+damage);
         CharacterStats["health"].CurrentValue -= damage;
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
@@ -146,7 +147,7 @@ public class CharacterController : ICharacterController
             {
                 this.StackRefreshed();
             }
-            //this.EffectRefreshed();
+            this.StackRefreshed();
             Debug.LogWarning(existingEf.Print());
         }
         else
@@ -154,17 +155,44 @@ public class CharacterController : ICharacterController
             //add
             this.Effects.Add(effect);
             Debug.LogWarning(effect.Print());
-            //NOW WHAT
+            if (effect.Type == EffectType.STACK)
+            {
+                this.ApplyConstant(effect);
+            }
         }
 
 
         Debug.LogWarning("new effects size: " + Effects.ToArray().Length);
+        Debug.LogWarning(effect.Print());
+        Debug.LogWarning("MOVES"+this.CharacterStats["moves"].CurrentValue);
         //refresh UI
+        //REFRESH UI
     }
 
     private void StackRefreshed()
     {
         //update the stats with new stacks. need bunch of methods for that now.
+    }
+
+    private void ApplyConstant(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            Debug.LogWarning(""+ef.Key+" "+ef.Value);
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    this.CharacterStats["moves"].CurrentValue += ef.Value;
+                    break;
+                case "0": //this means first ability, i.e. Q
+                    this.Abilities[0].ModifyPower(ef.Value);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void Die()
