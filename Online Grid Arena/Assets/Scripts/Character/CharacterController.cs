@@ -110,7 +110,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
     
     public void Damage(float damage)
     {
-        Debug.LogWarning("DAMAGE DONE: "+damage);
         CharacterStats["health"].CurrentValue -= damage;
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
@@ -155,13 +154,10 @@ public class CharacterController : ICharacterController, IEventSubscriber
             {
                 existingEf.Refresh();
             }
-            Debug.LogWarning(existingEf.Print());
         }
         else
         {
-            //add
             this.Effects.Add(effect);
-            Debug.LogWarning(effect.Print());
             if (effect.Type == EffectType.STACK)
             {
                 this.ApplyStack(effect);
@@ -180,7 +176,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            Debug.LogWarning(""+ef.Key+" "+ef.Value);
             switch (ef.Key)
             {
                 case "health":
@@ -200,34 +195,23 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (IEffect e in Effects)
         {
-            Debug.LogWarning(e.Print());
             e.Decrement();
-            Debug.LogWarning("all effects decremented");
-            Debug.LogWarning(e.Print());
             if (e.HasRunOut())
             {
-                //has 0 turns left
-                //if stack, remove stack
-                Debug.LogWarning("time has run out, have 0 duration left");
                 if (e.Type == EffectType.STACK)
                 {
-                    Debug.LogWarning("is stack!");
                     e.RemoveStack();
                     RemoveStack(e);
-                    Debug.LogWarning(e.Print());
                     if (e.StacksRanOut())
                     {
-                        Debug.LogWarning("no more stacks!");
                         e.Reset();
                         Effects.Remove(e);
-                        Debug.LogWarning(Effects.Count);
                         break;
                     }
                 }
                 else
                 {
                     Effects.Remove(e);
-                    Debug.LogWarning(Effects.Count);
                     break;
                 }
             }
@@ -238,7 +222,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            Debug.LogWarning("" + ef.Key + " " + ef.Value);
             switch (ef.Key)
             {
                 case "health":
