@@ -307,7 +307,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
         }
     }
 
-    void IEventSubscriber.Handle(IEvent @event)
+    public void Handle(IEvent @event)
     {
         Debug.LogWarning("END TURN");
         var type = @event.GetType();
