@@ -24,9 +24,13 @@ public class BlastOff : TargetedAbility {
     {
         // move character
         activeCharacter.Controller.OccupiedTile.OccupantCharacter = null;
+        activeCharacter.Controller.OccupiedTile.Deselect();
+
         activeCharacter.MoveToTile(targetTile.HexTile);
         activeCharacter.Controller.OccupiedTile = targetTile;
+
         targetTile.OccupantCharacter = activeCharacter.Controller;
+        targetTile.Select();
         
         // damage all characters at target location            
         foreach (IHexTileController target in targetTile.GetNeighbors())
