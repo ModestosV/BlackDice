@@ -124,62 +124,6 @@ public class CharacterController : ICharacterController
         UpdateHealthBar();
     }
 
-    public void AddEffect(IEffect effect)
-    {
-        if (Effects.Contains(effect))
-        {
-            effect.Refresh();
-        }
-        else
-        {
-            Effects.Add(effect);
-            if (effect.Type == EffectType.STACK || effect.Type == EffectType.BUFF || effect.Type == EffectType.DEBUFF)
-            {
-                ApplyEffect(effect);
-            }
-        }
-    }
-
-    public void ApplyEndOfTurnEffects()
-    {
-        //decrement every effect's duration. if an effect has run out and it is not an over time effect, remove its buff or debuff.
-        foreach (IEffect e in Effects)
-        {
-            e.Decrement();
-            Dictionary<string, float> modifiers = e.GetEffects();
-            if (e.Type == EffectType.DAMAGE_OVER_TIME || e.Type == EffectType.HEAL_OVER_TIME )
-            {
-                if (modifiers.ContainsKey("moves"))
-                {
-                    CharacterStats["moves"].CurrentValue += modifiers["moves"];
-                }
-                if (modifiers.ContainsKey("health"))
-                {
-                    CharacterStats["health"].CurrentValue += modifiers["health"];
-                }
-                if (e.HasRunOut())
-                {
-
-                    Effects.Remove(e);
-                }
-            }
-            if (e.Type == EffectType.STACK || e.Type == EffectType.BUFF || e.Type == EffectType.DEBUFF)
-            {
-                if (e.StacksRanOut())
-                {
-                    if (modifiers.ContainsKey("moves"))
-                    {
-                        CharacterStats["moves"].CurrentValue -= modifiers["moves"];
-                    }
-                    if (modifiers.ContainsKey("health"))
-                    {
-                        CharacterStats["health"].CurrentValue -= modifiers["health"];
-                    }
-                }
-            }
-        }
-    }
-
     public void ApplyEffect(IEffect effect)
     {
         Debug.LogWarning("APPLY EFFECT CALLED");
@@ -198,6 +142,7 @@ public class CharacterController : ICharacterController
         if (exists)
         {
             existingEf.Refresh();
+            //this.EffectRefreshed();
             Debug.LogWarning(existingEf.Print());
         }
         else

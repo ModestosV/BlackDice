@@ -266,7 +266,7 @@ public sealed class HexTileController : IHexTileController
     {
         if (OccupantCharacter != null)
         {
-            OccupantCharacter.AddEffect(effect);
+            //OccupantCharacter.AddEffect(effect);
         }
     }
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 public abstract class StackModifier : AbstractEffect
 {
@@ -13,6 +15,7 @@ public abstract class StackModifier : AbstractEffect
         this.statModifier = statModifier;
         this.duration = duration;
         this.stacks = 1;
+        Name = "stack modifier";
     }
 
     public override void RemoveStack()
