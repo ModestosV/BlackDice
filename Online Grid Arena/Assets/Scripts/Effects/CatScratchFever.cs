@@ -8,7 +8,7 @@ public sealed class CatScratchFever : StackModifier
         5,
         new Dictionary<string, float>()
         {
-            {"0", 10.0f }
+            {"0", 5.0f }
         }
         )
     {
@@ -23,5 +23,10 @@ public sealed class CatScratchFever : StackModifier
     public override string Print()
     {
         return "catscratchfever: "+this.GetName()+"------ duration: "+this.duration+" time left:"+this.durationRemaining+" maxstacks: "+this.maxStacks+" currentStacks: "+this.stacks+" type:"+this.Type.ToString();
+    }
+
+    public override bool MaxStacks()
+    {
+        return stacks == maxStacks;
     }
 }

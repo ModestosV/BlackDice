@@ -23,9 +23,11 @@ public abstract class AbstractEffect : IEffect
         Name = "abstract effect";
     }
 
+    public abstract bool MaxStacks();
+
     public bool HasRunOut()
     {
-        return durationRemaining > 0;
+        return durationRemaining <= 0;
     }
 
     public abstract Dictionary<string, float> GetEffects();

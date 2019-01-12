@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class StackModifier : AbstractEffect
 {
-    protected int maxStacks;
+    public int maxStacks;
     public int stacks;
     public Dictionary<string, float> statModifier;
 

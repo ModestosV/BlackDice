@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : ICharacterController
+public class CharacterController : ICharacterController, IEventSubscriber
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { protected get; set; }
@@ -127,9 +127,6 @@ public class CharacterController : ICharacterController
 
     public void ApplyEffect(IEffect effect)
     {
-        Debug.LogWarning("APPLY EFFECT CALLED");
-        Debug.LogWarning("current effects size: "+Effects.ToArray().Length);
-        //check to see if we already contain an effect of this type
         bool exists = false;
         IEffect existingEf = null;
         foreach (IEffect e in Effects)
@@ -142,12 +139,22 @@ public class CharacterController : ICharacterController
         }
         if (exists)
         {
-            existingEf.Refresh();
             if (existingEf.Type == EffectType.STACK)
             {
-                this.StackRefreshed();
+                if (existingEf.MaxStacks())
+                {
+                    existingEf.Refresh();
+                }
+                else
+                {
+                    existingEf.Refresh();
+                    this.StackRefreshed(existingEf);
+                }
             }
-            this.StackRefreshed();
+            else
+            {
+                existingEf.Refresh();
+            }
             Debug.LogWarning(existingEf.Print());
         }
         else
@@ -157,24 +164,19 @@ public class CharacterController : ICharacterController
             Debug.LogWarning(effect.Print());
             if (effect.Type == EffectType.STACK)
             {
-                this.ApplyConstant(effect);
+                this.ApplyStack(effect);
             }
         }
-
-
-        Debug.LogWarning("new effects size: " + Effects.ToArray().Length);
-        Debug.LogWarning(effect.Print());
-        Debug.LogWarning("MOVES"+this.CharacterStats["moves"].CurrentValue);
         //refresh UI
         //REFRESH UI
     }
 
-    private void StackRefreshed()
+    private void StackRefreshed(IEffect effect)
     {
-        //update the stats with new stacks. need bunch of methods for that now.
+        ApplyStack(effect);
     }
 
-    private void ApplyConstant(IEffect newEffect)
+    private void ApplyStack(IEffect newEffect)
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
@@ -184,10 +186,53 @@ public class CharacterController : ICharacterController
                 case "health":
                     break;
                 case "moves":
-                    this.CharacterStats["moves"].CurrentValue += ef.Value;
                     break;
                 case "0": //this means first ability, i.e. Q
                     this.Abilities[0].ModifyPower(ef.Value);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void EndOfTurn()
+    {
+        foreach (IEffect e in Effects)
+        {
+            e.Decrement();
+            if (e.HasRunOut())
+            {
+                //has 0 turns left
+                //if stack, remove stack
+                if (e.Type == EffectType.STACK)
+                {
+                    if (e.StacksRanOut())
+                    {
+                        Effects.Remove(e);
+                    }
+                }
+                else
+                {
+                    Effects.Remove(e);
+                }
+            }
+        }
+    }
+
+    private void RemoveStack(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            Debug.LogWarning("" + ef.Key + " " + ef.Value);
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    break;
+                case "0": //this means first ability, i.e. Q
+                    this.Abilities[0].ModifyPower(-ef.Value);
                     break;
                 default:
                     break;
@@ -259,6 +304,16 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
             EventBus.Publish(new StartNewTurnEvent());
+        }
+    }
+
+    void IEventSubscriber.Handle(IEvent @event)
+    {
+        Debug.LogWarning("END TURN");
+        var type = @event.GetType();
+        if (type == typeof(StartNewTurnEvent))
+        {
+            this.EndOfTurn();
         }
     }
 }

@@ -8,6 +8,7 @@ public interface IEffect
     void Decrement();
     Dictionary<string, float> GetEffects();
     bool StacksRanOut();
+    bool MaxStacks();
     string Print();
     string GetName();
 }
