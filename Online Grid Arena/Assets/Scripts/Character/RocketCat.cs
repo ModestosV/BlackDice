@@ -34,7 +34,6 @@ public sealed class RocketCat : AbstractCharacter
             CharacterStats = characterStats,
             Effects = effects
         };
-        EventBus.Subscribe<StartNewTurnEvent>((IEventSubscriber)this.Controller);
     }
 
     void Start()
@@ -42,6 +41,7 @@ public sealed class RocketCat : AbstractCharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
+        EventBus.Subscribe<StartNewTurnEvent>(characterController);
     }
 
 
