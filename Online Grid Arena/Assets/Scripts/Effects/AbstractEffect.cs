@@ -4,7 +4,8 @@ public enum EffectType //stack, buff, and debuff, are all constant. the rest are
 {
     CONSTANT,
     END_OF_TURN,
-    START_OF_TURN
+    START_OF_TURN,
+    STACK
 }
 
 public abstract class AbstractEffect : IEffect

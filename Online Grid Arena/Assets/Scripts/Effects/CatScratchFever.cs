@@ -3,7 +3,7 @@
 public sealed class CatScratchFever : StackModifier
 {
     public CatScratchFever() : base(
-        EffectType.CONSTANT,
+        EffectType.STACK,
         3,
         5,
         new Dictionary<string, float>()

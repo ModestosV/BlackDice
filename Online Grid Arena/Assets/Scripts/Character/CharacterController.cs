@@ -142,6 +142,10 @@ public class CharacterController : ICharacterController
         if (exists)
         {
             existingEf.Refresh();
+            if (existingEf.Type == EffectType.STACK)
+            {
+                this.StackRefreshed();
+            }
             //this.EffectRefreshed();
             Debug.LogWarning(existingEf.Print());
         }
@@ -155,6 +159,12 @@ public class CharacterController : ICharacterController
 
 
         Debug.LogWarning("new effects size: " + Effects.ToArray().Length);
+        //refresh UI
+    }
+
+    private void StackRefreshed()
+    {
+        //update the stats with new stacks. need bunch of methods for that now.
     }
 
     public void Die()
