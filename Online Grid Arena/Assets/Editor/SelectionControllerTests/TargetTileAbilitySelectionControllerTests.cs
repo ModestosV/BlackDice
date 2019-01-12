@@ -17,6 +17,8 @@ public class TargetTileAbilitySelectionControllerTests
     IHexTileController selectedTile;
     IHexTileController targetTile;
 
+    List<IHexTileController> neighbors;
+
     const int ACTIVE_ABILITY_NUMBER = 0;
 
     [SetUp]
@@ -43,6 +45,8 @@ public class TargetTileAbilitySelectionControllerTests
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
 
+        neighbors = Substitute.For<List<IHexTileController>>();
+
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
         int distance = 1;
@@ -50,6 +54,7 @@ public class TargetTileAbilitySelectionControllerTests
         selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, distance).Returns(true);
 
         inputParameters.TargetTile.Returns(targetTile);
+        inputParameters.TargetTile.GetNeighbors().Returns(neighbors);
 
         sut = new TargetTileAbilitySelectionController
         {
