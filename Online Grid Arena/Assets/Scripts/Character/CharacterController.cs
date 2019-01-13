@@ -195,13 +195,13 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (IEffect e in Effects)
         {
-            e.Decrement();
+            e.DecrementDuration();
             if (e.HasRunOut())
             {
                 if (e.Type == EffectType.STACK)
                 {
-                    e.RemoveStack();
-                    RemoveStack(e);
+                    e.DecrementStack();
+                    RemoveEffectOf(e);
                     if (e.StacksRanOut())
                     {
                         e.Reset();
@@ -218,7 +218,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
         }
     }
 
-    private void RemoveStack(IEffect newEffect)
+    private void RemoveEffectOf(IEffect newEffect)
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {

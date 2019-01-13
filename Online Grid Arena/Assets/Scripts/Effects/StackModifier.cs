@@ -18,7 +18,7 @@ public abstract class StackModifier : AbstractEffect
         Name = "stack modifier";
     }
 
-    public override void RemoveStack()
+    public override void DecrementStack()
     {
         stacks--;
     }
@@ -34,7 +34,7 @@ public abstract class StackModifier : AbstractEffect
         return stacks <= 0;
     }
 
-    public override void Decrement()
+    public override void DecrementDuration()
     {
         durationRemaining--;
         if (durationRemaining < 0) durationRemaining = 0;

@@ -31,7 +31,7 @@ public abstract class AbstractEffect : IEffect
     }
 
     public abstract Dictionary<string, float> GetEffects();
-    public abstract void RemoveStack();
+    public abstract void DecrementStack();
     public abstract bool StacksRanOut();
     public abstract string Print();
     public abstract void Reset();
@@ -40,7 +40,7 @@ public abstract class AbstractEffect : IEffect
         durationRemaining = duration;
     }
 
-    public virtual void Decrement()
+    public virtual void DecrementDuration()
     {
         durationRemaining--;
     }
