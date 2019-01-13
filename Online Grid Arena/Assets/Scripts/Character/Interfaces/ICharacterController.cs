@@ -20,7 +20,6 @@ public interface ICharacterController
     void Select();
     void Deselect();
     void ExecuteAbility(int abilityNumber, IHexTileController targetTile);
-    void ForceMove(IHexTileController targetTile);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
