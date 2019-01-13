@@ -4,12 +4,11 @@ public sealed class Scratch : TargetedAbility
 {
 
     public IAbility passive;
-    public Scratch(IAbility passiveTrigger) : base(
 
-    public Scratch(RocketCat activeCharacter) : base(
+    public Scratch(RocketCat activeCharacter, IAbility passiveTrigger) : base(
 
         AbilityType.TARGET_ENEMY,
-        1,
+        0,
         25.0f,
         1,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),

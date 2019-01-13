@@ -1,8 +1,10 @@
-﻿public abstract class PassiveAbility : AbstractAbility
+﻿using UnityEngine;
+
+public abstract class PassiveAbility : AbstractAbility
 {
     protected IEffect effect;
 
-    protected PassiveAbility(AbilityType type, IEffect effect) : base(type, 0)
+    protected PassiveAbility(AbilityType type, IEffect effect, Sprite abilityIcon) : base(type, 0, abilityIcon)
     {
         this.effect = effect;
     }

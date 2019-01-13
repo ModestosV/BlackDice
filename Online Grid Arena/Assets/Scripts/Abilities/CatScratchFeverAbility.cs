@@ -6,7 +6,8 @@ public class CatScratchFeverAbility : PassiveAbility
 
     public CatScratchFeverAbility(RocketCat character) : base(
          AbilityType.PASSIVE, 
-         new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks.png"))
+         new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks.png")),
+         Resources.Load<Sprite>("Sprites/Abilities/claw-marks.png")
          )
     {
         this.self = character;
@@ -14,7 +15,7 @@ public class CatScratchFeverAbility : PassiveAbility
 
     public override void ModifyPower(float amount){}
 
-    public override void Execute(IHexTileController targetTile)
+    protected override void PrimaryAction(IHexTileController targetTile)
     {
         //here we just add the passive to the cat
         ActivatePassive();
