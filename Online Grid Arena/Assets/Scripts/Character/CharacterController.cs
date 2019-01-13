@@ -140,7 +140,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
         {
             if (existingEf.Type == EffectType.STACK)
             {
-                if (existingEf.MaxStacks())
+                if (existingEf.IsMaxStacks())
                 {
                     existingEf.Refresh();
                 }
@@ -196,7 +196,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
         foreach (IEffect e in Effects)
         {
             e.DecrementDuration();
-            if (e.HasRunOut())
+            if (e.IsDurationOver())
             {
                 if (e.Type == EffectType.STACK)
                 {

@@ -23,9 +23,9 @@ public abstract class AbstractEffect : IEffect
         Name = "abstract effect";
     }
 
-    public abstract bool MaxStacks();
+    public abstract bool IsMaxStacks();
 
-    public bool HasRunOut()
+    public bool IsDurationOver()
     {
         return durationRemaining <= 0;
     }

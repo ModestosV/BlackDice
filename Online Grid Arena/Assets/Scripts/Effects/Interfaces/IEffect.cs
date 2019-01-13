@@ -3,12 +3,12 @@
 public interface IEffect
 {
     EffectType Type { get; set; }
-    bool HasRunOut();
+    bool IsDurationOver();
     void Refresh();
     void DecrementDuration();
     Dictionary<string, float> GetEffects();
     bool StacksRanOut();
-    bool MaxStacks();
+    bool IsMaxStacks();
     void DecrementStack();
     string Print();
     string GetName();

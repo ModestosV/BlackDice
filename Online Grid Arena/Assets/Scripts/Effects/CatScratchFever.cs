@@ -25,7 +25,7 @@ public sealed class CatScratchFever : StackModifier
         return "catscratchfever: "+this.GetName()+"------ duration: "+this.duration+" time left:"+this.durationRemaining+" maxstacks: "+this.maxStacks+" currentStacks: "+this.stacks+" type:"+this.Type.ToString();
     }
 
-    public override bool MaxStacks()
+    public override bool IsMaxStacks()
     {
         return stacks == maxStacks;
     }
