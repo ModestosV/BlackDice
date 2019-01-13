@@ -211,6 +211,10 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 }
                 else
                 {
+                    if (e.Type == EffectType.CONSTANT)
+                    {
+                        RemoveEffectOf(e);
+                    }
                     Effects.Remove(e);
                     break;
                 }
