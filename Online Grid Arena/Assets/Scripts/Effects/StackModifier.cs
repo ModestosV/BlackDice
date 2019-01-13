@@ -45,11 +45,7 @@ public abstract class StackModifier : AbstractEffect
         if (stacks < maxStacks)
         {
             stacks++;
-            durationRemaining = duration;
         }
-        else
-        {
-            durationRemaining = duration;
-        }
+        durationRemaining = duration;
     }
 }
