@@ -432,7 +432,7 @@ public class HexTileControllerTests
     [Test]
     public void Get_distance_returns_correct_distance_in_straight_line()
     {
-        int result = sut.GetDistance(eastHexTile);
+        int result = sut.GetAbsoluteDistance(eastHexTile);
 
         Assert.AreEqual(ONE, result);
     }
@@ -440,7 +440,7 @@ public class HexTileControllerTests
     [Test]
     public void Get_distance_returns_correct_distance_in_non_straight_line()
     {
-        int result = sut.GetDistance(northEastHexTile);
+        int result = sut.GetAbsoluteDistance(northEastHexTile);
 
         Assert.AreEqual(ONE, result);
     }

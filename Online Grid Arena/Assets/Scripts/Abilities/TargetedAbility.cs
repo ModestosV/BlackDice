@@ -7,13 +7,16 @@ public abstract class TargetedAbility : AbstractAbility
     protected int range;
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
-    
-    protected TargetedAbility(AbilityType type, int cooldown, float power, int range, GameObject animationPrefab, AudioClip soundEffect, Sprite abilityIcon) : base(type, cooldown, abilityIcon)
+
+    protected readonly ICharacter activeCharacter;
+
+    protected TargetedAbility(AbilityType type, int cooldown, float power, int range, GameObject animationPrefab, AudioClip soundEffect, Sprite abilityIcon, ICharacter activeCharacter) : base(type, cooldown, abilityIcon)
     {
         this.power = power;
         this.range = range;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
+        this.activeCharacter = activeCharacter;
     }
 
     public bool IsInRange(int range)

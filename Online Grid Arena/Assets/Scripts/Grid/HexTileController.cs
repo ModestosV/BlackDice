@@ -241,7 +241,7 @@ public sealed class HexTileController : IHexTileController
         return new List<IHexTileController>();
     }
 
-    public int GetDistance(IHexTileController targetTile)
+    public int GetAbsoluteDistance(IHexTileController targetTile)
     {
         return (int)(Math.Sqrt(Math.Pow((this.Coordinates.Item1 - targetTile.Coordinates.Item1), 2) + 
                                Math.Pow((this.Coordinates.Item2 - targetTile.Coordinates.Item2), 2)));

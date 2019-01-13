@@ -50,7 +50,7 @@ public class TargetTileAbilitySelectionControllerTests
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
         int distance = 1;
-        selectedTile.GetDistance(targetTile).Returns(distance);
+        selectedTile.GetAbsoluteDistance(targetTile).Returns(distance);
         selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, distance).Returns(true);
 
         inputParameters.TargetTile.Returns(targetTile);

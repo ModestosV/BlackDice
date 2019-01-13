@@ -2,14 +2,15 @@
 
 public sealed class Scratch : TargetedAbility
 {
-    public Scratch() : base(
+    public Scratch(ICharacter activeCharacter) : base(
         AbilityType.TARGET_ENEMY,
         1,
         25.0f,
         1,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/CottonRip"),
-        Resources.Load<Sprite>("Sprites/cursorSword_gold")
+        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
+        activeCharacter
         )
     {
 

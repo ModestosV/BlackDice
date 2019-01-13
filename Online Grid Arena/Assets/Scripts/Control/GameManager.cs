@@ -92,7 +92,7 @@ public sealed class GameManager : MonoBehaviour
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
             { "target_ally", targetAllyAbilitySelectionController },
-            {"target_tile", targetTileAbilitySelectionController }
+            { "target_tile", targetTileAbilitySelectionController }
         };
 
         // Initialize input manager

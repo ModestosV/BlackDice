@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class BlastOff : TargetedAbility {
-    
-    private readonly ICharacter activeCharacter;
-
+public class BlastOff : TargetedAbility
+{
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
@@ -15,10 +13,11 @@ public class BlastOff : TargetedAbility {
         30,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
-        Resources.Load<Sprite>("Sprites/jetpack-png-3")
+        Resources.Load<Sprite>("Sprites/jetpack-png-3"),
+        activeCharacter
         )
     {
-        this.activeCharacter = activeCharacter;
+
     }
 
     public override void Execute(IHexTileController targetTile)
@@ -37,9 +36,10 @@ public class BlastOff : TargetedAbility {
         foreach (IHexTileController target in targetTile.GetNeighbors())
         {
             target.Damage(power);
-            PlaySoundEffect();
             PlayAnimation(target);
         }
+
+        PlaySoundEffect();
 
         cooldownRemaining += cooldown;
     }

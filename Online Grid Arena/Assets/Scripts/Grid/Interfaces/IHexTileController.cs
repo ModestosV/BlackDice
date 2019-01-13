@@ -37,7 +37,7 @@ public interface IHexTileController
     IHexTileController GetNorthWestNeighbor();
     List<IHexTileController> GetNeighbors();
     List<IHexTileController> GetPath(IHexTileController startTile);
-    int GetDistance(IHexTileController goalTile);
+    int GetAbsoluteDistance(IHexTileController targetTile);
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 
