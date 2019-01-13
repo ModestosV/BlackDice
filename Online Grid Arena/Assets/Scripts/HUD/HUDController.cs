@@ -18,13 +18,15 @@ public sealed class HUDController : IHUDController
         AbilityPanel.Hide();
     }
 
-    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName)
+    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName, List<IAbility> abilities)
     {
         SelectedStatPanel.EnableStatDisplays();
         SelectedStatPanel.CharacterStats = characterStats;
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
+
         AbilityPanel.Show();
+        AbilityPanel.UpdateAbilityIcons(abilities);
     }
 
     public void ClearTargetHUD()

@@ -59,6 +59,8 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 return SelectionControllers["target_enemy"];
             case AbilityType.TARGET_ALLY:
                 return SelectionControllers["target_ally"];
+            case AbilityType.TARGET_TILE:
+                return SelectionControllers["target_tile"];
             default:
                 return null;
         }

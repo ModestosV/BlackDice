@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
-    public IHexTileController OccupiedTile { protected get; set; }
+    public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
@@ -31,7 +31,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities);
     }
 
     public void ClearSelectedHUD()
