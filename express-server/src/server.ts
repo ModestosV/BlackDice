@@ -18,8 +18,8 @@ consoleStamp(console, stamp);
 
 const app = new Application();
 const connection = new Connection();
-
 connection.connect();
+
 server = httpServer.createServer(app.initRouters());
 server.listen(port, host);
 server.on("error", handleError);

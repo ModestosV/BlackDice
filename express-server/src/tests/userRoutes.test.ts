@@ -6,6 +6,7 @@ import { Connection } from "../connection";
 describe("User Register tests", () => {
     let app: Application;
     let connDB: Connection;
+
     beforeAll(async () => {
         app = new Application();
         connDB = new Connection();
@@ -29,13 +30,9 @@ describe("User Register tests", () => {
             conn.post("/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(201)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(201);
+
+            done();
         });
 
         it("Duplicate entry returns 412", async (done) => {
@@ -49,13 +46,9 @@ describe("User Register tests", () => {
             conn.post("/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(412)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(412);
+
+            done();
         });
 
         it("Request missing required body data returns 400", async (done) => {
@@ -67,13 +60,9 @@ describe("User Register tests", () => {
             conn.post("/account/register")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(400)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(400);
+
+            done();
         });
     });
 
@@ -88,13 +77,9 @@ describe("User Register tests", () => {
             conn.post("/account/login")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(200)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(200);
+
+            done();
         });
 
         it("Login attempt for non-existing user returns 400", async (done) => {
@@ -107,13 +92,9 @@ describe("User Register tests", () => {
             conn.post("/account/login")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(400)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(400);
+
+            done();
         });
     });
 
@@ -127,13 +108,9 @@ describe("User Register tests", () => {
             conn.post("/account/logout")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(200)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(200);
+
+            done();
         });
 
         it("Logout attempt for non-existing user returns 400", async (done) => {
@@ -145,13 +122,9 @@ describe("User Register tests", () => {
             conn.post("/account/logout")
                 .send(json)
                 .set("Content-Type", "application/json")
-                .expect(400)
-                .end((err) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
+                .expect(400);
+
+            done();
         });
     });
 });

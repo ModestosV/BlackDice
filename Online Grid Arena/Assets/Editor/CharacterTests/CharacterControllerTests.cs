@@ -180,7 +180,7 @@ public class CharacterControllerTests
         sut.ExecuteMove(pathList);
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
-        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME);
+        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME, abilities);
     }
 
     [Test]

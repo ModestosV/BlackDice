@@ -6,8 +6,8 @@ public sealed class DefaultCharacter : AbstractCharacter
     {
         // Init abilities
 
-        IAbility defaultAttack = new DefaultAttack();
-        IAbility defaultHeal = new DefaultHeal();
+        IAbility defaultAttack = new DefaultAttack(this);
+        IAbility defaultHeal = new DefaultHeal(this);
 
         var abilities = new List<IAbility>() { defaultAttack, defaultHeal };
 
