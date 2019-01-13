@@ -1,8 +1,16 @@
-import React from 'react';
-import ReactDom from 'react-dom';
-import Popup from 'react-popup';
+import React, { Component } from 'react'
 
-ReactDom.render(
-	<Popup/>
-	document.getElementById('popupConainer')
-);
+class TermsOfServicePopUp extends Component {
+	render(){
+		return
+			<
+				input type="text"
+				placeholder={this.props.placeholder}
+				className = "mm-popup)_input"
+				value={this.state.value}
+				onChange={this.onChange}
+			/>;
+	}
+}
+
+export default TermsOfServicePopUp;
