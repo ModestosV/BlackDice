@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum EffectType //stack, buff, and debuff, are all constant. the rest are only applied at the end of the turn
 {
@@ -11,6 +12,7 @@ public enum EffectType //stack, buff, and debuff, are all constant. the rest are
 public abstract class AbstractEffect : IEffect
 {
     public EffectType Type { get; set; }
+    public Sprite EffectIcon { get; set; }
     public string Name { get; set; }
     protected int duration;
     protected int durationRemaining;
@@ -33,7 +35,6 @@ public abstract class AbstractEffect : IEffect
     public abstract Dictionary<string, float> GetEffects();
     public abstract void DecrementStack();
     public abstract bool StacksRanOut();
-    public abstract string ToString();
     public abstract void Reset();
     public virtual void Refresh()
     {

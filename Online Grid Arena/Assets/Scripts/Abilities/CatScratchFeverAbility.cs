@@ -6,7 +6,7 @@ public class CatScratchFeverAbility : PassiveAbility
 
     public CatScratchFeverAbility(RocketCat character) : base(
          AbilityType.PASSIVE, 
-         new CatScratchFever()
+         new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks.png"))
          )
     {
         this.self = character;

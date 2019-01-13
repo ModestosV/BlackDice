@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class CatScratchFever : StackModifier
 {
-    public CatScratchFever() : base(
+    public CatScratchFever(Sprite icon) : base(
         EffectType.STACK,
         6,
         5,
@@ -13,16 +14,12 @@ public sealed class CatScratchFever : StackModifier
         )
     {
         Name = "CatScratchFever";
+        EffectIcon = icon;
     }
 
     public override Dictionary<string, float> GetEffects()
     {
         return statModifier;
-    }
-
-    public override string ToString()
-    {
-        return "catscratchfever: "+this.GetName()+"------ duration: "+this.duration+" time left:"+this.durationRemaining+" maxstacks: "+this.maxStacks+" currentStacks: "+this.stacks+" type:"+this.Type.ToString();
     }
 
     public override bool IsMaxStacks()
