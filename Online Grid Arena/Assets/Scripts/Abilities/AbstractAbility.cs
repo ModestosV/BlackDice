@@ -26,7 +26,14 @@ public abstract class AbstractAbility : IAbility
         AbilityIcon = abilityIcon;
     }
 
-    public abstract void Execute(IHexTileController targetTile);
+    protected abstract void PrimaryAction(IHexTileController targetTile);
+
+    public void Execute(IHexTileController targetTile)
+    {
+        PrimaryAction(targetTile);
+
+        cooldownRemaining += cooldown;
+    }
     
     public bool IsOnCooldown()
     {

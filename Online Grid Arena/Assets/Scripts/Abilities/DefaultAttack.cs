@@ -15,4 +15,11 @@ public sealed class DefaultAttack : TargetedAbility
     {
 
     }
+
+    protected override void PrimaryAction(IHexTileController targetTile)
+    {
+        targetTile.Damage(power);
+        PlaySoundEffect();
+        PlayAnimation(targetTile);
+    }
 }

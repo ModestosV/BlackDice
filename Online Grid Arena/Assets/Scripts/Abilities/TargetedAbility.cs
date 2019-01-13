@@ -49,18 +49,4 @@ public abstract class TargetedAbility : AbstractAbility
         targetTile.OccupantCharacter = activeCharacter.Controller;
         targetTile.Select();
     }
-
-    protected virtual void PrimaryAction(IHexTileController targetTile)
-    {
-        targetTile.Damage(power);
-        PlaySoundEffect();
-        PlayAnimation(targetTile);
-    }
-
-    public override void Execute(IHexTileController targetTile)
-    {
-        PrimaryAction(targetTile);
-
-        cooldownRemaining += cooldown;
-    }
 }
