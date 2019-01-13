@@ -33,7 +33,7 @@ public abstract class AbstractEffect : IEffect
     public abstract Dictionary<string, float> GetEffects();
     public abstract void DecrementStack();
     public abstract bool StacksRanOut();
-    public abstract string Print();
+    public abstract string ToString();
     public abstract void Reset();
     public virtual void Refresh()
     {

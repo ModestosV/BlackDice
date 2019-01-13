@@ -20,7 +20,7 @@ public sealed class CatScratchFever : StackModifier
         return statModifier;
     }
 
-    public override string Print()
+    public override string ToString()
     {
         return "catscratchfever: "+this.GetName()+"------ duration: "+this.duration+" time left:"+this.durationRemaining+" maxstacks: "+this.maxStacks+" currentStacks: "+this.stacks+" type:"+this.Type.ToString();
     }

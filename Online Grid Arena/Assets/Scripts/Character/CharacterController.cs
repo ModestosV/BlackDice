@@ -32,7 +32,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer); //savepoint
     }
 
     public void ClearSelectedHUD()
@@ -126,34 +126,26 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void ApplyEffect(IEffect effect)
     {
-        bool exists = false;
-        IEffect existingEf = null;
+        bool effectExists = false;
+        IEffect existingEffect = null;
         foreach (IEffect e in Effects)
         {
-            if (e.GetName() == effect.GetName())
+            if (e.GetName().Equals(effect.GetName()))
             {
-                exists = true;
-                existingEf = e;
+                effectExists = true;
+                existingEffect = e;
             }
         }
-        if (exists)
+        if (effectExists)
         {
-            if (existingEf.Type == EffectType.STACK)
+            if (existingEffect.Type == EffectType.STACK)
             {
-                if (existingEf.IsMaxStacks())
+                if (!existingEffect.IsMaxStacks())
                 {
-                    existingEf.Refresh();
-                }
-                else
-                {
-                    existingEf.Refresh();
-                    this.StackRefreshed(existingEf);
+                    this.StackRefreshed(existingEffect);
                 }
             }
-            else
-            {
-                existingEf.Refresh();
-            }
+            existingEffect.Refresh();
         }
         else
         {
@@ -161,6 +153,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
             if (effect.Type == EffectType.STACK)
             {
                 this.ApplyStack(effect);
+                Debug.LogWarning(effect);
             }
         }
         //refresh UI
