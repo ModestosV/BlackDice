@@ -7,5 +7,5 @@
         this.effect = effect;
     }
 
-    public abstract void ActivatePassive();
+    protected abstract void ActivatePassive();
 }

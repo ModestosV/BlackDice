@@ -10,7 +10,6 @@ public interface IEffect
     bool StacksRanOut();
     bool IsMaxStacks();
     void DecrementStack();
-    string ToString();
     string GetName();
     void Reset();
 }

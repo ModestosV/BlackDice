@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class EffectPanelController : IEffectPanelController
 {
-    
+    public List<IEffect> Effects { get; set; }
+
+    public void UpdateView()
+    {
+
+    }
 }

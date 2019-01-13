@@ -20,7 +20,7 @@ public class CatScratchFeverAbility : PassiveAbility
         ActivatePassive();
     }
 
-    public override void ActivatePassive()
+    protected override void ActivatePassive()
     {
         //Add the stack to self
         self.Controller.ApplyEffect(this.effect);

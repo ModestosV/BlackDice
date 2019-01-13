@@ -153,7 +153,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
             if (effect.Type == EffectType.STACK)
             {
                 this.ApplyStack(effect);
-                Debug.LogWarning(effect);
             }
         }
         //refresh UI
