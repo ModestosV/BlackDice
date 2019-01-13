@@ -6,7 +6,7 @@ public class BlastOff : TargetedAbility
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
 
-    public BlastOff(ICharacter activeCharacter) : base(
+    public BlastOff(RocketCat activeCharacter) : base(
         AbilityType.TARGET_TILE,
         1,
         25.0f,
@@ -20,17 +20,9 @@ public class BlastOff : TargetedAbility
 
     }
 
-    public override void Execute(IHexTileController targetTile)
+    protected override void PrimaryAction(IHexTileController targetTile)
     {
-        // move character
-        activeCharacter.Controller.OccupiedTile.OccupantCharacter = null;
-        activeCharacter.Controller.OccupiedTile.Deselect();
-
-        activeCharacter.MoveToTile(targetTile.HexTile);
-        activeCharacter.Controller.OccupiedTile = targetTile;
-
-        targetTile.OccupantCharacter = activeCharacter.Controller;
-        targetTile.Select();
+        ExecuteMove(targetTile);
         
         // damage all characters at target location            
         foreach (IHexTileController target in targetTile.GetNeighbors())
@@ -40,7 +32,5 @@ public class BlastOff : TargetedAbility
         }
 
         PlaySoundEffect();
-
-        cooldownRemaining += cooldown;
     }
 }

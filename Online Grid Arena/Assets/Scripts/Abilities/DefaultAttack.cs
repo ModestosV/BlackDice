@@ -15,12 +15,4 @@ public sealed class DefaultAttack : TargetedAbility
     {
 
     }
-
-    public override void Execute(IHexTileController targetTile)
-    {
-        targetTile.Damage(power);
-        PlaySoundEffect();
-        PlayAnimation(targetTile);
-        cooldownRemaining += cooldown;
-    }
 }

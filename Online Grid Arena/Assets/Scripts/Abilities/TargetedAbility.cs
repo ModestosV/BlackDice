@@ -35,4 +35,32 @@ public abstract class TargetedAbility : AbstractAbility
         if (animationPrefab != null)
             targetTile.PlayAbilityAnimation(animationPrefab);
     }
+
+    protected void ExecuteMove(IHexTileController targetTile)
+    {
+        activeCharacter.Controller.OccupiedTile.OccupantCharacter = null;
+        activeCharacter.Controller.OccupiedTile.Deselect();
+
+        // Movement animation
+
+        activeCharacter.MoveToTile(targetTile.HexTile);
+        activeCharacter.Controller.OccupiedTile = targetTile;
+
+        targetTile.OccupantCharacter = activeCharacter.Controller;
+        targetTile.Select();
+    }
+
+    protected virtual void PrimaryAction(IHexTileController targetTile)
+    {
+        targetTile.Damage(power);
+        PlaySoundEffect();
+        PlayAnimation(targetTile);
+    }
+
+    public override void Execute(IHexTileController targetTile)
+    {
+        PrimaryAction(targetTile);
+
+        cooldownRemaining += cooldown;
+    }
 }

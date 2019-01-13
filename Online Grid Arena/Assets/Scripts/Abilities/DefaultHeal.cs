@@ -16,11 +16,10 @@ public sealed class DefaultHeal : TargetedAbility
 
     }
 
-    public override void Execute(IHexTileController targetTile)
+    protected override void PrimaryAction(IHexTileController targetTile)
     {
         targetTile.Heal(power);
         PlaySoundEffect();
         PlayAnimation(targetTile);
-        cooldownRemaining += cooldown;
     }
 }

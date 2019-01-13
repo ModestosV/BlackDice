@@ -2,7 +2,7 @@
 
 public sealed class Scratch : TargetedAbility
 {
-    public Scratch(ICharacter activeCharacter) : base(
+    public Scratch(RocketCat activeCharacter) : base(
         AbilityType.TARGET_ENEMY,
         1,
         25.0f,
@@ -14,13 +14,5 @@ public sealed class Scratch : TargetedAbility
         )
     {
 
-    }
-
-    public override void Execute(IHexTileController targetTile)
-    {
-        targetTile.Damage(power);
-        PlaySoundEffect();
-        PlayAnimation(targetTile);
-        cooldownRemaining += cooldown;
     }
 }
