@@ -30,7 +30,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     public void SelectActiveCharacter()
     {
         if (ActiveCharacter != null)
-            ActiveCharacter.Select();
+            ActiveCharacter.Active();
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -147,7 +147,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         ActiveCharacter.Refresh();
         ActiveCharacter.UpdateSelectedHUD();
 
-        ActiveCharacter.Select();
+        SelectActiveCharacter();
 
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 

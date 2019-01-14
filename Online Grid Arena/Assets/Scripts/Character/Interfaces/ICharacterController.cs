@@ -18,6 +18,7 @@ public interface ICharacterController
     IHealthBar HealthBar { set; }
 
     void Select();
+    void Active();
     void ExecuteAbility(int abilityNumber, IHexTileController targetTile);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();

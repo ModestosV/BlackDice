@@ -20,6 +20,8 @@ public interface IHexTileController
 
     void Select();
     void Deselect();
+    void SetActive();
+    void SetInactive();
     void Hover();
     void Blur();
     void HoverError();

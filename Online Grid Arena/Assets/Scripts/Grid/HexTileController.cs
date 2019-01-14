@@ -9,6 +9,7 @@ public sealed class HexTileController : IHexTileController
 
     public bool IsEnabled { get; set; }
     public bool IsSelected { private get; set; }
+    public bool IsActive { private get; set; }
 
     public IGridSelectionController GridSelectionController { private get; set; }
     public IGridController GridController { private get; set; }
@@ -27,6 +28,14 @@ public sealed class HexTileController : IHexTileController
             OccupantCharacter.UpdateSelectedHUD();
 
         if (IsSelected) return;
+
+        if (IsActive) 
+        {
+            IsSelected = true;
+            HexTile.SetActiveMaterial();
+            GridSelectionController.SelectedTile = this;
+            return;
+        }
 
         IsSelected = true;
         HexTile.SetClickedMaterial();
@@ -63,6 +72,7 @@ public sealed class HexTileController : IHexTileController
         if (IsSelected) return;
 
         IsSelected = true;
+        IsActive = true;
         HexTile.SetActiveMaterial();
         GridSelectionController.SelectedTile = this;
     }

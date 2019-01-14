@@ -36,7 +36,8 @@
 
     protected override void DoClickSelectedTile()
     {
-        inputParameters.TargetTile.Deselect();
+        // Should be removed
+        //inputParameters.TargetTile.Deselect();
     }
 
     protected override void DoClickOccupiedOtherTile()
