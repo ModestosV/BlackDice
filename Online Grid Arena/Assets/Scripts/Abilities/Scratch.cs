@@ -25,8 +25,6 @@ public sealed class Scratch : TargetedAbility
         targetTile.Damage(power);
         PlaySoundEffect();
         PlayAnimation(targetTile);
-
-        cooldownRemaining += cooldown;
         passive.Execute(targetTile);
 
     }

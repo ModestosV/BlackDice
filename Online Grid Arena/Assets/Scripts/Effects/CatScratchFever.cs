@@ -19,11 +19,11 @@ public sealed class CatScratchFever : StackModifier
 
     public override Dictionary<string, float> GetEffects()
     {
-        return statModifier;
+        return StatModifier;
     }
 
     public override bool IsMaxStacks()
     {
-        return stacks == maxStacks;
+        return Stacks == MaxStacks;
     }
 }

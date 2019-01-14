@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum EffectType //stack, buff, and debuff, are all constant. the rest are only applied at the end of the turn
+public enum EffectType
 {
     CONSTANT,
     END_OF_TURN,
