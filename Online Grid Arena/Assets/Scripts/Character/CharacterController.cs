@@ -126,7 +126,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void ApplyEffect(IEffect effect)
     {
-        Debug.LogWarning("applying effect");
         bool effectExists = false;
         IEffect existingEffect = null;
         foreach (IEffect e in Effects)
@@ -160,7 +159,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     private void ApplyStack(IEffect newEffect)
     {
-        Debug.LogWarning("applying stack");
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
             switch (ef.Key)
