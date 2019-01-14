@@ -126,6 +126,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void ApplyEffect(IEffect effect)
     {
+        Debug.LogWarning("applying effect");
         bool effectExists = false;
         IEffect existingEffect = null;
         foreach (IEffect e in Effects)
@@ -142,7 +143,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
             {
                 if (!existingEffect.IsMaxStacks())
                 {
-                    this.StackRefreshed(existingEffect);
+                    this.ApplyStack(existingEffect);
                 }
             }
             existingEffect.Refresh();
@@ -155,17 +156,11 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 this.ApplyStack(effect);
             }
         }
-        //refresh UI
-        //REFRESH UI
-    }
-
-    private void StackRefreshed(IEffect effect)
-    {
-        ApplyStack(effect);
     }
 
     private void ApplyStack(IEffect newEffect)
     {
+        Debug.LogWarning("applying stack");
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
             switch (ef.Key)
@@ -174,7 +169,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
                     break;
                 case "moves":
                     break;
-                case "0": //this means first ability, i.e. Q
+                case "0": 
                     this.Abilities[0].ModifyPower(ef.Value);
                     break;
                 default:
