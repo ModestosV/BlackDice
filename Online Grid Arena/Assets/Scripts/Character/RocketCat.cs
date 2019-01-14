@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
-
+using UnityEngine;
 public sealed class RocketCat : AbstractCharacter
 {
     void Awake()
     {
         // Init abilities
 
-        IAbility scratch = new Scratch(this);
+        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this);
+        IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
 
-        var abilities = new List<IAbility>() { scratch, blastoff };
+        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility };
+        var effects = new List<IEffect>() { };
 
         // Init stats
 
@@ -30,7 +32,8 @@ public sealed class RocketCat : AbstractCharacter
             BorderColor = borderColor,
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
-            CharacterStats = characterStats
+            CharacterStats = characterStats,
+            Effects = effects
         };
     }
 
@@ -39,5 +42,8 @@ public sealed class RocketCat : AbstractCharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
+        EventBus.Subscribe<StartNewTurnEvent>(characterController);
     }
+
+
 }

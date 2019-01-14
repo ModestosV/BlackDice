@@ -2,9 +2,13 @@
 
 public sealed class Scratch : TargetedAbility
 {
-    public Scratch(RocketCat activeCharacter) : base(
+
+    public IAbility passive;
+
+    public Scratch(RocketCat activeCharacter, IAbility passiveTrigger) : base(
+
         AbilityType.TARGET_ENEMY,
-        1,
+        0,
         25.0f,
         1,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
@@ -13,7 +17,7 @@ public sealed class Scratch : TargetedAbility
         activeCharacter
         )
     {
-
+        passive = passiveTrigger;
     }
 
     protected override void PrimaryAction(IHexTileController targetTile)
@@ -21,5 +25,7 @@ public sealed class Scratch : TargetedAbility
         targetTile.Damage(power);
         PlaySoundEffect();
         PlayAnimation(targetTile);
+        passive.Execute(targetTile);
+
     }
 }

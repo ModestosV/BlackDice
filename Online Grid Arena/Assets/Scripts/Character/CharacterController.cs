@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : ICharacterController
+public class CharacterController : ICharacterController, IEventSubscriber
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { get; set; }
@@ -9,6 +9,7 @@ public class CharacterController : ICharacterController
 
     public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
     public List<IAbility> Abilities { protected get; set; }
+    public List<IEffect> Effects { get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
@@ -123,6 +124,108 @@ public class CharacterController : ICharacterController
         UpdateHealthBar();
     }
 
+    public void ApplyEffect(IEffect effect)
+    {
+        bool effectExists = false;
+        IEffect existingEffect = null;
+        foreach (IEffect e in Effects)
+        {
+            if (e.GetName().Equals(effect.GetName()))
+            {
+                effectExists = true;
+                existingEffect = e;
+            }
+        }
+        if (effectExists)
+        {
+            if (existingEffect.Type == EffectType.STACK)
+            {
+                if (!existingEffect.IsMaxStacks())
+                {
+                    this.ApplyStack(existingEffect);
+                }
+            }
+            existingEffect.Refresh();
+        }
+        else
+        {
+            this.Effects.Add(effect);
+            if (effect.Type == EffectType.STACK)
+            {
+                this.ApplyStack(effect);
+            }
+        }
+    }
+
+    private void ApplyStack(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    break;
+                case "0": 
+                    this.Abilities[0].ModifyPower(ef.Value);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void EndOfTurn()
+    {
+        foreach (IEffect e in Effects)
+        {
+            e.DecrementDuration();
+            if (e.IsDurationOver())
+            {
+                if (e.Type == EffectType.STACK)
+                {
+                    e.DecrementStack();
+                    RemoveEffectOf(e);
+                    if (e.StacksRanOut())
+                    {
+                        e.Reset();
+                        Effects.Remove(e);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (e.Type == EffectType.CONSTANT)
+                    {
+                        RemoveEffectOf(e);
+                    }
+                    Effects.Remove(e);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void RemoveEffectOf(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    break;
+                case "0":
+                    this.Abilities[0].ModifyPower(-ef.Value);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public void Die()
     {
         EventBus.Publish(new DeathEvent(this));
@@ -187,6 +290,15 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
             EventBus.Publish(new StartNewTurnEvent());
+        }
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(StartNewTurnEvent))
+        {
+            this.EndOfTurn();
         }
     }
 }

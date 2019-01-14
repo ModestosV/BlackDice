@@ -9,6 +9,7 @@ public interface ICharacterController
 
     Dictionary<string, ICharacterStat> CharacterStats { set; }
     List<IAbility> Abilities { set; }
+    List<IEffect> Effects { set; }
 
     int AbilitiesRemaining { set; }
 
@@ -27,6 +28,7 @@ public interface ICharacterController
     void Die();
     void Heal(float heal);
     void UpdateHealthBar();
+    void ApplyEffect(IEffect effect);
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
@@ -41,4 +43,5 @@ public interface ICharacterController
     AbilityType GetAbilityType(int abilityIndex);
     bool IsAbilityInRange(int abilityIndex, int range);
     bool HasAbility(int abilityIndex);
+    void EndOfTurn();
 }
