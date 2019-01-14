@@ -51,6 +51,8 @@ public sealed class HexTileController : IHexTileController
 
         if (!IsSelected) return;
 
+        if (IsActive) return;
+
         IsSelected = false;
         if (HexTile.IsMouseOver())
         {
@@ -79,23 +81,8 @@ public sealed class HexTileController : IHexTileController
 
     public void SetInactive()
     {
-        if (!IsEnabled) return;
-
-        if (OccupantCharacter != null)
-            OccupantCharacter.ClearSelectedHUD();
-
-        if (!IsSelected) return;
-
-        IsSelected = false;
-        if (HexTile.IsMouseOver())
-        {
-            HexTile.SetHoverMaterial();
-        }
-        else
-        {
-            HexTile.SetDefaultMaterial();
-        }
-        EventBus.Publish(new DeselectSelectedTileEvent());
+        IsActive = false;
+        Deselect();
     }
 
     public void Hover()
@@ -133,7 +120,14 @@ public sealed class HexTileController : IHexTileController
 
         if (IsSelected)
         {
-            HexTile.SetClickedMaterial();
+            if (IsActive)
+            {
+                HexTile.SetActiveMaterial();
+            }
+            else
+            {
+                HexTile.SetClickedMaterial();
+            }
         }
         else
         {
@@ -164,7 +158,14 @@ public sealed class HexTileController : IHexTileController
 
         if (IsSelected)
         {
-            HexTile.SetClickedMaterial();
+            if (IsActive)
+            {
+                HexTile.SetActiveMaterial();
+            }
+            else
+            {
+                HexTile.SetClickedMaterial();
+            }
         } else
         {
             HexTile.SetDefaultMaterial();
