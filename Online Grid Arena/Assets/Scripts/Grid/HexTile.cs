@@ -52,6 +52,11 @@ public sealed class HexTile : MonoBehaviour, IHexTile
         GetComponent<Renderer>().material = materials.ClickedMaterial;
     }
 
+    public void SetActiveMaterial()
+    {
+        GetComponent<Renderer>().material = materials.ActiveMaterial;
+    }
+
     public void SetHighlightMaterial()
     {
         GetComponent<Renderer>().material = materials.PathMaterial;

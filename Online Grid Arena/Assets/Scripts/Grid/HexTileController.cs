@@ -53,6 +53,41 @@ public sealed class HexTileController : IHexTileController
         EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
+    public void SetActive()
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateSelectedHUD();
+
+        if (IsSelected) return;
+
+        IsSelected = true;
+        HexTile.SetActiveMaterial();
+        GridSelectionController.SelectedTile = this;
+    }
+
+    public void SetInactive()
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.ClearSelectedHUD();
+
+        if (!IsSelected) return;
+
+        IsSelected = false;
+        if (HexTile.IsMouseOver())
+        {
+            HexTile.SetHoverMaterial();
+        }
+        else
+        {
+            HexTile.SetDefaultMaterial();
+        }
+        EventBus.Publish(new DeselectSelectedTileEvent());
+    }
+
     public void Hover()
     {
         if (!IsEnabled) return;

@@ -6,6 +6,7 @@ public interface IHexTile : IMonoBehaviour
     void SetErrorMaterial();
     void SetDefaultMaterial();
     void SetClickedMaterial();
+    void SetActiveMaterial();
     void SetHighlightMaterial();
     bool IsMouseOver();
 
