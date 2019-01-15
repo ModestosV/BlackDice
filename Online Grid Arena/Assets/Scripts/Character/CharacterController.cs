@@ -163,7 +163,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            this.CharacterStats[ef.Key].Value += ef.Value;
+            this.CharacterStats[ef.Key].CurrentValue += ef.Value;
         }
     }
 
