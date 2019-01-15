@@ -265,5 +265,5 @@ public class MovementSelectionControllerTests
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).HoverError();
-    }    
+    }
 }

@@ -445,6 +445,32 @@ public class HexTileControllerTests
         Assert.AreEqual(ONE, result);
     }
 
+    [Test]
+    public void Highlighting_obstructed_tile_does_nothing()
+    {
+        sut.IsEnabled = false;
+        sut.IsObstructed = true;
+
+        sut.Highlight();
+
+        gridSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
+    }
+
+    [Test]
+    public void Selecting_obstructed_tile_does_nothing()
+    {
+        sut.IsEnabled = false;
+        sut.IsObstructed = true;
+
+        sut.Select();
+
+        gridSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
+    }
+
     #endregion
 
 }

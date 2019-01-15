@@ -29,6 +29,8 @@ public sealed class HexTileController : IHexTileController
 
         if (IsSelected) return;
 
+        if (IsObstructed) return;
+
         IsSelected = true;
         HexTile.SetClickedMaterial();
         GridSelectionController.AddSelectedTile(this);
