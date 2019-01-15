@@ -13,8 +13,6 @@ public class CatScratchFeverAbility : PassiveAbility
         this.self = character;
     }
 
-    public override void ModifyPower(float amount){}
-
     protected override void PrimaryAction(IHexTileController targetTile)
     {
         //here we just add the passive to the cat

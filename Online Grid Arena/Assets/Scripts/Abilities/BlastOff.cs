@@ -9,7 +9,6 @@ public class BlastOff : TargetedAbility
     public BlastOff(RocketCat activeCharacter) : base(
         AbilityType.TARGET_TILE,
         1,
-        25.0f,
         30,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
@@ -27,7 +26,7 @@ public class BlastOff : TargetedAbility
         // damage all characters at target location            
         foreach (IHexTileController target in targetTile.GetNeighbors())
         {
-            target.Damage(power);
+            target.Damage(activeCharacter.Controller.CharacterStats["attack"].CurrentValue);
             PlayAnimation(target);
         }
 

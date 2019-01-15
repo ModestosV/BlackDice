@@ -26,8 +26,6 @@ public abstract class AbstractAbility : IAbility
         AbilityIcon = abilityIcon;
     }
 
-    public abstract void ModifyPower(float amount);
-
     protected abstract void PrimaryAction(IHexTileController targetTile);
 
     public void Execute(IHexTileController targetTile)

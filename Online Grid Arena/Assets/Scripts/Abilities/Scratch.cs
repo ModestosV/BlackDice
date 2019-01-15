@@ -9,7 +9,6 @@ public sealed class Scratch : TargetedAbility
 
         AbilityType.TARGET_ENEMY,
         0,
-        25.0f,
         1,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/CottonRip"),
@@ -22,7 +21,7 @@ public sealed class Scratch : TargetedAbility
 
     protected override void PrimaryAction(IHexTileController targetTile)
     {
-        targetTile.Damage(power);
+        targetTile.Damage(activeCharacter.Controller.CharacterStats["attack"].CurrentValue);
         PlaySoundEffect();
         PlayAnimation(targetTile);
         passive.Execute(targetTile);

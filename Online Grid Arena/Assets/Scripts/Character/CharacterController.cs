@@ -7,7 +7,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
-    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { protected get; set; }
     public List<IEffect> Effects { get; set; }
 
@@ -110,7 +110,8 @@ public class CharacterController : ICharacterController, IEventSubscriber
     
     public void Damage(float damage)
     {
-        CharacterStats["health"].CurrentValue -= damage;
+        CharacterStats["health"].CurrentValue -= (damage/this.CharacterStats["defense"].CurrentValue)*100;
+        Debug.LogWarning((damage / this.CharacterStats["defense"].CurrentValue) * 100);
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
         {
@@ -143,6 +144,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 if (!existingEffect.IsMaxStacks())
                 {
                     this.ApplyStack(existingEffect);
+                    Debug.LogWarning("STACK");
                 }
             }
             existingEffect.Refresh();
@@ -161,18 +163,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            switch (ef.Key)
-            {
-                case "health":
-                    break;
-                case "moves":
-                    break;
-                case "0": 
-                    this.Abilities[0].ModifyPower(ef.Value);
-                    break;
-                default:
-                    break;
-            }
+            this.CharacterStats[ef.Key].Value += ef.Value;
         }
     }
 
@@ -211,18 +202,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            switch (ef.Key)
-            {
-                case "health":
-                    break;
-                case "moves":
-                    break;
-                case "0":
-                    this.Abilities[0].ModifyPower(-ef.Value);
-                    break;
-                default:
-                    break;
-            }
+            this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
         }
     }
 

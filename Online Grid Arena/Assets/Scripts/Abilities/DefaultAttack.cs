@@ -5,7 +5,6 @@ public sealed class DefaultAttack : TargetedAbility
     public DefaultAttack(ICharacter activeCharacter) : base(
         AbilityType.TARGET_ENEMY,
         1,
-        20.0f,
         5,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
@@ -18,7 +17,7 @@ public sealed class DefaultAttack : TargetedAbility
 
     protected override void PrimaryAction(IHexTileController targetTile)
     {
-        targetTile.Damage(power);
+        targetTile.Damage(activeCharacter.Controller.CharacterStats["attack"].CurrentValue-5);
         PlaySoundEffect();
         PlayAnimation(targetTile);
     }

@@ -5,7 +5,6 @@ public sealed class DefaultHeal : TargetedAbility
     public DefaultHeal(ICharacter activeCharacter) : base(
         AbilityType.TARGET_ALLY,
         1,
-        35.0f,
         5,
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultHealAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/SmallSplash"),
@@ -18,7 +17,7 @@ public sealed class DefaultHeal : TargetedAbility
 
     protected override void PrimaryAction(IHexTileController targetTile)
     {
-        targetTile.Heal(power);
+        targetTile.Heal(activeCharacter.Controller.CharacterStats["attack"].CurrentValue+10);
         PlaySoundEffect();
         PlayAnimation(targetTile);
     }

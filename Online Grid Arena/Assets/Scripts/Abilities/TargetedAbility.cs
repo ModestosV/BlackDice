@@ -3,25 +3,18 @@ using UnityEngine.UI;
 
 public abstract class TargetedAbility : AbstractAbility
 {
-    protected float power;
     protected int range;
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
 
     protected readonly ICharacter activeCharacter;
 
-    protected TargetedAbility(AbilityType type, int cooldown, float power, int range, GameObject animationPrefab, AudioClip soundEffect, Sprite abilityIcon, ICharacter activeCharacter) : base(type, cooldown, abilityIcon)
+    protected TargetedAbility(AbilityType type, int cooldown,int range, GameObject animationPrefab, AudioClip soundEffect, Sprite abilityIcon, ICharacter activeCharacter) : base(type, cooldown, abilityIcon)
     {
-        this.power = power;
         this.range = range;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
         this.activeCharacter = activeCharacter;
-    }
-
-    public override void ModifyPower(float amount)
-    {
-        power += amount;
     }
 
     public bool IsInRange(int range)
