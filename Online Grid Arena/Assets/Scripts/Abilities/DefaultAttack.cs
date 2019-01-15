@@ -1,25 +1,23 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-public sealed class DefaultAttack : TargetedAbility
+public sealed class DefaultAttack : ActiveAbility
 {
     public DefaultAttack(ICharacter activeCharacter) : base(
-        AbilityType.TARGET_ENEMY,
-        1,
-        20.0f,
-        5,
+        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
-        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
-        activeCharacter
-        )
+        activeCharacter,
+        1,
+        1)
     {
 
     }
 
-    protected override void PrimaryAction(IHexTileController targetTile)
+    protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTile.Damage(power);
+        targetTiles[0].Damage(25);
         PlaySoundEffect();
-        PlayAnimation(targetTile);
+        PlayAnimation(targetTiles[0]);
     }
 }

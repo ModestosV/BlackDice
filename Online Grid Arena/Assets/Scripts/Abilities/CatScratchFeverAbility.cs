@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CatScratchFeverAbility : PassiveAbility
 {
     private RocketCat self;
 
-    public CatScratchFeverAbility(RocketCat character) : base(
-         AbilityType.PASSIVE, 
-         new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks.png")),
-         Resources.Load<Sprite>("Sprites/Abilities/claw-marks")
+    public CatScratchFeverAbility(IEffect effect, RocketCat character) : base(
+         effect,
+         Resources.Load<Sprite>("Sprites/Abilities/claw-marks"),
+         character
          )
     {
         this.self = character;
     }
 
-    public override void ModifyPower(float amount){}
-
-    protected override void PrimaryAction(IHexTileController targetTile)
+    protected override void PrimaryAction(List<IHexTileController> targetTile)
     {
         //here we just add the passive to the cat
         ActivatePassive();
+    }
+
+    protected override void SecondaryAction(List<IHexTileController> targetTiles)
+    {
+
     }
 
     protected override void ActivatePassive()

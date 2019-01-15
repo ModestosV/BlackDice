@@ -4,7 +4,7 @@ public abstract class PassiveAbility : AbstractAbility
 {
     protected IEffect effect;
 
-    protected PassiveAbility(AbilityType type, IEffect effect, Sprite abilityIcon) : base(type, 0, abilityIcon)
+    protected PassiveAbility(IEffect effect, Sprite abilityIcon, ICharacter character) : base(abilityIcon, character)
     {
         this.effect = effect;
     }

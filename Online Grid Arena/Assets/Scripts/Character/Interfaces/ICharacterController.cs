@@ -20,7 +20,7 @@ public interface ICharacterController
 
     void Select();
     void Deselect();
-    void ExecuteAbility(int abilityNumber, IHexTileController targetTile);
+    void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
@@ -40,7 +40,6 @@ public interface ICharacterController
     bool IsAlly(ICharacterController otherCharacter);
 
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
-    AbilityType GetAbilityType(int abilityIndex);
     bool IsAbilityInRange(int abilityIndex, int range);
     bool HasAbility(int abilityIndex);
     void EndOfTurn();

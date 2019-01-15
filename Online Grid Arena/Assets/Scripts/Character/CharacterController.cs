@@ -78,13 +78,13 @@ public class CharacterController : ICharacterController, IEventSubscriber
         CheckExhausted();
     }
 
-    public void ExecuteAbility(int abilityNumber, IHexTileController targetTile)
+    public void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles)
     {
         if (!(AbilitiesRemaining > 0)) return;
 
         if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
-        Abilities[abilityNumber].Execute(targetTile);
+        Abilities[abilityNumber].Execute(targetTiles);
 
         AbilitiesRemaining--;
 
@@ -96,7 +96,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         CharacterStats["moves"].Refresh();
         AbilitiesRemaining = 1;
-        foreach (IAbility ability in Abilities)
+        foreach (ActiveAbility ability in Abilities)
         {
             ability.Refresh();
         }
@@ -168,7 +168,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 case "moves":
                     break;
                 case "0": 
-                    this.Abilities[0].ModifyPower(ef.Value);
                     break;
                 default:
                     break;
@@ -218,7 +217,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 case "moves":
                     break;
                 case "0":
-                    this.Abilities[0].ModifyPower(-ef.Value);
                     break;
                 default:
                     break;
@@ -240,7 +238,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public bool CanUseAbility(int abilityIndex)
     {
-        return AbilitiesRemaining > 0 && HasAbility(abilityIndex) && !Abilities[abilityIndex].IsOnCooldown();
+        return AbilitiesRemaining > 0 && HasAbility(abilityIndex); // TO-DO: && !Abilities[abilityIndex].IsOnCooldown();
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
@@ -261,14 +259,9 @@ public class CharacterController : ICharacterController, IEventSubscriber
         return true;
     }
 
-    public AbilityType GetAbilityType(int abilityIndex)
-    {
-        return Abilities[abilityIndex].Type;
-    }
-
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        TargetedAbility targetedAbility = Abilities[abilityIndex] as TargetedAbility;
+        ActiveAbility targetedAbility = Abilities[abilityIndex] as ActiveAbility;
 
         if (targetedAbility != null)
         {

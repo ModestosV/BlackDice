@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public interface IAbility
 {
-    AbilityType Type { get; set; }
     Sprite AbilityIcon { get; set; }
-    void Execute(IHexTileController targetTile);
-    bool IsOnCooldown();
-    void ModifyPower(float amount);
-    void Refresh();
+    List<IEffect> Effects { get; set; }
+
+    void Execute(List<IHexTileController> targetTile);
+    void AddEffect(IEffect effect);
 }

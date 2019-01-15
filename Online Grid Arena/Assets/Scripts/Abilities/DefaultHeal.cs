@@ -1,25 +1,24 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-public sealed class DefaultHeal : TargetedAbility
+public sealed class DefaultHeal : ActiveAbility
 {
     public DefaultHeal(ICharacter activeCharacter) : base(
-        AbilityType.TARGET_ALLY,
-        1,
-        35.0f,
-        5,
+        Resources.Load<Sprite>("Sprites/Heal_Icon"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultHealAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/SmallSplash"),
-        Resources.Load<Sprite>("Sprites/Heal_Icon"),
-        activeCharacter
+        activeCharacter,
+        1,
+        1
         )
     {
 
     }
 
-    protected override void PrimaryAction(IHexTileController targetTile)
+    protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTile.Heal(power);
+        targetTiles[0].Heal(15);
         PlaySoundEffect();
-        PlayAnimation(targetTile);
+        PlayAnimation(targetTiles[0]);
     }
 }

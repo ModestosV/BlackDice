@@ -1,50 +1,30 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-
-public enum AbilityType
-{
-    TARGET_ENEMY,
-    TARGET_ALLY,
-    TARGET_TILE,
-    ACTIVATED,
-    PASSIVE,
-    TRIGGERED
-}
+using System.Collections.Generic;
 
 public abstract class AbstractAbility : IAbility
 {
-    public AbilityType Type { get; set; }
+    public List<IEffect> Effects { get; set; }
     public Sprite AbilityIcon { get; set; }
-    protected int cooldown;
-    protected int cooldownRemaining;
+    protected readonly ICharacter ActiveCharacter;
 
-    protected AbstractAbility(AbilityType type, int cooldown, Sprite abilityIcon)
+    protected AbstractAbility(Sprite abilityIcon, ICharacter character)
     {
-        Type = type;
-        this.cooldown = cooldown;
-        cooldownRemaining = cooldown;
         AbilityIcon = abilityIcon;
+        ActiveCharacter = character;
     }
 
-    public abstract void ModifyPower(float amount);
+    protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
+    protected abstract void SecondaryAction(List<IHexTileController> targetTiles);
 
-    protected abstract void PrimaryAction(IHexTileController targetTile);
-
-    public void Execute(IHexTileController targetTile)
+    public void Execute(List<IHexTileController> targetTiles)
     {
-        PrimaryAction(targetTile);
+        PrimaryAction(targetTiles);
 
-        cooldownRemaining += cooldown;
+        SecondaryAction(targetTiles);
     }
-    
-    public bool IsOnCooldown()
+
+    public void AddEffect(IEffect effect)
     {
-        return cooldownRemaining > 0;
+        Effects.Add(effect);
     }
-
-    public void Refresh()
-    {
-        cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
-    }
-
 }

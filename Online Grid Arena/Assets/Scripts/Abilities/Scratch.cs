@@ -1,31 +1,23 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-public sealed class Scratch : TargetedAbility
+public sealed class Scratch : ActiveAbility
 {
-
-    public IAbility passive;
-
-    public Scratch(RocketCat activeCharacter, IAbility passiveTrigger) : base(
-
-        AbilityType.TARGET_ENEMY,
-        0,
-        25.0f,
-        1,
+    public Scratch(RocketCat activeCharacter) : base(
+        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/CottonRip"),
-        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
-        activeCharacter
-        )
+        activeCharacter,
+        1,
+        1)
     {
-        passive = passiveTrigger;
+
     }
 
-    protected override void PrimaryAction(IHexTileController targetTile)
+    protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTile.Damage(power);
+        targetTiles[0].Damage(25);
         PlaySoundEffect();
-        PlayAnimation(targetTile);
-        passive.Execute(targetTile);
-
+        PlayAnimation(targetTiles[0]);
     }
 }
