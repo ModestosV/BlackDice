@@ -13,8 +13,12 @@ public abstract class AbstractAbility : IAbility
         ActiveCharacter = character;
     }
 
+<<<<<<< HEAD
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
     protected abstract void SecondaryAction(List<IHexTileController> targetTiles);
+=======
+    protected abstract void PrimaryAction(IHexTileController targetTile);
+>>>>>>> 65fb65884c998783ff295886ef083293117e2717
 
     public void Execute(List<IHexTileController> targetTiles)
     {
@@ -27,5 +31,4 @@ public abstract class AbstractAbility : IAbility
     {
         Effects.Add(effect);
     }
-
 }

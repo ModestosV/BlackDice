@@ -7,7 +7,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
-    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { protected get; set; }
     public List<IEffect> Effects { get; set; }
 
@@ -163,7 +163,21 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
+<<<<<<< HEAD
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    break;
+                case "0": 
+                    break;
+                default:
+                    break;
+            }
+=======
             this.CharacterStats[ef.Key].CurrentValue += ef.Value;
+>>>>>>> 65fb65884c998783ff295886ef083293117e2717
         }
     }
 
@@ -202,7 +216,21 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
+<<<<<<< HEAD
+            switch (ef.Key)
+            {
+                case "health":
+                    break;
+                case "moves":
+                    break;
+                case "0":
+                    break;
+                default:
+                    break;
+            }
+=======
             this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
+>>>>>>> 65fb65884c998783ff295886ef083293117e2717
         }
     }
 

@@ -1,0 +1,17 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public interface IAbility
+{
+    Sprite AbilityIcon { get; set; }
+<<<<<<< HEAD
+    List<IEffect> Effects { get; set; }
+
+    void Execute(List<IHexTileController> targetTile);
+    void AddEffect(IEffect effect);
+=======
+    void Execute(IHexTileController targetTile);
+    bool IsOnCooldown();
+    void Refresh();
+>>>>>>> 65fb65884c998783ff295886ef083293117e2717
+}
