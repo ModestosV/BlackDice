@@ -17,11 +17,15 @@ public sealed class RocketCat : AbstractCharacter
 
         ICharacterStat health = new CharacterStat(120.0f);
         ICharacterStat moves = new CharacterStat(6.0f);
+        ICharacterStat attack = new CharacterStat(25.0f);
+        ICharacterStat defense = new CharacterStat(100.0f);
 
         var characterStats = new Dictionary<string, ICharacterStat>()
         {
             {"health", health},
-            {"moves", moves}
+            {"moves", moves},
+            { "attack", attack},
+            { "defense", defense}
         };
 
         characterController = new CharacterController()
