@@ -62,6 +62,11 @@ public sealed class HexTile : MonoBehaviour, IHexTile
         GetComponent<Renderer>().material = materials.PathMaterial;
     }
 
+    public GameObject GetObstruction()
+    {
+        return Obstruction;
+    }
+
     public bool IsMouseOver()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
