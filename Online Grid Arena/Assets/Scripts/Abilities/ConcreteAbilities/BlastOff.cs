@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BlastOff : ActiveAbility
+public class BlastOff : AbstractTargetedAbility
 {
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
@@ -13,24 +13,22 @@ public class BlastOff : ActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
         activeCharacter,
         1,
-        1
-        )
-    {
-
-    }
+        100,
+        AbilityType.TARGET_TILE)
+    { }
 
     // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        ActiveCharacter.Controller.OccupiedTile.OccupantCharacter = null;
-        ActiveCharacter.Controller.OccupiedTile.Deselect();
+        character.Controller.OccupiedTile.OccupantCharacter = null;
+        character.Controller.OccupiedTile.Deselect();
 
         // Movement animation
 
-        ActiveCharacter.MoveToTile(targetTiles[0].HexTile);
-        ActiveCharacter.Controller.OccupiedTile = targetTiles[0];
+        character.MoveToTile(targetTiles[0].HexTile);
+        character.Controller.OccupiedTile = targetTiles[0];
 
-        targetTiles[0].OccupantCharacter = ActiveCharacter.Controller;
+        targetTiles[0].OccupantCharacter = character.Controller;
         targetTiles[0].Select();
     }
 

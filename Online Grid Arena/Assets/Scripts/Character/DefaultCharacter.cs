@@ -22,10 +22,10 @@ public sealed class DefaultCharacter : AbstractCharacter
 
         var characterStats = new Dictionary<string, ICharacterStat>()
         {
-            {"health", health},
-            {"moves", moves},
-            { "attack", attack},
-            { "defense", defense}
+            { "health", health },
+            { "moves", moves },
+            { "attack", attack },
+            { "defense", defense }
         };
 
         characterController = new CharacterController()

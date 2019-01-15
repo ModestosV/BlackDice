@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : ICharacterController, IEventSubscriber
@@ -7,7 +8,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
-    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { protected get; set; }
     public List<IEffect> Effects { get; set; }
 
@@ -96,10 +97,13 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         CharacterStats["moves"].Refresh();
         AbilitiesRemaining = 1;
-        foreach (ActiveAbility ability in Abilities)
-        {
-            ability.Refresh();
-        }
+
+        Abilities.ForEach(ability => {
+            if(ability is IActiveAbility)
+            {
+                ((IActiveAbility) ability).Refresh();
+            }
+        });
     }
 
     public float GetInitiative()
@@ -111,7 +115,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public void Damage(float damage)
     {
         CharacterStats["health"].CurrentValue -= (damage/this.CharacterStats["defense"].CurrentValue)*100;
-        Debug.LogWarning((damage / this.CharacterStats["defense"].CurrentValue) * 100);
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
         {
@@ -220,7 +223,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public bool CanUseAbility(int abilityIndex)
     {
-        return AbilitiesRemaining > 0 && HasAbility(abilityIndex); // TO-DO: && !Abilities[abilityIndex].IsOnCooldown();
+        return AbilitiesRemaining > 0 && HasAbility(abilityIndex); // TODO: && !Abilities[abilityIndex].IsOnCooldown();
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
@@ -243,7 +246,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        ActiveAbility targetedAbility = Abilities[abilityIndex] as ActiveAbility;
+        AbstractTargetedAbility targetedAbility = Abilities[abilityIndex] as AbstractTargetedAbility;
 
         if (targetedAbility != null)
         {
@@ -256,7 +259,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     
     public void UpdateHealthBar()
     {
-        HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
+        HealthBar.SetHealthBarRatio(CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
         HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
     }
 
@@ -273,7 +276,21 @@ public class CharacterController : ICharacterController, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(StartNewTurnEvent))
         {
-            this.EndOfTurn();
+            EndOfTurn();
+        }
+    }
+
+    public AbilityType GetAbilityType(int abilityIndex)
+    {
+        try
+        {
+            AbstractTargetedAbility ability = (AbstractTargetedAbility) Abilities[abilityIndex];
+            return ability.Type;
+        }
+        catch (InvalidCastException e)
+        {
+            Debug.Log(e);
+            return AbilityType.INVALID;
         }
     }
 }

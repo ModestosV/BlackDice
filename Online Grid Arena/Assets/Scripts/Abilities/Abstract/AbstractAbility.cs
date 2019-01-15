@@ -5,16 +5,17 @@ public abstract class AbstractAbility : IAbility
 {
     public List<IEffect> Effects { get; set; }
     public Sprite AbilityIcon { get; set; }
-    protected readonly ICharacter ActiveCharacter;
+
+    protected readonly ICharacter character;
 
     protected AbstractAbility(Sprite abilityIcon, ICharacter character)
     {
         AbilityIcon = abilityIcon;
-        ActiveCharacter = character;
+        this.character = character;
     }
 
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
-    protected abstract void SecondaryAction(List<IHexTileController> targetTiles);
+    protected virtual void SecondaryAction(List<IHexTileController> targetTiles) { }
 
     public void Execute(List<IHexTileController> targetTiles)
     {
@@ -28,4 +29,11 @@ public abstract class AbstractAbility : IAbility
         Effects.Add(effect);
     }
 
+    protected void ApplyEffects()
+    {
+        foreach(IEffect effect in Effects)
+        {
+            effect.ApplyEffect();
+        }
+    }
 }

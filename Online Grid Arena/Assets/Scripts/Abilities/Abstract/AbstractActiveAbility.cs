@@ -1,37 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveAbility : AbstractAbility
+public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
     protected int cooldown;
     protected int cooldownRemaining;
-    protected int range;
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
 
-    protected ActiveAbility(Sprite abilityIcon, GameObject animationPrefab, AudioClip soundEffect, ICharacter character, int cooldown, int range) : base(abilityIcon, character)
+    protected AbstractActiveAbility(Sprite abilityIcon, GameObject animationPrefab, AudioClip soundEffect, ICharacter character, int cooldown) : base(abilityIcon, character)
     {
         this.cooldown = cooldown;
-        this.range = range;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
     }
 
-    protected override void PrimaryAction(List<IHexTileController> targetTiles)
-    {
+    protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
 
-    }
-
-    protected override void SecondaryAction(List<IHexTileController> targetTiles)
-    {
-
-    }
-
-    public bool IsInRange(int range)
-    {
-        return this.range >= range;
-    }
-
+    // TODO: do we need this?
     public void Refresh()
     {
         cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
@@ -47,5 +33,10 @@ public class ActiveAbility : AbstractAbility
     {
         if (animationPrefab != null)
             targetTile.PlayAbilityAnimation(animationPrefab);
+    }
+
+    public bool IsOnCooldown()
+    {
+        throw new System.NotImplementedException();
     }
 }

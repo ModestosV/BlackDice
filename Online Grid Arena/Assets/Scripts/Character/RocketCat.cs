@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
+
 public sealed class RocketCat : AbstractCharacter
 {
     void Awake()
     {
-        // Init abilities
-
+        // TODO: Fix
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this);
-        IAbility scratch = new Scratch(this, catScratchFeverAbility);
+        IAbility scratch = new Scratch(this);
         IAbility blastoff = new BlastOff(this);
 
         var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility };
         var effects = new List<IEffect>() { };
-
-        // Init stats
-
+        
+   
         ICharacterStat health = new CharacterStat(120.0f);
         ICharacterStat moves = new CharacterStat(6.0f);
         ICharacterStat attack = new CharacterStat(25.0f);
@@ -21,10 +20,10 @@ public sealed class RocketCat : AbstractCharacter
 
         var characterStats = new Dictionary<string, ICharacterStat>()
         {
-            {"health", health},
-            {"moves", moves},
-            { "attack", attack},
-            { "defense", defense}
+            { "health", health },
+            { "moves", moves },
+            { "attack", attack },
+            { "defense", defense }
         };
 
         characterController = new CharacterController()

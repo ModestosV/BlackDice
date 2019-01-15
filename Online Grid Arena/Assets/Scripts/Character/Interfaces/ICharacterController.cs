@@ -43,4 +43,5 @@ public interface ICharacterController
     bool IsAbilityInRange(int abilityIndex, int range);
     bool HasAbility(int abilityIndex);
     void EndOfTurn();
+    AbilityType GetAbilityType(int abilityIndex);
 }

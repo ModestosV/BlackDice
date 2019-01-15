@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class DefaultHeal : ActiveAbility
+public sealed class DefaultHeal : AbstractTargetedAbility
 {
     public DefaultHeal(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Heal_Icon"),
@@ -9,11 +9,9 @@ public sealed class DefaultHeal : ActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/SmallSplash"),
         activeCharacter,
         1,
-        1
-        )
-    {
-
-    }
+        1,
+        AbilityType.TARGET_ALLY)
+    { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
