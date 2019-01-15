@@ -38,7 +38,7 @@ public class BlastOff : AbstractTargetedAbility
         // damage all characters at target location            
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
-            target.Damage(15);
+            target.Damage(character.Controller.CharacterStats["attack"].Value*0.75f);
             PlayAnimation(target);
         }
 

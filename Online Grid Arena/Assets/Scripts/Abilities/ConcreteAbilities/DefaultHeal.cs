@@ -15,7 +15,7 @@ public sealed class DefaultHeal : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTiles[0].Heal(15);
+        targetTiles[0].Heal(character.Controller.CharacterStats["attack"].Value);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
     }

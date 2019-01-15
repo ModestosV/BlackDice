@@ -15,7 +15,7 @@ public sealed class Scratch : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTiles[0].Damage(25);
+        targetTiles[0].Damage(character.Controller.CharacterStats["attack"].Value);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
     }

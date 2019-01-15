@@ -9,7 +9,7 @@ public sealed class CatScratchFever : StackModifier
         5,
         new Dictionary<string, float>()
         {
-            {"health", 5.0f }
+            {"attack", 5.0f }
         }
         )
     {
