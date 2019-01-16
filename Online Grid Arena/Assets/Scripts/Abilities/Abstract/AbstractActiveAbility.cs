@@ -27,7 +27,6 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
 
-
     protected void PlaySoundEffect()
     {
         if (soundEffect != null)
