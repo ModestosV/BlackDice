@@ -13,14 +13,20 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         this.cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
+        cooldownRemaining = 0;
+    }
+
+    public override void Execute(List<IHexTileController> targetTiles)
+    {
+        PrimaryAction(targetTiles);
+
+        SecondaryAction(targetTiles);
+
+        cooldownRemaining = cooldown;
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
-    
-    public void Refresh()
-    {
-        cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
-    }
+
 
     protected void PlaySoundEffect()
     {
@@ -33,10 +39,14 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         if (animationPrefab != null)
             targetTile.PlayAbilityAnimation(animationPrefab);
     }
-
-    // TODO: Fix this and possible remove Refresh(). Each Action should reset cooldown and then each turn should decrement counter
+    
     public bool IsOnCooldown()
     {
-        return false;
+        return cooldownRemaining > 0;
+    }
+
+    public void UpdateCooldown()
+    {
+        if (cooldownRemaining > 0) cooldownRemaining--;
     }
 }

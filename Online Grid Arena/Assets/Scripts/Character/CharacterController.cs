@@ -101,7 +101,7 @@ public class CharacterController : ICharacterController
         Abilities.ForEach(ability => {
             if(ability is IActiveAbility)
             {
-                ((IActiveAbility) ability).Refresh();
+                ((IActiveAbility) ability).UpdateCooldown();
             }
         });
     }

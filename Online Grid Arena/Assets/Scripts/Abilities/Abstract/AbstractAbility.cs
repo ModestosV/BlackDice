@@ -18,7 +18,7 @@ public abstract class AbstractAbility : IAbility
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
     protected virtual void SecondaryAction(List<IHexTileController> targetTiles) { }
 
-    public void Execute(List<IHexTileController> targetTiles)
+    public virtual void Execute(List<IHexTileController> targetTiles)
     {
         PrimaryAction(targetTiles);
 
