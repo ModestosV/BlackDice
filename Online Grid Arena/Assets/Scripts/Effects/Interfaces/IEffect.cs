@@ -12,5 +12,4 @@ public interface IEffect
     void DecrementStack();
     string GetName();
     void Reset();
-    void ApplyEffect();
 }

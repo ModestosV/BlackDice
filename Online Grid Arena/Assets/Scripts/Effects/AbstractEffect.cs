@@ -50,10 +50,4 @@ public abstract class AbstractEffect : IEffect
     {
         return Name;
     }
-
-    // TODO: Implement this
-    public void ApplyEffect()
-    {
-        throw new System.NotImplementedException();
-    }
 }
