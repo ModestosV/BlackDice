@@ -3,7 +3,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectTests {
+public class EffectTests
+{
 
     CatScratchFever sut;
 

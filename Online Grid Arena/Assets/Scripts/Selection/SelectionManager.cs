@@ -45,7 +45,10 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 break;
         }
 
-        if(activeSelectionController == null) { activeSelectionController = SelectionControllers["free"]; }
+        if(activeSelectionController == null)
+        {
+            activeSelectionController = SelectionControllers["free"];
+        }
         activeSelectionController.Update(inputParameters);
     }
 
