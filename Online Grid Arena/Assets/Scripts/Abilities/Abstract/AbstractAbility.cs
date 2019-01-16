@@ -12,6 +12,7 @@ public abstract class AbstractAbility : IAbility
     {
         AbilityIcon = abilityIcon;
         this.character = character;
+        Effects = new List<IEffect>();
     }
 
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
