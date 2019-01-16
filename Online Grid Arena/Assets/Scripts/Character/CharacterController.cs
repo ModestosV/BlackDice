@@ -173,10 +173,25 @@ public class CharacterController : ICharacterController, IEventSubscriber
         }
     }
 
+    public void StartOfTurn()
+    {
+        foreach (IEffect e in Effects)
+        {
+            if (e.Type == EffectType.START_OF_TURN)
+            {
+                ApplyStack(e);
+            }
+        }
+    }
+
     public void EndOfTurn()
     {
         foreach (IEffect e in Effects)
         {
+            if (e.Type == EffectType.END_OF_TURN)
+            {
+                ApplyStack(e);
+            }
             e.DecrementDuration();
             if (e.IsDurationOver())
             {
@@ -274,6 +289,7 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
+            EndOfTurn();
             EventBus.Publish(new StartNewTurnEvent());
         }
     }
@@ -281,9 +297,15 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
+        if (type == typeof(EndTurnButtonEvent))
+        {
+            //if my turn
+                //endofturn
+        }
         if (type == typeof(StartNewTurnEvent))
         {
-            EndOfTurn();
+            //if my turn
+                //startofturn
         }
     }
 

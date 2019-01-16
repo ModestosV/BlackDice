@@ -47,6 +47,7 @@ public sealed class RocketCat : AbstractCharacter
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
         EventBus.Subscribe<StartNewTurnEvent>(characterController);
+        EventBus.Subscribe<EndTurnButtonEvent>(characterController);
     }
 
 

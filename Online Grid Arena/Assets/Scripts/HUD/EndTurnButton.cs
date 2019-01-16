@@ -19,6 +19,7 @@ public sealed class EndTurnButton : MonoBehaviour
 
     public void EndTurn()
     {
+        EventBus.Publish(new EndTurnButtonEvent());
         EventBus.Publish(new StartNewTurnEvent());
     }
 
