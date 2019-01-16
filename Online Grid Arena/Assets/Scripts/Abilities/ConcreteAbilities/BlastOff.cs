@@ -12,7 +12,7 @@ public class BlastOff : AbstractTargetedAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
         activeCharacter,
-        1,
+        5,
         100,
         AbilityType.TARGET_TILE)
     { }
@@ -22,9 +22,7 @@ public class BlastOff : AbstractTargetedAbility
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
         character.Controller.OccupiedTile.Deselect();
-
-        // Movement animation
-
+        
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
 
@@ -34,8 +32,7 @@ public class BlastOff : AbstractTargetedAbility
 
     // Damage all tiles around target location
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
-    {
-        // damage all characters at target location            
+    {        
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
             target.Damage(character.Controller.CharacterStats["attack"].Value*0.75f);
@@ -43,6 +40,5 @@ public class BlastOff : AbstractTargetedAbility
         }
 
         PlaySoundEffect();
-
     }
 }

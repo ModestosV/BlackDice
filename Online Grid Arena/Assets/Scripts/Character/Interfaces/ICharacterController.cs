@@ -41,7 +41,6 @@ public interface ICharacterController
 
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
     bool IsAbilityInRange(int abilityIndex, int range);
-    bool HasAbility(int abilityIndex);
     void EndOfTurn();
     AbilityType GetAbilityType(int abilityIndex);
 }

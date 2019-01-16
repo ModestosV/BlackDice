@@ -6,7 +6,7 @@ public sealed class RocketCat : AbstractCharacter
     void Awake()
     {
         IEffect catScratchFever = new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks"));
-        // TODO: Fix
+
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
         IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
@@ -47,8 +47,6 @@ public sealed class RocketCat : AbstractCharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
-        EventBus.Subscribe<StartNewTurnEvent>(characterController);
-        EventBus.Subscribe<EndTurnButtonEvent>(characterController);
     }
 
 

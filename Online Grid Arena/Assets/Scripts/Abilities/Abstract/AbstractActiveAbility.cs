@@ -16,8 +16,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
-
-    // TODO: do we need this?
+    
     public void Refresh()
     {
         cooldownRemaining = Mathf.Clamp(cooldownRemaining - 1, 0, int.MaxValue);
@@ -35,8 +34,9 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
             targetTile.PlayAbilityAnimation(animationPrefab);
     }
 
+    // TODO: Fix this and possible remove Refresh(). Each Action should reset cooldown and then each turn should decrement counter
     public bool IsOnCooldown()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 }

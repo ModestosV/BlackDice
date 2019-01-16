@@ -7,8 +7,7 @@ public class CatScratchFeverAbility : AbstractPassiveAbility
     {
         AddEffect(effect);
     }
-
-    // TODO: See if this works after implementing ApplyEffects()
+    
     protected override void PrimaryAction(List<IHexTileController> targetTile)
     {
         character.Controller.ApplyEffect(this.Effects[0]);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : ICharacterController, IEventSubscriber
+public class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { get; set; }
@@ -245,7 +245,18 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public bool CanUseAbility(int abilityIndex)
     {
-        return AbilitiesRemaining > 0 && HasAbility(abilityIndex); // TODO: && !Abilities[abilityIndex].IsOnCooldown();
+        IActiveAbility ability;
+
+        try
+        {
+            ability = (IActiveAbility) Abilities[abilityIndex];
+        }
+        catch(InvalidCastException)
+        {
+            return false;
+        }
+
+        return AbilitiesRemaining > 0  && !ability.IsOnCooldown();
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
@@ -258,12 +269,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
     public bool IsAlly(ICharacterController otherCharacter)
     {
         return OwnedByPlayer == otherCharacter.OwnedByPlayer;
-    }
-
-    public bool HasAbility(int abilityIndex)
-    {
-        if (abilityIndex >= Abilities.Count) return false;
-        return true;
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)
@@ -291,21 +296,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
         {
             EndOfTurn();
             EventBus.Publish(new StartNewTurnEvent());
-        }
-    }
-
-    public void Handle(IEvent @event)
-    {
-        var type = @event.GetType();
-        if (type == typeof(EndTurnButtonEvent))
-        {
-            //if my turn
-                //endofturn
-        }
-        if (type == typeof(StartNewTurnEvent))
-        {
-            //if my turn
-                //startofturn
         }
     }
 
