@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
 
 public abstract class StackModifier : AbstractEffect
 {

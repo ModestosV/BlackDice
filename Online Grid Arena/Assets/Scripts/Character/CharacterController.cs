@@ -130,7 +130,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     public void ApplyEffect(IEffect effect)
     {
-        Debug.LogWarning("applying effect!");
         bool effectExists = false;
         IEffect existingEffect = null;
         foreach (IEffect e in Effects)
@@ -148,7 +147,6 @@ public class CharacterController : ICharacterController, IEventSubscriber
                 if (!existingEffect.IsMaxStacks())
                 {
                     this.ApplyStack(existingEffect);
-                    Debug.LogWarning("STACK");
                 }
             }
             existingEffect.Refresh();
@@ -165,10 +163,13 @@ public class CharacterController : ICharacterController, IEventSubscriber
 
     private void ApplyStack(IEffect newEffect)
     {
-        Debug.LogWarning("applying stack!");
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            this.CharacterStats[ef.Key].CurrentValue += ef.Value;
+            if (ef.Key == "attack" || ef.Key == "defense")
+            {
+                CharacterStats[ef.Key].BaseValue += ef.Value;
+            }
+            CharacterStats[ef.Key].CurrentValue += ef.Value;
         }
     }
 
@@ -207,6 +208,10 @@ public class CharacterController : ICharacterController, IEventSubscriber
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
+            if (ef.Key == "attack" || ef.Key == "defense")
+            {
+                CharacterStats[ef.Key].BaseValue -= ef.Value;
+            }
             this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
         }
     }
