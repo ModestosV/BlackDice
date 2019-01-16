@@ -10,8 +10,9 @@ public sealed class RocketCat : AbstractCharacter
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
         IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
+        IAbility placeholder = new Placeholder(this);
 
-        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility };
+        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, placeholder };
         var effects = new List<IEffect>() { };
         
    

@@ -316,9 +316,8 @@ public class CharacterController : ICharacterController, IEventSubscriber
             AbstractTargetedAbility ability = (AbstractTargetedAbility) Abilities[abilityIndex];
             return ability.Type;
         }
-        catch (InvalidCastException e)
+        catch (InvalidCastException)
         {
-            Debug.Log(e);
             return AbilityType.INVALID;
         }
     }

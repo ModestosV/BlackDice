@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum SelectionMode
 {
@@ -44,6 +45,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 break;
         }
 
+        if(activeSelectionController == null) { activeSelectionController = SelectionControllers["free"]; }
         activeSelectionController.Update(inputParameters);
     }
 

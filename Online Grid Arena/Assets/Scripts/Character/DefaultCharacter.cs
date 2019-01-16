@@ -8,8 +8,9 @@ public sealed class DefaultCharacter : AbstractCharacter
 
         IAbility defaultAttack = new DefaultAttack(this);
         IAbility defaultHeal = new DefaultHeal(this);
+        IAbility placeholder = new Placeholder(this);
 
-        var abilities = new List<IAbility>() { defaultAttack, defaultHeal };
+        var abilities = new List<IAbility>() { defaultAttack, defaultHeal, placeholder, placeholder };
 
         var effects = new List<IEffect>() { };
 
