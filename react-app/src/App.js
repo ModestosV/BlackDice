@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import REactDom from 'react-dom';
 import Popup from 'react-popup';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
 import TermsOfServicePopUp from './Components/TermsOfServicePopUp'
+
+ReactDom.render(
+	<Popup/>,
+	document.getElementById('popupConainer')
+	);
 
 class App extends Component {
 
@@ -29,11 +35,6 @@ class App extends Component {
         this.setState({quoteOfTheDay: json.contents.quotes[0]})
       })
   }
-  
-  ReactDom.render(
-	<Popup/>
-	document.getElementById('popupConainer')
-	);
   
   getDownloads() {
     this.setState({downloads: [
