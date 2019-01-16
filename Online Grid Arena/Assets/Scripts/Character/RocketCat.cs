@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class RocketCat : AbstractCharacter
 {
     void Awake()
     {
+        IEffect catScratchFever = new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks"));
         // TODO: Fix
-        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this);
-        IAbility scratch = new Scratch(this);
+        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
+        IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
 
         var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility };

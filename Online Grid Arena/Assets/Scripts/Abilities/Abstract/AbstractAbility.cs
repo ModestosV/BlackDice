@@ -28,12 +28,4 @@ public abstract class AbstractAbility : IAbility
     {
         Effects.Add(effect);
     }
-
-    protected void ApplyEffects()
-    {
-        foreach(IEffect effect in Effects)
-        {
-            effect.ApplyEffect();
-        }
-    }
 }
