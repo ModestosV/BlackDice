@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityTests
+public class ActiveAbilityTests
 {
     DefaultAttack sut;
 

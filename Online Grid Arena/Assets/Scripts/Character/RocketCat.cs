@@ -5,7 +5,7 @@ public sealed class RocketCat : AbstractCharacter
 {
     void Awake()
     {
-        IEffect catScratchFever = new CatScratchFever(Resources.Load<Sprite>("Sprites/Abilities/claw-marks"));
+        IEffect catScratchFever = new CatScratchFever();
 
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
         IAbility scratch = new Scratch(this, catScratchFeverAbility);
