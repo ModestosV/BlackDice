@@ -10,6 +10,7 @@ public interface IHexTile : IMonoBehaviour
     bool IsMouseOver();
 
     IHexTileController Controller { get; }
+    GameObject Obstruction { get; }
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 }
