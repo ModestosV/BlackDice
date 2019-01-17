@@ -8,7 +8,12 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
 
-    protected AbstractActiveAbility(Sprite abilityIcon, GameObject animationPrefab, AudioClip soundEffect, ICharacter character, int cooldown) : base(abilityIcon, character)
+    protected AbstractActiveAbility(
+        Sprite abilityIcon,
+        GameObject animationPrefab,
+        AudioClip soundEffect,
+        ICharacter character,
+        int cooldown) : base(abilityIcon, character)
     {
         this.cooldown = cooldown;
         this.animationPrefab = animationPrefab;
@@ -38,7 +43,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         if (animationPrefab != null)
             targetTile.PlayAbilityAnimation(animationPrefab);
     }
-    
+
     public bool IsOnCooldown()
     {
         return cooldownRemaining > 0;
@@ -46,6 +51,9 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
     public void UpdateCooldown()
     {
-        if (cooldownRemaining > 0) cooldownRemaining--;
+        if (cooldownRemaining > 0)
+        {
+            cooldownRemaining--;
+        }
     }
 }

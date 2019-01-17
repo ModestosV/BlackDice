@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EffectTests
-{
-
+{ 
     CatScratchFever sut;
 
     const int DURATION = 6;
@@ -16,7 +15,6 @@ public class EffectTests
     [SetUp]
     public void Init()
     {
-
         sut = new CatScratchFever();
     }
 

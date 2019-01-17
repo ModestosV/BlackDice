@@ -68,7 +68,6 @@ public class CharacterControllerTests
         defense.CurrentValue.Returns(100);
         defense.Value.Returns(100);
 
-
         characterStats = new Dictionary<string, ICharacterStat>()
         {
             { "health", health },
