@@ -129,6 +129,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     {
         if (ActiveCharacter != null)
         {
+            ActiveCharacter.EndOfTurn();
             ExhaustedCharacters.Add(ActiveCharacter);
             ActiveCharacter.Deselect();
         }
@@ -144,6 +145,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         ActiveCharacter = RefreshedCharacters.ElementAt(0);
         RefreshedCharacters.RemoveAt(0);
+        ActiveCharacter.StartOfTurn();
 
         ActiveCharacter.Refresh();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class HUDController : IHUDController
 {
@@ -25,8 +26,8 @@ public sealed class HUDController : IHUDController
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
 
-        AbilityPanel.Show();
         AbilityPanel.UpdateAbilityIcons(abilities);
+        AbilityPanel.Show();
     }
 
     public void ClearTargetHUD()

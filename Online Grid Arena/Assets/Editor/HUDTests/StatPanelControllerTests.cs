@@ -47,17 +47,6 @@ public class StatPanelControllerTests
     }
 
     [Test]
-    public void Updates_stat_values_when_stats_and_names_are_consistent()
-    {
-        sut.UpdateStatValues();
-
-        display1.Received(1).SetMaxValueText(STAT_MAX_VALUE_1.ToString());
-        display2.Received(1).SetMaxValueText(STAT_MAX_VALUE_2.ToString());
-        display1.Received(1).SetCurrentValueText(STAT_CURRENT_VALUE_1.ToString());
-        display2.Received(1).SetCurrentValueText(STAT_CURRENT_VALUE_2.ToString());
-    }
-
-    [Test]
     public void Disable_stat_displays_deactivates_stat_displays()
     {
         sut.DisableStatDisplays();

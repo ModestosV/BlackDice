@@ -3,18 +3,18 @@ using UnityEngine;
 
 public sealed class CatScratchFever : StackModifier
 {
-    public CatScratchFever(Sprite icon) : base(
+    public CatScratchFever() : base(
         EffectType.STACK,
         6,
         5,
         new Dictionary<string, float>()
         {
-            {"0", 5.0f }
+            {"attack", 5.0f },
         }
         )
     {
         Name = "CatScratchFever";
-        EffectIcon = icon;
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/claw-marks");
     }
 
     public override Dictionary<string, float> GetEffects()

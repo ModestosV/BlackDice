@@ -13,6 +13,12 @@ public sealed class StatPanelController : IStatPanelController
 
         StatDisplays[1].SetCurrentValueText(CharacterStats["moves"].CurrentValue.ToString());
         StatDisplays[1].SetMaxValueText(CharacterStats["moves"].Value.ToString());
+
+        StatDisplays[2].SetCurrentValueText(CharacterStats["attack"].CurrentValue.ToString());
+        StatDisplays[2].SetMaxValueText("");
+
+        StatDisplays[3].SetCurrentValueText(CharacterStats["defense"].CurrentValue.ToString());
+        StatDisplays[3].SetMaxValueText("");
     }
 
     public void DisableStatDisplays()
