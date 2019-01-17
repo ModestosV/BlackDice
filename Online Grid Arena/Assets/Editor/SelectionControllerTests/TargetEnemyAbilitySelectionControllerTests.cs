@@ -11,7 +11,7 @@ public class TargetEnemyAbilitySelectionControllerTests
 
     ICharacterController selectedCharacter;
     ICharacterController targetCharacter;
-    
+
     IInputParameters inputParameters;
 
     IHexTileController selectedTile;
@@ -33,12 +33,12 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         inputParameters = Substitute.For<IInputParameters>();
         inputParameters.GetAbilityNumber().Returns(ACTIVE_ABILITY_NUMBER);
-        
+
         selectedTile = Substitute.For<IHexTileController>();
         selectedTile.OccupantCharacter.Returns(selectedCharacter);
 
         gridSelectionController.GetSelectedTile().Returns(selectedTile);
-        
+
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
@@ -148,7 +148,7 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetTile);
+        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, Arg.Any<List<IHexTileController>>());
     }
 
     [Test]

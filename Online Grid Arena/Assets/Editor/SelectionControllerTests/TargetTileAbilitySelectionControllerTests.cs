@@ -138,7 +138,7 @@ public class TargetTileAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, targetTile);
+        selectedCharacter.Received(1).ExecuteAbility(ACTIVE_ABILITY_NUMBER, Arg.Any<List<IHexTileController>>());
     }
 
     [Test]
