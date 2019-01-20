@@ -3,17 +3,22 @@
 public sealed class HexTile : MonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
+    public GameObject Obstruction { get; set; }
 
     private HexTileController hexTileController;
 
     private void Awake()
     {
+        Obstruction = materials.Obstruction;
+
         hexTileController = new HexTileController
         {
             HexTile = this,
-            IsEnabled = GetComponent<Renderer>().enabled
+            IsEnabled = GetComponent<Renderer>().enabled,
+            IsObstructed = GetObstruction() != null
         };
         GetComponent<Renderer>().material = materials.DefaultMaterial;
+
     }
 
     private void Start()
@@ -55,6 +60,11 @@ public sealed class HexTile : MonoBehaviour, IHexTile
     public void SetHighlightMaterial()
     {
         GetComponent<Renderer>().material = materials.PathMaterial;
+    }
+
+    public GameObject GetObstruction()
+    {
+        return Obstruction;
     }
 
     public bool IsMouseOver()

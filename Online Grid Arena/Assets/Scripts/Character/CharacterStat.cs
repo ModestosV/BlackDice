@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 public class CharacterStat : ICharacterStat
 {
-    public float BaseValue { get; }
+    public float BaseValue { get; set; }
     protected float currentValue;
     public float CurrentValue
     {
@@ -39,6 +39,10 @@ public class CharacterStat : ICharacterStat
                 isDirty = false;
             }
             return value;
+        }
+        set
+        {
+            Value = value;
         }
     }
 
@@ -100,6 +104,11 @@ public class CharacterStat : ICharacterStat
     public void Refresh()
     {
         currentValue = Value;
+    }
+
+    public void AddToStat(float f)
+    {
+        CurrentValue += f;
     }
     
     public override string ToString()

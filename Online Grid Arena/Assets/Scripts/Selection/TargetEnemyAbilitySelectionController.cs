@@ -26,7 +26,10 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
         if (!targetCharacterIsAlly && inRange)
         {
-            selectedCharacter.ExecuteAbility(activeAbilityIndex, inputParameters.TargetTile);
+            List<IHexTileController> target = new List<IHexTileController>();
+            target.Add(inputParameters.TargetTile);
+
+            selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
             return;
         }

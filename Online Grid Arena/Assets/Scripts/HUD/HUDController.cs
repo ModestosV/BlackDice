@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class HUDController : IHUDController
 {
@@ -18,12 +19,14 @@ public sealed class HUDController : IHUDController
         AbilityPanel.Hide();
     }
 
-    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName)
+    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName, List<IAbility> abilities)
     {
         SelectedStatPanel.EnableStatDisplays();
         SelectedStatPanel.CharacterStats = characterStats;
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
+
+        AbilityPanel.UpdateAbilityIcons(abilities);
         AbilityPanel.Show();
     }
 

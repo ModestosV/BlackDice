@@ -11,7 +11,7 @@ public class FreeSelectionControllerTests
     IInputParameters inputParameters;
 
     IHexTileController targetTile;
-    
+
     [SetUp]
     public void Init()
     {
@@ -23,7 +23,7 @@ public class FreeSelectionControllerTests
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);
         targetTile.IsOccupied().Returns(false);
-        
+
         inputParameters.TargetTile.Returns(targetTile);
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);

@@ -20,7 +20,7 @@ public abstract class HideableUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void Show()
+    public void Show()  
     {
         canvasGroup.alpha = 1.0f;
         canvasGroup.blocksRaycasts = true;

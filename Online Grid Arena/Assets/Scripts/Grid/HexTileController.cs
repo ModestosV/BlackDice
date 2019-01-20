@@ -9,6 +9,7 @@ public sealed class HexTileController : IHexTileController
 
     public bool IsEnabled { get; set; }
     public bool IsSelected { private get; set; }
+    public bool IsObstructed { get; set; }
 
     public IGridSelectionController GridSelectionController { private get; set; }
     public IGridController GridController { private get; set; }
@@ -27,6 +28,8 @@ public sealed class HexTileController : IHexTileController
             OccupantCharacter.UpdateSelectedHUD();
 
         if (IsSelected) return;
+
+        if (IsObstructed) return;
 
         IsSelected = true;
         HexTile.SetClickedMaterial();
@@ -211,12 +214,26 @@ public sealed class HexTileController : IHexTileController
 
             List<IHexTileController> neighbors = currentTile.GetNeighbors();
             neighbors.RemoveAll(tile => !tile.IsEnabled);
+            neighbors.RemoveAll(tile => tile.IsObstructed);
+            neighbors.RemoveAll(tile => tile.IsOccupied());
 
             foreach (IHexTileController neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Coordinates)) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
 
                 if (!neighbor.IsEnabled) // Ignore disabled nodes.
+                {
+                    closed.Add(neighbor.Coordinates);
+                    continue;
+                }
+
+                if (neighbor.IsObstructed) // Ignore obstructed nodes.
+                {
+                    closed.Add(neighbor.Coordinates);
+                    continue;
+                }
+
+                if (neighbor.IsOccupied()) // Ignore obstructed nodes.
                 {
                     closed.Add(neighbor.Coordinates);
                     continue;
@@ -239,6 +256,12 @@ public sealed class HexTileController : IHexTileController
         }
 
         return new List<IHexTileController>();
+    }
+
+    public int GetAbsoluteDistance(IHexTileController targetTile)
+    {
+        return (int)(Math.Sqrt(Math.Pow((this.Coordinates.Item1 - targetTile.Coordinates.Item1), 2) + 
+                               Math.Pow((this.Coordinates.Item2 - targetTile.Coordinates.Item2), 2)));
     }
 
     public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864a3883c7f67524f9c4c9389f268510, type: 3}
   m_Name: Basic Tile Material Set
   m_EditorClassIdentifier: 
-  DefaultMaterial: {fileID: 2100000, guid: 0e9a1e51b2b3f424298cfb6a281ec876, type: 2}
+  DefaultMaterial: {fileID: 2100000, guid: 052821051301bb849ab0e4f50ad32d10, type: 2}
   ClickedMaterial: {fileID: 2100000, guid: 70220f708dc8e4441af297b16b7d7e60, type: 2}
   HoveredMaterial: {fileID: 2100000, guid: fb65767510f763c4d964c206d493fbc9, type: 2}
   PathMaterial: {fileID: 2100000, guid: 67638ea1e21d9aa40bd460de01bdf30c, type: 2}

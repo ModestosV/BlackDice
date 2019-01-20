@@ -34,6 +34,7 @@ public class CharacterControllerTests
     Dictionary<string, ICharacterStat> characterStats;
     ICharacterStat health;
     ICharacterStat moves;
+    ICharacterStat defense;
 
     List<IHexTileController> pathList;
 
@@ -63,10 +64,15 @@ public class CharacterControllerTests
         moves = Substitute.For<ICharacterStat>();
         moves.CurrentValue.Returns(CHARACTER_CURRENT_MOVES);
         moves.Value.Returns(CHARACTER_MAX_MOVES);
+        defense = Substitute.For<ICharacterStat>();
+        defense.CurrentValue.Returns(100);
+        defense.Value.Returns(100);
+
         characterStats = new Dictionary<string, ICharacterStat>()
         {
             { "health", health },
-            { "moves", moves }
+            { "moves", moves },
+            { "defense", defense }
         };
 
         ability1 = Substitute.For<IAbility>();
@@ -180,18 +186,7 @@ public class CharacterControllerTests
         sut.ExecuteMove(pathList);
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
-        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME);
-    }
-
-    [Test]
-    public void Execute_ability_with_abilities_remaining_executes_indicated_ability()
-    {
-        moves.CurrentValue.Returns(0);
-
-        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
-
-        ability1.DidNotReceive();
-        ability2.Received(1).Execute(endTileController);
+        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME, abilities);
     }
 
     [Test]
@@ -199,7 +194,7 @@ public class CharacterControllerTests
     {
         sut.AbilitiesRemaining = 0;
 
-        sut.ExecuteAbility(SECOND_ABILITY_INDEX, endTileController);
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
 
         targetCharacterController.DidNotReceive();
         ability1.DidNotReceive();

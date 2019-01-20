@@ -11,6 +11,7 @@ public interface IHexTileController
     int Z { get; }
 
     bool IsEnabled { get; set; }
+    bool IsObstructed { get; set; }
     bool IsSelected { set; }
     
     IGridSelectionController GridSelectionController { set; }
@@ -37,6 +38,7 @@ public interface IHexTileController
     IHexTileController GetNorthWestNeighbor();
     List<IHexTileController> GetNeighbors();
     List<IHexTileController> GetPath(IHexTileController startTile);
+    int GetAbsoluteDistance(IHexTileController targetTile);
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
 

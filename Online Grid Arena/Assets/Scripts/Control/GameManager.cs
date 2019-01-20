@@ -14,6 +14,7 @@ public sealed class GameManager : MonoBehaviour
     private MovementSelectionController movementSelectionController;
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
     private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
+    private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
@@ -80,12 +81,18 @@ public sealed class GameManager : MonoBehaviour
             GridSelectionController = gridSelectionController
         };
 
+        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController()
+        {
+            GridSelectionController = gridSelectionController
+        };
+
         selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
         {
             { "free", freeSelectionController },
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
-            { "target_ally", targetAllyAbilitySelectionController }
+            { "target_ally", targetAllyAbilitySelectionController },
+            { "target_tile", targetTileAbilitySelectionController }
         };
 
         // Initialize input manager

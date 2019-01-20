@@ -4,11 +4,12 @@ using UnityEngine;
 public interface ICharacterController
 {
     ICharacter Character { set; }
-    IHexTileController OccupiedTile { set; }
+    IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
 
-    Dictionary<string, ICharacterStat> CharacterStats { set; }
+    Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { set; }
+    List<IEffect> Effects { set; }
 
     int AbilitiesRemaining { set; }
 
@@ -18,7 +19,8 @@ public interface ICharacterController
     IHealthBar HealthBar { set; }
 
     void Select();
-    void ExecuteAbility(int abilityNumber, IHexTileController targetTile);
+    void Deselect();
+    void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
@@ -26,6 +28,7 @@ public interface ICharacterController
     void Die();
     void Heal(float heal);
     void UpdateHealthBar();
+    void ApplyEffect(IEffect effect);
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
@@ -37,7 +40,8 @@ public interface ICharacterController
     bool IsAlly(ICharacterController otherCharacter);
 
     void UpdateTurnTile(ITurnTile turnTileToUpdate);
-    AbilityType GetAbilityType(int abilityIndex);
     bool IsAbilityInRange(int abilityIndex, int range);
-    bool HasAbility(int abilityIndex);
+    void StartOfTurn();
+    void EndOfTurn();
+    AbilityType GetAbilityType(int abilityIndex);
 }

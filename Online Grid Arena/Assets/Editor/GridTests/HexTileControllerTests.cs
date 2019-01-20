@@ -23,6 +23,8 @@ public class HexTileControllerTests
     const int Y = 0;
     const int Z = 0;
 
+    const int ONE = 1;
+
     readonly Tuple<int, int, int> coordinates = new Tuple<int, int, int>(X, Y, Z);
     readonly Tuple<int, int, int> northEastCoordinates = new Tuple<int, int, int>(1, 0, -1);
     readonly Tuple<int, int, int> eastCoordinates = new Tuple<int, int, int>(1, -1, 0);
@@ -35,7 +37,6 @@ public class HexTileControllerTests
     [SetUp]
     public void Init()
     {
-
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gridController = Substitute.For<IGridController>();
         hexTile = Substitute.For<IHexTile>();
@@ -427,4 +428,48 @@ public class HexTileControllerTests
     }
 }
 
-#endregion
+    [Test]
+    public void Get_distance_returns_correct_distance_in_straight_line()
+    {
+        int result = sut.GetAbsoluteDistance(eastHexTile);
+
+        Assert.AreEqual(ONE, result);
+    }
+
+    [Test]
+    public void Get_distance_returns_correct_distance_in_non_straight_line()
+    {
+        int result = sut.GetAbsoluteDistance(northEastHexTile);
+
+        Assert.AreEqual(ONE, result);
+    }
+
+    [Test]
+    public void Highlighting_obstructed_tile_does_nothing()
+    {
+        sut.IsEnabled = false;
+        sut.IsObstructed = true;
+
+        sut.Highlight();
+
+        gridSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
+    }
+
+    [Test]
+    public void Selecting_obstructed_tile_does_nothing()
+    {
+        sut.IsEnabled = false;
+        sut.IsObstructed = true;
+
+        sut.Select();
+
+        gridSelectionController.DidNotReceive();
+        hexTile.DidNotReceive();
+        occupantCharacter.DidNotReceive();
+    }
+
+    #endregion
+
+}

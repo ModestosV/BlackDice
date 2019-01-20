@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : ICharacterController
 {
     public ICharacter Character { protected get; set; }
-    public IHexTileController OccupiedTile { protected get; set; }
+    public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
-    public Dictionary<string, ICharacterStat> CharacterStats { protected get; set; }
+    public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { protected get; set; }
+    public List<IEffect> Effects { get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
     public int AbilitiesRemaining { protected get; set; }
@@ -26,7 +28,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities);
     }
 
     public void ClearSelectedHUD()
@@ -72,13 +74,13 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
-    public void ExecuteAbility(int abilityNumber, IHexTileController targetTile)
+    public void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles)
     {
         if (!(AbilitiesRemaining > 0)) return;
 
         if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
-        Abilities[abilityNumber].Execute(targetTile);
+        Abilities[abilityNumber].Execute(targetTiles);
 
         targetTile.Deselect();
 
@@ -92,10 +94,13 @@ public class CharacterController : ICharacterController
     {
         CharacterStats["moves"].Refresh();
         AbilitiesRemaining = 1;
-        foreach (IAbility ability in Abilities)
-        {
-            ability.Refresh();
-        }
+
+        Abilities.ForEach(ability => {
+            if(ability is IActiveAbility)
+            {
+                ((IActiveAbility) ability).UpdateCooldown();
+            }
+        });
     }
 
     public float GetInitiative()
@@ -106,7 +111,7 @@ public class CharacterController : ICharacterController
     
     public void Damage(float damage)
     {
-        CharacterStats["health"].CurrentValue -= damage;
+        CharacterStats["health"].CurrentValue -= (damage/this.CharacterStats["defense"].CurrentValue)*100;
         UpdateHealthBar();
         if (CharacterStats["health"].CurrentValue <= 0)
         {
@@ -118,6 +123,109 @@ public class CharacterController : ICharacterController
     {
         CharacterStats["health"].CurrentValue += heal;
         UpdateHealthBar();
+    }
+
+    public void ApplyEffect(IEffect effect)
+    {
+        bool effectExists = false;
+        IEffect existingEffect = null;
+        foreach (IEffect e in Effects)
+        {
+            if (e.GetName().Equals(effect.GetName()))
+            {
+                effectExists = true;
+                existingEffect = e;
+            }
+        }
+        if (effectExists)
+        {
+            if (existingEffect.Type == EffectType.STACK)
+            {
+                if (!existingEffect.IsMaxStacks())
+                {
+                    this.ApplyStack(existingEffect);
+                }
+            }
+            existingEffect.Refresh();
+        }
+        else
+        {
+            this.Effects.Add(effect);
+            if (effect.Type == EffectType.STACK)
+            {
+                this.ApplyStack(effect);
+            }
+        }
+    }
+
+    private void ApplyStack(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            if (ef.Key == "attack" || ef.Key == "defense")
+            {
+                CharacterStats[ef.Key].BaseValue += ef.Value;
+            }
+            CharacterStats[ef.Key].CurrentValue += ef.Value;
+        }
+    }
+
+    public void StartOfTurn()
+    {
+        foreach (IEffect e in Effects)
+        {
+            if (e.Type == EffectType.START_OF_TURN)
+            {
+                ApplyStack(e);
+            }
+        }
+    }
+
+    public void EndOfTurn()
+    {
+        foreach (IEffect e in Effects)
+        {
+            if (e.Type == EffectType.END_OF_TURN)
+            {
+                ApplyStack(e);
+            }
+            e.DecrementDuration();
+            if (e.IsDurationOver())
+            {
+                if (e.Type == EffectType.STACK)
+                {
+                    e.DecrementStack();
+                    RemoveEffectOf(e);
+                    if (e.StacksRanOut())
+                    {
+                        e.Reset();
+                        Effects.Remove(e);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (e.Type == EffectType.CONSTANT)
+                    {
+                        RemoveEffectOf(e);
+                    }
+                    Effects.Remove(e);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void RemoveEffectOf(IEffect newEffect)
+    {
+        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        {
+            if (ef.Key == "attack" || ef.Key == "defense")
+            {
+                CharacterStats[ef.Key].BaseValue -= ef.Value;
+            }
+            this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
+        }
     }
 
     public void Die()
@@ -134,7 +242,18 @@ public class CharacterController : ICharacterController
 
     public bool CanUseAbility(int abilityIndex)
     {
-        return AbilitiesRemaining > 0 && HasAbility(abilityIndex) && !Abilities[abilityIndex].IsOnCooldown();
+        IActiveAbility ability;
+
+        try
+        {
+            ability = (IActiveAbility) Abilities[abilityIndex];
+        }
+        catch(InvalidCastException)
+        {
+            return false;
+        }
+
+        return AbilitiesRemaining > 0  && !ability.IsOnCooldown();
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
@@ -149,20 +268,9 @@ public class CharacterController : ICharacterController
         return OwnedByPlayer == otherCharacter.OwnedByPlayer;
     }
 
-    public bool HasAbility(int abilityIndex)
-    {
-        if (abilityIndex >= Abilities.Count) return false;
-        return true;
-    }
-
-    public AbilityType GetAbilityType(int abilityIndex)
-    {
-        return Abilities[abilityIndex].Type;
-    }
-
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        TargetedAbility targetedAbility = Abilities[abilityIndex] as TargetedAbility;
+        AbstractTargetedAbility targetedAbility = Abilities[abilityIndex] as AbstractTargetedAbility;
 
         if (targetedAbility != null)
         {
@@ -175,7 +283,7 @@ public class CharacterController : ICharacterController
     
     public void UpdateHealthBar()
     {
-        HealthBar.SetHealthBarRatio((float)CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
+        HealthBar.SetHealthBarRatio(CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
         HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
     }
 
@@ -183,7 +291,21 @@ public class CharacterController : ICharacterController
     {
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
+            EndOfTurn();
             EventBus.Publish(new StartNewTurnEvent());
+        }
+    }
+
+    public AbilityType GetAbilityType(int abilityIndex)
+    {
+        try
+        {
+            AbstractTargetedAbility ability = (AbstractTargetedAbility) Abilities[abilityIndex];
+            return ability.Type;
+        }
+        catch (InvalidCastException)
+        {
+            return AbilityType.INVALID;
         }
     }
 }
