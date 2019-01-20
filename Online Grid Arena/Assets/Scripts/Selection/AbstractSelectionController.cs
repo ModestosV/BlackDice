@@ -153,4 +153,9 @@
     {
 
     }
+
+    protected virtual void DoHoverAbility()
+    {
+
+    }
 }
