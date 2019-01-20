@@ -29,7 +29,17 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         foreach (IAbility ability in abilities)
         {
             AbilityButtons[i].GetComponentsInChildren<Image>().Last().sprite = ability.AbilityIcon;
-            AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+
+            if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
+            {
+                AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+            }
+            else
+            {
+                AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+            }
+
             i++;
         }
     }

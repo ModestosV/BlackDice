@@ -8,6 +8,7 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private AbilityTooltip tooltip { get; set; }
 
     public string Description;
+    public int Cooldown;
     
 	void Start ()
     {
@@ -17,7 +18,14 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltip.ShowToolTip(Description);
+        if (Cooldown > 0)
+        {
+            tooltip.ShowToolTip(Description, Cooldown);
+        }
+        else
+        {
+            tooltip.ShowToolTip(Description);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

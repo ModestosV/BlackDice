@@ -10,9 +10,17 @@ public class AbilityTooltip : HideableUI, IAbilityTooltip
         Hide();
     }
 
-    public void ShowToolTip(string Description)
+    public void ShowToolTip(string description)
     {
         Show();
-        AbilityDescription.text = Description;
+        AbilityDescription.text = description;
+    }
+
+    public void ShowToolTip(string description, int cooldown)
+    {
+        Show();
+        AbilityDescription.text = description;
+
+        AbilityDescription.text += "\n" + cooldown.ToString() + " turn cooldown";
     }
 }
