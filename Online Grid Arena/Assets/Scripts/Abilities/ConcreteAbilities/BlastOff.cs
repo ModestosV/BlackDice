@@ -27,7 +27,7 @@ public class BlastOff : AbstractTargetedAbility
         character.Controller.OccupiedTile = targetTiles[0];
 
         targetTiles[0].OccupantCharacter = character.Controller;
-        targetTiles[0].Select();
+        EventBus.Publish(new SelectTileEvent(targetTiles[0]));
     }
 
     // Damage all tiles around target location

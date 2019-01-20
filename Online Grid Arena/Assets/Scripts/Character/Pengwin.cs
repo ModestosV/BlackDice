@@ -36,7 +36,8 @@ public sealed class Pengwin : AbstractCharacter
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
     }
 
@@ -45,5 +46,6 @@ public sealed class Pengwin : AbstractCharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
+        characterController.ActiveCircle.enabled = false;
     }
 }
