@@ -6,7 +6,7 @@ public sealed class Slap : AbstractTargetedAbility
 {
     private System.Random randomizer = new System.Random();
     public Slap(Pengwin activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
+        Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/slap"),
         activeCharacter,
