@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 2996d87c353a5488d99f9bdcfdf0da81
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/eb1295414650e6e419768e48dfd59f61
+    guid: eb1295414650e6e419768e48dfd59f61
   - enabled: 1
     path: Assets/Scenes/Match.unity
-    guid: eb1295414650e6e419768e48dfd59f61
+    guid: aa0c48e748a381f42ba69f25e6224ae2
   m_configObjects: {}
