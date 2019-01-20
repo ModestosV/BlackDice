@@ -82,8 +82,12 @@ public class CharacterController : ICharacterController
 
         Abilities[abilityNumber].Execute(targetTiles);
 
-        targetTile.Deselect();
 
+        foreach(IHexTileController tile in targetTiles)
+        {
+            tile.Deselect();
+        }
+        
         AbilitiesRemaining--;
 
         UpdateSelectedHUD();

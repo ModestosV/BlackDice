@@ -426,7 +426,6 @@ public class HexTileControllerTests
 
         Assert.AreEqual(expected, result);
     }
-}
 
     [Test]
     public void Get_distance_returns_correct_distance_in_straight_line()
@@ -471,5 +470,4 @@ public class HexTileControllerTests
     }
 
     #endregion
-
 }
