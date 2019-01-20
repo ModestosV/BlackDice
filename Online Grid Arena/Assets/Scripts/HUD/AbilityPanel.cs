@@ -5,15 +5,21 @@ using System.Linq;
 
 public class AbilityPanel : HideableUI, IAbilityPanel
 {
-    //public List<Image> abilityButtons;
     public List<GameObject> abilityButtons;
+    public List<GameObject> stacks;
 
     void Start()
     {
         foreach (Transform child in transform)
         {
-            //abilityButtons.Add(child.GetComponentsInChildren<Image>().Last());
-            abilityButtons.Add(child.gameObject);
+            if (child.tag == "AbilityButton")
+            {
+                abilityButtons.Add(child.gameObject);
+            }
+            else
+            {
+                stacks.Add(child.gameObject);
+            }
         }
     }
 
@@ -24,6 +30,22 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         {
             abilityButtons[i].GetComponentsInChildren<Image>().Last().sprite = ability.AbilityIcon;
             abilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+            i++;
+        }
+    }
+
+    public void UpdateStackIcons(List<IEffect> effects)
+    {
+        int i = 0;
+        foreach (IEffect effect in effects)
+        {
+            stacks[i].GetComponentInChildren<Image>().sprite = effect.EffectIcon;
+            stacks[i].GetComponent<EffectStack>().Description = effect.Description;
+
+            if (effect.GetType().IsSubclassOf(typeof(StackModifier)))
+            {
+                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks);
+            }
             i++;
         }
     }

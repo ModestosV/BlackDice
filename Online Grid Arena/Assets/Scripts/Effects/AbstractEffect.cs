@@ -14,6 +14,7 @@ public abstract class AbstractEffect : IEffect
     public EffectType Type { get; set; }
     public Sprite EffectIcon { get; set; }
     public string Name { get; set; }
+    public string Description { get; protected set; }
     protected int duration;
     protected int durationRemaining;
 
@@ -23,6 +24,7 @@ public abstract class AbstractEffect : IEffect
         this.duration = duration;
         durationRemaining = duration;
         Name = "abstract effect";
+        Description = "Default ability description. If you're seeing this, somebody didn't do their job right";
     }
 
     public abstract bool IsMaxStacks();
