@@ -35,7 +35,7 @@ class App extends Component {
         title: "v0.1_Windows_x86_Installer",
         link: "https://drive.google.com/uc?export=download&id=1PloCi7eWnMWsdmUcarXXao1pBdsjh4II" 
       },
-	  {
+      {
         title: "v0.2_Windows_x86_Installer",
         link: "https://drive.google.com/uc?export=download&id=1K0YueFTXkxHax4WvgHBmjT3ZyaZIQtmX" 
       }
