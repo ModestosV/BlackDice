@@ -36,13 +36,18 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void UpdateStackIcons(List<IEffect> effects)
     {
+        for (int inActive = effects.Count; inActive < stacks.Count; inActive++)
+        {
+            stacks[inActive].GetComponent<EffectStack>().UpdateStacks(0);
+        }
+
         int i = 0;
         foreach (IEffect effect in effects)
         {
             stacks[i].GetComponentInChildren<Image>().sprite = effect.EffectIcon;
             stacks[i].GetComponent<EffectStack>().Description = effect.Description;
 
-            if (effect.GetType().IsSubclassOf(typeof(StackModifier)))
+            if (effect.Type == EffectType.STACK)
             {
                 stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks);
             }
