@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
+import TermsOfServicePopUp from './Components/TermsOfServicePopUp'
 
 class App extends Component {
 
@@ -32,6 +33,10 @@ class App extends Component {
     this.setState({downloads: [
       {
         title: "v0.1_Windows_x86_Installer",
+        link: "https://drive.google.com/uc?export=download&id=1PloCi7eWnMWsdmUcarXXao1pBdsjh4II" 
+      },
+      {
+        title: "v0.2_Windows_x86_Installer",
         link: "https://drive.google.com/uc?export=download&id=1K0YueFTXkxHax4WvgHBmjT3ZyaZIQtmX" 
       }
     ]})
