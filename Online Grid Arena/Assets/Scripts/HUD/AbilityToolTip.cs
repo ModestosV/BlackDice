@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public class AbilityToolTip : HideableUI, IAbilityToolTip
+public class AbilityTooltip : HideableUI, IAbilityTooltip
 {
     public Text AbilityDescription { get; private set; }
 

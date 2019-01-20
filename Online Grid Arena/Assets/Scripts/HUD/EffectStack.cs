@@ -5,15 +5,15 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
 {
     public string Description;
     public int Stacks;
-    public GraphicRaycaster ray;
-    public AbilityToolTip tooltip;
+    private GraphicRaycaster ray;
+    private AbilityTooltip tooltip;
 
     public Text stackIndicator;
 
     public void Start()
     {
         ray = this.GetComponent<GraphicRaycaster>();
-        tooltip = FindObjectOfType<AbilityToolTip>();
+        tooltip = FindObjectOfType<AbilityTooltip>();
         stackIndicator = transform.GetComponentInChildren<Text>();
         Hide();
     }

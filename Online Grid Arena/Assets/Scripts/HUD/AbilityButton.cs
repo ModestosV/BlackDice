@@ -4,15 +4,15 @@ using UnityEngine.EventSystems;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GraphicRaycaster ray;
-    public AbilityToolTip tooltip;
+    private GraphicRaycaster ray { get; set; }
+    private AbilityTooltip tooltip { get; set; }
 
     public string Description;
     
 	void Start ()
     {
         ray = this.GetComponent<GraphicRaycaster>();
-        tooltip = FindObjectOfType<AbilityToolTip>();
+        tooltip = FindObjectOfType<AbilityTooltip>();
 	}
 
     public void OnPointerEnter(PointerEventData eventData)

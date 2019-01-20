@@ -6,6 +6,7 @@ public interface IEffect
     EffectType Type { get; set; }
     string Description { get; }
     Sprite EffectIcon { get; set; }
+    int DurationRemaining { get; }
 
     bool IsDurationOver();
     void Refresh();

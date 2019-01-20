@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public interface IAbilityToolTip
+public interface IAbilityTooltip
 {
     Text AbilityDescription { get; }
 

@@ -15,14 +15,14 @@ public abstract class AbstractEffect : IEffect
     public Sprite EffectIcon { get; set; }
     public string Name { get; set; }
     public string Description { get; protected set; }
+    public int DurationRemaining { get; protected set; }
     protected int duration;
-    public int durationRemaining;
 
     protected AbstractEffect(EffectType type, int duration)
     {
         Type = type;
         this.duration = duration;
-        durationRemaining = duration;
+        DurationRemaining = duration;
         Name = "abstract effect";
         Description = "Default ability description. If you're seeing this, somebody didn't do their job right";
     }
@@ -31,7 +31,7 @@ public abstract class AbstractEffect : IEffect
 
     public bool IsDurationOver()
     {
-        return durationRemaining <= 0;
+        return DurationRemaining <= 0;
     }
 
     public abstract Dictionary<string, float> GetEffects();
@@ -40,12 +40,12 @@ public abstract class AbstractEffect : IEffect
     public abstract void Reset();
     public virtual void Refresh()
     {
-        durationRemaining = duration;
+        DurationRemaining = duration;
     }
 
     public virtual void DecrementDuration()
     {
-        durationRemaining--;
+        DurationRemaining--;
     }
 
     public virtual string GetName()

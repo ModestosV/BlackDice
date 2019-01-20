@@ -16,7 +16,7 @@ public class BlastOff : AbstractTargetedAbility
         100,
         AbilityType.TARGET_TILE)
     {
-        Description = "Special Ability \nRocket Cat flies to any open tile on the map, and deals weak damage to all tiles next to her landing point";
+        Description = "Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point";
     }
 
     // Move Rocket Cat to new location

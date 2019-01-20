@@ -12,7 +12,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
     {
         foreach (Transform child in transform)
         {
-            if (child.tag == "AbilityButton")
+            if (child.tag.Equals("AbilityButton"))
             {
                 abilityButtons.Add(child.gameObject);
             }
@@ -49,7 +49,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
             if (effect.Type == EffectType.STACK)
             {
-                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks, ((StackModifier)effect).durationRemaining);
+                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks, ((StackModifier)effect).DurationRemaining);
             }
             i++;
         }
