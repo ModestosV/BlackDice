@@ -6,6 +6,8 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public GraphicRaycaster ray;
     public AbilityToolTip tooltip;
+
+    public string Description;
     
 	void Start ()
     {
@@ -15,7 +17,7 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltip.Show();
+        tooltip.ShowToolTip(Description);
     }
 
     public void OnPointerExit(PointerEventData eventData)

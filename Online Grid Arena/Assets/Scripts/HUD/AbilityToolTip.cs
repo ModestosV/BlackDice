@@ -2,17 +2,17 @@
 
 public class AbilityToolTip : HideableUI, IAbilityToolTip
 {
-    public Text abilityDescription;
+    public Text AbilityDescription { get; private set; }
 
     void Start()
     {
-        abilityDescription = transform.GetComponentInChildren<Text>();
+        AbilityDescription = transform.GetComponentInChildren<Text>();
         Hide();
     }
 
-    public void ShowToolTip(IAbility ability)
+    public void ShowToolTip(string Description)
     {
         Show();
-        abilityDescription.text = ability.Description;
+        AbilityDescription.text = Description;
     }
 }

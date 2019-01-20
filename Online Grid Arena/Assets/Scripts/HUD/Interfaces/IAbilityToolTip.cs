@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.UI;
 
 public interface IAbilityToolTip
 {
-    
+    Text AbilityDescription { get; }
+
+    void ShowToolTip(string Description);
 }
