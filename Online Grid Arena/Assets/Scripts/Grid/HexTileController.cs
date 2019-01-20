@@ -27,13 +27,10 @@ public sealed class HexTileController : IHexTileController
         if (OccupantCharacter != null)
             OccupantCharacter.UpdateSelectedHUD();
 
-        if (IsSelected) return;
-
-        if (IsObstructed) return;
+        if (IsSelected || IsObstructed) return;
 
         IsSelected = true;
         HexTile.SetClickedMaterial();
-        GridSelectionController.SelectedTile = this;
     }
 
     public void Deselect()
@@ -46,14 +43,8 @@ public sealed class HexTileController : IHexTileController
         if (!IsSelected) return;
 
         IsSelected = false;
-        if (HexTile.IsMouseOver())
-        {
-            HexTile.SetHoverMaterial();
-        } else
-        {
-            HexTile.SetDefaultMaterial();
-        }
-        EventBus.Publish(new DeselectSelectedTileEvent());
+
+        HexTile.SetDefaultMaterial();
     }
 
     public void Hover()

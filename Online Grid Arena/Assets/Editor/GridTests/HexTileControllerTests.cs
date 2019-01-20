@@ -112,18 +112,6 @@ public class HexTileControllerTests
         occupantCharacter.Received(1).UpdateSelectedHUD();
     }
 
-    [Test]
-    public void Selecting_a_deselected_tile_selects_the_tile()
-    {
-        sut.IsEnabled = true;
-        sut.IsSelected = false;
-
-        sut.Select();
-
-        hexTile.Received(1).SetClickedMaterial();
-        Assert.AreEqual(gridSelectionController.SelectedTile, sut);
-    }
-
     #endregion
 
     #region Deselect tests

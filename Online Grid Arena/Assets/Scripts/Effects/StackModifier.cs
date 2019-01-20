@@ -12,7 +12,7 @@ public abstract class StackModifier : AbstractEffect
         this.MaxStacks = maxStacks;
         this.StatModifier = statModifier;
         this.duration = duration;
-        this.Stacks = 0;
+        this.Stacks = 1;
         Name = "stack modifier";
     }
 
@@ -24,7 +24,7 @@ public abstract class StackModifier : AbstractEffect
     public override void Reset()
     {
         durationRemaining = duration;
-        Stacks = 0;
+        Stacks = 1;
     }
 
     public override bool StacksRanOut()

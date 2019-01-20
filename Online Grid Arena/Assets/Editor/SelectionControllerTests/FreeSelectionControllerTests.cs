@@ -105,47 +105,6 @@ public class FreeSelectionControllerTests
     }
 
     [Test]
-    public void Clicking_on_unoccupied_other_tile_selects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).Select();
-    }
-
-    [Test]
-    public void Clicking_on_selected_tile_deselects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-        gridSelectionController.IsSelectedTile(targetTile).Returns(true);
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).Deselect();
-    }
-
-    [Test]
-    public void Clicking_on_occupied_other_tile_selects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-        targetTile.IsOccupied().Returns(true);
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).Select();
-    }
-
-    [Test]
     public void Hovering_over_unoccupied_tile_highlights_tile_and_clears_target_hud()
     {
         inputParameters.IsKeyEscapeDown = false;

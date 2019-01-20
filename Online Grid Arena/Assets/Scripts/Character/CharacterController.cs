@@ -24,7 +24,7 @@ public class CharacterController : ICharacterController
 
     public void Select()
     {
-        OccupiedTile.Select();
+        EventBus.Publish(new SelectTileEvent(OccupiedTile));
     }
 
     public void UpdateSelectedHUD()
@@ -62,14 +62,15 @@ public class CharacterController : ICharacterController
         int distance = path.Count - 1;
         IHexTileController targetTile = path[distance];
 
-        OccupiedTile.Deselect();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         OccupiedTile.OccupantCharacter = null;
 
         Character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;
-        targetTile.Select();
+        EventBus.Publish(new SelectTileEvent(targetTile));
+
         CharacterStats["moves"].CurrentValue -= distance;
         UpdateSelectedHUD();
         CheckExhausted();
@@ -83,12 +84,8 @@ public class CharacterController : ICharacterController
 
         Abilities[abilityNumber].Execute(targetTiles);
 
+        EventBus.Publish(new DeselectSelectedTileEvent());
 
-        foreach(IHexTileController tile in targetTiles)
-        {
-            tile.Deselect();
-        }
-        
         AbilitiesRemaining--;
 
         UpdateSelectedHUD();

@@ -4,7 +4,6 @@ using System;
 
 public sealed class Slap : AbstractTargetedAbility
 {
-    private System.Random randomizer = new System.Random();
     public Slap(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
