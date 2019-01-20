@@ -18,18 +18,6 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
         Hide();
     }
 
-    public void Update()
-    {
-        if (Stacks > 0)
-        {
-            Show();
-        }
-        else
-        {
-            Hide();
-        }
-    }
-
     public void UpdateStacks(int stacks, int duration)
     {
         Stacks = stacks;
@@ -45,6 +33,15 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
             durRemaining += " turns remaining";
         }
         Description += durRemaining;
+
+        if (stacks > 0)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
