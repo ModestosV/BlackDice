@@ -5,8 +5,8 @@ using System.Linq;
 
 public class AbilityPanel : HideableUI, IAbilityPanel
 {
-    public List<GameObject> abilityButtons;
-    public List<GameObject> stacks;
+    public List<GameObject> AbilityButtons;
+    public List<GameObject> Stacks;
 
     void Start()
     {
@@ -14,11 +14,11 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         {
             if (child.tag.Equals("AbilityButton"))
             {
-                abilityButtons.Add(child.gameObject);
+                AbilityButtons.Add(child.gameObject);
             }
             else
             {
-                stacks.Add(child.gameObject);
+                Stacks.Add(child.gameObject);
             }
         }
     }
@@ -28,28 +28,28 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         int i = 0;
         foreach (IAbility ability in abilities)
         {
-            abilityButtons[i].GetComponentsInChildren<Image>().Last().sprite = ability.AbilityIcon;
-            abilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+            AbilityButtons[i].GetComponentsInChildren<Image>().Last().sprite = ability.AbilityIcon;
+            AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
             i++;
         }
     }
 
     public void UpdateStackIcons(List<IEffect> effects)
     {
-        for (int inActive = effects.Count; inActive < stacks.Count; inActive++)
+        for (int inActive = effects.Count; inActive < Stacks.Count; inActive++)
         {
-            stacks[inActive].GetComponent<EffectStack>().UpdateStacks(0, 0);
+            Stacks[inActive].GetComponent<EffectStack>().UpdateStacks(0, 0);
         }
 
         int i = 0;
         foreach (IEffect effect in effects)
         {
-            stacks[i].GetComponentsInChildren<Image>().Last().sprite = effect.EffectIcon;
-            stacks[i].GetComponent<EffectStack>().Description = effect.Description;
+            Stacks[i].GetComponentsInChildren<Image>().Last().sprite = effect.EffectIcon;
+            Stacks[i].GetComponent<EffectStack>().Description = effect.Description;
 
             if (effect.Type == EffectType.STACK)
             {
-                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks, ((StackModifier)effect).DurationRemaining);
+                Stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks, ((StackModifier)effect).DurationRemaining);
             }
             i++;
         }
