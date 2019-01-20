@@ -38,7 +38,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
     {
         for (int inActive = effects.Count; inActive < stacks.Count; inActive++)
         {
-            stacks[inActive].GetComponent<EffectStack>().UpdateStacks(0);
+            stacks[inActive].GetComponent<EffectStack>().UpdateStacks(0, 0);
         }
 
         int i = 0;
@@ -49,7 +49,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
             if (effect.Type == EffectType.STACK)
             {
-                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks);
+                stacks[i].GetComponent<EffectStack>().UpdateStacks(((StackModifier)effect).Stacks, ((StackModifier)effect).durationRemaining);
             }
             i++;
         }

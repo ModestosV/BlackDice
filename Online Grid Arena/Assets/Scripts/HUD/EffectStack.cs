@@ -30,10 +30,21 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void UpdateStacks(int stacks)
+    public void UpdateStacks(int stacks, int duration)
     {
         Stacks = stacks;
         stackIndicator.text = Stacks.ToString();
+
+        string durRemaining = "\n" + duration;
+        if (duration == 1)
+        {
+            durRemaining += " turn remaining";
+        }
+        else
+        {
+            durRemaining += " turns remaining";
+        }
+        Description += durRemaining;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -16,7 +16,7 @@ public abstract class AbstractEffect : IEffect
     public string Name { get; set; }
     public string Description { get; protected set; }
     protected int duration;
-    protected int durationRemaining;
+    public int durationRemaining;
 
     protected AbstractEffect(EffectType type, int duration)
     {
