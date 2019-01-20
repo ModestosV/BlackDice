@@ -20,6 +20,7 @@ public class CharacterController : ICharacterController
     public Color32 BorderColor { protected get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
+    public SpriteRenderer ActiveCircle { get; set; }
 
     public void Select()
     {
@@ -176,6 +177,7 @@ public class CharacterController : ICharacterController
 
     public void StartOfTurn()
     {
+        ActiveCircle.enabled = true;
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.START_OF_TURN)
@@ -183,6 +185,9 @@ public class CharacterController : ICharacterController
                 ApplyStack(e);
             }
         }
+        Refresh();
+        UpdateSelectedHUD();
+        Select();
     }
 
     public void EndOfTurn()
@@ -218,6 +223,7 @@ public class CharacterController : ICharacterController
                 }
             }
         }
+        ActiveCircle.enabled = false;
     }
 
     private void RemoveEffectOf(IEffect newEffect)
@@ -296,6 +302,7 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
             EndOfTurn();
+            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
     }

@@ -146,11 +146,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         RefreshedCharacters.RemoveAt(0);
         ActiveCharacter.StartOfTurn();
 
-        ActiveCharacter.Refresh();
-        ActiveCharacter.UpdateSelectedHUD();
-
-        ActiveCharacter.Select();
-
         TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
 
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));

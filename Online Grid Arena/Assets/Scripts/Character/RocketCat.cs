@@ -37,7 +37,8 @@ public sealed class RocketCat : AbstractCharacter
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
     }
 
@@ -46,7 +47,6 @@ public sealed class RocketCat : AbstractCharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
+        characterController.ActiveCircle.enabled = false;
     }
-
-
 }
