@@ -201,7 +201,7 @@ public class CharacterController : ICharacterController
                     RemoveEffectOf(e);
                     if (e.StacksRanOut())
                     {
-                        e.Reset();
+                        e.Refresh();
                         Effects.Remove(e);
                         break;
                     }

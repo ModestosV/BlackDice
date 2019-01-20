@@ -21,12 +21,6 @@ public abstract class StackModifier : AbstractEffect
         Stacks--;
     }
 
-    public override void Reset()
-    {
-        DurationRemaining = duration;
-        Stacks = 1;
-    }
-
     public override bool StacksRanOut()
     {
         return Stacks <= 0;

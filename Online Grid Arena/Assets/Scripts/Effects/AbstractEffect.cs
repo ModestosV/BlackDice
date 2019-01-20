@@ -37,7 +37,6 @@ public abstract class AbstractEffect : IEffect
     public abstract Dictionary<string, float> GetEffects();
     public abstract void DecrementStack();
     public abstract bool StacksRanOut();
-    public abstract void Reset();
     public virtual void Refresh()
     {
         DurationRemaining = duration;

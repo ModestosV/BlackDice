@@ -16,5 +16,4 @@ public interface IEffect
     bool IsMaxStacks();
     void DecrementStack();
     string GetName();
-    void Reset();
 }
