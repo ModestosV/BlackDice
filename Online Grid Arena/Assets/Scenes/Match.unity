@@ -1540,9 +1540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a52c743eb20c6042ae65b2dab75a83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray: {fileID: 0}
-  tooltip: {fileID: 0}
   Description: 
+  Cooldown: 0
 --- !u!1 &441878932
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,7 +2135,7 @@ Prefab:
     - target: {fileID: 224183806190214998, guid: 4a532093e4e9d2847befef64203bc41e,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -97.4
+      value: -67.8
       objectReference: {fileID: 0}
     - target: {fileID: 224183806190214998, guid: 4a532093e4e9d2847befef64203bc41e,
         type: 2}
@@ -2182,6 +2181,31 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224137632661645392, guid: 4a532093e4e9d2847befef64203bc41e,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988353018035096, guid: 4a532093e4e9d2847befef64203bc41e,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114988353018035096, guid: 4a532093e4e9d2847befef64203bc41e,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224183806190214998, guid: 4a532093e4e9d2847befef64203bc41e,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224137632661645392, guid: 4a532093e4e9d2847befef64203bc41e,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 230
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a532093e4e9d2847befef64203bc41e, type: 2}
@@ -2895,9 +2919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a52c743eb20c6042ae65b2dab75a83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray: {fileID: 0}
-  tooltip: {fileID: 0}
   Description: 
+  Cooldown: 0
 --- !u!1 &673354046
 GameObject:
   m_ObjectHideFlags: 0
@@ -4518,8 +4541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 
   Stacks: 0
-  ray: {fileID: 0}
-  tooltip: {fileID: 0}
   stackIndicator: {fileID: 0}
 --- !u!114 &1438965260
 MonoBehaviour:
@@ -5030,9 +5051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a52c743eb20c6042ae65b2dab75a83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ray: {fileID: 0}
-  tooltip: {fileID: 0}
   Description: 
+  Cooldown: 0
 --- !u!224 &1651087514 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224056433944623438, guid: b2eb4b2eafa7ab24ea00473c82531b09,
@@ -5552,8 +5572,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 
   Stacks: 0
-  ray: {fileID: 0}
-  tooltip: {fileID: 0}
   stackIndicator: {fileID: 0}
 --- !u!114 &1989952682
 MonoBehaviour:
@@ -5758,8 +5776,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7073cc1820312ad459c0bf311525dc90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityButtons: []
-  stacks: []
+  AbilityButtons: []
+  Stacks: []
 --- !u!1 &2062941937
 GameObject:
   m_ObjectHideFlags: 0
