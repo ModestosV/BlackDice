@@ -8,7 +8,7 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
     private GraphicRaycaster ray;
     private AbilityTooltip tooltip;
 
-    public Text stackIndicator;
+    private Text stackIndicator;
 
     public void Start()
     {

@@ -7,8 +7,8 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private GraphicRaycaster ray;
     private AbilityTooltip tooltip;
 
-    public string Description;
-    public int Cooldown;
+    public string Description { get; set; }
+    public int Cooldown { get; set; }
     
 	void Start ()
     {
