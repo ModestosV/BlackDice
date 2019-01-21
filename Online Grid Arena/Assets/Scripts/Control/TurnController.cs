@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
@@ -143,6 +144,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         RefreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
 
         ActiveCharacter = RefreshedCharacters.ElementAt(0);
+        Debug.Log(ActiveCharacter);
         RefreshedCharacters.RemoveAt(0);
         ActiveCharacter.StartOfTurn();
 

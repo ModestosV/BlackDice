@@ -107,4 +107,14 @@ public class GridSelectionControllerTests
         
         selectedTile.Received(1).Deselect();
     }
+
+    [Test]
+    public void Select_tile_event_selects_selected_tile()
+    {
+        sut.SelectedTile = null;
+
+        sut.Handle(new SelectTileEvent(selectedTile));
+
+        selectedTile.Received(1).Select();
+    }
 }
