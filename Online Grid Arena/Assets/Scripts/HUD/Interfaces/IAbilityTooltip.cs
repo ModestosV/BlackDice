@@ -4,5 +4,5 @@ public interface IAbilityTooltip
 {
     Text AbilityDescription { get; }
 
-    void ShowToolTip(string Description);
+    void ShowTooltip(string Description);
 }

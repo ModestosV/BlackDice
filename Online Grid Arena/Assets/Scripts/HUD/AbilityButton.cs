@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private GraphicRaycaster ray { get; set; }
-    private AbilityTooltip tooltip { get; set; }
+    private GraphicRaycaster ray;
+    private AbilityTooltip tooltip;
 
     public string Description;
     public int Cooldown;
@@ -20,11 +20,11 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (Cooldown > 0)
         {
-            tooltip.ShowToolTip(Description, Cooldown);
+            tooltip.ShowTooltip(Description, Cooldown);
         }
         else
         {
-            tooltip.ShowToolTip(Description);
+            tooltip.ShowTooltip(Description);
         }
     }
 

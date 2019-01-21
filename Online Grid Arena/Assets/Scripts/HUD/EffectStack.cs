@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 
 public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
 {
-    public string Description;
-    public int Stacks;
+    public string Description { get; set; }
+    public int Stacks { get; set; }
     private GraphicRaycaster ray;
     private AbilityTooltip tooltip;
 
@@ -46,7 +46,7 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltip.ShowToolTip(Description);
+        tooltip.ShowTooltip(Description);
     }
 
     public void OnPointerExit(PointerEventData eventData)
