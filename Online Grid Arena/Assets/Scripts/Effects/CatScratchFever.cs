@@ -15,7 +15,6 @@ public sealed class CatScratchFever : StackModifier
     {
         Name = "CatScratchFever";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/claw-marks");
-        Description = "Increases Rocket Cat's attack power by 5 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()

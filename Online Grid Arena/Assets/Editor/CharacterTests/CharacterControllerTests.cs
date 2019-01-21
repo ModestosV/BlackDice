@@ -31,8 +31,6 @@ public class CharacterControllerTests
     const float CHARACTER_HURT_LARGE_AMOUNT = 25.0f;
     const float CHARACTER_HURT_SMALL_AMOUNT = 95.0f;
 
-    List<IEffect> effects;
-
     Dictionary<string, ICharacterStat> characterStats;
     ICharacterStat health;
     ICharacterStat moves;
@@ -81,7 +79,6 @@ public class CharacterControllerTests
         ability2 = Substitute.For<IAbility>();
 
         abilities = new List<IAbility>() { ability1, ability2 };
-        effects = new List<IEffect>();
 
         pathList = new List<IHexTileController>() { startTileController, endTileController };
 
@@ -103,8 +100,7 @@ public class CharacterControllerTests
             AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
-            HealthBar = healthBar,
-            Effects = effects
+            HealthBar = healthBar
         };
     }
 
@@ -190,7 +186,7 @@ public class CharacterControllerTests
         sut.ExecuteMove(pathList);
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
-        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME, abilities, effects);
+        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME, abilities);
     }
 
     [Test]

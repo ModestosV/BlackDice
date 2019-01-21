@@ -16,8 +16,6 @@ public class InputParameters : IInputParameters, IEquatable<InputParameters>
     public bool IsMouseOverGrid { get; set; }
     public IHexTileController TargetTile { get; set; }
 
-    public bool IsMouseOverAbiity { get; set; }
-
     public bool IsAbilityKeyPressed()
     {
         if (IsKeyQDown || IsKeyWDown || IsKeyEDown || IsKeyRDown) return true;
