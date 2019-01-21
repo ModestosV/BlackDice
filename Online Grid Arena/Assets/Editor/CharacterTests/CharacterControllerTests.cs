@@ -103,7 +103,8 @@ public class CharacterControllerTests
             AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
-            HealthBar = healthBar
+            HealthBar = healthBar,
+            Effects = effects
         };
     }
 
