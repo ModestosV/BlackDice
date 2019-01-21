@@ -19,7 +19,7 @@ public sealed class HUDController : IHUDController
         AbilityPanel.Hide();
     }
 
-    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName, List<IAbility> abilities)
+    public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName, List<IAbility> abilities, List<IEffect> effects)
     {
         SelectedStatPanel.EnableStatDisplays();
         SelectedStatPanel.CharacterStats = characterStats;
@@ -27,6 +27,7 @@ public sealed class HUDController : IHUDController
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
 
         AbilityPanel.UpdateAbilityIcons(abilities);
+        AbilityPanel.UpdateStackIcons(effects);
         AbilityPanel.Show();
     }
 

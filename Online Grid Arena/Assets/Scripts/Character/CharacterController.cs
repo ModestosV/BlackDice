@@ -33,7 +33,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities);
+        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities, Effects);
     }
 
     public void ClearSelectedHUD()
@@ -201,7 +201,7 @@ public class CharacterController : ICharacterController
                     RemoveEffectOf(e);
                     if (e.StacksRanOut())
                     {
-                        e.Reset();
+                        e.Refresh();
                         Effects.Remove(e);
                         break;
                     }
@@ -223,10 +223,6 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            if (ef.Key == "attack" || ef.Key == "defense")
-            {
-                CharacterStats[ef.Key].BaseValue -= ef.Value;
-            }
             this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
         }
     }

@@ -55,4 +55,9 @@
     {
         inputParameters.TargetTile.Hover();
     }
+
+    protected override void DoHoverAbility()
+    {
+        
+    }
 }

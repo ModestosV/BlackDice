@@ -58,24 +58,6 @@ public class EffectTests
     }
 
     [Test]
-    public void Reset_sets_duration_to_default_and_stacks_to_one()
-    {
-        // Set stacks to 3, duration to 5
-        sut.Stacks = 3;
-        sut.DecrementDuration();
-
-        // Reset
-        sut.Reset();
-
-        Assert.That(sut.Stacks, Is.EqualTo(ONE));
-        for (int i = 0; i < DURATION; i++)
-        {
-            sut.DecrementDuration();
-        }
-        Assert.That(sut.IsDurationOver(), Is.EqualTo(true));
-    }
-
-    [Test]
     public void Stacks_ran_out_returns_true_if_stacks_are_zero_or_lower()
     {
         sut.Stacks = 0;

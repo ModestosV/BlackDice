@@ -9,6 +9,7 @@ TagManager:
   - Player Panel
   - TurnTile
   - AbilitySound
+  - AbilityButton
   layers:
   - Default
   - TransparentFX
