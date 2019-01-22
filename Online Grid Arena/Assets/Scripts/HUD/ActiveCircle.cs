@@ -1,5 +1,3 @@
-﻿using UnityEngine;
-
-public class ActiveCircle : HideableUI
+﻿public class ActiveCircle : HideableUI
 {
 }

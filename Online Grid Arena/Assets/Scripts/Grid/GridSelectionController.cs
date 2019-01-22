@@ -6,7 +6,6 @@ public sealed class GridSelectionController : IGridSelectionController, IEventSu
     public List<IHexTileController> HoveredTiles { private get; set; }
     public List<IHexTileController> HighlightedTiles { private get; set; }
     
-
     public GridSelectionController()
     {
         HoveredTiles = new List<IHexTileController>();

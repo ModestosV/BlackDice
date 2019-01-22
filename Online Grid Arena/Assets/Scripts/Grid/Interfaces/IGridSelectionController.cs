@@ -13,6 +13,5 @@ public interface IGridSelectionController
     void BlurAll();
     void DehighlightAll();
     bool IsSelectedTile(IHexTileController targetTile);
-
     ICharacterController GetSelectedCharacter();
 }
