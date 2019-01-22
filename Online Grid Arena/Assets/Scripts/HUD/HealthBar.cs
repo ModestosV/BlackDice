@@ -5,15 +5,11 @@ public class HealthBar : HideableUI, IHealthBar
 {
     private Text healthText;
     private Image healthBarImage;
-    private Image healthBarBackground;
-    private CanvasGroup alpha;
 
     void Awake()
     {
         healthText = GetComponentInChildren<Text>();
         healthBarImage = GetComponentsInChildren<Image>()[1];
-        healthBarBackground = GetComponentsInChildren<Image>()[0];
-        alpha = GetComponentInChildren<CanvasGroup>();
     }
 
     void Update()

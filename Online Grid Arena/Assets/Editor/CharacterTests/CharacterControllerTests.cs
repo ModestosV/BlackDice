@@ -147,29 +147,11 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Execute_move_deselects_start_tile_and_vacates_character()
-    {
-        sut.ExecuteMove(pathList);
-
-        startTileController.Received(1).Deselect();
-        startTileController.Received(1).OccupantCharacter = null;
-    }
-
-    [Test]
     public void Execute_move_relocates_character_to_target_tile()
     {
         sut.ExecuteMove(pathList);
 
         character.Received(1).MoveToTile(endTile);
-    }
-
-    [Test]
-    public void Execute_move_selects_end_tile_and_inserts_character()
-    {
-        sut.ExecuteMove(pathList);
-
-        endTileController.Received(1).OccupantCharacter = sut;
-        endTileController.Received(1).Select();
     }
 
     [Test]

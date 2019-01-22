@@ -15,7 +15,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
@@ -39,7 +39,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoHoverUnoccupiedTile()
     {
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);

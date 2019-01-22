@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TurnPanel : MonoBehaviour, ITurnPanel
+public class TurnPanel : BlackDiceMonoBehaviour, ITurnPanel
 {
     protected TurnPanelController turnPanelController;
 
@@ -19,11 +19,4 @@ public class TurnPanel : MonoBehaviour, ITurnPanel
             turnPanelController.AddTurnTile(tile);
         }
     }
-
-    #region IMonobehavior implementation
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-    #endregion
 }

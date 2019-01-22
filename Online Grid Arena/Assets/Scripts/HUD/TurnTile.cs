@@ -21,13 +21,4 @@ public class TurnTile : HideableUI, ITurnTile
         characterIcon.texture = CharacterIcon;
         border.color = BorderColor;
     }
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

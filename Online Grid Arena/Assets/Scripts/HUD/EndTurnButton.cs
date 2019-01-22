@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 
-public sealed class EndTurnButton : MonoBehaviour
+public sealed class EndTurnButton : BlackDiceMonoBehaviour
 {
     private Button Button { get; set; }
 
@@ -19,15 +18,7 @@ public sealed class EndTurnButton : MonoBehaviour
 
     public void EndTurn()
     {
+        EventBus.Publish(new DeselectSelectedTileEvent());
         EventBus.Publish(new StartNewTurnEvent());
     }
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

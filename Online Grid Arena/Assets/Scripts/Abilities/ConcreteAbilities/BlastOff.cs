@@ -23,13 +23,13 @@ public class BlastOff : AbstractTargetedAbility
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
-        character.Controller.OccupiedTile.Deselect();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
 
         targetTiles[0].OccupantCharacter = character.Controller;
-        targetTiles[0].Select();
+        EventBus.Publish(new SelectTileEvent(targetTiles[0]));
     }
 
     // Damage all tiles around target location
