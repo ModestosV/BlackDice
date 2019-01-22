@@ -30,6 +30,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             {
                 List<IHexTileController> target = new List<IHexTileController>();
                 target.Add(path[path.Count - 2]);
+                target.Add(inputParameters.TargetTile);
                 selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
                 EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
                 return;
@@ -138,6 +139,5 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             }
         }
         return;
-        GridSelectionController.GetSelectedTile().HoverError();
     }
 }
