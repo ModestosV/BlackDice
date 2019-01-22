@@ -28,7 +28,7 @@ public class Slide : AbstractTargetedAbility
         character.Controller.OccupiedTile = targetTiles[0];
 
         targetTiles[0].OccupantCharacter = character.Controller;
-        targetTiles[0].Select();
+        EventBus.Publish(new SelectTileEvent(targetTiles[0]));
         PlaySoundEffect();
     }
 
