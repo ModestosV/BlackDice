@@ -19,7 +19,6 @@ public class Slide : AbstractTargetedAbility
         Description = "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 7 * (number of tiles moved) damage.";
     }
 
-    // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
