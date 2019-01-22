@@ -12,11 +12,11 @@ public class Slide : AbstractTargetedAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlideHitAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/woosh"),
         activeCharacter,
-        5,
+        7,
         100,
         AbilityType.TARGET_LINE)
     {
-        Description = "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 7 * (number of tiles moved) damage.";
+        Description = "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 10 * (number of tiles moved) damage.";
     }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
@@ -44,7 +44,7 @@ public class Slide : AbstractTargetedAbility
     {
         if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
         {
-            targetTiles[1].Damage(7.0f * distanceTravelled);
+            targetTiles[1].Damage(10.0f * distanceTravelled);
             PlayAnimation(targetTiles[1]);
         }
     }

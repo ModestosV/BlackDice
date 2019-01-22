@@ -17,7 +17,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoClickOccupiedOtherTile()
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
@@ -38,7 +38,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoClickUnoccupiedOtherTile()
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -69,7 +69,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoHoverOccupiedTile()
     {
         inputParameters.TargetTile.Highlight();
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
         bool isStraightLine = false;
         if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
