@@ -38,8 +38,15 @@ class App extends Component {
       {
         title: "v0.2_Windows_x86_Installer",
         link: "https://drive.google.com/uc?export=download&id=1K0YueFTXkxHax4WvgHBmjT3ZyaZIQtmX" 
-      }
+      },
     ]})
+  }
+  
+  showModal = () => {
+	  this.setState({
+		...this.state,
+		show: !this.state.show
+	  });
   }
 
   greetBackendAPI() {
@@ -65,8 +72,14 @@ class App extends Component {
         <div className="DownloadsHeader">
           <h2>Online Grid Arena Downloads</h2>
         </div>
-
-        <Downloads downloads={this.state.downloads}/>
+		
+		<div className="Downloads section">
+			<Downloads downloads={this.state.downloads}/>
+			<input type="button" onClick={this.showModal} value = "Show Modal" />
+			<TermsOfServicePopUp show={this.state.show}>
+				MODAL TEST
+			</TermsOfServicePopUp>
+		</div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
 
