@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetLineAbilitySelectionController : AbstractAbilitySelectionController
 {
-
+    bool canCast = false;
     protected override void DoFirst()
     {
         SetActiveAbility();
@@ -27,12 +27,15 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
         if (inRange)
         {
-            List<IHexTileController> target = new List<IHexTileController>();
-            target.Add(inputParameters.TargetTile);
+            if (canCast)
+            {
+                List<IHexTileController> target = new List<IHexTileController>();
+                target.Add(inputParameters.TargetTile);
 
-            selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
-            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
+                selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+                return;
+            }
         }
     }
 
@@ -43,22 +46,33 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
         bool isStraightLine = false;
         if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
         {
-            isStraightLine = true;
+            isStraightLine = true; //this just means that target and selected are on the same line. must check whole path.
+            for (int i = 1; i < path.Count; i++)
+            {
+                if (!(selectedTile.X == path[i].X || selectedTile.Y == path[i].Y || selectedTile.Z == path[i].Z))
+                {
+                    isStraightLine = false;
+                }
+            }
         }
 
         if (!isStraightLine)
         {
+            canCast = false;
             for (int i = 1; i < path.Count; i++)
             {
                 path[i].HoverError();
             }
             return;
         }
-
-        // Hovered over reachable in range tile
-        for (int i = 1; i < path.Count; i++)
+        if (isStraightLine)
         {
-            path[i].Highlight();
+            canCast = true;
+            // Hovered over reachable in range tile
+            for (int i = 1; i < path.Count; i++)
+            {
+                path[i].Highlight();
+            }
         }
         return;
     }
@@ -70,7 +84,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
     protected override void DoHoverOccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.Highlight();
         //path not working for this one
         //cause path cant be obstructed
         //want to check another tile
