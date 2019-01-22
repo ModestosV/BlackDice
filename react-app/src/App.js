@@ -77,7 +77,7 @@ class App extends Component {
 			<Downloads downloads={this.state.downloads}/>
 			<input type="button" onClick={this.showModal} value = "Show Modal" />
 			<TermsOfServicePopUp onClose = {this.showModal} show={this.state.show}>
-				MODAL TEST
+				Modal Test
 			</TermsOfServicePopUp>
 		</div>
 
