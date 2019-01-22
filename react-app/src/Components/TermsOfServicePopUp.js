@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 
 const modalPopUp = {
 	position: 'fixed',
