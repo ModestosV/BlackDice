@@ -49,6 +49,9 @@ public class TargetEnemyAbilitySelectionControllerTests
         selectedTile.GetPath(targetTile).Returns(pathList);
         selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, pathList.Count - 1).Returns(true);
 
+        selectedTile.GetAbsoluteDistance(targetTile).Returns(1);
+        selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, 1).Returns(true);
+
         inputParameters.TargetTile.Returns(targetTile);
 
         sut = new TargetEnemyAbilitySelectionController

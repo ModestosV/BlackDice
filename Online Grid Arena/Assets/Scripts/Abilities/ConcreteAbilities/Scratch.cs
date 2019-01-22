@@ -14,6 +14,7 @@ public sealed class Scratch : AbstractTargetedAbility
         AbilityType.TARGET_ENEMY)
     {
         passive = Passive;
+        Description = "Basic Attack \nAttack an adjacent tile, deal damage equal to Rocket Cat's attack, and gain a stack of Cat Scratch Fever";
     }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

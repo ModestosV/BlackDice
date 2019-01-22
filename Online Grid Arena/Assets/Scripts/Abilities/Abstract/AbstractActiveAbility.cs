@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
-    protected int cooldown;
+    public int Cooldown { get; protected set; }
     protected int cooldownRemaining;
     protected GameObject animationPrefab;
     protected AudioClip soundEffect;
@@ -15,7 +15,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         ICharacter character,
         int cooldown) : base(abilityIcon, character)
     {
-        this.cooldown = cooldown;
+        this.Cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
         cooldownRemaining = 0;
@@ -27,7 +27,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        cooldownRemaining = cooldown;
+        cooldownRemaining = Cooldown;
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);

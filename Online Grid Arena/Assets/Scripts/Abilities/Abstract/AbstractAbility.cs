@@ -5,6 +5,7 @@ public abstract class AbstractAbility : IAbility
 {
     public List<IEffect> Effects { get; set; }
     public Sprite AbilityIcon { get; set; }
+    public string Description { get; protected set; }
 
     protected readonly ICharacter character;
 
@@ -13,6 +14,7 @@ public abstract class AbstractAbility : IAbility
         AbilityIcon = abilityIcon;
         this.character = character;
         Effects = new List<IEffect>();
+        Description = "Default ability description. If you're seeing this, somebody didn't do their job right";
     }
 
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
