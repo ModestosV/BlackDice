@@ -42,7 +42,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoHoverUnoccupiedTile()
     {
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
         bool isStraightLine = false;
         if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
         {
@@ -85,14 +85,40 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoHoverOccupiedTile()
     {
         inputParameters.TargetTile.Highlight();
-        //path not working for this one
-        //cause path cant be obstructed
-        //want to check another tile
-        //get path to it
-        //hover error on the path 
-        //or even make another getPath method or something
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
+        bool isStraightLine = false;
+        if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
+        {
+            isStraightLine = true; //this just means that target and selected are on the same line. must check whole path.
+            for (int i = 1; i < path.Count; i++)
+            {
+                if (!(selectedTile.X == path[i].X || selectedTile.Y == path[i].Y || selectedTile.Z == path[i].Z))
+                {
+                    isStraightLine = false;
+                }
+            }
+        }
+
+        if (!isStraightLine)
+        {
+            canCast = false;
+            for (int i = 1; i < path.Count; i++)
+            {
+                path[i].HoverError();
+            }
+            return;
+        }
+        if (isStraightLine)
+        {
+            canCast = true;
+            // Hovered over reachable in range tile
+            for (int i = 1; i < path.Count; i++)
+            {
+                path[i].Highlight();
+            }
+        }
+        return;
         GridSelectionController.GetSelectedTile().HoverError();
     }
 }

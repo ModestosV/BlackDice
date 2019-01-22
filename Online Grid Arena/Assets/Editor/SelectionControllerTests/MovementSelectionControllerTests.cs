@@ -44,7 +44,7 @@ public class MovementSelectionControllerTests
         gridSelectionController.GetSelectedTile().Returns(selectedTile);
 
         pathList = new List<IHexTileController>() { selectedTile, targetTile };
-        selectedTile.GetPath(targetTile).Returns(pathList);
+        selectedTile.GetPath(targetTile, false).Returns(pathList);
 
         sut = new MovementSelectionController
         {
@@ -119,7 +119,7 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
-        selectedTile.GetPath(targetTile).Returns(new List<IHexTileController>());
+        selectedTile.GetPath(targetTile, false).Returns(new List<IHexTileController>());
 
         sut.Update(inputParameters);
 
@@ -211,7 +211,7 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
-        selectedTile.GetPath(targetTile).Returns(new List<IHexTileController>());
+        selectedTile.GetPath(targetTile, false).Returns(new List<IHexTileController>());
 
         sut.Update(inputParameters);
 

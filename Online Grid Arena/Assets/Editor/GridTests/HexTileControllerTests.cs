@@ -424,7 +424,7 @@ public class HexTileControllerTests
         {
             sut, northEastHexTile
         };
-        List<IHexTileController> result = sut.GetPath(northEastHexTile);
+        List<IHexTileController> result = sut.GetPath(northEastHexTile, false);
 
         Assert.AreEqual(expected, result);
     }

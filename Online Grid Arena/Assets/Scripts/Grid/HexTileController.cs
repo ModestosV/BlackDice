@@ -186,7 +186,7 @@ public sealed class HexTileController : IHexTileController
         return neighbors;
     }
 
-    public List<IHexTileController> GetPath(IHexTileController goalTile)
+    public List<IHexTileController> GetPath(IHexTileController goalTile, bool isAbility)
     {
         List<IHexTileController> open = new List<IHexTileController>();
         HashSet<Tuple<int, int, int>> closed = new HashSet<Tuple<int, int, int>>();
@@ -215,8 +215,10 @@ public sealed class HexTileController : IHexTileController
             List<IHexTileController> neighbors = currentTile.GetNeighbors();
             neighbors.RemoveAll(tile => !tile.IsEnabled);
             neighbors.RemoveAll(tile => tile.IsObstructed);
-            neighbors.RemoveAll(tile => tile.IsOccupied());
-
+            if (!isAbility)
+            {
+                neighbors.RemoveAll(tile => tile.IsOccupied());
+            }
             foreach (IHexTileController neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Coordinates)) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
@@ -226,18 +228,33 @@ public sealed class HexTileController : IHexTileController
                     closed.Add(neighbor.Coordinates);
                     continue;
                 }
-
-                if (neighbor.IsObstructed) // Ignore obstructed nodes.
+                if (!isAbility)
                 {
-                    closed.Add(neighbor.Coordinates);
-                    continue;
+                    if (neighbor.IsObstructed) // Ignore obstructed nodes.
+                    {
+                        closed.Add(neighbor.Coordinates);
+                        continue;
+                    }
+
+                    if (neighbor.IsOccupied()) // Ignore obstructed nodes.
+                    {
+                        closed.Add(neighbor.Coordinates);
+                        continue;
+                    }
+                }
+                else //here you are in ability selection mode
+                {
+                    if (neighbor.IsOccupied()) //if its occupied
+                    {
+                        if (!(neighbor.Coordinates == goalTile.Coordinates)) //if the coordinates are NOT same as goal
+                        {
+                            closed.Add(neighbor.Coordinates); //say byebye to that tile
+                            continue;
+                        }
+                    }
+
                 }
 
-                if (neighbor.IsOccupied()) // Ignore obstructed nodes.
-                {
-                    closed.Add(neighbor.Coordinates);
-                    continue;
-                }
 
                 int g = gValues[currentTile.Coordinates] + 1;
 
