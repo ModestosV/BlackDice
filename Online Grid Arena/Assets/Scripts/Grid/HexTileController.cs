@@ -227,7 +227,7 @@ public sealed class HexTileController : IHexTileController
                         continue;
                     }
 
-                    if (neighbor.IsOccupied()) // Ignore obstructed nodes.
+                    if (neighbor.IsOccupied()) // Ignore occupied nodes.
                     {
                         closed.Add(neighbor.Coordinates);
                         continue;

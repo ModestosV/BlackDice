@@ -2,7 +2,7 @@
 
 public class TargetLineAbilitySelectionController : AbstractAbilitySelectionController
 {
-    bool canCast = false;
+    private bool canCast = false;
     protected override void DoFirst()
     {
         SetActiveAbility();
@@ -22,17 +22,14 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
 
-        if (inRange)
+        if (inRange && canCast)
         {
-            if (canCast)
-            {
-                List<IHexTileController> target = new List<IHexTileController>();
-                target.Add(path[path.Count - 2]);
-                target.Add(inputParameters.TargetTile);
-                selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-                return;
-            }
+            List<IHexTileController> target = new List<IHexTileController>();
+            target.Add(path[path.Count - 2]);
+            target.Add(inputParameters.TargetTile);
+            selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+            return;
         }
     }
     protected override void DoClickUnoccupiedOtherTile()
@@ -42,17 +39,14 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
-        if (inRange)
+        if (inRange && canCast)
         {
-            if (canCast)
-            {
-                List<IHexTileController> target = new List<IHexTileController>();
-                target.Add(inputParameters.TargetTile);
+            List<IHexTileController> target = new List<IHexTileController>();
+            target.Add(inputParameters.TargetTile);
 
-                selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-                return;
-            }
+            selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+            return;
         }
     }
 
@@ -93,10 +87,9 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             }
             return;
         }
-        if (isStraightLine)
+        else
         {
             canCast = true;
-            // Hovered over reachable in range tile
             for (int i = 1; i < path.Count; i++)
             {
                 path[i].Highlight();

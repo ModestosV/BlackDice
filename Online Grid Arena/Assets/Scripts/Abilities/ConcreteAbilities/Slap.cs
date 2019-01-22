@@ -33,6 +33,5 @@ public sealed class Slap : AbstractTargetedAbility
         {
             ChanceToTrigger(chance-25, targetTiles);
         }
-
     }
 }
