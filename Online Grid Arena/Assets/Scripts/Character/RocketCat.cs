@@ -41,12 +41,4 @@ public sealed class RocketCat : AbstractCharacter
             ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
     }
-
-    void Start()
-    {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
-        characterController.ActiveCircle.enabled = false;
-    }
 }
