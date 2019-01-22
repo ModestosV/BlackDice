@@ -13,10 +13,10 @@ public class Slide : AbstractTargetedAbility
         Resources.Load<AudioClip>("Audio/Ability/woosh"),
         activeCharacter,
         5,
-        20,
-        AbilityType.TARGET_TILE)
+        100,
+        AbilityType.TARGET_LINE)
     {
-        Description = "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 25 * (number of tiles moved) damage.";
+        Description = "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 4 * (number of tiles moved) damage.";
     }
 
     // Move Rocket Cat to new location
