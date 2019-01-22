@@ -16,7 +16,26 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
+    protected override void DoClickOccupiedOtherTile()
+    {
+        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
 
+        if (inRange)
+        {
+            if (canCast)
+            {
+                List<IHexTileController> target = new List<IHexTileController>();
+                target.Add(path[path.Count - 2]);
+                selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+                return;
+            }
+        }
+    }
     protected override void DoClickUnoccupiedOtherTile()
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
