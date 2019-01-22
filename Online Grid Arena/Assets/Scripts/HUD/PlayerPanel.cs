@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerPanel : MonoBehaviour, IPlayerPanel
+public class PlayerPanel : BlackDiceMonoBehaviour, IPlayerPanel
 {
     private Text playerName;
 
@@ -14,9 +14,6 @@ public class PlayerPanel : MonoBehaviour, IPlayerPanel
     {
         playerName = gameObject.GetComponentInChildren<Text>();
     }
-
-    #region IPlayerPanel implementation
-
     public void SetPlayerName(string playerName)
     {
         this.playerName.text = playerName;
@@ -26,15 +23,4 @@ public class PlayerPanel : MonoBehaviour, IPlayerPanel
     {
         this.playerName.text = "";
     }
-
-    #endregion
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

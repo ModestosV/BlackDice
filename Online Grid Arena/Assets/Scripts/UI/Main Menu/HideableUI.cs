@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class HideableUI : MonoBehaviour
+public abstract class HideableUI : BlackDiceMonoBehaviour
 {
     private CanvasGroup canvasGroup;
 

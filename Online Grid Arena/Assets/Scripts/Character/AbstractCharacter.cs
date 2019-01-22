@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class AbstractCharacter : MonoBehaviour, ICharacter
+public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 {
     [SerializeField] protected string playerName;
 
@@ -19,17 +19,12 @@ public abstract class AbstractCharacter : MonoBehaviour, ICharacter
     public void MoveToTile(IHexTile targetTile)
     {
         gameObject.transform.parent = targetTile.GameObject.transform;
-        GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
+        gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
     public override string ToString()
     {
         return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
-    }
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
     }
 
     void Start()
