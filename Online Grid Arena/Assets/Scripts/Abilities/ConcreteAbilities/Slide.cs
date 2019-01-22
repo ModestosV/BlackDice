@@ -42,7 +42,10 @@ public class Slide : AbstractTargetedAbility
 
     private void DamageLastTile(List<IHexTileController> targetTiles)
     {
-        targetTiles[1].Damage(7.0f * distanceTravelled);
-        PlayAnimation(targetTiles[1]);
+        if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
+        {
+            targetTiles[1].Damage(7.0f * distanceTravelled);
+            PlayAnimation(targetTiles[1]);
+        }
     }
 }
