@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class TargetLineAbilitySelectionController : AbstractAbilitySelectionController
 {
@@ -40,7 +38,6 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoClickUnoccupiedOtherTile()
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-
         IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
@@ -61,40 +58,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
     protected override void DoHoverUnoccupiedTile()
     {
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
-        bool isStraightLine = false;
-        if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
-        {
-            isStraightLine = true; //this just means that target and selected are on the same line. must check whole path.
-            for (int i = 1; i < path.Count; i++)
-            {
-                if (!(selectedTile.X == path[i].X || selectedTile.Y == path[i].Y || selectedTile.Z == path[i].Z))
-                {
-                    isStraightLine = false;
-                }
-            }
-        }
-
-        if (!isStraightLine)
-        {
-            canCast = false;
-            for (int i = 1; i < path.Count; i++)
-            {
-                path[i].HoverError();
-            }
-            return;
-        }
-        if (isStraightLine)
-        {
-            canCast = true;
-            // Hovered over reachable in range tile
-            for (int i = 1; i < path.Count; i++)
-            {
-                path[i].Highlight();
-            }
-        }
-        return;
+        DoHoverOccupiedTile();
     }
 
     protected override void DoHoverSelectedTile()

@@ -9,7 +9,7 @@ public class Slide : AbstractTargetedAbility
     private int distanceTravelled;
     public Slide(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/slide"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlideHitAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/woosh"),
         activeCharacter,
         5,
@@ -43,7 +43,7 @@ public class Slide : AbstractTargetedAbility
 
     private void DamageLastTile(List<IHexTileController> targetTiles)
     {
-        Debug.Log(distanceTravelled);
         targetTiles[1].Damage(7.0f * distanceTravelled);
+        PlayAnimation(targetTiles[1]);
     }
 }

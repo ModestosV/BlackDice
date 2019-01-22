@@ -242,11 +242,11 @@ public sealed class HexTileController : IHexTileController
                         continue;
                     }
                 }
-                else //here you are in ability selection mode
+                else 
                 {
-                    if (neighbor.IsOccupied()) //if its occupied
+                    if (neighbor.IsOccupied()) 
                     {
-                        if (!(neighbor.Coordinates == goalTile.Coordinates)) //if the coordinates are NOT same as goal
+                        if (neighbor.Coordinates != goalTile.Coordinates) 
                         {
                             closed.Add(neighbor.Coordinates); //say byebye to that tile
                             continue;
