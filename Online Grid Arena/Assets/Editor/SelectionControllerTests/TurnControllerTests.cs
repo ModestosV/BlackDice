@@ -47,16 +47,16 @@ public class TurnControllerTests
     }
 
     [Test]
-    public void Start_next_turn_event_refreshes_active_character()
+    public void Start_next_turn_event_starts_turn_of_active_character()
     {
         sut.Handle(new StartNewTurnEvent());
 
-        firstCharacter.Received(1).Refresh();
+        firstCharacter.Received(1).StartOfTurn();
         secondCharacter.DidNotReceive();
     }
 
     [Test]
-    public void Start_next_turn_event_activates_character_with_lowest_initiative()
+    public void Start_next_turn_event_starts_turn_of_character_with_lowest_initiative()
     {
         firstCharacter.GetInitiative().Returns(2.0f);
         secondCharacter.GetInitiative().Returns(1.0f);
@@ -64,18 +64,7 @@ public class TurnControllerTests
         sut.Handle(new StartNewTurnEvent());
 
         firstCharacter.DidNotReceive();
-        secondCharacter.Received(1).Refresh();
-    }
-
-
-    [Test]
-    public void Start_next_turn_event_deselects_previously_active_character()
-    {
-        sut.ActiveCharacter = thirdCharacter;
-
-        sut.Handle(new StartNewTurnEvent());
-
-        thirdCharacter.Received(1).Deselect();
+        secondCharacter.Received(1).StartOfTurn();
     }
 
     [Test]

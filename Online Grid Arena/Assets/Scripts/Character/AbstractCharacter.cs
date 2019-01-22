@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class AbstractCharacter : MonoBehaviour, ICharacter
+public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 {
     [SerializeField] protected string playerName;
 
@@ -14,29 +14,24 @@ public abstract class AbstractCharacter : MonoBehaviour, ICharacter
         Destroy(gameObject);
     }
 
-    #region ICharacter implementation
-
     public ICharacterController Controller { get { return characterController; } }
 
     public void MoveToTile(IHexTile targetTile)
     {
         gameObject.transform.parent = targetTile.GameObject.transform;
-        GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
+        gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
-
-    #endregion
 
     public override string ToString()
     {
         return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
     }
 
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
+    void Start()
     {
-        get { return gameObject; }
+        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
+        characterController.RefreshStats();
+        characterController.UpdateHealthBar();
+        characterController.ActiveCircle.enabled = false;
     }
-
-    #endregion
 }

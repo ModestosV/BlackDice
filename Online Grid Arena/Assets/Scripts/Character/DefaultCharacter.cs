@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class DefaultCharacter : AbstractCharacter
 {
@@ -38,14 +39,8 @@ public sealed class DefaultCharacter : AbstractCharacter
             HealthBar = GetComponentInChildren<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
-    }
-
-    void Start()
-    {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
     }
 }

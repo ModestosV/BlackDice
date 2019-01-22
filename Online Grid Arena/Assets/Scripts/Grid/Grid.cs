@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-public sealed class Grid : MonoBehaviour, IGrid
+public sealed class Grid : BlackDiceMonoBehaviour, IGrid
 {
     [SerializeField] private int gridWidth;
 
@@ -45,14 +45,4 @@ public sealed class Grid : MonoBehaviour, IGrid
             hexTile.GameObject.transform.position = new Vector3(col * meshSize.x + rowOffset, 0, -(row * 0.75f * meshSize.z));
         }
     }
-
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

@@ -37,7 +37,7 @@ public class TargetEnemyAbilitySelectionControllerTests
         selectedTile = Substitute.For<IHexTileController>();
         selectedTile.OccupantCharacter.Returns(selectedCharacter);
 
-        gridSelectionController.GetSelectedTile().Returns(selectedTile);
+        gridSelectionController.SelectedTile.Returns(selectedTile);
 
         targetTile = Substitute.For<IHexTileController>();
         targetTile.IsEnabled.Returns(true);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class HexTile : MonoBehaviour, IHexTile
+public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
     public GameObject Obstruction { get; set; }
@@ -34,9 +34,6 @@ public sealed class HexTile : MonoBehaviour, IHexTile
 
         occupantCharacter.Controller.OccupiedTile = hexTileController;
     }
-
-    #region IHexTile implementation
-
     public void SetHoverMaterial()
     {
         GetComponent<Renderer>().material = materials.HoveredMaterial;
@@ -84,18 +81,6 @@ public sealed class HexTile : MonoBehaviour, IHexTile
     {
         Instantiate(abilityAnimationPrefab, gameObject.transform);
     }
-
-    #endregion
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
-
 }
 
 

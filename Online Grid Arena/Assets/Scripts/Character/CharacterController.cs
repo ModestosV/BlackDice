@@ -20,15 +20,11 @@ public class CharacterController : ICharacterController
     public Color32 BorderColor { protected get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
+    public SpriteRenderer ActiveCircle { get; set; }
 
     public void Select()
     {
-        OccupiedTile.Select();
-    }
-
-    public void Deselect()
-    {
-        OccupiedTile.Deselect();
+        EventBus.Publish(new SelectTileEvent(OccupiedTile));
     }
 
     public void UpdateSelectedHUD()
@@ -66,14 +62,15 @@ public class CharacterController : ICharacterController
         int distance = path.Count - 1;
         IHexTileController targetTile = path[distance];
 
-        OccupiedTile.Deselect();
+        EventBus.Publish(new DeselectSelectedTileEvent());
         OccupiedTile.OccupantCharacter = null;
 
         Character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;
-        targetTile.Select();
+        EventBus.Publish(new SelectTileEvent(targetTile));
+
         CharacterStats["moves"].CurrentValue -= distance;
         UpdateSelectedHUD();
         CheckExhausted();
@@ -86,6 +83,8 @@ public class CharacterController : ICharacterController
         if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
 
         Abilities[abilityNumber].Execute(targetTiles);
+
+        EventBus.Publish(new DeselectSelectedTileEvent());
 
         AbilitiesRemaining--;
 
@@ -175,6 +174,7 @@ public class CharacterController : ICharacterController
 
     public void StartOfTurn()
     {
+        ActiveCircle.enabled = true;
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.START_OF_TURN)
@@ -182,6 +182,9 @@ public class CharacterController : ICharacterController
                 ApplyStack(e);
             }
         }
+        Refresh();
+        UpdateSelectedHUD();
+        Select();
     }
 
     public void EndOfTurn()
@@ -217,6 +220,7 @@ public class CharacterController : ICharacterController
                 }
             }
         }
+        ActiveCircle.enabled = false;
     }
 
     private void RemoveEffectOf(IEffect newEffect)
@@ -291,6 +295,7 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
         {
             EndOfTurn();
+            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
     }
