@@ -100,6 +100,13 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             for (int i = 1; i < path.Count; i++)
             {
                 path[i].Highlight();
+                if (path[i].OccupantCharacter != null)
+                {
+                    if (path[i].OccupantCharacter.IsAlly(selectedTile.OccupantCharacter))
+                    {
+                        path[i].HoverError();
+                    }
+                }
             }
         }
         return;
