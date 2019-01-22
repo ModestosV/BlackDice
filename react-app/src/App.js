@@ -38,7 +38,7 @@ class App extends Component {
       {
         title: "v0.2_Windows_x86_Installer",
         link: "https://drive.google.com/uc?export=download&id=1K0YueFTXkxHax4WvgHBmjT3ZyaZIQtmX" 
-      },
+      }
     ]})
   }
   
@@ -76,7 +76,7 @@ class App extends Component {
 		<div className="Downloads section">
 			<Downloads downloads={this.state.downloads}/>
 			<input type="button" onClick={this.showModal} value = "Show Modal" />
-			<TermsOfServicePopUp show={this.state.show}>
+			<TermsOfServicePopUp onClose = {this.showModal} show={this.state.show}>
 				MODAL TEST
 			</TermsOfServicePopUp>
 		</div>
