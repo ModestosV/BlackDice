@@ -64,4 +64,19 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             i++;
         }
     }
+
+    public void UpdateCooldowns(List<IActiveAbility> abilities)
+    {
+        foreach(IActiveAbility abilityObj in abilities)
+        {
+            if(abilityObj.GetType() == typeof(AbstractActiveAbility))
+            {
+                AbstractActiveAbility ability = (AbstractActiveAbility) abilityObj;
+                if(ability.IsOnCooldown())
+                {
+                    
+                }
+            }
+        }
+    }
 }
