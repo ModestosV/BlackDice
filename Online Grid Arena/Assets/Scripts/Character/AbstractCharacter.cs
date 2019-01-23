@@ -22,7 +22,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 
     public void MoveToTile(IHexTile targetTile)
     {
-        gameObject.transform.parent = targetTile.GameObject.transform;
+        gameObject.transform.SetParent(targetTile.GameObject.transform);
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
@@ -34,13 +34,13 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     protected virtual void Awake()
     {
         activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
-        activeCircle.transform.parent = this.transform;
+        activeCircle.transform.SetParent(this.transform);
 
         healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
-        healthBar.transform.parent = this.transform;
+        healthBar.transform.SetParent(this.transform);
 
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
-        teamColorIndicator.transform.parent = this.transform;
+        teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 
