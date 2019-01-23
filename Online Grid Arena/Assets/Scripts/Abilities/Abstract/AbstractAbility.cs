@@ -23,8 +23,8 @@ public abstract class AbstractAbility : IAbility
     public virtual void Execute(List<IHexTileController> targetTiles)
     {
         PrimaryAction(targetTiles);
-
         SecondaryAction(targetTiles);
+        EventBus.Publish(new SelectTileEvent(character.Controller.OccupiedTile));
     }
 
     public void AddEffect(IEffect effect)
