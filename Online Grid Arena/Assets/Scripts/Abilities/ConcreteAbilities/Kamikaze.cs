@@ -6,7 +6,6 @@ public class Kamikaze : AbstractTargetedAbility
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
-    private int distanceTravelled;
 
     public Kamikaze(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/rocketcat_kamikaze"),
