@@ -6,8 +6,10 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
     protected override void DoHoverOccupiedTile()
     {
         base.DoHoverOccupiedTile();
+        
         IHexTileController selectedTile = GridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
+        DehighlightNeighboringTiles(inputParameters.TargetTile, path[path.Count - 2]);
         if (path.Count >= 2)
         {
             HighlightAffectedTiles(path[path.Count - 2]);
@@ -28,5 +30,16 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
             affected.HoverError();
         }
         target.Hover();
+    }
+
+    private void DehighlightNeighboringTiles(IHexTileController target, IHexTileController exception)
+    {
+        foreach (IHexTileController neighbor in target.GetNeighbors())
+        {
+            if (neighbor != exception)
+            {
+                neighbor.Dehighlight();
+            }
+        }
     }
 }
