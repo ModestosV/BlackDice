@@ -8,9 +8,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
-    protected GameObject TeamColorIndicator;
-    protected GameObject ActiveCircle;
-    protected GameObject HealthBar;
+
+    protected GameObject teamColorIndicator;
+    protected GameObject activeCircle;
+    protected GameObject healthBar;
 
     public void Destroy()
     {
@@ -28,6 +29,19 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     public override string ToString()
     {
         return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
+    }
+
+    protected virtual void Awake()
+    {
+        activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
+        activeCircle.transform.parent = this.transform;
+
+        healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
+        healthBar.transform.parent = this.transform;
+
+        teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
+        teamColorIndicator.transform.parent = this.transform;
+        teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 
     void Start()

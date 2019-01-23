@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class Pengwin : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         ICharacterStat health = new CharacterStat(140.0f);
         ICharacterStat moves = new CharacterStat(4.0f);
         ICharacterStat attack = new CharacterStat(15.0f);
@@ -27,12 +29,6 @@ public sealed class Pengwin : AbstractCharacter
 
         var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
 
-        ActiveCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
-        ActiveCircle.transform.parent = this.transform;
-
-        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
-        HealthBar.transform.parent = this.transform;
-
         characterController = new CharacterController()
         {
             Character = this,
@@ -45,10 +41,5 @@ public sealed class Pengwin : AbstractCharacter
             Effects = effects,
             ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
-
-        TeamColorIndicator = Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker");
-        TeamColorIndicator = Instantiate(TeamColorIndicator, this.transform);
-        TeamColorIndicator.transform.parent = this.transform;
-        TeamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 }

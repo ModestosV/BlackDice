@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class DefaultCharacter : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Init abilities
 
         IAbility defaultAttack = new DefaultAttack(this);
@@ -30,12 +32,6 @@ public sealed class DefaultCharacter : AbstractCharacter
             { "defense", defense }
         };
 
-        ActiveCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
-        ActiveCircle.transform.parent = this.transform;
-
-        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
-        HealthBar.transform.parent = this.transform;
-
         characterController = new CharacterController()
         {
             Character = this,
@@ -48,9 +44,5 @@ public sealed class DefaultCharacter : AbstractCharacter
             Effects = effects,
             ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
-
-        TeamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
-        TeamColorIndicator.transform.parent = this.transform;
-        TeamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 }
