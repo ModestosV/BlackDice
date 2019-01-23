@@ -27,6 +27,12 @@ public sealed class Pengwin : AbstractCharacter
 
         var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
 
+        ActiveCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
+        ActiveCircle.transform.parent = this.transform;
+
+        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
+        HealthBar.transform.parent = this.transform;
+
         characterController = new CharacterController()
         {
             Character = this,

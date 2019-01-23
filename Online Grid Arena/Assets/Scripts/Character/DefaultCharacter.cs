@@ -30,6 +30,12 @@ public sealed class DefaultCharacter : AbstractCharacter
             { "defense", defense }
         };
 
+        ActiveCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
+        ActiveCircle.transform.parent = this.transform;
+
+        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
+        HealthBar.transform.parent = this.transform;
+
         characterController = new CharacterController()
         {
             Character = this,
