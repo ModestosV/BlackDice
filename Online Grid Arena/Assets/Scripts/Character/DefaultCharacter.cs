@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class DefaultCharacter : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Init abilities
 
         IAbility defaultAttack = new DefaultAttack(this);
@@ -36,11 +38,11 @@ public sealed class DefaultCharacter : AbstractCharacter
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }

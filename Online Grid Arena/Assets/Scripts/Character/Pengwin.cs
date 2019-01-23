@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class Pengwin : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         ICharacterStat health = new CharacterStat(140.0f);
         ICharacterStat moves = new CharacterStat(4.0f);
         ICharacterStat attack = new CharacterStat(15.0f);
@@ -33,11 +35,11 @@ public sealed class Pengwin : AbstractCharacter
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }

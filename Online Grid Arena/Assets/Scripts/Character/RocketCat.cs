@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class RocketCat : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         IEffect catScratchFever = new CatScratchFever();
 
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
@@ -34,11 +36,11 @@ public sealed class RocketCat : AbstractCharacter
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }
