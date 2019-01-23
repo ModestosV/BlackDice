@@ -16,7 +16,7 @@ public class Kamikaze : AbstractTargetedAbility
         100,
         AbilityType.TARGET_LINE_AOE)
     {
-        Description = "Ultimate Ability \nRocket Cat flies in a straight line and deals 250% her attack in an AOE. Damages allies.";
+        Description = "Ultimate Ability \nRocket Cat flies in a straight line and deals 250% her attack in an AOE. Damages allies and herself.";
     }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
