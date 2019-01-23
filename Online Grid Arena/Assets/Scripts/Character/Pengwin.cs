@@ -39,5 +39,10 @@ public sealed class Pengwin : AbstractCharacter
             Effects = effects,
             ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
+
+        TeamColorIndicator = Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker");
+        TeamColorIndicator = Instantiate(TeamColorIndicator, this.transform);
+        TeamColorIndicator.transform.parent = this.transform;
+        TeamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 }

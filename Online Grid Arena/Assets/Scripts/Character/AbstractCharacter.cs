@@ -8,6 +8,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
+    protected GameObject TeamColorIndicator;
 
     public void Destroy()
     {

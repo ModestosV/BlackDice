@@ -40,5 +40,9 @@ public sealed class RocketCat : AbstractCharacter
             Effects = effects,
             ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
         };
+
+        TeamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
+        TeamColorIndicator.transform.parent = this.transform;
+        TeamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 }
