@@ -38,5 +38,6 @@ public class Kamikaze : AbstractTargetedAbility
             neighbor.Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue);
             PlayAnimation(neighbor);
         }
+        targetTiles[0].Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue);
     }
 }
