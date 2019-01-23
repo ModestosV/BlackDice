@@ -221,13 +221,7 @@ public sealed class HexTileController : IHexTileController
                 }
                 if (!isAbility)
                 {
-                    if (neighbor.IsObstructed) // Ignore obstructed nodes.
-                    {
-                        closed.Add(neighbor.Coordinates);
-                        continue;
-                    }
-
-                    if (neighbor.IsOccupied()) // Ignore occupied nodes.
+                    if (neighbor.IsObstructed || neighbor.IsOccupied()) // Ignore obstructed and occupied nodes.
                     {
                         closed.Add(neighbor.Coordinates);
                         continue;
