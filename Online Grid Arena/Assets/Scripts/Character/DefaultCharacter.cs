@@ -38,11 +38,11 @@ public sealed class DefaultCharacter : AbstractCharacter
             OwnedByPlayer = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = GetComponentInChildren<ActiveCircle>().GetComponentInChildren<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }
