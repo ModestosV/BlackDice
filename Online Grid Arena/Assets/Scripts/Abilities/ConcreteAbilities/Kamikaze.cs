@@ -23,7 +23,6 @@ public class Kamikaze : AbstractTargetedAbility
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
         EventBus.Publish(new DeselectSelectedTileEvent());
-        distanceTravelled = character.Controller.OccupiedTile.GetAbsoluteDistance(targetTiles[0]);
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
 
