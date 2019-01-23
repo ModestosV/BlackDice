@@ -10,7 +10,7 @@ public class Kamikaze : AbstractTargetedAbility
     public Kamikaze(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/rocketcat_kamikaze"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/rocket1"),
+        Resources.Load<AudioClip>("Audio/Ability/rocket"),
         activeCharacter,
         10,
         100,
