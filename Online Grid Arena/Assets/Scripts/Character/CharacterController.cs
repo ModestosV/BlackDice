@@ -84,8 +84,6 @@ public class CharacterController : ICharacterController
 
         Abilities[abilityNumber].Execute(targetTiles);
 
-        EventBus.Publish(new DeselectSelectedTileEvent());
-
         AbilitiesRemaining--;
 
         UpdateSelectedHUD();

@@ -52,16 +52,6 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
     protected override void DoHoverUnoccupiedTile()
     {
-        DoHoverOccupiedTile();
-    }
-
-    protected override void DoHoverSelectedTile()
-    {
-        inputParameters.TargetTile.HoverError();
-    }
-
-    protected override void DoHoverOccupiedTile()
-    {
         inputParameters.TargetTile.Highlight();
         IHexTileController selectedTile = GridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
@@ -103,5 +93,15 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             }
         }
         return;
+    }
+
+    protected override void DoHoverSelectedTile()
+    {
+        inputParameters.TargetTile.HoverError();
+    }
+
+    protected override void DoHoverOccupiedTile()
+    {
+        DoHoverUnoccupiedTile();
     }
 }
