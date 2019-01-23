@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public sealed class Slap : AbstractTargetedAbility
 {
@@ -12,7 +11,9 @@ public sealed class Slap : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY)
-    {    }
+    {
+        Description = "Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).";
+    }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {

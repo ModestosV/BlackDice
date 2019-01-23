@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private GraphicRaycaster ray;
     private AbilityTooltip tooltip;
 
     public string Description { get; set; }
@@ -12,7 +11,6 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
 	void Start ()
     {
-        ray = this.GetComponent<GraphicRaycaster>();
         tooltip = FindObjectOfType<AbilityTooltip>();
 	}
 

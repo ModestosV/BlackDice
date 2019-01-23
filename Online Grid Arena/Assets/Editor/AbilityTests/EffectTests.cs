@@ -35,7 +35,7 @@ public class EffectTests
     public void Decrement_duration_decrements_duration_remaining()
     {
         // Reduce duration to 1
-        for (int i = 0; i < DURATION - 1; i++)
+        for (int i = 0; i < DURATION - 4; i++)
         {
             sut.DecrementDuration();
         }

@@ -46,7 +46,7 @@ public class TargetEnemyAbilitySelectionControllerTests
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
         List<IHexTileController> pathList = new List<IHexTileController>() { selectedTile, targetTile };
-        selectedTile.GetPath(targetTile).Returns(pathList);
+        selectedTile.GetPath(targetTile, true).Returns(pathList);
         selectedCharacter.IsAbilityInRange(ACTIVE_ABILITY_NUMBER, pathList.Count - 1).Returns(true);
 
         selectedTile.GetAbsoluteDistance(targetTile).Returns(1);

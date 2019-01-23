@@ -21,11 +21,11 @@ public sealed class Pengwin : AbstractCharacter
         var effects = new List<IEffect>() { };
 
         IAbility slap = new Slap(this);
-        IAbility placeholder2 = new Placeholder(this);
+        IAbility slide = new Slide(this);
         IAbility placeholder3 = new Placeholder(this);
         IAbility placeholder4 = new Placeholder(this);
 
-        var abilities = new List<IAbility>() { slap, placeholder2, placeholder3, placeholder4 };
+        var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
 
         characterController = new CharacterController()
         {

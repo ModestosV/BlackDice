@@ -18,7 +18,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
         IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
         bool isReachable = path.Count > 0;
         bool inRange = selectedCharacter.CanMove(path.Count - 1);
         
@@ -42,7 +42,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
         IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
         bool isReachable = path.Count > 0;
         bool inRange = selectedCharacter.CanMove(path.Count - 1);
 
