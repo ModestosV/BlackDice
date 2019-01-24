@@ -13,14 +13,15 @@ public class CharacterController : ICharacterController
     public List<IEffect> Effects { get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
-    public int AbilitiesRemaining { protected get; set; }
 
-    public string OwnedByPlayer { get; set; }
+    public string CharacterOwner { get; set; }
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
+
+    private int abilitiesRemaining;
 
     public void Select()
     {
@@ -29,7 +30,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, OwnedByPlayer, Abilities, Effects);
+        HUDController.UpdateSelectedHUD(CharacterStats, CharacterOwner, Abilities, Effects);
     }
 
     public void ClearSelectedHUD()
@@ -39,7 +40,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateTargetHUD()
     {
-        HUDController.UpdateTargetHUD(CharacterStats, OwnedByPlayer);
+        HUDController.UpdateTargetHUD(CharacterStats, CharacterOwner);
     }
 
     public void ClearTargetHUD()
@@ -78,13 +79,11 @@ public class CharacterController : ICharacterController
 
     public void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles)
     {
-        if (!(AbilitiesRemaining > 0)) return;
-
-        if (!(abilityNumber < Abilities.Count && abilityNumber > -1)) return;
+        if (!(abilitiesRemaining > 0)) return;
 
         Abilities[abilityNumber].Execute(targetTiles);
 
-        AbilitiesRemaining--;
+        abilitiesRemaining--;
 
         UpdateSelectedHUD();
         CheckExhausted();
@@ -93,7 +92,7 @@ public class CharacterController : ICharacterController
     public void Refresh()
     {
         CharacterStats["moves"].Refresh();
-        AbilitiesRemaining = 1;
+        abilitiesRemaining = 1;
 
         Abilities.ForEach(ability => {
             if(ability is IActiveAbility)
@@ -199,7 +198,7 @@ public class CharacterController : ICharacterController
                 if (e.Type == EffectType.STACK)
                 {
                     e.DecrementStack();
-                    RemoveEffectOf(e);
+                    RemoveEffect(e);
                     if (e.StacksRanOut())
                     {
                         e.Refresh();
@@ -211,7 +210,7 @@ public class CharacterController : ICharacterController
                 {
                     if (e.Type == EffectType.CONSTANT)
                     {
-                        RemoveEffectOf(e);
+                        RemoveEffect(e);
                     }
                     Effects.Remove(e);
                     break;
@@ -221,9 +220,9 @@ public class CharacterController : ICharacterController
         ActiveCircle.enabled = false;
     }
 
-    private void RemoveEffectOf(IEffect newEffect)
+    private void RemoveEffect(IEffect effect)
     {
-        foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
+        foreach (KeyValuePair<string, float> ef in effect.GetEffects())
         {
             this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
         }
@@ -254,7 +253,7 @@ public class CharacterController : ICharacterController
             return false;
         }
 
-        return AbilitiesRemaining > 0  && !ability.IsOnCooldown();
+        return abilitiesRemaining > 0  && !ability.IsOnCooldown();
     }
 
     public void UpdateTurnTile(ITurnTile turnTileToUpdate)
@@ -264,9 +263,9 @@ public class CharacterController : ICharacterController
         turnTileToUpdate.UpdateTile();
     }
 
-    public bool IsAlly(ICharacterController otherCharacter)
+    public bool IsAlly(ICharacterController character)
     {
-        return OwnedByPlayer == otherCharacter.OwnedByPlayer;
+        return CharacterOwner.Equals(character.CharacterOwner);
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)
@@ -290,7 +289,7 @@ public class CharacterController : ICharacterController
 
     private void CheckExhausted()
     {
-        if (!(MovesRemaining > 0 || AbilitiesRemaining > 0))
+        if (!(MovesRemaining > 0 || abilitiesRemaining > 0))
         {
             EndOfTurn();
             EventBus.Publish(new DeselectSelectedTileEvent());

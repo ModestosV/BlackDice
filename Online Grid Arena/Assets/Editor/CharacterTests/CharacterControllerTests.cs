@@ -20,8 +20,6 @@ public class CharacterControllerTests
     IAbility ability2;
     const int SECOND_ABILITY_INDEX = 1;
 
-    const int INITIAL_ABILITIES_REMAINING_COUNT = 1;
-
     const float ABILITY_DAMAGE = 20.0f;
     const float CHARACTER_DAMAGE = 15.0f;
     const float CHARACTER_MAX_HEALTH = 100.0f;
@@ -99,8 +97,7 @@ public class CharacterControllerTests
             HUDController = hudController,
             CharacterStats = characterStats,
             Abilities = abilities,
-            OwnedByPlayer = PLAYER_NAME,
-            AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
+            CharacterOwner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
             HealthBar = healthBar,
@@ -176,15 +173,14 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Execute_ability_without_abilities_remaining_does_nothing()
+    public void Execute_ability_a_second_time_does_nothing()
     {
-        sut.AbilitiesRemaining = 0;
-
+        sut.Refresh();
         sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
-
-        targetCharacterController.DidNotReceive();
-        ability1.DidNotReceive();
-        ability2.DidNotReceive();
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
+        
+        ability1.DidNotReceive().Execute(Arg.Any<List<IHexTileController>>());
+        ability2.Received(1).Execute(Arg.Any<List<IHexTileController>>());
     }
 
     [Test]

@@ -11,9 +11,7 @@ public interface ICharacterController
     List<IAbility> Abilities { set; }
     List<IEffect> Effects { set; }
 
-    int AbilitiesRemaining { set; }
-
-    string OwnedByPlayer { get; set; }    
+    string CharacterOwner { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
     IHealthBar HealthBar { set; }

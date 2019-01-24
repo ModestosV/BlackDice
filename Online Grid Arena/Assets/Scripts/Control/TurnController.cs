@@ -78,11 +78,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void Surrender()
     {
-        string activePlayerName = ActiveCharacter.OwnedByPlayer;
+        string activePlayerName = ActiveCharacter.CharacterOwner;
         List<ICharacterController> livingCharacters = GetLivingCharacters();
         foreach (ICharacterController character in livingCharacters)
         {
-            if (character.OwnedByPlayer == activePlayerName)
+            if (character.CharacterOwner == activePlayerName)
             {
                 character.Die();
             }
@@ -107,7 +107,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         foreach (ICharacterController character in livingCharacters)
         {
-            string playerName = character.OwnedByPlayer;
+            string playerName = character.CharacterOwner;
             if (!livingPlayers.Contains(playerName))
             {
                 livingPlayers.Add(playerName);

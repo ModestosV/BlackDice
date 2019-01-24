@@ -35,7 +35,7 @@ public sealed class DefaultCharacter : AbstractCharacter
         characterController = new CharacterController()
         {
             Character = this,
-            OwnedByPlayer = playerName,
+            CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
             HealthBar = healthBar.GetComponent<HealthBar>(),

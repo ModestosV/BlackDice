@@ -31,9 +31,9 @@ public class TurnControllerTests
         firstCharacter.GetInitiative().Returns(1.0f);
         secondCharacter.GetInitiative().Returns(2.0f);
 
-        firstCharacter.OwnedByPlayer.Returns(PLAYER_1_NAME);
-        secondCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
-        thirdCharacter.OwnedByPlayer.Returns(PLAYER_2_NAME);
+        firstCharacter.CharacterOwner.Returns(PLAYER_1_NAME);
+        secondCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
+        thirdCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
 
         turnTracker = Substitute.For<ITurnPanelController>();
 
