@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
-public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class AbilityButton : BlackDiceMonoBehaviour, IPointerClickHandler, IPointerExitHandler
 {
     private AbilityTooltip tooltip;
 
     public string Description { get; set; }
     public int Cooldown { get; set; }
+    public int Index { get; set; }
 
     void Start()
     {
@@ -17,9 +17,9 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 <<<<<<< HEAD
 =======
 
-    void OnClick()
+    public void OnPointerClick(PointerEventData eventData)
     {
-
+        EventBus.Publish(new AbilityClickEvent(Index));
     }
 >>>>>>> #107 cleanup of endTurnButton and make clickable the abilities
 
