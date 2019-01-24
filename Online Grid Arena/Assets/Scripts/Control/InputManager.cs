@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class InputManager : MonoBehaviour
+public sealed class InputManager : MonoBehaviour, IEventSubscriber
 {
     public ISelectionManager SelectionManager { private get; set; }
 
@@ -9,6 +9,25 @@ public sealed class InputManager : MonoBehaviour
     void Update()
     {
         var inputParameters = GetInputParameters();
+
+        // Do nothing if input has not changed
+        if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
+        {
+            return;
+        }
+        lastInputParameters = inputParameters;
+
+        SelectionManager.Update(inputParameters);
+    }
+
+    void UpdateOnAbilityClickEvent(int abilityIndex)
+    {
+        var inputParameters = GetInputParameters();
+
+        if (abilityIndex == 0) inputParameters.IsKeyQDown = true;
+        if (abilityIndex == 1) inputParameters.IsKeyWDown = true;
+        if (abilityIndex == 2) inputParameters.IsKeyEDown = true;
+        if (abilityIndex == 3) inputParameters.IsKeyRDown = true;
 
         // Do nothing if input has not changed
         if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
@@ -49,5 +68,16 @@ public sealed class InputManager : MonoBehaviour
         };
 
         return inputParameters;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+
+        if (type == typeof(AbilityClickEvent))
+        {
+            var newAbilityClicked = (AbilityClickEvent)@event;
+            UpdateOnAbilityClickEvent(newAbilityClicked.AbilityIndex);
+        }
     }
 }

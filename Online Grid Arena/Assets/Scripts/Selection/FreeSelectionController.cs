@@ -20,7 +20,7 @@
 
     protected override void DoClickOffGrid()
     {
-        EventBus.Publish(new DeselectSelectedTileEvent());
+        // TODO remove or modify: EventBus.Publish(new DeselectSelectedTileEvent());
     }
 
     protected override void DoClickDisabledTile()

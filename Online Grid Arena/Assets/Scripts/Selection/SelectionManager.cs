@@ -10,7 +10,7 @@ public enum SelectionMode
 
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
-    public IGridSelectionController GridSelectionController { private get; set; }
+    public IGridSelectionController GridSelectionController { get; set; }
     public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
     public ITurnController TurnController { get; set; }
 
@@ -35,55 +35,21 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         {
             case SelectionMode.FREE:
                 activeSelectionController = SelectionControllers["free"];
-                activeSelectionController.Update(inputParameters);
                 break;
             case SelectionMode.MOVEMENT:
                 activeSelectionController = SelectionControllers["movement"];
-                activeSelectionController.Update(inputParameters);
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
-                EventBus.Publish(new AbilityClickEvent(abilityIndex));
+                activeSelectionController = GetAbilitySelectionController(abilityIndex);
                 break;
         }
 
         if (activeSelectionController == null)
         {
             activeSelectionController = SelectionControllers["free"];
-            activeSelectionController.Update(inputParameters);
         }
-    }
-
-    public void UpdateOnAbilityClickEvent(int abilityIndex)
-    {
-        if (SelectedCharacterCanUseAbility(abilityIndex))
-        {
-            activeSelectionController = GetAbilitySelectionController(abilityIndex);
-
-            IInputParameters inputParameters = new InputParameters()
-            {
-                IsKeyQDown = false,
-                IsKeyWDown = false,
-                IsKeyEDown = false,
-                IsKeyRDown = false,
-                IsKeyFDown = false,
-                IsKeyEscapeDown = false,
-                IsKeyTabDown = false,
-
-                IsLeftClickDown = false,
-                IsRightClickDown = false,
-
-                IsMouseOverGrid = false,
-                TargetTile = null
-            };
-
-            if (abilityIndex == 0) inputParameters.IsKeyQDown = true;
-            if (abilityIndex == 1) inputParameters.IsKeyWDown = true;
-            if (abilityIndex == 2) inputParameters.IsKeyEDown = true;
-            if (abilityIndex == 3) inputParameters.IsKeyRDown = true;
-
-            activeSelectionController.Update(inputParameters);
-        }
+        activeSelectionController.Update(inputParameters);
     }
 
     private ISelectionController GetAbilitySelectionController(int abilityIndex)
@@ -134,15 +100,8 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(UpdateSelectionModeEvent))
         {
-            var newSelectionMode = (UpdateSelectionModeEvent) @event;
+            var newSelectionMode = (UpdateSelectionModeEvent)@event;
             selectionMode = newSelectionMode.SelectionMode;
-        }
-
-        if (type == typeof(AbilityClickEvent))
-        {
-            var newAbilityClicked = (AbilityClickEvent) @event;
-            UpdateOnAbilityClickEvent(newAbilityClicked.AbilityIndex);
         }
     }
 }
-

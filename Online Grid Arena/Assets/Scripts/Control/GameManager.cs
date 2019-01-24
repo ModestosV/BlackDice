@@ -119,7 +119,7 @@ public sealed class GameManager : MonoBehaviour
         }
 
         // Initialize Event Subscribing
-        EventBus.Subscribe<AbilityClickEvent>(selectionManager);
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
