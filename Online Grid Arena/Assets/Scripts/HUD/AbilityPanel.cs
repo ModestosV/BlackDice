@@ -71,29 +71,37 @@ public class AbilityPanel : HideableUI, IAbilityPanel
     {
         int i = 0;
         int j = 0;
-        List<IActiveAbility> activeAbilities = new List<IActiveAbility>(abilities.Capacity);
+        IActiveAbility[] activeAbilities = new IActiveAbility[abilities.Count];
 
         foreach(IAbility a in abilities)
         {
-            if(a.GetType() == typeof(IActiveAbility))
+            try
             {
-                activeAbilities[j] = (IActiveAbility) a;
+                activeAbilities[j] = (IActiveAbility)a;
+            }
+            catch (InvalidCastException)
+            {
+                continue;
             }
             j++;
         }
 
+        AbilityButton[] buttons = GetComponentsInChildren<AbilityButton>();
         foreach(IActiveAbility abilityObj in activeAbilities)
         {
-            if(abilityObj.GetType() == typeof(AbstractActiveAbility))
+            try
             {
-                AbstractActiveAbility ability = (AbstractActiveAbility) abilityObj;
-                Image[] buttons = GetComponents<Image>();
-                CooldownSquare[] squares = GetComponents<CooldownSquare>();
-                
-                if(ability.IsOnCooldown() && (ability.AbilityIcon.ToString() == buttons[i].sprite.ToString()))
-                {   
-                    squares[i].UpdateSquare(ability.Cooldown, ability.cooldownRemaining); 
+                AbstractActiveAbility ability = (AbstractActiveAbility)abilityObj;
+                CooldownSquare square = buttons[i].GetComponentInChildren<CooldownSquare>();
+
+                if ((ability != null) && ability.IsOnCooldown())
+                {
+                    square.UpdateSquare(ability.Cooldown, ability.cooldownRemaining);
                 }
+            }
+            catch(InvalidCastException)
+            {
+                continue;
             }
             i++;
         }
