@@ -25,11 +25,12 @@ public class TurnControllerTests
         secondCharacter = Substitute.For<ICharacterController>();
         thirdCharacter = Substitute.For<ICharacterController>();
 
-        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter };
+        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter, thirdCharacter };
         exhaustedCharactersList = new List<ICharacterController>();
 
         firstCharacter.GetInitiative().Returns(1.0f);
         secondCharacter.GetInitiative().Returns(2.0f);
+        thirdCharacter.GetInitiative().Returns(3.0f);
 
         firstCharacter.CharacterOwner.Returns(PLAYER_1_NAME);
         secondCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
@@ -37,13 +38,7 @@ public class TurnControllerTests
 
         turnTracker = Substitute.For<ITurnPanelController>();
 
-        sut = new TurnController
-        {
-            RefreshedCharacters = refreshedCharactersList,
-            ExhaustedCharacters = exhaustedCharactersList,
-            ActiveCharacter = null,
-            TurnTracker = turnTracker
-        };
+        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, turnTracker);
     }
 
     [Test]
@@ -70,8 +65,6 @@ public class TurnControllerTests
     [Test]
     public void Start_next_turn_event_updates_turn_tracker_with_new_character_order()
     {
-        sut.ActiveCharacter = thirdCharacter;
-
         sut.Handle(new StartNewTurnEvent());
 
         turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
@@ -80,11 +73,11 @@ public class TurnControllerTests
     [Test]
     public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
     {
-        sut.ActiveCharacter = thirdCharacter;
-
+        sut.Handle(new StartNewTurnEvent());
         sut.Handle(new SurrenderEvent());
 
-        firstCharacter.DidNotReceive();
-        secondCharacter.Received(1).Die();
+        firstCharacter.Received(1).Die();
+        secondCharacter.DidNotReceive().Die();
+        thirdCharacter.DidNotReceive().Die();
     }
 }

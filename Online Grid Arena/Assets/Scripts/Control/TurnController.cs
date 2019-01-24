@@ -3,57 +3,45 @@ using System.Linq;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
-    public List<ICharacterController> RefreshedCharacters { private get; set; }
-    public List<ICharacterController> ExhaustedCharacters { private get; set; }
-    public ICharacterController ActiveCharacter { private get; set; }
-    public ITurnPanelController TurnTracker { private get; set; }
+    private List<ICharacterController> refreshedCharacters;
+    private List<ICharacterController> exhaustedCharacters;
+    private readonly ITurnPanelController turnTracker;
+    private ICharacterController activeCharacter;
 
-    public TurnController()
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, ITurnPanelController turnTracker)
     {
-        RefreshedCharacters = new List<ICharacterController>();
-        ExhaustedCharacters = new List<ICharacterController>();
-    }
-    
-    public void AddCharacters(List<ICharacterController> characters)
-    {
-        foreach (ICharacterController character in characters)
-        {
-            RefreshedCharacters.Add(character);
-        }
-    }
-
-    public void AddCharacter(ICharacterController character)
-    {
-        RefreshedCharacters.Add(character);
+        this.refreshedCharacters = refreshedCharacters;
+        this.exhaustedCharacters = exhaustedCharacters;
+        this.turnTracker = turnTracker;
     }
 
     public void SelectActiveCharacter()
     {
-        if (ActiveCharacter != null)
-            EventBus.Publish(new SelectTileEvent(ActiveCharacter.OccupiedTile));
+        if (activeCharacter != null)
+            EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
     }
 
     public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();
 
-        foreach (ICharacterController character in RefreshedCharacters)
+        foreach (ICharacterController character in refreshedCharacters)
         {
             livingCharacters.Add(character);
         }
-        foreach (ICharacterController character in ExhaustedCharacters)
+        foreach (ICharacterController character in exhaustedCharacters)
         {
             livingCharacters.Add(character);
         }
-        if (ActiveCharacter != null)
-            livingCharacters.Add(ActiveCharacter);
+        if (activeCharacter != null)
+            livingCharacters.Add(activeCharacter);
 
         return livingCharacters;
     }
 
     public bool IsActiveCharacter(ICharacterController character)
     {
-        return ActiveCharacter == character;
+        return activeCharacter == character;
     }
 
     public void Handle(IEvent @event)
@@ -78,7 +66,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void Surrender()
     {
-        string activePlayerName = ActiveCharacter.CharacterOwner;
+        string activePlayerName = activeCharacter.CharacterOwner;
         List<ICharacterController> livingCharacters = GetLivingCharacters();
         foreach (ICharacterController character in livingCharacters)
         {
@@ -93,11 +81,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void RemoveCharacter(ICharacterController character)
     {
-        RefreshedCharacters.Remove(character);
-        ExhaustedCharacters.Remove(character);
-        if (ActiveCharacter == character)
-            ActiveCharacter = null;
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+        refreshedCharacters.Remove(character);
+        exhaustedCharacters.Remove(character);
+        if (activeCharacter == character)
+            activeCharacter = null;
+        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
     }
 
     private void CheckWinCondition()
@@ -127,26 +115,26 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void StartNextTurn()
     {
-        if (ActiveCharacter != null)
+        if (activeCharacter != null)
         {
-            ActiveCharacter.EndOfTurn();
-            ExhaustedCharacters.Add(ActiveCharacter);
+            activeCharacter.EndOfTurn();
+            exhaustedCharacters.Add(activeCharacter);
         }
 
-        if (!(RefreshedCharacters.Count > 0))
+        if (!(refreshedCharacters.Count > 0))
         {
-            RefreshedCharacters = ExhaustedCharacters;
-            ExhaustedCharacters = new List<ICharacterController>();
+            refreshedCharacters = exhaustedCharacters;
+            exhaustedCharacters = new List<ICharacterController>();
         }
 
         // Sort characters by ascending initiative
-        RefreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
+        refreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
 
-        ActiveCharacter = RefreshedCharacters.ElementAt(0);
-        RefreshedCharacters.RemoveAt(0);
-        ActiveCharacter.StartOfTurn();
+        activeCharacter = refreshedCharacters.ElementAt(0);
+        refreshedCharacters.RemoveAt(0);
+        activeCharacter.StartOfTurn();
 
-        TurnTracker.UpdateQueue(ActiveCharacter, RefreshedCharacters, ExhaustedCharacters);
+        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
 
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
