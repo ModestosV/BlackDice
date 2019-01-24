@@ -7,4 +7,5 @@ public interface IAbilityPanel
 
     void UpdateAbilityIcons(List<IAbility> abilities);
     void UpdateStackIcons(List<IEffect> effects);
+    void UpdateCooldowns(List<IAbility> abilities);
 }

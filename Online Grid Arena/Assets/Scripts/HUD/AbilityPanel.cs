@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
+using System;
 
 public class AbilityPanel : HideableUI, IAbilityPanel
 {
@@ -65,18 +67,35 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         }
     }
 
-    public void UpdateCooldowns(List<IActiveAbility> abilities)
+    public void UpdateCooldowns(List<IAbility> abilities)
     {
-        foreach(IActiveAbility abilityObj in abilities)
+        int i = 0;
+        int j = 0;
+        List<IActiveAbility> activeAbilities = new List<IActiveAbility>(abilities.Capacity);
+
+        foreach(IAbility a in abilities)
+        {
+            if(a.GetType() == typeof(IActiveAbility))
+            {
+                activeAbilities[j] = (IActiveAbility) a;
+            }
+            j++;
+        }
+
+        foreach(IActiveAbility abilityObj in activeAbilities)
         {
             if(abilityObj.GetType() == typeof(AbstractActiveAbility))
             {
                 AbstractActiveAbility ability = (AbstractActiveAbility) abilityObj;
-                if(ability.IsOnCooldown())
-                {
-                    
+                Image[] buttons = GetComponents<Image>();
+                CooldownSquare[] squares = GetComponents<CooldownSquare>();
+                
+                if(ability.IsOnCooldown() && (ability.AbilityIcon.ToString() == buttons[i].sprite.ToString()))
+                {   
+                    squares[i].UpdateSquare(ability.Cooldown, ability.cooldownRemaining); 
                 }
             }
+            i++;
         }
     }
 }

@@ -28,6 +28,7 @@ public sealed class HUDController : IHUDController
 
         AbilityPanel.UpdateAbilityIcons(abilities);
         AbilityPanel.UpdateStackIcons(effects);
+        AbilityPanel.UpdateCooldowns(abilities);
         AbilityPanel.Show();
     }
 

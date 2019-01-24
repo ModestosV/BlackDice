@@ -3,10 +3,10 @@ using UnityEngine;
 
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
-    public int Cooldown { get; }
-    protected int cooldownRemaining;
-    protected readonly GameObject animationPrefab;
+    public int Cooldown { get; protected set; }
+    public int cooldownRemaining { get; protected set; }
     protected readonly AudioClip soundEffect;
+    protected readonly GameObject animationPrefab;
 
     protected AbstractActiveAbility(
         Sprite abilityIcon,
