@@ -30,7 +30,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     public void SelectActiveCharacter()
     {
         if (ActiveCharacter != null)
-            ActiveCharacter.Select();
+            EventBus.Publish(new SelectTileEvent(ActiveCharacter.OccupiedTile));
     }
 
     public List<ICharacterController> GetLivingCharacters()

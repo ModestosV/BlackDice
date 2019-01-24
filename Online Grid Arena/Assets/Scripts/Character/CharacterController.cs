@@ -23,11 +23,6 @@ public class CharacterController : ICharacterController
 
     private int abilitiesRemaining;
 
-    public void Select()
-    {
-        EventBus.Publish(new SelectTileEvent(OccupiedTile));
-    }
-
     public void UpdateSelectedHUD()
     {
         HUDController.UpdateSelectedHUD(CharacterStats, CharacterOwner, Abilities, Effects);
@@ -181,7 +176,7 @@ public class CharacterController : ICharacterController
         }
         Refresh();
         UpdateSelectedHUD();
-        Select();
+        EventBus.Publish(new SelectTileEvent(OccupiedTile));
     }
 
     public void EndOfTurn()
