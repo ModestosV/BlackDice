@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CharacterController : ICharacterController
 {
-    public ICharacter Character { protected get; set; }
     public IHexTileController OccupiedTile { get; set; }
     public IHUDController HUDController { protected get; set; }
 
@@ -21,7 +20,14 @@ public class CharacterController : ICharacterController
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
 
+
+    protected readonly ICharacter character;
     private int abilitiesRemaining;
+
+    public CharacterController(ICharacter character)
+    {
+        this.character = character;
+    }
 
     public void UpdateSelectedHUD()
     {
@@ -61,7 +67,7 @@ public class CharacterController : ICharacterController
         EventBus.Publish(new DeselectSelectedTileEvent());
         OccupiedTile.OccupantCharacter = null;
 
-        Character.MoveToTile(targetTile.HexTile);
+        character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;
@@ -227,7 +233,7 @@ public class CharacterController : ICharacterController
     {
         EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
-        Character.Destroy();
+        character.Destroy();
     }
 
     public bool CanMove(int distance = 1)

@@ -32,9 +32,8 @@ public sealed class DefaultCharacter : AbstractCharacter
             { "defense", defense }
         };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
             CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,

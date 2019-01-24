@@ -14,10 +14,9 @@ public class BlastOff : AbstractTargetedAbility
         activeCharacter,
         5,
         100,
-        AbilityType.TARGET_TILE)
-    {
-        Description = "Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point";
-    }
+        AbilityType.TARGET_TILE,
+        "Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point")
+    { }
 
     // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

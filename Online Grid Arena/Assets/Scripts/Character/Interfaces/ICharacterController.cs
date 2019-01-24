@@ -3,7 +3,6 @@ using UnityEngine;
 
 public interface ICharacterController
 {
-    ICharacter Character { set; }
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
 

@@ -29,9 +29,8 @@ public sealed class Pengwin : AbstractCharacter
 
         var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
             CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,

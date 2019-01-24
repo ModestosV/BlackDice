@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public sealed class Scratch : AbstractTargetedAbility
 {
-    private IAbility passive;
+    private readonly IAbility passive;
+
     public Scratch(RocketCat activeCharacter, IAbility passive) : base(
         Resources.Load<Sprite>("Sprites/cursorSword_gold"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/ScratchAnimation"),
@@ -11,10 +12,10 @@ public sealed class Scratch : AbstractTargetedAbility
         activeCharacter,
         1,
         1,
-        AbilityType.TARGET_ENEMY)
+        AbilityType.TARGET_ENEMY,
+        "Basic Attack \nAttack an adjacent tile, deal damage equal to Rocket Cat's attack, and gain a stack of Cat Scratch Fever")
     {
         this.passive = passive;
-        Description = "Basic Attack \nAttack an adjacent tile, deal damage equal to Rocket Cat's attack, and gain a stack of Cat Scratch Fever";
     }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 public abstract class AbstractAbility : IAbility
 {
-    public List<IEffect> Effects { get; set; }
-    public Sprite AbilityIcon { get; set; }
-    public string Description { get; protected set; }
+    public List<IEffect> Effects { get; }
+    public Sprite AbilityIcon { get; }
+    public string Description { get; }
 
     protected readonly ICharacter character;
 
-    protected AbstractAbility(Sprite abilityIcon, ICharacter character)
+    protected AbstractAbility(Sprite abilityIcon, ICharacter character, string description)
     {
         AbilityIcon = abilityIcon;
         this.character = character;
         Effects = new List<IEffect>();
-        Description = "Default ability description. If you're seeing this, somebody didn't do their job right";
+        Description = description;
     }
 
     protected abstract void PrimaryAction(List<IHexTileController> targetTiles);
