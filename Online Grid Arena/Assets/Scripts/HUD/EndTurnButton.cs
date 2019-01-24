@@ -12,7 +12,6 @@ public sealed class EndTurnButton : BlackDiceMonoBehaviour
 
     void Start()
     {
-        Button = GetComponent<Button>();
         Button.onClick.AddListener(EndTurn);
     }
 

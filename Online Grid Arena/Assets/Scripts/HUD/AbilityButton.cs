@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -15,6 +14,14 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         buttonText.transform.SetAsLastSibling();
         tooltip = FindObjectOfType<AbilityTooltip>();
     }
+<<<<<<< HEAD
+=======
+
+    void OnClick()
+    {
+
+    }
+>>>>>>> #107 cleanup of endTurnButton and make clickable the abilities
 
     public void OnPointerEnter(PointerEventData eventData)
     {
