@@ -19,7 +19,7 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -38,7 +38,7 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 

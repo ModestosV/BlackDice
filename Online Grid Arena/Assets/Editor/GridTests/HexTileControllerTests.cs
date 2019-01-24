@@ -37,7 +37,6 @@ public class HexTileControllerTests
     [SetUp]
     public void Init()
     {
-        
         gridSelectionController = Substitute.For<IGridSelectionController>();
         gridController = Substitute.For<IGridController>();
         hexTile = Substitute.For<IHexTile>();
@@ -113,18 +112,6 @@ public class HexTileControllerTests
         occupantCharacter.Received(1).UpdateSelectedHUD();
     }
 
-    [Test]
-    public void Selecting_an_deselected_tile_selects_the_tile()
-    {
-        sut.IsEnabled = true;
-        sut.IsSelected = false;
-
-        sut.Select();
-
-        hexTile.Received(1).SetClickedMaterial();
-        gridSelectionController.Received(1).AddSelectedTile(sut);
-    }
-
     #endregion
 
     #region Deselect tests
@@ -152,7 +139,7 @@ public class HexTileControllerTests
     }
 
     [Test]
-    public void Deselecting_an_selected_tile_deselects_the_tile()
+    public void Deselecting_a_selected_tile_sets_default_material()
     {
         sut.IsEnabled = true;
         sut.IsSelected = true;
@@ -161,7 +148,6 @@ public class HexTileControllerTests
         sut.Deselect();
 
         hexTile.Received(1).SetDefaultMaterial();
-        gridSelectionController.Received(1).RemoveSelectedTile(sut);
     }
 
     #endregion
@@ -378,7 +364,7 @@ public class HexTileControllerTests
     {
         sut.GetSouthEastNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X , Y - 1, Z + 1));
+        gridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1));
     }
 
     [Test]
@@ -424,7 +410,7 @@ public class HexTileControllerTests
         {
             sut, northEastHexTile
         };
-        List<IHexTileController> result = sut.GetPath(northEastHexTile);
+        List<IHexTileController> result = sut.GetPath(northEastHexTile, false);
 
         Assert.AreEqual(expected, result);
     }
@@ -472,5 +458,4 @@ public class HexTileControllerTests
     }
 
     #endregion
-
 }

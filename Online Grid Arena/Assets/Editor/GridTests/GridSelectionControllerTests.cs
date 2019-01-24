@@ -9,7 +9,7 @@ public class GridSelectionControllerTests
     IHexTileController hexTile1;
     IHexTileController hexTile2;
 
-    List<IHexTileController> selectedTilesList;
+    IHexTileController selectedTile;
     List<IHexTileController> hoveredTilesList;
     List<IHexTileController> highlightedTilesList;
 
@@ -22,36 +22,20 @@ public class GridSelectionControllerTests
 
         hexTile1 = Substitute.For<IHexTileController>();
         hexTile2 = Substitute.For<IHexTileController>();
+        selectedTile = Substitute.For<IHexTileController>();
+        character = Substitute.For<ICharacterController>();
 
-        selectedTilesList = new List<IHexTileController>();
         hoveredTilesList = new List<IHexTileController>();
         highlightedTilesList = new List<IHexTileController>();
 
-        sut.SelectedTiles = selectedTilesList;
         sut.HoveredTiles = hoveredTilesList;
         sut.HighlightedTiles = highlightedTilesList;
 
-        character = Substitute.For<ICharacterController>();
-        hexTile1.IsOccupied().Returns(true);
-        hexTile1.OccupantCharacter.Returns(character);
-    }
-
-    [Test]
-    public void Add_and_remove_selected_tile_manipulates_the_selected_tile_list_correctly()
-    {
-        // Add both tiles, remove first, only second is left
-        sut.AddSelectedTile(hexTile1);
-        sut.AddSelectedTile(hexTile2);
-        sut.RemoveSelectedTile(hexTile1);
-
-        Assert.AreEqual(1, selectedTilesList.Count);
-        Assert.AreEqual(hexTile2, selectedTilesList[0]);
     }
 
     [Test]
     public void Add_and_remove_hovered_tile_manipulates_the_hovered_tile_list_correctly()
     {
-        // Add both tiles, remove first, only second is left
         sut.AddHoveredTile(hexTile1);
         sut.AddHoveredTile(hexTile2);
         sut.RemoveHoveredTile(hexTile1);
@@ -63,25 +47,12 @@ public class GridSelectionControllerTests
     [Test]
     public void Add_and_remove_path_tiles_manipulates_path_tile_list_correctly()
     {
-        // Add both tiles, remove first, only second is left
         sut.AddHighlightedTile(hexTile1);
         sut.AddHighlightedTile(hexTile2);
         sut.RemoveHighlightedTile(hexTile1);
 
         Assert.AreEqual(1, highlightedTilesList.Count);
         Assert.AreEqual(hexTile2, highlightedTilesList[0]);
-    }
-
-    [Test]
-    public void Deselect_all_deselects_all_selected_tiles()
-    {
-        selectedTilesList.Add(hexTile1);
-        selectedTilesList.Add(hexTile2);
-
-        sut.DeselectAll();
-
-        hexTile1.Received(1).Deselect();
-        hexTile2.Received(1).Deselect();
     }
 
     [Test]
@@ -111,27 +82,39 @@ public class GridSelectionControllerTests
     [Test]
     public void Is_selected_tile_matches_selected_tile_correctly()
     {
-        selectedTilesList.Add(hexTile1);
+        sut.SelectedTile = selectedTile;
 
-        Assert.IsTrue(sut.IsSelectedTile(hexTile1));
-        Assert.IsFalse(sut.IsSelectedTile(hexTile2));
-    }
-    
-    [Test]
-    public void Get_selected_tile_returns_first_selected_tile()
-    {
-        selectedTilesList.Add(hexTile1);
-        selectedTilesList.Add(hexTile2);
-
-        Assert.AreEqual(hexTile1, sut.GetSelectedTile());
+        Assert.IsTrue(sut.IsSelectedTile(selectedTile));
     }
 
     [Test]
-    public void Get_selected_character_returns_occupant_character_in_first_selected_tile()
+    public void Get_selected_character_returns_occupant_character()
     {
-        selectedTilesList.Add(hexTile1);
-        selectedTilesList.Add(hexTile2);
+        selectedTile.OccupantCharacter.Returns(character);
+        selectedTile.IsOccupied().Returns(true);
+
+        sut.SelectedTile = selectedTile;
 
         Assert.AreEqual(character, sut.GetSelectedCharacter());
+    }
+
+    [Test]
+    public void Deselect_tiles_event_deselects_selected_tile()
+    {
+        sut.SelectedTile = selectedTile;
+
+        sut.Handle(new DeselectSelectedTileEvent());
+        
+        selectedTile.Received(1).Deselect();
+    }
+
+    [Test]
+    public void Select_tile_event_selects_selected_tile()
+    {
+        sut.SelectedTile = null;
+
+        sut.Handle(new SelectTileEvent(selectedTile));
+
+        selectedTile.Received(1).Select();
     }
 }

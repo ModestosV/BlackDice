@@ -1,28 +1,15 @@
 ﻿using System.Collections.Generic;
 
-public sealed class GridSelectionController : IGridSelectionController
+public sealed class GridSelectionController : IGridSelectionController, IEventSubscriber
 {
-    public List<IHexTileController> SelectedTiles { private get; set; }
+    public IHexTileController SelectedTile { get; set; }
     public List<IHexTileController> HoveredTiles { private get; set; }
     public List<IHexTileController> HighlightedTiles { private get; set; }
-
-    #region IGridSelectionController implementation
-
+    
     public GridSelectionController()
     {
-        SelectedTiles = new List<IHexTileController>();
         HoveredTiles = new List<IHexTileController>();
         HighlightedTiles = new List<IHexTileController>();
-    }
-
-    public void AddSelectedTile(IHexTileController selectedTile)
-    {
-        SelectedTiles.Add(selectedTile);
-    }
-
-    public bool RemoveSelectedTile(IHexTileController removedTile)
-    {
-        return SelectedTiles.Remove(removedTile);
     }
 
     public void AddHoveredTile(IHexTileController hoveredTile)
@@ -45,14 +32,6 @@ public sealed class GridSelectionController : IGridSelectionController
         return HighlightedTiles.Remove(pathTile);
     }
 
-    public void DeselectAll()
-    {
-        for (int i = SelectedTiles.Count - 1; i >= 0; i--)
-        {
-            SelectedTiles[i].Deselect();
-        }
-    }
-
     public void BlurAll()
     {
         for (int i = HoveredTiles.Count - 1; i >= 0; i--)
@@ -71,21 +50,33 @@ public sealed class GridSelectionController : IGridSelectionController
 
     public bool IsSelectedTile(IHexTileController targetTile)
     {
-        return SelectedTiles.Count > 0 && targetTile == SelectedTiles[0];
-    }
-
-    public IHexTileController GetSelectedTile()
-    {
-        return SelectedTiles.Count > 0 ? SelectedTiles[0] : null;
+        return SelectedTile == targetTile;
     }
 
     public ICharacterController GetSelectedCharacter()
     {
-        if (!(SelectedTiles.Count > 0))
+        if (SelectedTile == null)
             return null;
 
-        return SelectedTiles[0].IsOccupied() ? SelectedTiles[0].OccupantCharacter : null;
+        return SelectedTile.IsOccupied() ? SelectedTile.OccupantCharacter : null;
     }
 
-    #endregion
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(DeselectSelectedTileEvent))
+        {
+            if(SelectedTile != null)
+            {
+                SelectedTile.Deselect();
+                SelectedTile = null;
+            }
+        }
+        if (type == typeof(SelectTileEvent))
+        {
+            SelectTileEvent selectTileEvent = (SelectTileEvent) @event;
+            SelectedTile = selectTileEvent.SelectedTile;
+            SelectedTile.Select();
+        }
+    }
 }

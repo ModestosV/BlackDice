@@ -24,9 +24,6 @@ public class StatDisplay : HideableUI, IStatDisplay
         maxValueText = texts[3];
         Init();
     }
-
-    #region IStatDisplay implementation
-
     public void SetNameText(string nameText)
     {
         this.nameText.text = nameText;
@@ -51,15 +48,4 @@ public class StatDisplay : HideableUI, IStatDisplay
     {
         Hide();
     }
-
-    #endregion
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

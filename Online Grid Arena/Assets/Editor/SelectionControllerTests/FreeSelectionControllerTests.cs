@@ -42,8 +42,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     public void Pressing_tab_key_selects_active_character()
@@ -53,7 +51,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         turnController.Received(1).SelectActiveCharacter();
     }
 
@@ -67,8 +64,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     [Test]
@@ -81,7 +76,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
     }
 
     [Test]
@@ -95,8 +89,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
     }
 
     [Test]
@@ -110,53 +102,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-    }
-
-    [Test]
-    public void Clicking_on_unoccupied_other_tile_selects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
-        targetTile.Received(1).Select();
-    }
-
-    [Test]
-    public void Clicking_on_selected_tile_deselects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-        gridSelectionController.IsSelectedTile(targetTile).Returns(true);
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        targetTile.Received(1).Deselect();
-    }
-
-    [Test]
-    public void Clicking_on_occupied_other_tile_selects_tile()
-    {
-        inputParameters.IsKeyEscapeDown = false;
-        inputParameters.IsMouseOverGrid = true;
-        inputParameters.IsLeftClickDown = true;
-        targetTile.IsOccupied().Returns(true);
-
-        sut.Update(inputParameters);
-
-        gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
-        gridSelectionController.Received(1).DeselectAll();
-        targetTile.Received(1).Select();
     }
 
     [Test]
@@ -169,7 +114,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         targetTile.Received(1).Hover();
     }
 
@@ -184,7 +128,6 @@ public class FreeSelectionControllerTests
         sut.Update(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        gridSelectionController.Received(1).DehighlightAll();
         targetTile.Received(1).Hover();
     }
 }

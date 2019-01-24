@@ -1,6 +1,6 @@
 ﻿public interface ITargetedAbility : IActiveAbility
 {
-    AbilityType Type { get; set; }
+    AbilityType Type { get; }
 
     bool IsInRange(int range);
 }

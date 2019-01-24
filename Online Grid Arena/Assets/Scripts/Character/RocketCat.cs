@@ -3,16 +3,18 @@ using UnityEngine;
 
 public sealed class RocketCat : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         IEffect catScratchFever = new CatScratchFever();
 
         IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
         IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
-        IAbility placeholder = new Placeholder(this);
+        IAbility kamikaze = new Kamikaze(this);
 
-        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, placeholder };
+        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, kamikaze };
         var effects = new List<IEffect>() { };
         
         ICharacterStat health = new CharacterStat(120.0f);
@@ -28,25 +30,16 @@ public sealed class RocketCat : AbstractCharacter
             { "defense", defense }
         };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
-            OwnedByPlayer = playerName,
+            CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
-
-    void Start()
-    {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
-    }
-
-
 }

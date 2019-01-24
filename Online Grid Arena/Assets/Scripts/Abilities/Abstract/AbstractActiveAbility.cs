@@ -3,17 +3,18 @@ using UnityEngine;
 
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
-    public int Cooldown { get; protected set; }
+    public int Cooldown { get; }
     protected int cooldownRemaining;
-    protected GameObject animationPrefab;
-    protected AudioClip soundEffect;
+    protected readonly GameObject animationPrefab;
+    protected readonly AudioClip soundEffect;
 
     protected AbstractActiveAbility(
         Sprite abilityIcon,
         GameObject animationPrefab,
         AudioClip soundEffect,
         ICharacter character,
-        int cooldown) : base(abilityIcon, character)
+        int cooldown,
+        string description) : base(abilityIcon, character, description)
     {
         this.Cooldown = cooldown;
         this.animationPrefab = animationPrefab;

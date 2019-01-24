@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class StatPanel : MonoBehaviour, IStatPanel
+public class StatPanel : BlackDiceMonoBehaviour, IStatPanel
 {
     protected StatPanelController controller;
 
@@ -22,13 +22,4 @@ public class StatPanel : MonoBehaviour, IStatPanel
     {
         get { return controller; }
     }
-
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
-    {
-        get { return gameObject; }
-    }
-
-    #endregion
 }

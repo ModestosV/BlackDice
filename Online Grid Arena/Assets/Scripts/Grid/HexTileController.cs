@@ -27,13 +27,10 @@ public sealed class HexTileController : IHexTileController
         if (OccupantCharacter != null)
             OccupantCharacter.UpdateSelectedHUD();
 
-        if (IsSelected) return;
-
-        if (IsObstructed) return;
+        if (IsSelected || IsObstructed) return;
 
         IsSelected = true;
         HexTile.SetClickedMaterial();
-        GridSelectionController.AddSelectedTile(this);
     }
 
     public void Deselect()
@@ -46,14 +43,8 @@ public sealed class HexTileController : IHexTileController
         if (!IsSelected) return;
 
         IsSelected = false;
-        if (HexTile.IsMouseOver())
-        {
-            HexTile.SetHoverMaterial();
-        } else
-        {
-            HexTile.SetDefaultMaterial();
-        }
-        GridSelectionController.RemoveSelectedTile(this);
+
+        HexTile.SetDefaultMaterial();
     }
 
     public void Hover()
@@ -186,7 +177,7 @@ public sealed class HexTileController : IHexTileController
         return neighbors;
     }
 
-    public List<IHexTileController> GetPath(IHexTileController goalTile)
+    public List<IHexTileController> GetPath(IHexTileController goalTile, bool isAbility)
     {
         List<IHexTileController> open = new List<IHexTileController>();
         HashSet<Tuple<int, int, int>> closed = new HashSet<Tuple<int, int, int>>();
@@ -215,8 +206,10 @@ public sealed class HexTileController : IHexTileController
             List<IHexTileController> neighbors = currentTile.GetNeighbors();
             neighbors.RemoveAll(tile => !tile.IsEnabled);
             neighbors.RemoveAll(tile => tile.IsObstructed);
-            neighbors.RemoveAll(tile => tile.IsOccupied());
-
+            if (!isAbility)
+            {
+                neighbors.RemoveAll(tile => tile.IsOccupied());
+            }
             foreach (IHexTileController neighbor in neighbors)
             {
                 if (closed.Contains(neighbor.Coordinates)) continue; // Skip nodes that have already been evaluated. Assumes heuristic monotonicity.
@@ -226,18 +219,27 @@ public sealed class HexTileController : IHexTileController
                     closed.Add(neighbor.Coordinates);
                     continue;
                 }
-
-                if (neighbor.IsObstructed) // Ignore obstructed nodes.
+                if (!isAbility)
                 {
-                    closed.Add(neighbor.Coordinates);
-                    continue;
+                    if (neighbor.IsObstructed || neighbor.IsOccupied()) // Ignore obstructed and occupied nodes.
+                    {
+                        closed.Add(neighbor.Coordinates);
+                        continue;
+                    }
+                }
+                else 
+                {
+                    if (neighbor.IsOccupied()) 
+                    {
+                        if (neighbor.Coordinates != goalTile.Coordinates) 
+                        {
+                            closed.Add(neighbor.Coordinates); //say byebye to that tile
+                            continue;
+                        }
+                    }
+
                 }
 
-                if (neighbor.IsOccupied()) // Ignore obstructed nodes.
-                {
-                    closed.Add(neighbor.Coordinates);
-                    continue;
-                }
 
                 int g = gValues[currentTile.Coordinates] + 1;
 

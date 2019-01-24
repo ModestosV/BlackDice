@@ -15,10 +15,10 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
         bool isReachable = path.Count > 0;
         bool inRange = selectedCharacter.CanMove(path.Count - 1);
         
@@ -39,10 +39,10 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoHoverUnoccupiedTile()
     {
-        IHexTileController selectedTile = GridSelectionController.GetSelectedTile();
+        IHexTileController selectedTile = GridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
-        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile);
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
         bool isReachable = path.Count > 0;
         bool inRange = selectedCharacter.CanMove(path.Count - 1);
 

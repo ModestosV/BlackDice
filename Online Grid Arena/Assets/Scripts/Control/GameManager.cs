@@ -15,6 +15,8 @@ public sealed class GameManager : MonoBehaviour
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
     private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
     private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
+    private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
+    private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
@@ -26,12 +28,10 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Reset();
 
         // Initialize turn controller
-        turnController = new TurnController();
-        List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        foreach (ICharacterController character in charactersList)
-        {
-            turnController.AddCharacter(character);
-        }
+        turnController = new TurnController(
+            FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList(),
+            new List<ICharacterController>(),
+            FindObjectOfType<TurnPanel>().Controller);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
@@ -86,13 +86,25 @@ public sealed class GameManager : MonoBehaviour
             GridSelectionController = gridSelectionController
         };
 
+        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController()
+        {
+            GridSelectionController = gridSelectionController
+        };
+
+        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController()
+        {
+            GridSelectionController = gridSelectionController
+        };
+
         selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
         {
             { "free", freeSelectionController },
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
             { "target_ally", targetAllyAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController }
+            { "target_tile", targetTileAbilitySelectionController },
+            { "target_line", targetLineAbilitySelectionController },
+            { "target_line_aoe", targetLineAOEAbilitySelectionController}
         };
 
         // Initialize input manager
@@ -106,9 +118,6 @@ public sealed class GameManager : MonoBehaviour
             character.HUDController = hudController;
         }
 
-        // Initialize turn panel
-        turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
-
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
@@ -116,6 +125,8 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
+        EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
     }
 
     private void Start()

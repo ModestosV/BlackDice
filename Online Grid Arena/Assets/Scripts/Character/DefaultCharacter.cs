@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class DefaultCharacter : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Init abilities
 
         IAbility defaultAttack = new DefaultAttack(this);
@@ -29,23 +32,16 @@ public sealed class DefaultCharacter : AbstractCharacter
             { "defense", defense }
         };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
-            OwnedByPlayer = playerName,
+            CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
-    }
-
-    void Start()
-    {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
     }
 }

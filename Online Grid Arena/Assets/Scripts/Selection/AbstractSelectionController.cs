@@ -55,7 +55,9 @@
 
         bool tileIsOccupied = inputParameters.TargetTile.IsOccupied();
         bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(inputParameters.TargetTile);
-        
+
+        if (inputParameters.TargetTile.IsObstructed) return;
+
         if (inputParameters.IsLeftClickDown && !tileIsOccupied && !tileIsCurrentSelectedTile)
         {
             DoClickUnoccupiedOtherTile();

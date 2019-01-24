@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Placeholder : AbstractPassiveAbility
 {
-    public Placeholder(ICharacter character): base(Resources.Load<Sprite>("Sprites/Abilities/grey_button09"), character)
+    public Placeholder(ICharacter character): base(
+        Resources.Load<Sprite>("Sprites/Abilities/grey_button09"),
+        character,
+        "Placeholder Ability. Does nothing.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles) { }

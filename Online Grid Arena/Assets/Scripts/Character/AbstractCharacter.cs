@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class AbstractCharacter : MonoBehaviour, ICharacter
+public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 {
     [SerializeField] protected string playerName;
 
@@ -9,34 +9,46 @@ public abstract class AbstractCharacter : MonoBehaviour, ICharacter
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
 
+    protected GameObject teamColorIndicator;
+    protected GameObject activeCircle;
+    protected GameObject healthBar;
+
     public void Destroy()
     {
         Destroy(gameObject);
     }
 
-    #region ICharacter implementation
-
     public ICharacterController Controller { get { return characterController; } }
 
     public void MoveToTile(IHexTile targetTile)
     {
-        gameObject.transform.parent = targetTile.GameObject.transform;
-        GameObject.transform.localPosition = new Vector3(0, GameObject.transform.localPosition.y, 0);
+        gameObject.transform.SetParent(targetTile.GameObject.transform);
+        gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
-
-    #endregion
 
     public override string ToString()
     {
         return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
     }
 
-    #region IMonoBehaviour implementation
-
-    public GameObject GameObject
+    protected virtual void Awake()
     {
-        get { return gameObject; }
+        activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
+        activeCircle.transform.SetParent(this.transform);
+
+        healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
+        healthBar.transform.SetParent(this.transform);
+
+        teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
+        teamColorIndicator.transform.SetParent(this.transform);
+        teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
     }
 
-    #endregion
+    void Start()
+    {
+        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
+        characterController.RefreshStats();
+        characterController.UpdateHealthBar();
+        characterController.ActiveCircle.enabled = false;
+    }
 }

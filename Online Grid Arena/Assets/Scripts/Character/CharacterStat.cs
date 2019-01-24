@@ -66,8 +66,6 @@ public class CharacterStat : ICharacterStat
     {
         isDirty = true;
         StatModifiers.Add(mod);
-
-        Debug.Log(string.Format("Added {0} to {1}", mod.ToString(), ToString()));
     }
 
     public virtual bool RemoveModifier(IStatModifier mod)
@@ -75,19 +73,15 @@ public class CharacterStat : ICharacterStat
         if (StatModifiers.Remove(mod))
         {
             isDirty = true;
-            Debug.Log(string.Format("Successfully removed {0} from {1}", mod.ToString(), ToString()));
 
             return true;
         }
-        Debug.Log(string.Format("Failed to remove {0} from {1}", mod.ToString(), ToString()));
         return false;
     }
 
     public virtual bool RemoveAllModifiersFromSource(object source)
     {
         List<IStatModifier> removedModifiers = new List<IStatModifier>();
-
-        string sourceString = string.Format("({0}|{1})", source.ToString(), source.GetHashCode());
 
         for (int i = StatModifiers.Count - 1; i >= 0; i--)
         {
@@ -101,14 +95,9 @@ public class CharacterStat : ICharacterStat
         if (removedModifiers.Count > 0)
         {
             isDirty = true;
-
-            string removedModifiersString = string.Join("|", removedModifiers.Select(mod => mod.ToString()));
-
-            Debug.Log(string.Format("Successfully removed {0} modifier{1} {2} with source {3} from {4}", removedModifiers.Count, removedModifiers.Count > 1 ? "s" : "", removedModifiersString, sourceString, ToString()));
             return true;
         }
 
-        Debug.Log(string.Format("Failed to remove modifiers with source {0} from {1}. No matching modifiers found", sourceString, ToString()));
         return false;
     }
 

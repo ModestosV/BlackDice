@@ -6,14 +6,16 @@ public enum AbilityType
     TARGET_ENEMY,
     TARGET_ALLY,
     TARGET_TILE,
-    INVALID
+    INVALID,
+    TARGET_LINE,
+    TARGET_LINE_AOE
 }
 
 public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargetedAbility
 {
-    public AbilityType Type { get; set; }
+    public AbilityType Type { get; }
 
-    protected int range;
+    protected readonly int range;
 
     protected AbstractTargetedAbility(
         Sprite abilityIcon,
@@ -22,7 +24,8 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
         ICharacter character,
         int cooldown,
         int range,
-        AbilityType type) : base(abilityIcon, animationPrefab, soundEffect, character, cooldown)
+        AbilityType type,
+        string description) : base(abilityIcon, animationPrefab, soundEffect, character, cooldown, description)
     {
         this.range = range;
         Type = type;

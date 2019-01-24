@@ -20,8 +20,6 @@ public class CharacterControllerTests
     IAbility ability2;
     const int SECOND_ABILITY_INDEX = 1;
 
-    const int INITIAL_ABILITIES_REMAINING_COUNT = 1;
-
     const float ABILITY_DAMAGE = 20.0f;
     const float CHARACTER_DAMAGE = 15.0f;
     const float CHARACTER_MAX_HEALTH = 100.0f;
@@ -92,15 +90,13 @@ public class CharacterControllerTests
         CHARACTER_ICON = Substitute.For<Texture>();
         BORDER_COLOR = new Color32(0, 0, 0, 0);
 
-        sut = new CharacterController()
+        sut = new CharacterController(character)
         {
-            Character = character,
             OccupiedTile = startTileController,
             HUDController = hudController,
             CharacterStats = characterStats,
             Abilities = abilities,
-            OwnedByPlayer = PLAYER_NAME,
-            AbilitiesRemaining = INITIAL_ABILITIES_REMAINING_COUNT,
+            CharacterOwner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
             HealthBar = healthBar,
@@ -147,29 +143,11 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Execute_move_deselects_start_tile_and_vacates_character()
-    {
-        sut.ExecuteMove(pathList);
-
-        startTileController.Received(1).Deselect();
-        startTileController.Received(1).OccupantCharacter = null;
-    }
-
-    [Test]
     public void Execute_move_relocates_character_to_target_tile()
     {
         sut.ExecuteMove(pathList);
 
         character.Received(1).MoveToTile(endTile);
-    }
-
-    [Test]
-    public void Execute_move_selects_end_tile_and_inserts_character()
-    {
-        sut.ExecuteMove(pathList);
-
-        endTileController.Received(1).OccupantCharacter = sut;
-        endTileController.Received(1).Select();
     }
 
     [Test]
@@ -194,15 +172,14 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Execute_ability_without_abilities_remaining_does_nothing()
+    public void Execute_ability_a_second_time_does_nothing()
     {
-        sut.AbilitiesRemaining = 0;
-
+        sut.Refresh();
         sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
-
-        targetCharacterController.DidNotReceive();
-        ability1.DidNotReceive();
-        ability2.DidNotReceive();
+        sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
+        
+        ability1.DidNotReceive().Execute(Arg.Any<List<IHexTileController>>());
+        ability2.Received(1).Execute(Arg.Any<List<IHexTileController>>());
     }
 
     [Test]

@@ -3,8 +3,10 @@ using UnityEngine;
 
 public sealed class Pengwin : AbstractCharacter
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         ICharacterStat health = new CharacterStat(140.0f);
         ICharacterStat moves = new CharacterStat(4.0f);
         ICharacterStat attack = new CharacterStat(15.0f);
@@ -21,29 +23,22 @@ public sealed class Pengwin : AbstractCharacter
         var effects = new List<IEffect>() { };
 
         IAbility slap = new Slap(this);
-        IAbility placeholder2 = new Placeholder(this);
+        IAbility slide = new Slide(this);
         IAbility placeholder3 = new Placeholder(this);
         IAbility placeholder4 = new Placeholder(this);
 
-        var abilities = new List<IAbility>() { slap, placeholder2, placeholder3, placeholder4 };
+        var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
-            OwnedByPlayer = playerName,
+            CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = GetComponentInChildren<HealthBar>(),
+            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects
+            Effects = effects,
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
-    }
-
-    void Start()
-    {
-        GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
-        characterController.RefreshStats();
-        characterController.UpdateHealthBar();
     }
 }

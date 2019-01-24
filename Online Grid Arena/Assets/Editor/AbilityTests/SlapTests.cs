@@ -16,8 +16,6 @@ public class SlapTests
     IHexTileController target;
     List<IHexTileController> targetTiles;
 
-    IEffect effect;
-
     const int COOLDOWN = 1;
     const int MIN_RANGE = 1;
     const int MAX_RANGE = 2;
@@ -31,7 +29,6 @@ public class SlapTests
         controller = Substitute.For<ICharacterController>();
         attackStat = Substitute.For<ICharacterStat>();
         target = Substitute.For<IHexTileController>();
-        effect = Substitute.For<IEffect>();
 
         characterStats = new Dictionary<string, ICharacterStat>()
         {
