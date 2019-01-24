@@ -38149,7 +38149,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Select Active Character.........Hover Mouse
+  m_Text: View Target Info.....................Hover Mouse
 --- !u!222 &1552217849
 CanvasRenderer:
   m_ObjectHideFlags: 0
