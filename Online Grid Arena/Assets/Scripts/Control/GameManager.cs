@@ -28,12 +28,10 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Reset();
 
         // Initialize turn controller
-        turnController = new TurnController();
-        List<ICharacterController> charactersList = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        foreach (ICharacterController character in charactersList)
-        {
-            turnController.AddCharacter(character);
-        }
+        turnController = new TurnController(
+            FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList(),
+            new List<ICharacterController>(),
+            FindObjectOfType<TurnPanel>().Controller);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
@@ -119,9 +117,6 @@ public sealed class GameManager : MonoBehaviour
         {
             character.HUDController = hudController;
         }
-
-        // Initialize turn panel
-        turnController.TurnTracker = FindObjectOfType<TurnPanel>().Controller;
 
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);

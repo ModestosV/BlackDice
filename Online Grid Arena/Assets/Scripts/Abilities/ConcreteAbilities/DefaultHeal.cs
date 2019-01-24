@@ -10,10 +10,9 @@ public sealed class DefaultHeal : AbstractTargetedAbility
         activeCharacter,
         1,
         1,
-        AbilityType.TARGET_ALLY)
-    {
-        Description = "This is the default heal ability. It is used to test healing.";
-    }
+        AbilityType.TARGET_ALLY,
+        "This is the default heal ability. It is used to test healing.")
+    { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {

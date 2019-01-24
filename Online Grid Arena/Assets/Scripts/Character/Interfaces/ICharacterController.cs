@@ -3,7 +3,6 @@ using UnityEngine;
 
 public interface ICharacterController
 {
-    ICharacter Character { set; }
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
 
@@ -11,15 +10,12 @@ public interface ICharacterController
     List<IAbility> Abilities { set; }
     List<IEffect> Effects { set; }
 
-    int AbilitiesRemaining { set; }
-
-    string OwnedByPlayer { get; set; }    
+    string CharacterOwner { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
     IHealthBar HealthBar { set; }
     SpriteRenderer ActiveCircle { get; set; }
-
-    void Select();
+    
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();

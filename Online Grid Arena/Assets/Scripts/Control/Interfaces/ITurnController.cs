@@ -2,13 +2,6 @@
 
 public interface ITurnController
 {
-    List<ICharacterController> RefreshedCharacters { set; }
-    List<ICharacterController> ExhaustedCharacters { set; }
-    ICharacterController ActiveCharacter { set; }
-    ITurnPanelController TurnTracker { set; }
-    
-    void AddCharacters(List<ICharacterController> characters);
-    void AddCharacter(ICharacterController character);
     void SelectActiveCharacter();
     List<ICharacterController> GetLivingCharacters();
     bool IsActiveCharacter(ICharacterController character);

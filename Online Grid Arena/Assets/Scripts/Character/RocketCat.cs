@@ -30,10 +30,9 @@ public sealed class RocketCat : AbstractCharacter
             { "defense", defense }
         };
 
-        characterController = new CharacterController()
+        characterController = new CharacterController(this)
         {
-            Character = this,
-            OwnedByPlayer = playerName,
+            CharacterOwner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
             HealthBar = healthBar.GetComponent<HealthBar>(),
