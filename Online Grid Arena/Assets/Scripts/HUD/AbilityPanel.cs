@@ -69,29 +69,26 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void UpdateCooldowns(List<IAbility> abilities)
     {
-        int i = 0;
-        int j = 0;
         IActiveAbility[] activeAbilities = new IActiveAbility[abilities.Count];
 
-        foreach(IAbility a in abilities)
+        for(int j = 0; j < abilities.Count; j++)
         {
             try
             {
-                activeAbilities[j] = (IActiveAbility)a;
+                activeAbilities[j] = (IActiveAbility) abilities[j];
             }
             catch (InvalidCastException)
             {
                 continue;
             }
-            j++;
         }
 
         AbilityButton[] buttons = GetComponentsInChildren<AbilityButton>();
-        foreach(IActiveAbility abilityObj in activeAbilities)
+        for(int i = 0; i < activeAbilities.Length; i++)
         {
             try
             {
-                AbstractActiveAbility ability = (AbstractActiveAbility)abilityObj;
+                AbstractActiveAbility ability = (AbstractActiveAbility) activeAbilities[i];
                 CooldownSquare square = buttons[i].GetComponentInChildren<CooldownSquare>();
 
                 if ((ability != null) && ability.IsOnCooldown())
@@ -107,7 +104,6 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             {
                 continue;
             }
-            i++;
         }
     }
 }
