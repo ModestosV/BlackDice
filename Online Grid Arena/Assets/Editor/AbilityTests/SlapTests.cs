@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SlapTests
 {
@@ -13,10 +12,6 @@ public class SlapTests
     ICharacterStat attackStat;
     Dictionary<string, ICharacterStat> characterStats;
 
-    IHexTileController target;
-    List<IHexTileController> targetTiles;
-
-    const int COOLDOWN = 1;
     const int MIN_RANGE = 1;
     const int MAX_RANGE = 2;
     const float ATTACK_VALUE = 15;
@@ -28,14 +23,11 @@ public class SlapTests
         character = Substitute.For<ICharacter>();
         controller = Substitute.For<ICharacterController>();
         attackStat = Substitute.For<ICharacterStat>();
-        target = Substitute.For<IHexTileController>();
 
         characterStats = new Dictionary<string, ICharacterStat>()
         {
             { "attack", attackStat }
         };
-
-        targetTiles = new List<IHexTileController>() { target };
 
         character.Controller.Returns(controller);
         controller.CharacterStats.Returns(characterStats);
@@ -49,15 +41,5 @@ public class SlapTests
     {
         Assert.That(sut.IsInRange(MIN_RANGE), Is.EqualTo(true));
         Assert.That(sut.IsInRange(MAX_RANGE), Is.EqualTo(false));
-    }
-
-    [Test]
-    public void Update_cooldown_decrements_remaining_cooldown()
-    {
-        sut.Execute(targetTiles);
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(false));
     }
 }

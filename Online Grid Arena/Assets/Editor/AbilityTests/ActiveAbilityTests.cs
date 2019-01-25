@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ActiveAbilityTests
 {
@@ -14,13 +13,12 @@ public class ActiveAbilityTests
 
     ICharacterStat attackStat;
     Dictionary<string, ICharacterStat> characterStats;
+    Dictionary<string, ICharacterStat> targetCharacterStats;
 
     IHexTileController target;
     List<IHexTileController> targetTiles;
 
     IEffect effect;
-
-    IActionHandler actionHandler;
 
     const int COOLDOWN = 1;
     const int MIN_RANGE = 1;
@@ -46,12 +44,18 @@ public class ActiveAbilityTests
 
         targetTiles = new List<IHexTileController>() { target };
 
-        actionHandler = new ActionHandler();
-
         character.Controller.Returns(controller);
         controller.CharacterStats.Returns(characterStats);
 
+        targetCharacterStats = new Dictionary<string, ICharacterStat>()
+        {
+            { "health", new CharacterStat(100.0f) },
+            { "defense", new CharacterStat(100.0f) }
+        };
+
+        targetTiles[0].OccupantCharacter.Returns(targetCharacterController);
         targetCharacter.Controller.Returns(targetCharacterController);
+        targetCharacterController.CharacterStats.Returns(targetCharacterStats);
 
         attackStat.Value.Returns(ATTACK_VALUE);
 
@@ -68,7 +72,6 @@ public class ActiveAbilityTests
     [Test]
     public void Execute_damages_target_tile()
     {
-        targetTiles[0].OccupantCharacter.Returns(targetCharacterController);
         sut.Execute(targetTiles);
         targetCharacterController.Received(1).UpdateHealthBar();
     }

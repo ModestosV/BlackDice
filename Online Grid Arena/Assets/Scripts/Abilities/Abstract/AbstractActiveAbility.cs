@@ -29,6 +29,8 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         SecondaryAction(targetTiles);
 
         cooldownRemaining = Cooldown;
+
+        EventBus.Publish(new SelectTileEvent(character.Controller.OccupiedTile));
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
@@ -36,13 +38,17 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     protected void PlaySoundEffect()
     {
         if (soundEffect != null)
+        {
             EventBus.Publish(new AbilitySoundEvent(soundEffect));
+        }
     }
 
     protected void PlayAnimation(IHexTileController targetTile)
     {
         if (animationPrefab != null)
+        {
             targetTile.PlayAbilityAnimation(animationPrefab);
+        }
     }
 
     public bool IsOnCooldown()

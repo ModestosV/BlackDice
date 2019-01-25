@@ -16,10 +16,8 @@ public class KamikazeTests
     IHexTileController target;
     IHexTileController target2;
     IHexTileController target3;
-    List<IHexTileController> targetTiles;
     List<IHexTileController> neighborTiles;
 
-    const int COOLDOWN = 1;
     const int MIN_RANGE = 1;
     const int MAX_RANGE = 101;
     const float ATTACK_VALUE = 15f;
@@ -40,7 +38,6 @@ public class KamikazeTests
             { "attack", attackStat }
         };
 
-        targetTiles = new List<IHexTileController>() { target };
         neighborTiles = new List<IHexTileController>() { target2, target3 };
         character.Controller.Returns(controller);
         controller.CharacterStats.Returns(characterStats);
@@ -55,18 +52,5 @@ public class KamikazeTests
     {
         Assert.That(sut.IsInRange(MIN_RANGE), Is.EqualTo(true));
         Assert.That(sut.IsInRange(MAX_RANGE), Is.EqualTo(false));
-    }
-
-    [Test]
-    public void Update_cooldown_decrements_remaining_cooldown()
-    {
-        sut.Execute(targetTiles);
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        for (int i = 0; i < 10; i++)
-        {
-            sut.UpdateCooldown();
-        }
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(false));
     }
 }

@@ -25,7 +25,6 @@ public abstract class AbstractAbility : IAbility
     {
         PrimaryAction(targetTiles);
         SecondaryAction(targetTiles);
-        EventBus.Publish(new SelectTileEvent(character.Controller.OccupiedTile));
     }
 
     public void AddEffect(IEffect effect)

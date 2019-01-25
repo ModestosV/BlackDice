@@ -30,7 +30,6 @@
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        EventBus.Publish(new DeselectSelectedTileEvent());
         EventBus.Publish(new SelectTileEvent(inputParameters.TargetTile));
     }
 
@@ -41,7 +40,6 @@
 
     protected override void DoClickOccupiedOtherTile()
     {
-        EventBus.Publish(new DeselectSelectedTileEvent());
         EventBus.Publish(new SelectTileEvent(inputParameters.TargetTile));
     }
 

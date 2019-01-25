@@ -22,13 +22,12 @@ public class Slide : AbstractTargetedAbility
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
-        EventBus.Publish(new DeselectSelectedTileEvent());
         distanceTravelled = character.Controller.OccupiedTile.GetAbsoluteDistance(targetTiles[0]);
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
 
         targetTiles[0].OccupantCharacter = character.Controller;
-        EventBus.Publish(new SelectTileEvent(targetTiles[0]));
+
         PlaySoundEffect();
     }
 

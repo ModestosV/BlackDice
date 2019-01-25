@@ -63,8 +63,7 @@ public class CharacterController : ICharacterController
 
         int distance = path.Count - 1;
         IHexTileController targetTile = path[distance];
-
-        EventBus.Publish(new DeselectSelectedTileEvent());
+        
         OccupiedTile.OccupantCharacter = null;
 
         character.MoveToTile(targetTile.HexTile);
@@ -283,7 +282,6 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || abilitiesRemaining > 0))
         {
             EndOfTurn();
-            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
     }
