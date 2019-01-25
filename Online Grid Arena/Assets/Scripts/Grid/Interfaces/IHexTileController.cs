@@ -41,7 +41,6 @@ public interface IHexTileController
     int GetAbsoluteDistance(IHexTileController targetTile);
 
     void PlayAbilityAnimation(GameObject abilityAnimationPrefab);
-
-    void Damage(float damage);
+    
     void Heal(float healing);
 }

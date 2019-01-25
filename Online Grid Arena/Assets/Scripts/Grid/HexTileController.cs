@@ -271,14 +271,6 @@ public sealed class HexTileController : IHexTileController
         HexTile.PlayAbilityAnimation(abilityAnimationPrefab);
     }
 
-    public void Damage(float damage)
-    {
-        if (OccupantCharacter != null)
-        {
-            OccupantCharacter.Damage(damage);
-        }
-    }
-
     public void Heal(float healing)
     {
         if (OccupantCharacter != null)

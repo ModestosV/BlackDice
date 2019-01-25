@@ -58,13 +58,6 @@ public class KamikazeTests
     }
 
     [Test]
-    public void Execute_calls_correct_damage()
-    {
-        sut.Execute(targetTiles);
-        target.Received().Damage(ATTACK_VALUE*MULTIPLIER);
-    }
-
-    [Test]
     public void Update_cooldown_decrements_remaining_cooldown()
     {
         sut.Execute(targetTiles);

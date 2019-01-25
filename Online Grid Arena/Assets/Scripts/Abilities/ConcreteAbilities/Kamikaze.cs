@@ -34,9 +34,9 @@ public class Kamikaze : AbstractTargetedAbility
     {
         foreach (IHexTileController neighbor in targetTiles[0].GetNeighbors())
         {
-            neighbor.Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue);
+            actionHandler.Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue, neighbor.OccupantCharacter);
             PlayAnimation(neighbor);
         }
-        targetTiles[0].Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue);
+        actionHandler.Damage(2.50f * character.Controller.CharacterStats["attack"].CurrentValue, targetTiles[0].OccupantCharacter);
     }
 }

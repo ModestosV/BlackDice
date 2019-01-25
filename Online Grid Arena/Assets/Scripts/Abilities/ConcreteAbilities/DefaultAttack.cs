@@ -16,7 +16,7 @@ public sealed class DefaultAttack : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        targetTiles[0].Damage(character.Controller.CharacterStats["attack"].Value);
+        actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
     }

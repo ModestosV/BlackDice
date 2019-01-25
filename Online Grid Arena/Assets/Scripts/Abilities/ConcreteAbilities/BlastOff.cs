@@ -36,7 +36,7 @@ public class BlastOff : AbstractTargetedAbility
     {        
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
-            target.Damage(character.Controller.CharacterStats["attack"].Value*0.75f);
+            actionHandler.Damage(character.Controller.CharacterStats["attack"].Value*0.75f, target.OccupantCharacter);
             PlayAnimation(target);
         }
 

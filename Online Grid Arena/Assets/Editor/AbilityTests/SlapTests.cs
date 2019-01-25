@@ -52,13 +52,6 @@ public class SlapTests
     }
 
     [Test]
-    public void Execute_calls_damage_at_least_once()
-    {
-        sut.Execute(targetTiles);
-        target.Received().Damage(ATTACK_VALUE);
-    }
-
-    [Test]
     public void Update_cooldown_decrements_remaining_cooldown()
     {
         sut.Execute(targetTiles);

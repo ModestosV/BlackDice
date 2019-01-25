@@ -9,6 +9,8 @@ public class ActiveAbilityTests
 
     ICharacter character;
     ICharacterController controller;
+    ICharacter targetCharacter;
+    ICharacterController targetCharacterController;
 
     ICharacterStat attackStat;
     Dictionary<string, ICharacterStat> characterStats;
@@ -17,6 +19,8 @@ public class ActiveAbilityTests
     List<IHexTileController> targetTiles;
 
     IEffect effect;
+
+    IActionHandler actionHandler;
 
     const int COOLDOWN = 1;
     const int MIN_RANGE = 1;
@@ -32,6 +36,8 @@ public class ActiveAbilityTests
         attackStat = Substitute.For<ICharacterStat>();
         target = Substitute.For<IHexTileController>();
         effect = Substitute.For<IEffect>();
+        targetCharacter = Substitute.For<ICharacter>();
+        targetCharacterController = Substitute.For<ICharacterController>();
 
         characterStats = new Dictionary<string, ICharacterStat>()
         {
@@ -40,8 +46,13 @@ public class ActiveAbilityTests
 
         targetTiles = new List<IHexTileController>() { target };
 
+        actionHandler = new ActionHandler();
+
         character.Controller.Returns(controller);
         controller.CharacterStats.Returns(characterStats);
+
+        targetCharacter.Controller.Returns(targetCharacterController);
+
         attackStat.Value.Returns(ATTACK_VALUE);
 
         sut = new DefaultAttack(character);
@@ -57,8 +68,9 @@ public class ActiveAbilityTests
     [Test]
     public void Execute_damages_target_tile()
     {
+        targetTiles[0].OccupantCharacter.Returns(targetCharacterController);
         sut.Execute(targetTiles);
-        target.Received(1).Damage(ATTACK_VALUE);
+        targetCharacterController.Received(1).UpdateHealthBar();
     }
 
     [Test]

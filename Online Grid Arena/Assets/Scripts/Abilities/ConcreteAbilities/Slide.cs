@@ -44,7 +44,7 @@ public class Slide : AbstractTargetedAbility
     {
         if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
         {
-            targetTiles[1].Damage(10.0f * distanceTravelled);
+            actionHandler.Damage(10.0f * distanceTravelled, targetTiles[1].OccupantCharacter);
             PlayAnimation(targetTiles[1]);
         }
     }

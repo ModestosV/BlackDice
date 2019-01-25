@@ -105,25 +105,6 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Damage_substracts_damage_amount_from_health_stat()
-    {
-        sut.Damage(DAMAGE_AMOUNT);
-
-        health.Received(1).CurrentValue = CHARACTER_CURRENT_HEALTH - DAMAGE_AMOUNT;
-    }
-
-    [Test]
-    public void Damaging_beyond_zero_health_removes_character_from_match()
-    {
-        health.CurrentValue.Returns(0.0f);
-
-        sut.Damage(DAMAGE_AMOUNT);
-
-        startTileController.Received(1).ClearOccupant();
-        character.Received(1).Destroy();
-    }
-
-    [Test]
     public void Die_destroys_character()
     {
         sut.Die();

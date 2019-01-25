@@ -8,6 +8,7 @@ public abstract class AbstractAbility : IAbility
     public string Description { get; }
 
     protected readonly ICharacter character;
+    protected readonly IActionHandler actionHandler = new ActionHandler();
 
     protected AbstractAbility(Sprite abilityIcon, ICharacter character, string description)
     {

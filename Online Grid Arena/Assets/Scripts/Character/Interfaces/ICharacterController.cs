@@ -20,7 +20,6 @@ public interface ICharacterController
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
     float GetInitiative();
-    void Damage(float damage);
     void Die();
     void Heal(float heal);
     void UpdateHealthBar();

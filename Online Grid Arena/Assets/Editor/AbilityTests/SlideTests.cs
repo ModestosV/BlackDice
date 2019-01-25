@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SlideTests
 {
@@ -39,13 +38,6 @@ public class SlideTests
     {
         Assert.That(sut.IsInRange(MIN_RANGE), Is.EqualTo(true));
         Assert.That(sut.IsInRange(MAX_RANGE), Is.EqualTo(false));
-    }
-
-    [Test]
-    public void Execute_calls_damage_according_to_path()
-    {
-        sut.Execute(targetTiles);
-        target2.Received().Damage(DAMAGE);
     }
 
     [Test]
