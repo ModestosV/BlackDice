@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
     public int Cooldown { get; protected set; }
-    public int cooldownRemaining { get; protected set; }
+    public int CooldownRemaining { get; protected set; }
     protected readonly AudioClip soundEffect;
     protected readonly GameObject animationPrefab;
 
@@ -19,7 +19,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         this.Cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
-        cooldownRemaining = 0;
+        CooldownRemaining = 0;
     }
 
     public override void Execute(List<IHexTileController> targetTiles)
@@ -28,7 +28,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        cooldownRemaining = Cooldown;
+        CooldownRemaining = Cooldown;
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
@@ -47,14 +47,14 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
     public bool IsOnCooldown()
     {
-        return cooldownRemaining > 0;
+        return CooldownRemaining > 0;
     }
 
     public void UpdateCooldown()
     {
-        if (cooldownRemaining > 0)
+        if (CooldownRemaining > 0)
         {
-            cooldownRemaining--;
+            CooldownRemaining--;
         }
     }
 }

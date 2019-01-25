@@ -93,7 +93,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
                 if ((ability != null) && ability.IsOnCooldown())
                 {
-                    square.UpdateSquare(ability.Cooldown, ability.cooldownRemaining);
+                    square.UpdateSquare(ability.Cooldown, ability.CooldownRemaining);
                 }
                 else
                 {
