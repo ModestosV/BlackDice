@@ -98,6 +98,10 @@ public class AbilityPanel : HideableUI, IAbilityPanel
                 {
                     square.UpdateSquare(ability.Cooldown, ability.cooldownRemaining);
                 }
+                else
+                {
+                    square.Hide();
+                }
             }
             catch(InvalidCastException)
             {

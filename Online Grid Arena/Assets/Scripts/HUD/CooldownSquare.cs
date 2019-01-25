@@ -5,7 +5,7 @@ using System;
 public class CooldownSquare : HideableUI
 {
     [SerializeField]
-    public Color32 SquareColor {protected get; set;}
+    public Color SquareColor {protected get; set;}
 
     void Start()
     {
@@ -15,11 +15,11 @@ public class CooldownSquare : HideableUI
 
     public void UpdateSquare(int cooldown, int cooldownRemaining)
     {
-        Color32 color = SquareColor;
+        Color color = SquareColor;
         int alpha = 0;
         if (cooldown != 0)
         {
-            alpha = 180 * (cooldownRemaining / cooldown);
+            alpha = (cooldownRemaining / cooldown);
         }
         color.a = Convert.ToByte(alpha);
         SquareColor = color;
