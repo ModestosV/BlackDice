@@ -1,65 +1,65 @@
 import React, { Component } from 'react'
 
 const modalPopUp = {
-	position: 'fixed',
-	top: 0,
-	bottom: 0,
-	left: 0,
-	right: 0,
-	padding: 50,
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 50,
 };
 
 const modalStyle = {
-		backgroundColor: 'grey',
-		border: 5,
-		maxWidth: 500,
-		minHeight: 300,
-		margin: '0 auto',
-		padding: 30,
-		position: 'relative',
+    backgroundColor: 'grey',
+    border: 5,
+    maxWidth: 500,
+    minHeight: 300,
+    margin: '0 auto',
+    padding: 30,
+    position: 'relative',
 };
 
 const modalFooter = {
-		position: 'absolute',
-		bottom: 20,
+    position: 'absolute',
+    bottom: 20,
 };
 
 class TermsOfServiceModal extends React.Component {
 	
-	onClose = (e) => {
-		this.props.onClose && this.props.onClose(e);
-	}
+    onClose = (e) => {
+        this.props.onClose && this.props.onClose(e);
+    }
 	
-	downloadLink = () => {
-		window.location= this.props.download.link;
-	}
+    downloadLink = () => {
+        window.location= this.props.download.link;
+    }
 	
-	render(){
-		if (!this.props.show){
-			return null;
-		}
+    render(){
+        if (!this.props.show){
+            return null;
+        }
 		
-		return(
-			<div style = {modalPopUp}>
-				<div style = {modalStyle}>
-					{this.props.children}
-					<div style = {modalFooter}>
-						<button onClick = {(e) => {this.onClose(e)}} >
-							Close
-						</button>
-						<button onClick = {(e) => {this.downloadLink(); this.onClose(e);}}>
-							Agree
-						</button>
-					</div>
-				</div>
+        return(
+            <div style = {modalPopUp}>
+                <div style = {modalStyle}>
+                    {this.props.children}
+                    <div style = {modalFooter}>
+                        <button onClick = {(e) => {this.onClose(e)}} >
+                            Close
+                        </button>
+                        <button onClick = {(e) => {this.downloadLink(); this.onClose(e);}}>
+                            Agree
+                        </button>
+                    </div>
+                </div>
 				
-				<style>
+                <style>
 					
 					
-				</style>
-			</div>			
-		);
-	}
+                </style>
+            </div>			
+        );
+    }
 }
 
 export default TermsOfServiceModal;
