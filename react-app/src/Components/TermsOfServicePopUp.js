@@ -5,6 +5,7 @@ class TermsOfServicePopUp extends React.Component {
 	state = {
 		show:false
 	}
+	
 	showModal = () => {
 	  this.setState({
 		...this.state,
@@ -16,7 +17,7 @@ class TermsOfServicePopUp extends React.Component {
 		return(
 			<li className="DownloadItem">
 				<strong><a onClick={this.showModal}> {this.props.download.title} </a></strong>
-				<TermsOfServiceModal onClose = {this.showModal} show={this.state.show}>
+				<TermsOfServiceModal download = {this.props.download} onClose = {this.showModal} show={this.state.show}>
 					Modal Test
 				</TermsOfServiceModal>
 			</li>

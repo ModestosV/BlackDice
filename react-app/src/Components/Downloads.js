@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import DownloadItem from './DownloadItem'
 import TermsOfServicePopUp from './TermsOfServicePopUp'
 
 class Downloads extends Component {

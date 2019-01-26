@@ -25,14 +25,20 @@ const modalFooter = {
 };
 
 class TermsOfServiceModal extends React.Component {
+	
 	onClose = (e) => {
 		this.props.onClose && this.props.onClose(e);
+	}
+	
+	downloadLink = () => {
+		window.location= this.props.download.link;
 	}
 	
 	render(){
 		if (!this.props.show){
 			return null;
 		}
+		
 		return(
 			<div style = {modalPopUp}>
 				<div style = {modalStyle}>
@@ -41,13 +47,14 @@ class TermsOfServiceModal extends React.Component {
 						<button onClick = {(e) => {this.onClose(e)}} >
 							Close
 						</button>
-						<form action="https://google.ca">
-							<input type = "submit" value="Agree"/>
-						</form>
+						<button onClick = {(e) => {this.downloadLink(); this.onClose(e);}}>
+							Agree
+						</button>
 					</div>
 				</div>
 				
 				<style>
+					
 					
 				</style>
 			</div>			

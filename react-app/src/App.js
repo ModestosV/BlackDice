@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
-import TermsOfServicePopUp from './Components/TermsOfServicePopUp'
 
 class App extends Component {
 
