@@ -16,31 +16,6 @@ h1 {
   text-align: center; 
 }
 
-modalPopUp {
-	position: 'fixed';
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgb (0, 160, 160);
-	padding: 50;
-}
-
-modalStyle {
-		background-color: rgb (0, 160, 160);
-		border: 5;
-		max-width: 500;
-		min-height: 300;
-		margin: '0 auto';
-		padding: 30;
-		position: 'relative';
-}
-
-modalFooter{
-		position: absolute;
-		bottom: 20;
-}
-
 .App {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -89,6 +64,13 @@ modalFooter{
 .Title {
   grid-area: title;
   text-align: center;
+}
+
+.LinkStyle {
+  cursor: pointer;
+  color: rgb(29, 170, 175);
+  text-decoration:underline;
+  font-weight:bold;
 }
 
 .Navbar {

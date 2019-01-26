@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       downloads: [],
       quoteOfTheDay: {},
-      messageFromBackend: ""
+      messageFromBackend: "",
+	  ToS: ""
     }
   }
 
@@ -41,13 +42,6 @@ class App extends Component {
       }
     ]})
   }
-  
-  showModal = () => {
-	  this.setState({
-		...this.state,
-		show: !this.state.show
-	  });
-  }
 
   greetBackendAPI() {
     fetch('/account')
@@ -73,12 +67,8 @@ class App extends Component {
           <h2>Online Grid Arena Downloads</h2>
         </div>
 		
-		<div className="Downloads section">
+		<div className="Downloads">
 			<Downloads downloads={this.state.downloads}/>
-			<input type="button" onClick={this.showModal} value = "Show Modal" />
-			<TermsOfServicePopUp onClose = {this.showModal} show={this.state.show}>
-				Modal Test
-			</TermsOfServicePopUp>
 		</div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
