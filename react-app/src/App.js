@@ -11,7 +11,6 @@ class App extends Component {
       downloads: [],
       quoteOfTheDay: {},
       messageFromBackend: "",
-	  ToS: ""
     }
   }
 

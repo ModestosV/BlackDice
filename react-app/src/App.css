@@ -18,6 +18,30 @@ h1 {
   text-align: center; 
 }
 
+.modalPopUp {
+	position: "fixed";
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 50;
+}
+
+.modalStyle {
+	background: "grey";
+	border: 5;
+	maxWidth: 500;
+	minHeight: 300;
+	margin: '0 auto';
+	padding: 30;
+	position: 'relative';
+}
+
+.modalFooter {
+	position: 'absolute';
+	bottom: 20;
+}
+
 .App {
   display: grid;
   grid-template-columns: 3fr 1fr;
