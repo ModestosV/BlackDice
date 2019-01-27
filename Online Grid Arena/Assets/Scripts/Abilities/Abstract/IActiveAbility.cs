@@ -1,7 +1,7 @@
 ﻿public interface IActiveAbility : IAbility
 {
-    int Cooldown { get; set; }
-    int CooldownRemaining { get; set; }
+    int Cooldown { get; }
+    int CooldownRemaining { get; }
 
     bool IsOnCooldown();
     void UpdateCooldown();
