@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
-    public int Cooldown { get; protected set; }
-    public int CooldownRemaining { get; protected set; }
+
     protected readonly AudioClip soundEffect;
     protected readonly GameObject animationPrefab;
+
+    public int Cooldown { get; set; }
+
+    public int CooldownRemaining { get; set; }
 
     protected AbstractActiveAbility(
         Sprite abilityIcon,
