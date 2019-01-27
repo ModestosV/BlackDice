@@ -26,8 +26,8 @@ h1 {
     "title title"
     "nav nav"
     "header qotd"
-    "downloads qotd"
-    "downloads sidebar"
+    "downloads downloads"
+    "downloads downloads"
     "footer footer";
   grid-gap: 20px;
 }
@@ -43,7 +43,6 @@ h1 {
       "header"
       "downloads"
       "qotd"
-      "sidebar"
       "footer";
   }
 

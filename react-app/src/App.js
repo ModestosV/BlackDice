@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       downloads: [],
       quoteOfTheDay: {},
-      messageFromBackend: "",
+      messageFromBackend: ""
     }
   }
 
@@ -70,11 +70,6 @@ class App extends Component {
 	</div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
-
-        <div className="Sidebar">
-          Sidebar<br/><br/>
-          {this.state.messageFromBackend}
-        </div>
 
         <div className="Footer">
           Footer
