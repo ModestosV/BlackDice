@@ -69,7 +69,6 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void UpdateCooldowns(List<IAbility> abilities)
     {
-        IActiveAbility[] activeAbilities = new IActiveAbility[abilities.Count];
         AbilityButton[] buttons = GetComponentsInChildren<AbilityButton>();
         for(int i = 0; i < abilities.Count; i++)
         {
