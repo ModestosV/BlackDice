@@ -65,9 +65,9 @@ class App extends Component {
           <h2>Online Grid Arena Downloads</h2>
         </div>
 		
-		<div className="Downloads">
-			<Downloads downloads={this.state.downloads}/>
-		</div>
+	<div className="Downloads">
+	  <Downloads downloads={this.state.downloads}/>
+	</div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
 
