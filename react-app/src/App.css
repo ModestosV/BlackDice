@@ -91,27 +91,27 @@ h1 {
 }
 
 .modalPopUp {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	padding: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 50px;
 }
 
 .modalStyle {
-	background-color: grey;
-	color:black;
-	border: 5px;
-	margin: 0 auto;
-	Width:80%;
-	Height: 90%;
-	padding: 30px;
-	position: relative;
-	overflow: auto;
+    background-color: grey;
+    color:black;
+    border: 5px;
+    margin: 0 auto;
+    Width:80%;
+    Height: 90%;
+    padding: 30px;
+    position: relative;
+    overflow: auto;
 }
 
 .modalFooter {
-	position: absolute;
-	bottom: 20;
+    position: absolute;
+    bottom: 20;
 }

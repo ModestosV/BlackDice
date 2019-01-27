@@ -16,24 +16,20 @@ class TermsOfServiceModal extends React.Component {
             return null;
         }
 
-		return(
-			<div className = "modalPopUp">
-				<div className = "modalStyle">
-					{this.props.children}
-					<div className = "modalFooter">
-						<button onClick = {(e) => {this.onClose(e)}} >
-							Close
-						</button>
-						<a>     </a>
-						<button onClick = {(e) => {this.downloadLink(); this.onClose(e);}}>
-							Agree
-						</button>
-					</div>
-				</div>
-				
-                <style>
-					
-                </style>
+        return(
+            <div className = "modalPopUp">
+                <div className = "modalStyle">
+                    {this.props.children}
+                    <div className = "modalFooter">
+                        <button onClick = {(e) => {this.onClose(e)}} >
+                            Close
+                        </button>
+                        <a>     </a>
+                        <button onClick = {(e) => {this.downloadLink(); this.onClose(e);}}>
+                            Agree
+                        </button>
+                    </div>
+                </div>
             </div>			
         );
     }
