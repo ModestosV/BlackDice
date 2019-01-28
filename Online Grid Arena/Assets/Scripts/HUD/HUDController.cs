@@ -52,7 +52,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
             var newAbilityClicked = (AbilityUsedEvent)@event;
             AbilityPanel.SetAbilityColorUsed(newAbilityClicked.AbilityIndex);
         }
-        if (type == typeof(AbilityEndEvent))
+        if (type == typeof(UpdateSelectionModeEvent))
         {
             AbilityPanel.SetAbilityColorDefaultToAll();
         }

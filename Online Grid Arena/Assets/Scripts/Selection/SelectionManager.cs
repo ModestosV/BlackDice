@@ -102,7 +102,6 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         {
             var newSelectionMode = (UpdateSelectionModeEvent)@event;
             selectionMode = newSelectionMode.SelectionMode;
-            EventBus.Publish(new AbilityEndEvent());
         }
     }
 }
