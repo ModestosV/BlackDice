@@ -5,20 +5,31 @@ using System;
 public class CooldownSquare : HideableUI
 {
     [SerializeField]
-    public Text SquareText { protected get; set; }
+    public String SquareText { protected get; set; }
 
     void Start()
     {
         Hide();
-        SquareText = GetComponentInChildren<Text>();
     }
 
-    public void UpdateSquare(int cooldown, int cooldownRemaining)
+    public void UpdateSquare(bool changeText, int cooldownRemaining, Text previousText)
     {
-        if (cooldown != 0)
+        if (SquareText == null)
         {
-            SquareText.text = cooldownRemaining.ToString();
+            SquareText = previousText.text;
         }
-        Show(); 
+
+        if (changeText)
+        {
+            previousText.text = cooldownRemaining.ToString();
+            previousText.color = Color.white;
+            Show(); 
+        }
+        else
+        {
+            previousText.color = Color.black;
+            previousText.text = SquareText;
+            Hide();
+        }
     }
 }

@@ -76,14 +76,15 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             {
                 IActiveAbility ability = (IActiveAbility) abilities[i];
                 CooldownSquare square = buttons[i].GetComponentInChildren<CooldownSquare>();
+                Text buttonText = buttons[i].GetComponentInChildren<Text>();
 
                 if ((ability != null) && ability.IsOnCooldown())
                 {
-                    square.UpdateSquare(ability.Cooldown, ability.CooldownRemaining);
+                    square.UpdateSquare(true, ability.CooldownRemaining, buttonText);
                 }
                 else
                 {
-                    square.Hide();
+                    square.UpdateSquare(false, ability.CooldownRemaining, buttonText);
                 }
             }
             catch(InvalidCastException)
