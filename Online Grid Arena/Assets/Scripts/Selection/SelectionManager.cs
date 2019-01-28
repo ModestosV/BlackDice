@@ -85,7 +85,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
     }
 
-    private bool SelectedCharacterCanUseAbility(int abilityIndex)
+    public bool SelectedCharacterCanUseAbility(int abilityIndex)
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 

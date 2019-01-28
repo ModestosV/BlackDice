@@ -19,7 +19,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
 
         SelectionManager.Update(inputParameters);
 
-        if (inputParameters.IsAbilityKeyPressed())
+        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
         {
             EventBus.Publish(new AbilityUsedEvent(inputParameters.GetAbilityNumber()));
         }
@@ -43,7 +43,10 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
 
         SelectionManager.Update(inputParameters);
 
-        EventBus.Publish(new AbilityUsedEvent(abilityIndex));
+        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
+        {
+            EventBus.Publish(new AbilityUsedEvent(inputParameters.GetAbilityNumber()));
+        }
     }
 
     private IInputParameters GetInputParameters()
