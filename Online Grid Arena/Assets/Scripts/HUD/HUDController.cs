@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class HUDController : IHUDController
+public sealed class HUDController : IHUDController, IEventSubscriber
 {
     public IStatPanelController SelectedStatPanel { private get; set; }
     public IPlayerPanel SelectedPlayerPanel { private get; set; }
@@ -41,5 +41,20 @@ public sealed class HUDController : IHUDController
         TargetStatPanel.CharacterStats = characterStats;
         TargetStatPanel.UpdateStatValues();
         TargetPlayerPanel.SetPlayerName($"Player {playerName}");
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+
+        if (type == typeof(AbilityUsedEvent))
+        {
+            var newAbilityClicked = (AbilityUsedEvent)@event;
+            AbilityPanel.SetAbilityColorUsed(newAbilityClicked.AbilityIndex);
+        }
+        if (type == typeof(AbilityEndEvent))
+        {
+            AbilityPanel.SetAbilityColorDefaultToAll();
+        }
     }
 }

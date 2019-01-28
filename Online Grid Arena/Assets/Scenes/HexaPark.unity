@@ -43289,6 +43289,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 224752675261260144, guid: 4dd94a7b310b04b43be486f614010446,
         type: 2}
       propertyPath: m_RootOrder
@@ -43312,6 +43313,16 @@ Prefab:
     - target: {fileID: 114835816190749102, guid: 4dd94a7b310b04b43be486f614010446,
         type: 2}
       propertyPath: m_FontData.m_MinSize
+=======
+    - target: {fileID: 223897988600647866, guid: 4dd94a7b310b04b43be486f614010446,
+        type: 2}
+      propertyPath: m_OverrideSorting
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114870566945773150, guid: 4dd94a7b310b04b43be486f614010446,
+        type: 2}
+      propertyPath: m_RaycastTarget
+>>>>>>> #107 change ability button color wheter used or not and added AbilityUsedEvent and AbilityEndEvent
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

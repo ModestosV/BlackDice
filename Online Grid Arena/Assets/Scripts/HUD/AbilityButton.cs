@@ -1,6 +1,7 @@
 ﻿using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class AbilityButton : BlackDiceMonoBehaviour, IPointerClickHandler, IPointerExitHandler
+public class AbilityButton : BlackDiceMonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private AbilityTooltip tooltip;
 
@@ -14,14 +15,11 @@ public class AbilityButton : BlackDiceMonoBehaviour, IPointerClickHandler, IPoin
         buttonText.transform.SetAsLastSibling();
         tooltip = FindObjectOfType<AbilityTooltip>();
     }
-<<<<<<< HEAD
-=======
 
     public void OnPointerClick(PointerEventData eventData)
     {
         EventBus.Publish(new AbilityClickEvent(Index));
     }
->>>>>>> #107 cleanup of endTurnButton and make clickable the abilities
 
     public void OnPointerEnter(PointerEventData eventData)
     {

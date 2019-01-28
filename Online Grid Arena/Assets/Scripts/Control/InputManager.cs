@@ -18,16 +18,21 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         lastInputParameters = inputParameters;
 
         SelectionManager.Update(inputParameters);
+
+        if (inputParameters.IsAbilityKeyPressed())
+        {
+            EventBus.Publish(new AbilityUsedEvent(inputParameters.GetAbilityNumber()));
+        }
     }
 
     void UpdateOnAbilityClickEvent(int abilityIndex)
     {
         var inputParameters = GetInputParameters();
 
-        if (abilityIndex == 0) inputParameters.IsKeyQDown = true;
-        if (abilityIndex == 1) inputParameters.IsKeyWDown = true;
-        if (abilityIndex == 2) inputParameters.IsKeyEDown = true;
-        if (abilityIndex == 3) inputParameters.IsKeyRDown = true;
+        inputParameters.IsKeyQDown = (abilityIndex == 0) ? true: false;
+        inputParameters.IsKeyWDown = (abilityIndex == 1) ? true: false;
+        inputParameters.IsKeyEDown = (abilityIndex == 2) ? true: false;
+        inputParameters.IsKeyRDown = (abilityIndex == 3) ? true: false;
 
         // Do nothing if input has not changed
         if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
@@ -37,6 +42,8 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         lastInputParameters = inputParameters;
 
         SelectionManager.Update(inputParameters);
+
+        EventBus.Publish(new AbilityUsedEvent(abilityIndex));
     }
 
     private IInputParameters GetInputParameters()
