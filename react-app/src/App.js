@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
-import TermsOfServicePopUp from './Components/TermsOfServicePopUp'
 
 class App extends Component {
 
@@ -32,12 +31,8 @@ class App extends Component {
   getDownloads() {
     this.setState({downloads: [
       {
-        title: "v0.1_Windows_x86_Installer",
-        link: "https://drive.google.com/uc?export=download&id=1PloCi7eWnMWsdmUcarXXao1pBdsjh4II" 
-      },
-      {
-        title: "v0.2_Windows_x86_Installer",
-        link: "https://drive.google.com/uc?export=download&id=1K0YueFTXkxHax4WvgHBmjT3ZyaZIQtmX" 
+        title: "v0.3_Windows_x86_Installer",
+        link: "https://drive.google.com/uc?export=download&id=17mCGSTbBKwzcGYUnvax1V8_YoPqFLKuw" 
       }
     ]})
   }
@@ -65,15 +60,12 @@ class App extends Component {
         <div className="DownloadsHeader">
           <h2>Online Grid Arena Downloads</h2>
         </div>
-
-        <Downloads downloads={this.state.downloads}/>
+		
+	<div className="Downloads">
+	  <Downloads downloads={this.state.downloads}/>
+	</div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
-
-        <div className="Sidebar">
-          Sidebar<br/><br/>
-          {this.state.messageFromBackend}
-        </div>
 
         <div className="Footer">
           Footer

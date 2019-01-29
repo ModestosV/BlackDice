@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import DownloadItem from './DownloadItem'
+import TermsOfServicePopUp from './TermsOfServicePopUp'
 
 class Downloads extends Component {
 
@@ -10,7 +10,7 @@ class Downloads extends Component {
     if (this.props.downloads) {
       downloadItems = this.props.downloads.map(download => {
         return (
-          <DownloadItem key={download.title} download={download} />
+          <TermsOfServicePopUp key={download.title} download={download} />
         )
       })
     }
