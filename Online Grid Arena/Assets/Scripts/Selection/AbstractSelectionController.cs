@@ -22,15 +22,8 @@
             return;
         }
         
-        if (!inputParameters.IsMouseOverGrid && inputParameters.IsLeftClickDown)
-        {
-            DoClickOffGrid();
-            return;
-        }
-
         if (!inputParameters.IsMouseOverGrid)
         {
-            DoHoverOffGrid();
             return;
         }
 
@@ -102,16 +95,6 @@
     }
 
     protected virtual void DoTabPressed()
-    {
-
-    }
-
-    protected virtual void DoClickOffGrid()
-    {
-
-    }
-
-    protected virtual void DoHoverOffGrid()
     {
 
     }

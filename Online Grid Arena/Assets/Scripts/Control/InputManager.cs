@@ -87,6 +87,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         if (type == typeof(AbilityClickEvent))
         {
             var newAbilityClicked = (AbilityClickEvent)@event;
+
             UpdateOnAbilityClickEvent(newAbilityClicked.AbilityIndex);
         }
     }
