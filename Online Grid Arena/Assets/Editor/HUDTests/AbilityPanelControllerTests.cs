@@ -6,35 +6,34 @@ public class AbilityPanelControllerTests
 {
     AbilityPanelController sut;
 
-    readonly List<IAbility> abilities;
-    readonly List<IEffect> effects;
+    List<IAbility> abilities;
+    List<IEffect> effects;
 
     [SetUp]
     public void Init()
     {
         sut = new AbilityPanelController(Substitute.For<IAbilityPanel>());
+        abilities = new List<IAbility>();
+        effects = new List<IEffect>();
     }
 
     [Test]
     public void Disable_ability_panel_hides_ability_panel()
     {
         sut.Hide();
-
-        sut.Received(1).Hide();
+        sut.AbilityPanel.Received(1);
     }
 
     [Test]
     public void Update_ability_panel()
     {
-        List<IAbility> abilities = new List<IAbility>();
-        List<IEffect> effects = new List<IEffect>();
+        abilities.Add(Substitute.For<IAbility>());
+        abilities.Add(Substitute.For<IAbility>());
 
-        abilities.Add(Substitute.For<Scratch>());
-        abilities.Add(Substitute.For<DefaultAttack>());
+        effects.Add(Substitute.For<IEffect>());
 
-        effects.Add(Substitute.For<CatScratchFever>());
-
-        sut.Received(1).UpdateAbilityPanel(abilities, effects);        
+        sut.UpdateAbilityPanel(abilities, effects);
+        sut.AbilityPanel.Received(1);
     }
 
 }
