@@ -7,5 +7,5 @@ public interface IAbilityPanel
     void Hide();
     void UpdateAbilityIcons(List<IAbility> abilities);
     void UpdateStackIcons(List<IEffect> effects);
-    void UpdateCooldownSquares(List<Tuple<bool, int>> squareValues);
+    void UpdateCooldownSquares(int abilityButtonIndex, bool isOnCooldown, int cooldownRemaining);
 }

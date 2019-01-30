@@ -66,13 +66,31 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         }
     }
 
-    public void UpdateCooldownSquares(List<Tuple<bool, int>> squareValues)
+    public void UpdateCooldownSquares(int abilityButtonIndex, bool isOnCooldown, int cooldownRemaining)
     {
-        for (int i = 0; i < squareValues.Count; i++)
+        var letters = new List<string>(){ "Q", "W", "E", "R" };
+        
+        CooldownSquare square = AbilityButtons[abilityButtonIndex].GetComponentInChildren<CooldownSquare>();
+        Text buttonText = AbilityButtons[abilityButtonIndex].GetComponentInChildren<Text>();
+
+        if(isOnCooldown)
         {
-            CooldownSquare square = AbilityButtons[i].GetComponentInChildren<CooldownSquare>();
-            Text buttonText = AbilityButtons[i].GetComponentInChildren<Text>();
-            square.UpdateSquare(squareValues[i].Item1, squareValues[i].Item2, buttonText);
+            buttonText.text = cooldownRemaining.ToString();
+            buttonText.color = Color.white;
+            buttonText.alignment = TextAnchor.MiddleCenter;
+            buttonText.fontSize = 30;
+            buttonText.fontStyle = FontStyle.Bold;
+            square.Show();
         }
+        else
+        {
+            buttonText.color = Color.black;
+            buttonText.alignment = TextAnchor.LowerLeft;
+            buttonText.text = letters[abilityButtonIndex];
+            buttonText.fontStyle = FontStyle.Normal;
+            buttonText.fontSize = 14;
+            square.Hide();
+        }
+        
     }
 }

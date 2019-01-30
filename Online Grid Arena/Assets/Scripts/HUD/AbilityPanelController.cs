@@ -24,8 +24,6 @@ public class AbilityPanelController : IAbilityPanelController
 
     public void UpdateAbilityCooldowns(List<IAbility> abilities)
     {
-        var values = new List<Tuple<bool, int>>();
-
         for (int i = 0; i < abilities.Count; i++)
         {
             if (abilities[i].GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
@@ -34,20 +32,18 @@ public class AbilityPanelController : IAbilityPanelController
 
                 if ((ability != null) && ability.IsOnCooldown())
                 {
-                    values.Add(Tuple.Create(true, ability.CooldownRemaining));
+                    abilityPanel.UpdateCooldownSquares(i, true, ability.CooldownRemaining);
                 }
                 else
                 {
-                    values.Add(Tuple.Create(false, ability.CooldownRemaining));
+                    abilityPanel.UpdateCooldownSquares(i, false, ability.CooldownRemaining);
                 }
             }
             else
             {
-                values.Add(Tuple.Create(false, 0));
-                continue;
+                abilityPanel.UpdateCooldownSquares(i, false, 0);
             }
         }
-        abilityPanel.UpdateCooldownSquares(values);
     }
 
     public void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)
