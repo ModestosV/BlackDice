@@ -4,7 +4,6 @@ using System;
 
 public class AbilityPanelController : IAbilityPanelController
 {
-    [SerializeField]
     public IAbilityPanel AbilityPanel { get; set; }
 
     public AbilityPanelController(IAbilityPanel abilityPanel)
@@ -19,9 +18,19 @@ public class AbilityPanelController : IAbilityPanelController
 
     public void UpdateAbilityPanel(List<IAbility> abilities, List<IEffect> effects)
     {
+        this.UpdateAbilityIcons(abilities, effects);
+        this.UpdateAbilityCooldowns(abilities);
+        AbilityPanel.Show();
+    }
+
+    public void UpdateAbilityCooldowns(List<IAbility> abilities)
+    {
+        AbilityPanel.UpdateCooldowns(abilities);
+    }
+
+    public void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)
+    {
         AbilityPanel.UpdateAbilityIcons(abilities);
         AbilityPanel.UpdateStackIcons(effects);
-        AbilityPanel.UpdateCooldowns(abilities);
-        AbilityPanel.Show();
     }
 }

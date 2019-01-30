@@ -36,4 +36,14 @@ public class AbilityPanelControllerTests
         sut.AbilityPanel.Received(1);
     }
 
+    [Test]
+    public void Update_ability_panel_cooldowns()
+    {
+        abilities.Add(Substitute.For<IAbility>());
+        abilities.Add(Substitute.For<IAbility>());
+
+        sut.UpdateAbilityCooldowns(abilities);
+        sut.AbilityPanel.Received(1);
+    }
+
 }
