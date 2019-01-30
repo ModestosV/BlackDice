@@ -29,6 +29,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
             selectionMode = SelectionMode.MOVEMENT;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
 
         switch (selectionMode)
