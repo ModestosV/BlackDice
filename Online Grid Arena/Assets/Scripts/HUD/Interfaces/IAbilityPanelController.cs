@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
 public interface IAbilityPanelController

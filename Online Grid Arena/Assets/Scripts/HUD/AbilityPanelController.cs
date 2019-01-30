@@ -1,41 +1,34 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 
 public class AbilityPanelController : IAbilityPanelController
 {
-    IAbilityPanel AbilityPanel { get; set; }
+    private IAbilityPanel abilityPanel;
 
     public AbilityPanelController(IAbilityPanel abilityPanel)
     {
-        AbilityPanel = abilityPanel;
+        this.abilityPanel = abilityPanel;
     }
 
     public void Hide()
     {
-        AbilityPanel.Hide();
+        abilityPanel.Hide();
     }
 
     public void UpdateAbilityPanel(List<IAbility> abilities, List<IEffect> effects)
     {
         this.UpdateAbilityIcons(abilities, effects);
         this.UpdateAbilityCooldowns(abilities);
-        AbilityPanel.Show();
+        abilityPanel.Show();
     }
 
     public void UpdateAbilityCooldowns(List<IAbility> abilities)
     {
-        AbilityPanel.UpdateCooldowns(abilities);
+        abilityPanel.UpdateCooldowns(abilities);
     }
 
     public void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)
     {
-        AbilityPanel.UpdateAbilityIcons(abilities);
-        AbilityPanel.UpdateStackIcons(effects);
-    }
-
-    public IAbilityPanel GetAbilityPanel()
-    {
-        return this.AbilityPanel;
+        abilityPanel.UpdateAbilityIcons(abilities);
+        abilityPanel.UpdateStackIcons(effects);
     }
 }
