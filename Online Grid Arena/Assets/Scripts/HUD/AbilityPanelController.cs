@@ -4,7 +4,7 @@ using System;
 
 public class AbilityPanelController : IAbilityPanelController
 {
-    public IAbilityPanel AbilityPanel { get; set; }
+    IAbilityPanel AbilityPanel { get; set; }
 
     public AbilityPanelController(IAbilityPanel abilityPanel)
     {
@@ -32,5 +32,10 @@ public class AbilityPanelController : IAbilityPanelController
     {
         AbilityPanel.UpdateAbilityIcons(abilities);
         AbilityPanel.UpdateStackIcons(effects);
+    }
+
+    public IAbilityPanel GetAbilityPanel()
+    {
+        return this.AbilityPanel;
     }
 }

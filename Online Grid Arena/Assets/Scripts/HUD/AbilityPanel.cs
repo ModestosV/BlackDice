@@ -10,6 +10,8 @@ public class AbilityPanel : HideableUI, IAbilityPanel
     public List<GameObject> AbilityButtons;
     public List<GameObject> Stacks;
 
+    public IAbilityPanelController AbilityPanelController { get; set; }
+
     void Start()
     {
         foreach (Transform child in transform)

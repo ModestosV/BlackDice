@@ -21,7 +21,7 @@ public class AbilityPanelControllerTests
     public void Disable_ability_panel_hides_ability_panel()
     {
         sut.Hide();
-        sut.AbilityPanel.Received(1);
+        sut.GetAbilityPanel().Received(1);
     }
 
     [Test]
@@ -33,7 +33,7 @@ public class AbilityPanelControllerTests
         effects.Add(Substitute.For<IEffect>());
 
         sut.UpdateAbilityPanel(abilities, effects);
-        sut.AbilityPanel.Received(1);
+        sut.GetAbilityPanel().Received(1);
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class AbilityPanelControllerTests
         abilities.Add(Substitute.For<IAbility>());
 
         sut.UpdateAbilityCooldowns(abilities);
-        sut.AbilityPanel.Received(1);
+        sut.GetAbilityPanel().Received(1);
     }
 
 }
