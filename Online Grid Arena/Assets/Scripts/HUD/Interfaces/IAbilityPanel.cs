@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public interface IAbilityPanel
 {
     void Show();
     void Hide();
-
     void UpdateAbilityIcons(List<IAbility> abilities);
     void UpdateStackIcons(List<IEffect> effects);
-    void UpdateCooldowns(List<IAbility> abilities);
+    void UpdateCooldownSquares(List<Tuple<bool, int>> squareValues);
 }

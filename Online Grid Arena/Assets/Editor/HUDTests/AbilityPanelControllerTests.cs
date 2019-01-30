@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 public class AbilityPanelControllerTests
@@ -35,7 +36,7 @@ public class AbilityPanelControllerTests
         effects.Add(Substitute.For<IEffect>());
 
         sut.UpdateAbilityPanel(abilities, effects);
-        abilityPanel.Received(1).UpdateCooldowns(abilities);
+        abilityPanel.Received(1).UpdateCooldownSquares(Arg.Any<List<Tuple<bool, int>>>());
     }
 
     [Test]
@@ -45,7 +46,7 @@ public class AbilityPanelControllerTests
         abilities.Add(Substitute.For<IAbility>());
 
         sut.UpdateAbilityCooldowns(abilities);
-        abilityPanel.Received(1).UpdateCooldowns(abilities);
+        abilityPanel.Received(1).UpdateCooldownSquares(Arg.Any<List<Tuple<bool, int>>>());
     }
 
     [Test]

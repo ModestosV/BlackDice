@@ -12,29 +12,29 @@ public class CooldownSquare : HideableUI
         Hide();
     }
 
-    public void UpdateSquare(bool changeText, int cooldownRemaining, Text previousText)
+    public void UpdateSquare(bool isOnCooldown, int cooldownRemaining, Text text)
     {
         if (SquareText == null)
         {
-            SquareText = previousText.text;
+            SquareText = text.text;
         }
 
-        if (changeText)
+        if (isOnCooldown)
         {
-            previousText.text = cooldownRemaining.ToString();
-            previousText.color = Color.white;
-            previousText.alignment = TextAnchor.MiddleCenter;
-            previousText.fontSize = 30;
-            previousText.fontStyle = FontStyle.Bold;
+            text.text = cooldownRemaining.ToString();
+            text.color = Color.white;
+            text.alignment = TextAnchor.MiddleCenter;
+            text.fontSize = 30;
+            text.fontStyle = FontStyle.Bold;
             Show(); 
         }
         else
         {
-            previousText.color = Color.black;
-            previousText.alignment = TextAnchor.LowerLeft;
-            previousText.text = SquareText;
-            previousText.fontStyle = FontStyle.Normal;
-            previousText.fontSize = 14;
+            text.color = Color.black;
+            text.alignment = TextAnchor.LowerLeft;
+            text.text = SquareText;
+            text.fontStyle = FontStyle.Normal;
+            text.fontSize = 14;
             Hide();
         }
     }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using System;
 
@@ -9,8 +8,6 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 {
     public List<GameObject> AbilityButtons;
     public List<GameObject> Stacks;
-
-    public IAbilityPanelController AbilityPanelController { get; set; }
 
     void Start()
     {
@@ -69,31 +66,13 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         }
     }
 
-    public void UpdateCooldowns(List<IAbility> abilities)
+    public void UpdateCooldownSquares(List<Tuple<bool, int>> squareValues)
     {
-        AbilityButton[] buttons = GetComponentsInChildren<AbilityButton>();
-        for(int i = 0; i < abilities.Count; i++)
+        for (int i = 0; i < squareValues.Count; i++)
         {
-            CooldownSquare square = buttons[i].GetComponentInChildren<CooldownSquare>();
-            Text buttonText = buttons[i].GetComponentInChildren<Text>();
-            if (abilities[i].GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
-            {
-                IActiveAbility ability = (IActiveAbility) abilities[i];
-
-                if ((ability != null) && ability.IsOnCooldown())
-                {
-                    square.UpdateSquare(true, ability.CooldownRemaining, buttonText);
-                }
-                else
-                {
-                    square.UpdateSquare(false, ability.CooldownRemaining, buttonText);
-                }
-            }
-            else
-            {
-                square.UpdateSquare(false, 0, buttonText);
-                continue;
-            }
+            CooldownSquare square = AbilityButtons[i].GetComponentInChildren<CooldownSquare>();
+            Text buttonText = AbilityButtons[i].GetComponentInChildren<Text>();
+            square.UpdateSquare(squareValues[i].Item1, squareValues[i].Item2, buttonText);
         }
     }
 }
