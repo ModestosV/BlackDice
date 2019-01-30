@@ -8,11 +8,13 @@ public class AbilityButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public string Description { get; set; }
     public int Cooldown { get; set; }
-    
-	void Start ()
+
+    void Start()
     {
+        Text buttonText = this.GetComponentInChildren<Text>();
+        buttonText.transform.SetAsLastSibling();
         tooltip = FindObjectOfType<AbilityTooltip>();
-	}
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
