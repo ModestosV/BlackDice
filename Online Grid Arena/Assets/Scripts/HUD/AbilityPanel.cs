@@ -74,7 +74,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         {
             CooldownSquare square = buttons[i].GetComponentInChildren<CooldownSquare>();
             Text buttonText = buttons[i].GetComponentInChildren<Text>();
-            try
+            if (abilities[i].GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
             {
                 IActiveAbility ability = (IActiveAbility) abilities[i];
 
@@ -87,7 +87,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
                     square.UpdateSquare(false, ability.CooldownRemaining, buttonText);
                 }
             }
-            catch(InvalidCastException)
+            else
             {
                 square.UpdateSquare(false, 0, buttonText);
                 continue;
