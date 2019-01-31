@@ -16,7 +16,7 @@ public class Slide : AbstractTargetedAbility
         7,
         100,
         AbilityType.TARGET_LINE,
-        "Special Ability \nPengwin slides in a straight line and stops right before the target tile. Deals 10 * (number of tiles moved) damage.")
+        "Slide - Special Ability \nPengwin slides in a straight line. Deals 6 * (number of tiles moved) damage to the target tile.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
@@ -43,7 +43,7 @@ public class Slide : AbstractTargetedAbility
     {
         if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
         {
-            actionHandler.Damage(10.0f * distanceTravelled, targetTiles[1].OccupantCharacter);
+            actionHandler.Damage(6.0f * distanceTravelled, targetTiles[1].OccupantCharacter);
             PlayAnimation(targetTiles[1]);
         }
     }
