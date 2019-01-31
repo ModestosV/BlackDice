@@ -43,12 +43,13 @@ public sealed class GameManager : MonoBehaviour
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
+        AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
 
         hudController.SelectedStatPanel = statPanels[1].Controller;
         hudController.SelectedPlayerPanel = playerPanels[1];
         hudController.TargetStatPanel = statPanels[0].Controller;
         hudController.TargetPlayerPanel = playerPanels[0];
-        hudController.AbilityPanelController = new AbilityPanelController(abilityPanel);
+        hudController.AbilityPanelController = abilityPanelController;
 
         // Initialize grid
         gridSelectionController = new GridSelectionController();
@@ -119,17 +120,16 @@ public sealed class GameManager : MonoBehaviour
         }
 
         // Initialize Event Subscribing
-        EventBus.Subscribe<AbilityClickEvent>(inputManager);
-        EventBus.Subscribe<AbilityUsedEvent>(hudController);
         EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
-        EventBus.Subscribe<UpdateSelectionModeEvent>(hudController);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
+        EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
     }
 
     private void Start()

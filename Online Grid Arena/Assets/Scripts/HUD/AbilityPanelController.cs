@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class AbilityPanelController : IAbilityPanelController
+public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
 {
     private IAbilityPanel abilityPanel;
 
@@ -48,6 +48,22 @@ public class AbilityPanelController : IAbilityPanelController
             {
                 abilityPanel.UpdateCooldownSquares(i, false, 0);
             }
+        }
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+
+        if (type == typeof(AbilityUsedEvent))
+        {
+            var newAbilityClicked = (AbilityUsedEvent)@event;
+            abilityPanel.SetAbilityColorDefaultToAll();
+            abilityPanel.SetAbilityColorUsed(newAbilityClicked.AbilityIndex);
+        }
+        if (type == typeof(UpdateSelectionModeEvent))
+        {
+            abilityPanel.SetAbilityColorDefaultToAll();
         }
     }
 }
