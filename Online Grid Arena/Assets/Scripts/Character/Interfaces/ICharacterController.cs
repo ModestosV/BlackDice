@@ -14,7 +14,7 @@ public interface ICharacterController
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
     IHealthBar HealthBar { set; }
-    ActiveCircle ActiveCircle { get; set; }
+    SpriteRenderer ActiveCircle { get; set; }
     
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);

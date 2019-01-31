@@ -49,6 +49,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
-        characterController.ActiveCircle.isActive = false;
+        characterController.ActiveCircle.enabled = false;
     }
 }

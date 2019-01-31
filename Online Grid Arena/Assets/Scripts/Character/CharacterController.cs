@@ -18,7 +18,7 @@ public class CharacterController : ICharacterController
     public Color32 BorderColor { protected get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
-    public ActiveCircle ActiveCircle { get; set; }
+    public SpriteRenderer ActiveCircle { get; set; }
 
 
     protected readonly ICharacter character;
@@ -163,7 +163,7 @@ public class CharacterController : ICharacterController
 
     public void StartOfTurn()
     {
-        ActiveCircle.isActive = true;
+        ActiveCircle.enabled = true;
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.START_OF_TURN)
@@ -209,7 +209,7 @@ public class CharacterController : ICharacterController
                 }
             }
         }
-        ActiveCircle.isActive = false;
+        ActiveCircle.enabled = false;
     }
 
     private void RemoveEffect(IEffect effect)

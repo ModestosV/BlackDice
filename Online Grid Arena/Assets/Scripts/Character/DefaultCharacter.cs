@@ -41,7 +41,7 @@ public sealed class DefaultCharacter : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<ActiveCircle>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }

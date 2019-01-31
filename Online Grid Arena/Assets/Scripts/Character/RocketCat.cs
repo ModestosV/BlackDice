@@ -39,7 +39,7 @@ public sealed class RocketCat : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<ActiveCircle>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
         };
     }
 }
