@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public sealed class HUDController : IHUDController
 {
@@ -11,6 +9,7 @@ public sealed class HUDController : IHUDController
     public IPlayerPanel TargetPlayerPanel { private get; set; }
 
     public IAbilityPanelController  AbilityPanelController { private get; set; }
+    public IAbilityPanel AbilityPanel { private get; set; }
 
     public void ClearSelectedHUD()
     {

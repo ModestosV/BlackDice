@@ -18,11 +18,6 @@
         TurnController.SelectActiveCharacter();
     }
 
-    protected override void DoClickOffGrid()
-    {
-        EventBus.Publish(new DeselectSelectedTileEvent());
-    }
-
     protected override void DoClickDisabledTile()
     {
         EventBus.Publish(new DeselectSelectedTileEvent());

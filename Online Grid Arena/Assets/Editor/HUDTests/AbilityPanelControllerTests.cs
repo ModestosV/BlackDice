@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class AbilityPanelControllerTests
 {
+    const int ABILITY_INDEX = 0;
+
     AbilityPanelController sut;
     IAbilityPanel abilityPanel;
 
@@ -49,4 +51,20 @@ public class AbilityPanelControllerTests
         abilityPanel.Received(1).UpdateStackIcons(effects);
     }
 
+    [Test]
+    public void Handle_AbilityUsedEvent()
+    {
+        sut.Handle(new AbilityUsedEvent(ABILITY_INDEX));
+
+        abilityPanel.Received(1).SetAbilityColorDefaultToAll();
+        abilityPanel.Received(1).SetAbilityColorUsed(ABILITY_INDEX);
+    }
+
+    [Test]
+    public void Handle_UpdateSelectionModeEvent()
+    {
+        sut.Handle(new AbilityUsedEvent(ABILITY_INDEX));
+
+        abilityPanel.Received(1).SetAbilityColorDefaultToAll();
+    }
 }
