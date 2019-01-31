@@ -38,7 +38,7 @@ public sealed class Pengwin : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<ActiveCircle>()
         };
     }
 }
