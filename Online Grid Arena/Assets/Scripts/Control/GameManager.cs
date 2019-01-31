@@ -130,6 +130,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
         EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
     }
 
     private void Start()
