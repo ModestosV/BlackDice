@@ -11,10 +11,14 @@ public sealed class HUDController : IHUDController, IEventSubscriber
     public IPlayerPanel TargetPlayerPanel { private get; set; }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public IAbilityPanelController  AbilityPanelController { private get; set; }
 =======
     public IAbilityPanel AbilityPanel { get; set; }
 >>>>>>> #107 add tests for HUDController
+=======
+    public IAbilityPanel AbilityPanel { private get; set; }
+>>>>>>> #107 removed HUDController tests to rebase on master
 
     public void ClearSelectedHUD()
     {
