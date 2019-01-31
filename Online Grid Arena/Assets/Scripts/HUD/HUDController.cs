@@ -10,7 +10,11 @@ public sealed class HUDController : IHUDController, IEventSubscriber
     public IStatPanelController TargetStatPanel { private get; set; }
     public IPlayerPanel TargetPlayerPanel { private get; set; }
 
+<<<<<<< HEAD
     public IAbilityPanelController  AbilityPanelController { private get; set; }
+=======
+    public IAbilityPanel AbilityPanel { get; set; }
+>>>>>>> #107 add tests for HUDController
 
     public void ClearSelectedHUD()
     {
