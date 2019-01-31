@@ -44,10 +44,10 @@ public sealed class GameManager : MonoBehaviour
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
 
-        hudController.SelectedStatPanel = statPanels[1].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[1];
-        hudController.TargetStatPanel = statPanels[0].Controller;
-        hudController.TargetPlayerPanel = playerPanels[0];
+        hudController.SelectedStatPanel = statPanels[0].Controller;
+        hudController.SelectedPlayerPanel = playerPanels[0];
+        hudController.TargetStatPanel = statPanels[1].Controller;
+        hudController.TargetPlayerPanel = playerPanels[1];
         hudController.AbilityPanel = abilityPanel;
 
         // Initialize grid
