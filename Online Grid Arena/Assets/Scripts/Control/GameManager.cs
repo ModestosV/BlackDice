@@ -46,9 +46,9 @@ public sealed class GameManager : MonoBehaviour
         AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
 
         hudController.SelectedStatPanel = statPanels[1].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[1];
+        hudController.SelectedPlayerPanel = playerPanels[0];
         hudController.TargetStatPanel = statPanels[0].Controller;
-        hudController.TargetPlayerPanel = playerPanels[0];
+        hudController.TargetPlayerPanel = playerPanels[1];
         hudController.AbilityPanelController = abilityPanelController;
 
 
