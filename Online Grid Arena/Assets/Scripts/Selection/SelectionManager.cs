@@ -42,7 +42,15 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
-                activeSelectionController = GetAbilitySelectionController(abilityIndex);
+
+                if (SelectedCharacterCanUseAbility(abilityIndex))
+                {
+                    activeSelectionController = GetAbilitySelectionController(abilityIndex);
+                }
+                else
+                {
+                    EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+                }
                 break;
         }
 
