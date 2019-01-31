@@ -9,13 +9,6 @@ public abstract class AbstractAbility : IAbility
 
     protected readonly ICharacter character;
 
-    public AbstractAbility()
-    {
-        AbilityIcon = null;
-        Effects = new List<IEffect>();
-        Description = "";
-    }
-
     protected AbstractAbility(Sprite abilityIcon, ICharacter character, string description)
     {
         AbilityIcon = abilityIcon;

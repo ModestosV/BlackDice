@@ -7,9 +7,10 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     protected readonly AudioClip soundEffect;
     protected readonly GameObject animationPrefab;
 
-    public int Cooldown { get; set; }
+    protected readonly int cooldown;
+    protected int cooldownRemaining;
 
-    public int CooldownRemaining { get; set; }
+    public int CooldownRemaining { get { return cooldownRemaining; } }
 
     protected AbstractActiveAbility(
         Sprite abilityIcon,
@@ -19,10 +20,10 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         int cooldown,
         string description) : base(abilityIcon, character, description)
     {
-        this.Cooldown = cooldown;
+        this.cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
-        CooldownRemaining = 0;
+        cooldownRemaining = 0;
     }
 
     public override void Execute(List<IHexTileController> targetTiles)
@@ -31,7 +32,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        CooldownRemaining = Cooldown;
+        cooldownRemaining = cooldown;
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
@@ -57,7 +58,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     {
         if (CooldownRemaining > 0)
         {
-            CooldownRemaining--;
+            cooldownRemaining--;
         }
     }
 }
