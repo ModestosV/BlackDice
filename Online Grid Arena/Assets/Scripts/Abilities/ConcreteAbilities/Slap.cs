@@ -38,7 +38,6 @@ public sealed class Slap : AbstractTargetedAbility
     {
         System.Random randomizer = new System.Random();
         int rand = randomizer.Next(0,100);
-        Debug.Log(rand);
         return (rand < 75) ? true : false;
     }
 }
