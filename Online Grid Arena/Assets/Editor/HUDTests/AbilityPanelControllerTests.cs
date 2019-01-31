@@ -28,25 +28,14 @@ public class AbilityPanelControllerTests
     }
 
     [Test]
-    public void Update_ability_panel()
-    {
-        abilities.Add(Substitute.For<IAbility>());
-        abilities.Add(Substitute.For<IAbility>());
-
-        effects.Add(Substitute.For<IEffect>());
-
-        sut.UpdateAbilityPanel(abilities, effects);
-        abilityPanel.Received(1).UpdateCooldownSquares(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<int>());
-    }
-
-    [Test]
     public void Update_ability_panel_cooldowns()
     {
         abilities.Add(Substitute.For<IAbility>());
         abilities.Add(Substitute.For<IAbility>());
+        abilities.Add(Substitute.For<IAbility>());
 
-        sut.UpdateAbilityCooldowns(abilities);
-        abilityPanel.Received(1).UpdateCooldownSquares(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<int>());
+        sut.UpdateAbilityPanel(abilities, effects);
+        abilityPanel.Received(3).UpdateCooldownSquares(Arg.Any<int>(), Arg.Any<bool>(), Arg.Any<int>());
     }
 
     [Test]
@@ -55,7 +44,7 @@ public class AbilityPanelControllerTests
         abilities.Add(Substitute.For<IAbility>());
         abilities.Add(Substitute.For<IAbility>());
 
-        sut.UpdateAbilityIcons(abilities, effects);
+        sut.UpdateAbilityPanel(abilities, effects);
         abilityPanel.Received(1).UpdateAbilityIcons(abilities);
         abilityPanel.Received(1).UpdateStackIcons(effects);
     }

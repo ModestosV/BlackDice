@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class AbilityPanelController : IAbilityPanelController
 {
@@ -22,7 +21,13 @@ public class AbilityPanelController : IAbilityPanelController
         abilityPanel.Show();
     }
 
-    public void UpdateAbilityCooldowns(List<IAbility> abilities)
+    private void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)
+    {
+        abilityPanel.UpdateAbilityIcons(abilities);
+        abilityPanel.UpdateStackIcons(effects);
+    }
+
+    private void UpdateAbilityCooldowns(List<IAbility> abilities)
     {
         for (int i = 0; i < abilities.Count; i++)
         {
@@ -44,11 +49,5 @@ public class AbilityPanelController : IAbilityPanelController
                 abilityPanel.UpdateCooldownSquares(i, false, 0);
             }
         }
-    }
-
-    public void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)
-    {
-        abilityPanel.UpdateAbilityIcons(abilities);
-        abilityPanel.UpdateStackIcons(effects);
     }
 }
