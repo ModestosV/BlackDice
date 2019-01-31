@@ -10,13 +10,13 @@ public sealed class HUDController : IHUDController
     public IStatPanelController TargetStatPanel { private get; set; }
     public IPlayerPanel TargetPlayerPanel { private get; set; }
 
-    public IAbilityPanel AbilityPanel { private get; set; }
+    public IAbilityPanelController  AbilityPanelController { private get; set; }
 
     public void ClearSelectedHUD()
     {
         SelectedStatPanel.DisableStatDisplays();
         SelectedPlayerPanel.ClearPlayerName();
-        AbilityPanel.Hide();
+        AbilityPanelController.Hide();
     }
 
     public void UpdateSelectedHUD(Dictionary<string, ICharacterStat> characterStats, string playerName, List<IAbility> abilities, List<IEffect> effects)
@@ -26,9 +26,7 @@ public sealed class HUDController : IHUDController
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
 
-        AbilityPanel.UpdateAbilityIcons(abilities);
-        AbilityPanel.UpdateStackIcons(effects);
-        AbilityPanel.Show();
+        AbilityPanelController.UpdateAbilityPanel(abilities, effects);
     }
 
     public void ClearTargetHUD()

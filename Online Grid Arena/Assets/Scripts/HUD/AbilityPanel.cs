@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class AbilityPanel : HideableUI, IAbilityPanel
 {
@@ -33,7 +34,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
             {
                 AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
-                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).CooldownRemaining;
             }
             else
             {
@@ -63,5 +64,33 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             }
             i++;
         }
+    }
+
+    public void UpdateCooldownSquares(int abilityButtonIndex, bool isOnCooldown, int cooldownRemaining)
+    {
+        var letters = new List<string>(){ "Q", "W", "E", "R" };
+        
+        CooldownSquare square = AbilityButtons[abilityButtonIndex].GetComponentInChildren<CooldownSquare>();
+        Text buttonText = AbilityButtons[abilityButtonIndex].GetComponentInChildren<Text>();
+
+        if(isOnCooldown)
+        {
+            buttonText.text = cooldownRemaining.ToString();
+            buttonText.color = Color.white;
+            buttonText.alignment = TextAnchor.MiddleCenter;
+            buttonText.fontSize = 30;
+            buttonText.fontStyle = FontStyle.Bold;
+            square.Show();
+        }
+        else
+        {
+            buttonText.color = Color.black;
+            buttonText.alignment = TextAnchor.LowerLeft;
+            buttonText.text = letters[abilityButtonIndex];
+            buttonText.fontStyle = FontStyle.Normal;
+            buttonText.fontSize = 14;
+            square.Hide();
+        }
+        
     }
 }
