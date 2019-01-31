@@ -16,20 +16,27 @@ public sealed class Slap : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        ChanceToTrigger(75, targetTiles);
+        SlapAttack(targetTiles);
+        for (int i = 0; i < 3; i++)
+        {
+            if (ChanceToTrigger())
+            {
+                SlapAttack(targetTiles);
+            }
+        }
     }
 
-    private void ChanceToTrigger(int chance, List<IHexTileController> targetTiles)
+    private void SlapAttack(List<IHexTileController> targetTiles)
     {
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
+    }
 
+    private bool ChanceToTrigger()
+    {
         System.Random randomizer = new System.Random();
         int rand = randomizer.Next(0,100);
-        if (rand < chance)
-        {
-            ChanceToTrigger(chance-25, targetTiles);
-        }
+        return (rand < 75) ? true : false;
     }
 }
