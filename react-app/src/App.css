@@ -6,6 +6,8 @@ html {
 
 a {
   color: rgb(0, 160, 160);
+  cursor: pointer;
+  text-decoration:underline;  
 }
 
 h1 { 
@@ -24,8 +26,8 @@ h1 {
     "title title"
     "nav nav"
     "header qotd"
-    "downloads qotd"
-    "downloads sidebar"
+    "downloads downloads"
+    "downloads downloads"
     "footer footer";
   grid-gap: 20px;
 }
@@ -41,12 +43,10 @@ h1 {
       "header"
       "downloads"
       "qotd"
-      "sidebar"
       "footer";
   }
 
 }
-
 
 .App > div {
   padding: 20px;
@@ -88,4 +88,30 @@ h1 {
 
 .Footer {
   grid-area: footer;
+}
+
+.modalPopUp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 50px;
+}
+
+.modalStyle {
+    background-color: grey;
+    color:black;
+    border: 5px;
+    margin: 0 auto;
+    Width:80%;
+    Height: 90%;
+    padding: 30px;
+    position: relative;
+    overflow: auto;
+}
+
+.modalFooter {
+    position: absolute;
+    bottom: 20;
 }

@@ -23,6 +23,19 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         }
     }
 
+    public void SetAbilityColorUsed(int abilityIndex)
+    {
+        AbilityButtons[abilityIndex].GetComponent<Image>().color = Color.grey;
+    }
+
+    public void SetAbilityColorDefaultToAll()
+    {
+        for (int i = 0; i < AbilityButtons.Count; i++)
+        {
+            AbilityButtons[i].GetComponent<Image>().color = new Color(0.7490196f, 0.7803922f, 0.8000001f, 1f);
+        }
+    }
+
     public void UpdateAbilityIcons(List<IAbility> abilities)
     {
         int i = 0;
@@ -32,13 +45,11 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
             if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
             {
-                AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
-                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).CooldownRemaining;
             }
-            else
-            {
-                AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
-            }
+
+            AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
+            AbilityButtons[i].GetComponent<AbilityButton>().Index = i;
 
             i++;
         }
@@ -63,5 +74,33 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             }
             i++;
         }
+    }
+
+    public void UpdateCooldownSquares(int abilityButtonIndex, bool isOnCooldown, int cooldownRemaining)
+    {
+        var letters = new List<string>(){ "Q", "W", "E", "R" };
+        
+        CooldownSquare square = AbilityButtons[abilityButtonIndex].GetComponentInChildren<CooldownSquare>();
+        Text buttonText = AbilityButtons[abilityButtonIndex].GetComponentInChildren<Text>();
+
+        if(isOnCooldown)
+        {
+            buttonText.text = cooldownRemaining.ToString();
+            buttonText.color = Color.white;
+            buttonText.alignment = TextAnchor.MiddleCenter;
+            buttonText.fontSize = 30;
+            buttonText.fontStyle = FontStyle.Bold;
+            square.Show();
+        }
+        else
+        {
+            buttonText.color = Color.black;
+            buttonText.alignment = TextAnchor.LowerLeft;
+            buttonText.text = letters[abilityButtonIndex];
+            buttonText.fontStyle = FontStyle.Normal;
+            buttonText.fontSize = 14;
+            square.Hide();
+        }
+        
     }
 }

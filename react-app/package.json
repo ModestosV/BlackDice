@@ -1,11 +1,9 @@
 {
   "name": "blackdice-website",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "http-proxy-middleware": "^0.19.1",
-    "mobx": "^5.8.0",
-    "mobx-react": "^5.4.3",
     "react": "^16.6.3",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.1"

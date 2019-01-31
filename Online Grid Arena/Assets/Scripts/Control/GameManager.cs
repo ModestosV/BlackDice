@@ -43,12 +43,14 @@ public sealed class GameManager : MonoBehaviour
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
+        AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
 
-        hudController.SelectedStatPanel = statPanels[0].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[0];
-        hudController.TargetStatPanel = statPanels[1].Controller;
-        hudController.TargetPlayerPanel = playerPanels[1];
-        hudController.AbilityPanel = abilityPanel;
+        hudController.SelectedStatPanel = statPanels[1].Controller;
+        hudController.SelectedPlayerPanel = playerPanels[1];
+        hudController.TargetStatPanel = statPanels[0].Controller;
+        hudController.TargetPlayerPanel = playerPanels[0];
+        hudController.AbilityPanelController = abilityPanelController;
+
 
         // Initialize grid
         gridSelectionController = new GridSelectionController();
@@ -127,6 +129,9 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
+        EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
     }
 
     private void Start()

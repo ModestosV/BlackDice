@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
-    public int Cooldown { get; }
-    protected int cooldownRemaining;
-    protected readonly GameObject animationPrefab;
+
     protected readonly AudioClip soundEffect;
+    protected readonly GameObject animationPrefab;
+
+    protected readonly int cooldown;
+    protected int cooldownRemaining;
+
+    public int CooldownRemaining { get { return cooldownRemaining; } }
 
     protected AbstractActiveAbility(
         Sprite abilityIcon,
@@ -16,7 +20,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         int cooldown,
         string description) : base(abilityIcon, character, description)
     {
-        this.Cooldown = cooldown;
+        this.cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
         cooldownRemaining = 0;
@@ -28,9 +32,10 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        cooldownRemaining = Cooldown;
-
         EventBus.Publish(new SelectTileEvent(character.Controller.OccupiedTile));
+
+        cooldownRemaining = cooldown;
+
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
@@ -53,12 +58,12 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
     public bool IsOnCooldown()
     {
-        return cooldownRemaining > 0;
+        return CooldownRemaining > 0;
     }
 
     public void UpdateCooldown()
     {
-        if (cooldownRemaining > 0)
+        if (CooldownRemaining > 0)
         {
             cooldownRemaining--;
         }

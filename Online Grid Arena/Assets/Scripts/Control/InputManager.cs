@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public sealed class InputManager : MonoBehaviour
+public sealed class InputManager : MonoBehaviour, IEventSubscriber
 {
     public ISelectionManager SelectionManager { private get; set; }
 
@@ -18,6 +18,35 @@ public sealed class InputManager : MonoBehaviour
         lastInputParameters = inputParameters;
 
         SelectionManager.Update(inputParameters);
+
+        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
+        {
+            EventBus.Publish(new AbilityUsedEvent(inputParameters.GetAbilityNumber()));
+        }
+    }
+
+    void UpdateOnAbilityClickEvent(int abilityIndex)
+    {
+        var inputParameters = GetInputParameters();
+
+        inputParameters.IsKeyQDown = (abilityIndex == 0) ? true: false;
+        inputParameters.IsKeyWDown = (abilityIndex == 1) ? true: false;
+        inputParameters.IsKeyEDown = (abilityIndex == 2) ? true: false;
+        inputParameters.IsKeyRDown = (abilityIndex == 3) ? true: false;
+
+        // Do nothing if input has not changed
+        if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
+        {
+            return;
+        }
+        lastInputParameters = inputParameters;
+
+        SelectionManager.Update(inputParameters);
+
+        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
+        {
+            EventBus.Publish(new AbilityUsedEvent(inputParameters.GetAbilityNumber()));
+        }
     }
 
     private IInputParameters GetInputParameters()
@@ -49,5 +78,17 @@ public sealed class InputManager : MonoBehaviour
         };
 
         return inputParameters;
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+
+        if (type == typeof(AbilityClickEvent))
+        {
+            var newAbilityClicked = (AbilityClickEvent)@event;
+
+            UpdateOnAbilityClickEvent(newAbilityClicked.AbilityIndex);
+        }
     }
 }

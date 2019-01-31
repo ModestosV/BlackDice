@@ -63,17 +63,19 @@ public class CharacterController : ICharacterController
 
         int distance = path.Count - 1;
         IHexTileController targetTile = path[distance];
-        
         OccupiedTile.OccupantCharacter = null;
 
         character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;
-        EventBus.Publish(new SelectTileEvent(targetTile));
 
         CharacterStats["moves"].CurrentValue -= distance;
         UpdateSelectedHUD();
+
+        EventBus.Publish(new DeselectSelectedTileEvent());
+        EventBus.Publish(new SelectTileEvent(targetTile));
+
         CheckExhausted();
     }
 

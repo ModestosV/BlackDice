@@ -10,7 +10,7 @@ public enum SelectionMode
 
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
-    public IGridSelectionController GridSelectionController { private get; set; }
+    public IGridSelectionController GridSelectionController { get; set; }
     public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
     public ITurnController TurnController { get; set; }
 
@@ -29,6 +29,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
             selectionMode = SelectionMode.MOVEMENT;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
 
         switch (selectionMode)
@@ -41,11 +42,19 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
-                activeSelectionController = GetAbilitySelectionController(abilityIndex);
+
+                if (SelectedCharacterCanUseAbility(abilityIndex))
+                {
+                    activeSelectionController = GetAbilitySelectionController(abilityIndex);
+                }
+                else
+                {
+                    EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+                }
                 break;
         }
 
-        if(activeSelectionController == null)
+        if (activeSelectionController == null)
         {
             activeSelectionController = SelectionControllers["free"];
         }
@@ -85,7 +94,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
     }
 
-    private bool SelectedCharacterCanUseAbility(int abilityIndex)
+    public bool SelectedCharacterCanUseAbility(int abilityIndex)
     {
         ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
 
@@ -100,9 +109,8 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(UpdateSelectionModeEvent))
         {
-            var newSelectionMode = (UpdateSelectionModeEvent) @event;
+            var newSelectionMode = (UpdateSelectionModeEvent)@event;
             selectionMode = newSelectionMode.SelectionMode;
         }
     }
 }
-
