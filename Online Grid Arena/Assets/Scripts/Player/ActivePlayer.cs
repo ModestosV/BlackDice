@@ -1,6 +1,6 @@
 ﻿public class ActivePlayer : IActivePlayer
 {
-    public UserDTO LoggedInUser { get; set; }
+    public UserDto LoggedInUser { get; set; }
 
     public bool IsLoggedIn()
     {

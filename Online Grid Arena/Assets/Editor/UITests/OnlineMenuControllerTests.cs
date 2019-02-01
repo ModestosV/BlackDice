@@ -11,7 +11,7 @@ public class OnlineMenuControllerTests
     IUserNetworkManager userNetworkManager;
     IActivePlayer activePlayer;
     IHttpResponseMessage responseMessage;
-    UserDTO userDTO;
+    UserDto userDTO;
 
     const string VALID_EMAIL = "foo@bar.com";
     const string VALID_PASSWORD = "eightchr";
@@ -48,7 +48,7 @@ public class OnlineMenuControllerTests
     [Test]
     public void Register_with_valid_information_indicates_activity_and_sends_registration_request()
     {
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -56,7 +56,7 @@ public class OnlineMenuControllerTests
 
         registrationPanel.Received(1).ActivateLoadingCircle();
         registrationPanel.Received(1).ClearStatus();
-        userNetworkManager.Received(1).CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.Received(1).CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             ));
         registrationPanel.Received(1).DeactivateLoadingCircle();
@@ -65,7 +65,7 @@ public class OnlineMenuControllerTests
     [Test]
     public void Registration_disables_register_button_while_in_progress()
     {
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -79,7 +79,7 @@ public class OnlineMenuControllerTests
     public void Registration_with_201_response_code_sets_registration_success_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.Created);
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -92,7 +92,7 @@ public class OnlineMenuControllerTests
     public void Registration_with_400_response_code_sets_connectivity_issues_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.BadRequest);
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -105,7 +105,7 @@ public class OnlineMenuControllerTests
     public void Registration_with_412_response_code_sets_duplicate_keys_message()
     {
         responseMessage.StatusCode.Returns((HttpStatusCode)412);
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -118,7 +118,7 @@ public class OnlineMenuControllerTests
     public void Registration_with_500_response_code_sets_registration_success_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.InternalServerError);
-        userNetworkManager.CreateUserAsync(Arg.Is<UserDTO>(
+        userNetworkManager.CreateUserAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash && x.Username == VALID_USERNAME
             )).Returns(responseMessage);
 
@@ -158,7 +158,7 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_indicates_activity_and_sends_login_request()
     {
-        userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
 
@@ -166,7 +166,7 @@ public class OnlineMenuControllerTests
 
         loginPanel.Received(1).ActivateLoadingCircle();
         loginPanel.Received(1).ClearStatus();
-        userNetworkManager.Received(1).LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.Received(1).LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             ));
         loginPanel.Received(1).DeactivateLoadingCircle();
@@ -175,7 +175,7 @@ public class OnlineMenuControllerTests
     [Test]
     public void Login_disables_login_logout_while_in_progress()
     {
-        userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
 
@@ -189,13 +189,13 @@ public class OnlineMenuControllerTests
     public void Login_with_200_response_code_updates_active_player_and_status_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.OK);
-        userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
 
         sut.Login(VALID_EMAIL, VALID_PASSWORD);
 
-        activePlayer.Received(1).LoggedInUser = Arg.Is<UserDTO>(
+        activePlayer.Received(1).LoggedInUser = Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             );
         loginPanel.Received(1).ToggleLoginLogoutButtons();
@@ -206,7 +206,7 @@ public class OnlineMenuControllerTests
     public void Login_with_400_response_code_sets_invalid_credentials_status_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.BadRequest);
-        userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
 
@@ -219,7 +219,7 @@ public class OnlineMenuControllerTests
     public void Login_with_500_response_code_sets_invalid_credentials_status_message()
     {
         responseMessage.StatusCode.Returns(HttpStatusCode.InternalServerError);
-        userNetworkManager.LoginAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LoginAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.PasswordHash == validPasswordHash
             )).Returns(responseMessage);
 
@@ -232,9 +232,9 @@ public class OnlineMenuControllerTests
     public void Logout_indicates_activity_and_sends_logout_request_for_active_account()
     {
         activePlayer.IsLoggedIn().Returns(true);
-        userDTO = new UserDTO(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
+        userDTO = new UserDto(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
         activePlayer.LoggedInUser.Returns(userDTO);
-        userNetworkManager.LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             )).Returns(responseMessage);
 
@@ -242,7 +242,7 @@ public class OnlineMenuControllerTests
 
         loginPanel.Received(1).ActivateLoadingCircle();
         loginPanel.Received(1).ClearStatus();
-        userNetworkManager.Received(1).LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.Received(1).LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             ));
         loginPanel.Received(1).DeactivateLoadingCircle();
@@ -252,9 +252,9 @@ public class OnlineMenuControllerTests
     public void Logout_disables_login_logout_buttons_while_in_progress()
     {
         activePlayer.IsLoggedIn().Returns(true);
-        userDTO = new UserDTO(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
+        userDTO = new UserDto(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
         activePlayer.LoggedInUser.Returns(userDTO);
-        userNetworkManager.LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             )).Returns(responseMessage);
 
@@ -268,10 +268,10 @@ public class OnlineMenuControllerTests
     public void Logout_with_200_response_code_updates_active_player_and_status_message()
     {
         activePlayer.IsLoggedIn().Returns(true);
-        userDTO = new UserDTO(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
+        userDTO = new UserDto(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
         activePlayer.LoggedInUser.Returns(userDTO);
         responseMessage.StatusCode.Returns(HttpStatusCode.OK);
-        userNetworkManager.LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             )).Returns(responseMessage);
 
@@ -286,10 +286,10 @@ public class OnlineMenuControllerTests
     public void Logout_with_400_response_code_sets_logout_failed_status_message()
     {
         activePlayer.IsLoggedIn().Returns(true);
-        userDTO = new UserDTO(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
+        userDTO = new UserDto(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
         activePlayer.LoggedInUser.Returns(userDTO);
         responseMessage.StatusCode.Returns(HttpStatusCode.BadRequest);
-        userNetworkManager.LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             )).Returns(responseMessage);
 
@@ -302,10 +302,10 @@ public class OnlineMenuControllerTests
     public void Logout_with_500_response_code_sets_connectivity_issues_message()
     {
         activePlayer.IsLoggedIn().Returns(true);
-        userDTO = new UserDTO(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
+        userDTO = new UserDto(VALID_EMAIL) { LoggedInToken = LOGGED_IN_TOKEN };
         activePlayer.LoggedInUser.Returns(userDTO);
         responseMessage.StatusCode.Returns(HttpStatusCode.InternalServerError);
-        userNetworkManager.LogoutAsync(Arg.Is<UserDTO>(
+        userNetworkManager.LogoutAsync(Arg.Is<UserDto>(
             x => x.Email == VALID_EMAIL && x.LoggedInToken == LOGGED_IN_TOKEN
             )).Returns(responseMessage);
 

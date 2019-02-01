@@ -2,8 +2,8 @@
 
 public interface IUserNetworkManager
 {
-    Task<IHttpResponseMessage> CreateUserAsync(UserDTO userDto);
+    Task<IHttpResponseMessage> CreateUserAsync(UserDto userDto);
 
-    Task<IHttpResponseMessage> LoginAsync(UserDTO userDto);
-    Task<IHttpResponseMessage> LogoutAsync(UserDTO userDto);
+    Task<IHttpResponseMessage> LoginAsync(UserDto userDto);
+    Task<IHttpResponseMessage> LogoutAsync(UserDto userDto);
 }

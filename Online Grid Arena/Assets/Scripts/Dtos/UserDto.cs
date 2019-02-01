@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-public sealed class UserDTO
+public sealed class UserDto
 {
     [JsonProperty("email")]
     public string Email { get; }
@@ -11,7 +11,7 @@ public sealed class UserDTO
     [JsonProperty("username")]
     public string Username { get; }
 
-    public UserDTO
+    public UserDto
     (
         string Email,
         string PasswordHash = "",

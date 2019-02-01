@@ -1,6 +1,6 @@
 ﻿public interface IActivePlayer
 {
-    UserDTO LoggedInUser { get; set; }
+    UserDto LoggedInUser { get; set; }
     bool IsLoggedIn();
     void Logout();
 }
