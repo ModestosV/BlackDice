@@ -3,6 +3,8 @@ using UnityEngine;
 
 public sealed class Slap : AbstractTargetedAbility
 {
+    private const int MAX_EXTRA_SLAPS = 3;
+
     public Slap(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
@@ -17,7 +19,7 @@ public sealed class Slap : AbstractTargetedAbility
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         SlapAttack(targetTiles);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < MAX_EXTRA_SLAPS; i++)
         {
             if (ChanceToTrigger())
             {
