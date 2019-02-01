@@ -1,6 +1,6 @@
 ﻿public interface ISelectionManager
 {
-    void Update(IInputParameters inputParameters);
+    void UpdateSelectionMode(IInputParameters inputParameters);
 
     bool SelectedCharacterCanUseAbility(int abilityIndex);
 }

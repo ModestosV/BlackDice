@@ -32,7 +32,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        EventBus.Publish(new SelectTileEvent(character.Controller.OccupiedTile));
+        EventBus.Publish(new SelectActivePlayerEvent());
 
         cooldownRemaining = cooldown;
 

@@ -6,17 +6,13 @@ public class FreeSelectionControllerTests
     FreeSelectionController sut;
 
     IGridSelectionController gridSelectionController;
-    ITurnController turnController;
-    
     IInputParameters inputParameters;
-
     IHexTileController targetTile;
 
     [SetUp]
     public void Init()
     {
         gridSelectionController = Substitute.For<IGridSelectionController>();
-        turnController = Substitute.For<ITurnController>();
         
         inputParameters = Substitute.For<IInputParameters>();
         
@@ -28,7 +24,7 @@ public class FreeSelectionControllerTests
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
-        sut = new FreeSelectionController(turnController, gridSelectionController);
+        sut = new FreeSelectionController(gridSelectionController);
     }
 
     [Test]
@@ -41,14 +37,13 @@ public class FreeSelectionControllerTests
         gridSelectionController.Received(1).BlurAll();
     }
 
-    public void Pressing_tab_key_selects_active_character()
+    public void Pressing_tab_key_blurs_all_tiles()
     {
         inputParameters.IsKeyTabDown = true;
 
         sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
-        turnController.Received(1).SelectActiveCharacter();
     }
 
     [Test]

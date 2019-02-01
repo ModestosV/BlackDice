@@ -51,7 +51,7 @@ public sealed class GameManager : MonoBehaviour
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();
-        freeSelectionController = new FreeSelectionController(turnController, gridSelectionController);
+        freeSelectionController = new FreeSelectionController(gridSelectionController);
         movementSelectionController = new MovementSelectionController(gridSelectionController);
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
@@ -95,6 +95,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
     }
 
     private void Start()

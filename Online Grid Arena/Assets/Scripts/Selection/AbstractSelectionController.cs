@@ -93,8 +93,13 @@
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
+    protected void DoTabPressed()
+    {
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+        EventBus.Publish(new SelectActivePlayerEvent());
+    }
+
     protected virtual void DoFirst() { }
-    protected virtual void DoTabPressed() { }
     protected virtual void DoClickDisabledTile() { }
     protected virtual void DoHoverDisabledTile() { }
     protected virtual void DoClickUnoccupiedOtherTile() { }

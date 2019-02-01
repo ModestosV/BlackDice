@@ -1,21 +1,12 @@
 ﻿public sealed class FreeSelectionController : AbstractSelectionController
 {
-    private ITurnController turnController;
-
-    public FreeSelectionController(ITurnController turnController, IGridSelectionController gridSelectionController) :base(gridSelectionController)
+    public FreeSelectionController(IGridSelectionController gridSelectionController) :base(gridSelectionController)
     {
-        this.turnController = turnController;
     }
 
     protected override void DoFirst()
     {
         gridSelectionController.BlurAll();
-    }
-
-    protected override void DoTabPressed()
-    {
-        EventBus.Publish(new DeselectSelectedTileEvent());
-        turnController.SelectActiveCharacter();
     }
 
     protected override void DoClickDisabledTile()

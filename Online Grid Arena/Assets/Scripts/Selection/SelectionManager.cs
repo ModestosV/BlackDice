@@ -23,7 +23,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         this.selectionControllers = selectionControllers;
     }
 
-    public void Update(IInputParameters inputParameters)
+    public void UpdateSelectionMode(IInputParameters inputParameters)
     {
         int abilityIndex = inputParameters.GetAbilityNumber();
 

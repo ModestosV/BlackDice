@@ -15,12 +15,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         this.turnTracker = turnTracker;
     }
 
-    public void SelectActiveCharacter()
-    {
-        if (activeCharacter != null)
-            EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
-    }
-
     public List<ICharacterController> GetLivingCharacters()
     {
         List<ICharacterController> livingCharacters = new List<ICharacterController>();
@@ -61,6 +55,10 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if(type == typeof(SurrenderEvent))
         {
             Surrender();
+        }
+        if(type == typeof(SelectActivePlayerEvent))
+        {
+            SelectActiveCharacter();
         }
     }
 
@@ -137,5 +135,13 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
 
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+    }
+
+    private void SelectActiveCharacter()
+    {
+        if (activeCharacter != null)
+        {
+            EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
+        }
     }
 }
