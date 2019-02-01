@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public enum SelectionMode
 {
@@ -10,13 +9,19 @@ public enum SelectionMode
 
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
-    public IGridSelectionController GridSelectionController { get; set; }
-    public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
-    public ITurnController TurnController { get; set; }
 
+    public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
 
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
+    private ITurnController turnController;
+    private IGridSelectionController gridSelectionController;
+
+    public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController)
+    {
+        this.turnController = turnController;
+        this.gridSelectionController = gridSelectionController;
+    }
 
     public void Update(IInputParameters inputParameters)
     {
@@ -58,12 +63,12 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         {
             activeSelectionController = SelectionControllers["free"];
         }
-        activeSelectionController.Update(inputParameters);
+        activeSelectionController.UpdateSelection(inputParameters);
     }
 
     private ISelectionController GetAbilitySelectionController(int abilityIndex)
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         AbilityType activeAbilityType = selectedCharacter.GetAbilityType(abilityIndex);
 
@@ -86,22 +91,22 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
     private bool SelectedCharacterCanMove()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         if (selectedCharacter == null)
             return false;
 
-        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
+        return turnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
     }
 
     public bool SelectedCharacterCanUseAbility(int abilityIndex)
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         if (selectedCharacter == null)
             return false;
 
-        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
+        return turnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
     }
 
     public void Handle(IEvent @event)

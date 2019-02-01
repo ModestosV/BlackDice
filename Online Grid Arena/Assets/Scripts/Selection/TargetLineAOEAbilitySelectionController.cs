@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectionController
 {
+    public TargetLineAOEAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
+    {
+
+    }
+
     protected override void DoHoverOccupiedTile()
     {
         base.DoHoverOccupiedTile();
         
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
         DehighlightNeighboringTiles(inputParameters.TargetTile, path[path.Count - 2]);
         if (path.Count >= 2)

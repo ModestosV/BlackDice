@@ -1,6 +1,4 @@
 ﻿public interface ISelectionController
 {
-    IGridSelectionController GridSelectionController { set; }
-
-    void Update(IInputParameters inputParameters);
+    void UpdateSelection(IInputParameters inputParameters);
 }

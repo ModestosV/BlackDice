@@ -2,11 +2,16 @@
 
 public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelectionController
 {
+    public TargetEnemyAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
+    {
+
+    }
+
     protected override void DoFirst()
     {
         SetActiveAbility();
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
+        gridSelectionController.BlurAll();
+        gridSelectionController.DehighlightAll();
     }
 
     protected override void DoEscapePressed()
@@ -16,11 +21,11 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
     protected override void DoClickOccupiedOtherTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -47,11 +52,11 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
     protected override void DoHoverOccupiedTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 

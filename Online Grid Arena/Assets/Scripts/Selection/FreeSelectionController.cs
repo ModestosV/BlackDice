@@ -1,10 +1,15 @@
 ﻿public sealed class FreeSelectionController : AbstractSelectionController
 {
-    public TurnController TurnController { private get; set; }
+    private ITurnController turnController;
+
+    public FreeSelectionController(ITurnController turnController, IGridSelectionController gridSelectionController) :base(gridSelectionController)
+    {
+        this.turnController = turnController;
+    }
 
     protected override void DoFirst()
     {
-        GridSelectionController.BlurAll();
+        gridSelectionController.BlurAll();
     }
 
     protected override void DoEscapePressed()
@@ -15,7 +20,7 @@
     protected override void DoTabPressed()
     {
         EventBus.Publish(new DeselectSelectedTileEvent());
-        TurnController.SelectActiveCharacter();
+        turnController.SelectActiveCharacter();
     }
 
     protected override void DoClickDisabledTile()

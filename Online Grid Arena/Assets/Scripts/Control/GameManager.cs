@@ -51,52 +51,16 @@ public sealed class GameManager : MonoBehaviour
         hudController.TargetPlayerPanel = playerPanels[1];
         hudController.AbilityPanelController = abilityPanelController;
 
-
-        // Initialize grid
-        gridSelectionController = new GridSelectionController();
-
         // Initialize selection controllers
-        selectionManager = new SelectionManager()
-        {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController
-        };
-
-        freeSelectionController = new FreeSelectionController()
-        {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController
-        };
-
-        movementSelectionController = new MovementSelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
+        gridSelectionController = new GridSelectionController();
+        selectionManager = new SelectionManager(turnController, gridSelectionController);
+        freeSelectionController = new FreeSelectionController(turnController, gridSelectionController);
+        movementSelectionController = new MovementSelectionController(gridSelectionController);
+        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
+        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
+        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
+        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
 
         selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
         {

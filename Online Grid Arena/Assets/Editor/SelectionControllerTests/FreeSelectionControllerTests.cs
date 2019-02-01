@@ -28,10 +28,7 @@ public class FreeSelectionControllerTests
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
-        sut = new FreeSelectionController
-        {
-            GridSelectionController = gridSelectionController
-        };
+        sut = new FreeSelectionController(turnController, gridSelectionController);
     }
 
     [Test]
@@ -39,7 +36,7 @@ public class FreeSelectionControllerTests
     {
         inputParameters.IsKeyEscapeDown = true;
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
     }
@@ -48,7 +45,7 @@ public class FreeSelectionControllerTests
     {
         inputParameters.IsKeyTabDown = true;
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         turnController.Received(1).SelectActiveCharacter();
@@ -61,7 +58,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsMouseOverGrid = false;
         inputParameters.IsLeftClickDown = true;
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
     }
@@ -73,7 +70,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsMouseOverGrid = false;
         inputParameters.IsLeftClickDown = false;
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
     }
@@ -86,7 +83,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsLeftClickDown = true;
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
     }
@@ -99,7 +96,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsLeftClickDown = false;
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
     }
@@ -111,7 +108,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsMouseOverGrid = true;
         inputParameters.IsLeftClickDown = false;
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).Hover();
@@ -125,7 +122,7 @@ public class FreeSelectionControllerTests
         inputParameters.IsLeftClickDown = false;
         targetTile.IsOccupied().Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         targetTile.Received(1).Hover();
