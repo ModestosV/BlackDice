@@ -12,11 +12,6 @@
         gridSelectionController.BlurAll();
     }
 
-    protected override void DoEscapePressed()
-    {
-        EventBus.Publish(new DeselectSelectedTileEvent());
-    }
-
     protected override void DoTabPressed()
     {
         EventBus.Publish(new DeselectSelectedTileEvent());

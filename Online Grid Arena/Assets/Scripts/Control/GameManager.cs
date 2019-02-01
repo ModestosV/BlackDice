@@ -4,8 +4,6 @@ using System.Linq;
 
 public sealed class GameManager : MonoBehaviour
 {
-    public SelectionMode SelectionMode { private get; set; }
-
     private TurnController turnController;
     private HUDController hudController;
     private GridSelectionController gridSelectionController;
@@ -53,7 +51,6 @@ public sealed class GameManager : MonoBehaviour
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();
-        selectionManager = new SelectionManager(turnController, gridSelectionController);
         freeSelectionController = new FreeSelectionController(turnController, gridSelectionController);
         movementSelectionController = new MovementSelectionController(gridSelectionController);
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
@@ -62,7 +59,7 @@ public sealed class GameManager : MonoBehaviour
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
 
-        selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
+        var selectionControllers = new Dictionary<string, ISelectionController>()
         {
             { "free", freeSelectionController },
             { "movement", movementSelectionController },
@@ -70,8 +67,10 @@ public sealed class GameManager : MonoBehaviour
             { "target_ally", targetAllyAbilitySelectionController },
             { "target_tile", targetTileAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController}
+            { "target_line_aoe", targetLineAOEAbilitySelectionController }
         };
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
 
         // Initialize input manager
         inputManager = FindObjectOfType<InputManager>();

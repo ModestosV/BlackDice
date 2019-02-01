@@ -13,11 +13,6 @@ public sealed class MovementSelectionController : AbstractSelectionController
         gridSelectionController.DehighlightAll();
     }
 
-    protected override void DoEscapePressed()
-    {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-    }
-
     protected override void DoClickUnoccupiedOtherTile()
     {
         IHexTileController selectedTile = gridSelectionController.SelectedTile;

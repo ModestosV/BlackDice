@@ -88,8 +88,12 @@
         DoHoverOccupiedTile();
     }
 
+    protected void DoEscapePressed()
+    {
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+    }
+
     protected virtual void DoFirst() { }
-    protected virtual void DoEscapePressed() { }
     protected virtual void DoTabPressed() { }
     protected virtual void DoClickDisabledTile() { }
     protected virtual void DoHoverDisabledTile() { }

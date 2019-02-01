@@ -8,18 +8,6 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
 
     }
 
-    protected override void DoFirst()
-    {
-        SetActiveAbility();
-        gridSelectionController.BlurAll();
-        gridSelectionController.DehighlightAll();
-    }
-
-    protected override void DoEscapePressed()
-    {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-    }
-
     protected override void DoClickUnoccupiedOtherTile()
     {
         ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();

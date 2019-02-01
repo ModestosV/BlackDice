@@ -13,4 +13,11 @@
 
         activeAbilityIndex = inputParameters.GetAbilityNumber();
     }
+
+    protected override void DoFirst()
+    {
+        SetActiveAbility();
+        gridSelectionController.BlurAll();
+        gridSelectionController.DehighlightAll();
+    }
 }

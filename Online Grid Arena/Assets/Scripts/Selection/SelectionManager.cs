@@ -10,17 +10,17 @@ public enum SelectionMode
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
 
-    public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
-
+    private Dictionary<string, ISelectionController> selectionControllers;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
     private ITurnController turnController;
     private IGridSelectionController gridSelectionController;
 
-    public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController)
+    public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController, Dictionary<string, ISelectionController> selectionControllers)
     {
         this.turnController = turnController;
         this.gridSelectionController = gridSelectionController;
+        this.selectionControllers = selectionControllers;
     }
 
     public void Update(IInputParameters inputParameters)
@@ -40,10 +40,10 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         switch (selectionMode)
         {
             case SelectionMode.FREE:
-                activeSelectionController = SelectionControllers["free"];
+                activeSelectionController = selectionControllers["free"];
                 break;
             case SelectionMode.MOVEMENT:
-                activeSelectionController = SelectionControllers["movement"];
+                activeSelectionController = selectionControllers["movement"];
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
@@ -61,7 +61,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
         if (activeSelectionController == null)
         {
-            activeSelectionController = SelectionControllers["free"];
+            activeSelectionController = selectionControllers["free"];
         }
         activeSelectionController.UpdateSelection(inputParameters);
     }
@@ -75,15 +75,15 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         switch (activeAbilityType)
         {
             case AbilityType.TARGET_ENEMY:
-                return SelectionControllers["target_enemy"];
+                return selectionControllers["target_enemy"];
             case AbilityType.TARGET_ALLY:
-                return SelectionControllers["target_ally"];
+                return selectionControllers["target_ally"];
             case AbilityType.TARGET_TILE:
-                return SelectionControllers["target_tile"];
+                return selectionControllers["target_tile"];
             case AbilityType.TARGET_LINE:
-                return SelectionControllers["target_line"];
+                return selectionControllers["target_line"];
             case AbilityType.TARGET_LINE_AOE:
-                return SelectionControllers["target_line_aoe"];
+                return selectionControllers["target_line_aoe"];
             default:
                 return null;
         }
