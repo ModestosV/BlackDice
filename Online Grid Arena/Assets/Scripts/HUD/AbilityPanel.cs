@@ -47,6 +47,10 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             {
                 AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
             }
+            else
+            {
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = 0;
+            }
 
             AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
             AbilityButtons[i].GetComponent<AbilityButton>().Index = i;
