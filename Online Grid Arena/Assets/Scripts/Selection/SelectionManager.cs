@@ -29,11 +29,10 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
         if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility(abilityIndex))
         {
-            selectionMode = SelectionMode.ABILITY;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.ABILITY));
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            selectionMode = SelectionMode.MOVEMENT;
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
 
