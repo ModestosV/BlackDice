@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
-public class AbilitySoundSource : MonoBehaviour, IEventSubscriber {
-
+public class AbilitySoundSource : MonoBehaviour, IEventSubscriber
+{
     private AudioSource audioSource;
-
-    protected Texture abilityIcon;
 
     void Start ()
     {

@@ -74,6 +74,10 @@ public sealed class GridSelectionController : IGridSelectionController, IEventSu
         }
         if (type == typeof(SelectTileEvent))
         {
+            if(SelectedTile != null)
+            {
+                SelectedTile.Deselect();
+            }
             SelectTileEvent selectTileEvent = (SelectTileEvent) @event;
             SelectedTile = selectTileEvent.SelectedTile;
             SelectedTile.Select();

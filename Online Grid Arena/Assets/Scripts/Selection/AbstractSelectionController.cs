@@ -1,10 +1,14 @@
 ﻿public abstract class AbstractSelectionController : ISelectionController
 {
-    public IGridSelectionController GridSelectionController { protected get; set; }
-
+    protected IGridSelectionController gridSelectionController;
     protected IInputParameters inputParameters;
+    
+    public AbstractSelectionController(IGridSelectionController gridSelectionController)
+    {
+        this.gridSelectionController = gridSelectionController;
+    }
 
-    public void Update(IInputParameters inputParameters)
+    public void UpdateSelection(IInputParameters inputParameters)
     {
         this.inputParameters = inputParameters;
 
@@ -47,7 +51,7 @@
         // Invariant: Target tile is enabled
 
         bool tileIsOccupied = inputParameters.TargetTile.IsOccupied();
-        bool tileIsCurrentSelectedTile = GridSelectionController.IsSelectedTile(inputParameters.TargetTile);
+        bool tileIsCurrentSelectedTile = gridSelectionController.IsSelectedTile(inputParameters.TargetTile);
 
         if (inputParameters.TargetTile.IsObstructed) return;
 
@@ -84,63 +88,25 @@
         DoHoverOccupiedTile();
     }
 
-    protected virtual void DoFirst()
+    protected void DoEscapePressed()
     {
-
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
-    protected virtual void DoEscapePressed()
+    protected void DoTabPressed()
     {
-
+        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+        EventBus.Publish(new SelectActivePlayerEvent());
     }
 
-    protected virtual void DoTabPressed()
-    {
-
-    }
-
-    protected virtual void DoClickDisabledTile()
-    {
-
-    }
-
-    protected virtual void DoHoverDisabledTile()
-    {
-
-    }
-
-    protected virtual void DoClickUnoccupiedOtherTile()
-    {
-
-    }
-
-    protected virtual void DoClickSelectedTile()
-    {
-
-    }
-
-    protected virtual void DoClickOccupiedOtherTile()
-    {
-
-    }
-
-    protected virtual void DoHoverUnoccupiedTile()
-    {
-
-    }
-
-    protected virtual void DoHoverSelectedTile()
-    {
-
-    }
-
-    protected virtual void DoHoverOccupiedTile()
-    {
-
-    }
-
-    protected virtual void DoHoverAbility()
-    {
-
-    }
+    protected virtual void DoFirst() { }
+    protected virtual void DoClickDisabledTile() { }
+    protected virtual void DoHoverDisabledTile() { }
+    protected virtual void DoClickUnoccupiedOtherTile() { }
+    protected virtual void DoClickSelectedTile() { }
+    protected virtual void DoClickOccupiedOtherTile() { }
+    protected virtual void DoHoverUnoccupiedTile() { }
+    protected virtual void DoHoverSelectedTile() { }
+    protected virtual void DoHoverOccupiedTile() { }
+    protected virtual void DoHoverAbility() { }
 }

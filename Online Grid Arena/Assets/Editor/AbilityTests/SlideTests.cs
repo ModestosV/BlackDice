@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class SlideTests
 {
@@ -9,12 +8,7 @@ public class SlideTests
 
     ICharacter character;
     ICharacterController controller;
-
-    IHexTileController target;
-    IHexTileController target2;
-    List<IHexTileController> targetTiles;
-
-    const int COOLDOWN = 5;
+    
     const int MIN_RANGE = 1;
     const int MAX_RANGE = 101;
     const float DAMAGE = 0;
@@ -24,10 +18,6 @@ public class SlideTests
     {
         character = Substitute.For<ICharacter>();
         controller = Substitute.For<ICharacterController>();
-        target = Substitute.For<IHexTileController>();
-        target2 = Substitute.For<IHexTileController>();
-
-        targetTiles = new List<IHexTileController>() { target , target2};
 
         character.Controller.Returns(controller);
 
@@ -39,40 +29,5 @@ public class SlideTests
     {
         Assert.That(sut.IsInRange(MIN_RANGE), Is.EqualTo(true));
         Assert.That(sut.IsInRange(MAX_RANGE), Is.EqualTo(false));
-    }
-
-    [Test]
-    public void Execute_calls_damage_according_to_path()
-    {
-        sut.Execute(targetTiles);
-        target2.Received().Damage(DAMAGE);
-    }
-
-    [Test]
-    public void Update_cooldown_decrements_remaining_cooldown()
-    {
-        sut.Execute(targetTiles);
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(true));
-
-        sut.UpdateCooldown();
-        Assert.That(sut.IsOnCooldown(), Is.EqualTo(false));
     }
 }

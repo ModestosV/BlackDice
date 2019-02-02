@@ -4,8 +4,6 @@ using System.Linq;
 
 public sealed class GameManager : MonoBehaviour
 {
-    public SelectionMode SelectionMode { private get; set; }
-
     private TurnController turnController;
     private HUDController hudController;
     private GridSelectionController gridSelectionController;
@@ -46,58 +44,22 @@ public sealed class GameManager : MonoBehaviour
         AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
 
         hudController.SelectedStatPanel = statPanels[1].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[1];
+        hudController.SelectedPlayerPanel = playerPanels[0];
         hudController.TargetStatPanel = statPanels[0].Controller;
-        hudController.TargetPlayerPanel = playerPanels[0];
+        hudController.TargetPlayerPanel = playerPanels[1];
         hudController.AbilityPanelController = abilityPanelController;
 
-        // Initialize grid
-        gridSelectionController = new GridSelectionController();
-
         // Initialize selection controllers
-        selectionManager = new SelectionManager()
-        {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController
-        };
+        gridSelectionController = new GridSelectionController();
+        freeSelectionController = new FreeSelectionController(gridSelectionController);
+        movementSelectionController = new MovementSelectionController(gridSelectionController);
+        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
+        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
+        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
+        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
 
-        freeSelectionController = new FreeSelectionController()
-        {
-            GridSelectionController = gridSelectionController,
-            TurnController = turnController
-        };
-
-        movementSelectionController = new MovementSelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController()
-        {
-            GridSelectionController = gridSelectionController
-        };
-
-        selectionManager.SelectionControllers = new Dictionary<string, ISelectionController>()
+        var selectionControllers = new Dictionary<string, ISelectionController>()
         {
             { "free", freeSelectionController },
             { "movement", movementSelectionController },
@@ -105,8 +67,10 @@ public sealed class GameManager : MonoBehaviour
             { "target_ally", targetAllyAbilitySelectionController },
             { "target_tile", targetTileAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController}
+            { "target_line_aoe", targetLineAOEAbilitySelectionController }
         };
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
 
         // Initialize input manager
         inputManager = FindObjectOfType<InputManager>();
@@ -131,6 +95,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
     }
 
     private void Start()

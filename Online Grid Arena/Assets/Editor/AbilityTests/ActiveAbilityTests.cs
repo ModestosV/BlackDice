@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ActiveAbilityTests
 {
@@ -9,9 +8,12 @@ public class ActiveAbilityTests
 
     ICharacter character;
     ICharacterController controller;
+    ICharacter targetCharacter;
+    ICharacterController targetCharacterController;
 
     ICharacterStat attackStat;
     Dictionary<string, ICharacterStat> characterStats;
+    Dictionary<string, ICharacterStat> targetCharacterStats;
 
     IHexTileController target;
     List<IHexTileController> targetTiles;
@@ -32,6 +34,8 @@ public class ActiveAbilityTests
         attackStat = Substitute.For<ICharacterStat>();
         target = Substitute.For<IHexTileController>();
         effect = Substitute.For<IEffect>();
+        targetCharacter = Substitute.For<ICharacter>();
+        targetCharacterController = Substitute.For<ICharacterController>();
 
         characterStats = new Dictionary<string, ICharacterStat>()
         {
@@ -42,6 +46,17 @@ public class ActiveAbilityTests
 
         character.Controller.Returns(controller);
         controller.CharacterStats.Returns(characterStats);
+
+        targetCharacterStats = new Dictionary<string, ICharacterStat>()
+        {
+            { "health", new CharacterStat(100.0f) },
+            { "defense", new CharacterStat(100.0f) }
+        };
+
+        targetTiles[0].OccupantCharacter.Returns(targetCharacterController);
+        targetCharacter.Controller.Returns(targetCharacterController);
+        targetCharacterController.CharacterStats.Returns(targetCharacterStats);
+
         attackStat.Value.Returns(ATTACK_VALUE);
 
         sut = new DefaultAttack(character);
@@ -58,7 +73,7 @@ public class ActiveAbilityTests
     public void Execute_damages_target_tile()
     {
         sut.Execute(targetTiles);
-        target.Received(1).Damage(ATTACK_VALUE);
+        targetCharacterController.Received(1).UpdateHealthBar();
     }
 
     [Test]

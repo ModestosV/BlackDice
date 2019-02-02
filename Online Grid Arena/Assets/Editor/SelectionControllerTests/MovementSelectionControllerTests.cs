@@ -46,10 +46,7 @@ public class MovementSelectionControllerTests
         pathList = new List<IHexTileController>() { selectedTile, targetTile };
         selectedTile.GetPath(targetTile, false).Returns(pathList);
 
-        sut = new MovementSelectionController
-        {
-            GridSelectionController = gridSelectionController
-        };
+        sut = new MovementSelectionController(gridSelectionController);
     }
 
     [Test]
@@ -57,7 +54,7 @@ public class MovementSelectionControllerTests
     {
         inputParameters.IsKeyEscapeDown.Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
@@ -70,7 +67,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
@@ -82,7 +79,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -95,7 +92,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -108,7 +105,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -121,7 +118,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         selectedTile.GetPath(targetTile, false).Returns(new List<IHexTileController>());
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -137,7 +134,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         selectedCharacter.CanMove(Arg.Any<int>()).Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -153,7 +150,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         selectedCharacter.CanMove(pathList.Count - 1).Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -167,7 +164,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsOccupied().Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -181,7 +178,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         gridSelectionController.IsSelectedTile(targetTile).Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -197,7 +194,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         gridSelectionController.IsSelectedTile(targetTile).Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -213,7 +210,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         selectedTile.GetPath(targetTile, false).Returns(new List<IHexTileController>());
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -227,7 +224,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         selectedCharacter.CanMove(Arg.Any<int>()).Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -243,7 +240,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -260,7 +257,7 @@ public class MovementSelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsOccupied().Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();

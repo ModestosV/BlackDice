@@ -15,20 +15,18 @@ public class BlastOff : AbstractTargetedAbility
         5,
         100,
         AbilityType.TARGET_TILE,
-        "Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point")
+        "Blast Off - Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point")
     { }
 
     // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         character.Controller.OccupiedTile.OccupantCharacter = null;
-        EventBus.Publish(new DeselectSelectedTileEvent());
         
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
 
         targetTiles[0].OccupantCharacter = character.Controller;
-        EventBus.Publish(new SelectTileEvent(targetTiles[0]));
     }
 
     // Damage all tiles around target location
@@ -36,7 +34,7 @@ public class BlastOff : AbstractTargetedAbility
     {        
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
-            target.Damage(character.Controller.CharacterStats["attack"].Value*0.75f);
+            actionHandler.Damage(character.Controller.CharacterStats["attack"].Value*0.75f, target.OccupantCharacter);
             PlayAnimation(target);
         }
 

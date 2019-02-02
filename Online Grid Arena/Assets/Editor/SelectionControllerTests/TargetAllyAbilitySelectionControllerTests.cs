@@ -56,10 +56,7 @@ public class TargetAllyAbilitySelectionControllerTests
 
         gridSelectionController.IsSelectedTile(targetTile).Returns(false);
 
-        sut = new TargetAllyAbilitySelectionController
-        {
-            GridSelectionController = gridSelectionController
-        };
+        sut = new TargetAllyAbilitySelectionController(gridSelectionController);
     }
 
     [Test]
@@ -67,7 +64,7 @@ public class TargetAllyAbilitySelectionControllerTests
     {
         inputParameters.IsKeyEscapeDown.Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
@@ -80,7 +77,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).BlurAll();
         gridSelectionController.Received(1).DehighlightAll();
@@ -93,7 +90,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(false);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -107,7 +104,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(true);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -121,7 +118,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsLeftClickDown.Returns(false);
         targetTile.IsEnabled.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -134,7 +131,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(true);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -149,7 +146,7 @@ public class TargetAllyAbilitySelectionControllerTests
         targetTile.IsOccupied().Returns(true);
         targetTile.OccupantCharacter.Returns(targetCharacter);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -162,7 +159,7 @@ public class TargetAllyAbilitySelectionControllerTests
         inputParameters.IsMouseOverGrid.Returns(true);
         inputParameters.IsLeftClickDown.Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -177,7 +174,7 @@ public class TargetAllyAbilitySelectionControllerTests
         targetTile.IsOccupied().Returns(true);
         targetTile.OccupantCharacter.Returns(targetCharacter);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
@@ -193,7 +190,7 @@ public class TargetAllyAbilitySelectionControllerTests
         targetTile.OccupantCharacter.Returns(targetCharacter);
         selectedCharacter.IsAlly(targetCharacter).Returns(false);
 
-        sut.Update(inputParameters);
+        sut.UpdateSelection(inputParameters);
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();

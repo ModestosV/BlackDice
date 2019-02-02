@@ -3,23 +3,16 @@ using UnityEngine;
 
 public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelectionController
 {
-    protected override void DoFirst()
+    public TargetTileAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
-        SetActiveAbility();
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
-    }
 
-    protected override void DoEscapePressed()
-    {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -36,9 +29,9 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoHoverUnoccupiedTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 

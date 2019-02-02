@@ -63,7 +63,6 @@ public class CharacterController : ICharacterController
 
         int distance = path.Count - 1;
         IHexTileController targetTile = path[distance];
-
         OccupiedTile.OccupantCharacter = null;
 
         character.MoveToTile(targetTile.HexTile);
@@ -74,8 +73,7 @@ public class CharacterController : ICharacterController
         CharacterStats["moves"].CurrentValue -= distance;
         UpdateSelectedHUD();
 
-        EventBus.Publish(new DeselectSelectedTileEvent());
-        EventBus.Publish(new SelectTileEvent(targetTile));
+        EventBus.Publish(new SelectActivePlayerEvent());
 
         CheckExhausted();
     }
@@ -109,16 +107,6 @@ public class CharacterController : ICharacterController
     {
         // TODO: Determine how initiative is calculated.
         return 1.0f;
-    }
-    
-    public void Damage(float damage)
-    {
-        CharacterStats["health"].CurrentValue -= (damage/this.CharacterStats["defense"].CurrentValue)*100;
-        UpdateHealthBar();
-        if (CharacterStats["health"].CurrentValue <= 0)
-        {
-            Die();
-        }
     }
 
     public void Heal(float heal)
@@ -184,7 +172,7 @@ public class CharacterController : ICharacterController
         }
         Refresh();
         UpdateSelectedHUD();
-        EventBus.Publish(new SelectTileEvent(OccupiedTile));
+        EventBus.Publish(new SelectActivePlayerEvent());
     }
 
     public void EndOfTurn()
@@ -295,7 +283,6 @@ public class CharacterController : ICharacterController
         if (!(MovesRemaining > 0 || abilitiesRemaining > 0))
         {
             EndOfTurn();
-            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
     }

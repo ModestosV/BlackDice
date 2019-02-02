@@ -2,21 +2,14 @@
 
 public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelectionController
 {
-    protected override void DoFirst()
+    public TargetAllyAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
-        SetActiveAbility();
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
-    }
 
-    protected override void DoEscapePressed()
-    {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
     protected override void DoClickSelectedTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         List<IHexTileController> target = new List<IHexTileController>();
         target.Add(inputParameters.TargetTile);
 
@@ -26,11 +19,11 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoClickOccupiedOtherTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -57,17 +50,18 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoHoverOccupiedTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         ICharacterController targetCharacter = inputParameters.TargetTile.OccupantCharacter;
         bool targetCharacterIsAlly = selectedCharacter.IsAlly(targetCharacter);
 
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
         if (targetCharacterIsAlly && inRange)
         {
             inputParameters.TargetTile.Highlight();
+            targetCharacter.BorderColor = new UnityEngine.Color32(110, 11, 11, 100);
         }
         else
         {

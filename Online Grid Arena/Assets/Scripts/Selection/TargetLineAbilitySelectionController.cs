@@ -3,21 +3,16 @@
 public class TargetLineAbilitySelectionController : AbstractAbilitySelectionController
 {
     private bool canCast = false;
-    protected override void DoFirst()
-    {
-        SetActiveAbility();
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
-    }
 
-    protected override void DoEscapePressed()
+    public TargetLineAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+
     }
+    
     protected override void DoClickOccupiedOtherTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
@@ -34,8 +29,8 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     }
     protected override void DoClickUnoccupiedOtherTile()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         int distance = selectedTile.GetAbsoluteDistance(inputParameters.TargetTile);
         bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, distance);
 
@@ -53,7 +48,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
     protected override void DoHoverUnoccupiedTile()
     {
         inputParameters.TargetTile.Highlight();
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
         bool isStraightLine = false;
         if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)

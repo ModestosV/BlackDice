@@ -3,6 +3,8 @@ using UnityEngine;
 
 public sealed class Slap : AbstractTargetedAbility
 {
+    private const int MAX_EXTRA_SLAPS = 3;
+
     public Slap(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
@@ -11,25 +13,33 @@ public sealed class Slap : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).")
+        "Slap - Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        ChanceToTrigger(75, targetTiles);
+        SlapAttack(targetTiles);
+        for (int i = 0; i < MAX_EXTRA_SLAPS; i++)
+        {
+            if (ChanceToTrigger())
+            {
+                SlapAttack(targetTiles);
+            }
+            else break;
+        }
     }
 
-    private void ChanceToTrigger(int chance, List<IHexTileController> targetTiles)
+    private void SlapAttack(List<IHexTileController> targetTiles)
     {
-        targetTiles[0].Damage(character.Controller.CharacterStats["attack"].Value);
+        actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
+    }
 
+    private bool ChanceToTrigger()
+    {
         System.Random randomizer = new System.Random();
         int rand = randomizer.Next(0,100);
-        if (rand < chance)
-        {
-            ChanceToTrigger(chance-25, targetTiles);
-        }
+        return (rand < 75) ? true : false;
     }
 }

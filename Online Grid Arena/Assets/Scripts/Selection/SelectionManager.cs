@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public enum SelectionMode
 {
@@ -10,35 +9,40 @@ public enum SelectionMode
 
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
-    public IGridSelectionController GridSelectionController { get; set; }
-    public Dictionary<string, ISelectionController> SelectionControllers { private get; set; }
-    public ITurnController TurnController { get; set; }
 
-
+    private Dictionary<string, ISelectionController> selectionControllers;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
+    private ITurnController turnController;
+    private IGridSelectionController gridSelectionController;
 
-    public void Update(IInputParameters inputParameters)
+    public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController, Dictionary<string, ISelectionController> selectionControllers)
+    {
+        this.turnController = turnController;
+        this.gridSelectionController = gridSelectionController;
+        this.selectionControllers = selectionControllers;
+    }
+
+    public void UpdateSelectionMode(IInputParameters inputParameters)
     {
         int abilityIndex = inputParameters.GetAbilityNumber();
 
         if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility(abilityIndex))
         {
-            selectionMode = SelectionMode.ABILITY;
+            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.ABILITY));
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            selectionMode = SelectionMode.MOVEMENT;
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
 
         switch (selectionMode)
         {
             case SelectionMode.FREE:
-                activeSelectionController = SelectionControllers["free"];
+                activeSelectionController = selectionControllers["free"];
                 break;
             case SelectionMode.MOVEMENT:
-                activeSelectionController = SelectionControllers["movement"];
+                activeSelectionController = selectionControllers["movement"];
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
@@ -56,29 +60,29 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
         if (activeSelectionController == null)
         {
-            activeSelectionController = SelectionControllers["free"];
+            activeSelectionController = selectionControllers["free"];
         }
-        activeSelectionController.Update(inputParameters);
+        activeSelectionController.UpdateSelection(inputParameters);
     }
 
     private ISelectionController GetAbilitySelectionController(int abilityIndex)
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         AbilityType activeAbilityType = selectedCharacter.GetAbilityType(abilityIndex);
 
         switch (activeAbilityType)
         {
             case AbilityType.TARGET_ENEMY:
-                return SelectionControllers["target_enemy"];
+                return selectionControllers["target_enemy"];
             case AbilityType.TARGET_ALLY:
-                return SelectionControllers["target_ally"];
+                return selectionControllers["target_ally"];
             case AbilityType.TARGET_TILE:
-                return SelectionControllers["target_tile"];
+                return selectionControllers["target_tile"];
             case AbilityType.TARGET_LINE:
-                return SelectionControllers["target_line"];
+                return selectionControllers["target_line"];
             case AbilityType.TARGET_LINE_AOE:
-                return SelectionControllers["target_line_aoe"];
+                return selectionControllers["target_line_aoe"];
             default:
                 return null;
         }
@@ -86,22 +90,22 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
     private bool SelectedCharacterCanMove()
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         if (selectedCharacter == null)
             return false;
 
-        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
+        return turnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanMove();
     }
 
     public bool SelectedCharacterCanUseAbility(int abilityIndex)
     {
-        ICharacterController selectedCharacter = GridSelectionController.GetSelectedCharacter();
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
 
         if (selectedCharacter == null)
             return false;
 
-        return TurnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
+        return turnController.IsActiveCharacter(selectedCharacter) && selectedCharacter.CanUseAbility(abilityIndex);
     }
 
     public void Handle(IEvent @event)

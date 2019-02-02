@@ -2,20 +2,20 @@
 
 public sealed class MovementSelectionController : AbstractSelectionController
 {
-    protected override void DoFirst()
+    public MovementSelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
-        GridSelectionController.BlurAll();
-        GridSelectionController.DehighlightAll();
+
     }
 
-    protected override void DoEscapePressed()
+    protected override void DoFirst()
     {
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+        gridSelectionController.BlurAll();
+        gridSelectionController.DehighlightAll();
     }
 
     protected override void DoClickUnoccupiedOtherTile()
     {
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);
@@ -39,7 +39,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoHoverUnoccupiedTile()
     {
-        IHexTileController selectedTile = GridSelectionController.SelectedTile;
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
         ICharacterController selectedCharacter = selectedTile.OccupantCharacter;
 
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, false);

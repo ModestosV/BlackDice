@@ -17,7 +17,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         }
         lastInputParameters = inputParameters;
 
-        SelectionManager.Update(inputParameters);
+        SelectionManager.UpdateSelectionMode(inputParameters);
 
         if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
         {
@@ -41,7 +41,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         }
         lastInputParameters = inputParameters;
 
-        SelectionManager.Update(inputParameters);
+        SelectionManager.UpdateSelectionMode(inputParameters);
 
         if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
         {

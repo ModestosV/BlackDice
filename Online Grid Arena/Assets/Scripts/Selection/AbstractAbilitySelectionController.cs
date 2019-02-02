@@ -2,10 +2,22 @@
 {
     protected int activeAbilityIndex;
     
+    protected AbstractAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
+    {
+
+    }
+
     protected void SetActiveAbility()
     {
         if (!(inputParameters.GetAbilityNumber() > -1)) return;
 
         activeAbilityIndex = inputParameters.GetAbilityNumber();
+    }
+
+    protected override void DoFirst()
+    {
+        SetActiveAbility();
+        gridSelectionController.BlurAll();
+        gridSelectionController.DehighlightAll();
     }
 }

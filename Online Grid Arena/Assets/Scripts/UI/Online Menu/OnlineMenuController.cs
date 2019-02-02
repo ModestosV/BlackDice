@@ -33,7 +33,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
 
-        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDTO(email, Hash128.Compute(password).ToString(), username));
+        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDto(email, Hash128.Compute(password).ToString(), username));
 
         RegistrationPanel.EnableRegisterButton();
         RegistrationPanel.DeactivateLoadingCircle();
@@ -63,7 +63,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        UserDTO user = new UserDTO(email, Hash128.Compute(password).ToString());
+        UserDto user = new UserDto(email, Hash128.Compute(password).ToString());
 
         IHttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
 

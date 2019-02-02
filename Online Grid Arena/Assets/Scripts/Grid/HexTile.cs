@@ -11,7 +11,7 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     {
         Obstruction = materials.Obstruction;
 
-        hexTileController = new HexTileController
+        hexTileController = new HexTileController()
         {
             HexTile = this,
             IsEnabled = GetComponent<Renderer>().enabled,

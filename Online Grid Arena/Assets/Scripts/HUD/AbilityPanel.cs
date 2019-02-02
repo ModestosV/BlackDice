@@ -45,7 +45,11 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
             if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
             {
-                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).CooldownRemaining;
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+            }
+            else
+            {
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = 0;
             }
 
             AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
