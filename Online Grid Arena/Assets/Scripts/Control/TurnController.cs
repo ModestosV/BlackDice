@@ -44,6 +44,10 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if(type == typeof(DeathEvent))
         {
             var deathEvent = (DeathEvent) @event;
+            if (IsActiveCharacter(deathEvent.CharacterController))
+            {
+                EventBus.Publish(new StartNewTurnEvent());
+            }
             RemoveCharacter(deathEvent.CharacterController);
             CheckWinCondition();
         }
