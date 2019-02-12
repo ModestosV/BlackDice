@@ -35,6 +35,11 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         {
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
+        else if (inputParameters.IsKeyTDown)
+        {
+            EventBus.Publish(new DeselectSelectedTileEvent());
+            EventBus.Publish(new StartNewTurnEvent());
+        }
 
         switch (selectionMode)
         {

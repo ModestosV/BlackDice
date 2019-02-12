@@ -67,6 +67,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
             IsKeyEDown = Input.GetKeyDown(KeyCode.E),
             IsKeyRDown = Input.GetKeyDown(KeyCode.R),
             IsKeyFDown = Input.GetKeyDown(KeyCode.F),
+            IsKeyTDown = Input.GetKeyDown(KeyCode.T),
             IsKeyEscapeDown = Input.GetKeyDown(KeyCode.Escape),
             IsKeyTabDown = Input.GetKeyDown(KeyCode.Tab),
 
