@@ -28,6 +28,8 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
     public override void Execute(List<IHexTileController> targetTiles)
     {
+        Debug.Log(ToString() + " Ability has been executed");
+
         PrimaryAction(targetTiles);
 
         SecondaryAction(targetTiles);
