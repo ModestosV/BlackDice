@@ -1,6 +1,6 @@
 {
   "name": "blackdice-website",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "http-proxy-middleware": "^0.19.1",
