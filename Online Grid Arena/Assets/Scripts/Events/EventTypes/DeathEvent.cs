@@ -1,4 +1,4 @@
-﻿public class DeathEvent : IEvent
+﻿public class DeathEvent : AbstractEvent
 {
     public ICharacterController CharacterController { get; }
 

@@ -1,4 +1,4 @@
-﻿public class StartNewTurnEvent : IEvent
+﻿public class StartNewTurnEvent : AbstractEvent
 {
 
 }

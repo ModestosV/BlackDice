@@ -1,4 +1,4 @@
-﻿public class SurrenderEvent : IEvent
+﻿public class SurrenderEvent : AbstractEvent
 {
 
 }

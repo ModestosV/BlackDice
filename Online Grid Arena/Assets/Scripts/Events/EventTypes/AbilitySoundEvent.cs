@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AbilitySoundEvent : IEvent
+public class AbilitySoundEvent : AbstractEvent
 {
     public AudioClip SoundEffect { get; }
 

@@ -1,4 +1,4 @@
-﻿public class AbilityUsedEvent : IEvent
+﻿public class AbilityUsedEvent : AbstractEvent
 {
     public int AbilityIndex { get; }
 
