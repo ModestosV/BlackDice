@@ -37,7 +37,6 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         }
         else if (inputParameters.IsKeyTDown)
         {
-            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
 
