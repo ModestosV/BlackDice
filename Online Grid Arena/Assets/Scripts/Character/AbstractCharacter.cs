@@ -26,13 +26,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
-    public override string ToString()
-    {
-        return string.Format("(Character|{0}: {1})", this.GetHashCode(), characterController.ToString());
-    }
-
     protected virtual void Awake()
     {
+        Debug.Log(ToString() + " Awake() begin");
+
         activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
         activeCircle.transform.SetParent(this.transform);
 
@@ -42,13 +39,19 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
+
+        Debug.Log(ToString() + " Awake() end");
     }
 
     void Start()
     {
+        Debug.Log(ToString() + " Start() begin");
+
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
         characterController.ActiveCircle.enabled = false;
+
+        Debug.Log(ToString() + " Start() end");
     }
 }
