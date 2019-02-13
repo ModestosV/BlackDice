@@ -5,16 +5,14 @@ public class Huddle : AbstractActiveAbility
 {
     private const float DEFENSE_BONUS_AMOUNT = 10.0f;
 
-    public Huddle(ICharacter character, IEffect effect) : base(
+    public Huddle(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/huddle"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultHealAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,
         3,
         "Huddle - Special Ability \nPengwin gives bonus defense to itself and all adjacent allies.")
-    {
-        AddEffect(effect);
-    }
+    { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
@@ -24,11 +22,11 @@ public class Huddle : AbstractActiveAbility
             {
                 if (neighbor.OccupantCharacter.IsAlly(character.Controller))
                 {
-                    neighbor.OccupantCharacter.ApplyEffect(Effects[0]);
+                    neighbor.OccupantCharacter.ApplyEffect(new HuddleEffect());
                 }
             }
         }
 
-        character.Controller.ApplyEffect(Effects[0]);
+        character.Controller.ApplyEffect(new HuddleEffect());
     }
 }

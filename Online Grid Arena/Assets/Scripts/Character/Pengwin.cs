@@ -24,7 +24,7 @@ public sealed class Pengwin : AbstractCharacter
 
         IAbility slap = new Slap(this);
         IAbility slide = new Slide(this);
-        IAbility huddle = new Huddle(this, new HuddleEffect());
+        IAbility huddle = new Huddle(this);
         IAbility placeholder4 = new Placeholder(this);
 
         var abilities = new List<IAbility>() { slap, slide, huddle, placeholder4 };
