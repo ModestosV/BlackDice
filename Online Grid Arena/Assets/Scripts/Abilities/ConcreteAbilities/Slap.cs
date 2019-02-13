@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public sealed class Slap : AbstractTargetedAbility
@@ -16,13 +17,14 @@ public sealed class Slap : AbstractTargetedAbility
         "Slap - Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).")
     { }
 
-    protected override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         SlapAttack(targetTiles);
         for (int i = 0; i < MAX_EXTRA_SLAPS; i++)
         {
             if (ChanceToTrigger())
             {
+                await Task.Delay(300);
                 SlapAttack(targetTiles);
             }
             else break;
