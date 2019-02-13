@@ -7,7 +7,7 @@ public class Huddle : AbstractActiveAbility
 
     public Huddle(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/huddle"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultHealAnimation"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,
         3,
