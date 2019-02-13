@@ -23,6 +23,8 @@ public sealed class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(ToString() + " Awake() begin");
+
         EventBus.Reset();
 
         // Initialize turn controller
@@ -96,11 +98,17 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+
+        Debug.Log(ToString() + " Awake() end");
     }
 
     private void Start()
     {
+        Debug.Log(ToString() + " Start() begin");
+
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
         EventBus.Publish(new StartNewTurnEvent());
+
+        Debug.Log(ToString() + " Start() end");
     }
 }
