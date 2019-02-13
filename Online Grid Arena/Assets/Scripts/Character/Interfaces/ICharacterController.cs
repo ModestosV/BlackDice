@@ -19,7 +19,6 @@ public interface ICharacterController
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
-    float GetInitiative();
     void Die();
     void Heal(float heal);
     void UpdateHealthBar();

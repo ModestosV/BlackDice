@@ -28,9 +28,6 @@ public class TurnControllerTests
         refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter, thirdCharacter };
         exhaustedCharactersList = new List<ICharacterController>();
 
-        firstCharacter.GetInitiative().Returns(1.0f);
-        secondCharacter.GetInitiative().Returns(2.0f);
-        thirdCharacter.GetInitiative().Returns(3.0f);
 
         firstCharacter.CharacterOwner.Returns(PLAYER_1_NAME);
         secondCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
@@ -48,18 +45,6 @@ public class TurnControllerTests
 
         firstCharacter.Received(1).StartOfTurn();
         secondCharacter.DidNotReceive();
-    }
-
-    [Test]
-    public void Start_next_turn_event_starts_turn_of_character_with_lowest_initiative()
-    {
-        firstCharacter.GetInitiative().Returns(2.0f);
-        secondCharacter.GetInitiative().Returns(1.0f);
-
-        sut.Handle(new StartNewTurnEvent());
-
-        firstCharacter.DidNotReceive();
-        secondCharacter.Received(1).StartOfTurn();
     }
 
     [Test]

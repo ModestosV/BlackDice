@@ -103,12 +103,6 @@ public class CharacterController : ICharacterController
         });
     }
 
-    public float GetInitiative()
-    {
-        // TODO: Determine how initiative is calculated.
-        return 1.0f;
-    }
-
     public void Heal(float heal)
     {
         CharacterStats["health"].CurrentValue += heal;

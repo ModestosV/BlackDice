@@ -129,9 +129,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             exhaustedCharacters = new List<ICharacterController>();
         }
 
-        // Sort characters by ascending initiative
-        refreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
-
         activeCharacter = refreshedCharacters.ElementAt(0);
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
