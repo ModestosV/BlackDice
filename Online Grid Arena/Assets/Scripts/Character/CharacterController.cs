@@ -165,8 +165,9 @@ public class CharacterController : ICharacterController
             }
         }
         Refresh();
-        UpdateSelectedHUD();
         EventBus.Publish(new SelectActivePlayerEvent());
+        ClearSelectedHUD();
+        UpdateSelectedHUD();
     }
 
     public void EndOfTurn()

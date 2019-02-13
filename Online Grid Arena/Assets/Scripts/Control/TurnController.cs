@@ -134,7 +134,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         activeCharacter.StartOfTurn();
 
         turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
-
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
