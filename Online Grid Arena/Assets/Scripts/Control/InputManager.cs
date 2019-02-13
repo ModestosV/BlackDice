@@ -11,7 +11,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         var inputParameters = GetInputParameters();
 
         // Do nothing if input has not changed
-        if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
+        if (lastInputParameters != null && inputParameters.IsNewInput(lastInputParameters))
         {
             return;
         }
@@ -35,7 +35,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         inputParameters.IsKeyRDown = (abilityIndex == 3) ? true: false;
 
         // Do nothing if input has not changed
-        if (lastInputParameters != null && inputParameters.Equals(lastInputParameters))
+        if (lastInputParameters != null && inputParameters.IsNewInput(lastInputParameters))
         {
             return;
         }

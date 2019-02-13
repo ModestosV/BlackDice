@@ -16,4 +16,5 @@
 
     int GetAbilityNumber();
     bool IsAbilityKeyPressed();
+    bool IsNewInput(IInputParameters inputParameters);
 }
