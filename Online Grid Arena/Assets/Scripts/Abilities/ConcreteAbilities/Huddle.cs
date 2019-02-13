@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Huddle : AbstractActiveAbility
 {
-    private const float DEFENSE_BONUS_AMOUNT = 10.0f;
+    private const float DEFENSE_BONUS_AMOUNT = 20.0f;
 
     public Huddle(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/huddle"),
@@ -11,7 +11,7 @@ public class Huddle : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,
         3,
-        "Huddle - Special Ability \nPengwin gives bonus defense to itself and all adjacent allies.")
+        "Huddle - Special Ability \nPengwin gives 20 bonus defense to itself and all adjacent allies.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
@@ -22,11 +22,11 @@ public class Huddle : AbstractActiveAbility
             {
                 if (neighbor.OccupantCharacter.IsAlly(character.Controller))
                 {
-                    neighbor.OccupantCharacter.ApplyEffect(new HuddleEffect());
+                    neighbor.OccupantCharacter.ApplyEffect(new HuddleEffect(DEFENSE_BONUS_AMOUNT));
                 }
             }
         }
 
-        character.Controller.ApplyEffect(new HuddleEffect());
+        character.Controller.ApplyEffect(new HuddleEffect(DEFENSE_BONUS_AMOUNT));
     }
 }

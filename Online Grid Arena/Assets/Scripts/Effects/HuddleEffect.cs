@@ -3,13 +3,13 @@ using UnityEngine;
 
 public sealed class HuddleEffect : StackModifier
 {
-    public HuddleEffect() : base(
+    public HuddleEffect(float amount) : base(
         EffectType.STACK,
         3,
         1,
         new Dictionary<string, float>()
         {
-            {"defense", 20.0f },
+            {"defense", amount },
         }
         )
     {
