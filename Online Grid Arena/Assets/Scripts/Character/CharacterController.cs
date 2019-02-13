@@ -235,13 +235,25 @@ public class CharacterController : ICharacterController
     {
         IActiveAbility ability;
 
+        // Meant to execute ability in the case where an ability can be used and the ability has no target.
         try
         {
-            ability = (IActiveAbility) Abilities[abilityIndex];
+            ability = (ITargetedAbility) Abilities[abilityIndex];
         }
         catch(InvalidCastException)
         {
-            return false;
+            try
+            {
+                ability = (IActiveAbility) Abilities[abilityIndex];
+                if(abilitiesRemaining > 0 && !ability.IsOnCooldown())
+                {
+                    ExecuteAbility(abilityIndex, new List<IHexTileController>() { OccupiedTile });
+                }
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
         }
 
         return abilitiesRemaining > 0  && !ability.IsOnCooldown();

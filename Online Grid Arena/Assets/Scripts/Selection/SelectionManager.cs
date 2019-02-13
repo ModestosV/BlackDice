@@ -117,7 +117,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
             var newSelectionMode = (UpdateSelectionModeEvent)@event;
             selectionMode = newSelectionMode.SelectionMode;
 
-            Debug.Log(ToString() + " has new selection mode " + selectionMode.ToString());
+            Debug.Log(ToString() + " has selection mode " + selectionMode.ToString());
         }
     }
 }
