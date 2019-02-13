@@ -23,10 +23,13 @@ public class Huddle : AbstractActiveAbility
                 if (neighbor.OccupantCharacter.IsAlly(character.Controller))
                 {
                     neighbor.OccupantCharacter.ApplyEffect(new HuddleEffect(DEFENSE_BONUS_AMOUNT));
+                    PlayAnimation(neighbor);
                 }
             }
         }
-
+        PlaySoundEffect();
+       
         character.Controller.ApplyEffect(new HuddleEffect(DEFENSE_BONUS_AMOUNT));
+        PlayAnimation(targetTiles[0]);
     }
 }
