@@ -9,7 +9,7 @@ public sealed class Pengwin : AbstractCharacter
 
         ICharacterStat health = new CharacterStat(140.0f);
         ICharacterStat moves = new CharacterStat(4.0f);
-        ICharacterStat attack = new CharacterStat(15.0f);
+        ICharacterStat attack = new CharacterStat(10.0f);
         ICharacterStat defense = new CharacterStat(100.0f);
 
         var characterStats = new Dictionary<string, ICharacterStat>()

@@ -20,7 +20,6 @@ public sealed class GameManager : MonoBehaviour
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
-
     private List<ICharacterController> characterControllers;
 
     private void Awake()
