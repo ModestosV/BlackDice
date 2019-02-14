@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
 {
@@ -19,6 +20,7 @@ public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
         this.UpdateAbilityIcons(abilities, effects);
         this.UpdateAbilityCooldowns(abilities);
         abilityPanel.Show();
+        Debug.Log("Ability Panel updated");
     }
 
     private void UpdateAbilityIcons(List<IAbility> abilities, List<IEffect> effects)

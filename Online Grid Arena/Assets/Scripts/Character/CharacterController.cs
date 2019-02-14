@@ -71,7 +71,6 @@ public class CharacterController : ICharacterController
         targetTile.OccupantCharacter = this;
 
         CharacterStats["moves"].CurrentValue -= distance;
-        UpdateSelectedHUD();
 
         EventBus.Publish(new SelectActivePlayerEvent());
 
@@ -85,8 +84,7 @@ public class CharacterController : ICharacterController
         Abilities[abilityNumber].Execute(targetTiles);
 
         abilitiesRemaining--;
-
-        UpdateSelectedHUD();
+        
         CheckExhausted();
     }
 
@@ -166,8 +164,6 @@ public class CharacterController : ICharacterController
         }
         Refresh();
         EventBus.Publish(new SelectActivePlayerEvent());
-        ClearSelectedHUD();
-        UpdateSelectedHUD();
     }
 
     public void EndOfTurn()
