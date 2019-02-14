@@ -10,14 +10,16 @@ class App extends Component {
     this.state = {
       downloads: [],
       quoteOfTheDay: {},
-      messageFromBackend: ""
+      messageFromBackend: "",
+      links: []
     }
   }
 
   componentDidMount() {
-    this.getDownloads()
-    this.getQuoteOfTheDay()
+    this.getDownloads();
+    this.getQuoteOfTheDay();
     this.greetBackendAPI();
+    this.getLinks();
   }
 
   getQuoteOfTheDay() {
@@ -45,6 +47,17 @@ class App extends Component {
       })
   }
 
+  getLinks() {
+    this.setState({
+      links: [
+        {
+          title: "Feedback",
+          link: ""
+        }
+      ]
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -61,9 +74,9 @@ class App extends Component {
           <h2>Online Grid Arena Downloads</h2>
         </div>
 		
-	<div className="Downloads">
-	  <Downloads downloads={this.state.downloads}/>
-	</div>
+        <div className="Downloads">
+          <Downloads downloads={this.state.downloads}/>
+        </div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
 

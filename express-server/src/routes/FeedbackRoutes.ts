@@ -2,7 +2,8 @@ import bodyParser = require("body-parser");
 import express, { NextFunction, Request, Response, Router } from "express";
 import { Document, Model } from "mongoose";
 import getModel from "../app/models";
-import { errorHandler } from "../utils/middlewares";
+import getStatus from "../utils/errors";
+import { errorHandler } from "../utils/middlewares"; 
 
 class UserRoutes {
     public router: Router;
@@ -11,6 +12,22 @@ class UserRoutes {
     constructor(router: Router, feedback: Model<Document>) {
         this.router = router;
         this.feedback = feedback;
+    }
+
+    public FetchFeedback() {
+      this.router.get(
+        "/",
+        async (req: Request, res: Response, next: NextFunction) => {
+          try {
+            const username = req.query.username;
+            const
+          } catch (err) {
+            global.console.error("An error occured");
+            global.console.error(err.message);
+            return res.json(getStatus(400));
+          }
+        }
+      );
     }
 
     public SendFeedback() {
