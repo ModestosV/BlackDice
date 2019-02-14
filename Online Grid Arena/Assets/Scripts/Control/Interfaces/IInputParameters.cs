@@ -5,6 +5,7 @@
     bool IsKeyEDown { get; set; }
     bool IsKeyRDown { get; set; }
     bool IsKeyFDown { get; set; }
+    bool IsKeyTDown { get; set; }
     bool IsKeyEscapeDown { get; set; }
     bool IsKeyTabDown { get; set; }
 

@@ -7,6 +7,7 @@ public class InputParameters : IInputParameters
     public bool IsKeyEDown { get; set; }
     public bool IsKeyRDown { get; set; }
     public bool IsKeyFDown { get; set; }
+    public bool IsKeyTDown { get; set; }
     public bool IsKeyEscapeDown { get; set; }
     public bool IsKeyTabDown { get; set; }
 
@@ -44,6 +45,8 @@ public class InputParameters : IInputParameters
         if (this.IsKeyRDown != that.IsKeyRDown)
             return false;
         if (this.IsKeyFDown != that.IsKeyFDown)
+            return false;
+        if (this.IsKeyTDown != that.IsKeyTDown)
             return false;
         if (this.IsKeyEscapeDown != that.IsKeyEscapeDown)
             return false;
