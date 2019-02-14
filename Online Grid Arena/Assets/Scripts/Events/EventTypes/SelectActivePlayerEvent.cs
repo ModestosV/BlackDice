@@ -1,4 +1,4 @@
-﻿public class SelectActivePlayerEvent : IEvent
+﻿public class SelectActivePlayerEvent : AbstractEvent
 {
 
 }

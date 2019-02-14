@@ -9,7 +9,7 @@ public sealed class Pengwin : AbstractCharacter
 
         ICharacterStat health = new CharacterStat(140.0f);
         ICharacterStat moves = new CharacterStat(4.0f);
-        ICharacterStat attack = new CharacterStat(15.0f);
+        ICharacterStat attack = new CharacterStat(10.0f);
         ICharacterStat defense = new CharacterStat(100.0f);
 
         var characterStats = new Dictionary<string, ICharacterStat>()
@@ -24,10 +24,10 @@ public sealed class Pengwin : AbstractCharacter
 
         IAbility slap = new Slap(this);
         IAbility slide = new Slide(this);
-        IAbility placeholder3 = new Placeholder(this);
-        IAbility placeholder4 = new Placeholder(this);
+        IAbility huddle = new Huddle(this);
+        IAbility arcticFury = new ArcticFury(this);
 
-        var abilities = new List<IAbility>() { slap, slide, placeholder3, placeholder4 };
+        var abilities = new List<IAbility>() { slap, slide, huddle, arcticFury };
 
         characterController = new CharacterController(this)
         {

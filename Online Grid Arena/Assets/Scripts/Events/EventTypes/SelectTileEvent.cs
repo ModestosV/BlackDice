@@ -1,4 +1,4 @@
-﻿public class SelectTileEvent : IEvent
+﻿public class SelectTileEvent : AbstractEvent
 {
     public IHexTileController SelectedTile { get; }
 

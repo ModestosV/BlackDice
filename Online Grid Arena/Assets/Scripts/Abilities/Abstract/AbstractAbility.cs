@@ -23,6 +23,8 @@ public abstract class AbstractAbility : IAbility
 
     public virtual void Execute(List<IHexTileController> targetTiles)
     {
+        Debug.Log(ToString() + " Ability Execute()");
+
         PrimaryAction(targetTiles);
         SecondaryAction(targetTiles);
     }

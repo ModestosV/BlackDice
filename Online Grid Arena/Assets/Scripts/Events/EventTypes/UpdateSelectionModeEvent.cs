@@ -1,4 +1,4 @@
-﻿public class UpdateSelectionModeEvent : IEvent
+﻿public class UpdateSelectionModeEvent : AbstractEvent
 {
     public SelectionMode SelectionMode { get; }
 
