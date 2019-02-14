@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class InputParameters : IInputParameters, IEquatable<InputParameters>
+public class InputParameters : IInputParameters
 {
     public bool IsKeyQDown { get; set; }
     public bool IsKeyWDown { get; set; }
@@ -33,7 +33,7 @@ public class InputParameters : IInputParameters, IEquatable<InputParameters>
         return -1;
     }
 
-    public bool Equals(InputParameters that)
+    public bool IsNewInput(IInputParameters that)
     {
         if (this.IsKeyQDown != that.IsKeyQDown)
             return false;

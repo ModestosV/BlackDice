@@ -1,3 +1,3 @@
-﻿public class DeselectSelectedTileEvent : IEvent
+﻿public class DeselectSelectedTileEvent : AbstractEvent
 {
 }

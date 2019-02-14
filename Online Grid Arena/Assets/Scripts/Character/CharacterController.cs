@@ -8,7 +8,7 @@ public class CharacterController : ICharacterController
     public IHUDController HUDController { protected get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
-    public List<IAbility> Abilities { protected get; set; }
+    public List<IAbility> Abilities { get; set; }
     public List<IEffect> Effects { get; set; }
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
@@ -20,13 +20,13 @@ public class CharacterController : ICharacterController
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
 
+    public ICharacter Character { get; }
 
-    protected readonly ICharacter character;
     private int abilitiesRemaining;
 
     public CharacterController(ICharacter character)
     {
-        this.character = character;
+        Character = character;
     }
 
     public void UpdateSelectedHUD()
@@ -65,7 +65,7 @@ public class CharacterController : ICharacterController
         IHexTileController targetTile = path[distance];
         OccupiedTile.OccupantCharacter = null;
 
-        character.MoveToTile(targetTile.HexTile);
+        Character.MoveToTile(targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;
@@ -218,7 +218,7 @@ public class CharacterController : ICharacterController
     {
         EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
-        character.Destroy();
+        Character.Destroy();
     }
 
     public bool CanMove(int distance = 1)
@@ -230,13 +230,25 @@ public class CharacterController : ICharacterController
     {
         IActiveAbility ability;
 
+        // Meant to execute ability in the case where an ability can be used and the ability has no target.
         try
         {
-            ability = (IActiveAbility) Abilities[abilityIndex];
+            ability = (ITargetedAbility) Abilities[abilityIndex];
         }
         catch(InvalidCastException)
         {
-            return false;
+            try
+            {
+                ability = (IActiveAbility) Abilities[abilityIndex];
+                if(abilitiesRemaining > 0 && !ability.IsOnCooldown())
+                {
+                    ExecuteAbility(abilityIndex, new List<IHexTileController>() { OccupiedTile });
+                }
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
         }
 
         return abilitiesRemaining > 0  && !ability.IsOnCooldown();

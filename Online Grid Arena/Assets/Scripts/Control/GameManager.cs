@@ -20,6 +20,7 @@ public sealed class GameManager : MonoBehaviour
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
+    private List<ICharacterController> characterControllers;
 
     private void Awake()
     {
@@ -27,9 +28,11 @@ public sealed class GameManager : MonoBehaviour
 
         EventBus.Reset();
 
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
         // Initialize turn controller
         turnController = new TurnController(
-            FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList(),
+            characterControllers,
             new List<ICharacterController>(),
             FindObjectOfType<TurnPanel>().Controller);
 
@@ -98,6 +101,10 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+
+        // Pengwin's Ultimate must handle DeathEvent
+        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
 
         Debug.Log(ToString() + " Awake() end");
     }

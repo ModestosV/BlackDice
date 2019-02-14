@@ -3,11 +3,12 @@ using UnityEngine;
 
 public interface ICharacterController
 {
+    ICharacter Character { get; }
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
-    List<IAbility> Abilities { set; }
+    List<IAbility> Abilities { get; set; }
     List<IEffect> Effects { set; }
 
     string CharacterOwner { get; set; }    
