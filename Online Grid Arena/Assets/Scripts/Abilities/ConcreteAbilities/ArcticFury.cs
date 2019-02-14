@@ -8,14 +8,15 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
     private const int ROUNDS = 3;
 
     public ArcticFury(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
+        Resources.Load<Sprite>("Sprites/Abilities/arctic-fury"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/slap"),
         activeCharacter,
         6,
         1,
         AbilityType.TARGET_ENEMY,
-        "Slap - Ultimate \nPengwin challenges an adjacent enemy to a duel, where both characters perform their Q on each other, with Pengwin going first. Lasts until a character dies or 3 attacks are performed.")
+        "Slap - Ultimate \nPengwin challenges an adjacent enemy to a duel. Both characters take turns performing their Q on each other," +
+                "with Pengwin going first. Lasts until a character dies or 3 attacks are performed.")
     { }
 
     public void Handle(IEvent @event)
