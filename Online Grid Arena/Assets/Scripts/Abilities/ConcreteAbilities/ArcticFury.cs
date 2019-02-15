@@ -24,9 +24,7 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(DeathEvent))
         {
-            var deathEvent = (DeathEvent)@event;
             hasSomeoneDied = true;
-            Debug.Log("Duel terminated as a character has died.");
         }
     }
 
@@ -54,6 +52,7 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
             }
             else
             {
+                Debug.Log("Duel terminated as a character has died.");
                 hasSomeoneDied = false;
                 break;
             }

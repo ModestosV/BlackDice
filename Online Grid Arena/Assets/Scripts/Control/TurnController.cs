@@ -44,6 +44,10 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if(type == typeof(DeathEvent))
         {
             var deathEvent = (DeathEvent) @event;
+            if (IsActiveCharacter(deathEvent.CharacterController))
+            {
+                EventBus.Publish(new StartNewTurnEvent());
+            }
             RemoveCharacter(deathEvent.CharacterController);
             CheckWinCondition();
         }
@@ -125,15 +129,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             exhaustedCharacters = new List<ICharacterController>();
         }
 
-        // Sort characters by ascending initiative
-        refreshedCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
-
         activeCharacter = refreshedCharacters.ElementAt(0);
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
 
         turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
-
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 

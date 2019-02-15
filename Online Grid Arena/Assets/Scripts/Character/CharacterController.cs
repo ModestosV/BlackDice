@@ -71,7 +71,6 @@ public class CharacterController : ICharacterController
         targetTile.OccupantCharacter = this;
 
         CharacterStats["moves"].CurrentValue -= distance;
-        UpdateSelectedHUD();
 
         EventBus.Publish(new SelectActivePlayerEvent());
 
@@ -85,8 +84,7 @@ public class CharacterController : ICharacterController
         Abilities[abilityNumber].Execute(targetTiles);
 
         abilitiesRemaining--;
-
-        UpdateSelectedHUD();
+        
         CheckExhausted();
     }
 
@@ -101,12 +99,6 @@ public class CharacterController : ICharacterController
                 ((IActiveAbility) ability).UpdateCooldown();
             }
         });
-    }
-
-    public float GetInitiative()
-    {
-        // TODO: Determine how initiative is calculated.
-        return 1.0f;
     }
 
     public void Heal(float heal)
@@ -171,7 +163,6 @@ public class CharacterController : ICharacterController
             }
         }
         Refresh();
-        UpdateSelectedHUD();
         EventBus.Publish(new SelectActivePlayerEvent());
     }
 
