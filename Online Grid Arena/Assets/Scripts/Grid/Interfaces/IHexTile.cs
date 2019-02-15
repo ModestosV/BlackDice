@@ -7,6 +7,8 @@ public interface IHexTile : IMonoBehaviour
     void SetDefaultMaterial();
     void SetClickedMaterial();
     void SetHighlightMaterial();
+    void ShowInvalidTarget();
+    void ClearTargetIndicator();
     bool IsMouseOver();
 
     IHexTileController Controller { get; }

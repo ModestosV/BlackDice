@@ -67,8 +67,8 @@ public sealed class HexTileController : IHexTileController
             OccupantCharacter.UpdateTargetHUD();
 
         GridSelectionController.AddHoveredTile(this);
-
-        HexTile.SetErrorMaterial();
+        
+        HexTile.ShowInvalidTarget();
     }
 
     public void Blur()
