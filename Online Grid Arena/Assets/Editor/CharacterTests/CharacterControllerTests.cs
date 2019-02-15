@@ -144,12 +144,11 @@ public class CharacterControllerTests
     }
 
     [Test]
-    public void Execute_move_consumes_available_moves_and_updates_selected_hud()
+    public void Execute_move_consumes_available_move()
     {
         sut.ExecuteMove(pathList);
 
         moves.Received(1).CurrentValue = CHARACTER_CURRENT_MOVES - (pathList.Count - 1);
-        hudController.Received(1).UpdateSelectedHUD(characterStats, PLAYER_NAME, abilities, effects);
     }
 
     [Test]
