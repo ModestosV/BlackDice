@@ -3,12 +3,13 @@
 public interface IHexTile : IMonoBehaviour
 {
     void SetHoverMaterial();
-    void SetErrorMaterial();
     void SetDefaultMaterial();
     void SetClickedMaterial();
     void SetHighlightMaterial();
+    void SetErrorMaterial();
     void ShowInvalidTarget();
-    void ClearTargetIndicator();
+    void ShowDamagedTarget();
+    void ClearTargetIndicators();
     bool IsMouseOver();
 
     IHexTileController Controller { get; }

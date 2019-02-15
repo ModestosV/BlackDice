@@ -4,9 +4,11 @@ using System.Collections.Generic;
 public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
-    [SerializeField] private GameObject invalidTile;
 
-    public GameObject TargetIndicator { get; set; }
+    protected GameObject invalidTile;
+    protected GameObject damagedTile;
+
+    public GameObject InvalidIndicator { get; set; }
 
     public GameObject Obstruction { get; set; }
 
@@ -15,6 +17,15 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     private void Awake()
     {
         Obstruction = materials.Obstruction;
+
+        invalidTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/Red_X"), this.transform);
+        Vector3 translation = (Camera.main.transform.position - invalidTile.transform.position);
+        translation.y *= 1.2f;
+        invalidTile.transform.position += translation.normalized * 8.0f;
+        invalidTile.SetActive(false);
+
+        damagedTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/DamagedTile"), this.transform);
+        damagedTile.SetActive(false);
 
         hexTileController = new HexTileController()
         {
@@ -46,15 +57,13 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public void SetErrorMaterial()
     {
-        //GetComponent<Renderer>().material = materials.HoveredErrorMaterial;
-        TargetIndicator = Instantiate(invalidTile, gameObject.transform) as GameObject;
-        TargetIndicator.transform.LookAt(Camera.main.transform.position, -Vector3.up);
+
     }
 
     public void SetDefaultMaterial()
     {
         GetComponent<Renderer>().material = materials.DefaultMaterial;
-        ClearTargetIndicator();
+        ClearTargetIndicators();
     }
 
     public void SetClickedMaterial()
@@ -92,21 +101,18 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public void ShowInvalidTarget()
     {
-        // Show Red X
-        TargetIndicator = Instantiate(invalidTile, gameObject.transform) as GameObject;
-
-        // Position X relative to camera
-        Vector3 translation = (Camera.main.transform.position - TargetIndicator.transform.position);
-        translation.y *= 1.2f;
-        TargetIndicator.transform.position += translation.normalized * 8.0f;
-
-
-        TargetIndicator.transform.rotation = Quaternion.Euler(90, 0, 0);
+        invalidTile.SetActive(true);
     }
 
-    public void ClearTargetIndicator()
+    public void ShowDamagedTarget()
     {
-        Destroy(TargetIndicator);
+        damagedTile.SetActive(true);
+    }
+
+    public void ClearTargetIndicators()
+    {
+        invalidTile.SetActive(false);
+        damagedTile.SetActive(false);
     }
 }
 

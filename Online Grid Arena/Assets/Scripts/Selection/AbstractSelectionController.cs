@@ -79,13 +79,17 @@
             return;
         }
 
+        if (tileIsOccupied)
+        {
+            DoHoverOccupiedTile();
+            return;
+        }
+
         if (tileIsCurrentSelectedTile)
         {
             DoHoverSelectedTile();
             return;
         }
-        
-        DoHoverOccupiedTile();
     }
 
     protected void DoEscapePressed()
