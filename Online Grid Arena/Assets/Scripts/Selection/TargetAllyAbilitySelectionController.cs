@@ -40,7 +40,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoHoverUnoccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 
     protected override void DoHoverSelectedTile()
@@ -65,7 +65,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
         }
         else
         {
-            inputParameters.TargetTile.HoverError();
+            inputParameters.TargetTile.HoverInvalid();
         }
     }
 }

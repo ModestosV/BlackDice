@@ -30,12 +30,12 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
     protected override void DoHoverUnoccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 
     protected override void DoHoverSelectedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 
     protected override void DoHoverOccupiedTile()
@@ -53,7 +53,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
             inputParameters.TargetTile.Highlight();
         } else
         {
-            inputParameters.TargetTile.HoverError();
+            inputParameters.TargetTile.HoverInvalid();
         }
     }
 }

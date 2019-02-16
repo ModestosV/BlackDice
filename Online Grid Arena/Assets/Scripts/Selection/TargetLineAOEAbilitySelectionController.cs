@@ -29,10 +29,11 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
     private void HighlightAffectedTiles(IHexTileController target)
     {
         target.Dehighlight();
-        foreach (IHexTileController affected in target.GetNeighbors())
-        {
-            affected.HoverError();
-        }
+        target.HoverInvalid();
+        //foreach (IHexTileController affected in target.GetNeighbors())
+        //{
+        //    affected.HoverError();
+        //}
         target.Hover();
     }
 

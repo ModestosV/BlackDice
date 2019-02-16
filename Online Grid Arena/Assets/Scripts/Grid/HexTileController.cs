@@ -67,8 +67,32 @@ public sealed class HexTileController : IHexTileController
             OccupantCharacter.UpdateTargetHUD();
 
         GridSelectionController.AddHoveredTile(this);
-        
+
+        HexTile.SetErrorMaterial();
+    }
+
+    public void HoverInvalid()
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHoveredTile(this);
+
         HexTile.ShowInvalidTarget();
+    }
+
+    public void HoverDamage()
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHoveredTile(this);
+
+        HexTile.ShowDamagedTarget();
     }
 
     public void Blur()

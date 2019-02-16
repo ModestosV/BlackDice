@@ -40,7 +40,7 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
             inputParameters.TargetTile.Highlight();
             foreach (IHexTileController affected in inputParameters.TargetTile.GetNeighbors())
             {
-                affected.HoverError();
+                affected.HoverDamage();
             }
         }
         else
@@ -51,11 +51,11 @@ public sealed class TargetTileAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoHoverSelectedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 
     protected override void DoHoverOccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 }

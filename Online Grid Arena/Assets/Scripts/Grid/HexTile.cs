@@ -57,7 +57,7 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public void SetErrorMaterial()
     {
-
+        GetComponent<Renderer>().material = materials.HoveredErrorMaterial;
     }
 
     public void SetDefaultMaterial()

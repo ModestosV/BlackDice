@@ -49,7 +49,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
         // Hovered over unreachable tile
         if (!isReachable)
         {
-            inputParameters.TargetTile.HoverError();
+            inputParameters.TargetTile.HoverInvalid();
             return;
         }
 
@@ -60,6 +60,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
             {
                 path[i].HoverError();
             }
+            path[path.Count - 1].HoverInvalid();
             return;
         }
 
