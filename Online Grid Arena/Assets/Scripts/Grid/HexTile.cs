@@ -5,8 +5,8 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
 
-    protected GameObject invalidTile;
-    protected GameObject affectedTile;
+    private GameObject invalidTile;
+    private GameObject affectedTile;
 
     private Animator tileAnimator;
 

@@ -74,6 +74,6 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoHoverOccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.HoverInvalid();
     }
 }

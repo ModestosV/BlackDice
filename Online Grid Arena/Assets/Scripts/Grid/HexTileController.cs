@@ -150,9 +150,11 @@ public sealed class HexTileController : IHexTileController
         if (IsSelected)
         {
             HexTile.SetClickedMaterial();
-        } else
+        }
+        else
         {
             HexTile.SetDefaultMaterial();
+            HexTile.ClearTargetIndicators();
         }
     }
 
