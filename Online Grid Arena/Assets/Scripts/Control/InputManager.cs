@@ -15,6 +15,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         {
             return;
         }
+
         lastInputParameters = inputParameters;
 
         SelectionManager.UpdateSelectionMode(inputParameters);
