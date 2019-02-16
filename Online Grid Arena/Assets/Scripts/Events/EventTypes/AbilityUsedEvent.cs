@@ -1,8 +1,8 @@
-﻿public class AbilityUsedEvent : AbstractEvent
+﻿public class AbilitySelectedEvent : AbstractEvent
 {
     public int AbilityIndex { get; }
 
-    public AbilityUsedEvent(int abilityIndex)
+    public AbilitySelectedEvent(int abilityIndex)
     {
         AbilityIndex = abilityIndex;
     }

@@ -54,7 +54,7 @@ public class AbilityPanelControllerTests
     [Test]
     public void Handle_AbilityUsedEvent()
     {
-        sut.Handle(new AbilityUsedEvent(ABILITY_INDEX));
+        sut.Handle(new AbilitySelectedEvent(ABILITY_INDEX));
 
         abilityPanel.Received(1).SetAbilityColorDefaultToAll();
         abilityPanel.Received(1).SetAbilityColorUsed(ABILITY_INDEX);
@@ -63,7 +63,7 @@ public class AbilityPanelControllerTests
     [Test]
     public void Handle_UpdateSelectionModeEvent()
     {
-        sut.Handle(new AbilityUsedEvent(ABILITY_INDEX));
+        sut.Handle(new AbilitySelectedEvent(ABILITY_INDEX));
 
         abilityPanel.Received(1).SetAbilityColorDefaultToAll();
     }
