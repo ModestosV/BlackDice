@@ -124,6 +124,8 @@ public sealed class HexTileController : IHexTileController
         {
             HexTile.SetDefaultMaterial();
         }
+
+        HexTile.ClearTargetIndicators();
     }
 
     public void Highlight()
