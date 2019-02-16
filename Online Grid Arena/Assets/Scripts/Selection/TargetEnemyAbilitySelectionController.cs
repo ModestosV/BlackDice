@@ -50,7 +50,7 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
         if (!targetCharacterIsAlly && inRange)
         {
-            inputParameters.TargetTile.Highlight();
+            inputParameters.TargetTile.HoverDamage();
         } else
         {
             inputParameters.TargetTile.HoverInvalid();

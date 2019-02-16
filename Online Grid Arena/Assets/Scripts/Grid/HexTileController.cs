@@ -95,6 +95,18 @@ public sealed class HexTileController : IHexTileController
         HexTile.ShowDamagedTarget();
     }
 
+    public void HoverHealing()
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHoveredTile(this);
+
+        HexTile.ShowHealedTarget();
+    }
+
     public void Blur()
     {
         if (!IsEnabled) return;

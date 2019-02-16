@@ -60,7 +60,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
         if (targetCharacterIsAlly && inRange)
         {
-            inputParameters.TargetTile.Highlight();
+            inputParameters.TargetTile.HoverHealing();
             targetCharacter.BorderColor = new UnityEngine.Color32(110, 11, 11, 100);
         }
         else

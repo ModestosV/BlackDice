@@ -26,6 +26,7 @@ public interface IHexTileController
     void HoverError();
     void HoverInvalid();
     void HoverDamage();
+    void HoverHealing();
     void Highlight();
     void Dehighlight();
 

@@ -9,6 +9,7 @@ public interface IHexTile : IMonoBehaviour
     void SetErrorMaterial();
     void ShowInvalidTarget();
     void ShowDamagedTarget();
+    void ShowHealedTarget();
     void ClearTargetIndicators();
     bool IsMouseOver();
 

@@ -6,7 +6,9 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     [SerializeField] private HexTileMaterialSet materials;
 
     protected GameObject invalidTile;
-    protected GameObject damagedTile;
+    protected GameObject affectedTile;
+
+    private Animator tileAnimator;
 
     public GameObject InvalidIndicator { get; set; }
 
@@ -24,8 +26,8 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
         invalidTile.transform.position += translation.normalized * 8.0f;
         invalidTile.SetActive(false);
 
-        damagedTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/DamagedTile"), this.transform);
-        damagedTile.SetActive(false);
+        affectedTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/AffectedTile"), this.transform);
+        tileAnimator = affectedTile.GetComponent<Animator>();
 
         hexTileController = new HexTileController()
         {
@@ -33,8 +35,8 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
             IsEnabled = GetComponent<Renderer>().enabled,
             IsObstructed = GetObstruction() != null
         };
-        GetComponent<Renderer>().material = materials.DefaultMaterial;
 
+        GetComponent<Renderer>().material = materials.DefaultMaterial;
     }
 
     private void Start()
@@ -106,13 +108,21 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public void ShowDamagedTarget()
     {
-        damagedTile.SetActive(true);
+        tileAnimator.SetBool("Healing", false);
+        tileAnimator.SetBool("Damage", true);
+    }
+
+    public void ShowHealedTarget()
+    {
+        tileAnimator.SetBool("Healing", true);
+        tileAnimator.SetBool("Damage", false);
     }
 
     public void ClearTargetIndicators()
     {
+        tileAnimator.SetBool("Healing", false);
+        tileAnimator.SetBool("Damage", false);
         invalidTile.SetActive(false);
-        damagedTile.SetActive(false);
     }
 }
 
