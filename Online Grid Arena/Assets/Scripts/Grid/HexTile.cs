@@ -110,18 +110,21 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     {
         tileAnimator.SetBool("Healing", false);
         tileAnimator.SetBool("Damage", true);
+        tileAnimator.Play("Damage", -1, 0);
     }
 
     public void ShowHealedTarget()
     {
         tileAnimator.SetBool("Healing", true);
         tileAnimator.SetBool("Damage", false);
+        tileAnimator.Play("Healing", -1, 0);
     }
 
     public void ClearTargetIndicators()
     {
         tileAnimator.SetBool("Healing", false);
         tileAnimator.SetBool("Damage", false);
+        tileAnimator.Play("Idle", -1, 0);
         invalidTile.SetActive(false);
     }
 }
