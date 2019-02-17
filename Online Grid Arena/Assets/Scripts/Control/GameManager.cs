@@ -97,7 +97,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
-        EventBus.Subscribe<AbilityUsedEvent>(abilityPanelController);
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);

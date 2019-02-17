@@ -57,9 +57,9 @@ public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
     {
         var type = @event.GetType();
 
-        if (type == typeof(AbilityUsedEvent))
+        if (type == typeof(AbilitySelectedEvent))
         {
-            var newAbilityClicked = (AbilityUsedEvent)@event;
+            var newAbilityClicked = (AbilitySelectedEvent)@event;
             abilityPanel.SetAbilityColorDefaultToAll();
             abilityPanel.SetAbilityColorUsed(newAbilityClicked.AbilityIndex);
         }

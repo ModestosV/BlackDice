@@ -279,6 +279,11 @@ public sealed class HexTileController : IHexTileController
         }
     }
 
+    public override string ToString()
+    {
+        return $"({X}, {Y}, {Z})";
+    }
+
     private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<Tuple<int, int, int>, IHexTileController> bestParents)
     {
         IHexTileController node = goalTile;
