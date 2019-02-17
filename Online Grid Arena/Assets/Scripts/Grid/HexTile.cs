@@ -2,7 +2,8 @@
 
 public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
-    [SerializeField] private HexTileMaterialSet materials;
+    [SerializeField]
+    private HexTileMaterialSet materials;
     public GameObject Obstruction { get; set; }
 
     private HexTileController hexTileController;

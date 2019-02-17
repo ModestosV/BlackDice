@@ -4,5 +4,5 @@ using System;
 public interface IGridController
 {
     void GenerateGridMap(List<IHexTileController> hexTiles);
-    IHexTileController GetTile(Tuple<int, int, int> coordinates);
+    IHexTileController GetTile((int, int, int) coordinates);
 }

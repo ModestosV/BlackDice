@@ -19,15 +19,15 @@ class GridControllerTests
 
     List<IHexTileController> hexTilesList;
 
-    readonly Tuple<int, int, int> topLeftCoordinates = new Tuple<int, int, int>(0, 0, 0);
-    readonly Tuple<int, int, int> topCenterCoordinates = new Tuple<int, int, int>(1, -1, 0);
-    readonly Tuple<int, int, int> topRightCoordinates = new Tuple<int, int, int>(2, -2, 0);
-    readonly Tuple<int, int, int> middleLeftCoordinates = new Tuple<int, int, int>(0, -1, 1);
-    readonly Tuple<int, int, int> middleCenterCoordinates = new Tuple<int, int, int>(1, -2, 1);
-    readonly Tuple<int, int, int> middleRightCoordinates = new Tuple<int, int, int>(2, -3, 1);
-    readonly Tuple<int, int, int> bottomLeftCoordinates = new Tuple<int, int, int>(-1, -1, 2);
-    readonly Tuple<int, int, int> bottomCenterCoordinates = new Tuple<int, int, int>(0, -2, 2);
-    readonly Tuple<int, int, int> bottomRightCoordinates = new Tuple<int, int, int>(1, -3, 2);
+    readonly (int, int, int) topLeftCoordinates = (0, 0, 0);
+    readonly (int, int, int) topCenterCoordinates = (1, -1, 0);
+    readonly (int, int, int) topRightCoordinates = (2, -2, 0);
+    readonly (int, int, int) middleLeftCoordinates = (0, -1, 1);
+    readonly (int, int, int) middleCenterCoordinates = (1, -2, 1);
+    readonly (int, int, int) middleRightCoordinates = (2, -3, 1);
+    readonly (int, int, int) bottomLeftCoordinates = (-1, -1, 2);
+    readonly (int, int, int) bottomCenterCoordinates = (0, -2, 2);
+    readonly (int, int, int) bottomRightCoordinates = (1, -3, 2);
 
     [SetUp]
     public void Init()
