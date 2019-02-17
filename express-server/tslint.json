@@ -17,7 +17,8 @@
     "no-default-export" : false,
     "object-literal-sort-keys": false,
     "whitespace": true,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "no-console":false
   },
   "jsRules": {
     "max-line-length": {

@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { Button } from 'react-bootstrap'
+import FeedbackLoginModal from "../Components/FeedbackLoginModal"
 import '../App.css';
 
-class feedbackLoginPopup extends Component {
+class FeedbackLoginPopup extends Component {
   state = {
-      show:false
+    ...this.props.state,
+    show:false
   }
 
   showModal = () => {
@@ -13,11 +16,15 @@ class feedbackLoginPopup extends Component {
       });
   }
 
-  render(){
+  render() {
     return (
-      <p></p>
+      <div>
+        <strong><a id="link" onClick={this.showModal}>Feedback</a></strong>
+        <FeedbackLoginModal show={this.state.show} onClose={this.showModal} state={this.state}></FeedbackLoginModal>
+      </div>
     );
   }
+
 }
 
-export default feedbackLoginPopup;
+export default FeedbackLoginPopup;

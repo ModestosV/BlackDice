@@ -11,10 +11,6 @@ export class Application {
    * initRouters
    */
   public initRouters() {
-
-    const cors = require("cors");
-    this.app.use(cors());
-
     this.app.use(router);
     this.app.use(this.logErrorHandler);
     return this.app;
@@ -26,10 +22,10 @@ export class Application {
 
     err.name = "404";
     res.statusCode = 404;
-    global.console.error("Error:");
-    global.console.error(err.name);
-    global.console.error(err.message);
-    global.console.error(err.stack);
+    console.error("Error:");
+    console.error(err.name);
+    console.error(err.message);
+    console.error(err.stack);
 
     throw err;
   }

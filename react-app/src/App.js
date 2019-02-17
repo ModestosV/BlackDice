@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
+import FeedbackLoginPopup from './Components/FeedbackLoginPopup';
 
 class App extends Component {
 
@@ -11,7 +12,10 @@ class App extends Component {
       downloads: [],
       quoteOfTheDay: {},
       messageFromBackend: "",
-      links: []
+      alerts: [],
+      inputValueUser: "",
+      inputValuePass: "",
+      feedback: []
     }
   }
 
@@ -19,7 +23,6 @@ class App extends Component {
     this.getDownloads();
     this.getQuoteOfTheDay();
     this.greetBackendAPI();
-    this.getLinks();
   }
 
   getQuoteOfTheDay() {
@@ -47,27 +50,27 @@ class App extends Component {
       })
   }
 
-  getLinks() {
-    this.setState({
-      links: [
-        {
-          title: "Feedback",
-          link: ""
-        }
-      ]
-    })
-  }
-
   render() {
+    var elements = []
+    if(this.state.alerts.length > 0) {
+      elements.push(
+        <div id="Alert">
+          {this.state.alerts.pop()}
+        </div>
+      )  
+    }
+
     return (
-      <div className="App">
+      <div className="App" id="App">
+
+        {elements}
 
         <div className="Title">
           <h1>Black Dice</h1>
         </div>
 
         <div className="Navbar">
-          Navbar
+          <FeedbackLoginPopup state={this.state}></FeedbackLoginPopup>
         </div>
 
         <div className="DownloadsHeader">
