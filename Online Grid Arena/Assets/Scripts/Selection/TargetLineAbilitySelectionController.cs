@@ -85,6 +85,10 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
                     {
                         path[i].HoverError();
                     }
+                    else
+                    {
+                        path[i].HoverDamage();
+                    }
                 }
             }
         }
