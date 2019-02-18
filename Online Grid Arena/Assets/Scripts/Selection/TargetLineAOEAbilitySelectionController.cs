@@ -46,6 +46,7 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
             {
                 affected.HoverDamage();
             }
+            target.HoverDamage();
         }
 
     }
