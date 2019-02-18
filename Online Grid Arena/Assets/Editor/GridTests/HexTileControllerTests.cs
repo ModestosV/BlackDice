@@ -188,6 +188,30 @@ public class HexTileControllerTests
         gridSelectionController.Received(1).AddHoveredTile(sut);
     }
 
+    [Test]
+    public void Hovering_an_invalid_tile_sets_the_tile_to_show_as_invalid()
+    {
+        sut.Hover(HoverType.INVALID);
+
+        hexTile.Received(1).ShowInvalidTarget();
+    }
+
+    [Test]
+    public void Hovering_an_tile_for_damage_sets_the_tile_to_show_damage()
+    {
+        sut.Hover(HoverType.DAMAGE);
+
+        hexTile.Received(1).ShowDamagedTarget();
+    }
+
+    [Test]
+    public void Hovering_an_tile_for_healing_sets_the_tile_to_show_healing()
+    {
+        sut.Hover(HoverType.HEAL);
+
+        hexTile.Received(1).ShowHealedTarget();
+    }
+
     #endregion
 
     #region HoverError tests
