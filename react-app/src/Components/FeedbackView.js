@@ -6,7 +6,8 @@ class FeedbackView extends Component {
   
   styleContainer = {
     "padding-top" : "1%",
-    "padding-left" : "10%"
+    "padding-left" : "5%",
+    "padding-right": "5%"
   }
 
   styleTable = {
@@ -14,7 +15,16 @@ class FeedbackView extends Component {
   }
 
   styleColumns = {
-    "text-align": "center"
+    "text-align": "center",
+    "padding-top": "3%"
+  }
+
+  styleColumnLast = {
+    "text-align": "center",
+    "word-wrap": "break-word",
+    "word-break" : "break-all",
+    "width" : "60%",
+    "padding-top": "3%"
   }
   
   render() {
@@ -28,26 +38,28 @@ class FeedbackView extends Component {
           <td style={this.styleColumns}>
             {t.email}
           </td>
-          <td style={this.styleColumns}>
+          <td style={this.styleColumnLast}>
             {t.message}
           </td>
         </tr>
       )
     })
     return(
-      <Container style={this.styleContainer}>
-        <Table style={this.styleTable}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Email</th>
-              <th>Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            {elements}
-          </tbody>
-        </Table>
+      <Container style={this.styleContainer} className="TableFeedback">
+        <div>
+          <Table style={this.styleTable}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              {elements}
+            </tbody>
+          </Table>
+        </div>
       </Container>
     )
   }
