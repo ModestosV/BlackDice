@@ -161,7 +161,7 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverInvalid();
+        targetTile.Received(1).Hover(HoverType.INVALID);
     }
 
     [Test]
@@ -176,7 +176,7 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverDamage();
+        targetTile.Received(1).Hover(HoverType.DAMAGE);
     }
 
     [Test]
@@ -192,6 +192,6 @@ public class TargetEnemyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverInvalid();
+        targetTile.Received(1).Hover(HoverType.INVALID);
     }
 }

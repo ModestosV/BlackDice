@@ -44,9 +44,9 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
         {
             foreach (IHexTileController affected in target.GetNeighbors())
             {
-                affected.HoverDamage();
+                affected.Hover(HoverType.DAMAGE);
             }
-            target.HoverDamage();
+            target.Hover(HoverType.DAMAGE);
         }
 
     }

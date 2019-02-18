@@ -49,7 +49,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
         // Hovered over unreachable tile
         if (!isReachable)
         {
-            inputParameters.TargetTile.HoverInvalid();
+            inputParameters.TargetTile.Hover(HoverType.INVALID);
             return;
         }
 
@@ -60,7 +60,7 @@ public sealed class MovementSelectionController : AbstractSelectionController
             {
                 path[i].HoverError();
             }
-            path[path.Count - 1].HoverInvalid();
+            path[path.Count - 1].Hover(HoverType.INVALID);
             return;
         }
 
@@ -74,6 +74,6 @@ public sealed class MovementSelectionController : AbstractSelectionController
 
     protected override void DoHoverOccupiedTile()
     {
-        inputParameters.TargetTile.HoverInvalid();
+        inputParameters.TargetTile.Hover(HoverType.INVALID);
     }
 }

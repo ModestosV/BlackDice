@@ -179,7 +179,7 @@ public class TargetTileAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverInvalid();
+        targetTile.Received(1).Hover(HoverType.INVALID);
     }
 
     [Test]
@@ -195,6 +195,6 @@ public class TargetTileAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverInvalid();
+        targetTile.Received(1).Hover(HoverType.INVALID);
     }
 }

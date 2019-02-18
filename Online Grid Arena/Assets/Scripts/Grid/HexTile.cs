@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum HoverType
+{
+    DAMAGE,
+    HEAL,
+    INVALID
+}
+
 public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
     [SerializeField] private HexTileMaterialSet materials;
