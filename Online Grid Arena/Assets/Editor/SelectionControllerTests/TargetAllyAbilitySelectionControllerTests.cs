@@ -163,7 +163,7 @@ public class TargetAllyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverError();
+        targetTile.Received(1).HoverInvalid();
     }
 
     [Test]
@@ -178,7 +178,7 @@ public class TargetAllyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).Highlight();
+        targetTile.Received(1).HoverHealing();
     }
 
     [Test]
@@ -194,6 +194,6 @@ public class TargetAllyAbilitySelectionControllerTests
 
         gridSelectionController.Received(1).DehighlightAll();
         gridSelectionController.Received(1).BlurAll();
-        targetTile.Received(1).HoverError();
+        targetTile.Received(1).HoverInvalid();
     }
 }
