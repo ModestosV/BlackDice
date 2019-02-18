@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IHexTileController
 {
-    Tuple<int, int, int> Coordinates { get; set; }
+    (int, int, int) Coordinates { get; set; }
 
     int X { get; }
     int Y { get; }
