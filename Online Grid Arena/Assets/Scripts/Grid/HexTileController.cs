@@ -5,7 +5,7 @@ using UnityEngine;
 
 public sealed class HexTileController : IHexTileController
 {
-    public Tuple<int, int, int> Coordinates { get; set; }
+    public (int, int, int) Coordinates { get; set; }
 
     public bool IsEnabled { get; set; }
     public bool IsSelected { private get; set; }
@@ -159,32 +159,32 @@ public sealed class HexTileController : IHexTileController
 
     public IHexTileController GetNorthEastNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1));
+        return GridController.GetTile((X + 1, Y, Z - 1));
     }
 
     public IHexTileController GetEastNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z));
+        return GridController.GetTile((X + 1, Y - 1, Z));
     }
 
     public IHexTileController GetSouthEastNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1));
+        return GridController.GetTile((X, Y - 1, Z + 1));
     }
 
     public IHexTileController GetSouthWestNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X - 1, Y, Z + 1));
+        return GridController.GetTile((X - 1, Y, Z + 1));
     }
 
     public IHexTileController GetWestNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X - 1, Y + 1, Z));
+        return GridController.GetTile((X - 1, Y + 1, Z));
     }
 
     public IHexTileController GetNorthWestNeighbor()
     {
-        return GridController.GetTile(new Tuple<int, int, int>(X, Y + 1, Z - 1));
+        return GridController.GetTile((X, Y + 1, Z - 1));
     }
 
     public List<IHexTileController> GetNeighbors()
@@ -207,10 +207,10 @@ public sealed class HexTileController : IHexTileController
     public List<IHexTileController> GetPath(IHexTileController goalTile, bool isAbility)
     {
         List<IHexTileController> open = new List<IHexTileController>();
-        HashSet<Tuple<int, int, int>> closed = new HashSet<Tuple<int, int, int>>();
-        Dictionary<Tuple<int, int, int>, int> fValues = new Dictionary<Tuple<int, int, int>, int>();
-        Dictionary<Tuple<int, int, int>, int> gValues = new Dictionary<Tuple<int, int, int>, int>();
-        Dictionary<Tuple<int, int, int>, IHexTileController> bestParents = new Dictionary<Tuple<int, int, int>, IHexTileController>();
+        HashSet<(int, int, int)> closed = new HashSet<(int, int, int)>();
+        Dictionary<(int, int, int), int> fValues = new Dictionary<(int, int, int), int>();
+        Dictionary<(int, int, int), int> gValues = new Dictionary<(int, int, int), int>();
+        Dictionary<(int, int, int), IHexTileController> bestParents = new Dictionary<(int, int, int), IHexTileController>();
 
         open.Add(this);
         gValues[this.Coordinates] = 0;
@@ -311,7 +311,7 @@ public sealed class HexTileController : IHexTileController
         return $"({X}, {Y}, {Z})";
     }
 
-    private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<Tuple<int, int, int>, IHexTileController> bestParents)
+    private List<IHexTileController> Backtrace(IHexTileController goalTile, Dictionary<(int, int, int), IHexTileController> bestParents)
     {
         IHexTileController node = goalTile;
         List<IHexTileController> path = new List<IHexTileController> { goalTile };

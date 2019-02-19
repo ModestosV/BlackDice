@@ -25,13 +25,13 @@ public class HexTileControllerTests
 
     const int ONE = 1;
 
-    readonly Tuple<int, int, int> coordinates = new Tuple<int, int, int>(X, Y, Z);
-    readonly Tuple<int, int, int> northEastCoordinates = new Tuple<int, int, int>(1, 0, -1);
-    readonly Tuple<int, int, int> eastCoordinates = new Tuple<int, int, int>(1, -1, 0);
-    readonly Tuple<int, int, int> southEastCoordinates = new Tuple<int, int, int>(0, -1, 1);
-    readonly Tuple<int, int, int> southWestCoordinates = new Tuple<int, int, int>(-1, 0, 1);
-    readonly Tuple<int, int, int> westCoordinates = new Tuple<int, int, int>(-1, 1, 0);
-    readonly Tuple<int, int, int> northWestCoordinates = new Tuple<int, int, int>(0, 1, -1);
+    readonly (int, int, int) coordinates = (X, Y, Z);
+    readonly (int, int, int) northEastCoordinates = (1, 0, -1);
+    readonly (int, int, int) eastCoordinates = (1, -1, 0);
+    readonly (int, int, int) southEastCoordinates = (0, -1, 1);
+    readonly (int, int, int) southWestCoordinates = (-1, 0, 1);
+    readonly (int, int, int) westCoordinates = (-1, 1, 0);
+    readonly (int, int, int) northWestCoordinates = (0, 1, -1);
 
 
     [SetUp]
@@ -70,12 +70,12 @@ public class HexTileControllerTests
         westHexTile.GetNeighbors().Returns(new List<IHexTileController>() { northWestHexTile, sut, southWestHexTile });
         northWestHexTile.GetNeighbors().Returns(new List<IHexTileController>() { northEastHexTile, sut, westHexTile });
 
-        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1)).Returns(northEastHexTile);
-        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z)).Returns(eastHexTile);
-        gridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1)).Returns(southEastHexTile);
-        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y, Z + 1)).Returns(southWestHexTile);
-        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y + 1, Z)).Returns(westHexTile);
-        gridController.GetTile(new Tuple<int, int, int>(X, Y + 1, Z - 1)).Returns(northWestHexTile);
+        gridController.GetTile((X + 1, Y, Z - 1)).Returns(northEastHexTile);
+        gridController.GetTile((X + 1, Y - 1, Z)).Returns(eastHexTile);
+        gridController.GetTile((X, Y - 1, Z + 1)).Returns(southEastHexTile);
+        gridController.GetTile((X - 1, Y, Z + 1)).Returns(southWestHexTile);
+        gridController.GetTile((X - 1, Y + 1, Z)).Returns(westHexTile);
+        gridController.GetTile((X, Y + 1, Z - 1)).Returns(northWestHexTile);
 
         sut = new HexTileController
         {
@@ -372,7 +372,7 @@ public class HexTileControllerTests
     {
         sut.GetNorthEastNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y, Z - 1));
+        gridController.GetTile((X + 1, Y, Z - 1));
     }
 
     [Test]
@@ -380,7 +380,7 @@ public class HexTileControllerTests
     {
         sut.GetEastNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X + 1, Y - 1, Z));
+        gridController.GetTile((X + 1, Y - 1, Z));
     }
 
     [Test]
@@ -388,7 +388,7 @@ public class HexTileControllerTests
     {
         sut.GetSouthEastNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X, Y - 1, Z + 1));
+        gridController.GetTile((X, Y - 1, Z + 1));
     }
 
     [Test]
@@ -396,7 +396,7 @@ public class HexTileControllerTests
     {
         sut.GetSouthWestNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y, Z + 1));
+        gridController.GetTile((X - 1, Y, Z + 1));
     }
 
     [Test]
@@ -404,7 +404,7 @@ public class HexTileControllerTests
     {
         sut.GetWestNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X - 1, Y + 1, Z));
+        gridController.GetTile((X - 1, Y + 1, Z));
     }
 
     [Test]
@@ -412,7 +412,7 @@ public class HexTileControllerTests
     {
         sut.GetNorthWestNeighbor();
 
-        gridController.GetTile(new Tuple<int, int, int>(X, Y + 1, Z - 1));
+        gridController.GetTile((X, Y + 1, Z - 1));
     }
 
     [Test]

@@ -10,7 +10,8 @@ public enum HoverType
 
 public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
-    [SerializeField] private HexTileMaterialSet materials;
+    [SerializeField]
+    private HexTileMaterialSet materials;
 
     private GameObject invalidTile;
     private GameObject affectedTile;
@@ -44,6 +45,7 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
         };
 
         GetComponent<Renderer>().material = materials.DefaultMaterial;
+
     }
 
     private void Start()

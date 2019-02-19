@@ -16,11 +16,6 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
             return;
         }
 
-        if(Input.inputString.Length > 0)
-        {
-            Debug.Log($"{Input.inputString} was pressed");
-        }
-
         lastInputParameters = inputParameters;
 
         SelectionManager.UpdateSelectionMode(inputParameters);
