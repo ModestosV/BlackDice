@@ -79,15 +79,15 @@
             return;
         }
 
-        if (tileIsOccupied)
-        {
-            DoHoverOccupiedTile();
-            return;
-        }
-
         if (tileIsCurrentSelectedTile)
         {
             DoHoverSelectedTile();
+            return;
+        }
+
+        if (tileIsOccupied)
+        {
+            DoHoverOccupiedTile();
             return;
         }
     }
