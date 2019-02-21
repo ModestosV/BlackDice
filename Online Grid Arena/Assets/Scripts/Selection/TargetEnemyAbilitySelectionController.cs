@@ -30,12 +30,12 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
     protected override void DoHoverUnoccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.Hover(HoverType.INVALID);
     }
 
     protected override void DoHoverSelectedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.Hover(HoverType.INVALID);
     }
 
     protected override void DoHoverOccupiedTile()
@@ -50,10 +50,10 @@ public sealed class TargetEnemyAbilitySelectionController : AbstractAbilitySelec
 
         if (!targetCharacterIsAlly && inRange)
         {
-            inputParameters.TargetTile.Highlight();
+            inputParameters.TargetTile.Hover(HoverType.DAMAGE);
         } else
         {
-            inputParameters.TargetTile.HoverError();
+            inputParameters.TargetTile.Hover(HoverType.INVALID);
         }
     }
 }

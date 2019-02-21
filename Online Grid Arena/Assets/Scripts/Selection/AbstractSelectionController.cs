@@ -84,8 +84,12 @@
             DoHoverSelectedTile();
             return;
         }
-        
-        DoHoverOccupiedTile();
+
+        if (tileIsOccupied)
+        {
+            DoHoverOccupiedTile();
+            return;
+        }
     }
 
     protected void DoEscapePressed()

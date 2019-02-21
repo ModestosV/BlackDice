@@ -71,6 +71,29 @@ public sealed class HexTileController : IHexTileController
         HexTile.SetErrorMaterial();
     }
 
+    public void Hover(HoverType hover)
+    {
+        if (!IsEnabled) return;
+
+        if (OccupantCharacter != null)
+            OccupantCharacter.UpdateTargetHUD();
+
+        GridSelectionController.AddHoveredTile(this);
+
+        if (hover == HoverType.DAMAGE)
+        {
+            HexTile.ShowDamagedTarget();
+        }
+        else if (hover == HoverType.HEAL)
+        {
+            HexTile.ShowHealedTarget();
+        }
+        else if (hover == HoverType.INVALID)
+        {
+            HexTile.ShowInvalidTarget();
+        }
+    }
+
     public void Blur()
     {
         if (!IsEnabled) return;
@@ -88,6 +111,8 @@ public sealed class HexTileController : IHexTileController
         {
             HexTile.SetDefaultMaterial();
         }
+
+        HexTile.ClearTargetIndicators();
     }
 
     public void Highlight()
@@ -114,9 +139,11 @@ public sealed class HexTileController : IHexTileController
         if (IsSelected)
         {
             HexTile.SetClickedMaterial();
-        } else
+        }
+        else
         {
             HexTile.SetDefaultMaterial();
+            HexTile.ClearTargetIndicators();
         }
     }
 

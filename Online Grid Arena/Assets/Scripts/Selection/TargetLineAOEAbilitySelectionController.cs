@@ -28,12 +28,27 @@ public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectio
 
     private void HighlightAffectedTiles(IHexTileController target)
     {
-        target.Dehighlight();
-        foreach (IHexTileController affected in target.GetNeighbors())
+        IHexTileController selectedTile = gridSelectionController.SelectedTile;
+        List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
+        bool isStraightLine = true;
+
+        for (int i = 1; i < path.Count; i++)
         {
-            affected.HoverError();
+            if (!(selectedTile.X == path[i].X || selectedTile.Y == path[i].Y || selectedTile.Z == path[i].Z))
+            {
+                isStraightLine = false;
+            }
         }
-        target.Hover();
+
+        if (isStraightLine)
+        {
+            foreach (IHexTileController affected in target.GetNeighbors())
+            {
+                affected.Hover(HoverType.DAMAGE);
+            }
+            target.Hover(HoverType.DAMAGE);
+        }
+
     }
 
     private void DehighlightNeighboringTiles(IHexTileController target, IHexTileController exception)
