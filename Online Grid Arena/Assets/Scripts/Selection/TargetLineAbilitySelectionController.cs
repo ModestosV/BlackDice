@@ -70,6 +70,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             {
                 path[i].HoverError();
             }
+            path[path.Count - 1].Hover(HoverType.INVALID);
             return;
         }
         else
@@ -84,6 +85,10 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
                     {
                         path[i].HoverError();
                     }
+                    else
+                    {
+                        path[i].Hover(HoverType.DAMAGE);
+                    }
                 }
             }
         }
@@ -92,7 +97,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
     protected override void DoHoverSelectedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.Hover(HoverType.INVALID);
     }
 
     protected override void DoHoverOccupiedTile()

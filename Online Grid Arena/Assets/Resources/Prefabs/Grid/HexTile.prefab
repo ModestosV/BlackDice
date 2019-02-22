@@ -111,3 +111,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materials: {fileID: 11400000, guid: 7a50c852f1525f7438df7da03edd16cd, type: 2}
+  invalidTile: {fileID: 1657747132804568, guid: 797d564ff32f36f4dbe4eac2c0f6cfb3,
+    type: 2}

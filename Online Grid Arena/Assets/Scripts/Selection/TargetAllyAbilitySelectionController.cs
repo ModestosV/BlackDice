@@ -40,7 +40,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
     protected override void DoHoverUnoccupiedTile()
     {
-        inputParameters.TargetTile.HoverError();
+        inputParameters.TargetTile.Hover(HoverType.INVALID);
     }
 
     protected override void DoHoverSelectedTile()
@@ -60,12 +60,12 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
         if (targetCharacterIsAlly && inRange)
         {
-            inputParameters.TargetTile.Highlight();
+            inputParameters.TargetTile.Hover(HoverType.HEAL);
             targetCharacter.BorderColor = new UnityEngine.Color32(110, 11, 11, 100);
         }
         else
         {
-            inputParameters.TargetTile.HoverError();
+            inputParameters.TargetTile.Hover(HoverType.INVALID);
         }
     }
 }
