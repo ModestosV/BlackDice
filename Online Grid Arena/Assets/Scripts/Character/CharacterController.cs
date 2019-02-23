@@ -14,8 +14,8 @@ public class CharacterController : ICharacterController
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
 
     public string Owner { get; set; }
-    public Texture CharacterIcon { protected get; set; }
-    public Color32 BorderColor { protected get; set; }
+    public Texture CharacterIcon { get; set; }
+    public Color32 BorderColor { get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }

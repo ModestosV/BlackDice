@@ -13,8 +13,8 @@ public interface ICharacterController
     List<IEffect> Effects { set; }
 
     string Owner { get; set; }    
-    Texture CharacterIcon { set; }
-    Color32 BorderColor { set; }
+    Texture CharacterIcon { get;  set; }
+    Color32 BorderColor { get; set; }
     IHealthBar HealthBar { set; }
     SpriteRenderer ActiveCircle { get; set; }
     

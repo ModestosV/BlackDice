@@ -5,15 +5,13 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 {
     private List<ICharacterController> refreshedCharacters;
     private List<ICharacterController> exhaustedCharacters;
-    private readonly ITurnPanelController turnTracker;
     private ICharacterController activeCharacter;
     private List<IPlayer> players;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, ITurnPanelController turnTracker, List<IPlayer> players)
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players)
     {
         this.refreshedCharacters = refreshedCharacters;
         this.exhaustedCharacters = exhaustedCharacters;
-        this.turnTracker = turnTracker;
         this.players = players;
     }
 
@@ -89,7 +87,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         exhaustedCharacters.Remove(character);
         if (activeCharacter == character)
             activeCharacter = null;
-        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
     }
 
     private void CheckWinCondition()
@@ -134,8 +131,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         activeCharacter = refreshedCharacters.ElementAt(0);
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
-
-        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
+        
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 

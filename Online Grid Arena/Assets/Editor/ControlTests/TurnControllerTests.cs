@@ -35,8 +35,8 @@ public class TurnControllerTests
 
         turnTracker = Substitute.For<ITurnPanelController>();
 
-        // TODO: Fix test
-        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, turnTracker, new List<IPlayer>());
+        // TODO: Fix tests
+        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, new List<IPlayer>());
     }
 
     [Test]

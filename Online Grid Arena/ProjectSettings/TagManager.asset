@@ -7,9 +7,9 @@ TagManager:
   - Character
   - Tile
   - Player Panel
-  - TurnTile
   - AbilitySound
   - AbilityButton
+  - CharacterTile
   layers:
   - Default
   - TransparentFX

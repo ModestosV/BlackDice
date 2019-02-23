@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+//TODO: Remove class
 public sealed class TurnPanelController : ITurnPanelController
 { 
     public ITurnPanel TurnPanel { private get; set; }

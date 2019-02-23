@@ -3,22 +3,22 @@ using UnityEngine;
 
 public class Player : IPlayer
 {
-    private List<ICharacterController> characterControllers;
+    public List<ICharacterController> CharacterControllers { get; }
 
     public Player()
     {
         Debug.Log("Player has been initialized");
-        characterControllers = new List<ICharacterController>();
+        CharacterControllers = new List<ICharacterController>();
     }
 
     public void AddCharacterController(ICharacterController characterController)
     {
-        characterControllers.Add(characterController);
+        CharacterControllers.Add(characterController);
     }
 
     public void RefreshCharacters()
     {
-        foreach (ICharacterController characterController in characterControllers)
+        foreach (ICharacterController characterController in CharacterControllers)
         {
             if (characterController.CharacterState != CharacterState.DEAD)
             {
@@ -30,7 +30,7 @@ public class Player : IPlayer
     public List<ICharacterController> GetUnusedCharacters()
     {
         var unusedCharacters = new List<ICharacterController>();
-        foreach (ICharacterController characterController in characterControllers)
+        foreach (ICharacterController characterController in CharacterControllers)
         {
             if (characterController.CharacterState == CharacterState.UNUSED)
             {

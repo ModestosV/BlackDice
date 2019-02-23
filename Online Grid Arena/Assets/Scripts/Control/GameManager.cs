@@ -22,6 +22,7 @@ public sealed class GameManager : MonoBehaviour
     private MatchMenu matchMenu;
     private List<ICharacterController> characterControllers;
     private List<IPlayer> players;
+    private List<CharacterPanel> characterPanels;
 
     private void Awake()
     {
@@ -46,14 +47,23 @@ public sealed class GameManager : MonoBehaviour
             {
                 players[1].AddCharacterController(characterController);
             }
+        }
 
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for(int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i].CharacterIcon, players[0].CharacterControllers[i].BorderColor);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i].CharacterIcon, players[1].CharacterControllers[i].BorderColor);
         }
 
         // Initialize turn controller
         turnController = new TurnController(
             characterControllers,
             new List<ICharacterController>(),
-            FindObjectOfType<TurnPanel>().Controller,
             players);
 
         // Initialize Menus

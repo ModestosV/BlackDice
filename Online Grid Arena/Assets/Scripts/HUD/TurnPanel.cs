@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+// TODO: Remove this class
 public class TurnPanel : BlackDiceMonoBehaviour, ITurnPanel
 {
     protected TurnPanelController turnPanelController;

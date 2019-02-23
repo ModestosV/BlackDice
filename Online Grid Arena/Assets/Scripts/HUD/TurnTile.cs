@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//TODO: Remove this class
 public class TurnTile : HideableUI, ITurnTile
 {
     public Color32 BorderColor { protected get; set; }
@@ -13,12 +14,11 @@ public class TurnTile : HideableUI, ITurnTile
     {
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
-        base.Init();
     }
 
     public void UpdateTile()
     {
         characterIcon.texture = CharacterIcon;
-        border.color = BorderColor;
+        border.color = new Color32(250, 250, 250, 250);
     }
 }
