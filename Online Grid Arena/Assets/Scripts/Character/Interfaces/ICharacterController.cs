@@ -34,8 +34,6 @@ public interface ICharacterController
     bool CanMove(int distance = 1);
     bool CanUseAbility(int abilityIndex);
     bool IsAlly(ICharacterController otherCharacter);
-
-    void UpdateTurnTile(ITurnTile turnTileToUpdate);
     bool IsAbilityInRange(int abilityIndex, int range);
     void StartOfTurn();
     void EndOfTurn();

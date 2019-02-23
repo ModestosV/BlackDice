@@ -252,13 +252,6 @@ public class CharacterController : ICharacterController
         return abilitiesRemaining > 0  && !ability.IsOnCooldown();
     }
 
-    public void UpdateTurnTile(ITurnTile turnTileToUpdate)
-    {
-        turnTileToUpdate.CharacterIcon = CharacterIcon;
-        turnTileToUpdate.BorderColor = BorderColor;
-        turnTileToUpdate.UpdateTile();
-    }
-
     public bool IsAlly(ICharacterController character)
     {
         return Owner.Equals(character.Owner);

@@ -16,8 +16,6 @@ public class TurnControllerTests
     const string PLAYER_1_NAME = "1";
     const string PLAYER_2_NAME = "2";
 
-    ITurnPanelController turnTracker;
-
     [SetUp]
     public void Init()
     {
@@ -33,8 +31,6 @@ public class TurnControllerTests
         secondCharacter.Owner.Returns(PLAYER_2_NAME);
         thirdCharacter.Owner.Returns(PLAYER_2_NAME);
 
-        turnTracker = Substitute.For<ITurnPanelController>();
-
         // TODO: Fix tests
         sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, new List<IPlayer>());
     }
@@ -46,14 +42,6 @@ public class TurnControllerTests
 
         firstCharacter.Received(1).StartOfTurn();
         secondCharacter.DidNotReceive();
-    }
-
-    [Test]
-    public void Start_next_turn_event_updates_turn_tracker_with_new_character_order()
-    {
-        sut.Handle(new StartNewTurnEvent());
-
-        turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
     }
 
     [Test]
