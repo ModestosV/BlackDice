@@ -13,7 +13,7 @@ public class CharacterController : ICharacterController
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
 
-    public string CharacterOwner { get; set; }
+    public string Owner { get; set; }
     public Texture CharacterIcon { protected get; set; }
     public Color32 BorderColor { protected get; set; }
 
@@ -21,17 +21,19 @@ public class CharacterController : ICharacterController
     public SpriteRenderer ActiveCircle { get; set; }
 
     public ICharacter Character { get; }
+    public CharacterState CharacterState { get; set; }
 
     private int abilitiesRemaining;
 
     public CharacterController(ICharacter character)
     {
         Character = character;
+        CharacterState = CharacterState.UNUSED;
     }
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, CharacterOwner, Abilities, Effects);
+        HUDController.UpdateSelectedHUD(CharacterStats, Owner, Abilities, Effects);
     }
 
     public void ClearSelectedHUD()
@@ -41,7 +43,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateTargetHUD()
     {
-        HUDController.UpdateTargetHUD(CharacterStats, CharacterOwner);
+        HUDController.UpdateTargetHUD(CharacterStats, Owner);
     }
 
     public void ClearTargetHUD()
@@ -259,7 +261,7 @@ public class CharacterController : ICharacterController
 
     public bool IsAlly(ICharacterController character)
     {
-        return CharacterOwner.Equals(character.CharacterOwner);
+        return Owner.Equals(character.Owner);
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)

@@ -96,7 +96,7 @@ public class CharacterControllerTests
             HUDController = hudController,
             CharacterStats = characterStats,
             Abilities = abilities,
-            CharacterOwner = PLAYER_NAME,
+            Owner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
             HealthBar = healthBar,

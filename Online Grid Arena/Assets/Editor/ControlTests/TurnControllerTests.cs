@@ -29,13 +29,14 @@ public class TurnControllerTests
         exhaustedCharactersList = new List<ICharacterController>();
 
 
-        firstCharacter.CharacterOwner.Returns(PLAYER_1_NAME);
-        secondCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
-        thirdCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
+        firstCharacter.Owner.Returns(PLAYER_1_NAME);
+        secondCharacter.Owner.Returns(PLAYER_2_NAME);
+        thirdCharacter.Owner.Returns(PLAYER_2_NAME);
 
         turnTracker = Substitute.For<ITurnPanelController>();
 
-        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, turnTracker);
+        // TODO: Fix test
+        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, turnTracker, new List<IPlayer>());
     }
 
     [Test]

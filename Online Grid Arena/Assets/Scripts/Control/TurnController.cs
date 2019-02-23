@@ -7,12 +7,14 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private List<ICharacterController> exhaustedCharacters;
     private readonly ITurnPanelController turnTracker;
     private ICharacterController activeCharacter;
+    private List<IPlayer> players;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, ITurnPanelController turnTracker)
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, ITurnPanelController turnTracker, List<IPlayer> players)
     {
         this.refreshedCharacters = refreshedCharacters;
         this.exhaustedCharacters = exhaustedCharacters;
         this.turnTracker = turnTracker;
+        this.players = players;
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -68,11 +70,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void Surrender()
     {
-        string activePlayerName = activeCharacter.CharacterOwner;
+        string activePlayerName = activeCharacter.Owner;
         List<ICharacterController> livingCharacters = GetLivingCharacters();
         foreach (ICharacterController character in livingCharacters)
         {
-            if (character.CharacterOwner == activePlayerName)
+            if (character.Owner == activePlayerName)
             {
                 character.Die();
             }
@@ -97,7 +99,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         foreach (ICharacterController character in livingCharacters)
         {
-            string playerName = character.CharacterOwner;
+            string playerName = character.Owner;
             if (!livingPlayers.Contains(playerName))
             {
                 livingPlayers.Add(playerName);

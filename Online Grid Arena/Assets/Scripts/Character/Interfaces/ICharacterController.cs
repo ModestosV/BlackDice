@@ -6,12 +6,13 @@ public interface ICharacterController
     ICharacter Character { get; }
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
+    CharacterState CharacterState { get; set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { get; set; }
     List<IEffect> Effects { set; }
 
-    string CharacterOwner { get; set; }    
+    string Owner { get; set; }    
     Texture CharacterIcon { set; }
     Color32 BorderColor { set; }
     IHealthBar HealthBar { set; }

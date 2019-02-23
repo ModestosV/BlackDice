@@ -21,20 +21,40 @@ public sealed class GameManager : MonoBehaviour
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
     private List<ICharacterController> characterControllers;
+    private List<IPlayer> players;
 
     private void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
 
         EventBus.Reset();
-
+        
+        // Get all characters from scene
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player(), new Player() };
+
+        foreach(ICharacterController characterController in characterControllers)
+        {
+            Debug.Log("NAME: " + characterController.Owner);
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+
+        }
 
         // Initialize turn controller
         turnController = new TurnController(
             characterControllers,
             new List<ICharacterController>(),
-            FindObjectOfType<TurnPanel>().Controller);
+            FindObjectOfType<TurnPanel>().Controller,
+            players);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
