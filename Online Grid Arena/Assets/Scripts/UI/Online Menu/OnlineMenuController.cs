@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using UnityEngine;
-
-public sealed class OnlineMenuController : IOnlineMenuController
+﻿public sealed class OnlineMenuController : IOnlineMenuController
 {
     public IRegistrationPanel RegistrationPanel { private get; set; }
     public ILoginPanel LoginPanel { private get; set; }
@@ -36,7 +31,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
 
-        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDto(email, Hash(password), username));
+        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDto(email, BlackDiceHash.Hash(password), username));
 
         RegistrationPanel.EnableRegisterButton();
         RegistrationPanel.DeactivateLoadingCircle();
@@ -66,7 +61,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        UserDto user = new UserDto(email, Hash(password));
+        UserDto user = new UserDto(email, BlackDiceHash.Hash(password));
 
         IHttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
 
@@ -89,12 +84,6 @@ public sealed class OnlineMenuController : IOnlineMenuController
                 LoginPanel.SetStatus(Strings.CONNECTIVITY_ISSUES_MESSAGE);
                 break;
         }
-    }
-
-    private string Hash(string input)
-    {
-        var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(input));
-        return string.Concat(hash.Select(b => b.ToString("x2")));
     }
 
     public async void Logout()

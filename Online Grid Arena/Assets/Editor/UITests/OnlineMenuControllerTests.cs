@@ -1,6 +1,5 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
-using UnityEngine;
 using System.Net;
 
 public class OnlineMenuControllerTests
@@ -22,7 +21,7 @@ public class OnlineMenuControllerTests
     const string INVALID_LONG_USERNAME = "thisusernameis17c";
     const string LOGGED_IN_TOKEN = "a8n2kao30cd0al3m";
 
-    static readonly string validPasswordHash = Hash128.Compute(VALID_PASSWORD).ToString();
+    string validPasswordHash;
 
     [SetUp]
     public void Init()
@@ -43,6 +42,8 @@ public class OnlineMenuControllerTests
             ActivePlayer = activePlayer,
             Validator = new Validator()
         };
+
+        validPasswordHash = BlackDiceHash.Hash(VALID_PASSWORD).ToString();
     }
 
     [Test]
