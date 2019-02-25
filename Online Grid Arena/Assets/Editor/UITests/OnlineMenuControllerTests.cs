@@ -1,6 +1,5 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
-using UnityEngine;
 using System.Net;
 
 public class OnlineMenuControllerTests
@@ -44,7 +43,7 @@ public class OnlineMenuControllerTests
             Validator = new Validator()
         };
 
-        validPasswordHash = sut.Hash(VALID_PASSWORD).ToString();
+        validPasswordHash = BlackDiceHash.Hash(VALID_PASSWORD).ToString();
     }
 
     [Test]
