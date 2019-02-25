@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public sealed class HUDController : IHUDController
+public sealed class HUDController : IHUDController, IEventSubscriber
 {
     public IStatPanelController SelectedStatPanel { private get; set; }
     public IPlayerPanel SelectedPlayerPanel { private get; set; }
@@ -46,5 +47,16 @@ public sealed class HUDController : IHUDController
     public void PulseEndTurnButton()
     {
         EndTurnButton.Animator.SetBool("isPulsing", true);
+        Debug.Log("End Turn Button Animation Pulse start.");
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(StartNewTurnEvent))
+        {
+            EndTurnButton.Animator.SetBool("isPulsing", false);
+            Debug.Log("End Turn Button Animation Pulse stop.");
+        }
     }
 }

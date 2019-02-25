@@ -27,7 +27,6 @@ public sealed class EndTurnButton : BlackDiceMonoBehaviour
 
     public void EndTurn()
     {
-        Animator.SetBool("isPulsing", false);
         EventBus.Publish(new DeselectSelectedTileEvent());
         EventBus.Publish(new StartNewTurnEvent());
     }
