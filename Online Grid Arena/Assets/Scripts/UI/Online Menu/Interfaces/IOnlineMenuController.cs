@@ -7,4 +7,5 @@
     void Register(string email, string password, string username);
     void Login(string email, string password);
     void Logout();
+    string Hash(string input);
 }

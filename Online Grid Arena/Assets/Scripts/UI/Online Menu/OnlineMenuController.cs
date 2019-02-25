@@ -91,7 +91,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         }
     }
 
-    private string Hash(string input)
+    public string Hash(string input)
     {
         var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(input));
         return string.Concat(hash.Select(b => b.ToString("x2")));
