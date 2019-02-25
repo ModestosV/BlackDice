@@ -11,6 +11,8 @@ public sealed class HUDController : IHUDController
     public IAbilityPanelController  AbilityPanelController { private get; set; }
     public IAbilityPanel AbilityPanel { private get; set; }
 
+    public EndTurnButton EndTurnButton { private get; set; }
+
     public void ClearSelectedHUD()
     {
         SelectedStatPanel.DisableStatDisplays();
@@ -40,5 +42,10 @@ public sealed class HUDController : IHUDController
         TargetStatPanel.CharacterStats = characterStats;
         TargetStatPanel.UpdateStatValues();
         TargetPlayerPanel.SetPlayerName($"Player {playerName}");
+    }
+
+    public void PulseEndTurnButton()
+    {
+        EndTurnButton.Animator.SetBool("isPulsing", true);
     }
 }

@@ -7,4 +7,6 @@ public interface IHUDController
 
     void ClearTargetHUD();
     void UpdateTargetHUD(Dictionary<string, ICharacterStat> characterStats, string playerName);
+
+    void PulseEndTurnButton();
 }
