@@ -33,14 +33,14 @@ export class Connection {
   public dropDB() {
     if (this.connection) {
       this.connection.dropDatabase();
-      global.console.log("DB Dropped");
+      console.log("DB Dropped");
     }
   }
 
   private confirmConnect() {
     if (this.connection) {
-      this.connection.on("error", global.console.error.bind(console, "Connection error:"));
-      this.connection.once("open", () => global.console.log("Connected to the database named blackdice"));
+      this.connection.on("error", console.error.bind(console, "Connection error:"));
+      this.connection.once("open", () => console.log("Connected to the database named blackdice"));
     }
   }
 

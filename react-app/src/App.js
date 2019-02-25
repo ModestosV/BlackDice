@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
+import FeedbackLoginPopup from './Components/FeedbackLoginPopup';
 
 class App extends Component {
 
@@ -10,13 +11,17 @@ class App extends Component {
     this.state = {
       downloads: [],
       quoteOfTheDay: {},
-      messageFromBackend: ""
+      messageFromBackend: "",
+      alerts: [],
+      inputValueUser: "",
+      inputValuePass: "",
+      feedback: []
     }
   }
 
   componentDidMount() {
-    this.getDownloads()
-    this.getQuoteOfTheDay()
+    this.getDownloads();
+    this.getQuoteOfTheDay();
     this.greetBackendAPI();
   }
 
@@ -46,24 +51,35 @@ class App extends Component {
   }
 
   render() {
+    var elements = []
+    if(this.state.alerts.length > 0) {
+      elements.push(
+        <div id="Alert">
+          {this.state.alerts.pop()}
+        </div>
+      )  
+    }
+
     return (
-      <div className="App">
+      <div className="App" id="App">
+
+        {elements}
 
         <div className="Title">
           <h1>Black Dice</h1>
         </div>
 
         <div className="Navbar">
-          Navbar
+          <FeedbackLoginPopup state={this.state}></FeedbackLoginPopup>
         </div>
 
         <div className="DownloadsHeader">
           <h2>Online Grid Arena Downloads</h2>
         </div>
 		
-	<div className="Downloads">
-	  <Downloads downloads={this.state.downloads}/>
-	</div>
+        <div className="Downloads">
+          <Downloads downloads={this.state.downloads}/>
+        </div>
 
         <QuoteOfTheDay quote={this.state.quoteOfTheDay}/>
 
