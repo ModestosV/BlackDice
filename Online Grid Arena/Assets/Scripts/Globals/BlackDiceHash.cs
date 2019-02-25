@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-public static class BlackDiceHash
+public class BlackDiceHash
 {
     public static string Hash(string input)
     {
