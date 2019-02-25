@@ -9,10 +9,10 @@ public sealed class TonguePull : AbstractTargetedAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/slap"),
         activeCharacter,
-        1,
-        1,
+        3,
+        5,
         AbilityType.TARGET_ENEMY,
-        " ")
+        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself")
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)

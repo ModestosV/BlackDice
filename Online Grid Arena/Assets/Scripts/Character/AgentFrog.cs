@@ -20,12 +20,14 @@ public sealed class AgentFrog : AbstractCharacter
             { "defense", defense }
         };
 
+        IEffect poisonAura = new PoisonAura();
+
         IAbility lick = new Lick(this);
         IAbility hop = new Hop(this);
         IAbility tonguePull = new TonguePull(this);
-        IAbility poisonAura = new PoisonAura(this);
+        IAbility poisonAuraAbility = new PoisonAura(this, poisonAura);
 
-        var abilities = new List<IAbility>() { lick, hop, tonguePull, poisonAura };
+        var abilities = new List<IAbility>() { lick, hop, tonguePull, poisonAuraAbility };
         var effects = new List<IEffect>() { };
 
         characterController = new CharacterController(this)

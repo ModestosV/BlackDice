@@ -9,10 +9,10 @@ public sealed class Hop : AbstractTargetedAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/slap"),
         activeCharacter,
-        1,
-        1,
+        5,
+        10,
         AbilityType.TARGET_ENEMY,
-        " ")
+        "Hop - Special Ability \nAgent Frog hops to a tile up to 10 tiles away and can still use another action")
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
