@@ -26,7 +26,6 @@ public sealed class HUDController : IHUDController
         SelectedStatPanel.CharacterStats = characterStats;
         SelectedStatPanel.UpdateStatValues();
         SelectedPlayerPanel.SetPlayerName($"Player {playerName}");
-
         AbilityPanelController.UpdateAbilityPanel(abilities, effects);
     }
 
