@@ -158,27 +158,14 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         }
 
         int i = 0;
-        if (activeCharacter.Owner.Equals("1"))
+        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
+        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
         {
-            foreach (ICharacterController character in players[0].CharacterControllers)
+            if (character == activeCharacter)
             {
-                if (character == activeCharacter)
-                {
-                    characterPanels[0].CharacterTiles[i].ShowActive();
-                }
-                i++;
+                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
             }
-        }
-        else
-        {
-            foreach (ICharacterController character in players[1].CharacterControllers)
-            {
-                if (character == activeCharacter)
-                {
-                    characterPanels[1].CharacterTiles[i].ShowActive();
-                }
-                i++;
-            }
+            i++;
         }
     }
 }
