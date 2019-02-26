@@ -41151,10 +41151,10 @@ GameObject:
   - component: {fileID: 1499057609}
   - component: {fileID: 1499057613}
   - component: {fileID: 1499057612}
-  - component: {fileID: 1499057611}
   - component: {fileID: 1499057610}
+  - component: {fileID: 1499057611}
   m_Layer: 5
-  m_Name: Tutorial
+  m_Name: TutorialPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41206,7 +41206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1499057608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b79564c0bd47b994288886b27052136a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aaface63b21f4982981ab9e23585a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1499057612
