@@ -17,6 +17,11 @@ public sealed class Hop : AbstractTargetedAbility
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
+        character.Controller.OccupiedTile.OccupantCharacter = null;
 
+        character.MoveToTile(targetTiles[0].HexTile);
+        character.Controller.OccupiedTile = targetTiles[0];
+
+        targetTiles[0].OccupantCharacter = character.Controller;
     }
 }
