@@ -41,18 +41,12 @@ public sealed class GameManager : MonoBehaviour
         matchMenu = FindObjectOfType<MatchMenu>();
 
         // Initialize HUD
-        hudController = new HUDController();
-
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
         AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
 
-        hudController.SelectedStatPanel = statPanels[1].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[0];
-        hudController.TargetStatPanel = statPanels[0].Controller;
-        hudController.TargetPlayerPanel = playerPanels[1];
-        hudController.AbilityPanelController = abilityPanelController;
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();
@@ -101,6 +95,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+        EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));

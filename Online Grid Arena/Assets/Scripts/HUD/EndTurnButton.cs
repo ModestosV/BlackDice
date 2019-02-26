@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
 public sealed class EndTurnButton : BlackDiceMonoBehaviour
 {
-    private Button Button { get; set; }
+    private Button button;
+    public Animator Animator { get; private set; }
 
     void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        Button = GetComponent<Button>();
+        button = GetComponent<Button>();
+        Animator = GetComponent<Animator>();
 
         Debug.Log(ToString() + " Begin() begin");
     }
@@ -19,7 +20,7 @@ public sealed class EndTurnButton : BlackDiceMonoBehaviour
     {
         Debug.Log(ToString() + " Start() begin");
 
-        Button.onClick.AddListener(EndTurn);
+        button.onClick.AddListener(EndTurn);
 
         Debug.Log(ToString() + " Start() end");
     }
