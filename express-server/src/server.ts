@@ -6,7 +6,7 @@ import * as httpServer from "http";
 import { Application } from "./app";
 import { Connection } from "./connection";
 
-const stamp = { pattern: "UTC:yyyy-mm-dd'T'HH:MM:ss" };
+const stamp = { pattern: "UTC:'Date: 'yyyy-mm-dd' Time: 'HH:MM:ss" };
 
 dotenv.config();
 
@@ -25,21 +25,17 @@ server.listen(port, host);
 server.on("error", handleError);
 server.on("listening", listen);
 
-function handleError(err: Error, req: Request, res: Response, next: NextFunction) {
+function handleError(err: Error) {
 
-    const error = {
-        code: res.statusCode || 500,
-        message: err.message,
-        name: err.name
-    };
-
-    return res.json(error);
+    console.error(err.message);
+    console.error(err.name);
+    console.error(err.stack);
 }
 
 function listen() {
     let stringMessage = "Server is currently listing on: ";
     stringMessage = stringMessage.concat(host, " ", port.toString());
-    global.console.log("");
-    global.console.log(stringMessage);
-    global.console.log("");
+    console.log("");
+    console.log(stringMessage);
+    console.log("");
 }

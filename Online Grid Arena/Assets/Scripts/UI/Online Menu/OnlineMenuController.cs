@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public sealed class OnlineMenuController : IOnlineMenuController
+﻿public sealed class OnlineMenuController : IOnlineMenuController
 {
     public IRegistrationPanel RegistrationPanel { private get; set; }
     public ILoginPanel LoginPanel { private get; set; }
@@ -33,7 +31,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         RegistrationPanel.ActivateLoadingCircle();
         RegistrationPanel.ClearStatus();
 
-        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDto(email, Hash128.Compute(password).ToString(), username));
+        IHttpResponseMessage response = await UserNetworkManager.CreateUserAsync(new UserDto(email, BlackDiceHash.Hash(password), username));
 
         RegistrationPanel.EnableRegisterButton();
         RegistrationPanel.DeactivateLoadingCircle();
@@ -63,7 +61,7 @@ public sealed class OnlineMenuController : IOnlineMenuController
         LoginPanel.ActivateLoadingCircle();
         LoginPanel.ClearStatus();
 
-        UserDto user = new UserDto(email, Hash128.Compute(password).ToString());
+        UserDto user = new UserDto(email, BlackDiceHash.Hash(password));
 
         IHttpResponseMessage response = await UserNetworkManager.LoginAsync(user);
 

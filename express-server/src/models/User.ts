@@ -6,7 +6,8 @@ const UserSchema = new mongoose.Schema({
     email: { type: Types.String, required: true, unique: true },
     loggedInToken: { type: Types.String },
     passwordHash: { type: Types.String, required: true },
-    username: { type: Types.String, required: true, unique: true }
+    username: { type: Types.String, required: true, unique: true },
+    isAdmin: { type: Types.Boolean }
 });
 
 export default UserSchema;

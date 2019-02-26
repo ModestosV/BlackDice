@@ -115,3 +115,13 @@ h1 {
     position: absolute;
     bottom: 20;
 }
+
+.TableFeedback > div {
+  box-shadow: 0 1px 3px rgba(0, 255, 255, 0.12), 0 1px 2px rgba(0, 255, 255, 0.12);
+  transition: all 1.3s cubic-bezier(.25,.8,.25,1);
+  background: #333;
+}
+
+.TableFeedback > div:hover {
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.36), 0 4px 8px rgba(0, 255, 255, 0.36);
+}
