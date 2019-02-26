@@ -28883,7 +28883,7 @@ GameObject:
   - component: {fileID: 1103580326}
   - component: {fileID: 1103580327}
   m_Layer: 0
-  m_Name: DefaultCharacter
+  m_Name: AgentFrog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28908,18 +28908,17 @@ Transform:
 --- !u!114 &1103580327
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114508822629297252, guid: 610ede887b1638f4b89f64dcd099ec75,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103580325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf92ae8eca3da243ae10e0f161e1f51, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c86be6df57bf594e88d28f84f19dfb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 2
-  characterIcon: {fileID: 2800000, guid: 20fbed71eb613e8418176f3ef159e78c, type: 3}
+  characterIcon: {fileID: 0}
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
