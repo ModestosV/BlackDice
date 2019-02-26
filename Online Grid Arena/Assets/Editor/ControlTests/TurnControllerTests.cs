@@ -32,7 +32,7 @@ public class TurnControllerTests
         thirdCharacter.Owner.Returns(PLAYER_2_NAME);
 
         // TODO: Fix tests
-        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, new List<IPlayer>());
+        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, new List<IPlayer>(), new List<CharacterPanel>());
     }
 
     [Test]

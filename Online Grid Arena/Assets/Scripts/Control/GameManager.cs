@@ -64,7 +64,8 @@ public sealed class GameManager : MonoBehaviour
         turnController = new TurnController(
             characterControllers,
             new List<ICharacterController>(),
-            players);
+            players,
+            characterPanels);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();

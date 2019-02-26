@@ -7,12 +7,14 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private List<ICharacterController> exhaustedCharacters;
     private ICharacterController activeCharacter;
     private List<IPlayer> players;
+    private List<CharacterPanel> characterPanels;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players)
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players, List<CharacterPanel> characterPanels)
     {
         this.refreshedCharacters = refreshedCharacters;
         this.exhaustedCharacters = exhaustedCharacters;
         this.players = players;
+        this.characterPanels = characterPanels;
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -131,6 +133,8 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         activeCharacter = refreshedCharacters.ElementAt(0);
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
+
+        UpdateCharacterPanels();
         
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
@@ -140,6 +144,41 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if (activeCharacter != null)
         {
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
+        }
+    }
+
+    private void UpdateCharacterPanels()
+    {
+        foreach (CharacterPanel panel in characterPanels)
+        {
+            foreach (CharacterTile tile in panel.CharacterTiles)
+            {
+                tile.HideActive();
+            }
+        }
+
+        int i = 0;
+        if (activeCharacter.Owner.Equals("1"))
+        {
+            foreach (ICharacterController character in players[0].CharacterControllers)
+            {
+                if (character == activeCharacter)
+                {
+                    characterPanels[0].CharacterTiles[i].ShowActive();
+                }
+                i++;
+            }
+        }
+        else
+        {
+            foreach (ICharacterController character in players[1].CharacterControllers)
+            {
+                if (character == activeCharacter)
+                {
+                    characterPanels[1].CharacterTiles[i].ShowActive();
+                }
+                i++;
+            }
         }
     }
 }
