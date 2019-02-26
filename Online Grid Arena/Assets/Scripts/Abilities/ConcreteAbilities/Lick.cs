@@ -17,13 +17,11 @@ public sealed class Lick : AbstractTargetedAbility
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        LickAttack(targetTiles);
-    }
+        var enemy = targetTiles[0].OccupantCharacter;
 
-    private void LickAttack(List<IHexTileController> targetTiles)
-    {
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
+        enemy.
     }
 }
