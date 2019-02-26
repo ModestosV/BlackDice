@@ -13,7 +13,12 @@ public sealed class HUDController : IHUDController, IEventSubscriber
 
     private EndTurnButton endTurnButton;
 
-    public HUDController(IStatPanelController selectedStatPanel, IPlayerPanel selectedPlayerPanel, IStatPanelController targetStatPanel, IPlayerPanel targetPlayerPanel, IAbilityPanelController abilityPanelController, EndTurnButton endTurnButton)
+    public HUDController(IStatPanelController selectedStatPanel, 
+        IPlayerPanel selectedPlayerPanel, 
+        IStatPanelController targetStatPanel, 
+        IPlayerPanel targetPlayerPanel, 
+        IAbilityPanelController abilityPanelController, 
+        EndTurnButton endTurnButton)
     {
         this.selectedStatPanel = selectedStatPanel;
         this.selectedPlayerPanel = selectedPlayerPanel;
