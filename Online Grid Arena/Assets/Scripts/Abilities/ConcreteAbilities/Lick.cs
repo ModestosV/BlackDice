@@ -22,6 +22,6 @@ public sealed class Lick : AbstractTargetedAbility
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
-        enemy.
+        //enemy.CharacterStats["moves"].Value-=2;
     }
 }
