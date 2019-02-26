@@ -41,20 +41,12 @@ public sealed class GameManager : MonoBehaviour
         matchMenu = FindObjectOfType<MatchMenu>();
 
         // Initialize HUD
-        hudController = new HUDController();
-
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
         PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
         AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
         AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
-        EndTurnButton endTurnButton = FindObjectOfType<EndTurnButton>();
 
-        hudController.SelectedStatPanel = statPanels[1].Controller;
-        hudController.SelectedPlayerPanel = playerPanels[0];
-        hudController.TargetStatPanel = statPanels[0].Controller;
-        hudController.TargetPlayerPanel = playerPanels[1];
-        hudController.AbilityPanelController = abilityPanelController;
-        hudController.EndTurnButton = endTurnButton;
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();

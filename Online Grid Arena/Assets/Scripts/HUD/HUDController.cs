@@ -3,16 +3,25 @@ using UnityEngine;
 
 public sealed class HUDController : IHUDController, IEventSubscriber
 {
-    public IStatPanelController SelectedStatPanel { private get; set; }
-    public IPlayerPanel SelectedPlayerPanel { private get; set; }
+    private IStatPanelController SelectedStatPanel;
+    private IPlayerPanel SelectedPlayerPanel;
 
-    public IStatPanelController TargetStatPanel { private get; set; }
-    public IPlayerPanel TargetPlayerPanel { private get; set; }
+    private IStatPanelController TargetStatPanel;
+    private IPlayerPanel TargetPlayerPanel;
 
-    public IAbilityPanelController  AbilityPanelController { private get; set; }
-    public IAbilityPanel AbilityPanel { private get; set; }
+    private IAbilityPanelController AbilityPanelController;
 
-    public EndTurnButton EndTurnButton { private get; set; }
+    private EndTurnButton EndTurnButton;
+
+    public HUDController(IStatPanelController selectedStatPanel, IPlayerPanel selectedPlayerPanel, IStatPanelController targetStatPanel, IPlayerPanel targetPlayerPanel, IAbilityPanelController abilityPanelController, EndTurnButton endTurnButton)
+    {
+        SelectedStatPanel = selectedStatPanel;
+        SelectedPlayerPanel = selectedPlayerPanel;
+        TargetStatPanel = targetStatPanel;
+        TargetPlayerPanel = targetPlayerPanel;
+        AbilityPanelController = abilityPanelController;
+        EndTurnButton = endTurnButton;
+    }
 
     public void ClearSelectedHUD()
     {
