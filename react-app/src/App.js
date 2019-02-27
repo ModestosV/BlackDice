@@ -36,8 +36,8 @@ class App extends Component {
   getDownloads() {
     this.setState({downloads: [
       {
-        title: "v0.6_Windows_x86_Installer",
-        link: "https://drive.google.com/uc?export=download&id=1xA0Qxs43BgQaqu7Bc-_opiLdvXV6DhQ8" 
+        title: "v0.7_Windows_x86_Installer",
+        link: "https://drive.google.com/uc?export=download&id=10SRhTNkI7fV3cPRr8Q7NAbWn_qPJfa54" 
       }
     ]})
   }
