@@ -7,17 +7,18 @@ using UnityEngine;
 
 public class TutorialMenu: HideableUI, IEventSubscriber
 {
-
+    public string filepath = "";
     public List<Button> StageButtons;
     public int stagesCompleted = 0;
 
     void Start()
     {
+        filepath = Application.persistentDataPath + "/playerInfo.dat";
         EventBus.Subscribe<StageCompletedEvent>(this);
 
         foreach (Button button in GetComponentsInChildren<Button>())
         {
-            if (button.tag == "StageButton")
+            if (button.tag.Equals("StageButton"))
             {
                 StageButtons.Add(button);
             }
@@ -52,8 +53,6 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public void VerifySaveFileExist()
     {
-        string filepath = Application.persistentDataPath + "/playerInfo.dat";
-
         if (!File.Exists(filepath))
         {
             TutorialSavedObject tutorialSavedObject = new TutorialSavedObject() { StageCompleted = stagesCompleted };
@@ -63,16 +62,12 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public void SaveStageCompleted()
     {
-        string filepath = Application.persistentDataPath + "/playerInfo.dat";
-
         TutorialSavedObject tutorialSavedObject = new TutorialSavedObject() { StageCompleted = stagesCompleted };
         BinarySerialization.WriteToBinaryFile<TutorialSavedObject>(filepath, tutorialSavedObject);
     }
 
     public int ReadStageCompleted()
     {
-        string filepath = Application.persistentDataPath + "/playerInfo.dat";
-
         TutorialSavedObject tutorialSavedObject = BinarySerialization.ReadFromBinaryFile<TutorialSavedObject>(filepath);
         return tutorialSavedObject.StageCompleted;
     }
