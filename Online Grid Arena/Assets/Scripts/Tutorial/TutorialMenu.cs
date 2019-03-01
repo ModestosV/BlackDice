@@ -7,9 +7,10 @@ using UnityEngine;
 
 public class TutorialMenu: HideableUI, IEventSubscriber
 {
-    public string filepath = "";
+    private string filepath = "";
+    private int stagesCompleted = 0;
+
     public List<Button> StageButtons;
-    public int stagesCompleted = 0;
 
     void Start()
     {
@@ -51,7 +52,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         SceneManager.LoadScene(stageIndex);
     }
 
-    public void VerifySaveFileExist()
+    private void VerifySaveFileExist()
     {
         if (!File.Exists(filepath))
         {
@@ -60,13 +61,13 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         }
     }
 
-    public void SaveStageCompleted()
+    private void SaveStageCompleted()
     {
         TutorialSavedObject tutorialSavedObject = new TutorialSavedObject() { StageCompleted = stagesCompleted };
         BinarySerialization.WriteToBinaryFile<TutorialSavedObject>(filepath, tutorialSavedObject);
     }
 
-    public int ReadStageCompleted()
+    private int ReadStageCompleted()
     {
         TutorialSavedObject tutorialSavedObject = BinarySerialization.ReadFromBinaryFile<TutorialSavedObject>(filepath);
         return tutorialSavedObject.StageCompleted;
