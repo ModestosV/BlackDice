@@ -38,7 +38,6 @@ public class CharacterControllerTests
 
     List<IHexTileController> pathList;
 
-    ITurnTile turnTile;
     Texture CHARACTER_ICON;
     Color32 BORDER_COLOR;
 
@@ -85,8 +84,7 @@ public class CharacterControllerTests
 
         endTileController.HexTile.Returns(endTile);
         endTileController.OccupantCharacter.Returns(targetCharacterController);
-
-        turnTile = Substitute.For<ITurnTile>();
+        
         CHARACTER_ICON = Substitute.For<Texture>();
         BORDER_COLOR = new Color32(0, 0, 0, 0);
 
@@ -96,7 +94,7 @@ public class CharacterControllerTests
             HUDController = hudController,
             CharacterStats = characterStats,
             Abilities = abilities,
-            CharacterOwner = PLAYER_NAME,
+            Owner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
             HealthBar = healthBar,
@@ -160,17 +158,6 @@ public class CharacterControllerTests
         
         ability1.DidNotReceive().Execute(Arg.Any<List<IHexTileController>>());
         ability2.Received(1).Execute(Arg.Any<List<IHexTileController>>());
-    }
-
-    [Test]
-    public void Update_turn_tile_updates_turn_tile_with_new_color_and_texture()
-    {
-        sut.UpdateTurnTile(turnTile);
-
-        turnTile.Received(1).CharacterIcon = CHARACTER_ICON;
-        turnTile.Received(1).BorderColor = BORDER_COLOR;
-
-        turnTile.Received(1).UpdateTile();
     }
     
     [Test]

@@ -31,7 +31,7 @@ public sealed class Pengwin : AbstractCharacter
 
         characterController = new CharacterController(this)
         {
-            CharacterOwner = playerName,
+            Owner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
             HealthBar = healthBar.GetComponent<HealthBar>(),

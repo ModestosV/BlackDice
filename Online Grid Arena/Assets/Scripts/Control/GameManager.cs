@@ -21,20 +21,51 @@ public sealed class GameManager : MonoBehaviour
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
     private List<ICharacterController> characterControllers;
+    private List<IPlayer> players;
+    private List<CharacterPanel> characterPanels;
 
     private void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
 
         EventBus.Reset();
-
+        
+        // Get all characters from scene
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player(), new Player() };
+
+        foreach(ICharacterController characterController in characterControllers)
+        {
+            Debug.Log("NAME: " + characterController.Owner);
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for(int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i].CharacterIcon, players[0].CharacterControllers[i].BorderColor);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i].CharacterIcon, players[1].CharacterControllers[i].BorderColor);
+        }
 
         // Initialize turn controller
         turnController = new TurnController(
             characterControllers,
             new List<ICharacterController>(),
-            FindObjectOfType<TurnPanel>().Controller);
+            players,
+            characterPanels);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();

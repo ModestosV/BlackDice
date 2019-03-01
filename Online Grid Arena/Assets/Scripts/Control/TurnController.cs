@@ -5,14 +5,16 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 {
     private List<ICharacterController> refreshedCharacters;
     private List<ICharacterController> exhaustedCharacters;
-    private readonly ITurnPanelController turnTracker;
     private ICharacterController activeCharacter;
+    private List<IPlayer> players;
+    private List<CharacterPanel> characterPanels;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, ITurnPanelController turnTracker)
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players, List<CharacterPanel> characterPanels)
     {
         this.refreshedCharacters = refreshedCharacters;
         this.exhaustedCharacters = exhaustedCharacters;
-        this.turnTracker = turnTracker;
+        this.players = players;
+        this.characterPanels = characterPanels;
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -68,11 +70,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void Surrender()
     {
-        string activePlayerName = activeCharacter.CharacterOwner;
+        string activePlayerName = activeCharacter.Owner;
         List<ICharacterController> livingCharacters = GetLivingCharacters();
         foreach (ICharacterController character in livingCharacters)
         {
-            if (character.CharacterOwner == activePlayerName)
+            if (character.Owner == activePlayerName)
             {
                 character.Die();
             }
@@ -87,7 +89,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         exhaustedCharacters.Remove(character);
         if (activeCharacter == character)
             activeCharacter = null;
-        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
     }
 
     private void CheckWinCondition()
@@ -97,7 +98,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         foreach (ICharacterController character in livingCharacters)
         {
-            string playerName = character.CharacterOwner;
+            string playerName = character.Owner;
             if (!livingPlayers.Contains(playerName))
             {
                 livingPlayers.Add(playerName);
@@ -133,7 +134,8 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
 
-        turnTracker.UpdateQueue(activeCharacter, refreshedCharacters, exhaustedCharacters);
+        UpdateCharacterPanels();
+        
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -142,6 +144,28 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if (activeCharacter != null)
         {
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
+        }
+    }
+
+    private void UpdateCharacterPanels()
+    {
+        foreach (CharacterPanel panel in characterPanels)
+        {
+            foreach (CharacterTile tile in panel.CharacterTiles)
+            {
+                tile.HideActive();
+            }
+        }
+
+        int i = 0;
+        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
+        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
+        {
+            if (character == activeCharacter)
+            {
+                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
+            }
+            i++;
         }
     }
 }
