@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 61063616}
   m_Layer: 5
   m_Name: Stage3
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,13 +568,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -793,7 +793,7 @@ GameObject:
   - component: {fileID: 73642737}
   m_Layer: 5
   m_Name: Stage2
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -858,13 +858,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1614,7 +1614,7 @@ GameObject:
   - component: {fileID: 179036541}
   m_Layer: 5
   m_Name: Stage6
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1679,13 +1679,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4119,17 +4119,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Loading
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1636314281}
-        m_MethodName: Show
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1636314283}
@@ -7018,8 +7007,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255615
-  m_fontColor: {r: 1, g: 1, b: 0, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 1
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
@@ -10092,6 +10081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b9145454ed04ed7a64f4d0cc34d70c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StageButtons: []
+  StageButtonTexts: []
 --- !u!1 &1642420648
 GameObject:
   m_ObjectHideFlags: 0
@@ -10317,7 +10308,7 @@ GameObject:
   - component: {fileID: 1676632867}
   m_Layer: 5
   m_Name: Stage4
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10382,13 +10373,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -11598,7 +11589,7 @@ GameObject:
   - component: {fileID: 1782566640}
   m_Layer: 5
   m_Name: Stage5
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11663,13 +11654,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12229,7 +12220,7 @@ GameObject:
   - component: {fileID: 1950216768}
   m_Layer: 5
   m_Name: Stage7
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12294,13 +12285,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963248637}
-        m_MethodName: PlayTutorial
-        m_Mode: 1
+      - m_Target: {fileID: 1636314283}
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 8
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12602,7 +12593,7 @@ GameObject:
   - component: {fileID: 2008728536}
   m_Layer: 5
   m_Name: Stage1
-  m_TagString: Untagged
+  m_TagString: StageButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12662,18 +12653,18 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2008728537}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1636314283}
-        m_MethodName: PlayTutorialStage1
-        m_Mode: 1
+        m_MethodName: PlayTutorialStage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
