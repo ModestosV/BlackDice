@@ -3,6 +3,7 @@ import Downloads from './Components/Downloads'
 import './App.css';
 import QuoteOfTheDay from './Components/QuoteOfTheDay';
 import FeedbackLoginPopup from './Components/FeedbackLoginPopup';
+import dotenv from "dotenv";
 
 class App extends Component {
 
@@ -17,6 +18,7 @@ class App extends Component {
       inputValuePass: "",
       feedback: []
     }
+    dotenv.config();
   }
 
   componentDidMount() {
@@ -37,7 +39,7 @@ class App extends Component {
     this.setState({downloads: [
       {
         title: "v0.6_Windows_x86_Installer",
-        link: "https://drive.google.com/uc?export=download&id=1xA0Qxs43BgQaqu7Bc-_opiLdvXV6DhQ8" 
+        link: "http://bit.ly/version6_0" 
       }
     ]})
   }

@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import TermsOfServiceModal from './TermsOfServiceModal'
+import ClickCounter from './ClickCounter'
 
 class TermsOfServicePopUp extends React.Component {
     state = {
@@ -16,7 +17,9 @@ class TermsOfServicePopUp extends React.Component {
     render(){
         return(
             <li className="DownloadItem">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <strong><a onClick={this.showModal}> {this.props.download.title} </a></strong>
+                <ClickCounter></ClickCounter>
                 <TermsOfServiceModal download = {this.props.download} onClose = {this.showModal} show={this.state.show}>
                     Terms of Service ("Terms")
                     <br/>Last updated: January 27, 2019
