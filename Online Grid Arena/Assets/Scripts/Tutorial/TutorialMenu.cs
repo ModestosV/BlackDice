@@ -14,7 +14,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     void Start()
     {
-        filepath = Application.persistentDataPath + "/playerInfo.dat";
+        filepath = Application.persistentDataPath + "/playerInfo.bin";
         EventBus.Subscribe<StageCompletedEvent>(this);
 
         foreach (Button button in GetComponentsInChildren<Button>())
@@ -56,21 +56,21 @@ public class TutorialMenu: HideableUI, IEventSubscriber
     {
         if (!File.Exists(filepath))
         {
-            TutorialSavedObject tutorialSavedObject = new TutorialSavedObject() { StageCompleted = stagesCompleted };
-            BinarySerialization.WriteToBinaryFile<TutorialSavedObject>(filepath, tutorialSavedObject);
+            TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
+            BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
         }
     }
 
     private void SaveStageCompleted()
     {
-        TutorialSavedObject tutorialSavedObject = new TutorialSavedObject() { StageCompleted = stagesCompleted };
-        BinarySerialization.WriteToBinaryFile<TutorialSavedObject>(filepath, tutorialSavedObject);
+        TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
+        BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
     }
 
     private int ReadStageCompleted()
     {
-        TutorialSavedObject tutorialSavedObject = BinarySerialization.ReadFromBinaryFile<TutorialSavedObject>(filepath);
-        return tutorialSavedObject.StageCompleted;
+        TutorialSerializedObject tutorialSerializedObject = BinarySerialization.ReadFromBinaryFile<TutorialSerializedObject>(filepath);
+        return tutorialSerializedObject.HighestStageCompleted;
     }
 
     public void Handle(IEvent @event)
