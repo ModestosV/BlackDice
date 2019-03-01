@@ -38,7 +38,6 @@ public class CharacterControllerTests
 
     List<IHexTileController> pathList;
 
-    ITurnTile turnTile;
     Texture CHARACTER_ICON;
     Color32 BORDER_COLOR;
 
@@ -159,17 +158,6 @@ public class CharacterControllerTests
         
         ability1.DidNotReceive().Execute(Arg.Any<List<IHexTileController>>());
         ability2.Received(1).Execute(Arg.Any<List<IHexTileController>>());
-    }
-
-    [Test]
-    public void Update_turn_tile_updates_turn_tile_with_new_color_and_texture()
-    {
-        sut.UpdateTurnTile(turnTile);
-
-        turnTile.Received(1).CharacterIcon = CHARACTER_ICON;
-        turnTile.Received(1).BorderColor = BORDER_COLOR;
-
-        turnTile.Received(1).UpdateTile();
     }
     
     [Test]
