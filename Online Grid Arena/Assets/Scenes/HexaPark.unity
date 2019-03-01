@@ -43675,6 +43675,7 @@ GameObject:
   - component: {fileID: 1662875521}
   - component: {fileID: 1662875520}
   - component: {fileID: 1662875519}
+  - component: {fileID: 1662875522}
   m_Layer: 5
   m_Name: EndTurnButton
   m_TagString: Untagged
@@ -43776,6 +43777,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662875517}
   m_CullTransparentMesh: 0
+--- !u!95 &1662875522
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662875517}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 734018d1d474f7047a106a875fb82b34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1663212318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e17e32f23d5bdaa45a82c85cb99ef666,

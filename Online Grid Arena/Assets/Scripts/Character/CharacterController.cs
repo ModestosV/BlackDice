@@ -24,11 +24,13 @@ public class CharacterController : ICharacterController
     public CharacterState CharacterState { get; set; }
 
     private int abilitiesRemaining;
+    private bool isAlive;
 
     public CharacterController(ICharacter character)
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
+        isAlive = true;
     }
 
     public void UpdateSelectedHUD()
@@ -217,6 +219,7 @@ public class CharacterController : ICharacterController
         EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
         Character.Destroy();
+        isAlive = false;
     }
 
     public bool CanMove(int distance = 1)
@@ -278,10 +281,10 @@ public class CharacterController : ICharacterController
 
     private void CheckExhausted()
     {
-        if (!(MovesRemaining > 0 || abilitiesRemaining > 0))
+        Debug.Log($"CheckedExhausted() called; values of moves remaining, abilities remaining, is alive: ({MovesRemaining}, {abilitiesRemaining},  {isAlive})");
+        if (MovesRemaining <= 0 && abilitiesRemaining <= 0 && isAlive)
         {
-            EndOfTurn();
-            EventBus.Publish(new StartNewTurnEvent());
+            HUDController.PulseEndTurnButton();
         }
     }
 
