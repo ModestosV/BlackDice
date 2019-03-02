@@ -12,7 +12,8 @@ public sealed class TonguePull : AbstractTargetedAbility
         3,
         5,
         AbilityType.TARGET_LINE,
-        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself")
+        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself",
+        false)
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
