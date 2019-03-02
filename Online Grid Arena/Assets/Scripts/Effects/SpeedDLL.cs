@@ -14,7 +14,7 @@ public sealed class SpeedDLL : StackModifier
         )
     {
         Name = "Speed DLL";
-        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/swoopDown");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/speedDLL");
         Description = "Increases Moves by 2";
     }
 

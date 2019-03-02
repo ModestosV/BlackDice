@@ -14,7 +14,7 @@ public sealed class AttackDLL : StackModifier
         )
     {
         Name = "Attack DLL";
-        EffectIcon = Resources.Load<Sprite>("Resources/Sprites/cursorSword_gold");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/attackDLL");
         Description = "Increases Attack by 10";
     }
 

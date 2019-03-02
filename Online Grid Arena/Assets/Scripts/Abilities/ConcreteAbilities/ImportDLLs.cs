@@ -5,7 +5,7 @@ public class ImportDLLs : AbstractActiveAbility
 {
 
     public ImportDLLs(ICharacter character) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/huddle"),
+        Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,

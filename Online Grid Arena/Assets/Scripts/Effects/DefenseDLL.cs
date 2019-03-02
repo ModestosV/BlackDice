@@ -14,7 +14,7 @@ public sealed class DefenseDLL : StackModifier
         )
     {
         Name = "Defense DLL";
-        EffectIcon = Resources.Load<Sprite>("Sprites/shield");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL.png");
         Description = "Increases Defense by 10";
     }
 
