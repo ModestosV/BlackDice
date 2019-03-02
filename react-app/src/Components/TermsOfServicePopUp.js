@@ -19,7 +19,7 @@ class TermsOfServicePopUp extends React.Component {
             <li className="DownloadItem">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <strong><a onClick={this.showModal}> {this.props.download.title} </a></strong>
-                <ClickCounter></ClickCounter>
+                <ClickCounter link = { this.props.download.link }></ClickCounter>
                 <TermsOfServiceModal download = {this.props.download} onClose = {this.showModal} show={this.state.show}>
                     Terms of Service ("Terms")
                     <br/>Last updated: January 27, 2019

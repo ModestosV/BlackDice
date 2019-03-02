@@ -1,34 +1,30 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class ClickCounter extends Component {
+  
+  clicknums = 0;
+  styleP = {
+    display: "inline",
+    "padding-left":"1%"
+  }
 
   render() {
     
-    let clicknums = 0;
-
+    this.getClicks()
     return (
       <span>
-        <p>This link has been click: {clicknums}</p>
+        <p style={this.styleP}>This link has been click: {this.clicknums}</p>
       </span>
     );
   }
 
   getClicks() {
-    fetch(process.env.BASIC_URL + "/oauth/access_token",{
-      method:'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify({
-        client_id: process.env.CLIENT_ID,
-        client_secret : process.env.CLIENT_SECRET 
-      })
-    }).then((r) => r.json())
-    .then((token) => {
+    let link = this.props.link;
+    link = link.replace('http://', "");
 
-      //finish request then proceed to get required info
-    })
+    fetch("/feedback/clicks?link=" + link)
+    .then((r) => r.json())
+    .then((data) => this.clicknums = data.total_clicks)
   }
 }
 
