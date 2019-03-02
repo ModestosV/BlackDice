@@ -11,7 +11,8 @@ public sealed class DefaultAttack : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "This is the default attack. It is used to test attacking.")
+        "This is the default attack. It is used to test attacking.",
+        false)
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

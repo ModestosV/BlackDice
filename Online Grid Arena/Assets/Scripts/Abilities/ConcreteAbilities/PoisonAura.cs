@@ -12,7 +12,8 @@ public sealed class PoisonAura : AbstractTargetedAbility
         3,
         5,
         AbilityType.TARGET_ENEMY,
-        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself")
+        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself",
+        false)
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTile)

@@ -9,21 +9,22 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     protected readonly AudioClip soundEffect;
     protected readonly GameObject animationPrefab;
     protected int cooldownRemaining;
-
-
-
+    protected bool canUseAbility;
+    
     protected AbstractActiveAbility(
         Sprite abilityIcon,
         GameObject animationPrefab,
         AudioClip soundEffect,
         ICharacter character,
         int cooldown,
-        string description) : base(abilityIcon, character, description)
+        string description,
+        bool usedAbility) : base(abilityIcon, character, description)
     {
         Cooldown = cooldown;
         this.animationPrefab = animationPrefab;
         this.soundEffect = soundEffect;
         cooldownRemaining = 0;
+        canUseAbility = usedAbility;
     }
 
     public override void Execute(List<IHexTileController> targetTiles)
@@ -34,8 +35,11 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
 
-        cooldownRemaining = Cooldown;
-        EventBus.Publish(new SelectActivePlayerEvent());
+        if (!canUseAbility)
+        {
+            cooldownRemaining = Cooldown;
+            EventBus.Publish(new SelectActivePlayerEvent());
+        }
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);

@@ -12,7 +12,8 @@ public sealed class Hop : AbstractTargetedAbility
         5,
         10,
         AbilityType.TARGET_ENEMY,
-        "Hop - Special Ability \nAgent Frog hops to a tile up to 10 tiles away and can still use another action")
+        "Hop - Special Ability \nAgent Frog hops to a tile up to 10 tiles away and can still use another action",
+        true)
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)

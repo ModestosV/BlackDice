@@ -13,7 +13,8 @@ public sealed class Scratch : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "Scratch - Basic Attack \nAttack an adjacent tile, deal damage equal to Rocket Cat's attack, and gain a stack of Cat Scratch Fever")
+        "Scratch - Basic Attack \nAttack an adjacent tile, deal damage equal to Rocket Cat's attack, and gain a stack of Cat Scratch Fever",
+        false)
     {
         this.passive = passive;
     }

@@ -7,7 +7,7 @@ public sealed class Lick : AbstractTargetedAbility
     public Lick(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/slap"),
+        Resources.Load<AudioClip>("Audio/Ability/kouaks"),
         activeCharacter,
         1,
         2,

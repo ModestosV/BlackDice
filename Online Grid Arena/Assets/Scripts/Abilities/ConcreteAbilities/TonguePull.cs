@@ -19,7 +19,6 @@ public sealed class TonguePull : AbstractTargetedAbility
     {
         var target = targetTiles[0].OccupantCharacter;
 
-        
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
     }

@@ -15,7 +15,8 @@ public class Kamikaze : AbstractTargetedAbility
         10,
         100,
         AbilityType.TARGET_LINE_AOE,
-        "Kamikaze - Ultimate  \nRocket Cat flies in a straight line and deals 250% her attack in an AOE. Damages allies and herself.")
+        "Kamikaze - Ultimate  \nRocket Cat flies in a straight line and deals 250% her attack in an AOE. Damages allies and herself.",
+        false)
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
