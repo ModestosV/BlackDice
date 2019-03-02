@@ -146,7 +146,7 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            if (ef.Key == "attack" || ef.Key == "defense")
+            if (ef.Key == "attack" || ef.Key == "defense"|| ef.Key == "moves")
             {
                 CharacterStats[ef.Key].BaseValue += ef.Value;
             }
