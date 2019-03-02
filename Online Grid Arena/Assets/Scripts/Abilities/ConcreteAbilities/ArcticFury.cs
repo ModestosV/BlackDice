@@ -16,7 +16,8 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
         1,
         AbilityType.TARGET_ENEMY,
         "Slap - Ultimate \nPengwin challenges an adjacent enemy to a duel. Both characters take turns performing their Q on each other," +
-                "with Pengwin going first. Lasts until a character dies or 3 attacks are performed.")
+                "with Pengwin going first. Lasts until a character dies or 3 attacks are performed.",
+        false)
     { }
 
     public void Handle(IEvent @event)

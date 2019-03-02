@@ -25,7 +25,8 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
         int cooldown,
         int range,
         AbilityType type,
-        string description) : base(abilityIcon, animationPrefab, soundEffect, character, cooldown, description)
+        string description,
+        bool usedAbility) : base(abilityIcon, animationPrefab, soundEffect, character, cooldown, description, usedAbility)
     {
         this.range = range;
         Type = type;

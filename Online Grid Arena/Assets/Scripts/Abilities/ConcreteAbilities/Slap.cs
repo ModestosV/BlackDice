@@ -14,7 +14,8 @@ public sealed class Slap : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "Slap - Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).")
+        "Slap - Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).",
+        false)
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)

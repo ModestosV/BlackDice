@@ -16,7 +16,8 @@ public class Slide : AbstractTargetedAbility
         7,
         100,
         AbilityType.TARGET_LINE,
-        "Slide - Special Ability \nPengwin slides in a straight line. Deals 6 * (number of tiles moved) damage to the target tile.")
+        "Slide - Special Ability \nPengwin slides in a straight line. Deals 6 * (number of tiles moved) damage to the target tile.",
+        false)
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
