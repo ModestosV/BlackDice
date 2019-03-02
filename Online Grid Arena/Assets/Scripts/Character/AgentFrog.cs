@@ -30,7 +30,7 @@ public sealed class AgentFrog : AbstractCharacter
 
         characterController = new CharacterController(this)
         {
-            CharacterOwner = playerName,
+            Owner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
             HealthBar = healthBar.GetComponent<HealthBar>(),
