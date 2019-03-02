@@ -2,18 +2,23 @@ import React, { Component } from 'react';
 
 class ClickCounter extends Component {
   
-  clicknums = 0;
+  state= {
+    clicks : 0
+  }
+
   styleP = {
-    display: "inline",
+    "display": "inline",
     "padding-left":"1%"
   }
 
+  componentDidMount() {
+    this.getClicks();
+  }
+
   render() {
-    
-    this.getClicks()
     return (
       <span>
-        <p style={this.styleP}>This link has been click: {this.clicknums}</p>
+        <p style={this.styleP}>This link has been click: {this.state.clicks}</p>
       </span>
     );
   }
@@ -24,7 +29,11 @@ class ClickCounter extends Component {
 
     fetch("/feedback/clicks?link=" + link)
     .then((r) => r.json())
-    .then((data) => this.clicknums = data.total_clicks)
+    .then((data) => {
+      this.setState({
+        clicks : data.total_clicks
+      })
+    })
   }
 }
 
