@@ -6,7 +6,7 @@ public sealed class SwoopDown : AbstractTargetedAbility
     public SwoopDown(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/swoopDown"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<AudioClip>("Audio/Ability/bat-flapping"),
         activeCharacter,
         1,
         4,

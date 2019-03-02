@@ -7,7 +7,7 @@ public class ImportDLLs : AbstractActiveAbility
     public ImportDLLs(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/huddle"),
+        Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,
         4,
         "Import DLL - Special Ability \nTA Eagle applies a random permanent buff to either himself or an ally - target chosen randomly(+10 ATCK, +10 DEF, +2 SPD).")
