@@ -11,9 +11,9 @@ public sealed class TAEagle : AbstractCharacter
         IAbility swoopDown = new SwoopDown(this);
         IAbility refactor = new Placeholder(this);
         IAbility importDLL = new ImportDLLs(this);
-        IAbility placeholder4 = new Placeholder(this);
+        IAbility codeReview = new CodeReview(this);
 
-        var abilities = new List<IAbility>() { swoopDown, refactor, importDLL, placeholder4 };
+        var abilities = new List<IAbility>() { swoopDown, refactor, importDLL, codeReview };
 
         var effects = new List<IEffect>() { };
 

@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class ImportDLLs : AbstractActiveAbility
+public class CodeReview : AbstractActiveAbility
 {
 
-    public ImportDLLs(ICharacter character) : base(
+    public CodeReview(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,
         1,
-        "Import DLL - Special Ability \nTA Eagle applies a random permanent buff to either himself or an ally - target chosen randomly(+10 ATCK, +10 DEF, +2 SPD).")
+        "Code Review - Special Ability \nTA Eagle reviews the whole team's code. He and his allies get a shield")
     { }
 
-    protected override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        ICharacterController ally = RandomAlly();
-        PlaySoundEffect();
-        PlayAnimation(ally.OccupiedTile);
-        ally.ApplyEffect(RandomEffect());
+        List<ICharacterController> allies = AllAllies();
+        for (int i = 0; i < allies.Count; i++)
+        {
+            PlaySoundEffect();
+            allies[i].ApplyEffect(RandomEffect());
+            PlayAnimation(allies[i].OccupiedTile);
+            await Task.Delay(100);
+        }
     }
 
     private IEffect RandomEffect()
@@ -26,9 +31,9 @@ public class ImportDLLs : AbstractActiveAbility
         int effectNumber = GenerateRandom(3);
         switch (effectNumber)
         {
-            case 0: 
+            case 0:
                 return new AttackDLL();
-            case 1: 
+            case 1:
                 return new DefenseDLL();
             case 2:
                 return new SpeedDLL();
@@ -37,19 +42,18 @@ public class ImportDLLs : AbstractActiveAbility
         }
     }
 
-    private ICharacterController RandomAlly()
+    private List<ICharacterController> AllAllies()
     {
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
-        List<AbstractCharacter> allies = new List<AbstractCharacter>();
-        foreach(AbstractCharacter ac in characters)
+        List<ICharacterController> allies = new List<ICharacterController>();
+        foreach (AbstractCharacter ac in characters)
         {
             if (ac.Controller.CharacterOwner == character.Controller.CharacterOwner)
             {
-                allies.Add(ac);
+                allies.Add(ac.Controller);
             }
         }
-
-        return allies[GenerateRandom(allies.Count)].Controller;
+        return allies;
     }
 
     private int GenerateRandom(int range)

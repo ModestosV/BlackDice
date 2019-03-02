@@ -6,7 +6,7 @@ public sealed class DefenseDLL : StackModifier
     public DefenseDLL() : base(
         EffectType.STACK,
         100,
-        100,
+        5,
         new Dictionary<string, float>()
         {
             {"defense", 10 },
@@ -14,7 +14,7 @@ public sealed class DefenseDLL : StackModifier
         )
     {
         Name = "Defense DLL";
-        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL.png");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL");
         Description = "Increases Defense by 10";
     }
 
