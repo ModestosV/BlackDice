@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class ClickCounter extends Component {
   
   state= {
-    clicks : 0
+    clicks : undefined
   }
 
   styleP = {
@@ -18,7 +18,7 @@ class ClickCounter extends Component {
   render() {
     return (
       <span>
-        <p style={this.styleP}>This link has been click: {this.state.clicks}</p>
+        <p style={this.styleP}>Number of Downloads: {this.state.clicks}</p>
       </span>
     );
   }
