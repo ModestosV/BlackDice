@@ -26,6 +26,8 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         }
 
         VerifySaveFileExist();
+
+        LoadTutorialMenu();
     }
 
     public void LoadTutorialMenu()
@@ -50,6 +52,18 @@ public class TutorialMenu: HideableUI, IEventSubscriber
     public void PlayTutorialStage(int stageIndex)
     {
         SceneManager.LoadScene(stageIndex);
+    }
+
+    public void ExitToMainMenu()
+    {
+
+        AudioSource music = FindObjectOfType<AudioSource>();
+        if (music != null)
+            Destroy(music);
+
+        Hide();
+
+        SceneManager.LoadScene(0);
     }
 
     private void VerifySaveFileExist()

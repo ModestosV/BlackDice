@@ -17,11 +17,6 @@ public class Stage1 : HideableUI
 
     public void ExitToMainMenu()
     {
-
-        AudioSource music = FindObjectOfType<AudioSource>();
-        if (music != null)
-            Destroy(music);
-
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 }
