@@ -34,11 +34,10 @@ public sealed class GameManager : MonoBehaviour
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
         //Initialize players
-        players = new List<IPlayer>() { new Player(), new Player() };
+        players = new List<IPlayer>() { new Player("Player 1"), new Player("Player 2") };
 
         foreach(ICharacterController characterController in characterControllers)
         {
-            Debug.Log("NAME: " + characterController.Owner);
             if (characterController.Owner.Equals("1"))
             {
                 players[0].AddCharacterController(characterController);
@@ -62,8 +61,6 @@ public sealed class GameManager : MonoBehaviour
 
         // Initialize turn controller
         turnController = new TurnController(
-            characterControllers,
-            new List<ICharacterController>(),
             players,
             characterPanels);
 

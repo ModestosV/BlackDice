@@ -36860,7 +36860,7 @@ GameObject:
   - component: {fileID: 1418488741}
   - component: {fileID: 1418488742}
   m_Layer: 0
-  m_Name: DefaultCharacter (1)
+  m_Name: DefaultCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

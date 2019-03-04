@@ -3,36 +3,16 @@ using System.Linq;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
-    private List<ICharacterController> refreshedCharacters;
-    private List<ICharacterController> exhaustedCharacters;
     private ICharacterController activeCharacter;
     private List<IPlayer> players;
+    private bool isPlayerOneTurn;
     private List<CharacterPanel> characterPanels;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players, List<CharacterPanel> characterPanels)
+    public TurnController(List<IPlayer> players, List<CharacterPanel> characterPanels)
     {
-        this.refreshedCharacters = refreshedCharacters;
-        this.exhaustedCharacters = exhaustedCharacters;
         this.players = players;
         this.characterPanels = characterPanels;
-    }
-
-    public List<ICharacterController> GetLivingCharacters()
-    {
-        List<ICharacterController> livingCharacters = new List<ICharacterController>();
-
-        foreach (ICharacterController character in refreshedCharacters)
-        {
-            livingCharacters.Add(character);
-        }
-        foreach (ICharacterController character in exhaustedCharacters)
-        {
-            livingCharacters.Add(character);
-        }
-        if (activeCharacter != null)
-            livingCharacters.Add(activeCharacter);
-
-        return livingCharacters;
+        isPlayerOneTurn = true;
     }
 
     public bool IsActiveCharacter(ICharacterController character)
@@ -50,7 +30,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             {
                 EventBus.Publish(new StartNewTurnEvent());
             }
-            RemoveCharacter(deathEvent.CharacterController);
             CheckWinCondition();
         }
         if (type == typeof(StartNewTurnEvent))
@@ -70,11 +49,9 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void Surrender()
     {
-        string activePlayerName = activeCharacter.Owner;
-        List<ICharacterController> livingCharacters = GetLivingCharacters();
-        foreach (ICharacterController character in livingCharacters)
+        foreach (ICharacterController character in GetActivePlayer().CharacterControllers)
         {
-            if (character.Owner == activePlayerName)
+            if(character.CharacterState != CharacterState.DEAD)
             {
                 character.Die();
             }
@@ -83,58 +60,31 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
-    private void RemoveCharacter(ICharacterController character)
-    {
-        refreshedCharacters.Remove(character);
-        exhaustedCharacters.Remove(character);
-        if (activeCharacter == character)
-            activeCharacter = null;
-    }
-
     private void CheckWinCondition()
     {
-        List<ICharacterController> livingCharacters = GetLivingCharacters();
-        List<string> livingPlayers = new List<string>();
-
-        foreach (ICharacterController character in livingCharacters)
-        {
-            string playerName = character.Owner;
-            if (!livingPlayers.Contains(playerName))
-            {
-                livingPlayers.Add(playerName);
-            }
-        }
-
-        if (livingPlayers.Count == 1)
-        {
-            EventBus.Publish(new EndMatchEvent($"Player {livingPlayers[0]} wins!"));
-        }
-
-        if (livingPlayers.Count == 0)
+        if (players[0].areAllCharactersDead() && players[1].areAllCharactersDead())
         {
             EventBus.Publish(new EndMatchEvent($"Draw"));
+        }
+        if (players[0].areAllCharactersDead())
+        {
+            EventBus.Publish(new EndMatchEvent($"{players[0]} wins!"));
+        }
+
+        if (players[1].areAllCharactersDead())
+        {
+            EventBus.Publish(new EndMatchEvent($"{players[1]} wins!"));
         }
     }
 
     private void StartNextTurn()
     {
-        if (activeCharacter != null)
-        {
-            activeCharacter.EndOfTurn();
-            exhaustedCharacters.Add(activeCharacter);
-        }
+        isPlayerOneTurn = !isPlayerOneTurn;
 
-        if (!(refreshedCharacters.Count > 0))
-        {
-            refreshedCharacters = exhaustedCharacters;
-            exhaustedCharacters = new List<ICharacterController>();
-        }
+        // TODO: activeCharacter = characterSelectionState.ChosenPlayer;
+        // TODO: activeCharacter.StartOfTurn();
 
-        activeCharacter = refreshedCharacters.ElementAt(0);
-        refreshedCharacters.RemoveAt(0);
-        activeCharacter.StartOfTurn();
-
-        UpdateCharacterPanels();
+        // TODO: UpdateCharacterPanels();
         
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
@@ -167,5 +117,10 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
             i++;
         }
+    }
+
+    private IPlayer GetActivePlayer()
+    {
+        return isPlayerOneTurn ? players[0] : players[1];
     }
 }

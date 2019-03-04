@@ -4,10 +4,12 @@ using UnityEngine;
 public class Player : IPlayer
 {
     public List<ICharacterController> CharacterControllers { get; }
+    private string name;
 
-    public Player()
+    public Player(string name)
     {
-        Debug.Log("Player has been initialized");
+        this.name = name;
+        Debug.Log($"Player with name {name} has been initialized");
         CharacterControllers = new List<ICharacterController>();
     }
 
@@ -38,5 +40,26 @@ public class Player : IPlayer
             }
         }
         return unusedCharacters;
+    }
+
+    public bool areAllCharactersDead()
+    {
+        var aliveCharacters = new List<ICharacterController>();
+        foreach (ICharacterController characterController in CharacterControllers)
+        {
+            if (characterController.CharacterState != CharacterState.DEAD)
+            {
+                aliveCharacters.Add(characterController);
+            }
+        }
+
+        Debug.Log($"{name} has {aliveCharacters.Count} characters alive");
+
+        return aliveCharacters.Count == 0;
+    }
+
+    public override string ToString()
+    {
+        return name;
     }
 }
