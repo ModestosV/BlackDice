@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
 import FeedbackLoginModal from "../Components/FeedbackLoginModal"
 import '../App.css';
 
@@ -19,6 +18,7 @@ class FeedbackLoginPopup extends Component {
   render() {
     return (
       <div>
+        { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
         <strong><a id="link" onClick={this.showModal}>Feedback</a></strong>
         <FeedbackLoginModal show={this.state.show} onClose={this.showModal} state={this.state}></FeedbackLoginModal>
       </div>

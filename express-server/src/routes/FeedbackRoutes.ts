@@ -1,4 +1,6 @@
+import axios from "axios";
 import bodyParser = require("body-parser");
+import btoa from "btoa";
 import express, { NextFunction, Request, Response, Router } from "express";
 import { Document, Model } from "mongoose";
 import getModel from "../app/models";
@@ -82,11 +84,48 @@ class UserRoutes {
             errorHandler
         );
     }
+
+    public Clicks() {
+        this.router.get(
+            "/clicks",
+            async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    console.log("Click request going through");
+                    const token = await axios(process.env.BASIC_URL + "/oauth/access_token", {
+                        method: "post",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "Authorization" : "Basic " + process.env.AUTHORIZATION
+                        },
+                        data: {
+                            client_id: process.env.CLIENT_ID,
+                            client_secret: process.env.CLIENT_SECRET
+                        }
+                    });
+                    console.log("Fetched the key.");
+                    const { data } = await axios(process.env.BASIC_URL + "/v4/bitlinks/" + req.query.link + "/clicks/summary", {
+                        method: "get",
+                        headers: {
+                          Accept: "application/json",
+                          Authorization : "Bearer " + token.data
+                        }
+                    });
+                    console.log("Got Data");
+                    return res.json({ total_clicks: data.total_clicks });
+                } catch (e) {
+                    return res.json(getStatus(400));
+                }
+            },
+            errorHandler
+        );
+    }
 }
 
 const feedbackRoutes = new UserRoutes(express.Router(), getModel("Feedback"), getModel("User"));
 
 feedbackRoutes.SendFeedback();
 feedbackRoutes.FetchFeedback();
+feedbackRoutes.Clicks();
 
 export default feedbackRoutes.router;
