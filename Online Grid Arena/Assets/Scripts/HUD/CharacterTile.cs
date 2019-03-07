@@ -7,9 +7,13 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
     private Image border;
     private GameObject activeIndicator;
     private Animator activeAnimator;
+    private GameObject deadIndicator;
 
     [SerializeField]
     public GameObject ActiveIndicator;
+
+    [SerializeField]
+    public GameObject DeadIndicator;
 
     private void Awake()
     {
@@ -19,6 +23,9 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
         activeIndicator = Instantiate(ActiveIndicator, this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
+
+        deadIndicator = Instantiate(DeadIndicator, this.transform) as GameObject;
+        deadIndicator.SetActive(false);
     }
 
     public void Setup(Texture texture, Color32 color32)
@@ -35,5 +42,10 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
     public void HideActive()
     {
         activeAnimator.SetBool("Active", false);
+    }
+
+    public void ShowDead()
+    {
+        deadIndicator.SetActive(true);
     }
 }

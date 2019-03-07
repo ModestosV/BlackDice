@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
@@ -52,6 +53,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
             RemoveCharacter(deathEvent.CharacterController);
             CheckWinCondition();
+            UpdateCharacterPanels();
         }
         if (type == typeof(StartNewTurnEvent))
         {
@@ -87,6 +89,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     {
         refreshedCharacters.Remove(character);
         exhaustedCharacters.Remove(character);
+        character.CharacterState = CharacterState.DEAD;
         if (activeCharacter == character)
             activeCharacter = null;
     }
@@ -156,16 +159,23 @@ public sealed class TurnController : ITurnController, IEventSubscriber
                 tile.HideActive();
             }
         }
-
-        int i = 0;
-        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
-        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
+        
+        for (int playerNumber = 0; playerNumber < players.Count; playerNumber++)
         {
-            if (character == activeCharacter)
+            int i = 0;
+            foreach (ICharacterController character in players[playerNumber].CharacterControllers)
             {
-                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
+                if (character.CharacterState == CharacterState.DEAD)
+                {
+                    characterPanels[playerNumber].CharacterTiles[i].ShowDead();
+                }
+
+                if (character == activeCharacter)
+                {
+                    characterPanels[playerNumber].CharacterTiles[i].ShowActive();
+                }
+                i++;
             }
-            i++;
         }
     }
 }
