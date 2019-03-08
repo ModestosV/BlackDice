@@ -95,9 +95,13 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             activeCharacter.EndOfTurn();
         }
 
+        activeCharacter = null;
+
         isPlayerOneTurn = !isPlayerOneTurn;
         inCharacterSelectionState = true;
-        
+
+        CheckForUnusedCharacters();
+
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -147,6 +151,14 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             Debug.Log($"Active Character is: {activeCharacter.ToString()}");
             activeCharacter.StartOfTurn();
             UpdateCharacterPanels();
+        }
+    }
+
+    private void CheckForUnusedCharacters()
+    {
+        if(GetActivePlayer().GetUnusedCharacters().Count == 0)
+        {
+            GetActivePlayer().RefreshCharacters();
         }
     }
 }
