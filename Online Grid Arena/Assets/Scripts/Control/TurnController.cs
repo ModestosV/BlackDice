@@ -10,12 +10,9 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private bool inCharacterSelectionState;
     private List<CharacterPanel> characterPanels;
 
-    public TurnController(List<IPlayer> players, List<CharacterPanel> characterPanels)
+    public TurnController(List<IPlayer> players)
     {
         this.players = players;
-        this.characterPanels = characterPanels;
-        isPlayerOneTurn = true;
-        inCharacterSelectionState = true;
     }
 
     public bool IsActiveCharacter(ICharacterController character)
@@ -102,6 +99,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
         CheckForUnusedCharacters();
 
+        EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -110,55 +108,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if (activeCharacter != null)
         {
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
-        }
-    }
-
-    private void UpdateCharacterPanels()
-    {
-        foreach (CharacterPanel panel in characterPanels)
-        {
-            foreach (CharacterTile tile in panel.CharacterTiles)
-            {
-                tile.HideActive();
-            }
-        }
-
-        int i = 0;
-        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
-        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
-        {
-            if (character == activeCharacter)
-            {
-                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
-            }
-            i++;
-        }
-    }
-
-    private IPlayer GetActivePlayer()
-    {
-        return isPlayerOneTurn ? players[0] : players[1];
-    }
-
-    private void MakeCharacterActive(ICharacterController selectedCharacterController)
-    {
-        Debug.Log(selectedCharacterController.Owner);
-        Debug.Log(GetActivePlayer().Name);
-        if (selectedCharacterController.Owner.Equals(GetActivePlayer().Name) && selectedCharacterController.CharacterState == CharacterState.UNUSED)
-        {
-            inCharacterSelectionState = false;
-            activeCharacter = selectedCharacterController;
-            Debug.Log($"Active Character is: {activeCharacter.ToString()}");
-            activeCharacter.StartOfTurn();
-            UpdateCharacterPanels();
-        }
-    }
-
-    private void CheckForUnusedCharacters()
-    {
-        if(GetActivePlayer().GetUnusedCharacters().Count == 0)
-        {
-            GetActivePlayer().RefreshCharacters();
         }
     }
 }

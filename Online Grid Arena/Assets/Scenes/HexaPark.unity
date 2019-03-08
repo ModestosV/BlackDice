@@ -3111,6 +3111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
     type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
+    type: 3}
 --- !u!114 &120286381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3282,7 +3284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -446.69922, y: 110.40001}
+  m_AnchoredPosition: {x: -446.69922, y: 110.3999}
   m_SizeDelta: {x: -893.29987, y: -220.70001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &127717467 stripped
@@ -18556,6 +18558,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
     type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
+    type: 3}
 --- !u!114 &734990065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21346,6 +21350,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
+    type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
     type: 3}
 --- !u!114 &827960993
 MonoBehaviour:
@@ -34244,7 +34250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -446.69922, y: 110.40015}
+  m_AnchoredPosition: {x: -446.69922, y: 110.40039}
   m_SizeDelta: {x: -893.29987, y: -220.70001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1318765423
@@ -36698,6 +36704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
+    type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
     type: 3}
 --- !u!114 &1411682930
 MonoBehaviour:
@@ -52086,6 +52094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
     type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
+    type: 3}
 --- !u!114 &1936909606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55901,6 +55911,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
+    type: 3}
+  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
     type: 3}
 --- !u!114 &2065935308
 MonoBehaviour:

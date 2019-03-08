@@ -48,5 +48,5 @@ Select the error message and use the IDEs suggested fix and save. You may need t
 ```
 ## Website
 
-Our website (work in progress) can be found at the following address: http://159.203.27.234:5500/
+Our website can be found at the following address: www.blackdice.ca
 
