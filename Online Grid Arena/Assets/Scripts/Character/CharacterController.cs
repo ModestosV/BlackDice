@@ -204,6 +204,7 @@ public class CharacterController : ICharacterController
             }
         }
         ActiveCircle.enabled = false;
+        EventBus.Publish(new ExhaustCharacterEvent(this));
     }
 
     private void RemoveEffect(IEffect effect)

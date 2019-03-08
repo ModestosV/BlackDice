@@ -5,10 +5,14 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
 {
     private RawImage characterIcon;
     private Image border;
+
+    private Shader notExhausted;
+    private Shader exhausted;
     private GameObject activeIndicator;
     private Animator activeAnimator;
     private GameObject deadIndicator;
     private ICharacterController character;
+
     private CharacterTileController controller;
 
     private void Awake()
@@ -24,6 +28,9 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
 
         deadIndicator = Instantiate(Resources.Load("Prefabs/HUD/DeadIndicator"), this.transform) as GameObject;
         deadIndicator.SetActive(false);
+
+        notExhausted = characterIcon.material.shader;
+        exhausted = Resources.Load("Materials/Grayscale") as Shader;
     }
 
     public void Setup(ICharacterController character)
@@ -46,6 +53,16 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private void ShowDead()
     {
         deadIndicator.SetActive(true);
+    }
+
+    private void ShowExhausted()
+    {
+        characterIcon.material.shader = exhausted;
+    }
+
+    private void HideExhausted()
+    {
+        characterIcon.material.shader = notExhausted;
     }
 
     public ICharacterTileController Controller
@@ -74,6 +91,18 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
             else
             {
                 HideActive();
+            }
+        }
+        else if (type == typeof(ExhaustCharacterEvent))
+        {
+            var exhaustCharacterEvent = (ExhaustCharacterEvent) @event;
+            if (exhaustCharacterEvent.CharacterController == this.character)
+            {
+                ShowExhausted();
+            }
+            else
+            {
+                HideExhausted();
             }
         }
     }
