@@ -216,6 +216,7 @@ public class CharacterController : ICharacterController
 
     public void Die()
     {
+        CharacterState = CharacterState.DEAD;
         EventBus.Publish(new DeathEvent(this));
         OccupiedTile.ClearOccupant();
         Character.Destroy();

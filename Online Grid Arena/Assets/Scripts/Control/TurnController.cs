@@ -89,7 +89,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     {
         refreshedCharacters.Remove(character);
         exhaustedCharacters.Remove(character);
-        character.CharacterState = CharacterState.DEAD;
         if (activeCharacter == character)
             activeCharacter = null;
     }
