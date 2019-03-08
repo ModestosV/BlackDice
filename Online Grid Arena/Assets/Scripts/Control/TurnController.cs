@@ -90,6 +90,11 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void StartNextTurn()
     {
+        if (activeCharacter != null)
+        {
+            activeCharacter.EndOfTurn();
+        }
+
         isPlayerOneTurn = !isPlayerOneTurn;
         inCharacterSelectionState = true;
         
@@ -141,6 +146,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             activeCharacter = selectedCharacterController;
             Debug.Log($"Active Character is: {activeCharacter.ToString()}");
             activeCharacter.StartOfTurn();
+            UpdateCharacterPanels();
         }
     }
 }
