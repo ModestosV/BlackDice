@@ -9,9 +9,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private Animator activeAnimator;
     private GameObject deadIndicator;
     private ICharacterController character;
+    private CharacterTileController controller;
 
     private void Awake()
     {
+        controller = new CharacterTileController();
+
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
 
@@ -43,6 +46,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private void ShowDead()
     {
         deadIndicator.SetActive(true);
+    }
+
+    public ICharacterTileController Controller
+    {
+        get { return controller;  }
     }
 
     public void Handle(IEvent @event)
