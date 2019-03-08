@@ -107,6 +107,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
         }
     }
+
     private IPlayer GetActivePlayer()
     {
         return isPlayerOneTurn ? players[0] : players[1];
