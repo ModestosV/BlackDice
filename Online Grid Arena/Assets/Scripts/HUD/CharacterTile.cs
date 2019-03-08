@@ -7,24 +7,18 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
     private Image border;
     private GameObject activeIndicator;
     private Animator activeAnimator;
-    private GameObject deadIndicator;
-
-    [SerializeField]
-    public GameObject ActiveIndicator;
-
-    [SerializeField]
-    public GameObject DeadIndicator;
+    private GameObject deadIndicator;    
 
     private void Awake()
     {
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
 
-        activeIndicator = Instantiate(ActiveIndicator, this.transform) as GameObject;
+        activeIndicator = Instantiate(Resources.Load("Prefabs/HUD/ActiveIndicator"), this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
 
-        deadIndicator = Instantiate(DeadIndicator, this.transform) as GameObject;
+        deadIndicator = Instantiate(Resources.Load("Prefabs/HUD/DeadIndicator"), this.transform) as GameObject;
         deadIndicator.SetActive(false);
     }
 

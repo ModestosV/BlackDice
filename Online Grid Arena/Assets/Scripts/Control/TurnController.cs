@@ -170,7 +170,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
                     characterPanels[playerNumber].CharacterTiles[i].ShowDead();
                 }
 
-                if (character == activeCharacter)
+                else if (character == activeCharacter)
                 {
                     characterPanels[playerNumber].CharacterTiles[i].ShowActive();
                 }
