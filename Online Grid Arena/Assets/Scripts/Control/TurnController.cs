@@ -126,6 +126,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             refreshedCharacters = exhaustedCharacters;
             exhaustedCharacters = new List<ICharacterController>();
+            EventBus.Publish(new NewRoundEvent());
         }
 
         activeCharacter = refreshedCharacters.ElementAt(0);
