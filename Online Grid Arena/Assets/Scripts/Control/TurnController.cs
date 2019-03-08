@@ -98,8 +98,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         inCharacterSelectionState = true;
 
         CheckForUnusedCharacters();
-
-        EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -110,4 +108,35 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
         }
     }
+    private IPlayer GetActivePlayer()
+    {
+        return isPlayerOneTurn ? players[0] : players[1];
+    }
+
+    private void MakeCharacterActive(ICharacterController selectedCharacterController)
+    {
+        Debug.Log(selectedCharacterController.Owner);
+        Debug.Log(GetActivePlayer().Name);
+        if (selectedCharacterController.Owner.Equals(GetActivePlayer().Name) && selectedCharacterController.CharacterState == CharacterState.UNUSED)
+        {
+            inCharacterSelectionState = false;
+            activeCharacter = selectedCharacterController;
+            Debug.Log($"Active Character is: {activeCharacter.ToString()}");
+            activeCharacter.StartOfTurn();
+            EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
+        }
+    }
+
+    private void CheckForUnusedCharacters()
+    {
+        if (GetActivePlayer().GetUnusedCharacters().Count == 0)
+        {
+            GetActivePlayer().RefreshCharacters();
+            foreach(ICharacterController characterController in GetActivePlayer().GetUnusedCharacters())
+            {
+                EventBus.Publish(new NewRoundEvent(characterController));
+            }
+        }
+    }
+
 }

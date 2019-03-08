@@ -102,7 +102,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
         }
         else if (type == typeof(NewRoundEvent))
         {
-            HideExhausted();
+            var newRoundEvent = (NewRoundEvent) @event;
+            if (newRoundEvent.CharacterController == this.character)
+            {
+                HideExhausted();
+            }
         }
     }
 }
