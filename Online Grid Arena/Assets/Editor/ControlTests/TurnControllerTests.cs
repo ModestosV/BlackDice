@@ -45,12 +45,13 @@ public class TurnControllerTests
     public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
     {
         firstCharacter.CharacterState.Returns(CharacterState.UNUSED);
+        secondCharacter.CharacterState.Returns(CharacterState.EXHAUSTED);
 
         sut.Handle(new StartNewTurnEvent());
         sut.Handle(new SurrenderEvent());
 
         firstCharacter.Received(1).Die();
-        secondCharacter.DidNotReceive().Die();
+        secondCharacter.Received(1).Die();
         thirdCharacter.DidNotReceive().Die();
     }
 
