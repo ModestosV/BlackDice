@@ -76,12 +76,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         }
         if (players[0].areAllCharactersDead())
         {
-            EventBus.Publish(new EndMatchEvent($"{players[0]} wins!"));
+            EventBus.Publish(new EndMatchEvent($"{players[1]} wins!"));
         }
 
         if (players[1].areAllCharactersDead())
         {
-            EventBus.Publish(new EndMatchEvent($"{players[1]} wins!"));
+            EventBus.Publish(new EndMatchEvent($"{players[0]} wins!"));
         }
     }
 
