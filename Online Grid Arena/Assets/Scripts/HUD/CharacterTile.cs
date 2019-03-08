@@ -30,12 +30,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
         border.color = character.BorderColor;
     }
 
-    public void ShowActive()
+    private void ShowActive()
     {
         activeAnimator.SetBool("Active", true);
     }
 
-    public void HideActive()
+    private void HideActive()
     {
         activeAnimator.SetBool("Active", false);
     }
@@ -54,6 +54,18 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
             if (deathEvent.CharacterController == this.character)
             {
                 ShowDead();
+            }
+        }
+        else if (type == typeof(ActiveCharacterEvent))
+        {
+            var activeCharacterEvent = (ActiveCharacterEvent) @event;
+            if (activeCharacterEvent.CharacterController == this.character)
+            {
+                ShowActive();
+            }
+            else
+            {
+                HideActive();
             }
         }
     }

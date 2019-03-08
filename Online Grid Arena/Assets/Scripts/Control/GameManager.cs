@@ -64,8 +64,7 @@ public sealed class GameManager : MonoBehaviour
         turnController = new TurnController(
             characterControllers,
             new List<ICharacterController>(),
-            players,
-            characterPanels);
+            players);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
@@ -131,6 +130,7 @@ public sealed class GameManager : MonoBehaviour
         foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
         {
             EventBus.Subscribe<DeathEvent>(tile);
+            EventBus.Subscribe<ActiveCharacterEvent>(tile);
         }
 
         // Pengwin's Ultimate must handle DeathEvent

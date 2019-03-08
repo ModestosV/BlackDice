@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
@@ -8,14 +7,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private List<ICharacterController> exhaustedCharacters;
     private ICharacterController activeCharacter;
     private List<IPlayer> players;
-    private List<CharacterPanel> characterPanels;
 
-    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players, List<CharacterPanel> characterPanels)
+    public TurnController(List<ICharacterController> refreshedCharacters, List<ICharacterController> exhaustedCharacters, List<IPlayer> players)
     {
         this.refreshedCharacters = refreshedCharacters;
         this.exhaustedCharacters = exhaustedCharacters;
         this.players = players;
-        this.characterPanels = characterPanels;
     }
 
     public List<ICharacterController> GetLivingCharacters()
@@ -135,8 +132,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         refreshedCharacters.RemoveAt(0);
         activeCharacter.StartOfTurn();
 
-        UpdateCharacterPanels();
-        
+        EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -145,28 +141,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if (activeCharacter != null)
         {
             EventBus.Publish(new SelectTileEvent(activeCharacter.OccupiedTile));
-        }
-    }
-
-    private void UpdateCharacterPanels()
-    {
-        foreach (CharacterPanel panel in characterPanels)
-        {
-            foreach (CharacterTile tile in panel.CharacterTiles)
-            {
-                tile.HideActive();
-            }
-        }
-
-        int i = 0;
-        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
-        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
-        {
-            if (character == activeCharacter)
-            {
-                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
-            }
-            i++;
         }
     }
 }
