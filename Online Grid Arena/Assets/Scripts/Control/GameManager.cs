@@ -34,7 +34,7 @@ public sealed class GameManager : MonoBehaviour
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
         //Initialize players
-        players = new List<IPlayer>() { new Player("Player 1"), new Player("Player 2") };
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
 
         foreach(ICharacterController characterController in characterControllers)
         {
@@ -123,6 +123,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+        EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
         // Pengwin's Ultimate must handle DeathEvent

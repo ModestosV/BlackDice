@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public sealed class TurnController : ITurnController, IEventSubscriber
 {
     private ICharacterController activeCharacter;
     private List<IPlayer> players;
     private bool isPlayerOneTurn;
+    private bool inCharacterSelectionState;
     private List<CharacterPanel> characterPanels;
 
     public TurnController(List<IPlayer> players, List<CharacterPanel> characterPanels)
@@ -13,6 +15,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         this.players = players;
         this.characterPanels = characterPanels;
         isPlayerOneTurn = true;
+        inCharacterSelectionState = true;
     }
 
     public bool IsActiveCharacter(ICharacterController character)
@@ -44,6 +47,14 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         if(type == typeof(SelectActivePlayerEvent))
         {
             SelectActiveCharacter();
+        }
+        if(type == typeof(SelectTileEvent))
+        {
+            var selectTileEvent = (SelectTileEvent)@event;
+            if(selectTileEvent.SelectedTile.OccupantCharacter != null && inCharacterSelectionState)
+            {
+                MakeCharacterActive(selectTileEvent.SelectedTile.OccupantCharacter);
+            }
         }
     }
 
@@ -80,11 +91,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private void StartNextTurn()
     {
         isPlayerOneTurn = !isPlayerOneTurn;
-
-        // TODO: activeCharacter = characterSelectionState.ChosenPlayer;
-        // TODO: activeCharacter.StartOfTurn();
-
-        // TODO: UpdateCharacterPanels();
+        inCharacterSelectionState = true;
         
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
@@ -122,5 +129,18 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private IPlayer GetActivePlayer()
     {
         return isPlayerOneTurn ? players[0] : players[1];
+    }
+
+    private void MakeCharacterActive(ICharacterController selectedCharacterController)
+    {
+        Debug.Log(selectedCharacterController.Owner);
+        Debug.Log(GetActivePlayer().Name);
+        if (selectedCharacterController.Owner.Equals(GetActivePlayer().Name) && selectedCharacterController.CharacterState == CharacterState.UNUSED)
+        {
+            inCharacterSelectionState = false;
+            activeCharacter = selectedCharacterController;
+            Debug.Log($"Active Character is: {activeCharacter.ToString()}");
+            activeCharacter.StartOfTurn();
+        }
     }
 }

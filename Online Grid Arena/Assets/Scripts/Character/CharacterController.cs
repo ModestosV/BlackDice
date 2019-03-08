@@ -280,7 +280,7 @@ public class CharacterController : ICharacterController
     private void CheckExhausted()
     {
         Debug.Log($"CheckedExhausted() called; values of moves remaining, abilities remaining, character state: ({MovesRemaining}, {abilitiesRemaining},  {CharacterState})");
-        if (MovesRemaining <= 0 && abilitiesRemaining <= 0 && CharacterState == CharacterState.DEAD)
+        if (MovesRemaining <= 0 && abilitiesRemaining <= 0 && CharacterState != CharacterState.DEAD)
         {
             HUDController.PulseEndTurnButton();
         }

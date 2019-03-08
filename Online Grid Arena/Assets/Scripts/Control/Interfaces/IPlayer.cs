@@ -2,6 +2,7 @@
 
 public interface IPlayer
 {
+    string Name { get; }
     List<ICharacterController> CharacterControllers { get; }
     void AddCharacterController(ICharacterController characterController);
     void RefreshCharacters();

@@ -4,12 +4,12 @@ using UnityEngine;
 public class Player : IPlayer
 {
     public List<ICharacterController> CharacterControllers { get; }
-    private string name;
+    public string Name { get; }
 
     public Player(string name)
     {
-        this.name = name;
-        Debug.Log($"Player with name {name} has been initialized");
+        Name = name;
+        Debug.Log($"Player with name {Name} has been initialized");
         CharacterControllers = new List<ICharacterController>();
     }
 
@@ -53,13 +53,13 @@ public class Player : IPlayer
             }
         }
 
-        Debug.Log($"{name} has {aliveCharacters.Count} characters alive");
+        Debug.Log($"{Name} has {aliveCharacters.Count} characters alive");
 
         return aliveCharacters.Count == 0;
     }
 
     public override string ToString()
     {
-        return name;
+        return Name;
     }
 }
