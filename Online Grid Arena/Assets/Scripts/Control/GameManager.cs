@@ -56,8 +56,8 @@ public sealed class GameManager : MonoBehaviour
 
         for(int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
         {
-            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i].CharacterIcon, players[0].CharacterControllers[i].BorderColor);
-            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i].CharacterIcon, players[1].CharacterControllers[i].BorderColor);
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
         }
 
         // Initialize turn controller
@@ -127,6 +127,11 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
+
+        foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
+        {
+            EventBus.Subscribe<DeathEvent>(tile);
+        }
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));

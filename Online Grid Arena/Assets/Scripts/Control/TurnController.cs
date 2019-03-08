@@ -53,7 +53,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
             RemoveCharacter(deathEvent.CharacterController);
             CheckWinCondition();
-            UpdateCharacterPanels();
         }
         if (type == typeof(StartNewTurnEvent))
         {
@@ -158,23 +157,16 @@ public sealed class TurnController : ITurnController, IEventSubscriber
                 tile.HideActive();
             }
         }
-        
-        for (int playerNumber = 0; playerNumber < players.Count; playerNumber++)
-        {
-            int i = 0;
-            foreach (ICharacterController character in players[playerNumber].CharacterControllers)
-            {
-                if (character.CharacterState == CharacterState.DEAD)
-                {
-                    characterPanels[playerNumber].CharacterTiles[i].ShowDead();
-                }
 
-                else if (character == activeCharacter)
-                {
-                    characterPanels[playerNumber].CharacterTiles[i].ShowActive();
-                }
-                i++;
+        int i = 0;
+        int playerNumber = int.Parse(activeCharacter.Owner) - 1;
+        foreach (ICharacterController character in players[playerNumber].CharacterControllers)
+        {
+            if (character == activeCharacter)
+            {
+                characterPanels[playerNumber].CharacterTiles[i].ShowActive();
             }
+            i++;
         }
     }
 }

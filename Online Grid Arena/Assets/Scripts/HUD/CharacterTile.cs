@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class CharacterTile : BlackDiceMonoBehaviour
+public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
 {
     private RawImage characterIcon;
     private Image border;
     private GameObject activeIndicator;
     private Animator activeAnimator;
-    private GameObject deadIndicator;    
+    private GameObject deadIndicator;
+    private ICharacterController character;
 
     private void Awake()
     {
@@ -22,10 +23,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
         deadIndicator.SetActive(false);
     }
 
-    public void Setup(Texture texture, Color32 color32)
+    public void Setup(ICharacterController character)
     {
-        characterIcon.texture = texture;
-        border.color = color32;
+        this.character = character;
+        characterIcon.texture = character.CharacterIcon;
+        border.color = character.BorderColor;
     }
 
     public void ShowActive()
@@ -38,8 +40,21 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour
         activeAnimator.SetBool("Active", false);
     }
 
-    public void ShowDead()
+    private void ShowDead()
     {
         deadIndicator.SetActive(true);
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(DeathEvent))
+        {
+            var deathEvent = (DeathEvent) @event;
+            if (deathEvent.CharacterController == this.character)
+            {
+                ShowDead();
+            }
+        }
     }
 }
