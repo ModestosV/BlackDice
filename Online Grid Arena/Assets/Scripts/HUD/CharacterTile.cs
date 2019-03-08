@@ -87,10 +87,6 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
             {
                 ShowActive();
             }
-            else
-            {
-                HideActive();
-            }
         }
         else if (type == typeof(ExhaustCharacterEvent))
         {
@@ -98,6 +94,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
             if (exhaustCharacterEvent.CharacterController == this.character)
             {
                 ShowExhausted();
+                HideActive();
             }
         }
         else if (type == typeof(NewRoundEvent))
