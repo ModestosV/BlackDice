@@ -7,5 +7,5 @@ public interface IPlayer
     void AddCharacterController(ICharacterController characterController);
     void RefreshCharacters();
     List<ICharacterController> GetUnusedCharacters();
-    bool areAllCharactersDead();
+    bool AreAllCharactersDead();
 }

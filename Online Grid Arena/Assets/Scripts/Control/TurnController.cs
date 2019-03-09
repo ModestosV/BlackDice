@@ -69,16 +69,16 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void CheckWinCondition()
     {
-        if (players[0].areAllCharactersDead() && players[1].areAllCharactersDead())
+        if (players[0].AreAllCharactersDead() && players[1].AreAllCharactersDead())
         {
             EventBus.Publish(new EndMatchEvent($"Draw"));
         }
-        if (players[0].areAllCharactersDead())
+        if (players[0].AreAllCharactersDead())
         {
             EventBus.Publish(new EndMatchEvent($"{players[1]} wins!"));
         }
 
-        if (players[1].areAllCharactersDead())
+        if (players[1].AreAllCharactersDead())
         {
             EventBus.Publish(new EndMatchEvent($"{players[0]} wins!"));
         }

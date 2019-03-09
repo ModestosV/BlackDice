@@ -42,7 +42,7 @@ public class Player : IPlayer
         return unusedCharacters;
     }
 
-    public bool areAllCharactersDead()
+    public bool AreAllCharactersDead()
     {
         var aliveCharacters = new List<ICharacterController>();
         foreach (ICharacterController characterController in CharacterControllers)
