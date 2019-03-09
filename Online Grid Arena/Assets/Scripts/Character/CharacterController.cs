@@ -277,7 +277,7 @@ public class CharacterController : ICharacterController
     public void UpdateHealthBar()
     {
         HealthBar.SetHealthBarRatio(CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
-        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
+        HealthBar.SetHealthText(Mathf.CeilToInt(CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(CharacterStats["health"].Value).ToString());
     }
 
     private void CheckExhausted()
