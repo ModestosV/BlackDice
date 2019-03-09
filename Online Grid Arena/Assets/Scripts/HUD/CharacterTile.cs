@@ -12,12 +12,8 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private GameObject exhaustedIndicator;
     private ICharacterController character;
 
-    private CharacterTileController controller;
-
     private void Awake()
     {
-        controller = new CharacterTileController();
-
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
 
@@ -62,11 +58,6 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private void HideExhausted()
     {
         exhaustedIndicator.SetActive(false);
-    }
-
-    public ICharacterTileController Controller
-    {
-        get { return controller;  }
     }
 
     public void Handle(IEvent @event)
