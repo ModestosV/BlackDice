@@ -22,7 +22,6 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
-        // This happens every time someone dies and only gets set to false on Pengwin's turn...
         if (type == typeof(DeathEvent))
         {
             hasSomeoneDied = true;
