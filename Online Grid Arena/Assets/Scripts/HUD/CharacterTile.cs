@@ -68,6 +68,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
             var deathEvent = (DeathEvent) @event;
             if (deathEvent.CharacterController == this.character)
             {
+                ShowExhausted();
                 ShowDead();
             }
         }
