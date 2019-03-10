@@ -170,7 +170,10 @@ public class CharacterController : ICharacterController
 
     public void EndOfTurn()
     {
-        CharacterState = CharacterState.EXHAUSTED;
+        if(CharacterState != CharacterState.DEAD)
+        {
+            CharacterState = CharacterState.EXHAUSTED;
+        }
 
         foreach (IEffect e in Effects)
         {
