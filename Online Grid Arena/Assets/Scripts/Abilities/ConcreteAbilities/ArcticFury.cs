@@ -22,6 +22,7 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
+        // This happens every time someone dies and only gets set to false on Pengwin's turn...
         if (type == typeof(DeathEvent))
         {
             hasSomeoneDied = true;
@@ -30,6 +31,8 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
+        hasSomeoneDied = false;
+
         var isPengwinsTurn = true;
         var enemy = targetTiles[0].OccupantCharacter;
         var enemyQ = targetTiles[0].OccupantCharacter.Abilities[0];
@@ -53,7 +56,6 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
             else
             {
                 Debug.Log("Duel terminated as a character has died.");
-                hasSomeoneDied = false;
                 break;
             }
         }
