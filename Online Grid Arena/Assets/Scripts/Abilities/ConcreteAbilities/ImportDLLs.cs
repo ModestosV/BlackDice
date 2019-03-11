@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class ImportDLLs : AbstractActiveAbility
 {
-
     public ImportDLLs(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,
-        1,
+        3,
         "Import DLL - Special Ability \nTA Eagle applies a random permanent buff to either himself or an ally - target chosen randomly(+10 ATCK, +10 DEF, +2 SPD).")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
+        Debug.Log("Casting ImportDLLs. Primary aciton beign called.");
         ICharacterController ally = RandomAlly();
         PlaySoundEffect();
         PlayAnimation(ally.OccupiedTile);
@@ -23,6 +23,7 @@ public class ImportDLLs : AbstractActiveAbility
 
     private IEffect RandomEffect()
     {
+        Debug.Log("Getting Random Effect.");
         int effectNumber = GenerateRandom(3);
         switch (effectNumber)
         {
@@ -39,6 +40,7 @@ public class ImportDLLs : AbstractActiveAbility
 
     private ICharacterController RandomAlly()
     {
+        Debug.Log("Getting Random ally.");
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
         List<AbstractCharacter> allies = new List<AbstractCharacter>();
         foreach(AbstractCharacter ac in characters)
