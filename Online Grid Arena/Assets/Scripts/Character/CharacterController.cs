@@ -19,7 +19,7 @@ public class CharacterController : ICharacterController
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
-    public SpriteRenderer Shield { get; set; }
+    public MeshRenderer Shield { get; set; }
 
     public ICharacter Character { get; }
 

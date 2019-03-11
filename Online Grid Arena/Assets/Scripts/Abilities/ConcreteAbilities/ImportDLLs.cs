@@ -55,7 +55,6 @@ public class ImportDLLs : AbstractActiveAbility
     private int GenerateRandom(int range)
     {
         System.Random randomizer = new System.Random();
-        int rand = randomizer.Next(0, range);
-        return rand;
+        return randomizer.Next(0, range);
     }
 }

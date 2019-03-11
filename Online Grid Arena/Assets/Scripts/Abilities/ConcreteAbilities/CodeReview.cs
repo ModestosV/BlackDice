@@ -6,7 +6,7 @@ public class CodeReview : AbstractActiveAbility
 {
 
     public CodeReview(ICharacter character) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
+        Resources.Load<Sprite>("Sprites/Abilities/codeReview"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,

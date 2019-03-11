@@ -40,7 +40,7 @@ public sealed class RocketCat : AbstractCharacter
             CharacterStats = characterStats,
             Effects = effects,
             ActiveCircle = activeCircle.GetComponent<SpriteRenderer>(),
-            Shield = shield.GetComponent<SpriteRenderer>()
+            Shield = shield.GetComponent<MeshRenderer>()
         };
     }
 }

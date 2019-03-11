@@ -16,7 +16,7 @@ public interface ICharacterController
     Color32 BorderColor { set; }
     IHealthBar HealthBar { set; }
     SpriteRenderer ActiveCircle { get; set; }
-    SpriteRenderer Shield { get; set; }
+    MeshRenderer Shield { get; set; }
 
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
