@@ -31,7 +31,6 @@ public class CharacterController : ICharacterController
     public CharacterController(ICharacter character)
     {
         Character = character;
-        isAlive = true;
         IsShielded = false;
         CharacterState = CharacterState.UNUSED;
     }

@@ -14,6 +14,7 @@ public class ActionHandler : IActionHandler
         if (targetCharacter.Shield.enabled == true)
         {
             targetCharacter.Shield.enabled = false;
+            EventBus.Publish(new StatusEffectEvent("shield", false, targetCharacter));
             Debug.Log(targetCharacter.ToString() + " target character has a shield. shield has been removed, and no damage has been done.");
             return;
         }

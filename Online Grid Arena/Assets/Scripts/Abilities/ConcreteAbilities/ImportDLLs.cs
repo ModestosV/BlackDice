@@ -43,7 +43,7 @@ public class ImportDLLs : AbstractActiveAbility
         List<AbstractCharacter> allies = new List<AbstractCharacter>();
         foreach(AbstractCharacter ac in characters)
         {
-            if (ac.Controller.CharacterOwner == character.Controller.CharacterOwner)
+            if (ac.Controller.Owner == character.Controller.Owner)
             {
                 allies.Add(ac);
             }

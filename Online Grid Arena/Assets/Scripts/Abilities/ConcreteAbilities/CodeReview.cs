@@ -21,6 +21,7 @@ public class CodeReview : AbstractActiveAbility
         {
             PlaySoundEffect();
             allies[i].Shield.enabled = true;
+            EventBus.Publish(new StatusEffectEvent("shield", true, allies[i]));
             PlayAnimation(allies[i].OccupiedTile);
             await Task.Delay(100);
         }
@@ -32,7 +33,7 @@ public class CodeReview : AbstractActiveAbility
         List<ICharacterController> allies = new List<ICharacterController>();
         foreach (AbstractCharacter ac in characters)
         {
-            if (ac.Controller.CharacterOwner == character.Controller.CharacterOwner)
+            if (ac.Controller.Owner == character.Controller.Owner)
             {
                 allies.Add(ac.Controller);
             }
