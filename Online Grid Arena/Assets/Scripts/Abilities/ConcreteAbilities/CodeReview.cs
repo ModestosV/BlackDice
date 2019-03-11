@@ -35,7 +35,7 @@ public class CodeReview : AbstractActiveAbility
         List<ICharacterController> allies = new List<ICharacterController>();
         foreach (AbstractCharacter ac in characters)
         {
-            if (ac.Controller.Owner == character.Controller.Owner)
+            if (ac.Controller.IsAlly(character.Controller))
             {
                 allies.Add(ac.Controller);
             }

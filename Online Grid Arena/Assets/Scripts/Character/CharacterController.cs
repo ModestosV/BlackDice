@@ -24,14 +24,11 @@ public class CharacterController : ICharacterController
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
 
-    public bool IsShielded { get; set; }
-
     private int abilitiesRemaining;
 
     public CharacterController(ICharacter character)
     {
         Character = character;
-        IsShielded = false;
         CharacterState = CharacterState.UNUSED;
     }
 
