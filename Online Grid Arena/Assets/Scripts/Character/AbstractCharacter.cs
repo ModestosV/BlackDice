@@ -12,6 +12,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     protected GameObject teamColorIndicator;
     protected GameObject activeCircle;
     protected GameObject healthBar;
+    protected GameObject shield;
 
     public void Destroy()
     {
@@ -41,6 +42,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
 
+        shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
+        shield.transform.SetParent(this.transform);
+
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -52,6 +56,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
         characterController.ActiveCircle.enabled = false;
+        characterController.Shield.enabled = false;
 
         Debug.Log(ToString() + " Start() end");
     }

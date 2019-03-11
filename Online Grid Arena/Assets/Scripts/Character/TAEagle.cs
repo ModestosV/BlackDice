@@ -41,7 +41,8 @@ public sealed class TAEagle : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>(),
+            Shield = shield.GetComponent<SpriteRenderer>()
         };
     }
 }

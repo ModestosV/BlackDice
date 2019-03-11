@@ -20,25 +20,9 @@ public class CodeReview : AbstractActiveAbility
         for (int i = 0; i < allies.Count; i++)
         {
             PlaySoundEffect();
-            allies[i].ApplyEffect(RandomEffect());
+            allies[i].Shield.enabled = true;
             PlayAnimation(allies[i].OccupiedTile);
             await Task.Delay(100);
-        }
-    }
-
-    private IEffect RandomEffect()
-    {
-        int effectNumber = GenerateRandom(3);
-        switch (effectNumber)
-        {
-            case 0:
-                return new AttackDLL();
-            case 1:
-                return new DefenseDLL();
-            case 2:
-                return new SpeedDLL();
-            default:
-                return null;
         }
     }
 
@@ -54,12 +38,5 @@ public class CodeReview : AbstractActiveAbility
             }
         }
         return allies;
-    }
-
-    private int GenerateRandom(int range)
-    {
-        System.Random randomizer = new System.Random();
-        int rand = randomizer.Next(0, range);
-        return rand;
     }
 }

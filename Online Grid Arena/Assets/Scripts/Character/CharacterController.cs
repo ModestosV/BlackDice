@@ -19,8 +19,11 @@ public class CharacterController : ICharacterController
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
+    public SpriteRenderer Shield { get; set; }
 
     public ICharacter Character { get; }
+
+    public bool IsShielded { get; set; }
 
     private int abilitiesRemaining;
     private bool isAlive;
@@ -29,6 +32,7 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         isAlive = true;
+        IsShielded = false;
     }
 
     public void UpdateSelectedHUD()
