@@ -13,31 +13,32 @@ public class CharacterController : ICharacterController
 
     private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
 
-    public string CharacterOwner { get; set; }
-    public Texture CharacterIcon { protected get; set; }
-    public Color32 BorderColor { protected get; set; }
+    public string Owner { get; set; }
+    public Texture CharacterIcon { get; set; }
+    public Color32 BorderColor { get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
     public MeshRenderer Shield { get; set; }
 
     public ICharacter Character { get; }
+    public CharacterState CharacterState { get; set; }
 
     public bool IsShielded { get; set; }
 
     private int abilitiesRemaining;
-    private bool isAlive;
 
     public CharacterController(ICharacter character)
     {
         Character = character;
         isAlive = true;
         IsShielded = false;
+        CharacterState = CharacterState.UNUSED;
     }
 
     public void UpdateSelectedHUD()
     {
-        HUDController.UpdateSelectedHUD(CharacterStats, CharacterOwner, Abilities, Effects);
+        HUDController.UpdateSelectedHUD(CharacterStats, Owner, Abilities, Effects);
     }
 
     public void ClearSelectedHUD()
@@ -47,7 +48,7 @@ public class CharacterController : ICharacterController
 
     public void UpdateTargetHUD()
     {
-        HUDController.UpdateTargetHUD(CharacterStats, CharacterOwner);
+        HUDController.UpdateTargetHUD(CharacterStats, Owner);
     }
 
     public void ClearTargetHUD()
@@ -174,6 +175,11 @@ public class CharacterController : ICharacterController
 
     public void EndOfTurn()
     {
+        if(CharacterState != CharacterState.DEAD)
+        {
+            CharacterState = CharacterState.EXHAUSTED;
+        }
+
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.END_OF_TURN)
@@ -206,6 +212,7 @@ public class CharacterController : ICharacterController
             }
         }
         ActiveCircle.enabled = false;
+        EventBus.Publish(new ExhaustCharacterEvent(this));
     }
 
     private void RemoveEffect(IEffect effect)
@@ -218,10 +225,10 @@ public class CharacterController : ICharacterController
 
     public void Die()
     {
-        EventBus.Publish(new DeathEvent(this));
+        CharacterState = CharacterState.DEAD;
         OccupiedTile.ClearOccupant();
         Character.Destroy();
-        isAlive = false;
+        EventBus.Publish(new DeathEvent(this));
     }
 
     public bool CanMove(int distance = 1)
@@ -257,16 +264,9 @@ public class CharacterController : ICharacterController
         return abilitiesRemaining > 0  && !ability.IsOnCooldown();
     }
 
-    public void UpdateTurnTile(ITurnTile turnTileToUpdate)
-    {
-        turnTileToUpdate.CharacterIcon = CharacterIcon;
-        turnTileToUpdate.BorderColor = BorderColor;
-        turnTileToUpdate.UpdateTile();
-    }
-
     public bool IsAlly(ICharacterController character)
     {
-        return CharacterOwner.Equals(character.CharacterOwner);
+        return Owner.Equals(character.Owner);
     }
 
     public bool IsAbilityInRange(int abilityIndex, int range)
@@ -285,13 +285,13 @@ public class CharacterController : ICharacterController
     public void UpdateHealthBar()
     {
         HealthBar.SetHealthBarRatio(CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
-        HealthBar.SetHealthText(CharacterStats["health"].CurrentValue.ToString(), CharacterStats["health"].Value.ToString());
+        HealthBar.SetHealthText(Mathf.CeilToInt(CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(CharacterStats["health"].Value).ToString());
     }
 
     private void CheckExhausted()
     {
-        Debug.Log($"CheckedExhausted() called; values of moves remaining, abilities remaining, is alive: ({MovesRemaining}, {abilitiesRemaining},  {isAlive})");
-        if (MovesRemaining <= 0 && abilitiesRemaining <= 0 && isAlive)
+        Debug.Log($"CheckedExhausted() called; values of moves remaining, abilities remaining, character state: ({MovesRemaining}, {abilitiesRemaining},  {CharacterState})");
+        if (MovesRemaining <= 0 && abilitiesRemaining <= 0 && CharacterState != CharacterState.DEAD)
         {
             HUDController.PulseEndTurnButton();
         }

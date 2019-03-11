@@ -6,14 +6,15 @@ public interface ICharacterController
     ICharacter Character { get; }
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
+    CharacterState CharacterState { get; set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { get; set; }
     List<IEffect> Effects { set; }
 
-    string CharacterOwner { get; set; }    
-    Texture CharacterIcon { set; }
-    Color32 BorderColor { set; }
+    string Owner { get; set; }    
+    Texture CharacterIcon { get;  set; }
+    Color32 BorderColor { get; set; }
     IHealthBar HealthBar { set; }
     SpriteRenderer ActiveCircle { get; set; }
     MeshRenderer Shield { get; set; }
@@ -34,8 +35,6 @@ public interface ICharacterController
     bool CanMove(int distance = 1);
     bool CanUseAbility(int abilityIndex);
     bool IsAlly(ICharacterController otherCharacter);
-
-    void UpdateTurnTile(ITurnTile turnTileToUpdate);
     bool IsAbilityInRange(int abilityIndex, int range);
     void StartOfTurn();
     void EndOfTurn();

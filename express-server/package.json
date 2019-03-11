@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "@types/btoa": "^1.2.2",
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "btoa": "^1.2.1",
     "console": "^0.7.2",
     "console-stamp": "^0.2.7",
     "dotenv": "^6.1.0",
@@ -52,5 +55,5 @@
     "lint": "tslint --project tsconfig.json"
   },
   "license": "MIT",
-  "version": "1.0.1"
+  "version": "1.7.0"
 }

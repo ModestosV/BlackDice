@@ -10,13 +10,13 @@ public class TurnControllerTests
     ICharacterController secondCharacter;
     ICharacterController thirdCharacter;
 
-    List<ICharacterController> refreshedCharactersList;
-    List<ICharacterController> exhaustedCharactersList;
+    IHexTileController hexTileController;
+
+    IPlayer player1;
+    IPlayer player2;
 
     const string PLAYER_1_NAME = "1";
     const string PLAYER_2_NAME = "2";
-
-    ITurnPanelController turnTracker;
 
     [SetUp]
     public void Init()
@@ -25,44 +25,82 @@ public class TurnControllerTests
         secondCharacter = Substitute.For<ICharacterController>();
         thirdCharacter = Substitute.For<ICharacterController>();
 
-        refreshedCharactersList = new List<ICharacterController>() { firstCharacter, secondCharacter, thirdCharacter };
-        exhaustedCharactersList = new List<ICharacterController>();
+        hexTileController = Substitute.For<IHexTileController>();
 
+        player1 = new Player(PLAYER_1_NAME);
+        player2 = new Player(PLAYER_2_NAME); 
 
-        firstCharacter.CharacterOwner.Returns(PLAYER_1_NAME);
-        secondCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
-        thirdCharacter.CharacterOwner.Returns(PLAYER_2_NAME);
+        player1.AddCharacterController(firstCharacter);
+        player1.AddCharacterController(secondCharacter);
+        player2.AddCharacterController(thirdCharacter);
 
-        turnTracker = Substitute.For<ITurnPanelController>();
+        firstCharacter.Owner.Returns(PLAYER_1_NAME);
+        secondCharacter.Owner.Returns(PLAYER_1_NAME);
+        thirdCharacter.Owner.Returns(PLAYER_2_NAME);
 
-        sut = new TurnController(refreshedCharactersList, exhaustedCharactersList, turnTracker);
-    }
-
-    [Test]
-    public void Start_next_turn_event_starts_turn_of_active_character()
-    {
-        sut.Handle(new StartNewTurnEvent());
-
-        firstCharacter.Received(1).StartOfTurn();
-        secondCharacter.DidNotReceive();
-    }
-
-    [Test]
-    public void Start_next_turn_event_updates_turn_tracker_with_new_character_order()
-    {
-        sut.Handle(new StartNewTurnEvent());
-
-        turnTracker.Received(1).UpdateQueue(firstCharacter, refreshedCharactersList, exhaustedCharactersList);
+        sut = new TurnController(new List<IPlayer>() { player1, player2 });
     }
 
     [Test]
     public void Surrender_kills_all_characters_associated_with_active_player_and_ends_game()
     {
+        firstCharacter.CharacterState.Returns(CharacterState.UNUSED);
+        secondCharacter.CharacterState.Returns(CharacterState.EXHAUSTED);
+
         sut.Handle(new StartNewTurnEvent());
         sut.Handle(new SurrenderEvent());
 
         firstCharacter.Received(1).Die();
-        secondCharacter.DidNotReceive().Die();
+        secondCharacter.Received(1).Die();
         thirdCharacter.DidNotReceive().Die();
+    }
+
+    [Test]
+    public void Character_on_selected_tile_starts_turn_if_unused_and_owner_is_active()
+    {
+        hexTileController.OccupantCharacter.Returns(firstCharacter);
+        firstCharacter.CharacterState.Returns(CharacterState.UNUSED);
+
+        sut.Handle(new StartNewTurnEvent());
+        sut.Handle(new SelectTileEvent(hexTileController));
+
+        firstCharacter.Received(1).StartOfTurn();
+    }
+
+    [Test]
+    public void Character_on_selected_tile_does_not_start_turn_if_exhausted()
+    {
+        hexTileController.OccupantCharacter.Returns(firstCharacter);
+        firstCharacter.CharacterState.Returns(CharacterState.EXHAUSTED);
+        secondCharacter.CharacterState.Returns(CharacterState.UNUSED);
+
+        sut.Handle(new StartNewTurnEvent());
+        sut.Handle(new SelectTileEvent(hexTileController));
+
+        firstCharacter.DidNotReceive().StartOfTurn();
+    }
+
+    [Test]
+    public void Character_on_selected_tile_does_not_start_turn_if_owner_is_not_active()
+    {
+        hexTileController.OccupantCharacter.Returns(firstCharacter);
+        firstCharacter.CharacterState.Returns(CharacterState.UNUSED);
+
+        sut.Handle(new SelectTileEvent(hexTileController));
+
+        firstCharacter.DidNotReceive().StartOfTurn();
+    }
+
+    [Test]
+    public void Character_is_reusable_after_all_team_members_are_exhausted()
+    {
+        hexTileController.OccupantCharacter.Returns(firstCharacter);
+        firstCharacter.CharacterState.Returns(CharacterState.EXHAUSTED);
+        secondCharacter.CharacterState.Returns(CharacterState.EXHAUSTED);
+
+        sut.Handle(new StartNewTurnEvent());
+        sut.Handle(new SelectTileEvent(hexTileController));
+
+        firstCharacter.Received(1).StartOfTurn();
     }
 }

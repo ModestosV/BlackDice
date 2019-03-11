@@ -21,20 +21,46 @@ public sealed class GameManager : MonoBehaviour
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
     private List<ICharacterController> characterControllers;
+    private List<IPlayer> players;
+    private List<CharacterPanel> characterPanels;
 
     private void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
 
         EventBus.Reset();
-
+        
+        // Get all characters from scene
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
+        //Initialize players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+
+        foreach(ICharacterController characterController in characterControllers)
+        {
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for(int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
+        }
+
         // Initialize turn controller
-        turnController = new TurnController(
-            characterControllers,
-            new List<ICharacterController>(),
-            FindObjectOfType<TurnPanel>().Controller);
+        turnController = new TurnController(players);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
@@ -95,7 +121,16 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+        EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
+
+        foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
+        {
+            EventBus.Subscribe<DeathEvent>(tile);
+            EventBus.Subscribe<ActiveCharacterEvent>(tile);
+            EventBus.Subscribe<ExhaustCharacterEvent>(tile);
+            EventBus.Subscribe<NewRoundEvent>(tile);
+        }
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
