@@ -20,7 +20,7 @@ public class CodeReview : AbstractActiveAbility
         for (int i = 0; i < allies.Count; i++)
         {
             PlaySoundEffect();
-            allies[i].Shield.enabled = true;
+            allies[i].IsShielded = true;
             Debug.Log("shield being applied to target "+allies[i]);
             EventBus.Publish(new StatusEffectEvent("shield", true, allies[i]));
             PlayAnimation(allies[i].OccupiedTile);

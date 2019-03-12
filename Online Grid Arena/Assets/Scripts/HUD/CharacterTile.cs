@@ -119,7 +119,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
                 //shield, stun, silence
                 if (statusEffectEvent.Type == "shield")
                 {
-                    if (statusEffectEvent.IsActive == true)
+                    if (statusEffectEvent.IsActive)
                     {
                         ShowShield();
                     }

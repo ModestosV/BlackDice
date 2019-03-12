@@ -77,4 +77,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 
         Debug.Log(ToString() + " Start() end");
     }
+
+    void Update()
+    {
+        this.Controller.Shield.enabled = this.Controller.IsShielded;
+    }
 }

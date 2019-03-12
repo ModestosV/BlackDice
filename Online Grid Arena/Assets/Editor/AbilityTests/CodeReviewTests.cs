@@ -41,8 +41,8 @@ public class CodeReviewTests
     public void Applies_to_whole_team()
     {
         sut.Execute(new List<IHexTileController>() { hexTileController });
-        //check that it received shield calls or whatever
-        characterController.Shield.Received().enabled = true;
-        allyCharacterController.Shield.Received().enabled = true;
+
+        characterController.Received().IsShielded = true;
+        allyCharacterController.Received().IsShielded = true;
     }
 }

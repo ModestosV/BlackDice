@@ -18,7 +18,7 @@ public interface ICharacterController
     IHealthBar HealthBar { set; }
     SpriteRenderer ActiveCircle { get; set; }
     MeshRenderer Shield { get; set; }
-
+    bool IsShielded { get; set; }
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
