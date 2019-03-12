@@ -9,7 +9,7 @@ public class ImportDLLs : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,
         3,
-        "Import DLL - Special Ability \nTA Eagle applies a random permanent buff to either himself or an ally - target chosen randomly(+10 ATCK, +10 DEF, +2 SPD).")
+        "Import DLL - Special Ability \nTA Eagle applies a random permanent buff to either himself or an ally - target chosen randomly(+5 ATCK, +5 DEF, +1 SPD).")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

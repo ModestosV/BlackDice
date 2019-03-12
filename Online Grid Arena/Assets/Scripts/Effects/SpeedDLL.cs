@@ -9,13 +9,13 @@ public sealed class SpeedDLL : StackModifier
         100,
         new Dictionary<string, float>()
         {
-            {"moves", 2 },
+            {"moves", 1 },
         }
         )
     {
         Name = "Speed DLL";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/speedDLL");
-        Description = "Increases Moves by 2";
+        Description = "Increases Moves by 1";
     }
 
     public override Dictionary<string, float> GetEffects()

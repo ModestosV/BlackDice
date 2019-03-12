@@ -9,13 +9,13 @@ public sealed class DefenseDLL : StackModifier
         100,
         new Dictionary<string, float>()
         {
-            {"defense", 10 },
+            {"defense", 5 },
         }
         )
     {
         Name = "Defense DLL";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL");
-        Description = "Increases Defense by 10";
+        Description = "Increases Defense by 5";
     }
 
     public override Dictionary<string, float> GetEffects()
