@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 {
@@ -26,6 +27,22 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     {
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
+    }
+
+    public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
+    {
+        ICharacterStat Health = new CharacterStat(health);
+        ICharacterStat Moves = new CharacterStat(moves);
+        ICharacterStat Attack = new CharacterStat(attack);
+        ICharacterStat Defense = new CharacterStat(defense);
+
+        return new Dictionary<string, ICharacterStat>()
+        {
+            { "health", Health },
+            { "moves", Moves },
+            { "attack", Attack },
+            { "defense", Defense }
+        };
     }
 
     protected virtual void Awake()
