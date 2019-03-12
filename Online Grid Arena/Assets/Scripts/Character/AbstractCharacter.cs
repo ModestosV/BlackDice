@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
+public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IEventSubscriber
 {
     [SerializeField] protected string playerName;
-
+    
     protected CharacterController characterController;
 
     [SerializeField] protected Texture characterIcon;
@@ -12,6 +12,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     protected GameObject teamColorIndicator;
     protected GameObject activeCircle;
     protected GameObject healthBar;
+    protected GameObject exhausted;
 
     public void Destroy()
     {
@@ -41,6 +42,11 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
 
+        exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
+        exhausted.transform.localScale *= 1.02f;
+        exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
+        exhausted.SetActive(false);
+
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -54,5 +60,26 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         characterController.ActiveCircle.enabled = false;
 
         Debug.Log(ToString() + " Start() end");
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(ExhaustCharacterEvent))
+        {
+            var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
+            if (exhaustCharacterEvent.CharacterController == this.characterController)
+            {
+                exhausted.SetActive(true);
+            }
+        }
+        else if (type == typeof(NewRoundEvent))
+        {
+            var newRoundEvent = (NewRoundEvent)@event;
+            if (newRoundEvent.CharacterController == this.characterController)
+            {
+                exhausted.SetActive(true);
+            }
+        }
     }
 }

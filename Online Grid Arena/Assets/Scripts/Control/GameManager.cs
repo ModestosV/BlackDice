@@ -124,12 +124,18 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
-        foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
+        foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
         {
             EventBus.Subscribe<DeathEvent>(tile);
             EventBus.Subscribe<ActiveCharacterEvent>(tile);
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
+        }
+
+        foreach (AbstractCharacter c in FindObjectsOfType<AbstractCharacter>())
+        {
+            EventBus.Subscribe<ExhaustCharacterEvent>(c);
+            EventBus.Subscribe<NewRoundEvent>(c);
         }
 
         // Pengwin's Ultimate must handle DeathEvent
