@@ -73,13 +73,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
         characterController.ActiveCircle.enabled = false;
-        characterController.Shield.enabled = false;
 
         Debug.Log(ToString() + " Start() end");
-    }
-
-    void Update()
-    {
-        this.Controller.Shield.enabled = this.Controller.IsShielded;
     }
 }

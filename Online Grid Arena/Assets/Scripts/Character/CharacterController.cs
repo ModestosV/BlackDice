@@ -19,8 +19,25 @@ public class CharacterController : ICharacterController
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
-    public MeshRenderer Shield { get; set; }
-    public bool IsShielded { get; set; }
+
+    private MeshRenderer shield;
+    public MeshRenderer Shield
+    {
+        set
+        {
+            shield = value;
+            shield.enabled = false;
+        }
+    }
+
+    public bool IsShielded
+    {
+        get { return shield.enabled; }
+        set
+        {
+            shield.enabled = value;
+        }
+    }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
 
@@ -30,7 +47,6 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
-        IsShielded = false;
     }
 
     public void UpdateSelectedHUD()
