@@ -18,7 +18,7 @@ export class WebsiteRoutes {
         const staticAssets = path.join(__dirname,  "../../../../react-app/build");
         this.router.use("/", express.static(staticAssets));
 
-        this.router.use(
+        this.router.get(
             "/",
             (req: Request, res: Response, next: NextFunction) => {
                 return res.sendFile(`${staticAssets}/index.html)`);

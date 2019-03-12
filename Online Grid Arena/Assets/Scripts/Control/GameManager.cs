@@ -34,11 +34,10 @@ public sealed class GameManager : MonoBehaviour
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
         //Initialize players
-        players = new List<IPlayer>() { new Player(), new Player() };
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
 
         foreach(ICharacterController characterController in characterControllers)
         {
-            Debug.Log("NAME: " + characterController.Owner);
             if (characterController.Owner.Equals("1"))
             {
                 players[0].AddCharacterController(characterController);
@@ -56,16 +55,12 @@ public sealed class GameManager : MonoBehaviour
 
         for(int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
         {
-            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i].CharacterIcon, players[0].CharacterControllers[i].BorderColor);
-            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i].CharacterIcon, players[1].CharacterControllers[i].BorderColor);
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
         }
 
         // Initialize turn controller
-        turnController = new TurnController(
-            characterControllers,
-            new List<ICharacterController>(),
-            players,
-            characterPanels);
+        turnController = new TurnController(players);
 
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
@@ -126,7 +121,16 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
+        EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
+
+        foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
+        {
+            EventBus.Subscribe<DeathEvent>(tile);
+            EventBus.Subscribe<ActiveCharacterEvent>(tile);
+            EventBus.Subscribe<ExhaustCharacterEvent>(tile);
+            EventBus.Subscribe<NewRoundEvent>(tile);
+        }
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));

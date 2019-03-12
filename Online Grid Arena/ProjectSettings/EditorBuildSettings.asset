@@ -12,6 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/HexaPark.unity
     guid: e89fb0f91c0814645bfc4f5e2a57ef2c
   - enabled: 1
-    path: Assets/Scenes/Tutorial.unity
+    path: Assets/Scenes/Tutorial/Tutorial Menu.unity
+    guid: b47c58a17a41442a7bca4ffbe9b334dd
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage1.unity
+    guid: a3a2c4c667c5d44b2ad4e6f959cb83ef
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage2.unity
+    guid: bca7cd56c9c7a4c1cb6371167c8ef0cc
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage3.unity
     guid: 232e18ff97ffc4f4287fdaacb42fac85
   m_configObjects: {}
