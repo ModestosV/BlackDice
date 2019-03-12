@@ -20,29 +20,24 @@ public class CodeReviewTests
     {
         character = Substitute.For<ICharacter>();
         characterController = Substitute.For<ICharacterController>();
-        hexTileController = Substitute.For<IHexTileController>();
-
-        allyCharacter = Substitute.For<ICharacter>();
-        allyCharacterController = Substitute.For<ICharacterController>();
-        allyHexTileController = Substitute.For<IHexTileController>();
-
         character.Controller.Returns(characterController);
-        allyCharacter.Controller.Returns(allyCharacterController);
 
+        hexTileController = Substitute.For<IHexTileController>();
         hexTileController.OccupantCharacter.Returns(characterController);
-        allyHexTileController.OccupantCharacter.Returns(allyCharacterController);
 
-        allyCharacterController.IsAlly(characterController).Returns(true);
+        characterController.IsAlly(characterController).Returns(true);
+
+        List<ICharacterController> allies = new List<ICharacterController>();
+        allies.Add(characterController);
+        characterController.AllAllies().Returns(allies);
 
         sut = new CodeReview(character);
     }
 
     [Test]
-    public void Applies_to_whole_team()
+    public void Applies_to_self()
     {
         sut.Execute(new List<IHexTileController>() { hexTileController });
-
         characterController.Received().IsShielded = true;
-        allyCharacterController.Received().IsShielded = true;
     }
 }
