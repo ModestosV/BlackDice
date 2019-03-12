@@ -10,7 +10,7 @@ public class CodeReview : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
         character,
         8,
-        "Code Review - Special Ability \nTA Eagle reviews the whole team's code. He and his allies get a shield")
+        "Code Review - Special Ability \nTA Eagle reviews the whole team's code. He and his allies get a shield. Lasts indefinitely and blocks next instance of damage.")
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
@@ -30,7 +30,6 @@ public class CodeReview : AbstractActiveAbility
 
     private List<ICharacterController> AllAllies()
     {
-        Debug.Log("Retrieving list of allies.");
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
         List<ICharacterController> allies = new List<ICharacterController>();
         foreach (AbstractCharacter ac in characters)

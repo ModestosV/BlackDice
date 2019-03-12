@@ -18,7 +18,6 @@ public sealed class TAEagle : AbstractCharacter
         var effects = new List<IEffect>() { };
 
         // Init stats
-
         ICharacterStat health = new CharacterStat(100.0f);
         ICharacterStat moves = new CharacterStat(5.0f);
         ICharacterStat attack = new CharacterStat(20.0f);

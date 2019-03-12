@@ -14,7 +14,7 @@ public class ImportDLLs : AbstractActiveAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        Debug.Log("Casting ImportDLLs. Primary aciton beign called.");
+        Debug.Log("Casting ImportDLLs. Primary action being called.");
         ICharacterController ally = RandomAlly();
         PlaySoundEffect();
         PlayAnimation(ally.OccupiedTile);
@@ -23,7 +23,6 @@ public class ImportDLLs : AbstractActiveAbility
 
     private IEffect RandomEffect()
     {
-        Debug.Log("Getting Random Effect.");
         int effectNumber = GenerateRandom(3);
         switch (effectNumber)
         {
@@ -40,7 +39,6 @@ public class ImportDLLs : AbstractActiveAbility
 
     private ICharacterController RandomAlly()
     {
-        Debug.Log("Getting Random ally.");
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
         List<AbstractCharacter> allies = new List<AbstractCharacter>();
         foreach(AbstractCharacter ac in characters)

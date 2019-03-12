@@ -11,7 +11,7 @@ public sealed class SwoopDown : AbstractTargetedAbility
         1,
         4,
         AbilityType.TARGET_ENEMY,
-        "Swoop Down - Basic Attack \nTA Eagle Swoops Down and strikes his oponent from up to 4 tiles away.  Increases TA Eagle's speed value.")
+        "Swoop Down - Basic Attack \nTA Eagle Swoops Down and strikes his oponent from up to 4 tiles away. Increases TA Eagle's speed value by 2.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
