@@ -6,7 +6,7 @@ public sealed class AttackDLL : StackModifier
     public AttackDLL() : base(
         EffectType.STACK,
         100,
-        5,
+        100,
         new Dictionary<string, float>()
         {
             {"attack", 10 },

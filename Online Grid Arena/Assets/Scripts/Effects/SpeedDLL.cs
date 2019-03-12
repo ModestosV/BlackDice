@@ -6,7 +6,7 @@ public sealed class SpeedDLL : StackModifier
     public SpeedDLL() : base(
         EffectType.STACK,
         100,
-        4,
+        100,
         new Dictionary<string, float>()
         {
             {"moves", 2 },
