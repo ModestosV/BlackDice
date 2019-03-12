@@ -39,17 +39,8 @@ public class ImportDLLs : AbstractActiveAbility
 
     private ICharacterController RandomAlly()
     {
-        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
-        List<AbstractCharacter> allies = new List<AbstractCharacter>();
-        foreach(AbstractCharacter ac in characters)
-        {
-            if (ac.Controller.Owner == character.Controller.Owner)
-            {
-                allies.Add(ac);
-            }
-        }
-
-        return allies[GenerateRandom(allies.Count)].Controller;
+        List<ICharacterController> allies = character.Controller.AllAllies();
+        return allies[GenerateRandom(allies.Count)];
     }
 
     private int GenerateRandom(int range)

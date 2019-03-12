@@ -16,7 +16,7 @@ public class CodeReview : AbstractActiveAbility
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Code Review. Primary Action being called.");
-        List<ICharacterController> allies = AllAllies();
+        List<ICharacterController> allies = character.Controller.AllAllies();
         for (int i = 0; i < allies.Count; i++)
         {
             PlaySoundEffect();
@@ -26,19 +26,5 @@ public class CodeReview : AbstractActiveAbility
             PlayAnimation(allies[i].OccupiedTile);
             await Task.Delay(100);
         }
-    }
-
-    private List<ICharacterController> AllAllies()
-    {
-        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
-        List<ICharacterController> allies = new List<ICharacterController>();
-        foreach (AbstractCharacter ac in characters)
-        {
-            if (ac.Controller.IsAlly(character.Controller))
-            {
-                allies.Add(ac.Controller);
-            }
-        }
-        return allies;
     }
 }

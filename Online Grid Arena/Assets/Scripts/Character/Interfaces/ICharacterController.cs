@@ -32,6 +32,7 @@ public interface ICharacterController
     void UpdateTargetHUD();
     void ClearTargetHUD();
 
+    List<ICharacterController> AllAllies();
     bool CanMove(int distance = 1);
     bool CanUseAbility(int abilityIndex);
     bool IsAlly(ICharacterController otherCharacter);

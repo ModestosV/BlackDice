@@ -305,4 +305,18 @@ public class CharacterController : ICharacterController
             return AbilityType.INVALID;
         }
     }
+
+    public List<ICharacterController> AllAllies()
+    {
+        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
+        List<ICharacterController> allies = new List<ICharacterController>();
+        foreach (AbstractCharacter ac in characters)
+        {
+            if (ac.Controller.IsAlly(this))
+            {
+                allies.Add(ac.Controller);
+            }
+        }
+        return allies;
+    }
 }
