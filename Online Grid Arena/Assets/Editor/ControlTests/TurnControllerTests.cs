@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class TurnControllerTests
 {
