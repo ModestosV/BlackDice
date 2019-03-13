@@ -87,7 +87,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     public void Handle(IEvent @event)
     {
-        if (!(characterController.CharacterState == CharacterState.DEAD))
+        if (characterController.CharacterState != CharacterState.DEAD)
         {
             var type = @event.GetType();
             if (type == typeof(ExhaustCharacterEvent))
