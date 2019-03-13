@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
 {
@@ -12,6 +13,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     protected GameObject teamColorIndicator;
     protected GameObject activeCircle;
     protected GameObject healthBar;
+    protected GameObject shield;
 
     public void Destroy()
     {
@@ -27,6 +29,22 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
+    public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
+    {
+        ICharacterStat Health = new CharacterStat(health);
+        ICharacterStat Moves = new CharacterStat(moves);
+        ICharacterStat Attack = new CharacterStat(attack);
+        ICharacterStat Defense = new CharacterStat(defense);
+
+        return new Dictionary<string, ICharacterStat>()
+        {
+            { "health", Health },
+            { "moves", Moves },
+            { "attack", Attack },
+            { "defense", Defense }
+        };
+    }
+
     protected virtual void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
@@ -40,6 +58,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
+
+        shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
+        shield.transform.SetParent(this.transform);
 
         Debug.Log(ToString() + " Awake() end");
     }

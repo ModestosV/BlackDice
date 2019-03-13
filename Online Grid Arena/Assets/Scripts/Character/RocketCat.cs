@@ -16,19 +16,8 @@ public sealed class RocketCat : AbstractCharacter
 
         var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, kamikaze };
         var effects = new List<IEffect>() { };
-        
-        ICharacterStat health = new CharacterStat(120.0f);
-        ICharacterStat moves = new CharacterStat(6.0f);
-        ICharacterStat attack = new CharacterStat(25.0f);
-        ICharacterStat defense = new CharacterStat(100.0f);
 
-        var characterStats = new Dictionary<string, ICharacterStat>()
-        {
-            { "health", health },
-            { "moves", moves },
-            { "attack", attack },
-            { "defense", defense }
-        };
+        var characterStats = InitializeStats(120, 6, 25, 100);
 
         characterController = new CharacterController(this)
         {
@@ -39,7 +28,8 @@ public sealed class RocketCat : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>(),
+            Shield = shield.GetComponent<MeshRenderer>()
         };
     }
 }
