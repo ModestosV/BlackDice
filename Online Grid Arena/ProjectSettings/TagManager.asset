@@ -11,6 +11,7 @@ TagManager:
   - AbilityButton
   - CharacterTile
   - StageButton
+  - TurnIndicator
   layers:
   - Default
   - TransparentFX

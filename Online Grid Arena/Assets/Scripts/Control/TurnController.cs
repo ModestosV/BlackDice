@@ -7,7 +7,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private List<IPlayer> players;
     private bool isPlayerOneTurn;
     private bool inCharacterSelectionState;
-    private List<CharacterPanel> characterPanels;
 
     public TurnController(List<IPlayer> players)
     {
@@ -139,5 +138,4 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
         }
     }
-
 }

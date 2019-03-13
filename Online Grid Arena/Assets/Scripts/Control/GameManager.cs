@@ -141,6 +141,8 @@ public sealed class GameManager : MonoBehaviour
             EventBus.Subscribe<SelectActivePlayerEvent>(c);
             EventBus.Subscribe<StartNewTurnEvent>(c);
         }
+        
+        EventBus.Subscribe<SelectActivePlayerEvent>(FindObjectOfType<TurnIndicator>());
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
