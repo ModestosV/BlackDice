@@ -33,5 +33,10 @@
         {
             Toggle();
         }
+
+        if(type == typeof(MatchMenuEvent))
+        {
+            Toggle();
+        }
     }
 }
