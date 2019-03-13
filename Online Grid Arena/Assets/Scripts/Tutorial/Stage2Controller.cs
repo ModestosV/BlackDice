@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-public class Stage2Controller: IEventSubscriber
+public class Stage2Controller: IStageController
 {
     private ICharacterController character;
 
@@ -8,17 +8,11 @@ public class Stage2Controller: IEventSubscriber
     {
         this.character = character;
 
-        EventBus.Subscribe<StartNewTurnEvent>(this);
     }
 
-    public void Handle(IEvent @event)
+    public void EndStage()
     {
-        var type = @event.GetType();
-
-        if (type == typeof(StartNewTurnEvent))
-        {
-            EventBus.Publish(new StageCompletedEvent(2));
-            SceneManager.LoadScene(2);
-        }
+        EventBus.Publish(new StageCompletedEvent(2));
+        SceneManager.LoadScene(2);
     }
 }
