@@ -105,7 +105,7 @@ public sealed class TutorialGameManager : MonoBehaviour
         }
 
         // Initialize Event Subscribing
-        //EventBus.Subscribe<StartNewTurnEvent>(turnController);
+        EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
@@ -124,7 +124,6 @@ public sealed class TutorialGameManager : MonoBehaviour
         // Start Game
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
         EventBus.Publish(new StartNewTurnEvent());
-        EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
 
         Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0]);
     }
