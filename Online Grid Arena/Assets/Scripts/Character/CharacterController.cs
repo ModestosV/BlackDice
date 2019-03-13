@@ -19,6 +19,24 @@ public class CharacterController : ICharacterController
 
     public IHealthBar HealthBar { protected get; set; }
 
+    private MeshRenderer shield;
+    public MeshRenderer Shield
+    {
+        set
+        {
+            shield = value;
+            shield.enabled = false;
+        }
+    }
+
+    public bool IsShielded
+    {
+        get { return shield.enabled; }
+        set
+        {
+            shield.enabled = value;
+        }
+    }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
 
@@ -145,7 +163,7 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            if (ef.Key == "attack" || ef.Key == "defense")
+            if (ef.Key == "attack" || ef.Key == "defense"|| ef.Key == "moves")
             {
                 CharacterStats[ef.Key].BaseValue += ef.Value;
             }
@@ -300,5 +318,19 @@ public class CharacterController : ICharacterController
         {
             return AbilityType.INVALID;
         }
+    }
+
+    public List<ICharacterController> AllAllies()
+    {
+        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
+        List<ICharacterController> allies = new List<ICharacterController>();
+        foreach (AbstractCharacter ac in characters)
+        {
+            if (ac.Controller.IsAlly(this))
+            {
+                allies.Add(ac.Controller);
+            }
+        }
+        return allies;
     }
 }

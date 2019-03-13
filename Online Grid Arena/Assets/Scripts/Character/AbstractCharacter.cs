@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IEventSubscriber
 {
     [SerializeField] protected string playerName;
-    
+
     protected CharacterController characterController;
 
     [SerializeField] protected Texture characterIcon;
@@ -11,6 +12,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     protected GameObject teamColorIndicator;
     protected GameObject healthBar;
+    protected GameObject shield;
     protected GameObject exhausted;
 
     protected GameObject indicator;
@@ -30,6 +32,22 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
+    public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
+    {
+        ICharacterStat Health = new CharacterStat(health);
+        ICharacterStat Moves = new CharacterStat(moves);
+        ICharacterStat Attack = new CharacterStat(attack);
+        ICharacterStat Defense = new CharacterStat(defense);
+
+        return new Dictionary<string, ICharacterStat>()
+        {
+            { "health", Health },
+            { "moves", Moves },
+            { "attack", Attack },
+            { "defense", Defense }
+        };
+    }
+
     protected virtual void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
@@ -40,6 +58,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
+
+        shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
+        shield.transform.SetParent(this.transform);
 
         exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
         exhausted.transform.localScale *= 1.02f;

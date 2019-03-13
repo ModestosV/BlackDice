@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class RocketCat : AbstractCharacter
+public sealed class TAEagle : AbstractCharacter
 {
     protected override void Awake()
     {
         base.Awake();
 
-        IEffect catScratchFever = new CatScratchFever();
+        // Init abilities
+        IAbility swoopDown = new SwoopDown(this);
+        IAbility refactor = new Placeholder(this);
+        IAbility importDLL = new ImportDLLs(this);
+        IAbility codeReview = new CodeReview(this);
 
-        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
-        IAbility scratch = new Scratch(this, catScratchFeverAbility);
-        IAbility blastoff = new BlastOff(this);
-        IAbility kamikaze = new Kamikaze(this);
+        var abilities = new List<IAbility>() { swoopDown, refactor, importDLL, codeReview };
 
-        var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, kamikaze };
         var effects = new List<IEffect>() { };
 
-        var characterStats = InitializeStats(120, 6, 25, 100);
+        // Init stats
+        var characterStats = InitializeStats(100, 5, 20, 100);
 
         characterController = new CharacterController(this)
         {
@@ -28,6 +29,7 @@ public sealed class RocketCat : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
+            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>(),
             Shield = shield.GetComponent<MeshRenderer>()
         };
     }
