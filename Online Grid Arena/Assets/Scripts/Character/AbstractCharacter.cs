@@ -87,49 +87,53 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     public void Handle(IEvent @event)
     {
-        var type = @event.GetType();
-        if (type == typeof(ExhaustCharacterEvent))
+        if (!(characterController.CharacterState == CharacterState.DEAD))
         {
-            var exhaustCharacterEvent = (ExhaustCharacterEvent) @event;
-            if (exhaustCharacterEvent.CharacterController == this.characterController)
+            var type = @event.GetType();
+            if (type == typeof(ExhaustCharacterEvent))
             {
-                exhausted.SetActive(true);
+                var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
+                if (exhaustCharacterEvent.CharacterController == this.characterController)
+                {
+                    exhausted.SetActive(true);
+                }
             }
-        }
-        else if (type == typeof(NewRoundEvent))
-        {
-            var newRoundEvent = (NewRoundEvent) @event;
-            if (newRoundEvent.CharacterController == this.characterController)
+            else if (type == typeof(NewRoundEvent))
             {
-                exhausted.SetActive(false);
+                var newRoundEvent = (NewRoundEvent)@event;
+                if (newRoundEvent.CharacterController == this.characterController)
+                {
+                    exhausted.SetActive(false);
+                }
             }
-        }
-        else if (type == typeof(SelectActivePlayerEvent))
-        {
-            var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
-            if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner && !exhausted.activeSelf)
+            else if (type == typeof(SelectActivePlayerEvent))
             {
-                iAnimator.SetBool("Selectable", true);
-                iAnimator.SetBool("Active", false);
+                var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
+                if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner
+                    && !(characterController.CharacterState == CharacterState.EXHAUSTED))
+                {
+                    iAnimator.SetBool("Selectable", true);
+                    iAnimator.SetBool("Active", false);
+                }
+                else
+                {
+                    iAnimator.SetBool("Selectable", false);
+                    iAnimator.SetBool("Active", false);
+                }
             }
-            else
+            else if (type == typeof(SelectCharacterEvent))
             {
-                iAnimator.SetBool("Selectable", false);
-                iAnimator.SetBool("Active", false);
-            }
-        }
-        else if (type == typeof(SelectCharacterEvent))
-        {
-            var selectCharacterEvent = (SelectCharacterEvent)@event;
-            if (selectCharacterEvent.Character == this.characterController)
-            {
-                iAnimator.SetBool("Active", true);
-                iAnimator.SetBool("Selectable", false);
-            }
-            else
-            {
-                iAnimator.SetBool("Active", false);
-                iAnimator.SetBool("Selectable", false);
+                var selectCharacterEvent = (SelectCharacterEvent)@event;
+                if (selectCharacterEvent.Character == this.characterController)
+                {
+                    iAnimator.SetBool("Active", true);
+                    iAnimator.SetBool("Selectable", false);
+                }
+                else
+                {
+                    iAnimator.SetBool("Active", false);
+                    iAnimator.SetBool("Selectable", false);
+                }
             }
         }
     }
