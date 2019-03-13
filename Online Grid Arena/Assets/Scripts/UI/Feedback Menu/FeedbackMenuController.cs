@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 public sealed class FeedbackMenuController : IFeedbackMenuController
 {
     private IFeedbackPanel feedbackPanel;
@@ -32,6 +30,7 @@ public sealed class FeedbackMenuController : IFeedbackMenuController
             return;
         }
 
+        feedbackPanel.ClearStatus();
         feedbackPanel.ActivateLoadingCircle();
 
         IHttpResponseMessage response = await feedbackNetworkManager.SendFeedbackAsync(new FeedbackDto(email, feedback));
@@ -42,6 +41,7 @@ public sealed class FeedbackMenuController : IFeedbackMenuController
         {
             case 200:
                 feedbackPanel.SetStatus(Strings.SEND_FEEDBACK_SUCCESS_MESSAGE);
+                feedbackPanel.ClearFields();
                 break;
             case 500:
                 feedbackPanel.SetStatus(Strings.SERVER_ERROR_MESSAGE);

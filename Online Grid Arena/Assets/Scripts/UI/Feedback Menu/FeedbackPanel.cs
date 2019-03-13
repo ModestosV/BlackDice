@@ -24,4 +24,10 @@ public sealed class FeedbackPanel : Panel, IFeedbackPanel
     {
         FeedbackMenuController.SubmitFeedbackAsync(emailInputField.text, feedbackInputField.text);
     }
+
+    public void ClearFields()
+    {
+        emailInputField.text = "";
+        feedbackInputField.text = "";
+    }
 }
