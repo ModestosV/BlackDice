@@ -25,6 +25,7 @@ public interface ICharacterController
     void Heal(float heal);
     void UpdateHealthBar();
     void ApplyEffect(IEffect effect);
+    void Combo();
 
     void UpdateSelectedHUD();
     void ClearSelectedHUD();

@@ -12,6 +12,7 @@ public sealed class GameManager : MonoBehaviour
     private MovementSelectionController movementSelectionController;
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
     private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
+    private TargetTileAOEAbilitySelectionController targetTileAOEAbilitySelectionController;
     private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
     private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
@@ -81,6 +82,7 @@ public sealed class GameManager : MonoBehaviour
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
         targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetTileAOEAbilitySelectionController = new TargetTileAOEAbilitySelectionController(gridSelectionController);
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
 
@@ -90,9 +92,10 @@ public sealed class GameManager : MonoBehaviour
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
             { "target_ally", targetAllyAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController },
+            { "target_tile_aoe", targetTileAOEAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController }
+            { "target_line_aoe", targetLineAOEAbilitySelectionController },
+            { "target_tile", targetTileAbilitySelectionController}
         };
 
         selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);

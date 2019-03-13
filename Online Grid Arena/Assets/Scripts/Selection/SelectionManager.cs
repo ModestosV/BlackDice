@@ -84,6 +84,8 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 return selectionControllers["target_ally"];
             case AbilityType.TARGET_TILE:
                 return selectionControllers["target_tile"];
+            case AbilityType.TARGET_TILE_AOE:
+                return selectionControllers["target_tile_aoe"];
             case AbilityType.TARGET_LINE:
                 return selectionControllers["target_line"];
             case AbilityType.TARGET_LINE_AOE:

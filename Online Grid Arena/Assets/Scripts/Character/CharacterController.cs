@@ -90,6 +90,11 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
+    public void Combo()
+    {
+        abilitiesRemaining++;
+    }
+
     public void Refresh()
     {
         CharacterStats["moves"].Refresh();

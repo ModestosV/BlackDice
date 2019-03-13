@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class TargetTileAbilitySelectionController : AbstractTileAbilitySelectionController
+public sealed class TargetTileAOEAbilitySelectionController : AbstractTileAbilitySelectionController
 {
-    public TargetTileAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
+    public TargetTileAOEAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
 
     }
@@ -38,6 +38,10 @@ public sealed class TargetTileAbilitySelectionController : AbstractTileAbilitySe
         if (inRange)
         {
             inputParameters.TargetTile.Highlight();
+            foreach (IHexTileController affected in inputParameters.TargetTile.GetNeighbors())
+            {
+                affected.Hover(HoverType.DAMAGE);
+            }
         }
         else
         {
