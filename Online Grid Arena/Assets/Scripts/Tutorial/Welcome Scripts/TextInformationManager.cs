@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class TextInformationManager : MonoBehaviour
 {
-    public TextInformation textInformation;
+    [SerializeField]
+    private TextInformation textInformation;
 
-    public Text infoBlob;
+    [SerializeField]
+    private Text infoBlob;
 
     private List<GameObject> tiles;
     private List<string> infoSegment;
