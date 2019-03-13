@@ -97,6 +97,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         inCharacterSelectionState = true;
 
         CheckForUnusedCharacters();
+        EventBus.Publish(new SelectActivePlayerEvent(GetActivePlayer()));
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 

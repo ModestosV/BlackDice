@@ -10,9 +10,11 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     [SerializeField] protected Color32 borderColor;
 
     protected GameObject teamColorIndicator;
-    protected GameObject activeCircle;
     protected GameObject healthBar;
     protected GameObject exhausted;
+
+    protected GameObject indicator;
+    protected Animator iAnimator;
 
     public void Destroy()
     {
@@ -32,9 +34,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
-        activeCircle.transform.SetParent(this.transform);
-
         healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
         healthBar.transform.SetParent(this.transform);
 
@@ -47,6 +46,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
         exhausted.SetActive(false);
 
+        indicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharacterIndicator"), this.transform);
+        indicator.transform.SetParent(this.transform);
+        iAnimator = indicator.GetComponent<Animator>();
+        
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -57,7 +60,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
-        characterController.ActiveCircle.enabled = false;
 
         Debug.Log(ToString() + " Start() end");
     }
@@ -67,7 +69,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         var type = @event.GetType();
         if (type == typeof(ExhaustCharacterEvent))
         {
-            var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
+            var exhaustCharacterEvent = (ExhaustCharacterEvent) @event;
             if (exhaustCharacterEvent.CharacterController == this.characterController)
             {
                 exhausted.SetActive(true);
@@ -75,10 +77,38 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         }
         else if (type == typeof(NewRoundEvent))
         {
-            var newRoundEvent = (NewRoundEvent)@event;
+            var newRoundEvent = (NewRoundEvent) @event;
             if (newRoundEvent.CharacterController == this.characterController)
             {
-                exhausted.SetActive(true);
+                exhausted.SetActive(false);
+            }
+        }
+        else if (type == typeof(SelectActivePlayerEvent))
+        {
+            var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
+            if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner && !exhausted.activeSelf)
+            {
+                iAnimator.SetBool("Selectable", true);
+                iAnimator.SetBool("Active", false);
+            }
+            else
+            {
+                iAnimator.SetBool("Selectable", false);
+                iAnimator.SetBool("Active", false);
+            }
+        }
+        else if (type == typeof(SelectCharacterEvent))
+        {
+            var selectCharacterEvent = (SelectCharacterEvent)@event;
+            if (selectCharacterEvent.Character == this.characterController)
+            {
+                iAnimator.SetBool("Active", true);
+                iAnimator.SetBool("Selectable", false);
+            }
+            else
+            {
+                iAnimator.SetBool("Active", false);
+                iAnimator.SetBool("Selectable", false);
             }
         }
     }

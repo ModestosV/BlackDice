@@ -3109,10 +3109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &120286381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18556,10 +18552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &734990065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21349,10 +21341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &827960993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36703,10 +36691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &1411682930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52092,10 +52076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &1936909606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55910,10 +55890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa14369446967dd4aa3c7218c482b6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveIndicator: {fileID: 1061522004621607381, guid: b948a978dc1b99c48b3d5d2b4f4955be,
-    type: 3}
-  DeadIndicator: {fileID: 9158456023159609714, guid: 8aa530290310d5c479381ea9a860153d,
-    type: 3}
 --- !u!114 &2065935308
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -136,6 +136,9 @@ public sealed class GameManager : MonoBehaviour
         {
             EventBus.Subscribe<ExhaustCharacterEvent>(c);
             EventBus.Subscribe<NewRoundEvent>(c);
+            EventBus.Subscribe<SelectCharacterEvent>(c);
+            EventBus.Subscribe<SelectActivePlayerEvent>(c);
+            EventBus.Subscribe<StartNewTurnEvent>(c);
         }
 
         // Pengwin's Ultimate must handle DeathEvent

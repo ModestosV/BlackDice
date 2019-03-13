@@ -38,8 +38,7 @@ public sealed class RocketCat : AbstractCharacter
             HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
-            Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>()
+            Effects = effects
         };
     }
 }
