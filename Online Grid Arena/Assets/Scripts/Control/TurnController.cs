@@ -40,7 +40,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             Surrender();
         }
-        if(type == typeof(SelectActivePlayerEvent))
+        if(type == typeof(SelectCharacterEvent))
         {
             SelectActiveCharacter();
         }
