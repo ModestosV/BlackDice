@@ -44,7 +44,7 @@ public sealed class TutorialGameManager : MonoBehaviour
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
         //Initialize players
-        players = new List<IPlayer>() { new Player("1") };
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
         players[0].AddCharacterController(characterControllers[0]);
 
         //Initialize character panels
