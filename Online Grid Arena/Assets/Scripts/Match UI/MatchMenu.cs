@@ -1,6 +1,7 @@
 ﻿public class MatchMenu : HideableUI, IMatchMenu, IEventSubscriber
 {
     private bool visible;
+    private IControlsMenu controlsMenu;
 
     void OnValidate()
     {
@@ -34,7 +35,7 @@
             Toggle();
         }
 
-        if(type == typeof(MatchMenuEvent))
+        if(type == typeof(EscapePressedEvent))
         {
             Toggle();
         }

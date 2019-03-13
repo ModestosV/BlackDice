@@ -20,6 +20,8 @@ public sealed class GameManager : MonoBehaviour
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
+    private ControlsMenu controlsMenu;
+
     private List<ICharacterController> characterControllers;
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
@@ -65,6 +67,7 @@ public sealed class GameManager : MonoBehaviour
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
         matchMenu = FindObjectOfType<MatchMenu>();
+        controlsMenu = FindObjectOfType<ControlsMenu>();
 
         // Initialize HUD
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
@@ -114,7 +117,8 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
-        EventBus.Subscribe<MatchMenuEvent>(matchMenu);
+        EventBus.Subscribe<EscapePressedEvent>(matchMenu);
+        EventBus.Subscribe<EscapePressedEvent>(controlsMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);

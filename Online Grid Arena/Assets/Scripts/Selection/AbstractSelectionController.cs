@@ -104,7 +104,7 @@
 
     protected void DoEscapePressed()
     {
-        EventBus.Publish(new MatchMenuEvent());
+        EventBus.Publish(new EscapePressedEvent());
     }
 
     protected void DoTabPressed()

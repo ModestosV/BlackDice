@@ -1,4 +1,4 @@
-﻿public class MatchMenuEvent : AbstractEvent
+﻿public class EscapePressedEvent : AbstractEvent
 {
 
 }
