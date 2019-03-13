@@ -100,6 +100,7 @@
     protected void DoTabPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+        EventBus.Publish(new ActiveCharacterEvent());
     }
 
     protected virtual void DoFirst() { }

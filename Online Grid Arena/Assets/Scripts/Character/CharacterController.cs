@@ -91,7 +91,7 @@ public class CharacterController : ICharacterController
 
         CharacterStats["moves"].CurrentValue -= distance;
 
-        EventBus.Publish(new SelectCharacterEvent(this));
+        EventBus.Publish(new ActiveCharacterEvent());
 
         CheckExhausted();
     }

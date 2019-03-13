@@ -86,10 +86,10 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
                 ShowDead();
             }
         }
-        else if (type == typeof(ActiveCharacterEvent))
+        else if (type == typeof(SelectCharacterEvent))
         {
-            var activeCharacterEvent = (ActiveCharacterEvent)@event;
-            if (activeCharacterEvent.CharacterController == this.character)
+            var activeCharacterEvent = (SelectCharacterEvent)@event;
+            if (activeCharacterEvent.Character == this.character)
             {
                 ShowActive();
             }

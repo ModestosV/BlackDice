@@ -34,16 +34,15 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             StartNextTurn();
         }
-
         if(type == typeof(SurrenderEvent))
         {
             Surrender();
         }
-        if(type == typeof(SelectCharacterEvent))
+        if (type == typeof(ActiveCharacterEvent))
         {
             SelectActiveCharacter();
         }
-        if(type == typeof(SelectTileEvent))
+        if (type == typeof(SelectTileEvent))
         {
             var selectTileEvent = (SelectTileEvent)@event;
             if(selectTileEvent.SelectedTile.OccupantCharacter != null && inCharacterSelectionState)
@@ -123,7 +122,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             activeCharacter = selectedCharacterController;
             Debug.Log($"Active Character is: {activeCharacter.ToString()}");
             activeCharacter.StartOfTurn();
-            EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
+            EventBus.Publish(new ActiveCharacterEvent());
         }
     }
 
