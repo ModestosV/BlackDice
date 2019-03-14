@@ -11,9 +11,15 @@ public class ArrowIndicator : HideableUI
         Hide();
     }
 
-    void ShowArrow()
+    public void ShowArrow()
     {
         Debug.Log(ToString() + "Showing");
         Show();
+    }
+
+    public void HideArrow()
+    {
+        Debug.Log(ToString() + "Hiding");
+        Hide();
     }
 }

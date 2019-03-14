@@ -11,6 +11,11 @@ TagManager:
   - AbilityButton
   - CharacterTile
   - StageButton
+  - TurnTile
+  - TutorialArrow
+  - PengwinArrow
+  - CatArrow
+  - TutorialArrowW
   layers:
   - Default
   - TransparentFX

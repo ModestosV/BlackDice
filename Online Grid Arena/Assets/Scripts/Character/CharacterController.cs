@@ -323,6 +323,18 @@ public class CharacterController : ICharacterController
         }
     }
 
+    public bool CheckAbilitiesExhausted()
+    {
+        if (this.abilitiesRemaining <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public List<ICharacterController> AllAllies()
     {
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());

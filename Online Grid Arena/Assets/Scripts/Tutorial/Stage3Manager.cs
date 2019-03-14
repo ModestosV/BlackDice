@@ -17,12 +17,21 @@ public sealed class Stage3Manager : MonoBehaviour
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
     private SelectionManager selectionManager;
 
+    //HUD Objects
+    private StatPanel[] statPanels;
+    private PlayerPanel[] playerPanels;
+    private AbilityPanel abilityPanel;
+    private AbilityPanelController abilityPanelController;
+
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
+    private AbstractCharacter[] characters;
     private List<ICharacterController> characterControllers;
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
+
+    private Stage3Controller stageController;
 
     private void Awake()
     {
@@ -30,18 +39,29 @@ public sealed class Stage3Manager : MonoBehaviour
 
         EventBus.Reset();
 
+        // Initialize Menus
+        endMatchMenu = FindObjectOfType<EndMatchMenu>();
+        matchMenu = FindObjectOfType<MatchMenu>();
+
+        // Initialize HUD
+        statPanels = FindObjectsOfType<StatPanel>();
+        playerPanels = FindObjectsOfType<PlayerPanel>();
+        abilityPanel = FindObjectOfType<AbilityPanel>();
+        abilityPanelController = new AbilityPanelController(abilityPanel);
+        characters = FindObjectsOfType<AbstractCharacter>();
+
+        Debug.Log(ToString() + " Awake() end");
+    }
+
+    private void Start()
+    {
+        Debug.Log(ToString() + " Start() begin");
+
         // Get all characters from scene
-        characterControllers = new List<ICharacterController>(); 
-            
-            
-        foreach(AbstractCharacter character in FindObjectsOfType<AbstractCharacter>())
-        {
-            character.BroadcastMessage("Awake");
-            characterControllers.Add(character.Controller);
-        }
-        
-       //Initialize players
-       players = new List<IPlayer>() { new Player("1"), new Player("2") };
+        characterControllers = characters.Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
 
         foreach (ICharacterController characterController in characterControllers)
         {
@@ -57,12 +77,6 @@ public sealed class Stage3Manager : MonoBehaviour
 
         //Initialize character panels
         characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
-
-        foreach(CharacterPanel panel in characterPanels)
-        {
-            panel.BroadcastMessage("Awake");
-        }
-
         Debug.Log("Character Panels size: " + characterPanels.Count);
         Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
 
@@ -75,30 +89,11 @@ public sealed class Stage3Manager : MonoBehaviour
         // Initialize turn controller
         turnController = new TurnController(players);
 
-        // Initialize Menus
-        endMatchMenu = FindObjectOfType<EndMatchMenu>();
-        matchMenu = FindObjectOfType<MatchMenu>();
-
-        // Initialize HUD
-        StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
-
-        foreach (StatPanel panel in statPanels)
-        {
-            panel.BroadcastMessage("Awake");
-        }
-
-        PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
-        AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
-        AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
-
+        // Initialize HUD Controller
         hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
-        // Initialize characters
-        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        foreach (ICharacterController character in characters)
-        {
-            character.HUDController = hudController;
-        }
+        // Initialize stage controller
+        stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>());
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();
@@ -127,6 +122,12 @@ public sealed class Stage3Manager : MonoBehaviour
         inputManager = FindObjectOfType<InputManager>();
         inputManager.SelectionManager = selectionManager;
 
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
         // Initialize Event Subscribing
         EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
@@ -143,6 +144,15 @@ public sealed class Stage3Manager : MonoBehaviour
         EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
+        // Events for the current tutorial stage
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<ActiveCharacterEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
+        EventBus.Subscribe<AbilityClickEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+
         foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
         {
             EventBus.Subscribe<DeathEvent>(tile);
@@ -156,16 +166,13 @@ public sealed class Stage3Manager : MonoBehaviour
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
         EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
 
-        Debug.Log(ToString() + " Awake() end");
-    }
-
-    private void Start()
-    {
-        Debug.Log(ToString() + " Start() begin");
-
         FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
         EventBus.Publish(new StartNewTurnEvent());
 
         Debug.Log(ToString() + " Start() end");
+    }
+
+    public void Update()
+    {
     }
 }
