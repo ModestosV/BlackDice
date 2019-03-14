@@ -18,6 +18,8 @@ public interface ICharacterController
     IHealthBar HealthBar { set; }
     MeshRenderer Shield { set; }
     bool IsShielded { get; set; }
+    bool IsActive { get; }
+
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();

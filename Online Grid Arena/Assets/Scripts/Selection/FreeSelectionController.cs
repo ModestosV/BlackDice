@@ -1,4 +1,6 @@
-﻿public sealed class FreeSelectionController : AbstractSelectionController
+﻿using UnityEngine;
+
+public sealed class FreeSelectionController : AbstractSelectionController
 {
     public FreeSelectionController(IGridSelectionController gridSelectionController) :base(gridSelectionController)
     {
@@ -21,7 +23,15 @@
 
     protected override void DoClickSelectedTile()
     {
-        EventBus.Publish(new DeselectSelectedTileEvent());
+        Debug.Log("Selected tile clicked");
+        var occupantCharacter = inputParameters.TargetTile.OccupantCharacter;
+        if (occupantCharacter != null)
+        {
+            if(occupantCharacter.IsActive)
+            {
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
+            }
+        }
     }
 
     protected override void DoClickOccupiedOtherTile()
