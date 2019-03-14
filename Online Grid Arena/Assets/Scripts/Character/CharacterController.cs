@@ -19,6 +19,7 @@ public class CharacterController : ICharacterController
 
     public IHealthBar HealthBar { protected get; set; }
     public SpriteRenderer ActiveCircle { get; set; }
+    public bool IsActive { get; private set; }
 
     private MeshRenderer shield;
     public MeshRenderer Shield
@@ -47,6 +48,7 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
+        IsActive = false;
     }
 
     public void UpdateSelectedHUD()
@@ -174,6 +176,7 @@ public class CharacterController : ICharacterController
 
     public void StartOfTurn()
     {
+        IsActive = true;
         ActiveCircle.enabled = true;
         foreach (IEffect e in Effects)
         {
@@ -188,6 +191,7 @@ public class CharacterController : ICharacterController
 
     public void EndOfTurn()
     {
+        IsActive = false;
         if(CharacterState != CharacterState.DEAD)
         {
             CharacterState = CharacterState.EXHAUSTED;
