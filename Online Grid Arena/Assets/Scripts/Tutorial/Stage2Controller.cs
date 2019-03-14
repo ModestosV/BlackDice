@@ -1,22 +1,31 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
-using System ;
+using System;
 
 public class Stage2Controller: IStageController, IEventSubscriber
 {
     private ICharacterController character;
+    private IHexTileController finishTile;
     private int turns = 0;
 
-    public Stage2Controller(ICharacterController character)
+    public Stage2Controller(ICharacterController character, IHexTileController finishTile)
     {
         this.character = character;
+        this.finishTile = finishTile;
 
         EventBus.Subscribe<StartNewTurnEvent>(this);
     }
 
     public bool CharacterOnFinishTile()
     {
-        return false;
+        if (this.character.OccupiedTile == this.finishTile)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void EndStage()

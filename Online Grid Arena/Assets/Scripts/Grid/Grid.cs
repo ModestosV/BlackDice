@@ -6,7 +6,7 @@ public sealed class Grid : BlackDiceMonoBehaviour, IGrid
 {
     [SerializeField] private int gridWidth;
 
-    private GridController gridController;
+    public GridController gridController;
 
     private readonly int defaultGridWidth = 19;
 

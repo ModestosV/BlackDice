@@ -12,9 +12,10 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public List<Button> StageButtons;
 
-    void Start()
+    private void Start()
     {
         filepath = Application.persistentDataPath + "/playerInfo.bin";
+        Debug.Log(filepath);
         EventBus.Subscribe<StageCompletedEvent>(this);
 
         foreach (Button button in GetComponentsInChildren<Button>())
@@ -93,7 +94,10 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
         if (type == typeof(StageCompletedEvent))
         {
+            Debug.Log("NICE");
             var stageCompleted = (StageCompletedEvent)@event;
+
+            Debug.Log(stageCompleted.StageIndex);
 
             if (stageCompleted.StageIndex > stagesCompleted)
             {

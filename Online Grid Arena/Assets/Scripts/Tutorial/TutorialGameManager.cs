@@ -33,8 +33,6 @@ public sealed class TutorialGameManager : MonoBehaviour
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        EventBus.Reset();
-
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -122,10 +120,12 @@ public sealed class TutorialGameManager : MonoBehaviour
         }
 
         // Start Game
-        FindObjectOfType<Grid>().InitializeGrid(gridSelectionController);
+        Grid grid = FindObjectOfType<Grid>();
+        grid.InitializeGrid(gridSelectionController);
+
         EventBus.Publish(new StartNewTurnEvent());
 
-        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0]);
+        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.gridController.GetTile((5, -13, 8)));
     }
 
     private void StartStageAttack()
