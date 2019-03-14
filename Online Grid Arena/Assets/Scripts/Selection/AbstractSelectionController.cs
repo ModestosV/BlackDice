@@ -110,7 +110,7 @@
     protected void DoTabPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-        EventBus.Publish(new SelectActivePlayerEvent());
+        EventBus.Publish(new ActiveCharacterEvent());
     }
 
     protected virtual void DoFirst() { }

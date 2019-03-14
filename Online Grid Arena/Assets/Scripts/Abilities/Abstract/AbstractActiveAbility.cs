@@ -35,7 +35,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         SecondaryAction(targetTiles);
 
         cooldownRemaining = Cooldown;
-        EventBus.Publish(new SelectActivePlayerEvent());
+        EventBus.Publish(new ActiveCharacterEvent());
     }
 
     protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
