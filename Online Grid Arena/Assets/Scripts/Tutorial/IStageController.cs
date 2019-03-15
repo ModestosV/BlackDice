@@ -1,5 +1,6 @@
 ﻿
 public interface IStageController
 {
-    void EndStage();
+    void CompleteStage();
+    void ExitStage();
 }
