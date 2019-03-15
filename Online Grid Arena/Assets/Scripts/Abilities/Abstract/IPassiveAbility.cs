@@ -1,4 +1,4 @@
 ﻿public interface IPassiveAbility : IAbility
 {
-    bool IsEndOfTurnPassive();
+    bool IsEndOfTurnPassive { get; }
 }

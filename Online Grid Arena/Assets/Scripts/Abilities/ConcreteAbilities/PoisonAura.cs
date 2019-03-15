@@ -15,11 +15,6 @@ public sealed class PoisonAura : AbstractPassiveAbility
         soundEffect = Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker");
     }
 
-    public override bool IsEndOfTurnPassive()
-    {
-        return true;
-    }
-
     protected async override void PrimaryAction(List<IHexTileController> targetTile)
     {
         Debug.Log("Casting Poison Aura. Primary action being called.");

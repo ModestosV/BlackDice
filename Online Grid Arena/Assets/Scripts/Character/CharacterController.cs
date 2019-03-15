@@ -205,7 +205,7 @@ public class CharacterController : ICharacterController
             try
             {
                 IPassiveAbility passiveAbility = (IPassiveAbility)ability;
-                if (passiveAbility.IsEndOfTurnPassive())
+                if (passiveAbility.IsEndOfTurnPassive)
                 {
                     List<IHexTileController> target = new List<IHexTileController>();
                     target.Add(this.OccupiedTile);

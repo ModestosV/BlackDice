@@ -9,10 +9,5 @@ public class Placeholder : AbstractPassiveAbility
         "Placeholder Ability. Does nothing.")
     { }
 
-    public override bool IsEndOfTurnPassive()
-    {
-        return false;
-    }
-
     protected override void PrimaryAction(List<IHexTileController> targetTiles) { }
 }
