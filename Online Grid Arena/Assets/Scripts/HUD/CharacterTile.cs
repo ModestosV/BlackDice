@@ -11,6 +11,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private GameObject deadIndicator;
     private GameObject exhaustedIndicator;
     private ICharacterController character;
+    private GameObject shieldIndicator;
 
     private void Awake()
     {
@@ -26,6 +27,9 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
 
         exhaustedIndicator = Instantiate(Resources.Load("Prefabs/HUD/ExhaustedIndicator"), this.transform) as GameObject;
         exhaustedIndicator.SetActive(false);
+
+        shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator"), this.transform) as GameObject;
+        HideShield();
     }
 
     public void Setup(ICharacterController character)
@@ -60,29 +64,39 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
         exhaustedIndicator.SetActive(false);
     }
 
+    private void ShowShield()
+    {
+        shieldIndicator.SetActive(true);
+    }
+
+    private void HideShield()
+    {
+        shieldIndicator.SetActive(false);
+    }
+
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
         if (type == typeof(DeathEvent))
         {
-            var deathEvent = (DeathEvent) @event;
+            var deathEvent = (DeathEvent)@event;
             if (deathEvent.CharacterController == this.character)
             {
                 ShowExhausted();
                 ShowDead();
             }
         }
-        else if (type == typeof(ActiveCharacterEvent))
+        else if (type == typeof(SelectCharacterEvent))
         {
-            var activeCharacterEvent = (ActiveCharacterEvent) @event;
-            if (activeCharacterEvent.CharacterController == this.character)
+            var activeCharacterEvent = (SelectCharacterEvent)@event;
+            if (activeCharacterEvent.Character == this.character)
             {
                 ShowActive();
             }
         }
         else if (type == typeof(ExhaustCharacterEvent))
         {
-            var exhaustCharacterEvent = (ExhaustCharacterEvent) @event;
+            var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
             if (exhaustCharacterEvent.CharacterController == this.character)
             {
                 ShowExhausted();
@@ -91,10 +105,29 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
         }
         else if (type == typeof(NewRoundEvent))
         {
-            var newRoundEvent = (NewRoundEvent) @event;
+            var newRoundEvent = (NewRoundEvent)@event;
             if (newRoundEvent.CharacterController == this.character)
             {
                 HideExhausted();
+            }
+        }
+        else if (type == typeof(StatusEffectEvent))
+        {
+            var statusEffectEvent = (StatusEffectEvent)@event;
+            if (statusEffectEvent.CharacterController == this.character)
+            {
+                //shield, stun, silence
+                if (statusEffectEvent.Type == "shield")
+                {
+                    if (statusEffectEvent.IsActive)
+                    {
+                        ShowShield();
+                    }
+                    else
+                    {
+                        HideShield();
+                    }
+                }
             }
         }
     }

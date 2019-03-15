@@ -16,8 +16,10 @@ public interface ICharacterController
     Texture CharacterIcon { get;  set; }
     Color32 BorderColor { get; set; }
     IHealthBar HealthBar { set; }
-    SpriteRenderer ActiveCircle { get; set; }
-    
+    MeshRenderer Shield { set; }
+    bool IsShielded { get; set; }
+    bool IsActive { get; }
+
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
     void Refresh();
@@ -32,6 +34,7 @@ public interface ICharacterController
     void UpdateTargetHUD();
     void ClearTargetHUD();
 
+    List<ICharacterController> AllAllies();
     bool CanMove(int distance = 1);
     bool CanUseAbility(int abilityIndex);
     bool IsAlly(ICharacterController otherCharacter);

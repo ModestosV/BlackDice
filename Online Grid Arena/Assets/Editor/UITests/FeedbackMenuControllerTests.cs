@@ -39,11 +39,11 @@ public class FeedbackMenuControllerTests
     [Test]
     public void Send_feedback_with_invalid_email_shows_error_prompt()
     {
-        string validEmail = "foo";
+        string invalidEmail = "foo";
         string message = "Message goes here";
-        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == validEmail && x.Message == message)).Returns(responseMessage);
+        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == invalidEmail && x.Message == message)).Returns(responseMessage);
 
-        sut.SubmitFeedbackAsync(validEmail, message);
+        sut.SubmitFeedbackAsync(invalidEmail, message);
 
         feedbackPanel.Received(0).ActivateLoadingCircle();
         feedbackNetworkManager.Received(0).SendFeedbackAsync(Arg.Any<FeedbackDto>());
@@ -54,14 +54,26 @@ public class FeedbackMenuControllerTests
     public void Send_feedback_with_short_number_of_characters_error_prompt()
     {
         string validEmail = "foo";
-        string message = "6chrs";
-        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == validEmail && x.Message == message)).Returns(responseMessage);
+        string invalidMessage = "6chrs";
+        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == validEmail && x.Message == invalidMessage)).Returns(responseMessage);
 
-        sut.SubmitFeedbackAsync(validEmail, message);
+        sut.SubmitFeedbackAsync(validEmail, invalidMessage);
 
         feedbackPanel.Received(0).ActivateLoadingCircle();
         feedbackNetworkManager.Received(0).SendFeedbackAsync(Arg.Any<FeedbackDto>());
         feedbackPanel.Received(0).DeactivateLoadingCircle();
         feedbackPanel.Received(1).SetStatus(Strings.SEND_FEEDBACK_SHORT_MESSAGE);
+    }
+
+    [Test]
+    public void Valid_text_fields_clears_status()
+    {
+        string validEmail = "foo@bar.com";
+        string message = "This is more than 10 characters";
+        feedbackNetworkManager.SendFeedbackAsync(Arg.Is<FeedbackDto>(x => x.Email == validEmail && x.Message == message)).Returns(responseMessage);
+
+        sut.SubmitFeedbackAsync(validEmail, message);
+
+        feedbackPanel.Received(1).ClearStatus();
     }
 }
