@@ -42,6 +42,7 @@ public sealed class TonguePull : AbstractTargetedAbility
 
                 target.Character.MoveToTile(targetTiles[2].HexTile);
                 target.OccupiedTile = targetTiles[2];
+                targetTiles[2].OccupantCharacter = target;
             }
         }
     }
