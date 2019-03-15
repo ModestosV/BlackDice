@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public sealed class TutorialGameManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public sealed class TutorialGameManager : MonoBehaviour
     private InputManager inputManager;
     private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
+    private ControlsMenu controlsMenu;
+
     private List<ICharacterController> characterControllers;
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
@@ -61,6 +64,7 @@ public sealed class TutorialGameManager : MonoBehaviour
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
         matchMenu = FindObjectOfType<MatchMenu>();
+        controlsMenu = FindObjectOfType<ControlsMenu>();
 
         // Initialize HUD
         StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
@@ -105,22 +109,50 @@ public sealed class TutorialGameManager : MonoBehaviour
         }
 
         // Shared code between all tutorials
+        EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
+        EventBus.Subscribe<SurrenderEvent>(turnController);
+        EventBus.Subscribe<SelectTileEvent>(turnController);
+        EventBus.Subscribe<ActiveCharacterEvent>(turnController);
+
+        EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
+
+        EventBus.Subscribe<SurrenderEvent>(matchMenu);
+        EventBus.Subscribe<EscapePressedEvent>(matchMenu);
+
+        EventBus.Subscribe<EscapePressedEvent>(controlsMenu);
+
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
+
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
-        EventBus.Subscribe<SelectActivePlayerEvent>(turnController);
-        EventBus.Subscribe<SelectTileEvent>(turnController);
+
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
+
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
+
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
-        foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
+        foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
         {
             EventBus.Subscribe<DeathEvent>(tile);
-            EventBus.Subscribe<ActiveCharacterEvent>(tile);
+            EventBus.Subscribe<SelectCharacterEvent>(tile);
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
         }
+
+        foreach (AbstractCharacter c in FindObjectsOfType<AbstractCharacter>())
+        {
+            EventBus.Subscribe<ExhaustCharacterEvent>(c);
+            EventBus.Subscribe<NewRoundEvent>(c);
+            EventBus.Subscribe<SelectCharacterEvent>(c);
+            EventBus.Subscribe<SelectActivePlayerEvent>(c);
+            EventBus.Subscribe<StartNewTurnEvent>(c);
+        }
+
+        EventBus.Subscribe<SelectActivePlayerEvent>(FindObjectOfType<TurnIndicator>());
 
         // Start Game
         Grid grid = FindObjectOfType<Grid>();
