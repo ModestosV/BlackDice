@@ -137,12 +137,12 @@ public class CharacterController : ICharacterController
     {
         bool effectExists = false;
         IEffect existingEffect = null;
-        foreach (IEffect e in Effects)
+        foreach (IEffect eff in Effects)
         {
-            if (e.GetName().Equals(effect.GetName()))
+            if (eff.GetName().Equals(effect.GetName()))
             {
                 effectExists = true;
-                existingEffect = e;
+                existingEffect = eff;
             }
         }
         if (effectExists)
@@ -171,7 +171,6 @@ public class CharacterController : ICharacterController
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
             if (ef.Key == "attack" || ef.Key == "defense"|| ef.Key == "moves")
-
             {
                 CharacterStats[ef.Key].BaseValue += ef.Value;
             }
@@ -182,11 +181,11 @@ public class CharacterController : ICharacterController
     public void StartOfTurn()
     {
         IsActive = true;
-        foreach (IEffect e in Effects)
+        foreach (IEffect eff in Effects)
         {
-            if (e.Type == EffectType.START_OF_TURN)
+            if (eff.Type == EffectType.START_OF_TURN)
             {
-                ApplyStack(e);
+                ApplyStack(eff);
             }
         }
         Refresh();
@@ -201,16 +200,16 @@ public class CharacterController : ICharacterController
             CharacterState = CharacterState.EXHAUSTED;
         }
 
-        foreach (IAbility a in Abilities)
+        foreach (IAbility ability in Abilities)
         {
             try
             {
-                IPassiveAbility pa = (IPassiveAbility)a;
-                if (pa.IsEndOfTurnPassive())
+                IPassiveAbility passiveAbility = (IPassiveAbility)ability;
+                if (passiveAbility.IsEndOfTurnPassive())
                 {
                     List<IHexTileController> target = new List<IHexTileController>();
                     target.Add(this.OccupiedTile);
-                    pa.Execute(target);
+                    passiveAbility.Execute(target);
                 }
             }
             catch (InvalidCastException)
@@ -219,33 +218,33 @@ public class CharacterController : ICharacterController
             }
         }
 
-        foreach (IEffect e in Effects)
+        foreach (IEffect eff in Effects)
         {
-            if (e.Type == EffectType.END_OF_TURN)
+            if (eff.Type == EffectType.END_OF_TURN)
             {
-                ApplyStack(e);
+                ApplyStack(eff);
             }
-            e.DecrementDuration();
-            if (e.IsDurationOver())
+            eff.DecrementDuration();
+            if (eff.IsDurationOver())
             {
-                if (e.Type == EffectType.STACK)
+                if (eff.Type == EffectType.STACK)
                 {
-                    e.DecrementStack();
-                    RemoveEffect(e);
-                    if (e.StacksRanOut())
+                    eff.DecrementStack();
+                    RemoveEffect(eff);
+                    if (eff.StacksRanOut())
                     {
-                        e.Refresh();
-                        Effects.Remove(e);
+                        eff.Refresh();
+                        Effects.Remove(eff);
                         break;
                     }
                 }
                 else
                 {
-                    if (e.Type == EffectType.CONSTANT)
+                    if (eff.Type == EffectType.CONSTANT)
                     {
-                        RemoveEffect(e);
+                        RemoveEffect(eff);
                     }
-                    Effects.Remove(e);
+                    Effects.Remove(eff);
                     break;
                 }
             }
