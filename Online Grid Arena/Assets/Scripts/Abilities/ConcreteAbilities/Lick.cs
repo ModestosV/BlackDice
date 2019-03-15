@@ -21,7 +21,6 @@ public sealed class Lick : AbstractTargetedAbility
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
-        //apply effect
         targetTiles[0].OccupantCharacter.ApplyEffect(new ViscousSaliva());
     }
 }

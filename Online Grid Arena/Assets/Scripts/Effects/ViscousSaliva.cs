@@ -9,7 +9,7 @@ public sealed class ViscousSaliva : StackModifier
         1,
         new Dictionary<string, float>()
         {
-            {"moves", -2.0f }, //does not work...
+            {"moves", -2.0f },
         }
         )
     {

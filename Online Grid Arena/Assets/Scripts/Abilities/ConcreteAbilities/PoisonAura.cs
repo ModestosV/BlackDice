@@ -41,7 +41,6 @@ public sealed class PoisonAura : AbstractPassiveAbility
             tile.PlayAbilityAnimation(animationPrefab);
             if (tile.OccupantCharacter != null && !(tile.OccupantCharacter.IsAlly(this.character.Controller)))
             {
-                //actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
                 actionHandler.Damage(character.Controller.CharacterStats["attack"].Value*0.5f, tile.OccupantCharacter);
             }
         }
