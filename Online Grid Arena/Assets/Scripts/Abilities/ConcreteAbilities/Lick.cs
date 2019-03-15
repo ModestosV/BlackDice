@@ -17,6 +17,7 @@ public sealed class Lick : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
+        Debug.Log("Casting Lick. Primary action being called.");
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);

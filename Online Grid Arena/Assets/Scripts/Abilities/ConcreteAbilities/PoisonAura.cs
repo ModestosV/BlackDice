@@ -22,6 +22,7 @@ public sealed class PoisonAura : AbstractPassiveAbility
 
     protected async override void PrimaryAction(List<IHexTileController> targetTile)
     {
+        Debug.Log("Casting Poison Aura. Primary action being called.");
         List<IHexTileController> neighbors = new List<IHexTileController>();
         foreach (IHexTileController tile in this.character.Controller.OccupiedTile.GetNeighbors())
         {

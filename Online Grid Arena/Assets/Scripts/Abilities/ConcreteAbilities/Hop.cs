@@ -21,11 +21,10 @@ public class Hop : AbstractTargetedAbility
     // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
+        Debug.Log("Casting Hop. Primary action being called.");
         character.Controller.OccupiedTile.OccupantCharacter = null;
-
         character.MoveToTile(targetTiles[0].HexTile);
         character.Controller.OccupiedTile = targetTiles[0];
-
         targetTiles[0].OccupantCharacter = character.Controller;
     }
 
