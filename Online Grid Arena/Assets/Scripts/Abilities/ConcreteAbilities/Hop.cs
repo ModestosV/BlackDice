@@ -8,7 +8,7 @@ public class Hop : AbstractTargetedAbility
     private readonly AudioClip damageClip;
 
     public Hop(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/jetpack-png-3"),
+        Resources.Load<Sprite>("Sprites/Abilities/leaping"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/frog sound effect"),
         activeCharacter,
