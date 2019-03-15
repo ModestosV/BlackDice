@@ -13,6 +13,7 @@ public sealed class PoisonAura : AbstractPassiveAbility
     {
         animationPrefab = Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation");
         soundEffect = Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker");
+        IsEndOfTurnPassive = true;
     }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTile)

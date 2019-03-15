@@ -7,7 +7,9 @@ public class Placeholder : AbstractPassiveAbility
         Resources.Load<Sprite>("Sprites/Abilities/grey_button09"),
         character,
         "Placeholder Ability. Does nothing.")
-    { }
+    {
+        IsEndOfTurnPassive = false;
+    }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles) { }
 }
