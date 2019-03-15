@@ -117,12 +117,13 @@ public class Stage3Controller : IEventSubscriber
         {
             var selectMode = (UpdateSelectionModeEvent)@event;
 
-            if (selectMode.SelectionMode.Equals(SelectionMode.FREE) && characters[indexCat].Effects.Any())
+            if (selectMode.SelectionMode.Equals(SelectionMode.FREE) && characters[indexCat].Effects.Any() && characters[indexCat].CharacterState != CharacterState.EXHAUSTED)
             {
                 characters[indexCat].HUDController.ClearSelectedHUD();
                 characters[indexCat].HUDController.ClearTargetHUD();
-                characters[indexCat].EndOfTurn();
                 EventBus.Publish(new DeselectSelectedTileEvent());
+                characters[indexCat].EndOfTurn();
+                EventBus.Publish(new StartNewTurnEvent());
             }
         }
     }
