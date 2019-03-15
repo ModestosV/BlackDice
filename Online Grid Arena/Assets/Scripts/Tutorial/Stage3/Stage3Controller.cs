@@ -7,11 +7,13 @@ public class Stage3Controller : IEventSubscriber
 {
     private List<ICharacterController> characters;
     private ArrowIndicator[] arrows;
+    private List<IPlayer> players;
 
-    public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows)
+    public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows, List<IPlayer> players)
     {
         this.characters = characters;
         this.arrows = arrows;
+        this.players = players;
     }
 
     public void Handle(IEvent @event)
@@ -65,11 +67,25 @@ public class Stage3Controller : IEventSubscriber
             if (!characters[indexCat].Effects.Any())
             {
                 var active = (SelectCharacterEvent)@event;
-                if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted())
+                if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState != CharacterState.EXHAUSTED)
                 {
                     foreach (ArrowIndicator arrow in arrows)
                     {
                         if (arrow.GameObject.tag == "TutorialArrow")
+                        {
+                            arrow.ShowArrow();
+                        }
+                        else if (arrow.GameObject.tag == "CatArrow")
+                        {
+                            arrow.HideArrow();
+                        }
+                    }
+                }
+                else if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState == CharacterState.EXHAUSTED)
+                {
+                    foreach (ArrowIndicator arrow in arrows)
+                    {
+                        if (arrow.GameObject.tag == "TutorialArrowW")
                         {
                             arrow.ShowArrow();
                         }
@@ -103,7 +119,7 @@ public class Stage3Controller : IEventSubscriber
         {
             foreach (ArrowIndicator arrow in arrows)
             {
-                if(arrow.GameObject.tag == "TutorialArrow")
+                if (arrow.GameObject.tag == "TutorialArrow")
                 {
                     arrow.HideArrow();
                 }
@@ -124,6 +140,44 @@ public class Stage3Controller : IEventSubscriber
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 characters[indexCat].EndOfTurn();
                 EventBus.Publish(new StartNewTurnEvent());
+            }
+            else if (selectMode.SelectionMode.Equals(SelectionMode.ABILITY) && characters[indexCat].CharacterState == CharacterState.EXHAUSTED)
+            {
+                foreach (ArrowIndicator arrow in arrows)
+                {
+                    if (arrow.GameObject.tag == "TutorialArrowW")
+                    {
+                        arrow.HideArrow();
+                    }
+                    else if (arrow.GameObject.tag == "PengwinArrow")
+                    {
+                        arrow.ShowArrow();
+                    }
+                }
+            }
+            else if (selectMode.SelectionMode.Equals(SelectionMode.FREE) && characters[indexPengwin].IsActive && characters[indexCat].CharacterState == CharacterState.EXHAUSTED)
+            {
+                characters[indexPengwin].HUDController.ClearSelectedHUD();
+                characters[indexPengwin].HUDController.ClearTargetHUD();
+                characters[indexPengwin].EndOfTurn();
+                EventBus.Publish(new DeselectSelectedTileEvent());
+                EventBus.Publish(new NewRoundEvent(characters[indexPengwin]));
+                EventBus.Publish(new NewRoundEvent(characters[indexCat]));
+                // Refresh chracters fro player that has rocker cat and show w ability then finalize tutorial...
+                EventBus.Publish(new StartNewTurnEvent());
+
+                foreach (ArrowIndicator arrow in arrows)
+                {
+                    if (arrow.GameObject.tag == "CatArrow")
+                    {
+                        arrow.ShowArrow();
+                    }
+                    else
+                    {
+                        arrow.HideArrow();
+                    }
+                }
+
             }
         }
     }
