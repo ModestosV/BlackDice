@@ -152,6 +152,7 @@ public sealed class Stage3Manager : MonoBehaviour
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<AbilityClickEvent>(stageController);
         EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+        EventBus.Subscribe<SelectCharacterEvent>(stageController);
 
         foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
         {

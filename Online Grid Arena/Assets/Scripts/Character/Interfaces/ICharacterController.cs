@@ -5,12 +5,12 @@ public interface ICharacterController
 {
     ICharacter Character { get; }
     IHexTileController OccupiedTile { get; set; }
-    IHUDController HUDController { set; }
+    IHUDController HUDController { get; set; }
     CharacterState CharacterState { get; set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { get; set; }
-    List<IEffect> Effects { set; }
+    List<IEffect> Effects { get; set; }
 
     string Owner { get; set; }    
     Texture CharacterIcon { get;  set; }
@@ -40,5 +40,6 @@ public interface ICharacterController
     bool IsAbilityInRange(int abilityIndex, int range);
     void StartOfTurn();
     void EndOfTurn();
+    bool CheckAbilitiesExhausted();
     AbilityType GetAbilityType(int abilityIndex);
 }

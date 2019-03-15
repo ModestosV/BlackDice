@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController : ICharacterController
 {
     public IHexTileController OccupiedTile { get; set; }
-    public IHUDController HUDController { protected get; set; }
+    public IHUDController HUDController { get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { get; set; }

@@ -17,84 +17,113 @@ public class Stage3Controller : IEventSubscriber
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
+        var indexCat = 0;
+        var indexPengwin = 0;
+        
 
-        if (type == typeof(UpdateSelectionModeEvent))
+        foreach (ICharacterController c in characters)
         {
-            var modeOfSelection = (UpdateSelectionModeEvent)@event;
-
-            if (modeOfSelection.SelectionMode.Equals(SelectionMode.FREE))
+            if(c.Character.GetType() == typeof(RocketCat))
             {
-                foreach(CharacterController controller in this.characters)
+                indexCat = characters.IndexOf(c);
+            }
+            else
+            {
+                indexPengwin = characters.IndexOf(c);
+            }
+        }
+
+        if (type == typeof(StartNewTurnEvent))
+        {
+            if (!characters[indexCat].Effects.Any() && characters[indexCat].CharacterState != CharacterState.EXHAUSTED)
+            {
+                var arrow = arrows.Select(x => x.GameObject.tag == "CatArrow" ? x : null).ToList();
+
+                foreach (ArrowIndicator obj in arrow)
                 {
-                    if (controller.Character.GetType() == typeof(RocketCat) && controller.CheckAbilitiesExhausted())
+                    if (obj != null)
                     {
-                        foreach (IEffect effect in controller.Effects)
+                        obj.ShowArrow();
+                    }
+                }
+            }
+            else
+            {
+                var arrow = arrows.Select(x => x.GameObject.tag == "PengwinArrow" ? x : null).ToList();
+
+                foreach (ArrowIndicator obj in arrow)
+                {
+                    if (obj != null)
+                    {
+                        obj.ShowArrow();
+                    }
+                }
+            }
+        }
+        else if (type == typeof(SelectCharacterEvent))
+        {
+            if (!characters[indexCat].Effects.Any())
+            {
+                var active = (SelectCharacterEvent)@event;
+                if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted())
+                {
+                    foreach (ArrowIndicator arrow in arrows)
+                    {
+                        if (arrow.GameObject.tag == "TutorialArrow")
                         {
-                            if (effect.GetType() == typeof(CatScratchFever))
-                            {
-                                Debug.Log(ToString() + " Starting new tutorial step");
-                                controller.ClearSelectedHUD();
-                                controller.ClearTargetHUD();
-                                controller.EndOfTurn();
-                            }
+                            arrow.ShowArrow();
+                        }
+                        else if (arrow.GameObject.tag == "CatArrow")
+                        {
+                            arrow.HideArrow();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var active = (SelectCharacterEvent)@event;
+                if (active.Character.Character.GetType() == typeof(Pengwin) && !active.Character.CheckAbilitiesExhausted())
+                {
+                    foreach (ArrowIndicator arrow in arrows)
+                    {
+                        if (arrow.GameObject.tag == "TutorialArrowW")
+                        {
+                            arrow.ShowArrow();
+                        }
+                        else if (arrow.GameObject.tag == "PengwinArrow")
+                        {
+                            arrow.HideArrow();
                         }
                     }
                 }
             }
         }
-        else if (type == typeof(StartNewTurnEvent))
+        else if (type == typeof(AbilityClickEvent) || type == typeof(AbilitySelectedEvent))
         {
             foreach (ArrowIndicator arrow in arrows)
             {
-                if (arrow.GameObject.tag == "CatArrow")
+                if(arrow.GameObject.tag == "TutorialArrow")
+                {
+                    arrow.HideArrow();
+                }
+                else if (arrow.GameObject.tag == "PengwinArrow")
                 {
                     arrow.ShowArrow();
                 }
+            }
+        }
+        else if (type == typeof(UpdateSelectionModeEvent))
+        {
+            var selectMode = (UpdateSelectionModeEvent)@event;
 
-            }
-        }
-        else if (type == typeof(ActiveCharacterEvent))
-        {
-            foreach (ArrowIndicator arrow in arrows)
+            if (selectMode.SelectionMode.Equals(SelectionMode.FREE) && characters[indexCat].Effects.Any())
             {
-                if (arrow.GameObject.tag == "CatArrow")
-                {
-                    arrow.HideArrow();
-                }
-                if (arrow.GameObject.tag == "TutorialArrow")
-                {
-                    arrow.ShowArrow();
-                }
+                characters[indexCat].HUDController.ClearSelectedHUD();
+                characters[indexCat].HUDController.ClearTargetHUD();
+                characters[indexCat].EndOfTurn();
+                EventBus.Publish(new DeselectSelectedTileEvent());
             }
         }
-        else if (type == typeof(AbilitySelectedEvent) || type == typeof(AbilityClickEvent))
-        {
-            foreach (ArrowIndicator arrow in arrows)
-            {
-                if (arrow.GameObject.tag == "TutorialArrow")
-                {
-                    arrow.HideArrow();
-                }
-                if (arrow.GameObject.tag == "PengwinArrow")
-                {
-                    arrow.ShowArrow();
-                }
-            }
-        }
-        else if (type == typeof(ExhaustCharacterEvent))
-        {
-            foreach (ArrowIndicator arrow in arrows)
-            {
-                if (arrow.GameObject.tag == "CatArrow")
-                {
-                    arrow.ShowArrow();
-                }
-                if (arrow.GameObject.tag == "PengwinArrow")
-                {
-                    arrow.HideArrow();
-                }
-            }
-        }
-
     }
 }
