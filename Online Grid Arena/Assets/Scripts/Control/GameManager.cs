@@ -16,6 +16,7 @@ public sealed class GameManager : MonoBehaviour
     private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
     private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
+    private TargetCharacterLineAbilitySelectionController targetCharacterLineAbilitySelectionController;
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
@@ -88,6 +89,7 @@ public sealed class GameManager : MonoBehaviour
         targetTileAOEAbilitySelectionController = new TargetTileAOEAbilitySelectionController(gridSelectionController);
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
+        targetCharacterLineAbilitySelectionController = new TargetCharacterLineAbilitySelectionController(gridSelectionController);
 
         var selectionControllers = new Dictionary<string, ISelectionController>()
         {
@@ -98,7 +100,8 @@ public sealed class GameManager : MonoBehaviour
             { "target_tile_aoe", targetTileAOEAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
             { "target_line_aoe", targetLineAOEAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController}
+            { "target_tile", targetTileAbilitySelectionController},
+            { "target_character_line", targetCharacterLineAbilitySelectionController}
         };
 
         selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);

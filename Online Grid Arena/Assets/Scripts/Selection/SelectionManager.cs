@@ -90,6 +90,8 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 return selectionControllers["target_line"];
             case AbilityType.TARGET_LINE_AOE:
                 return selectionControllers["target_line_aoe"];
+            case AbilityType.TARGET_CHARACTER_LINE:
+                return selectionControllers["target_character_line"];
             default:
                 return null;
         }

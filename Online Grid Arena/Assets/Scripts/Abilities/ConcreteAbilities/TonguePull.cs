@@ -11,7 +11,7 @@ public sealed class TonguePull : AbstractTargetedAbility
         activeCharacter,
         3,
         6,
-        AbilityType.TARGET_LINE,
+        AbilityType.TARGET_CHARACTER_LINE,
         "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself using his tongue. Damages opponents only, for 100% of his attack value. Range: 6")
     { }
 
