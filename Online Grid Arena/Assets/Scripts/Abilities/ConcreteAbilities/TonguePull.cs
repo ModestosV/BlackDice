@@ -12,8 +12,7 @@ public sealed class TonguePull : AbstractTargetedAbility
         3,
         6,
         AbilityType.TARGET_LINE,
-        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself using his tongue. Damages opponents only, for 100% of his attack value. Range: 6",
-        false)
+        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself using his tongue. Damages opponents only, for 100% of his attack value. Range: 6")
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)

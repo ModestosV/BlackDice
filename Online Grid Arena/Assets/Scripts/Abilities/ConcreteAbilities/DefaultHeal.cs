@@ -11,8 +11,7 @@ public sealed class DefaultHeal : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ALLY,
-        "This is the default heal ability. It is used to test healing.",
-        false)
+        "This is the default heal ability. It is used to test healing.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

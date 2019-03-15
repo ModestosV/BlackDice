@@ -15,8 +15,7 @@ public class Hop : AbstractTargetedAbility
         3,
         8,
         AbilityType.TARGET_TILE,
-        "Hop - Combo Ability \nAgent Frog hops up to 8 tiles. *COMBO* Can use another ability after casting this.",
-        false)
+        "Hop - Combo Ability \nAgent Frog hops up to 8 tiles. *COMBO* Can use another ability after casting this.")
     { }
 
     // Move Rocket Cat to new location

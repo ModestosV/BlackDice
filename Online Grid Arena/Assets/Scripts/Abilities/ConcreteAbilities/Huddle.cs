@@ -11,8 +11,7 @@ public class Huddle : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,
         3,
-        "Huddle - Special Ability \nPengwin gives 20 bonus defense to itself and all adjacent allies.",
-        false)
+        "Huddle - Special Ability \nPengwin gives 20 bonus defense to itself and all adjacent allies.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

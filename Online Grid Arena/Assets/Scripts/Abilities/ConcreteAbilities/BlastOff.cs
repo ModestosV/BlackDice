@@ -15,8 +15,7 @@ public class BlastOff : AbstractTargetedAbility
         5,
         100,
         AbilityType.TARGET_TILE_AOE,
-        "Blast Off - Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point",
-        false)
+        "Blast Off - Special Ability \nRocket Cat flies to any open tile on the map, and deals 75% of her attack power as damage to all tiles next to her landing point")
     { }
 
     // Move Rocket Cat to new location
