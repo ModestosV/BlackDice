@@ -31,7 +31,7 @@ public class Hop : AbstractTargetedAbility
     // Damage all tiles around target location
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
     {
-        character.Controller.Combo();
+        character.Controller.IncrementAbilitiesRemaining();
         PlaySoundEffect();
     }
 }

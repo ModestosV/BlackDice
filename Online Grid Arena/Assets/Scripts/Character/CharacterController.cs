@@ -109,7 +109,7 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
-    public void Combo()
+    public void IncrementAbilitiesRemaining()
     {
         abilitiesRemaining++;
     }
