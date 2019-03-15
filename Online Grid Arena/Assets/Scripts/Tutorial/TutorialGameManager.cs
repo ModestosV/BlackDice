@@ -33,6 +33,8 @@ public sealed class TutorialGameManager : MonoBehaviour
     {
         Debug.Log(ToString() + " Awake() begin");
 
+        // Shared items between tutorials will be put here!
+
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -102,7 +104,7 @@ public sealed class TutorialGameManager : MonoBehaviour
             character.HUDController = hudController;
         }
 
-        // Initialize Event Subscribing
+        // Shared code between all tutorials
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
@@ -113,6 +115,7 @@ public sealed class TutorialGameManager : MonoBehaviour
 
         foreach (CharacterTile tile in FindObjectsOfType(typeof(CharacterTile)))
         {
+            EventBus.Subscribe<DeathEvent>(tile);
             EventBus.Subscribe<ActiveCharacterEvent>(tile);
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
@@ -125,6 +128,7 @@ public sealed class TutorialGameManager : MonoBehaviour
 
         EventBus.Publish(new StartNewTurnEvent());
 
+        // this needs to be created after because it must not catch the first StartNewTurnEvent!
         Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.gridController.GetTile((5, -13, 8)));
     }
 
