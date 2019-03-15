@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
+public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IPointerClickHandler
 {
     private RawImage characterIcon;
     private Image border;
@@ -72,6 +73,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber
     private void HideShield()
     {
         shieldIndicator.SetActive(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        EventBus.Publish(new SelectTileEvent(character.OccupiedTile));
     }
 
     public void Handle(IEvent @event)
