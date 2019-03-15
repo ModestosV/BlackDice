@@ -2,23 +2,47 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public sealed class PoisonAura : AbstractTargetedAbility
+public sealed class PoisonAura : AbstractPassiveAbility
 {
+    private GameObject animationPrefab;
+    private AudioClip soundEffect;
     public PoisonAura(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/slap"),
+        Resources.Load<Sprite>("Sprites/Abilities/claw-marks"),
         activeCharacter,
-        3,
-        5,
-        AbilityType.TARGET_ENEMY,
-        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself",
-        false)
-    { }
-
-    protected override void PrimaryAction(List<IHexTileController> targetTile)
+        "Poison Aura - Passive Ability \nAt the end of his turn, Agent Frog releases a cloud of poison that damages all enemies twice in a 1 tile radius for 50% of his attack each time.")
     {
-        character.Controller.ApplyEffect(this.Effects[0]);
+        animationPrefab = Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation");
+        soundEffect = Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker");
     }
 
+    public override bool IsEndOfTurnPassive()
+    {
+        return true;
+    }
+
+    protected async override void PrimaryAction(List<IHexTileController> targetTile)
+    {
+        List<IHexTileController> neighbors = new List<IHexTileController>();
+        foreach (IHexTileController tile in this.character.Controller.OccupiedTile.GetNeighbors())
+        {
+            neighbors.Add(tile);
+        }
+        DamageTiles(neighbors);
+        await Task.Delay(500);
+        DamageTiles(neighbors);
+    }
+
+    private void DamageTiles(List<IHexTileController> targetTiles)
+    {
+        EventBus.Publish(new AbilitySoundEvent(soundEffect));
+        foreach (IHexTileController tile in targetTiles)
+        {
+            tile.PlayAbilityAnimation(animationPrefab);
+            if (tile.OccupantCharacter != null && !(tile.OccupantCharacter.IsAlly(this.character.Controller)))
+            {
+                //actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
+                actionHandler.Damage(character.Controller.CharacterStats["attack"].Value*0.5f, tile.OccupantCharacter);
+            }
+        }
+    }
 }

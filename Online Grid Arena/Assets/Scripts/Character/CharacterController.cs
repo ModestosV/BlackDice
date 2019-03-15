@@ -180,6 +180,24 @@ public class CharacterController : ICharacterController
             CharacterState = CharacterState.EXHAUSTED;
         }
 
+        foreach (IAbility a in Abilities)
+        {
+            try
+            {
+                IPassiveAbility pa = (IPassiveAbility)a;
+                if (pa.IsEndOfTurnPassive())
+                {
+                    List<IHexTileController> target = new List<IHexTileController>();
+                    target.Add(this.OccupiedTile);
+                    pa.Execute(target);
+                }
+            }
+            catch (InvalidCastException)
+            {
+                continue;
+            }
+        }
+
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.END_OF_TURN)

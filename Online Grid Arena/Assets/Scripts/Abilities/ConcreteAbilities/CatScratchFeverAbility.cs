@@ -9,7 +9,12 @@ public class CatScratchFeverAbility : AbstractPassiveAbility
     {
         AddEffect(effect);
     }
-    
+
+    public override bool IsEndOfTurnPassive()
+    {
+        return false;
+    }
+
     protected override void PrimaryAction(List<IHexTileController> targetTile)
     {
         character.Controller.ApplyEffect(this.Effects[0]);
