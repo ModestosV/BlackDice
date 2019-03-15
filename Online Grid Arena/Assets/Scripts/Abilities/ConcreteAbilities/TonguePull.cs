@@ -5,30 +5,51 @@ using UnityEngine;
 public sealed class TonguePull : AbstractTargetedAbility
 {
     public TonguePull(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/PengwinSlap"),
+        Resources.Load<Sprite>("Sprites/Abilities/tonguePull"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/slap"),
+        Resources.Load<AudioClip>("Audio/Ability/frog sound effect"),
         activeCharacter,
         3,
-        5,
+        6,
         AbilityType.TARGET_LINE,
-        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself",
+        "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself using his tongue. Damages opponents only, for 100% of his attack value. Range: 6",
         false)
     { }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        var target = targetTiles[0].OccupantCharacter;
-
+        if (targetTiles.Count > 1)
+        {
+            if (targetTiles[1].OccupantCharacter != null && !targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
+            {
+                DamageLastTile(targetTiles);
+            }
+        }
         PlaySoundEffect();
-        PlayAnimation(targetTiles[0]);
+        await Task.Delay(300);
     }
 
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
     {
+        if (targetTiles.Count > 1)
+        {
+            if (targetTiles[1].OccupantCharacter != null)
+            {
+                ICharacterController target = targetTiles[1].OccupantCharacter;
+                target.OccupiedTile.OccupantCharacter = null;
+
+                target.Character.MoveToTile(targetTiles[2].HexTile);
+                target.OccupiedTile = targetTiles[2];
+            }
+        }
+    }
+
+    private void DamageLastTile(List<IHexTileController> targetTiles)
+    {
         if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
         {
-            actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
+            actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[1].OccupantCharacter);
+            PlayAnimation(targetTiles[1]);
         }
     }
 }

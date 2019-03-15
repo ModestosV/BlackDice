@@ -22,6 +22,7 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
             List<IHexTileController> target = new List<IHexTileController>();
             target.Add(path[path.Count - 2]);
             target.Add(inputParameters.TargetTile);
+            target.Add(path[1]);
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
             return;
@@ -47,10 +48,12 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
 
     protected override void DoHoverUnoccupiedTile()
     {
+        ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
         inputParameters.TargetTile.Highlight();
         IHexTileController selectedTile = gridSelectionController.SelectedTile;
         List<IHexTileController> path = selectedTile.GetPath(inputParameters.TargetTile, true);
         bool isStraightLine = false;
+        bool inRange = selectedCharacter.IsAbilityInRange(activeAbilityIndex, path.Count - 1);
         if (selectedTile.X == inputParameters.TargetTile.X || selectedTile.Y == inputParameters.TargetTile.Y || selectedTile.Z == inputParameters.TargetTile.Z)
         {
             isStraightLine = true; //this just means that target and selected are on the same line. must check whole path.
@@ -76,20 +79,31 @@ public class TargetLineAbilitySelectionController : AbstractAbilitySelectionCont
         else
         {
             canCast = true;
-            for (int i = 1; i < path.Count; i++)
+            if (inRange)
             {
-                path[i].Highlight();
-                if (path[i].OccupantCharacter != null)
+                for (int i = 1; i < path.Count; i++)
                 {
-                    if (path[i].OccupantCharacter.IsAlly(selectedTile.OccupantCharacter))
+                    path[i].Highlight();
+                    if (path[i].OccupantCharacter != null)
                     {
-                        path[i].HoverError();
-                    }
-                    else
-                    {
-                        path[i].Hover(HoverType.DAMAGE);
+                        if (path[i].OccupantCharacter.IsAlly(selectedTile.OccupantCharacter))
+                        {
+                            path[i].HoverError();
+                        }
+                        else
+                        {
+                            path[i].Hover(HoverType.DAMAGE);
+                        }
                     }
                 }
+            }
+            else
+            {
+                for (int i = 1; i < path.Count; i++)
+                {
+                    path[i].HoverError();
+                }
+
             }
         }
         return;

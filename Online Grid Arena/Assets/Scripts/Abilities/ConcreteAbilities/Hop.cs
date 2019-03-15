@@ -10,7 +10,7 @@ public class Hop : AbstractTargetedAbility
     public Hop(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/jetpack-png-3"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<AudioClip>("Audio/Ability/frog sound effect"),
         activeCharacter,
         3,
         8,
