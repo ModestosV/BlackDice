@@ -18,7 +18,7 @@ public class CharacterController : ICharacterController
     public Color32 BorderColor { get; set; }
 
     public IHealthBar HealthBar { protected get; set; }
-    public SpriteRenderer ActiveCircle { get; set; }
+    public bool IsActive { get; private set; }
 
     private MeshRenderer shield;
     public MeshRenderer Shield
@@ -47,6 +47,7 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
+        IsActive = false;
     }
 
     public void UpdateSelectedHUD()
@@ -92,7 +93,7 @@ public class CharacterController : ICharacterController
 
         CharacterStats["moves"].CurrentValue -= distance;
 
-        EventBus.Publish(new SelectActivePlayerEvent());
+        EventBus.Publish(new ActiveCharacterEvent());
 
         CheckExhausted();
     }
@@ -174,7 +175,7 @@ public class CharacterController : ICharacterController
 
     public void StartOfTurn()
     {
-        ActiveCircle.enabled = true;
+        IsActive = true;
         foreach (IEffect e in Effects)
         {
             if (e.Type == EffectType.START_OF_TURN)
@@ -183,11 +184,12 @@ public class CharacterController : ICharacterController
             }
         }
         Refresh();
-        EventBus.Publish(new SelectActivePlayerEvent());
+        EventBus.Publish(new SelectCharacterEvent(this));
     }
 
     public void EndOfTurn()
     {
+        IsActive = false;
         if(CharacterState != CharacterState.DEAD)
         {
             CharacterState = CharacterState.EXHAUSTED;
@@ -224,7 +226,6 @@ public class CharacterController : ICharacterController
                 }
             }
         }
-        ActiveCircle.enabled = false;
         EventBus.Publish(new ExhaustCharacterEvent(this));
     }
 

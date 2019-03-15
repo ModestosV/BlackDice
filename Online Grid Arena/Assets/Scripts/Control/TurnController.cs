@@ -7,7 +7,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     private List<IPlayer> players;
     private bool isPlayerOneTurn;
     private bool inCharacterSelectionState;
-    private List<CharacterPanel> characterPanels;
 
     public TurnController(List<IPlayer> players)
     {
@@ -35,16 +34,15 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             StartNextTurn();
         }
-
         if(type == typeof(SurrenderEvent))
         {
             Surrender();
         }
-        if(type == typeof(SelectActivePlayerEvent))
+        if (type == typeof(ActiveCharacterEvent))
         {
             SelectActiveCharacter();
         }
-        if(type == typeof(SelectTileEvent))
+        if (type == typeof(SelectTileEvent))
         {
             var selectTileEvent = (SelectTileEvent)@event;
             if(selectTileEvent.SelectedTile.OccupantCharacter != null && inCharacterSelectionState)
@@ -75,12 +73,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         }
         if (players[0].AreAllCharactersDead())
         {
-            EventBus.Publish(new EndMatchEvent($"{players[1]} wins!"));
+            EventBus.Publish(new EndMatchEvent($"Player {players[1]} wins!"));
         }
 
         if (players[1].AreAllCharactersDead())
         {
-            EventBus.Publish(new EndMatchEvent($"{players[0]} wins!"));
+            EventBus.Publish(new EndMatchEvent($"Player {players[0]} wins!"));
         }
     }
 
@@ -97,6 +95,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         inCharacterSelectionState = true;
 
         CheckForUnusedCharacters();
+        EventBus.Publish(new SelectActivePlayerEvent(GetActivePlayer()));
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
@@ -123,7 +122,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             activeCharacter = selectedCharacterController;
             Debug.Log($"Active Character is: {activeCharacter.ToString()}");
             activeCharacter.StartOfTurn();
-            EventBus.Publish(new ActiveCharacterEvent(activeCharacter));
+            EventBus.Publish(new ActiveCharacterEvent());
         }
     }
 
@@ -138,5 +137,4 @@ public sealed class TurnController : ITurnController, IEventSubscriber
             }
         }
     }
-
 }

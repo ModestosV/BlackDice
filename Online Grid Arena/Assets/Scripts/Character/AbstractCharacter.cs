@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
+public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IEventSubscriber
 {
     [SerializeField] protected string playerName;
 
@@ -11,9 +11,12 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     [SerializeField] protected Color32 borderColor;
 
     protected GameObject teamColorIndicator;
-    protected GameObject activeCircle;
     protected GameObject healthBar;
     protected GameObject shield;
+    protected GameObject exhausted;
+
+    protected GameObject indicator;
+    protected Animator iAnimator;
 
     public void Destroy()
     {
@@ -49,9 +52,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        activeCircle = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/ActiveCircle"), this.transform);
-        activeCircle.transform.SetParent(this.transform);
-
         healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
         healthBar.transform.SetParent(this.transform);
 
@@ -62,6 +62,15 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
         shield.transform.SetParent(this.transform);
 
+        exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
+        exhausted.transform.localScale *= 1.02f;
+        exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
+        exhausted.SetActive(false);
+
+        indicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharacterIndicator"), this.transform);
+        indicator.transform.SetParent(this.transform);
+        iAnimator = indicator.GetComponent<Animator>();
+        
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -72,8 +81,60 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
         characterController.UpdateHealthBar();
-        characterController.ActiveCircle.enabled = false;
 
         Debug.Log(ToString() + " Start() end");
+    }
+
+    public void Handle(IEvent @event)
+    {
+        if (characterController.CharacterState != CharacterState.DEAD)
+        {
+            var type = @event.GetType();
+            if (type == typeof(ExhaustCharacterEvent))
+            {
+                var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
+                if (exhaustCharacterEvent.CharacterController == this.characterController)
+                {
+                    exhausted.SetActive(true);
+                }
+            }
+            else if (type == typeof(NewRoundEvent))
+            {
+                var newRoundEvent = (NewRoundEvent)@event;
+                if (newRoundEvent.CharacterController == this.characterController)
+                {
+                    exhausted.SetActive(false);
+                }
+            }
+            else if (type == typeof(SelectActivePlayerEvent))
+            {
+                var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
+                if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner
+                    && !(characterController.CharacterState == CharacterState.EXHAUSTED))
+                {
+                    iAnimator.SetBool("Selectable", true);
+                    iAnimator.SetBool("Active", false);
+                }
+                else
+                {
+                    iAnimator.SetBool("Selectable", false);
+                    iAnimator.SetBool("Active", false);
+                }
+            }
+            else if (type == typeof(SelectCharacterEvent))
+            {
+                var selectCharacterEvent = (SelectCharacterEvent)@event;
+                if (selectCharacterEvent.Character == this.characterController)
+                {
+                    iAnimator.SetBool("Active", true);
+                    iAnimator.SetBool("Selectable", false);
+                }
+                else
+                {
+                    iAnimator.SetBool("Active", false);
+                    iAnimator.SetBool("Selectable", false);
+                }
+            }
+        }
     }
 }

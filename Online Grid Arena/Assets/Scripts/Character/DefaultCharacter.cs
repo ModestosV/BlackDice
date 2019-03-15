@@ -8,6 +8,7 @@ public sealed class DefaultCharacter : AbstractCharacter
         base.Awake();
 
         // Init abilities
+
         IAbility defaultAttack = new DefaultAttack(this);
         IAbility defaultHeal = new DefaultHeal(this);
         IAbility placeholder = new Placeholder(this);
@@ -28,7 +29,6 @@ public sealed class DefaultCharacter : AbstractCharacter
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,
-            ActiveCircle = activeCircle.GetComponent<SpriteRenderer>(),
             Shield = shield.GetComponent<MeshRenderer>()
         };
     }

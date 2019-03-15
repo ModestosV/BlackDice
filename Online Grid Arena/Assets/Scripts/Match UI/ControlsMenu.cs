@@ -1,4 +1,4 @@
-﻿public class ControlsMenu : HideableUI, IControlsMenu
+﻿public class ControlsMenu : HideableUI, IControlsMenu, IEventSubscriber
 { 
     private bool visible;
 
@@ -26,4 +26,17 @@
             Show();
         }
     }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+        if (type == typeof(EscapePressedEvent))
+        {
+            if(visible)
+            {
+                Toggle();
+            }
+        }
+    }
+    
 }

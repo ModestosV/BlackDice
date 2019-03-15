@@ -14,6 +14,12 @@
 
         DoFirst();
         
+        if(inputParameters.IsRightClickDown)
+        {
+            DoRightClickPressed();
+            return;
+        }
+
         if (inputParameters.IsKeyEscapeDown)
         {
             DoEscapePressed();
@@ -32,7 +38,6 @@
         }
 
         // Invariant: Mouse is over grid
-
         bool tileIsEnabled = inputParameters.TargetTile.IsEnabled;
 
         if (!tileIsEnabled && inputParameters.IsLeftClickDown)
@@ -92,15 +97,20 @@
         }
     }
 
-    protected void DoEscapePressed()
+    protected void DoRightClickPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+    }
+
+    protected void DoEscapePressed()
+    {
+        EventBus.Publish(new EscapePressedEvent());
     }
 
     protected void DoTabPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-        EventBus.Publish(new SelectActivePlayerEvent());
+        EventBus.Publish(new ActiveCharacterEvent());
     }
 
     protected virtual void DoFirst() { }
