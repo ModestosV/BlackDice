@@ -6,10 +6,10 @@ using System.Threading;
 
 public class Stage2Controller: IStageController, IEventSubscriber
 {
-    private String TUTORIAL_STEP_1 = "Click On Rocket Cat\nLeft Click or Press F";
-    private String TUTORIAL_STEP_2 = "Click on Tile with\nRed Arrow";
-    private String TUTORIAL_STEP_3 = "After Using all Moves\nClick End Turn";
-    private String STAGE_COMPLETE = "Congratulations! Stage Completed";
+    private const String TUTORIAL_STEP_1 = "Click On Rocket Cat\nLeft Click or Press F";
+    private const String TUTORIAL_STEP_2 = "Click on Tile with\nRed Arrow";
+    private const String TUTORIAL_STEP_3 = "After Using all Moves\nClick End Turn";
+    private const String STAGE_COMPLETE = "Congratulations! Stage Completed";
 
     private ICharacterController character;
     private IHexTileController finishTile;
