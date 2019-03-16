@@ -2,18 +2,26 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class Stage3Controller : IEventSubscriber
 {
-    private List<ICharacterController> characters;
-    private ArrowIndicator[] arrows;
-    private List<IPlayer> players;
+    private readonly List<ICharacterController> characters;
+    private readonly ArrowIndicator[] arrows;
+    private readonly List<IPlayer> players;
     private bool finalStep;
-    private int indexCat;
-    private int indexPengwin;
-    private int indexScratch;
-    private int indexSlide;
-    private int indexBoost;
+    private readonly int indexCat;
+    private readonly int indexPengwin;
+    private readonly int indexScratch;
+    private readonly int indexSlide;
+    private readonly int indexBoost;
+
+    private const String TEXT_STEP_2 = "Press or click Q to attack";
+    private const String TEXT_STEP_3 = "Select Pengwin (CLICK)";
+    private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
+    private const String TEXT_STEP_5 = "Select Rocket Cat again";
+    private const String TEXT_STEP_6 = "Press or click W to use ability";
+    private const String TEXT_COMPLETED = "Congratulations! Stage Completed";
 
     public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows, List<IPlayer> players)
     {
@@ -245,7 +253,7 @@ public class Stage3Controller : IEventSubscriber
                 characters[indexCat].EndOfTurn();
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 EventBus.Publish(new StartNewTurnEvent());
-                EventBus.Publish(new StageCompletedEvent(2));
+                EventBus.Publish(new StageCompletedEvent(1));
             }
         }
     }

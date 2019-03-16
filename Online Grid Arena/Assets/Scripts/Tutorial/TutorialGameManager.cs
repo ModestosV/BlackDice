@@ -122,6 +122,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
+        EventBus.Subscribe<StageCompletedEvent>(this);
+        EventBus.Subscribe<SurrenderEvent>(this);
+
         foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
         {
             EventBus.Subscribe<DeathEvent>(tile);
@@ -182,9 +185,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
         EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
         EventBus.Subscribe<SelectTileEvent>(stage2Controller);
-
-        EventBus.Subscribe<StageCompletedEvent>(this);
-        EventBus.Subscribe<SurrenderEvent>(this);
     }
 
     private void StartStageAttack()
