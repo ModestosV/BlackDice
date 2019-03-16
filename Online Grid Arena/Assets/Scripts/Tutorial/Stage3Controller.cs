@@ -252,7 +252,7 @@ public class Stage3Controller : IEventSubscriber
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_COMPLETED;
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 EventBus.Publish(new StartNewTurnEvent());
-                EventBus.Publish(new StageCompletedEvent(2));
+                EventBus.Publish(new StageCompletedEvent(3));
             }
         }
     }
