@@ -43,6 +43,13 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         Debug.Log(ToString() + " Awake() begin");
 
+        // Get all characters from scene
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+
+        // Create to players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+
         // Initialize Menus
         endMatchMenu = FindObjectOfType<EndMatchMenu>();
         matchMenu = FindObjectOfType<MatchMenu>();
@@ -133,15 +140,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageMovement()
     {
-        // Get all characters from scene
-        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-
-        //Initialize players
-        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+        //Set players and character's panels
         players[0].AddCharacterController(characterControllers[0]);
-
-        //Initialize character panels
-        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
 
         // Initialize turn controller
