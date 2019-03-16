@@ -24,8 +24,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
     private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
     private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
+    private TargetTileAOEAbilitySelectionController targetTileAOEAbilitySelectionController;
     private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
+    private TargetCharacterLineAbilitySelectionController targetCharacterLineAbilitySelectionController;
+    private Dictionary<string, ISelectionController> selectionControllers;
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
@@ -71,8 +74,10 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
         targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetTileAOEAbilitySelectionController = new TargetTileAOEAbilitySelectionController(gridSelectionController);
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
+        targetCharacterLineAbilitySelectionController = new TargetCharacterLineAbilitySelectionController(gridSelectionController);
 
         selectionControllers = new Dictionary<string, ISelectionController>()
         {
@@ -80,10 +85,15 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
             { "target_ally", targetAllyAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController },
+            { "target_tile_aoe", targetTileAOEAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController }
+            { "target_line_aoe", targetLineAOEAbilitySelectionController },
+            { "target_tile", targetTileAbilitySelectionController},
+            { "target_character_line", targetCharacterLineAbilitySelectionController}
         };
+
+        // Initialize input manager
+        inputManager = FindObjectOfType<InputManager>();
 
         // Initialize Grid
         grid = FindObjectOfType<Grid>();
@@ -110,6 +120,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
         foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
@@ -148,12 +160,14 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         // Initialize turn controller
         turnController = new TurnController(players);
 
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+        inputManager.SelectionManager = selectionManager;
+
         // Initialize HUD controller
         hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
-        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        foreach (ICharacterController character in characters)
+        foreach (ICharacterController character in characterControllers)
         {
             character.HUDController = hudController;
         }
