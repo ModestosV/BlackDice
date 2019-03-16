@@ -8,12 +8,14 @@ public class Stage3Controller : IEventSubscriber
     private List<ICharacterController> characters;
     private ArrowIndicator[] arrows;
     private List<IPlayer> players;
+    private bool finalStep;
 
     public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows, List<IPlayer> players)
     {
         this.characters = characters;
         this.arrows = arrows;
         this.players = players;
+        this.finalStep = false;
     }
 
     public void Handle(IEvent @event)
@@ -67,7 +69,7 @@ public class Stage3Controller : IEventSubscriber
             if (!characters[indexCat].Effects.Any())
             {
                 var active = (SelectCharacterEvent)@event;
-                if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState != CharacterState.EXHAUSTED)
+                if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState != CharacterState.EXHAUSTED && !finalStep)
                 {
                     foreach (ArrowIndicator arrow in arrows)
                     {
@@ -81,7 +83,7 @@ public class Stage3Controller : IEventSubscriber
                         }
                     }
                 }
-                else if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState == CharacterState.EXHAUSTED)
+                else if ((active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState == CharacterState.EXHAUSTED) || finalStep)
                 {
                     foreach (ArrowIndicator arrow in arrows)
                     {
@@ -117,17 +119,47 @@ public class Stage3Controller : IEventSubscriber
         }
         else if (type == typeof(AbilityClickEvent) || type == typeof(AbilitySelectedEvent))
         {
-            foreach (ArrowIndicator arrow in arrows)
+            int abilityIndex = 0;
+            if(type == typeof(AbilityClickEvent))
             {
-                if (arrow.GameObject.tag == "TutorialArrow")
+                var ability = (AbilityClickEvent)@event;
+                abilityIndex = ability.AbilityIndex;
+            }
+            else
+            {
+                var ability = (AbilitySelectedEvent)@event;
+                abilityIndex = ability.AbilityIndex;
+            }
+
+            if (abilityIndex != 0 && !characters[indexPengwin].IsActive)
+            {
+                foreach (ArrowIndicator arrow in arrows)
                 {
-                    arrow.HideArrow();
-                }
-                else if (arrow.GameObject.tag == "PengwinArrow")
-                {
-                    arrow.ShowArrow();
+                    if (arrow.GameObject.tag == "CatArrow")
+                    {
+                        arrow.HideArrow();
+                    }
+                    else if (arrow.GameObject.tag == "TutorialArrowW")
+                    {
+                        arrow.ShowArrow();
+                    }
                 }
             }
+            else
+            {
+                foreach (ArrowIndicator arrow in arrows)
+                {
+                    if (arrow.GameObject.tag == "TutorialArrow")
+                    {
+                        arrow.HideArrow();
+                    }
+                    else if (arrow.GameObject.tag == "PengwinArrow")
+                    {
+                        arrow.ShowArrow();
+                    }
+                }
+            }
+
         }
         else if (type == typeof(UpdateSelectionModeEvent))
         {
@@ -163,8 +195,11 @@ public class Stage3Controller : IEventSubscriber
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 EventBus.Publish(new NewRoundEvent(characters[indexPengwin]));
                 EventBus.Publish(new NewRoundEvent(characters[indexCat]));
-                // Refresh chracters fro player that has rocker cat and show w ability then finalize tutorial...
+
                 EventBus.Publish(new StartNewTurnEvent());
+                EventBus.Publish(new StartNewTurnEvent());
+
+                this.finalStep = true;
 
                 foreach (ArrowIndicator arrow in arrows)
                 {
