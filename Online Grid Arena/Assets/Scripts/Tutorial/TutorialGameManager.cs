@@ -37,6 +37,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
 
+    private Stage3Controller stageController;
+    private AbstractCharacter[] characters;
+
     private Grid grid;
 
     private void Awake()
@@ -44,7 +47,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Awake() begin");
 
         // Get all characters from scene
-        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
 
         // Create to players
@@ -141,6 +143,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private void StartStageMovement()
     {
         //Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         players[0].AddCharacterController(characterControllers[0]);
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
 
@@ -176,7 +179,72 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageAttack()
     {
-        // Marc's Tutorial Stage
+        Debug.Log(ToString() + " Start() begin");
+
+        characters = FindObjectsOfType<AbstractCharacter>();
+
+        // Get all characters from scene
+        characterControllers = characters.Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+
+        foreach (ICharacterController characterController in characterControllers)
+        {
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for (int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
+        }
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        // Initialize HUD Controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize stage controller
+        stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        // Events for the current tutorial stage
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<ActiveCharacterEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
+        EventBus.Subscribe<AbilityClickEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+        EventBus.Subscribe<SelectCharacterEvent>(stageController);
+
+        // Pengwin's Ultimate must handle DeathEvent
+        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
+
+        StartGame();
+
+        Debug.Log(ToString() + " Start() end");
     }
 
     private void Start()

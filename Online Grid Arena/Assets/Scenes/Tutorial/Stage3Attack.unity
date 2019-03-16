@@ -1838,9 +1838,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7464445876423212238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fdd94bd5a534d4408e94c1c244890f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 29ead9312b1344803937e5e54eb312da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialStageIndex: 1
 --- !u!23 &8484257417750988684
 MeshRenderer:
   m_ObjectHideFlags: 0
