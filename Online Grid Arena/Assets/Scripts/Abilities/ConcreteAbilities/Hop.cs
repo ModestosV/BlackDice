@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class Hop : AbstractTargetedAbility
 {
-    // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
 
@@ -18,7 +17,6 @@ public class Hop : AbstractTargetedAbility
         "Hop - Combo Ability \nAgent Frog hops up to 8 tiles. *COMBO* Can use another ability after casting this.")
     { }
 
-    // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Hop. Primary action being called.");
@@ -28,7 +26,6 @@ public class Hop : AbstractTargetedAbility
         targetTiles[0].OccupantCharacter = character.Controller;
     }
 
-    // Damage all tiles around target location
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
     {
         character.Controller.IncrementAbilitiesRemaining();
