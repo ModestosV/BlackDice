@@ -4,12 +4,13 @@ using System;
 using TMPro;
 using System.Threading;
 
-public class Stage2Controller: IStageController, IEventSubscriber
+public class Stage2Controller: AbstractStageController, IEventSubscriber
 {
     private const String TUTORIAL_STEP_1 = "Click On Rocket Cat\nLeft Click or Press F";
     private const String TUTORIAL_STEP_2 = "Click on Tile with\nRed Arrow";
     private const String TUTORIAL_STEP_3 = "After Using all Moves\nClick End Turn";
     private const String STAGE_COMPLETE = "Congratulations! Stage Completed";
+    private const int STAGE_INDEX = 2;
 
     private ICharacterController character;
     private IHexTileController finishTile;
@@ -23,11 +24,6 @@ public class Stage2Controller: IStageController, IEventSubscriber
     public bool CharacterOnFinishTile()
     {
         return this.character.OccupiedTile == this.finishTile ? true : false;
-    }
-
-    public void CompleteStage()
-    {
-        EventBus.Publish(new StageCompletedEvent(2));
     }
 
     public void Handle(IEvent @event)
@@ -67,7 +63,7 @@ public class Stage2Controller: IStageController, IEventSubscriber
 
             Thread.Sleep(5);
 
-            CompleteStage();
+            CompleteStage(STAGE_INDEX);
         }
     }
 }
