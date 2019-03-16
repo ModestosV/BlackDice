@@ -20,7 +20,7 @@ public sealed class TonguePull : AbstractTargetedAbility
         Debug.Log("Casting Tongue Pull. Primary action being called.");
         if (targetTiles.Count > 1)
         {
-            if (targetTiles[1].OccupantCharacter != null && !targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
+            if (!targetTiles[1].OccupantCharacter.IsAlly(character.Controller))
             {
                 DamageLastTile(targetTiles);
             }

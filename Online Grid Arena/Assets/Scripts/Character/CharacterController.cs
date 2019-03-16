@@ -207,9 +207,7 @@ public class CharacterController : ICharacterController
                 IPassiveAbility passiveAbility = (IPassiveAbility)ability;
                 if (passiveAbility.IsEndOfTurnPassive)
                 {
-                    List<IHexTileController> target = new List<IHexTileController>();
-                    target.Add(this.OccupiedTile);
-                    passiveAbility.Execute(target);
+                    passiveAbility.Execute(new List<IHexTileController>() { this.OccupiedTile });
                 }
             }
             catch (InvalidCastException)
