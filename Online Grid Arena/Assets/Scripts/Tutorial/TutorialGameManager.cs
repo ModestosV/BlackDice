@@ -42,8 +42,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private Stage3Controller stageController;
     private AbstractCharacter[] characters;
-    private Dictionary<string, ISelectionController> selectionControllers;
-
     private Grid grid;
 
     private void Awake()
