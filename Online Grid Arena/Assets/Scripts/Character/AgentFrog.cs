@@ -7,19 +7,8 @@ public sealed class AgentFrog : AbstractCharacter
     {
         base.Awake();
 
-        ICharacterStat health = new CharacterStat(150.0f);
-        ICharacterStat moves = new CharacterStat(3.0f);
-        ICharacterStat attack = new CharacterStat(30.0f);
-        ICharacterStat defense = new CharacterStat(100.0f);
+        var characterStats = InitializeStats(150, 3, 30, 100);
 
-        var characterStats = new Dictionary<string, ICharacterStat>()
-        {
-            { "health", health },
-            { "moves", moves },
-            { "attack", attack },
-            { "defense", defense }
-        };
-        
         IAbility lick = new Lick(this);
         IAbility hop = new Hop(this);
         IAbility tonguePull = new TonguePull(this);
