@@ -9,11 +9,11 @@ public sealed class PoisonAura : AbstractPassiveAbility
     public PoisonAura(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/poison"),
         activeCharacter,
-        "Poison Aura - Passive Ability \nAt the end of his turn, Agent Frog releases a cloud of poison that damages all enemies twice in a 1 tile radius for 50% of his attack each time.")
+        "Poison Aura - Passive Ability \nAt the end of his turn, Agent Frog releases a cloud of poison that damages all enemies twice in a 1 tile radius for 50% of his attack each time.",
+        true)
     {
         animationPrefab = Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation");
         soundEffect = Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker");
-        IsEndOfTurnPassive = true;
     }
 
     protected async override void PrimaryAction(List<IHexTileController> targetTile)
