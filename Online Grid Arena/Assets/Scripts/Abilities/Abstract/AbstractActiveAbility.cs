@@ -9,9 +9,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     protected readonly AudioClip soundEffect;
     protected readonly GameObject animationPrefab;
     protected int cooldownRemaining;
-
-
-
+    
     protected AbstractActiveAbility(
         Sprite abilityIcon,
         GameObject animationPrefab,
@@ -33,7 +31,6 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         PrimaryAction(targetTiles);
 
         SecondaryAction(targetTiles);
-
         cooldownRemaining = Cooldown;
         EventBus.Publish(new ActiveCharacterEvent());
     }

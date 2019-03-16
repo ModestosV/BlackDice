@@ -109,6 +109,11 @@ public class CharacterController : ICharacterController
         CheckExhausted();
     }
 
+    public void IncrementAbilitiesRemaining()
+    {
+        abilitiesRemaining++;
+    }
+
     public void Refresh()
     {
         CharacterStats["moves"].Refresh();
@@ -132,12 +137,12 @@ public class CharacterController : ICharacterController
     {
         bool effectExists = false;
         IEffect existingEffect = null;
-        foreach (IEffect e in Effects)
+        foreach (IEffect eff in Effects)
         {
-            if (e.GetName().Equals(effect.GetName()))
+            if (eff.GetName().Equals(effect.GetName()))
             {
                 effectExists = true;
-                existingEffect = e;
+                existingEffect = eff;
             }
         }
         if (effectExists)
@@ -176,11 +181,11 @@ public class CharacterController : ICharacterController
     public void StartOfTurn()
     {
         IsActive = true;
-        foreach (IEffect e in Effects)
+        foreach (IEffect eff in Effects)
         {
-            if (e.Type == EffectType.START_OF_TURN)
+            if (eff.Type == EffectType.START_OF_TURN)
             {
-                ApplyStack(e);
+                ApplyStack(eff);
             }
         }
         Refresh();
@@ -195,33 +200,49 @@ public class CharacterController : ICharacterController
             CharacterState = CharacterState.EXHAUSTED;
         }
 
-        foreach (IEffect e in Effects)
+        foreach (IAbility ability in Abilities)
         {
-            if (e.Type == EffectType.END_OF_TURN)
+            try
             {
-                ApplyStack(e);
-            }
-            e.DecrementDuration();
-            if (e.IsDurationOver())
-            {
-                if (e.Type == EffectType.STACK)
+                IPassiveAbility passiveAbility = (IPassiveAbility)ability;
+                if (passiveAbility.IsEndOfTurnPassive)
                 {
-                    e.DecrementStack();
-                    RemoveEffect(e);
-                    if (e.StacksRanOut())
+                    passiveAbility.Execute(new List<IHexTileController>() { this.OccupiedTile });
+                }
+            }
+            catch (InvalidCastException)
+            {
+                continue;
+            }
+        }
+
+        foreach (IEffect eff in Effects)
+        {
+            if (eff.Type == EffectType.END_OF_TURN)
+            {
+                ApplyStack(eff);
+            }
+            eff.DecrementDuration();
+            if (eff.IsDurationOver())
+            {
+                if (eff.Type == EffectType.STACK)
+                {
+                    eff.DecrementStack();
+                    RemoveEffect(eff);
+                    if (eff.StacksRanOut())
                     {
-                        e.Refresh();
-                        Effects.Remove(e);
+                        eff.Refresh();
+                        Effects.Remove(eff);
                         break;
                     }
                 }
                 else
                 {
-                    if (e.Type == EffectType.CONSTANT)
+                    if (eff.Type == EffectType.CONSTANT)
                     {
-                        RemoveEffect(e);
+                        RemoveEffect(eff);
                     }
-                    Effects.Remove(e);
+                    Effects.Remove(eff);
                     break;
                 }
             }
@@ -233,6 +254,10 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in effect.GetEffects())
         {
+            if (ef.Key == "moves")
+            {
+                CharacterStats[ef.Key].BaseValue -= ef.Value;
+            }
             this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
         }
     }

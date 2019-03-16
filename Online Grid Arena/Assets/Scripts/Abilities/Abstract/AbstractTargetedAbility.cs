@@ -8,7 +8,9 @@ public enum AbilityType
     TARGET_TILE,
     INVALID,
     TARGET_LINE,
-    TARGET_LINE_AOE
+    TARGET_LINE_AOE,
+    TARGET_TILE_AOE,
+    TARGET_CHARACTER_LINE
 }
 
 public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargetedAbility
