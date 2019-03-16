@@ -44,7 +44,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Awake() begin");
 
         // Get all characters from scene
-        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
 
         // Create to players
@@ -141,6 +140,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private void StartStageMovement()
     {
         //Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         players[0].AddCharacterController(characterControllers[0]);
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
 
