@@ -14,6 +14,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private HUDController hudController;
     private GridSelectionController gridSelectionController;
 
+    private StatPanel[] statPanels;
+    private PlayerPanel[] playerPanels;
+    private AbilityPanel abilityPanel;
+    private AbilityPanelController abilityPanelController;
+
     private FreeSelectionController freeSelectionController;
     private MovementSelectionController movementSelectionController;
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
@@ -35,6 +40,17 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
+
+        // Initialize Menus
+        endMatchMenu = FindObjectOfType<EndMatchMenu>();
+        matchMenu = FindObjectOfType<MatchMenu>();
+        controlsMenu = FindObjectOfType<ControlsMenu>();
+
+        // Initialize HUD
+        statPanels = FindObjectsOfType<StatPanel>();
+        playerPanels = FindObjectsOfType<PlayerPanel>();
+        abilityPanel = FindObjectOfType<AbilityPanel>();
+        abilityPanelController = new AbilityPanelController(abilityPanel);
 
         // Initialize selection controllers
         gridSelectionController = new GridSelectionController();
@@ -59,53 +75,15 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
 
-        Debug.Log(ToString() + " Awake() end");
-    }
-
-    private void StartStageMovement()
-    {
-        // Get all characters from scene
-        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-
-        //Initialize players
-        players = new List<IPlayer>() { new Player("1"), new Player("2") };
-        players[0].AddCharacterController(characterControllers[0]);
-
-        //Initialize character panels
-        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
-
-        Debug.Log("Character Panels size: " + characterPanels.Count);
-        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
-
-        characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
-
-        // Initialize turn controller
-        turnController = new TurnController(players);
-
-        // Initialize Menus
-        endMatchMenu = FindObjectOfType<EndMatchMenu>();
-        matchMenu = FindObjectOfType<MatchMenu>();
-        controlsMenu = FindObjectOfType<ControlsMenu>();
-
-        // Initialize HUD
-        StatPanel[] statPanels = FindObjectsOfType<StatPanel>();
-        PlayerPanel[] playerPanels = FindObjectsOfType<PlayerPanel>();
-        AbilityPanel abilityPanel = FindObjectOfType<AbilityPanel>();
-        AbilityPanelController abilityPanelController = new AbilityPanelController(abilityPanel);
-
-        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
-
         // Initialize input manager
         inputManager = FindObjectOfType<InputManager>();
         inputManager.SelectionManager = selectionManager;
 
-        // Initialize characters
-        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        foreach (ICharacterController character in characters)
-        {
-            character.HUDController = hudController;
-        }
+        Debug.Log(ToString() + " Awake() end");
+    }
 
+    private void InitializeSharedSubscriptions()
+    {
         // Shared code between all tutorials
         EventBus.Subscribe<DeathEvent>(turnController);
         EventBus.Subscribe<StartNewTurnEvent>(turnController);
@@ -145,6 +123,38 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             EventBus.Subscribe<SelectActivePlayerEvent>(c);
             EventBus.Subscribe<StartNewTurnEvent>(c);
         }
+    }
+
+    private void StartStageMovement()
+    {
+        // Get all characters from scene
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+        players[0].AddCharacterController(characterControllers[0]);
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize characters
+        List<ICharacterController> characters = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+        foreach (ICharacterController character in characters)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
 
         // Start Game
         Grid grid = FindObjectOfType<Grid>();
