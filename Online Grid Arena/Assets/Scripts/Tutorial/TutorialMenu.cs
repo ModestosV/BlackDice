@@ -12,10 +12,11 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public List<Button> StageButtons;
 
-    void Start()
+    private void Start()
     {
         filepath = Application.persistentDataPath + "/playerInfo.bin";
-        EventBus.Subscribe<StageCompletedEvent>(this);
+        Debug.Log(filepath);
+        HandleEventBus();
 
         foreach (Button button in GetComponentsInChildren<Button>())
         {
@@ -28,6 +29,12 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         VerifySaveFileExist();
 
         LoadTutorialMenu();
+    }
+
+    public void HandleEventBus()
+    {
+        EventBus.Reset();
+        EventBus.Subscribe<StageCompletedEvent>(this);
     }
 
     public void LoadTutorialMenu()
@@ -51,6 +58,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public void PlayTutorialStage(int stageIndex)
     {
+        HandleEventBus();
         SceneManager.LoadScene(stageIndex);
     }
 
@@ -94,6 +102,8 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         if (type == typeof(StageCompletedEvent))
         {
             var stageCompleted = (StageCompletedEvent)@event;
+
+            Debug.Log(stageCompleted.StageIndex);
 
             if (stageCompleted.StageIndex > stagesCompleted)
             {

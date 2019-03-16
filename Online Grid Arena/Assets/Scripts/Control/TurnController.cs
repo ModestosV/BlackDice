@@ -114,8 +114,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
 
     private void MakeCharacterActive(ICharacterController selectedCharacterController)
     {
-        Debug.Log(selectedCharacterController.Owner);
-        Debug.Log(GetActivePlayer().Name);
         if (selectedCharacterController.Owner.Equals(GetActivePlayer().Name) && selectedCharacterController.CharacterState == CharacterState.UNUSED)
         {
             inCharacterSelectionState = false;

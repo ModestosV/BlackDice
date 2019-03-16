@@ -12,9 +12,11 @@ public sealed class GameManager : MonoBehaviour
     private MovementSelectionController movementSelectionController;
     private TargetEnemyAbilitySelectionController targetEnemyAbilitySelectionController;
     private TargetAllyAbilitySelectionController targetAllyAbilitySelectionController;
+    private TargetTileAOEAbilitySelectionController targetTileAOEAbilitySelectionController;
     private TargetTileAbilitySelectionController targetTileAbilitySelectionController;
     private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
+    private TargetCharacterLineAbilitySelectionController targetCharacterLineAbilitySelectionController;
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
@@ -84,8 +86,10 @@ public sealed class GameManager : MonoBehaviour
         targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
         targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
         targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetTileAOEAbilitySelectionController = new TargetTileAOEAbilitySelectionController(gridSelectionController);
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
+        targetCharacterLineAbilitySelectionController = new TargetCharacterLineAbilitySelectionController(gridSelectionController);
 
         var selectionControllers = new Dictionary<string, ISelectionController>()
         {
@@ -93,9 +97,11 @@ public sealed class GameManager : MonoBehaviour
             { "movement", movementSelectionController },
             { "target_enemy", targetEnemyAbilitySelectionController },
             { "target_ally", targetAllyAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController },
+            { "target_tile_aoe", targetTileAOEAbilitySelectionController },
             { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController }
+            { "target_line_aoe", targetLineAOEAbilitySelectionController },
+            { "target_tile", targetTileAbilitySelectionController},
+            { "target_character_line", targetCharacterLineAbilitySelectionController}
         };
 
         selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);

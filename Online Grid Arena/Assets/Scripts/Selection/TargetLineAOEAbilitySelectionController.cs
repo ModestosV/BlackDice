@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class TargetLineAOEAbilitySelectionController : TargetLineAbilitySelectionController
+public class TargetLineAOEAbilitySelectionController : AbstractLineAbilitySelectionController
 {
     public TargetLineAOEAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {

@@ -6,7 +6,7 @@ public class SelectTileEvent : AbstractEvent
 
     public SelectTileEvent(IHexTileController selectedTile)
     {
-        Debug.Log($"Selected tile contains parameters {selectedTile.ToString()}");
+        Debug.Log($"Selected tile contains parameters {selectedTile.ToString()} + with occupied value of: {selectedTile.IsOccupied()}");
         SelectedTile = selectedTile;
     }
 }

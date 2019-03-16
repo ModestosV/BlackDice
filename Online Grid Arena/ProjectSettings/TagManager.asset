@@ -17,6 +17,7 @@ TagManager:
   - PengwinArrow
   - CatArrow
   - TutorialArrowW
+  - TutorialTooltip
   layers:
   - Default
   - TransparentFX
