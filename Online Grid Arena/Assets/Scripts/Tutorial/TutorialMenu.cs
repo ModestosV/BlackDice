@@ -15,6 +15,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
     void Start()
     {
         filepath = Application.persistentDataPath + "/playerInfo.bin";
+        Debug.Log(filepath);
         EventBus.Subscribe<StageCompletedEvent>(this);
 
         foreach (Button button in GetComponentsInChildren<Button>())
