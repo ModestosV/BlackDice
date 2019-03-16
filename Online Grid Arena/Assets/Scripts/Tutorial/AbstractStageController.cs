@@ -1,5 +1,4 @@
-﻿
-public class AbstractStageController
+﻿public class AbstractStageController
 {
     public void CompleteStage(int stageIndex)
     {
