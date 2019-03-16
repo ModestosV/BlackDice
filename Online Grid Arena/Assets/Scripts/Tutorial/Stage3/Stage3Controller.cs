@@ -9,6 +9,11 @@ public class Stage3Controller : IEventSubscriber
     private ArrowIndicator[] arrows;
     private List<IPlayer> players;
     private bool finalStep;
+    private int indexCat;
+    private int indexPengwin;
+    private int indexScratch;
+    private int indexSlide;
+    private int indexBoost;
 
     public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows, List<IPlayer> players)
     {
@@ -16,26 +21,41 @@ public class Stage3Controller : IEventSubscriber
         this.arrows = arrows;
         this.players = players;
         this.finalStep = false;
-    }
-
-    public void Handle(IEvent @event)
-    {
-        var type = @event.GetType();
-        var indexCat = 0;
-        var indexPengwin = 0;
-        
 
         foreach (ICharacterController c in characters)
         {
             if(c.Character.GetType() == typeof(RocketCat))
             {
                 indexCat = characters.IndexOf(c);
+                foreach(IAbility ab in c.Abilities)
+                {
+                    if (ab.GetType() == typeof(Scratch))
+                    {
+                        indexScratch = c.Abilities.IndexOf(ab);
+                    }
+                    if(ab.GetType() == typeof(BlastOff))
+                    {
+                        indexBoost = c.Abilities.IndexOf(ab);
+                    }
+                }
             }
             else
             {
                 indexPengwin = characters.IndexOf(c);
+                foreach (IAbility ab in c.Abilities)
+                {
+                    if (ab.GetType() == typeof(Slide))
+                    {
+                        indexSlide = c.Abilities.IndexOf(ab);
+                    }
+                }
             }
         }
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();     
 
         if (type == typeof(StartNewTurnEvent))
         {
@@ -131,7 +151,7 @@ public class Stage3Controller : IEventSubscriber
                 abilityIndex = ability.AbilityIndex;
             }
 
-            if (abilityIndex != 0 && !characters[indexPengwin].IsActive)
+            if (abilityIndex != indexScratch && !characters[indexPengwin].IsActive)
             {
                 foreach (ArrowIndicator arrow in arrows)
                 {
@@ -212,7 +232,20 @@ public class Stage3Controller : IEventSubscriber
                         arrow.HideArrow();
                     }
                 }
+            }
+            else if (selectMode.SelectionMode.Equals(SelectionMode.FREE) && characters[indexCat].IsActive && !characters[indexCat].CanUseAbility(indexBoost) && finalStep)
+            {
+                foreach (ArrowIndicator arrow in arrows)
+                {
+                   arrow.HideArrow();
+                }
 
+                characters[indexCat].HUDController.ClearSelectedHUD();
+                characters[indexCat].HUDController.ClearTargetHUD();
+                characters[indexCat].EndOfTurn();
+                EventBus.Publish(new DeselectSelectedTileEvent());
+                EventBus.Publish(new StartNewTurnEvent());
+                EventBus.Publish(new StageCompletedEvent(2));
             }
         }
     }
