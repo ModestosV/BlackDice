@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public sealed class TutorialGameManager : MonoBehaviour
+public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 {
     [SerializeField] private int tutorialStageIndex;
 
@@ -36,7 +36,28 @@ public sealed class TutorialGameManager : MonoBehaviour
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        // Shared items between tutorials will be put here!
+        // Initialize selection controllers
+        gridSelectionController = new GridSelectionController();
+        freeSelectionController = new FreeSelectionController(gridSelectionController);
+        movementSelectionController = new MovementSelectionController(gridSelectionController);
+        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
+        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
+        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
+        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
+        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
+
+        var selectionControllers = new Dictionary<string, ISelectionController>()
+        {
+            { "free", freeSelectionController },
+            { "movement", movementSelectionController },
+            { "target_enemy", targetEnemyAbilitySelectionController },
+            { "target_ally", targetAllyAbilitySelectionController },
+            { "target_tile", targetTileAbilitySelectionController },
+            { "target_line", targetLineAbilitySelectionController },
+            { "target_line_aoe", targetLineAOEAbilitySelectionController }
+        };
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
 
         Debug.Log(ToString() + " Awake() end");
     }
@@ -74,29 +95,6 @@ public sealed class TutorialGameManager : MonoBehaviour
 
         hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
-        // Initialize selection controllers
-        gridSelectionController = new GridSelectionController();
-        freeSelectionController = new FreeSelectionController(gridSelectionController);
-        movementSelectionController = new MovementSelectionController(gridSelectionController);
-        targetEnemyAbilitySelectionController = new TargetEnemyAbilitySelectionController(gridSelectionController);
-        targetAllyAbilitySelectionController = new TargetAllyAbilitySelectionController(gridSelectionController);
-        targetTileAbilitySelectionController = new TargetTileAbilitySelectionController(gridSelectionController);
-        targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
-        targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
-
-        var selectionControllers = new Dictionary<string, ISelectionController>()
-        {
-            { "free", freeSelectionController },
-            { "movement", movementSelectionController },
-            { "target_enemy", targetEnemyAbilitySelectionController },
-            { "target_ally", targetAllyAbilitySelectionController },
-            { "target_tile", targetTileAbilitySelectionController },
-            { "target_line", targetLineAbilitySelectionController },
-            { "target_line_aoe", targetLineAOEAbilitySelectionController }
-        };
-
-        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
-
         // Initialize input manager
         inputManager = FindObjectOfType<InputManager>();
         inputManager.SelectionManager = selectionManager;
@@ -126,11 +124,7 @@ public sealed class TutorialGameManager : MonoBehaviour
 
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
-
-        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
-
-        EventBus.Subscribe<AbilityClickEvent>(inputManager);
 
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
@@ -152,8 +146,6 @@ public sealed class TutorialGameManager : MonoBehaviour
             EventBus.Subscribe<StartNewTurnEvent>(c);
         }
 
-        EventBus.Subscribe<SelectActivePlayerEvent>(FindObjectOfType<TurnIndicator>());
-
         // Start Game
         Grid grid = FindObjectOfType<Grid>();
         grid.InitializeGrid(gridSelectionController);
@@ -162,6 +154,15 @@ public sealed class TutorialGameManager : MonoBehaviour
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
         Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.gridController.GetTile((5, -13, 8)));
+
+        EventBus.Subscribe<StartNewTurnEvent>(stage2Controller);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stage2Controller);
+        EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
+        EventBus.Subscribe<SelectTileEvent>(stage2Controller);
+
+        EventBus.Subscribe<StageCompletedEvent>(this);
+        EventBus.Subscribe<SurrenderEvent>(this);
     }
 
     private void StartStageAttack()
@@ -179,5 +180,25 @@ public sealed class TutorialGameManager : MonoBehaviour
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
         Debug.Log(ToString() + " Start() end");
+    }
+
+    public void ExitStage()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void Handle(IEvent @event)
+    {
+        var type = @event.GetType();
+
+        if (type == typeof(StageCompletedEvent))
+        {
+            Invoke("ExitStage", 3);
+        }
+
+        if (type == typeof(SurrenderEvent))
+        {
+            ExitStage();
+        }
     }
 }
