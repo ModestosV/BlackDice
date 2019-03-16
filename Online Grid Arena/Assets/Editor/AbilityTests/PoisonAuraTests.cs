@@ -15,14 +15,11 @@ public class PoisonAuraTests
     IHexTileController secondNeighborTile;
     List<IHexTileController> targetTiles;
     List<IHexTileController> neighborTiles;
-    int counter1;
-    int counter2;
+    int counter;
 
     [SetUp]
     public void Init()
     {
-        counter1 = 0;
-        counter2 = 0;
         occupiedTile = Substitute.For<IHexTileController>();
         firstNeighborTile = Substitute.For<IHexTileController>();
         secondNeighborTile = Substitute.For<IHexTileController>();
@@ -43,11 +40,12 @@ public class PoisonAuraTests
     [Test]
     public void Execute_applies_to_all_neighbors()
     {
-        firstNeighborTile.When(x => x.PlayAbilityAnimation(Arg.Any<GameObject>())).Do(x => counter1++);
-        secondNeighborTile.When(x => x.PlayAbilityAnimation(Arg.Any<GameObject>())).Do(x => counter2++);
+        firstNeighborTile.OccupantCharacter.Returns(x => null);
+        secondNeighborTile.OccupantCharacter.Returns(x => null);
+        firstNeighborTile.When(x => x.PlayAbilityAnimation(Arg.Any<GameObject>())).Do(x => counter++);
+        secondNeighborTile.When(x => x.PlayAbilityAnimation(Arg.Any<GameObject>())).Do(x => counter++);
 
         sut.Execute(targetTiles);
-        Assert.AreEqual(1, counter1);
-        Assert.AreEqual(1, counter2);
+        Assert.AreEqual(2, counter);
     }
 }
