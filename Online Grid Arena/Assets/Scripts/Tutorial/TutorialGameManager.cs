@@ -37,6 +37,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
 
+    private Grid grid;
+
     private void Awake()
     {
         Debug.Log(ToString() + " Awake() begin");
@@ -79,6 +81,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         inputManager = FindObjectOfType<InputManager>();
         inputManager.SelectionManager = selectionManager;
 
+        // Initialize Grid
+        grid = FindObjectOfType<Grid>();
+
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -90,20 +95,14 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<ActiveCharacterEvent>(turnController);
-
         EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
-
         EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<EscapePressedEvent>(matchMenu);
-
         EventBus.Subscribe<EscapePressedEvent>(controlsMenu);
-
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
-
         EventBus.Subscribe<DeselectSelectedTileEvent>(gridSelectionController);
         EventBus.Subscribe<SelectTileEvent>(gridSelectionController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
-
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 
         foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
@@ -125,6 +124,13 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         }
     }
 
+    private void StartGame()
+    {
+        grid.InitializeGrid(gridSelectionController);
+
+        EventBus.Publish(new StartNewTurnEvent());
+    }
+
     private void StartStageMovement()
     {
         // Get all characters from scene
@@ -136,15 +142,12 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         //Initialize character panels
         characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
-
-        Debug.Log("Character Panels size: " + characterPanels.Count);
-        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
-
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
 
         // Initialize turn controller
         turnController = new TurnController(players);
 
+        // Initialize HUD controller
         hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
@@ -156,11 +159,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
-        // Start Game
-        Grid grid = FindObjectOfType<Grid>();
-        grid.InitializeGrid(gridSelectionController);
-
-        EventBus.Publish(new StartNewTurnEvent());
+        StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
         Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.gridController.GetTile((5, -13, 8)));
