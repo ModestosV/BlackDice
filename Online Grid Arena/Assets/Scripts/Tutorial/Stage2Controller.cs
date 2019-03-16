@@ -40,7 +40,14 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
             }
             else
             {
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
+                if (character.IsActive)
+                {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
+                }
+                else
+                {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
+                }
             }
         }
 
