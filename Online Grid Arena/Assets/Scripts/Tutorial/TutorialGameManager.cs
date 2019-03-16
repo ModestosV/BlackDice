@@ -170,7 +170,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
-        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.gridController.GetTile((5, -13, 8)));
+        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.GridController.GetTile((5, -13, 8)));
 
         EventBus.Subscribe<StartNewTurnEvent>(stage2Controller);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stage2Controller);

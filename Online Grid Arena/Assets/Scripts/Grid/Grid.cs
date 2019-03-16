@@ -6,7 +6,7 @@ public sealed class Grid : BlackDiceMonoBehaviour, IGrid
 {
     [SerializeField] private int gridWidth;
 
-    public GridController gridController;
+    public GridController GridController;
 
     private readonly int defaultGridWidth = 19;
 
@@ -15,7 +15,7 @@ public sealed class Grid : BlackDiceMonoBehaviour, IGrid
         if (!(gridWidth > 0))
             gridWidth = defaultGridWidth;
 
-        gridController = new GridController()
+        GridController = new GridController()
         {
             GridWidth = gridWidth
         };
@@ -24,7 +24,7 @@ public sealed class Grid : BlackDiceMonoBehaviour, IGrid
         ArrangeHexTilesInGridFormation(hexTiles);
 
         List<IHexTileController> hexTilesList = hexTiles.Select(x => x.Controller).ToList();
-        gridController.GenerateGridMap(hexTilesList);
+        GridController.GenerateGridMap(hexTilesList);
 
         foreach (IHexTileController hexTile in hexTilesList)
         {
