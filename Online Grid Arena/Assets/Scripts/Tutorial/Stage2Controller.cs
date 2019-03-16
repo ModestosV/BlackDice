@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using System.Threading;
 
 public class Stage2Controller: IStageController, IEventSubscriber
 {
@@ -13,15 +14,10 @@ public class Stage2Controller: IStageController, IEventSubscriber
     private ICharacterController character;
     private IHexTileController finishTile;
 
-    private int turns = 0;
-
     public Stage2Controller(ICharacterController character, IHexTileController finishTile)
     {
         this.character = character;
         this.finishTile = finishTile;
-
-        EventBus.Subscribe<StartNewTurnEvent>(this);
-        EventBus.Subscribe<UpdateSelectionModeEvent>(this);
     }
 
     public bool CharacterOnFinishTile()
@@ -32,12 +28,6 @@ public class Stage2Controller: IStageController, IEventSubscriber
     public void CompleteStage()
     {
         EventBus.Publish(new StageCompletedEvent(2));
-        ExitStage();
-    }
-
-    public void ExitStage()
-    {
-        SceneManager.LoadScene(2);
     }
 
     public void Handle(IEvent @event)
@@ -58,26 +48,25 @@ public class Stage2Controller: IStageController, IEventSubscriber
             }
         }
 
-        if (type == typeof(StartNewTurnEvent))
+        if (type == typeof(SelectActivePlayerEvent))
         {
-            turns += 1;
+            var selectActivePlayerEvent = (SelectActivePlayerEvent) @event;
 
-            Debug.Log(turns);
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
 
-            if (turns % 2 == 1)
+            if (!selectActivePlayerEvent.ActivePlayer.Name.Equals(character.Owner))
             {
-                Debug.Log("SKIPPING: " + turns);
                 // Skip other team's turn
                 EventBus.Publish(new StartNewTurnEvent());
             }
-
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
         }
 
         if (CharacterOnFinishTile())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
-            
+
+            Thread.Sleep(5);
+
             CompleteStage();
         }
     }
