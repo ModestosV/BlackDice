@@ -1,5 +1,4 @@
-﻿
-public class CharacterPanel : BlackDiceMonoBehaviour
+﻿public class CharacterPanel : BlackDiceMonoBehaviour
 {
     public CharacterTile[] CharacterTiles { get; set; }
 
