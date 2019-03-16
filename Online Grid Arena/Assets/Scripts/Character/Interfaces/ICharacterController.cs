@@ -10,7 +10,7 @@ public interface ICharacterController
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { get; set; }
-    List<IEffect> Effects { set; }
+    List<IEffect> Effects { get; set; }
 
     string Owner { get; set; }    
     Texture CharacterIcon { get;  set; }
@@ -28,7 +28,7 @@ public interface ICharacterController
     void UpdateHealthBar();
     void ApplyEffect(IEffect effect);
     void IncrementAbilitiesRemaining();
-
+    void ConsumeOneStack(IEffect effectToConsume);
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
     void UpdateTargetHUD();
