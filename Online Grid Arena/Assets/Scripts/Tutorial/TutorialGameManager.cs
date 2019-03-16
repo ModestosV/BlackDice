@@ -39,6 +39,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private Stage3Controller stageController;
     private AbstractCharacter[] characters;
+    private Dictionary<string, ISelectionController> selectionControllers;
 
     private Grid grid;
 
@@ -73,7 +74,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
 
-        var selectionControllers = new Dictionary<string, ISelectionController>()
+        selectionControllers = new Dictionary<string, ISelectionController>()
         {
             { "free", freeSelectionController },
             { "movement", movementSelectionController },
@@ -84,14 +85,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             { "target_line_aoe", targetLineAOEAbilitySelectionController }
         };
 
-        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
-
-        // Initialize input manager
-        inputManager = FindObjectOfType<InputManager>();
-        inputManager.SelectionManager = selectionManager;
-
         // Initialize Grid
         grid = FindObjectOfType<Grid>();
+
+        //Initialize Characters for more scenes
+        characters = FindObjectsOfType<AbstractCharacter>();
 
         Debug.Log(ToString() + " Awake() end");
     }
@@ -181,8 +179,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         Debug.Log(ToString() + " Start() begin");
 
-        characters = FindObjectsOfType<AbstractCharacter>();
-
         // Get all characters from scene
         characterControllers = characters.Select(x => x.Controller).ToList();
 
@@ -221,6 +217,12 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         // Initialize stage controller
         stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
 
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+
+        // Initialize input manager
+        inputManager = FindObjectOfType<InputManager>();
+        inputManager.SelectionManager = selectionManager;
+
         // Initialize characters
         foreach (ICharacterController character in characterControllers)
         {
@@ -237,6 +239,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilityClickEvent>(stageController);
         EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
         EventBus.Subscribe<SelectCharacterEvent>(stageController);
+
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
 
         // Pengwin's Ultimate must handle DeathEvent
         var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
