@@ -6,10 +6,11 @@ using System.Threading;
 
 public class Stage2Controller: AbstractStageController, IEventSubscriber
 {
-    private const String TUTORIAL_STEP_1 = "Click On Rocket Cat\nLeft Click or Press F";
-    private const String TUTORIAL_STEP_2 = "Click on Tile with\nRed Arrow";
-    private const String TUTORIAL_STEP_3 = "After Using all Moves\nClick End Turn";
-    private const String STAGE_COMPLETE = "Congratulations! Stage Completed";
+    private const String TUTORIAL_STEP_1 = "Click On Rocket Cat";
+    private const String TUTORIAL_STEP_2 = "Left Click or Press F";
+    private const String TUTORIAL_STEP_3 = "Click on Tile with\nRed Arrow";
+    private const String TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
+    private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 2;
 
     private ICharacterController character;
@@ -21,7 +22,7 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
         this.finishTile = finishTile;
     }
 
-    public bool CharacterOnFinishTile()
+    private bool CharacterOnFinishTile()
     {
         return this.character.OccupiedTile == this.finishTile ? true : false;
     }
@@ -36,13 +37,17 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
 
             if (selectionModeEvent.SelectionMode == SelectionMode.MOVEMENT)
             {
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
             }
             else
             {
-                if (character.IsActive)
+                if (!character.CanMove() && character.IsActive)
                 {
-                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
+                }
+                else if (character.IsActive)
+                {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
                 }
                 else
                 {
@@ -50,12 +55,23 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
                 }
             }
         }
+        else if (type == typeof(SelectTileEvent))
+        {
+            if (character.IsActive)
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
+            }
+            else
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
+            }
+        }
 
         if (type == typeof(SelectActivePlayerEvent))
         {
             var selectActivePlayerEvent = (SelectActivePlayerEvent) @event;
 
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
 
             if (!selectActivePlayerEvent.ActivePlayer.Name.Equals(character.Owner))
             {
