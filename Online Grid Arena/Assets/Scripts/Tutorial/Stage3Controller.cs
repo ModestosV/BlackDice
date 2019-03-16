@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using TMPro;
 
 public class Stage3Controller : IEventSubscriber
 {
@@ -79,15 +80,20 @@ public class Stage3Controller : IEventSubscriber
                     }
                 }
             }
-            else
+            else if (!finalStep)
             {
-                var arrow = arrows.Select(x => x.GameObject.tag == "PengwinArrow" ? x : null).ToList();
 
-                foreach (ArrowIndicator obj in arrow)
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_3;
+
+                foreach (ArrowIndicator obj in arrows)
                 {
-                    if (obj != null)
+                    if (obj.tag == "PengwinArrow")
                     {
                         obj.ShowArrow();
+                    }
+                    else
+                    {
+                        obj.HideArrow();
                     }
                 }
             }
@@ -99,6 +105,7 @@ public class Stage3Controller : IEventSubscriber
                 var active = (SelectCharacterEvent)@event;
                 if (active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState != CharacterState.EXHAUSTED && !finalStep)
                 {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_2;
                     foreach (ArrowIndicator arrow in arrows)
                     {
                         if (arrow.GameObject.tag == "TutorialArrow")
@@ -113,6 +120,7 @@ public class Stage3Controller : IEventSubscriber
                 }
                 else if ((active.Character.Character.GetType() == typeof(RocketCat) && !active.Character.CheckAbilitiesExhausted() && characters[indexPengwin].CharacterState == CharacterState.EXHAUSTED) || finalStep)
                 {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_6;
                     foreach (ArrowIndicator arrow in arrows)
                     {
                         if (arrow.GameObject.tag == "TutorialArrowW")
@@ -131,6 +139,7 @@ public class Stage3Controller : IEventSubscriber
                 var active = (SelectCharacterEvent)@event;
                 if (active.Character.Character.GetType() == typeof(Pengwin) && !active.Character.CheckAbilitiesExhausted())
                 {
+                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
                     foreach (ArrowIndicator arrow in arrows)
                     {
                         if (arrow.GameObject.tag == "TutorialArrowW")
@@ -161,6 +170,7 @@ public class Stage3Controller : IEventSubscriber
 
             if (abilityIndex != indexScratch && !characters[indexPengwin].IsActive)
             {
+
                 foreach (ArrowIndicator arrow in arrows)
                 {
                     if (arrow.GameObject.tag == "CatArrow")
@@ -168,20 +178,6 @@ public class Stage3Controller : IEventSubscriber
                         arrow.HideArrow();
                     }
                     else if (arrow.GameObject.tag == "TutorialArrowW")
-                    {
-                        arrow.ShowArrow();
-                    }
-                }
-            }
-            else
-            {
-                foreach (ArrowIndicator arrow in arrows)
-                {
-                    if (arrow.GameObject.tag == "TutorialArrow")
-                    {
-                        arrow.HideArrow();
-                    }
-                    else if (arrow.GameObject.tag == "PengwinArrow")
                     {
                         arrow.ShowArrow();
                     }
@@ -203,6 +199,7 @@ public class Stage3Controller : IEventSubscriber
             }
             else if (selectMode.SelectionMode.Equals(SelectionMode.ABILITY) && characters[indexCat].CharacterState == CharacterState.EXHAUSTED)
             {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
                 foreach (ArrowIndicator arrow in arrows)
                 {
                     if (arrow.GameObject.tag == "TutorialArrowW")
@@ -228,6 +225,7 @@ public class Stage3Controller : IEventSubscriber
                 EventBus.Publish(new StartNewTurnEvent());
 
                 this.finalStep = true;
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_5;
 
                 foreach (ArrowIndicator arrow in arrows)
                 {
@@ -251,9 +249,10 @@ public class Stage3Controller : IEventSubscriber
                 characters[indexCat].HUDController.ClearSelectedHUD();
                 characters[indexCat].HUDController.ClearTargetHUD();
                 characters[indexCat].EndOfTurn();
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_COMPLETED;
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 EventBus.Publish(new StartNewTurnEvent());
-                EventBus.Publish(new StageCompletedEvent(1));
+                EventBus.Publish(new StageCompletedEvent(2));
             }
         }
     }
