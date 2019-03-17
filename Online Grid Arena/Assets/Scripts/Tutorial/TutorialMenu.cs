@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class TutorialMenu: HideableUI, IEventSubscriber
 {
+    private const int MAX_STAGE_ALLOWED = 2;
+
     private string filepath = "";
     private int stagesCompleted = 0;
 
@@ -47,7 +49,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
             StageButtons[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
         }
 
-        if (stagesCompleted < 7)
+        if (stagesCompleted < MAX_STAGE_ALLOWED)
         {
             StageButtons[stagesCompleted].interactable = true;
             StageButtons[stagesCompleted].GetComponentInChildren<TextMeshProUGUI>().color = Color.yellow;
