@@ -15,6 +15,7 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
 
     private ICharacterController character;
     private IHexTileController finishTile;
+    private SelectionMode selectionMode = SelectionMode.FREE;
 
     public Stage2Controller(ICharacterController character, IHexTileController finishTile)
     {
@@ -35,29 +36,20 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
         {
             var selectionModeEvent = (UpdateSelectionModeEvent)@event;
 
-            if (selectionModeEvent.SelectionMode == SelectionMode.MOVEMENT)
-            {
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
-            }
-            else
-            {
-                if (!character.CanMove() && character.IsActive)
-                {
-                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
-                }
-                else if (character.IsActive)
-                {
-                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
-                }
-                else
-                {
-                    GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
-                }
-            }
+            selectionMode = selectionModeEvent.SelectionMode;
         }
-        else if (type == typeof(SelectTileEvent))
+
+        if (selectionMode == SelectionMode.MOVEMENT)
         {
-            if (character.IsActive)
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
+        }
+        else
+        {
+            if (!character.CanMove() && character.IsActive)
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
+            }
+            else if (character.IsActive)
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
             }
