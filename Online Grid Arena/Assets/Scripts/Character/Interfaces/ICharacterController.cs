@@ -15,7 +15,6 @@ public interface ICharacterController
     string Owner { get; set; }    
     Texture CharacterIcon { get;  set; }
     Color32 BorderColor { get; set; }
-    IHealthBar HealthBar { set; }
     MeshRenderer Shield { set; }
     bool IsShielded { get; set; }
     bool IsActive { get; }
@@ -25,7 +24,6 @@ public interface ICharacterController
     void Refresh();
     void Die();
     void Heal(float heal);
-    void UpdateHealthBar();
     void ApplyEffect(IEffect effect);
     void IncrementAbilitiesRemaining();
 

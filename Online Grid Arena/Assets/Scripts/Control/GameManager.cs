@@ -150,6 +150,7 @@ public sealed class GameManager : MonoBehaviour
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
+            EventBus.Subscribe<SelectTileEvent>(tile);
         }
 
         foreach (AbstractCharacter c in FindObjectsOfType<AbstractCharacter>())

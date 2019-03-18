@@ -73,7 +73,6 @@ public class ActiveAbilityTests
     public void Execute_damages_target_tile()
     {
         sut.Execute(targetTiles);
-        targetCharacterController.Received(1).UpdateHealthBar();
     }
 
     [Test]

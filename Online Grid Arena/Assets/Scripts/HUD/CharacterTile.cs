@@ -6,6 +6,8 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 {
     private RawImage characterIcon;
     private Image border;
+    private GameObject HealthBar;
+    private IHealthBar healthBar;
 
     private GameObject activeIndicator;
     private Animator activeAnimator;
@@ -31,6 +33,19 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 
         shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator"), this.transform) as GameObject;
         HideShield();
+
+        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
+        HealthBar.transform.SetParent(this.transform);
+        HealthBar.transform.localPosition -= new Vector3(0.5f, 32.0f);
+        HealthBar.transform.localScale = new Vector3(0.34f, 1.4f);
+        HealthBar.transform.SetSiblingIndex(2);
+
+        healthBar = HealthBar.GetComponent<HealthBar>();
+    }
+
+    private void Start()
+    {
+        UpdateHealthBar();
     }
 
     public void Setup(ICharacterController character)
@@ -78,6 +93,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     public void OnPointerClick(PointerEventData eventData)
     {
         EventBus.Publish(new SelectTileEvent(character.OccupiedTile));
+    }
+
+    public void UpdateHealthBar()
+    {
+        healthBar.SetHealthBarRatio(character.CharacterStats["health"].CurrentValue / character.CharacterStats["health"].Value);
+        healthBar.SetHealthText(Mathf.CeilToInt(character.CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(character.CharacterStats["health"].Value).ToString());
     }
 
     public void Handle(IEvent @event)
@@ -135,6 +156,10 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
                     }
                 }
             }
+        }
+        else if (type == typeof(SelectTileEvent))
+        {
+            UpdateHealthBar();
         }
     }
 }

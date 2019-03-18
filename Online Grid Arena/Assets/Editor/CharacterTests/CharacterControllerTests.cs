@@ -97,7 +97,6 @@ public class CharacterControllerTests
             Owner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
-            HealthBar = healthBar,
             Effects = effects
         };
     }

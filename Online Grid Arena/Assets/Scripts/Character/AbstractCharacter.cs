@@ -11,7 +11,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     [SerializeField] protected Color32 borderColor;
 
     protected GameObject teamColorIndicator;
-    protected GameObject healthBar;
     protected GameObject shield;
     protected GameObject exhausted;
 
@@ -52,9 +51,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     {
         Debug.Log(ToString() + " Awake() begin");
 
-        healthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
-        healthBar.transform.SetParent(this.transform);
-
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;
@@ -80,7 +76,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
-        characterController.UpdateHealthBar();
 
         Debug.Log(ToString() + " Start() end");
     }
