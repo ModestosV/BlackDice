@@ -221,6 +221,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         StartGame();
 
+        Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1]);
 
     }
 

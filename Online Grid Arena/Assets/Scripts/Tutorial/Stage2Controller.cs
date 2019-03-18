@@ -1,8 +1,6 @@
-﻿using UnityEngine.SceneManagement;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using TMPro;
-using System.Threading;
 
 public class Stage2Controller: AbstractStageController, IEventSubscriber
 {
@@ -75,8 +73,6 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
         if (CharacterOnFinishTile())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
-
-            Thread.Sleep(5);
 
             CompleteStage(STAGE_INDEX);
         }
