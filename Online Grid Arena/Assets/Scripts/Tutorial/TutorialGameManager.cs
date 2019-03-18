@@ -116,6 +116,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
+        EventBus.Subscribe<StageCompletedEvent>(this);
+        EventBus.Subscribe<SurrenderEvent>(this);
 
         foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
         {
@@ -177,14 +179,49 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
         EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
         EventBus.Subscribe<SelectTileEvent>(stage2Controller);
-
-        EventBus.Subscribe<StageCompletedEvent>(this);
-        EventBus.Subscribe<SurrenderEvent>(this);
     }
 
     private void StartStageAttack()
     {
         // Marc's Tutorial Stage
+    }
+
+    private void StartStageHeal()
+    {
+        // Heal Stage 4
+    }
+
+    private void StartStageBuff()
+    {
+        //Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+        players[0].AddCharacterController(characterControllers[0]);
+        players[1].AddCharacterController(characterControllers[1]);
+        players[1].AddCharacterController(characterControllers[2]);
+        characterPanels[1].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
+        characterPanels[0].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
+        characterPanels[0].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize HUD controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        StartGame();
+
+
     }
 
     private void Start()
@@ -193,6 +230,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         tutorialStageStartMethods.Add(() => this.StartStageMovement());
         tutorialStageStartMethods.Add(() => this.StartStageAttack());
+        tutorialStageStartMethods.Add(() => this.StartStageHeal());
+        tutorialStageStartMethods.Add(() => this.StartStageBuff());
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
