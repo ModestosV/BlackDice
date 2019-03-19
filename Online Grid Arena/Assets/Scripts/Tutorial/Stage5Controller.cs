@@ -119,6 +119,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
             currentStepIndex = 3;
             arrowIndicator.Show();
+            abilityIndexSelected = -1;
         }
         else if (abilityIndexSelected != 0 && selectionMode == SelectionMode.ABILITY)
         {
@@ -149,7 +150,17 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep6()
     {
-        if (abilityIndexSelected == 2)
+        if (abilityIndexSelected == 0 || abilityIndexSelected == 1 || abilityIndexSelected == 3)
+        {
+            Debug.Log("wtf");
+            handleStep5();
+            abilityIndexSelected = -1;
+        }
+        else if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue)
+        {
+            // StageFailed();
+        }
+        else if (pengwin.CharacterStats["defense"].CurrentValue.Equals(120))
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_7;
             currentStepIndex = 6;

@@ -42,11 +42,12 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         }
         lastInputParameters = inputParameters;
 
+        SelectionManager.UpdateSelectionMode(inputParameters);
+
         Debug.Log($"Ability {inputParameters.GetAbilityNumber()} clicked on Ability Panel.");
 
         if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
         {
-            SelectionManager.UpdateSelectionMode(inputParameters);
             EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
         }
         else
