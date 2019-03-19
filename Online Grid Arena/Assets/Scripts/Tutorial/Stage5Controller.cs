@@ -32,6 +32,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private int abilityIndexSelected = -1;
     private IHexTileController selectedTile = null;
     private SelectionMode selectionMode = SelectionMode.FREE;
+    private ArrowIndicator arrowIndicator;
+    private bool endTurnEventTrigger = false;
 
     public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter)
     {
@@ -39,9 +41,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         this.pengwin = pengwin;
         this.defaultCharacter = defaultCharacter;
 
-        rocketCat.CharacterStats["moves"].BaseValue = 0;
-        pengwin.CharacterStats["moves"].BaseValue = 0;
-        defaultCharacter.CharacterStats["moves"].BaseValue = 0;
+        this.arrowIndicator = GameObject.FindWithTag("ArrowIndicator").GetComponent<ArrowIndicator>();
+
+        this.rocketCat.CharacterStats["moves"].BaseValue = 0;
+        this.pengwin.CharacterStats["moves"].BaseValue = 0;
+        this.defaultCharacter.CharacterStats["moves"].BaseValue = 0;
 
         stepMethods.Add(() => this.handleStep1());
         stepMethods.Add(() => this.handleStep2());
@@ -56,6 +60,28 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         stepMethods.Add(() => this.handleStep11());
         stepMethods.Add(() => this.handleStep12());
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
+    }
+
+    private void handleEndTurnAtWrongMoment()
+    {
+        if (endTurnEventTrigger)
+        {
+            if (currentStepIndex < 3)
+            {
+                restartToStep1();
+            }
+            else if (currentStepIndex < 7)
+            {
+                handleStep4();
+            }
+            EventBus.Publish(new StartNewTurnEvent());
+        }
+    }
+
+    private void restartToStep1()
+    {
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
+        currentStepIndex = 0;
     }
 
     private void handleStep1()
@@ -79,8 +105,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
         else
         {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
-            currentStepIndex = 0;
+            restartToStep1();
         }
     }
 
@@ -91,22 +116,43 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
             currentStepIndex += 1;
             selectedTile = null;
+            arrowIndicator.Show();
+        }
+        else if (abilityIndexSelected != 0 && selectionMode == SelectionMode.ABILITY)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
+            currentStepIndex = 1;
+        }
+        else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
+        {
+            restartToStep1();
         }
     }
 
     private void handleStep4()
     {
-
+        arrowIndicator.Hide();
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_5;
+        currentStepIndex = 4;
     }
 
     private void handleStep5()
     {
-
+        if (pengwin.IsActive)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_6;
+            currentStepIndex += 1;
+        }
     }
 
     private void handleStep6()
     {
-
+        if (abilityIndexSelected == 2)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_7;
+            currentStepIndex += 1;
+            arrowIndicator.Show();
+        }
     }
 
     private void handleStep7()
@@ -155,6 +201,16 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             var selectionModeEvent = (UpdateSelectionModeEvent)@event;
 
             selectionMode = selectionModeEvent.SelectionMode;
+        }
+
+        if (type == typeof(StartNewTurnEvent))
+        {
+            endTurnEventTrigger = true;
+        }
+
+        if (endTurnEventTrigger && currentStepIndex != 3 && currentStepIndex != 7 && currentStepIndex != 13)
+        {
+            handleEndTurnAtWrongMoment();
         }
 
         stepMethods[currentStepIndex].Invoke();
