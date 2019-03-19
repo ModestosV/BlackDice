@@ -160,7 +160,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep6()
     {
-        if (abilityIndexSelected == 0 || abilityIndexSelected == 1 || abilityIndexSelected == 3)
+        if ((new List<int>() { 0, 1, 3 }).Contains(abilityIndexSelected))
         {
             handleStep5();
             abilityIndexSelected = -1;
@@ -298,9 +298,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             endTurnEventTrigger = true;
         }
 
-        if (endTurnEventTrigger && currentStepIndex != 0 && currentStepIndex != 4
-            && currentStepIndex != 7 && currentStepIndex != 8
-            && currentStepIndex != 11 && currentStepIndex != 13)
+        if (endTurnEventTrigger && !(new List<int>() { 0, 4, 7, 8, 11, 13 }).Contains(currentStepIndex))
         {
             handleEndTurnAtWrongMoment();
         }
