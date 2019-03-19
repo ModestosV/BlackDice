@@ -259,7 +259,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         if (type == typeof(SurrenderEvent))
         {
-            ExitStage();
+            Invoke("ExitStage", 3);
         }
     }
 }

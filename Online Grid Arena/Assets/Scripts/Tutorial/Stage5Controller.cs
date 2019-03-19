@@ -16,9 +16,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const String TUTORIAL_STEP_9 = "Click on Pengwin";
     private const String TUTORIAL_STEP_10 = "Press R";
     private const String TUTORIAL_STEP_11 = "Attack Rocket Cat";
-    private const String TUTORIAL_STEP_12 = "Click on Rocket Cat";
-    private const String TUTORIAL_STEP_13 = "Check Buff stack 4\nEnd Turn";
+    private const String TUTORIAL_STEP_12 = "Press End Turn";
+    private const String TUTORIAL_STEP_13 = "Click on Rocket Cat";
+    private const String TUTORIAL_STEP_14 = "Check Buff stack 4\nEnd Turn";
     private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
+    private const String STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
     private ICharacterController rocketCat;
@@ -60,7 +62,15 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         stepMethods.Add(() => this.handleStep10());
         stepMethods.Add(() => this.handleStep11());
         stepMethods.Add(() => this.handleStep12());
+        stepMethods.Add(() => this.handleStep13());
+        stepMethods.Add(() => this.handleStep14());
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
+    }
+
+    private void stageFailed()
+    {
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
+        EventBus.Publish(new SurrenderEvent());
     }
 
     private void handleEndTurnAtWrongMoment()
@@ -152,13 +162,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     {
         if (abilityIndexSelected == 0 || abilityIndexSelected == 1 || abilityIndexSelected == 3)
         {
-            Debug.Log("wtf");
             handleStep5();
             abilityIndexSelected = -1;
         }
         else if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue)
         {
-            // StageFailed();
+            stageFailed();
         }
         else if (pengwin.CharacterStats["defense"].CurrentValue.Equals(120))
         {
@@ -179,32 +188,36 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep8()
     {
-        arrowIndicator.Hide();
-        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
-        currentStepIndex = 8;
-        EventBus.Publish(new StartNewTurnEvent());
-        pengwin.Refresh();
-        pengwin.CharacterState = CharacterState.UNUSED;
+        if (endTurnEventTrigger)
+        {
+            arrowIndicator.Hide();
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
+            currentStepIndex = 8;
+            EventBus.Publish(new StartNewTurnEvent());
+        }
     }
 
     private void handleStep9()
     {
-        if (pengwin.IsActive)
+        pengwin.Refresh();
+        pengwin.CharacterState = CharacterState.UNUSED;
+
+        if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_10;
-            currentStepIndex += 1;
+            currentStepIndex = 9;
         }
             
     }
 
     private void handleStep10()
     {
-        if (pengwin.IsActive)
+        if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
             if (abilityIndexSelected == 3)
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
-                currentStepIndex += 1;
+                currentStepIndex = 10;
             }
         }
         else
@@ -219,27 +232,46 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
-            currentStepIndex += 1;
-            arrowIndicator.Show();
-            EventBus.Publish(new StartNewTurnEvent());
+            currentStepIndex = 11;
         }
         else if (abilityIndexSelected != 3 && selectionMode == SelectionMode.ABILITY)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
-            currentStepIndex -= 1;
+            currentStepIndex = 10;
         }
-        else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
+        else if (rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
         {
-            handleStep7();
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
+            currentStepIndex = 8;
+            handleStep9();
         }
     }
 
     private void handleStep12()
     {
-        if (rocketCat.IsActive)
+        if (endTurnEventTrigger)
         {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
-            currentStepIndex += 1;
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_13;
+            currentStepIndex = 12;
+        }
+    }
+
+    private void handleStep13()
+    {
+        if (rocketCat == gridSelectionController.GetSelectedCharacter())
+        {
+            arrowIndicator.Show();
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_14;
+            currentStepIndex = 13;
+        }
+    }
+
+    private void handleStep14()
+    {
+        if (endTurnEventTrigger)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
+            CompleteStage(STAGE_INDEX);
         }
     }
 
@@ -267,7 +299,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
 
         if (endTurnEventTrigger && currentStepIndex != 0 && currentStepIndex != 4
-            && currentStepIndex != 7 && currentStepIndex != 8)
+            && currentStepIndex != 7 && currentStepIndex != 8
+            && currentStepIndex != 11 && currentStepIndex != 13)
         {
             handleEndTurnAtWrongMoment();
         }
