@@ -183,6 +183,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
         currentStepIndex = 8;
         EventBus.Publish(new StartNewTurnEvent());
+        pengwin.Refresh();
+        pengwin.CharacterState = CharacterState.UNUSED;
     }
 
     private void handleStep9()
