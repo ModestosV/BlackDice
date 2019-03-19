@@ -221,13 +221,12 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         StartGame();
 
-        Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1]);
+        Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
         EventBus.Subscribe<StartNewTurnEvent>(stage5Controller);
         EventBus.Subscribe<AbilitySelectedEvent>(stage5Controller);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stage5Controller);
-        EventBus.Subscribe<SelectActivePlayerEvent>(stage5Controller);
-        EventBus.Subscribe<DeselectSelectedTileEvent>(stage5Controller);
         EventBus.Subscribe<SelectTileEvent>(stage5Controller);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stage5Controller);
     }
 
     private void Start()

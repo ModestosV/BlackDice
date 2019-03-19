@@ -14,8 +14,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const String TUTORIAL_STEP_7 = "Check Buff\nClick on DefaultCharacter";
     private const String TUTORIAL_STEP_8 = "Check Buff\nPress End Turn";
     private const String TUTORIAL_STEP_9 = "Click on Pengwin";
-    private const String TUTORIAL_STEP_10 = "Press R\nAttack Rocket Cat";
-    private const String TUTORIAL_STEP_11 = "End Turn";
+    private const String TUTORIAL_STEP_10 = "Press R";
+    private const String TUTORIAL_STEP_11 = "Attack Rocket Cat";
     private const String TUTORIAL_STEP_12 = "Click on Rocket Cat";
     private const String TUTORIAL_STEP_13 = "Check Buff stack 4\nEnd Turn";
     private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
@@ -24,22 +24,23 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private ICharacterController rocketCat;
     private ICharacterController pengwin;
     private ICharacterController defaultCharacter;
+    private GridSelectionController gridSelectionController;
 
     private List<Action> stepMethods = new List<Action>();
 
     private int currentStepIndex = 0;
 
     private int abilityIndexSelected = -1;
-    private IHexTileController selectedTile = null;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ArrowIndicator arrowIndicator;
     private bool endTurnEventTrigger = false;
 
-    public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter)
+    public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter, GridSelectionController gridSelectionController)
     {
         this.rocketCat = rocketCat;
         this.pengwin = pengwin;
         this.defaultCharacter = defaultCharacter;
+        this.gridSelectionController = gridSelectionController;
 
         this.arrowIndicator = GameObject.FindWithTag("ArrowIndicator").GetComponent<ArrowIndicator>();
 
@@ -74,6 +75,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             {
                 handleStep4();
             }
+
+            endTurnEventTrigger = false;
             EventBus.Publish(new StartNewTurnEvent());
         }
     }
@@ -86,21 +89,21 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep1()
     {
-        if (rocketCat.IsActive)
+        if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
-            currentStepIndex += 1;
+            currentStepIndex = 1;
         }
     }
 
     private void handleStep2()
     {
-        if (rocketCat.IsActive)
+        if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
             if (abilityIndexSelected == 0)
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
-                currentStepIndex += 1;
+                currentStepIndex = 2;
             }
         }
         else
@@ -114,8 +117,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         if (pengwin.CharacterStats["health"].CurrentValue < pengwin.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
-            currentStepIndex += 1;
-            selectedTile = null;
+            currentStepIndex = 3;
             arrowIndicator.Show();
         }
         else if (abilityIndexSelected != 0 && selectionMode == SelectionMode.ABILITY)
@@ -138,10 +140,10 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep5()
     {
-        if (pengwin.IsActive)
+        if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_6;
-            currentStepIndex += 1;
+            currentStepIndex = 5;
         }
     }
 
@@ -150,39 +152,82 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         if (abilityIndexSelected == 2)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_7;
-            currentStepIndex += 1;
+            currentStepIndex = 6;
             arrowIndicator.Show();
         }
     }
 
     private void handleStep7()
     {
-
+        if (defaultCharacter == gridSelectionController.GetSelectedCharacter())
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_8;
+            currentStepIndex = 7;
+        }
     }
 
     private void handleStep8()
     {
-
+        arrowIndicator.Hide();
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
+        currentStepIndex = 8;
+        EventBus.Publish(new StartNewTurnEvent());
     }
 
     private void handleStep9()
     {
-
+        if (pengwin.IsActive)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_10;
+            currentStepIndex += 1;
+        }
+            
     }
 
     private void handleStep10()
     {
+        if (pengwin.IsActive)
+        {
+            if (abilityIndexSelected == 3)
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
+                currentStepIndex += 1;
+            }
+        }
+        else
+        {
+            handleStep7();
+        }
 
     }
 
     private void handleStep11()
     {
-
+        if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
+            currentStepIndex += 1;
+            arrowIndicator.Show();
+            EventBus.Publish(new StartNewTurnEvent());
+        }
+        else if (abilityIndexSelected != 3 && selectionMode == SelectionMode.ABILITY)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
+            currentStepIndex -= 1;
+        }
+        else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
+        {
+            handleStep7();
+        }
     }
 
     private void handleStep12()
     {
-
+        if (rocketCat.IsActive)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
+            currentStepIndex += 1;
+        }
     }
 
     public void Handle(IEvent @event)
@@ -208,11 +253,15 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             endTurnEventTrigger = true;
         }
 
-        if (endTurnEventTrigger && currentStepIndex != 3 && currentStepIndex != 7 && currentStepIndex != 13)
+        if (endTurnEventTrigger && currentStepIndex != 0 && currentStepIndex != 4
+            && currentStepIndex != 7 && currentStepIndex != 8)
         {
             handleEndTurnAtWrongMoment();
         }
 
         stepMethods[currentStepIndex].Invoke();
+        endTurnEventTrigger = false;
+
+        Debug.Log(currentStepIndex);
     }
 }
