@@ -7,13 +7,14 @@ public sealed class Sheepadin : AbstractCharacter
     {
         base.Awake();
         IAbility placeholder = new Placeholder(this);
+        IAbility headbutt = new Headbutt(this);
         IEffect woolArmorEffect = new WoolArmorEffect();
         IAbility woolArmor = new WoolArmor(this, woolArmorEffect);
 
-        var abilities = new List<IAbility>() { placeholder, placeholder, woolArmor, placeholder };
+        var abilities = new List<IAbility>() { headbutt, placeholder, woolArmor, placeholder };
         var effects = new List<IEffect>() { };
 
-        var characterStats = InitializeStats(120, 5, 20, 100);
+        var characterStats = InitializeStats(120, 20, 20, 100);
 
         characterController = new CharacterController(this)
         {
