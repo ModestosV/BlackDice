@@ -22,7 +22,7 @@ public class Stage3Controller : IEventSubscriber
     private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
     private const String TEXT_STEP_5 = "Select Rocket Cat again";
     private const String TEXT_STEP_6 = "Press or click W to use ability";
-    private const String TEXT_COMPLETED = "Congratulations! Stage Completed";
+    private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
 
     public Stage3Controller(List<ICharacterController> characters, ArrowIndicator[] arrows, List<IPlayer> players)
     {
@@ -249,7 +249,7 @@ public class Stage3Controller : IEventSubscriber
                 characters[indexCat].HUDController.ClearSelectedHUD();
                 characters[indexCat].HUDController.ClearTargetHUD();
                 characters[indexCat].EndOfTurn();
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_COMPLETED;
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
                 EventBus.Publish(new DeselectSelectedTileEvent());
                 EventBus.Publish(new StartNewTurnEvent());
                 EventBus.Publish(new StageCompletedEvent(3));
