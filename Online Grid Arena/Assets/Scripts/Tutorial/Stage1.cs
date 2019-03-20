@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
 public class Stage1 : HideableUI
 {
@@ -10,13 +9,7 @@ public class Stage1 : HideableUI
 
     public void CompleteStage1()
     {
-        EventBus.Publish(new StageCompletedEvent(1));
-
-        ExitToMainMenu();
-    }
-
-    public void ExitToMainMenu()
-    {
+        EventBus.Publish<StageCompletedEvent>(new StageCompletedEvent(1));
         SceneManager.LoadScene(2);
     }
 }

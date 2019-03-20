@@ -27,6 +27,11 @@ export class Application {
     console.error(err.message);
     console.error(err.stack);
 
-    throw err;
+    console.error("This URL is not valid:");
+    console.error(req.url);
+    console.error("Request coming from this IP");
+    console.error(req.ip);
+
+    res.redirect("/");
   }
 }
