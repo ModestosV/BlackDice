@@ -5,22 +5,20 @@ using System.Collections.Generic;
 
 public class Stage5Controller : AbstractStageController, IEventSubscriber
 {
-    private const String TUTORIAL_STEP_1 = "Click on Rocket Cat";
-    private const String TUTORIAL_STEP_2 = "Press Q";
-    private const String TUTORIAL_STEP_3 = "Attack Pengwin";
-    private const String TUTORIAL_STEP_4 = "Check Buff\nPress End Turn";
-    private const String TUTORIAL_STEP_5 = "Click on Pengwin";
-    private const String TUTORIAL_STEP_6 = "Press E to Buff\nNearby Ally";
-    private const String TUTORIAL_STEP_7 = "Check Buff\nClick on DefaultCharacter";
-    private const String TUTORIAL_STEP_8 = "Check Buff\nPress End Turn";
-    private const String TUTORIAL_STEP_9 = "Click on Pengwin";
-    private const String TUTORIAL_STEP_10 = "Press R";
-    private const String TUTORIAL_STEP_11 = "Attack Rocket Cat";
-    private const String TUTORIAL_STEP_12 = "Press End Turn";
-    private const String TUTORIAL_STEP_13 = "Click on Rocket Cat";
-    private const String TUTORIAL_STEP_14 = "Check Buff stack 4\nEnd Turn";
-    private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
-    private const String STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
+    private const string TUTORIAL_STEP_1 = "Click on Rocket Cat";
+    private const string TUTORIAL_STEP_2 = "Press Q";
+    private const string TUTORIAL_STEP_3 = "Attack Pengwin";
+    private const string TUTORIAL_STEP_4 = "Check Buff\nPress End Turn";
+    private const string TUTORIAL_STEP_5 = "Click on Pengwin";
+    private const string TUTORIAL_STEP_6 = "Press E to Buff\nNearby Ally";
+    private const string TUTORIAL_STEP_7 = "Check Buff\nClick on DefaultCharacter";
+    private const string TUTORIAL_STEP_8 = "Check Buff\nPress End Turn";
+    private const string TUTORIAL_STEP_9 = "Click on Pengwin";
+    private const string TUTORIAL_STEP_10 = "Press R";
+    private const string TUTORIAL_STEP_11 = "Attack Rocket Cat";
+    private const string TUTORIAL_STEP_12 = "Press End Turn";
+    private const string TUTORIAL_STEP_13 = "Click on Rocket Cat";
+    private const string TUTORIAL_STEP_14 = "Check Buff stack 4\nEnd Turn";
     private const int STAGE_INDEX = 5;
 
     private ICharacterController rocketCat;
@@ -201,6 +199,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     {
         pengwin.Refresh();
         pengwin.CharacterState = CharacterState.UNUSED;
+        EventBus.Publish(new NewRoundEvent(pengwin));
 
         if (pengwin == gridSelectionController.GetSelectedCharacter())
         {

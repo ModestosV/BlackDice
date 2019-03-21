@@ -252,12 +252,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         var type = @event.GetType();
 
-        if (type == typeof(StageCompletedEvent))
-        {
-            Invoke("ExitStage", 3);
-        }
-
-        if (type == typeof(SurrenderEvent))
+        if (type == typeof(StageCompletedEvent) || type == typeof(SurrenderEvent))
         {
             Invoke("ExitStage", 3);
         }
