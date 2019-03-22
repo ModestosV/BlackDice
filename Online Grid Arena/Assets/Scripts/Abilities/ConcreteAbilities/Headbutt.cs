@@ -34,18 +34,16 @@ public sealed class Headbutt : AbstractTargetedAbility
         {
             if (targetTile.Z < sheepTile.Z)
             {
-                Debug.Log("top left");
-                if (targetTile.GetNorthWestNeighbor().IsObstructed || targetTile.GetNorthWestNeighbor().IsOccupied())
+                if (CanMoveByOneTile("NW", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetNorthWestNeighbor(), targetTile);
                 }
             }
             else
             {
-                Debug.Log("bottom right");
-                if (targetTile.GetSouthEastNeighbor().IsObstructed || targetTile.GetSouthEastNeighbor().IsOccupied())
+                if (CanMoveByOneTile("SE", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetSouthEastNeighbor(), targetTile);
                 }
             }
         }
@@ -53,39 +51,78 @@ public sealed class Headbutt : AbstractTargetedAbility
         {
             if (targetTile.Z < sheepTile.Z)
             {
-                Debug.Log("top right");
-                if (targetTile.GetNorthEastNeighbor().IsObstructed || targetTile.GetNorthEastNeighbor().IsOccupied())
+                if (CanMoveByOneTile("NE", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetNorthEastNeighbor(), targetTile);
                 }
             }
             else
             {
-                Debug.Log("bottom left");
-                if (targetTile.GetSouthWestNeighbor().IsObstructed || targetTile.GetSouthWestNeighbor().IsOccupied())
+                if (CanMoveByOneTile("SW", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetSouthWestNeighbor(), targetTile);
                 }
             }
         }
-        else if (sheepTile.Z == targetTile.Z)//remove this if later
+        else if (sheepTile.Z == targetTile.Z)
         {
             if (targetTile.Y < sheepTile.Y)
             {
-                Debug.Log("right right");
-                if (targetTile.GetEastNeighbor().IsObstructed || targetTile.GetEastNeighbor().IsOccupied())
+                if (CanMoveByOneTile("E", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetEastNeighbor(), targetTile);
                 }
             }
             else
             {
-                Debug.Log("left left");
-                if (targetTile.GetWestNeighbor().IsObstructed || targetTile.GetWestNeighbor().IsOccupied())
+                if (CanMoveByOneTile("W", targetTile))
                 {
-                    Debug.Log("BLOCKED");
+                    MoveTargetToTile(targetTile.GetWestNeighbor(), targetTile);
                 }
             }
         }
+    }
+
+    private bool CanMoveByOneTile(string axis, IHexTileController targetTile)
+    {
+        IHexTileController tileToMoveTo = null;
+        switch (axis)
+        {
+            case "NW":
+                tileToMoveTo = targetTile.GetNorthWestNeighbor();
+                break;
+            case "NE":
+                tileToMoveTo = targetTile.GetNorthEastNeighbor();
+                break;
+            case "SW":
+                tileToMoveTo = targetTile.GetSouthWestNeighbor();
+                break;
+            case "SE":
+                tileToMoveTo = targetTile.GetSouthEastNeighbor();
+                break;
+            case "E":
+                tileToMoveTo = targetTile.GetEastNeighbor();
+                break;
+            case "W":
+                tileToMoveTo = targetTile.GetWestNeighbor();
+                break;
+        }
+        if (tileToMoveTo == null) { return false; }
+        if (targetTile.GetSouthWestNeighbor().IsObstructed || targetTile.GetSouthWestNeighbor().IsOccupied())
+        {
+            return false;
+        }
+        else return true;
+
+    }
+
+    private void MoveTargetToTile(IHexTileController finalTile, IHexTileController initialTile)
+    {
+        ICharacter target = initialTile.OccupantCharacter.Character;
+
+        initialTile.OccupantCharacter = null;
+        target.MoveToTile(finalTile.HexTile);
+        target.Controller.OccupiedTile = finalTile;
+        finalTile.OccupantCharacter = target.Controller;
     }
 }
