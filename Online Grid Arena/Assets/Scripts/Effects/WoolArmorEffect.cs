@@ -27,4 +27,10 @@ public sealed class WoolArmorEffect : StackModifier
     {
         return Stacks == MaxStacks;
     }
+
+    public int ConsumeHalfOfStakcs()
+    {
+        Stacks = Stacks / 2;
+        return Stacks;
+    }
 }
