@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class HolyBah : AbstractTargetedAbility
+public class HolyShear : AbstractTargetedAbility
 {
-    // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;
     private WoolArmorEffect woolArmor;
 
-    public HolyBah(ICharacter activeCharacter, WoolArmorEffect woolArmor) : base(
+    public HolyShear(ICharacter activeCharacter, WoolArmorEffect woolArmor) : base(
         Resources.Load<Sprite>("Sprites/jetpack-png-3"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
@@ -16,15 +15,14 @@ public class HolyBah : AbstractTargetedAbility
         5,
         100,
         AbilityType.TARGET_TILE_AOE,
-        "Holy Baah - Special Ability \nSheepadin utters the Holy \"Bah\", healing all allies in an AOE for his defense stat. The prayer consumes half of his wool armor stacks.")
+        "Holy Shear - Special Ability \nSheepadin shears half of his wool armor (removing half of his wool armor stacks), healing all allies in an AOE for an amount equal to his defense stat.")
     {
         this.woolArmor = woolArmor;
     }
 
-    // Move Rocket Cat to new location
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        int stacksToRemove = woolArmor.ConsumeHalfOfStakcs();
+        int stacksToRemove = woolArmor.GetHalfOfStacks();
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
             if (target.OccupantCharacter != null && target.OccupantCharacter.IsAlly(character.Controller))
@@ -32,6 +30,10 @@ public class HolyBah : AbstractTargetedAbility
                 target.OccupantCharacter.Heal(character.Controller.CharacterStats["defense"].Value);
                 PlayAnimation(target);
             }
+        }
+        for (int i = 0; i < stacksToRemove; i++)
+        {
+            this.character.Controller.ConsumeOneStack(woolArmor);
         }
 
         PlaySoundEffect();
