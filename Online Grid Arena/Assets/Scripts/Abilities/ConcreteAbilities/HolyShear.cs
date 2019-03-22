@@ -14,7 +14,7 @@ public class HolyShear : AbstractTargetedAbility
         activeCharacter,
         5,
         100,
-        AbilityType.TARGET_TILE_AOE,
+        AbilityType.TARGET_AOE,
         "Holy Shear - Special Ability \nSheepadin shears half of his wool armor (removing half of his wool armor stacks), healing all allies in an AOE for an amount equal to his defense stat.")
     {
         this.woolArmor = woolArmor;
