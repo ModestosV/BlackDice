@@ -9,8 +9,6 @@ public sealed class Pengwin : AbstractCharacter
 
         var characterStats = InitializeStats(140, 4, 10, 100);
 
-        var effects = new List<IEffect>() { };
-
         IAbility slap = new Slap(this);
         IAbility slide = new Slide(this);
         IAbility huddle = new Huddle(this);

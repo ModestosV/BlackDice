@@ -6,15 +6,14 @@ public sealed class Sheepadin : AbstractCharacter
     protected override void Awake()
     {
         base.Awake();
+
         IAbility placeholder = new Placeholder(this);
         WoolArmorEffect woolArmorEffect = new WoolArmorEffect();
         IAbility woolArmor = new WoolArmor(this, woolArmorEffect);
         IAbility headbutt = new Headbutt(this);
         IAbility holyShear = new HolyShear(this, woolArmorEffect);
 
-
         var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, placeholder };
-        var effects = new List<IEffect>() { };
 
         var characterStats = InitializeStats(120, 20, 20, 100);
 

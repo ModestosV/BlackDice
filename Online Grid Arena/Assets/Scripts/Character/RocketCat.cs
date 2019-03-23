@@ -15,7 +15,6 @@ public sealed class RocketCat : AbstractCharacter
         IAbility kamikaze = new Kamikaze(this);
 
         var abilities = new List<IAbility>() { scratch, blastoff, catScratchFeverAbility, kamikaze };
-        var effects = new List<IEffect>() { };
 
         var characterStats = InitializeStats(120, 6, 25, 100);
 
