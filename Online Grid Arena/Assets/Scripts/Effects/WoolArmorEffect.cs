@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class WoolArmorEffect : StackModifier
+public sealed class WoolArmorEffect : StackModifier, IWoolArmorEffect
 {
     public WoolArmorEffect() : base(
         EffectType.STACK,

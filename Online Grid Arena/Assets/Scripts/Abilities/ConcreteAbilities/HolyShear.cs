@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 public class HolyShear : AbstractTargetedAbility
 {
-    private readonly GameObject damageAnimation;
-    private readonly AudioClip damageClip;
-    private WoolArmorEffect woolArmor;
+    private IWoolArmorEffect woolArmorEffect;
 
-    public HolyShear(ICharacter activeCharacter, WoolArmorEffect woolArmor) : base(
+    public HolyShear(ICharacter activeCharacter, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/jetpack-png-3"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
@@ -15,14 +13,14 @@ public class HolyShear : AbstractTargetedAbility
         5,
         100,
         AbilityType.TARGET_AOE,
-        "Holy Shear - Special Ability \nSheepadin shears half of his wool armor (removing half of his wool armor stacks), healing all allies in an AOE for an amount equal to his defense stat.")
+        "Holy Shear - Special Ability \nSheepadin shears half of his wool armor (removing half of his wool armor stacks, rounded down), healing all allies in an AOE for an amount equal to his defense stat.")
     {
-        this.woolArmor = woolArmor;
+        this.woolArmorEffect = woolArmorEffect;
     }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        int stacksToRemove = woolArmor.GetHalfOfStacks();
+        int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
             if (target.OccupantCharacter != null && target.OccupantCharacter.IsAlly(character.Controller))
@@ -33,7 +31,7 @@ public class HolyShear : AbstractTargetedAbility
         }
         for (int i = 0; i < stacksToRemove; i++)
         {
-            this.character.Controller.ConsumeOneStack(woolArmor);
+            this.character.Controller.ConsumeOneStack(woolArmorEffect);
         }
 
         PlaySoundEffect();
