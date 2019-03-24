@@ -21,6 +21,10 @@ public class HolyShear : AbstractTargetedAbility
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
         int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
+        if (targetTiles[0].OccupantCharacter != null && targetTiles[0].OccupantCharacter.IsAlly(character.Controller))
+        {
+            targetTiles[0].OccupantCharacter.Heal(character.Controller.CharacterStats["defense"].Value);
+        }
         foreach (IHexTileController target in targetTiles[0].GetNeighbors())
         {
             if (target.OccupantCharacter != null && target.OccupantCharacter.IsAlly(character.Controller))
