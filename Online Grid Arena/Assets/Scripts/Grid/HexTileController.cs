@@ -336,4 +336,10 @@ public sealed class HexTileController : IHexTileController
 
         return (xDistance + yDistance + zDistance) / 2;
     }
+
+    public IHexTileController GetRandomTile()
+    {
+        Debug.Log("tile getting random");
+        return GridController.GetRandomTile();
+    }
 }

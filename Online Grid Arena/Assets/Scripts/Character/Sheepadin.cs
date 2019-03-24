@@ -12,8 +12,9 @@ public sealed class Sheepadin : AbstractCharacter
         IAbility woolArmor = new WoolArmor(this, woolArmorEffect);
         IAbility headbutt = new Headbutt(this);
         IAbility holyShear = new HolyShear(this, woolArmorEffect);
+        IAbility bahtteryAssault = new BahtteryAssault(this, woolArmorEffect);
 
-        var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, placeholder };
+        var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, bahtteryAssault };
 
         var characterStats = InitializeStats(120, 20, 20, 100);
 
