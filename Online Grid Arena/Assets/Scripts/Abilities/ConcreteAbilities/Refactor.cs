@@ -8,7 +8,7 @@ public sealed class Refactor : AbstractTargetedAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
         activeCharacter,
-        1,
+        4,
         3,
         AbilityType.TARGET_ENEMY,
         "Refactor - Special Attack \nTA Eagle scrambles up an enemy in a 3 tile range causing them to be stunned for 1 turn.")
