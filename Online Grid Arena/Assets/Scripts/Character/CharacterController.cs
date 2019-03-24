@@ -40,6 +40,7 @@ public class CharacterController : ICharacterController
     }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
+    public StatusEffectState StatusEffectState { get; set; }
 
     private int abilitiesRemaining;
 
@@ -47,6 +48,7 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
+        StatusEffectState = StatusEffectState.NONE;
         IsActive = false;
     }
 
@@ -118,13 +120,6 @@ public class CharacterController : ICharacterController
     {
         CharacterStats["moves"].Refresh();
         abilitiesRemaining = 1;
-
-        Abilities.ForEach(ability => {
-            if(ability is IActiveAbility)
-            {
-                ((IActiveAbility) ability).UpdateCooldown();
-            }
-        });
     }
 
     public void Heal(float heal)
@@ -188,7 +183,16 @@ public class CharacterController : ICharacterController
                 ApplyStack(eff);
             }
         }
-        Refresh();
+        if(StatusEffectState == StatusEffectState.STUNNED)
+        {
+            UpdateCooldowns();
+            StatusEffectState = StatusEffectState.NONE;
+        }
+        else
+        {
+            Refresh();
+        }
+
         EventBus.Publish(new SelectCharacterEvent(this));
     }
 
@@ -361,5 +365,21 @@ public class CharacterController : ICharacterController
             }
         }
         return allies;
+    }
+
+    private void UpdateCooldowns()
+    {
+        Abilities.ForEach(ability => {
+            if (ability is IActiveAbility)
+            {
+                ((IActiveAbility)ability).UpdateCooldown();
+            }
+        });
+    }
+
+    private void ExhaustCharacter()
+    {
+        abilitiesRemaining = 0;
+        CharacterStats["moves"].CurrentValue = 0;
     }
 }

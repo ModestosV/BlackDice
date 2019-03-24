@@ -7,6 +7,7 @@ public interface ICharacterController
     IHexTileController OccupiedTile { get; set; }
     IHUDController HUDController { set; }
     CharacterState CharacterState { get; set; }
+    StatusEffectState StatusEffectState { get; set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     List<IAbility> Abilities { get; set; }
