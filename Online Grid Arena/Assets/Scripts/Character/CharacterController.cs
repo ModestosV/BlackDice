@@ -186,7 +186,8 @@ public class CharacterController : ICharacterController
         if(StatusEffectState == StatusEffectState.STUNNED)
         {
             UpdateCooldowns();
-            StatusEffectState = StatusEffectState.NONE;
+            ExhaustCharacter();
+            CheckExhausted();
         }
         else
         {
@@ -202,6 +203,7 @@ public class CharacterController : ICharacterController
         if(CharacterState != CharacterState.DEAD)
         {
             CharacterState = CharacterState.EXHAUSTED;
+            StatusEffectState = StatusEffectState.NONE;
         }
 
         foreach (IAbility ability in Abilities)
@@ -269,6 +271,7 @@ public class CharacterController : ICharacterController
     public void Die()
     {
         CharacterState = CharacterState.DEAD;
+        StatusEffectState = StatusEffectState.NONE;
         OccupiedTile.ClearOccupant();
         Character.Destroy();
         EventBus.Publish(new DeathEvent(this));
