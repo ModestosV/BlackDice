@@ -8,17 +8,17 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_1 = "Click on Rocket Cat";
     private const string TUTORIAL_STEP_2 = "Press Q";
     private const string TUTORIAL_STEP_3 = "Attack Pengwin";
-    private const string TUTORIAL_STEP_4 = "Check Buff\nPress End Turn";
+    private const string TUTORIAL_STEP_4 = "Check Buff";
     private const string TUTORIAL_STEP_5 = "Click on Pengwin";
     private const string TUTORIAL_STEP_6 = "Press E to Buff\nNearby Ally";
-    private const string TUTORIAL_STEP_7 = "Check Buff\nClick on DefaultCharacter";
-    private const string TUTORIAL_STEP_8 = "Check Buff\nPress End Turn";
-    private const string TUTORIAL_STEP_9 = "Click on Pengwin";
-    private const string TUTORIAL_STEP_10 = "Press R";
-    private const string TUTORIAL_STEP_11 = "Attack Rocket Cat";
-    private const string TUTORIAL_STEP_12 = "Press End Turn";
+    private const string TUTORIAL_STEP_7 = "Check Buff";
+    private const string TUTORIAL_STEP_8 = "Click on DefaultCharacter";
+    private const string TUTORIAL_STEP_9 = "Check Buff";
+    private const string TUTORIAL_STEP_10 = "Click on Pengwin";
+    private const string TUTORIAL_STEP_11 = "Press R";
+    private const string TUTORIAL_STEP_12 = "Attack Rocket Cat";
     private const string TUTORIAL_STEP_13 = "Click on Rocket Cat";
-    private const string TUTORIAL_STEP_14 = "Check Buff stack 4\nEnd Turn";
+    private const string TUTORIAL_STEP_14 = "Check Buff stack 4";
     protected const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
@@ -34,7 +34,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private int abilityIndexSelected = -1;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ArrowIndicator arrowIndicator;
-    private bool endTurnEventTrigger = false;
+    private bool buffChecked = false;
 
     public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter, GridSelectionController gridSelectionController)
     {
@@ -72,24 +72,6 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    private void handleEndTurnAtWrongMoment()
-    {
-        if (endTurnEventTrigger)
-        {
-            if (currentStepIndex < 3)
-            {
-                restartToStep1();
-            }
-            else if (currentStepIndex < 7)
-            {
-                handleStep4();
-            }
-
-            endTurnEventTrigger = false;
-            EventBus.Publish(new StartNewTurnEvent());
-        }
-    }
-
     private void restartToStep1()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
@@ -124,10 +106,10 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
                 currentStepIndex = 2;
             }
-        }
-        else
-        {
-            restartToStep1();
+            else
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
+            }
         }
     }
 
@@ -148,11 +130,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep4()
     {
-        if (endTurnEventTrigger)
+        if (buffChecked)
         {
             arrowIndicator.Hide();
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_5;
             currentStepIndex = 4;
+            EventBus.Publish(new StartNewTurnEvent());
         }
     }
 
@@ -167,7 +150,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep6()
     {
-        if ((new List<int>() { 0, 1, 3 }).Contains(abilityIndexSelected))
+        if (abilityIndexSelected != 2)
         {
             handleStep5();
             abilityIndexSelected = -1;
@@ -186,81 +169,71 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep7()
     {
-        if (defaultCharacter == gridSelectionController.GetSelectedCharacter())
+        if (buffChecked)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_8;
             currentStepIndex = 7;
+            arrowIndicator.Hide();
         }
     }
 
     private void handleStep8()
     {
-        if (endTurnEventTrigger)
+        if (defaultCharacter == gridSelectionController.GetSelectedCharacter())
         {
-            arrowIndicator.Hide();
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
             currentStepIndex = 8;
-            EventBus.Publish(new StartNewTurnEvent());
+            arrowIndicator.Show();
         }
     }
 
     private void handleStep9()
     {
-        pengwin.Refresh();
-        pengwin.CharacterState = CharacterState.UNUSED;
-        EventBus.Publish(new NewRoundEvent(pengwin));
-
-        if (pengwin == gridSelectionController.GetSelectedCharacter())
+        if (buffChecked)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_10;
             currentStepIndex = 9;
+            EventBus.Publish(new StartNewTurnEvent());
+            pengwin.Refresh();
+            pengwin.CharacterState = CharacterState.UNUSED;
+            EventBus.Publish(new NewRoundEvent(pengwin));
+            EventBus.Publish(new StartNewTurnEvent());
+
         }
-            
     }
 
     private void handleStep10()
     {
         if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
-            if (abilityIndexSelected == 3)
-            {
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
-                currentStepIndex = 10;
-            }
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
+            currentStepIndex = 10;
         }
-        else
-        {
-            handleStep7();
-        }
-
     }
 
     private void handleStep11()
     {
-        if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
+        if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
-            currentStepIndex = 11;
-        }
-        else if (abilityIndexSelected != 3 && selectionMode == SelectionMode.ABILITY)
-        {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
-            currentStepIndex = 10;
-        }
-        else if (rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
-        {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_9;
-            currentStepIndex = 8;
-            handleStep9();
+            if (abilityIndexSelected == 3)
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
+                currentStepIndex = 11;
+            }
         }
     }
 
     private void handleStep12()
     {
-        if (endTurnEventTrigger)
+        if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_13;
             currentStepIndex = 12;
+        }
+        else if (abilityIndexSelected != 3 && selectionMode == SelectionMode.ABILITY)
+        {
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
+            currentStepIndex = 11;
         }
     }
 
@@ -276,7 +249,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep14()
     {
-        if (endTurnEventTrigger)
+        if (buffChecked)
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
             CompleteStage(STAGE_INDEX);
@@ -301,18 +274,13 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             selectionMode = selectionModeEvent.SelectionMode;
         }
 
-        if (type == typeof(StartNewTurnEvent))
+        if (type == typeof(BuffCheckEvent))
         {
-            endTurnEventTrigger = true;
-        }
-
-        if (endTurnEventTrigger && !(new List<int>() { 0, 4, 7, 8, 11, 13 }).Contains(currentStepIndex))
-        {
-            handleEndTurnAtWrongMoment();
+            buffChecked = true;
         }
 
         stepMethods[currentStepIndex].Invoke();
-        endTurnEventTrigger = false;
+        buffChecked = false;
 
         Debug.Log(currentStepIndex);
     }

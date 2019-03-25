@@ -179,6 +179,10 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
         EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
         EventBus.Subscribe<SelectTileEvent>(stage2Controller);
+
+        // Pengwin's Ultimate must handle DeathEvent
+        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
     }
 
     private void StartStageAttack()
@@ -222,7 +226,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
-        EventBus.Subscribe<StartNewTurnEvent>(stage5Controller);
+        EventBus.Subscribe<BuffCheckEvent>(stage5Controller);
         EventBus.Subscribe<AbilitySelectedEvent>(stage5Controller);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stage5Controller);
         EventBus.Subscribe<SelectTileEvent>(stage5Controller);
