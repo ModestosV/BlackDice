@@ -105,8 +105,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<ActiveCharacterEvent>(turnController);
-        EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
-        EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<EscapePressedEvent>(matchMenu);
         EventBus.Subscribe<EscapePressedEvent>(controlsMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
