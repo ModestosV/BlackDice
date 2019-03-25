@@ -72,12 +72,6 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    private void restartToStep1()
-    {
-        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_1;
-        currentStepIndex = 0;
-    }
-
     private void handleStep1()
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
@@ -124,7 +118,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
         else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
         {
-            restartToStep1();
+            handleStep1();
         }
     }
 
