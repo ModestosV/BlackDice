@@ -108,7 +108,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             }
             else
             {
-                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
+                handleStep1();
             }
         }
     }
@@ -150,12 +150,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep6()
     {
-        if (abilityIndexSelected != 2)
-        {
-            handleStep5();
-            abilityIndexSelected = -1;
-        }
-        else if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue)
+        if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue)
         {
             stageFailed();
         }
