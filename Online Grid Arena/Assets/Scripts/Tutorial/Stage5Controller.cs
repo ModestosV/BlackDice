@@ -79,7 +79,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
             currentStepIndex = 1;
 
-            if (!rocketCat.CanUseAbility(0))
+            if (rocketCat.IsExhausted())
             {
                 stageFailed();
             }
@@ -90,19 +90,14 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
-            if (!rocketCat.CanUseAbility(0))
-            {
-                stageFailed();
-            }
-
             if (abilityIndexSelected == 0)
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
                 currentStepIndex = 2;
             }
-            else
+            else if (rocketCat.IsExhausted())
             {
-                handleStep1();
+                stageFailed();
             }
         }
     }
@@ -139,20 +134,25 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_6;
             currentStepIndex = 5;
+
+            if (pengwin.IsExhausted())
+            {
+                stageFailed();
+            }
         }
     }
 
     private void handleStep6()
     {
-        if (!pengwin.CanUseAbility(2))
-        {
-            stageFailed();
-        }
-        else if (pengwin.CharacterStats["defense"].CurrentValue.Equals(120))
+        if (pengwin.CharacterStats["defense"].CurrentValue.Equals(120))
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_7;
             currentStepIndex = 6;
             arrowIndicator.Show();
+        }
+        else
+        {
+            handleStep5();
         }
     }
 
@@ -208,6 +208,10 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_12;
                 currentStepIndex = 11;
             }
+            else if (pengwin.IsExhausted())
+            {
+                stageFailed();
+            }
         }
     }
 
@@ -218,10 +222,9 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_13;
             currentStepIndex = 12;
         }
-        else if (abilityIndexSelected != 3 && selectionMode == SelectionMode.ABILITY)
+        else
         {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_11;
-            currentStepIndex = 11;
+            handleStep11();
         }
     }
 

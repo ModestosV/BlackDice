@@ -19,6 +19,7 @@ public interface ICharacterController
     MeshRenderer Shield { set; }
     bool IsShielded { get; set; }
     bool IsActive { get; }
+    bool IsExhausted();
 
     void ExecuteAbility(int abilityNumber, List<IHexTileController> targetTiles);
     void ExecuteMove(List<IHexTileController> path);
