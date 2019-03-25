@@ -177,10 +177,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
         EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
         EventBus.Subscribe<SelectTileEvent>(stage2Controller);
-
-        // Pengwin's Ultimate must handle DeathEvent
-        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
-        EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
     }
 
     private void StartStageAttack()
@@ -200,9 +196,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         players[0].AddCharacterController(characterControllers[0]);
         players[1].AddCharacterController(characterControllers[1]);
         players[1].AddCharacterController(characterControllers[2]);
-        characterPanels[1].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
-        characterPanels[0].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
-        characterPanels[0].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
+        characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
+        characterPanels[1].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
+        characterPanels[1].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
 
         // Initialize turn controller
         turnController = new TurnController(players);
@@ -211,7 +207,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         inputManager.SelectionManager = selectionManager;
 
         // Initialize HUD controller
-        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+        hudController = new HUDController(statPanels[0].Controller, playerPanels[0], statPanels[1].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
         foreach (ICharacterController character in characterControllers)

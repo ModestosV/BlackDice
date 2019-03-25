@@ -8,7 +8,6 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
     private const String TUTORIAL_STEP_2 = "Left Click or Press F";
     private const String TUTORIAL_STEP_3 = "Click on Tile with\nRed Arrow";
     private const String TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
-    private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 2;
 
     private ICharacterController character;

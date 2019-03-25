@@ -114,7 +114,6 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_4;
             currentStepIndex = 3;
             arrowIndicator.Show();
-            abilityIndexSelected = -1;
         }
         else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
         {
@@ -129,6 +128,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             arrowIndicator.Hide();
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_5;
             currentStepIndex = 4;
+            EventBus.Publish(new DeselectSelectedTileEvent());
             EventBus.Publish(new StartNewTurnEvent());
         }
     }
@@ -144,7 +144,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep6()
     {
-        if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue)
+        if (!pengwin.CanUseAbility(2))
         {
             stageFailed();
         }
@@ -187,7 +187,6 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             pengwin.CharacterState = CharacterState.UNUSED;
             EventBus.Publish(new NewRoundEvent(pengwin));
             EventBus.Publish(new StartNewTurnEvent());
-
         }
     }
 
@@ -270,6 +269,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
         stepMethods[currentStepIndex].Invoke();
         buffChecked = false;
+        abilityIndexSelected = -1;
 
         Debug.Log(currentStepIndex);
     }
