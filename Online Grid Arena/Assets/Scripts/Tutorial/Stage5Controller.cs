@@ -19,6 +19,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_12 = "Press End Turn";
     private const string TUTORIAL_STEP_13 = "Click on Rocket Cat";
     private const string TUTORIAL_STEP_14 = "Check Buff stack 4\nEnd Turn";
+    protected const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
     private ICharacterController rocketCat;
@@ -101,6 +102,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
             currentStepIndex = 1;
+
+            if (!rocketCat.CanUseAbility(0))
+            {
+                stageFailed();
+            }
         }
     }
 
@@ -108,6 +114,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
+            if (!rocketCat.CanUseAbility(0))
+            {
+                stageFailed();
+            }
+
             if (abilityIndexSelected == 0)
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
@@ -129,11 +140,6 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             arrowIndicator.Show();
             abilityIndexSelected = -1;
         }
-        else if (abilityIndexSelected != 0 && selectionMode == SelectionMode.ABILITY)
-        {
-            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
-            currentStepIndex = 1;
-        }
         else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
         {
             restartToStep1();
@@ -142,9 +148,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
     private void handleStep4()
     {
-        arrowIndicator.Hide();
-        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_5;
-        currentStepIndex = 4;
+        if (endTurnEventTrigger)
+        {
+            arrowIndicator.Hide();
+            GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_5;
+            currentStepIndex = 4;
+        }
     }
 
     private void handleStep5()
