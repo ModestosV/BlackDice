@@ -54,11 +54,25 @@ public sealed class GridController : IGridController
         Debug.Log("grid getting random");
         IHexTileController tile;
         System.Random randomizer = new System.Random();
+        (int, int, int) XYZ = GetRandomCoordinates();
+        if (XYZ.Item3 > maximumZ || XYZ.Item3 < minimumZ)
+        {
+            tile = GetTile((0, 0, 0));
+            return tile;
+        }
+        tile = GetTile(XYZ);
+        return tile;
+    }
+
+    private (int, int, int) GetRandomCoordinates()
+    {
+        (int, int, int) XYZ = (0, 0, 0);
+        System.Random randomizer = new System.Random();
         int X = randomizer.Next(minimumX, maximumX + 1);
         int Y = randomizer.Next(minimumY, maximumY + 1);
-        int Z = randomizer.Next(minimumZ, maximumZ + 1);
+        int Z = -X - Y;
+        XYZ = (X, Y, Z);
         Debug.Log(X + " " + Y + " " + Z);
-        tile = GetTile((X, Y, Z));
-        return tile;
+        return XYZ;
     }
 }

@@ -5,14 +5,14 @@ using UnityEngine;
 public sealed class Headbutt : AbstractTargetedAbility
 {
     public Headbutt(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/lick"),
+        Resources.Load<Sprite>("Sprites/Abilities/headButt"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/kouaks"),
         activeCharacter,
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "Lick - Basic Attack \nAgent Frog licks an opponent, causing their speed to drop by 2 for 1 turn. Range: 2")
+        "Headbutt - Basic Attack \nSheepadin headbutts an adjacent enemy, dealing his attack in damage and pushing the enemy back by 1 tile.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

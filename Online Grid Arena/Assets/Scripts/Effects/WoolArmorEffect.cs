@@ -14,7 +14,7 @@ public sealed class WoolArmorEffect : StackModifier, IWoolArmorEffect
         )
     {
         Name = "Wool Armor";
-        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/claw-marks");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/wool");
         Description = "Increases Sheepadin's defense by 10 per stack";
     }
 

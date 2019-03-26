@@ -10,7 +10,7 @@ public class BahtteryAssault : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/huddle"),
         character,
         3,
-        "Huddle - Special Ability \nPengwin gives 20 bonus defense to itself and all adjacent allies.")
+        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 30 random tiles on the map. Allies and enemies hit are healed ordamaged for (15*ammount of wool lost).")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
@@ -21,16 +21,16 @@ public class BahtteryAssault : AbstractActiveAbility
         int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
         
         List<IHexTileController> listofAffectedTiles = new List<IHexTileController>();
-        for (int i = 0; i < 41; i++)
+        while (listofAffectedTiles.Count < 30)
         {
             IHexTileController randomTile = targetTiles[0].GetRandomTile();
-            Debug.Log(randomTile.X+ " "+ randomTile.Y + " "+randomTile.Z);
             if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed)
             {
+                Debug.Log(randomTile.X + " " + randomTile.Y + " " + randomTile.Z);
                 listofAffectedTiles.Add(randomTile);
             }
         }
-
+        Debug.Log("We have "+ listofAffectedTiles.Count+" tiles");
         for (int i = 0; i < listofAffectedTiles.Count; i++)
         {
             PlayAnimation(listofAffectedTiles[i]);

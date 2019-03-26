@@ -6,7 +6,7 @@ public class HolyShear : AbstractTargetedAbility
     private IWoolArmorEffect woolArmorEffect;
 
     public HolyShear(ICharacter activeCharacter, IWoolArmorEffect woolArmorEffect) : base(
-        Resources.Load<Sprite>("Sprites/jetpack-png-3"),
+        Resources.Load<Sprite>("Sprites/Abilities/holyShear"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
         activeCharacter,

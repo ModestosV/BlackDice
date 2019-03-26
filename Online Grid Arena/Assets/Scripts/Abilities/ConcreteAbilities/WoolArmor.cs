@@ -4,7 +4,7 @@ using UnityEngine;
 public sealed class WoolArmor : AbstractPassiveAbility
 {
     public WoolArmor(ICharacter activeCharacter, IEffect effect) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/poison"),
+        Resources.Load<Sprite>("Sprites/Abilities/wool"),
         activeCharacter,
         "Wool Armor - Passive Ability \nAt the end of his turn, Sheepadin's armor grows thicker. Gain a stack of Wool Armor.",
         true)
