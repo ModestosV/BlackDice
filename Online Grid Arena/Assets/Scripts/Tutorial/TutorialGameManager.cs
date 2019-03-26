@@ -157,7 +157,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         inputManager.SelectionManager = selectionManager;
 
         // Initialize HUD controller
-        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[1], statPanels[0].Controller, playerPanels[0], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
         foreach (ICharacterController character in characterControllers)
