@@ -18,6 +18,7 @@ public sealed class Refactor : AbstractTargetedAbility
     {
         Debug.Log("Casting Refactor. Primary action being called.");
         targetTiles[0].OccupantCharacter.StatusEffectState = StatusEffectState.STUNNED;
+        EventBus.Publish(new StatusEffectEvent("stun", true, targetTiles[0].OccupantCharacter));
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
     }

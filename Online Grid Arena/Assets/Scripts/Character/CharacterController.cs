@@ -204,8 +204,8 @@ public class CharacterController : ICharacterController
         {
             CharacterState = CharacterState.EXHAUSTED;
             StatusEffectState = StatusEffectState.NONE;
+            EventBus.Publish(new StatusEffectEvent("stun", false, this));
         }
-
         foreach (IAbility ability in Abilities)
         {
             try
