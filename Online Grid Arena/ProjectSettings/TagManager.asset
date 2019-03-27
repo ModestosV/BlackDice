@@ -12,6 +12,8 @@ TagManager:
   - CharacterTile
   - StageButton
   - TurnIndicator
+  - TurnTile
+  - TutorialTooltip
   layers:
   - Default
   - TransparentFX
