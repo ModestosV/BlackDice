@@ -86,7 +86,8 @@ public class CharacterController : ICharacterController
         IHexTileController targetTile = path[distance];
         OccupiedTile.OccupantCharacter = null;
 
-        Character.MoveToTile(targetTile.HexTile);
+        //Character.MoveToTile(targetTile.HexTile);
+        Character.FollowPath(path, targetTile.HexTile);
         OccupiedTile = targetTile;
 
         targetTile.OccupantCharacter = this;

@@ -18,6 +18,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected GameObject indicator;
     protected Animator iAnimator;
 
+    [SerializeField] float speed;
+    protected int targetIndex;
+
     public void Destroy()
     {
         Destroy(gameObject);
@@ -30,6 +33,30 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     {
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
+    }
+
+    public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
+    {
+        Vector3 currentWaypoint = path[0].HexTile.GameObject.transform.position;
+        Debug.Log("THE LOCATION IS");
+        Debug.Log(path[0].HexTile.GameObject.transform.position);
+
+        while (true)
+        {
+            if (gameObject.transform.position == currentWaypoint)
+            {
+                targetIndex++;
+                if (targetIndex >= path.Count)
+                {
+                    gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
+                    return;
+                }
+                currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
+            }
+
+            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
+            //gameObject.transform.SetParent(targetTile.GameObject.transform);
+        }
     }
 
     public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
