@@ -5,9 +5,9 @@ public class BahtteryAssault : AbstractActiveAbility
 {
     private IWoolArmorEffect woolArmorEffect;
     public BahtteryAssault(ICharacter character, IWoolArmorEffect woolArmorEffect) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/huddle"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/huddle"),
+        Resources.Load<Sprite>("Sprites/Abilities/sheepUlt"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/BlueFireAnimation"),
+        Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
         3,
         "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 30 random tiles on the map. Allies and enemies hit are healed ordamaged for (15*ammount of wool lost).")

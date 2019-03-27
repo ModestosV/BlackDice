@@ -6,8 +6,8 @@ public sealed class Headbutt : AbstractTargetedAbility
 {
     public Headbutt(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/headButt"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlapAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/kouaks"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
+        Resources.Load<AudioClip>("Audio/Ability/headbutt"),
         activeCharacter,
         1,
         1,

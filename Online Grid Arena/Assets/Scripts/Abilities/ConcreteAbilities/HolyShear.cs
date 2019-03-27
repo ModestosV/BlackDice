@@ -7,8 +7,8 @@ public class HolyShear : AbstractTargetedAbility
 
     public HolyShear(ICharacter activeCharacter, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/holyShear"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/BlueFireAnimation"),
+        Resources.Load<AudioClip>("Audio/Ability/holyChoir"),
         activeCharacter,
         5,
         100,
