@@ -7,15 +7,18 @@ using UnityEngine;
 
 public class TutorialMenu: HideableUI, IEventSubscriber
 {
+    private const int MAX_STAGE_ALLOWED = 2;
+
     private string filepath = "";
     private int stagesCompleted = 0;
 
     public List<Button> StageButtons;
 
-    void Start()
+    private void Start()
     {
         filepath = Application.persistentDataPath + "/playerInfo.bin";
-        EventBus.Subscribe<StageCompletedEvent>(this);
+        Debug.Log(filepath);
+        HandleEventBus();
 
         foreach (Button button in GetComponentsInChildren<Button>())
         {
@@ -30,6 +33,12 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         LoadTutorialMenu();
     }
 
+    public void HandleEventBus()
+    {
+        EventBus.Reset();
+        EventBus.Subscribe<StageCompletedEvent>(this);
+    }
+
     public void LoadTutorialMenu()
     {
         stagesCompleted = ReadStageCompleted();
@@ -40,7 +49,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
             StageButtons[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
         }
 
-        if (stagesCompleted < 7)
+        if (stagesCompleted < MAX_STAGE_ALLOWED)
         {
             StageButtons[stagesCompleted].interactable = true;
             StageButtons[stagesCompleted].GetComponentInChildren<TextMeshProUGUI>().color = Color.yellow;
@@ -51,6 +60,7 @@ public class TutorialMenu: HideableUI, IEventSubscriber
 
     public void PlayTutorialStage(int stageIndex)
     {
+        HandleEventBus();
         SceneManager.LoadScene(stageIndex);
     }
 
@@ -94,6 +104,8 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         if (type == typeof(StageCompletedEvent))
         {
             var stageCompleted = (StageCompletedEvent)@event;
+
+            Debug.Log(stageCompleted.StageIndex);
 
             if (stageCompleted.StageIndex > stagesCompleted)
             {
