@@ -4,9 +4,9 @@ using UnityEngine;
 public sealed class Refactor : AbstractTargetedAbility
 {
     public Refactor(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/cursorSword_gold"),
+        Resources.Load<Sprite>("Sprites/Abilities/Refactor"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker"),
+        Resources.Load<AudioClip>("Audio/Ability/eaglesound"),
         activeCharacter,
         4,
         3,
