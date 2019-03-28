@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIDescriptionView : HideableUI
 {
-    protected bool view;
+    private bool view;
 
     private void Start()
     {
