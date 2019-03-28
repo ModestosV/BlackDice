@@ -275,6 +275,11 @@ public class CharacterController : ICharacterController
         return distance <= MovesRemaining;
     }
 
+    public bool IsExhausted()
+    {
+        return (abilitiesRemaining == 0);
+    }
+
     public bool CanUseAbility(int abilityIndex)
     {
         IActiveAbility ability;
