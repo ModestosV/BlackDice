@@ -49,7 +49,6 @@ public sealed class GridController : IGridController
 
     public IHexTileController GetRandomTile()
     {
-        Debug.Log(minimumX+" " +maximumX+" " +minimumY+" " +maximumY+" " +minimumZ+" "+maximumZ);
         Debug.Log("grid getting random");
         IHexTileController tile;
         System.Random randomizer = new System.Random();
