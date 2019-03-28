@@ -37,13 +37,13 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
     {
-        Vector3 currentWaypoint = path[0].HexTile.GameObject.transform.position;
+        Vector3 currentWaypoint = path[0].HexTile.GameObject.transform.localPosition;
         Debug.Log("THE LOCATION IS");
-        Debug.Log(path[0].HexTile.GameObject.transform.position);
+        Debug.Log(path[0].HexTile.GameObject.transform.localPosition);
 
         while (true)
         {
-            if (gameObject.transform.position == currentWaypoint)
+            if (gameObject.transform.localPosition == currentWaypoint)
             {
                 targetIndex++;
                 if (targetIndex >= path.Count)
@@ -51,10 +51,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                     gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
                     return;
                 }
-                currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
+                currentWaypoint = path[targetIndex].HexTile.GameObject.transform.localPosition;
             }
 
-            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
+            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.localPosition, currentWaypoint, speed);
             //gameObject.transform.SetParent(targetTile.GameObject.transform);
         }
     }
