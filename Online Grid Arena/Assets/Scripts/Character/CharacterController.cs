@@ -313,13 +313,11 @@ public class CharacterController : ICharacterController
         if (targetedAbility != null)
         {
             return targetedAbility.IsInRange(range);
-        } else
+        }else
         {
             return true;
         }
     }
-    
-    
 
     private void CheckExhausted()
     {

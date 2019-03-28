@@ -6,7 +6,6 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 {
     private RawImage characterIcon;
     private Image border;
-    private GameObject HealthBar;
     private IHealthBar healthBar;
 
     private GameObject activeIndicator;
@@ -26,13 +25,13 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         activeAnimator = activeIndicator.GetComponent<Animator>();
 
 
-        HealthBar = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
-        HealthBar.transform.SetParent(this.transform);
-        HealthBar.transform.localPosition -= new Vector3(0.5f, 32.0f);
-        HealthBar.transform.localScale = new Vector3(0.34f, 1.4f);
-        HealthBar.transform.SetSiblingIndex(2);
+        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
+        healthBarObject.transform.SetParent(this.transform);
+        healthBarObject.transform.localPosition -= new Vector3(0.5f, 32.0f);
+        healthBarObject.transform.localScale = new Vector3(0.34f, 1.4f);
+        healthBarObject.transform.SetSiblingIndex(2);
 
-        healthBar = HealthBar.GetComponent<HealthBar>();
+        healthBar = healthBarObject.GetComponent<HealthBar>();
 
         deadIndicator = Instantiate(Resources.Load("Prefabs/HUD/DeadIndicator"), this.transform) as GameObject;
         deadIndicator.SetActive(false);

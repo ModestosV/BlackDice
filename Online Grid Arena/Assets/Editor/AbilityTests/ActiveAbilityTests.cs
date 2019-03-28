@@ -70,12 +70,6 @@ public class ActiveAbilityTests
     }
 
     [Test]
-    public void Execute_damages_target_tile()
-    {
-        sut.Execute(targetTiles);
-    }
-
-    [Test]
     public void Update_cooldown_decrements_remaining_cooldown()
     {
         sut.Execute(targetTiles);
