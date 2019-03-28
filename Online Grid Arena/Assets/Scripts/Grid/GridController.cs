@@ -4,7 +4,6 @@ using UnityEngine;
 
 public sealed class GridController : IGridController
 {
-    //tile = GetTile((randomizer.Next(minimumX, maximumX+1),(minimumY, maximumY+1),(minimumZ, minimumZ+1)));
     private int minimumX, maximumX, minimumY, maximumY, minimumZ, maximumZ = 0;
     public int GridWidth { private get; set; }
 
