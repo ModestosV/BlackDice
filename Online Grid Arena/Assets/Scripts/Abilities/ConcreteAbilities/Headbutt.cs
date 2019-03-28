@@ -21,7 +21,6 @@ public sealed class Headbutt : AbstractTargetedAbility
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);
-        //if tile isNotObstructed, push. //bonus To add? if cannot move, stun instead? too OP maybe
         FindAxisOfAttack(targetTiles);
     }
 
