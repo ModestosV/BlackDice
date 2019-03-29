@@ -23,8 +23,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         activeIndicator = Instantiate(Resources.Load("Prefabs/HUD/ActiveIndicator"), this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
-
-
+        
         var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
         healthBarObject.transform.SetParent(this.transform);
         healthBarObject.transform.localPosition -= new Vector3(0.0f, 37.8f);
@@ -39,7 +38,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         exhaustedIndicator = Instantiate(Resources.Load("Prefabs/HUD/ExhaustedIndicator"), this.transform) as GameObject;
         exhaustedIndicator.SetActive(false);
 
-        shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator"), this.transform) as GameObject;
+        shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator 1"), this.transform) as GameObject;
         HideShield();
     }
 
