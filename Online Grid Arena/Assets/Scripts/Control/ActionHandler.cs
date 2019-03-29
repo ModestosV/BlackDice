@@ -19,7 +19,6 @@ public class ActionHandler : IActionHandler
             return;
         }
         targetCharacter.CharacterStats["health"].CurrentValue -= (baseDamageValue / targetCharacter.CharacterStats["defense"].CurrentValue) * 100;
-        targetCharacter.UpdateHealthBar();
         if (targetCharacter.CharacterStats["health"].CurrentValue <= 0)
         {
             targetCharacter.Die();

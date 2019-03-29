@@ -32,6 +32,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 
         SecondaryAction(targetTiles);
         cooldownRemaining = Cooldown;
+        EventBus.Publish(new AbilityUsedEvent());
         EventBus.Publish(new ActiveCharacterEvent());
     }
 

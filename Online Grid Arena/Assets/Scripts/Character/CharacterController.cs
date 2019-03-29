@@ -16,8 +16,7 @@ public class CharacterController : ICharacterController
     public string Owner { get; set; }
     public Texture CharacterIcon { get; set; }
     public Color32 BorderColor { get; set; }
-
-    public IHealthBar HealthBar { protected get; set; }
+    
     public bool IsActive { get; private set; }
 
     private MeshRenderer shield;
@@ -130,7 +129,6 @@ public class CharacterController : ICharacterController
     public void Heal(float heal)
     {
         CharacterStats["health"].CurrentValue += heal;
-        UpdateHealthBar();
     }
 
     public void ApplyEffect(IEffect effect)
@@ -320,16 +318,10 @@ public class CharacterController : ICharacterController
         if (targetedAbility != null)
         {
             return targetedAbility.IsInRange(range);
-        } else
+        }else
         {
             return true;
         }
-    }
-    
-    public void UpdateHealthBar()
-    {
-        HealthBar.SetHealthBarRatio(CharacterStats["health"].CurrentValue / CharacterStats["health"].Value);
-        HealthBar.SetHealthText(Mathf.CeilToInt(CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(CharacterStats["health"].Value).ToString());
     }
 
     private void CheckExhausted()
