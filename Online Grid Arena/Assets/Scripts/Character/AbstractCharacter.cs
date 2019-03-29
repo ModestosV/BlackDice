@@ -37,7 +37,8 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
     {
         bool doneMoving = false;
-        Vector3 currentWaypoint = new Vector3(path[0].HexTile.GameObject.transform.position.x, path[0].HexTile.GameObject.transform.position.y, 0);
+        //Vector3 currentWaypoint = new Vector3(path[0].HexTile.GameObject.transform.position.x, path[0].HexTile.GameObject.transform.position.y, 0);
+        Vector3 currentWaypoint = path[0].HexTile.GameObject.transform.position;
         Debug.Log("THE LOCATION IS");
         Debug.Log(path[0].HexTile.GameObject.transform.position);
         //while (!doneMoving)
@@ -48,10 +49,11 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
-                    gameObject.transform.position = new Vector3(0, gameObject.transform.position.y, 0);
+                    //gameObject.transform.position = new Vector3(0, gameObject.transform.position.y, 0);
                     return;//doneMoving = true //break
                 }
-                currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, path[targetIndex].HexTile.GameObject.transform.position.y, 0);
+                //currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, path[targetIndex].HexTile.GameObject.transform.position.y, 0);
+                currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
             }
 
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
