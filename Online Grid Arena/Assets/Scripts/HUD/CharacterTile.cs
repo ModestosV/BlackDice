@@ -38,7 +38,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         exhaustedIndicator = Instantiate(Resources.Load("Prefabs/HUD/ExhaustedIndicator"), this.transform) as GameObject;
         exhaustedIndicator.SetActive(false);
 
-        shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator 1"), this.transform) as GameObject;
+        shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator"), this.transform) as GameObject;
         HideShield();
     }
 
