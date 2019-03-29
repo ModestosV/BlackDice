@@ -31,7 +31,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     public void MoveToTile(IHexTile targetTile)
     {
         gameObject.transform.SetParent(targetTile.GameObject.transform);
-        gameObject.transform.position = new Vector3(0, gameObject.transform.position.y, 0);
+        gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
     public void FollowPath(List<IHexTileController> path, IHexTile targetTile)

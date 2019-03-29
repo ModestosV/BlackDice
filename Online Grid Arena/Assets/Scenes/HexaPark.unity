@@ -12968,6 +12968,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
+  speed: 0
 --- !u!1 &513144677
 GameObject:
   m_ObjectHideFlags: 0
@@ -14666,6 +14667,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  speed: 0
 --- !u!1 &588920629
 GameObject:
   m_ObjectHideFlags: 0
@@ -36865,6 +36867,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  speed: 0
 --- !u!1001 &1420627704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43950,6 +43953,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  speed: 0.1
 --- !u!1 &1677614729
 GameObject:
   m_ObjectHideFlags: 0
@@ -49785,6 +49789,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
+  speed: 0
 --- !u!1 &1854855347
 GameObject:
   m_ObjectHideFlags: 0
