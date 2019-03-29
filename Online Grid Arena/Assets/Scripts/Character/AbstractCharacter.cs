@@ -56,7 +56,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
             }
 
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed * Time.deltaTime);
             //gameObject.transform.SetParent(targetTile.GameObject.transform);
         }
     }
