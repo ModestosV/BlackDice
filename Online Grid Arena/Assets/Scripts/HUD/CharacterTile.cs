@@ -6,6 +6,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 {
     private RawImage characterIcon;
     private Image border;
+    private IHealthBar healthBar;
 
     private GameObject activeIndicator;
     private Animator activeAnimator;
@@ -22,6 +23,15 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         activeIndicator = Instantiate(Resources.Load("Prefabs/HUD/ActiveIndicator"), this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
+
+
+        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
+        healthBarObject.transform.SetParent(this.transform);
+        healthBarObject.transform.localPosition -= new Vector3(0.5f, 32.0f);
+        healthBarObject.transform.localScale = new Vector3(0.34f, 1.4f);
+        healthBarObject.transform.SetSiblingIndex(2);
+
+        healthBar = healthBarObject.GetComponent<HealthBar>();
 
         deadIndicator = Instantiate(Resources.Load("Prefabs/HUD/DeadIndicator"), this.transform) as GameObject;
         deadIndicator.SetActive(false);
@@ -80,17 +90,22 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         EventBus.Publish(new SelectTileEvent(character.OccupiedTile));
     }
 
+    public void UpdateHealthBar()
+    {
+        healthBar.SetHealthBarRatio(character.CharacterStats["health"].CurrentValue / character.CharacterStats["health"].Value);
+        healthBar.SetHealthText(Mathf.CeilToInt(character.CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(character.CharacterStats["health"].Value).ToString());
+    }
+
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
-        if (type == typeof(DeathEvent))
+        if (type == typeof(AbilityUsedEvent))
         {
-            var deathEvent = (DeathEvent)@event;
-            if (deathEvent.CharacterController == this.character)
-            {
-                ShowExhausted();
-                ShowDead();
-            }
+            UpdateHealthBar();
+        }
+        else if (type == typeof(StartNewTurnEvent))
+        {
+            UpdateHealthBar();
         }
         else if (type == typeof(SelectCharacterEvent))
         {
@@ -134,6 +149,15 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
                         HideShield();
                     }
                 }
+            }
+        }
+        else if (type == typeof(DeathEvent))
+        {
+            var deathEvent = (DeathEvent)@event;
+            if (deathEvent.CharacterController == this.character)
+            {
+                ShowExhausted();
+                ShowDead();
             }
         }
     }
