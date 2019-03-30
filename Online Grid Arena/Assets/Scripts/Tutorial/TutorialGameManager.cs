@@ -110,8 +110,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SurrenderEvent>(turnController);
         EventBus.Subscribe<SelectTileEvent>(turnController);
         EventBus.Subscribe<ActiveCharacterEvent>(turnController);
-        EventBus.Subscribe<EndMatchEvent>(endMatchMenu);
-        EventBus.Subscribe<SurrenderEvent>(matchMenu);
         EventBus.Subscribe<EscapePressedEvent>(matchMenu);
         EventBus.Subscribe<EscapePressedEvent>(controlsMenu);
         EventBus.Subscribe<UpdateSelectionModeEvent>(selectionManager);
@@ -121,6 +119,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
+        EventBus.Subscribe<StageCompletedEvent>(this);
+        EventBus.Subscribe<SurrenderEvent>(this);
 
         EventBus.Subscribe<StageCompletedEvent>(this);
         EventBus.Subscribe<SurrenderEvent>(this);
@@ -165,7 +165,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         inputManager.SelectionManager = selectionManager;
 
         // Initialize HUD controller
-        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[1], statPanels[0].Controller, playerPanels[0], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
         foreach (ICharacterController character in characterControllers)
@@ -264,12 +264,57 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Start() end");
     }
 
+    private void StartStageHeal()
+    {
+        // Heal Stage 4
+    }
+
+    private void StartStageBuff()
+    {
+        //Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+        players[0].AddCharacterController(characterControllers[0]);
+        players[1].AddCharacterController(characterControllers[1]);
+        players[1].AddCharacterController(characterControllers[2]);
+        characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
+        characterPanels[1].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
+        characterPanels[1].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize HUD controller
+        hudController = new HUDController(statPanels[0].Controller, playerPanels[0], statPanels[1].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        StartGame();
+
+        Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
+        EventBus.Subscribe<BuffCheckEvent>(stage5Controller);
+        EventBus.Subscribe<AbilitySelectedEvent>(stage5Controller);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stage5Controller);
+        EventBus.Subscribe<SelectTileEvent>(stage5Controller);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stage5Controller);
+    }
+
     private void Start()
     {
         Debug.Log(ToString() + " Start() begin");
 
         tutorialStageStartMethods.Add(() => this.StartStageMovement());
         tutorialStageStartMethods.Add(() => this.StartStageAttack());
+        tutorialStageStartMethods.Add(() => this.StartStageHeal());
+        tutorialStageStartMethods.Add(() => this.StartStageBuff());
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
@@ -285,14 +330,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         var type = @event.GetType();
 
-        if (type == typeof(StageCompletedEvent))
+        if (type == typeof(StageCompletedEvent) || type == typeof(SurrenderEvent))
         {
             Invoke("ExitStage", 3);
-        }
-
-        if (type == typeof(SurrenderEvent))
-        {
-            ExitStage();
         }
     }
 }

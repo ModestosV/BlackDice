@@ -18,6 +18,7 @@ TagManager:
   - CatArrow
   - TutorialArrowW
   - TutorialTooltip
+  - ArrowIndicator
   layers:
   - Default
   - TransparentFX
