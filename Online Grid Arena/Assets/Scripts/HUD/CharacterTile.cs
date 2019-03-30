@@ -15,10 +15,14 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private ICharacterController character;
     private GameObject shieldIndicator;
 
+    private GameObject abilityPanel;
+
     private void Awake()
     {
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
+
+        abilityPanel = transform.GetChild(1).gameObject;
 
         activeIndicator = Instantiate(Resources.Load("Prefabs/HUD/ActiveIndicator"), this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
@@ -42,11 +46,21 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         HideShield();
     }
 
+    void Start()
+    {
+        InitializeAbilityPanel();
+    }
+
     public void Setup(ICharacterController character)
     {
         this.character = character;
         characterIcon.texture = character.CharacterIcon;
         border.color = character.BorderColor;
+    }
+
+    private void InitializeAbilityPanel()
+    {
+        abilityPanel.GetComponent<PortraitAbilityPanel>().UpdateAbilityIcons(character.Abilities);
     }
 
     private void ShowActive()
