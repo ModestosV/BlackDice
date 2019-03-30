@@ -17,10 +17,11 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected GameObject indicator;
     protected Animator iAnimator;
 
-    [SerializeField] float speed;
+    private float speed = 0.5f;
     protected bool following = false;
     protected int targetIndex;
     Vector3 currentWaypoint;
+    IHexTile targetTile;
     List<IHexTileController> path;
 
     private void Update()
@@ -32,9 +33,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
+                    gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
                     following = false; //break
                 }
-                //currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, path[targetIndex].HexTile.GameObject.transform.position.y, 0);
+
                 if (following)
                 {
                     currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
@@ -61,12 +63,14 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
     }
 
-    public void FollowPath(List<IHexTileController> path)
+    public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
     {
-        following = true;
         this.path = path;
-        //Vector3 currentWaypoint = new Vector3(path[0].HexTile.GameObject.transform.position.x, path[0].HexTile.GameObject.transform.position.y, 0);
+        this.targetTile = targetTile;
+        targetIndex = 0;
+        gameObject.transform.SetParent(targetTile.GameObject.transform);
         currentWaypoint = path[0].HexTile.GameObject.transform.position;
+        following = true;
     }
 
     public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)

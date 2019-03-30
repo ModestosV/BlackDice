@@ -36867,7 +36867,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
-  speed: 0
+  speed: 0.5
 --- !u!1001 &1420627704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43953,7 +43953,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
-  speed: 0.1
+  speed: 0.5
 --- !u!1 &1677614729
 GameObject:
   m_ObjectHideFlags: 0
@@ -58715,6 +58715,10 @@ PrefabInstance:
     - target: {fileID: 1103580326, guid: a5ff6fb41c3250f4a857ab410b0803e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103580327, guid: a5ff6fb41c3250f4a857ab410b0803e9, type: 3}
+      propertyPath: speed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ff6fb41c3250f4a857ab410b0803e9, type: 3}
