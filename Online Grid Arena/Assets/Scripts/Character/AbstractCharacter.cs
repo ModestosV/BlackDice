@@ -18,7 +18,34 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected Animator iAnimator;
 
     [SerializeField] float speed;
+    protected bool following = false;
     protected int targetIndex;
+    Vector3 currentWaypoint;
+    List<IHexTileController> path;
+
+    private void Update()
+    {
+        if (following)
+        {
+            if (gameObject.transform.position == currentWaypoint)
+            {
+                targetIndex++;
+                if (targetIndex >= path.Count)
+                {
+                    following = false; //break
+                }
+                //currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, path[targetIndex].HexTile.GameObject.transform.position.y, 0);
+                if (following)
+                {
+                    currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
+                }
+            }
+            if (following)
+            {
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
+            }
+        }
+    }
 
     public void Destroy()
     {
@@ -36,25 +63,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     public void FollowPath(List<IHexTileController> path)
     {
+        following = true;
+        this.path = path;
         //Vector3 currentWaypoint = new Vector3(path[0].HexTile.GameObject.transform.position.x, path[0].HexTile.GameObject.transform.position.y, 0);
-        Vector3 currentWaypoint = path[0].HexTile.GameObject.transform.position;
-        Debug.Log("THE LOCATION IS");
-        Debug.Log(path[0].HexTile.GameObject.transform.position);
-        while (true)
-        {
-            if (gameObject.transform.position == currentWaypoint)
-            {
-                targetIndex++;
-                if (targetIndex >= path.Count)
-                {
-                    return; //break
-                }
-                //currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, path[targetIndex].HexTile.GameObject.transform.position.y, 0);
-                currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
-            }
-
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
-        }
+        currentWaypoint = path[0].HexTile.GameObject.transform.position;
     }
 
     public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
