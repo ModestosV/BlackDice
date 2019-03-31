@@ -33,7 +33,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
-                    gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
                     following = false; //break
                 }
 
