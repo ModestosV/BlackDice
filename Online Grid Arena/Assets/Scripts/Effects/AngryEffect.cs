@@ -14,7 +14,7 @@ public sealed class AngryEffect : StackModifier
         )
     {
         Name = "Angry";
-        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/attackDLL");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/angry");
         Description = "Increases Attack by 20";
     }
 

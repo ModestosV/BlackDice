@@ -4,8 +4,8 @@ using UnityEngine;
 public class Accusation : AbstractTargetedAbility
 {
     public Accusation(ICharacter character) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
-        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
+        Resources.Load<Sprite>("Sprites/Abilities/accusation"),
+        Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/grunt"),
         character,
         3,

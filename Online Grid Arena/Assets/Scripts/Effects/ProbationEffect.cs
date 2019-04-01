@@ -14,7 +14,7 @@ public sealed class ProbationEffect : StackModifier
         )
     {
         Name = "Probation";
-        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL");
+        EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/probationEffect");
         Description = "Reduces Defense by 50";
     }
 
