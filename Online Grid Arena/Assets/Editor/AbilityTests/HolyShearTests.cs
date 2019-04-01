@@ -39,19 +39,6 @@ public class HolyShearTests
     }
 
     [Test]
-    public void Heals_ally()
-    {
-        ICharacterController ally = Substitute.For<ICharacterController>();
-
-        allyHexTileController.OccupantCharacter.Returns(ally);
-        ally.IsAlly(characterController).Returns(true);
-
-        sut.Execute(new List<IHexTileController>() { allyHexTileController });
-
-        allyHexTileController.Received(1).Heal(Arg.Any<float>());
-    }
-
-    [Test]
     public void Does_not_heal_enemy()
     {
         ICharacterController enemy = Substitute.For<ICharacterController>();
