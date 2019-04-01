@@ -6,12 +6,12 @@ public sealed class ProfessorOwl : AbstractCharacter
     protected override void Awake()
     {
         base.Awake();
-        IAbility placeholder = new Placeholder(this);
-        IAbility placeholder1 = new Placeholder(this);
+        IAbility lecture = new Lecture(this);
+        IAbility silence = new Silence(this);
         IAbility accusation = new Accusation(this);
         IAbility flakyTests = new FlakyTests(this);
 
-        var abilities = new List<IAbility>() { placeholder, placeholder1, accusation, flakyTests };
+        var abilities = new List<IAbility>() { lecture, silence, accusation, flakyTests };
 
         var characterStats = InitializeStats(100, 50, 20, 100);
 
