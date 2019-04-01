@@ -20,7 +20,6 @@ public sealed class DefaultCharacter : AbstractCharacter
             Owner = playerName,
             CharacterIcon = characterIcon,
             BorderColor = borderColor,
-            HealthBar = healthBar.GetComponent<HealthBar>(),
             Abilities = abilities,
             CharacterStats = characterStats,
             Effects = effects,

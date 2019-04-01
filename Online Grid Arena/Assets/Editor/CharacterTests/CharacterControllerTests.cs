@@ -13,7 +13,6 @@ public class CharacterControllerTests
     IHexTileController endTileController;
     IHexTile endTile;
     IHUDController hudController;
-    IHealthBar healthBar;
 
     List<IAbility> abilities;
     IAbility ability1;
@@ -55,7 +54,6 @@ public class CharacterControllerTests
         endTileController = Substitute.For<IHexTileController>();
         endTile = Substitute.For<IHexTile>();
         hudController = Substitute.For<IHUDController>();
-        healthBar = Substitute.For<IHealthBar>();
 
         health = Substitute.For<ICharacterStat>();
         health.CurrentValue.Returns(CHARACTER_CURRENT_HEALTH);
@@ -97,7 +95,6 @@ public class CharacterControllerTests
             Owner = PLAYER_NAME,
             CharacterIcon = CHARACTER_ICON,
             BorderColor = BORDER_COLOR,
-            HealthBar = healthBar,
             Effects = effects
         };
     }
