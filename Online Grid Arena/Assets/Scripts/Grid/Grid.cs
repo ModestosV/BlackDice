@@ -8,7 +8,7 @@ public sealed class Grid : BlackDiceMonoBehaviour, IGrid
 
     public GridController GridController { get; set; }
 
-    private readonly int defaultGridWidth = 18;
+    private readonly int defaultGridWidth = 19;
 
     public void InitializeGrid(IGridSelectionController gridSelectionController)
     {
