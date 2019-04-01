@@ -6,7 +6,7 @@ public class FlakyTests : AbstractTargetedAbility
     public FlakyTests(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
+        Resources.Load<AudioClip>("Audio/Ability/flakyTestsBeep"),
         character,
         10,
         5, 

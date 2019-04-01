@@ -6,7 +6,7 @@ public class Accusation : AbstractTargetedAbility
     public Accusation(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefenseBuffAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/buffUpSound"),
+        Resources.Load<AudioClip>("Audio/Ability/grunt"),
         character,
         3,
         6,

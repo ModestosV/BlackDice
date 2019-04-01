@@ -6,7 +6,7 @@ public sealed class Lecture : AbstractTargetedAbility
     public Lecture(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/swoopDown"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
-        Resources.Load<AudioClip>("Audio/Ability/bat-flapping"),
+        Resources.Load<AudioClip>("Audio/Ability/owlHootSound"),
         activeCharacter,
         1,
         5,
