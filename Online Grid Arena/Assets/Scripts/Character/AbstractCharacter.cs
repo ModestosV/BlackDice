@@ -16,6 +16,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     protected GameObject indicator;
     protected Animator iAnimator;
+    protected List<IEffect> effects;
 
     public void Destroy()
     {
@@ -49,8 +50,9 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     protected virtual void Awake()
     {
-        Debug.Log(ToString() + " Awake() begin");
+        effects = new List<IEffect>();
 
+        Debug.Log(ToString() + " Awake() begin");
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
         teamColorIndicator.GetComponent<SpriteRenderer>().color = borderColor;

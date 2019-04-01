@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class DefaultCharacter : AbstractCharacter
+public sealed class Sheepadin : AbstractCharacter
 {
     protected override void Awake()
     {
         base.Awake();
 
-        IAbility defaultAttack = new DefaultAttack(this);
-        IAbility defaultHeal = new DefaultHeal(this);
         IAbility placeholder = new Placeholder(this);
+        WoolArmorEffect woolArmorEffect = new WoolArmorEffect();
+        IAbility woolArmor = new WoolArmor(this, woolArmorEffect);
+        IAbility headbutt = new Headbutt(this);
+        IAbility holyShear = new HolyShear(this, woolArmorEffect);
+        IAbility bahtteryAssault = new BahtteryAssault(this, woolArmorEffect);
 
-        var abilities = new List<IAbility>() { defaultAttack, defaultHeal, placeholder, placeholder };
+        var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, bahtteryAssault };
 
-        var characterStats = InitializeStats(100, 5, 20, 100);
+        var characterStats = InitializeStats(120, 20, 20, 100);
 
         characterController = new CharacterController(this)
         {

@@ -15,7 +15,6 @@ public sealed class AgentFrog : AbstractCharacter
         IAbility poisonAuraAbility = new PoisonAura(this);
 
         var abilities = new List<IAbility>() { lick, hop, tonguePull, poisonAuraAbility };
-        var effects = new List<IEffect>() { };
 
         characterController = new CharacterController(this)
         {

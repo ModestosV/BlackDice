@@ -36825,7 +36825,7 @@ GameObject:
   - component: {fileID: 1418488741}
   - component: {fileID: 1418488742}
   m_Layer: 0
-  m_Name: DefaultCharacter
+  m_Name: Sheepadin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36850,18 +36850,17 @@ Transform:
 --- !u!114 &1418488742
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114508822629297252, guid: 610ede887b1638f4b89f64dcd099ec75,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418488740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf92ae8eca3da243ae10e0f161e1f51, type: 3}
+  m_Script: {fileID: 11500000, guid: 413882428e48b8c42b22d39e6e77ff09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 1
-  characterIcon: {fileID: 2800000, guid: 20fbed71eb613e8418176f3ef159e78c, type: 3}
+  characterIcon: {fileID: 2800000, guid: 854851dc55a5ba247a342fcea5f90b42, type: 3}
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
