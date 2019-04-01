@@ -5,12 +5,12 @@ using System.Linq;
 using System;
 using TMPro;
 
-public class Stage3Controller : IEventSubscriber
+public class Stage3Controller : AbstractStageController,IEventSubscriber
 {
     private readonly List<ICharacterController> characters;
     private readonly ArrowIndicator[] arrows;
     private readonly List<IPlayer> players;
-    private bool finalStep;
+    private bool stageFailedFlag;
     private readonly int indexCat;
     private readonly int indexPengwin;
     private readonly int indexScratch;
@@ -22,7 +22,7 @@ public class Stage3Controller : IEventSubscriber
     private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
     private const String TEXT_STEP_5 = "Select Rocket Cat again";
     private const String TEXT_STEP_6 = "Press or click W to use ability";
-    private const String STAGE_COMPLETE = "Stage Completed!\nRedirecting Tutorial";
+    private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
 
     private List<Action> stepMethods = new List<Action>();
     private const int STAGE_INDEX = 3;
@@ -35,7 +35,7 @@ public class Stage3Controller : IEventSubscriber
         this.characters = characters;
         this.arrows = arrows;
         this.players = players;
-        this.finalStep = false;
+        this.stageFailedFlag = false;
 
         foreach (ICharacterController c in characters)
         {
@@ -86,7 +86,7 @@ public class Stage3Controller : IEventSubscriber
         {
             if (obj != null)
             {
-                obj.ShowArrow();
+                obj.Show();
             }
         }
     }
@@ -98,11 +98,11 @@ public class Stage3Controller : IEventSubscriber
         {
             if (arrow.GameObject.tag == "TutorialArrow")
             {
-                arrow.ShowArrow();
+                arrow.Show();
             }
             else if (arrow.GameObject.tag == "CatArrow")
             {
-                arrow.HideArrow();
+                arrow.Hide();
             }
         }
     }
@@ -115,11 +115,11 @@ public class Stage3Controller : IEventSubscriber
         {
             if (obj.tag == "PengwinArrow")
             {
-                obj.ShowArrow();
+                obj.Show();
             }
             else
             {
-                obj.HideArrow();
+                obj.Hide();
             }
         }
 
@@ -137,11 +137,11 @@ public class Stage3Controller : IEventSubscriber
         {
             if (arrow.GameObject.tag == "TutorialArrowW")
             {
-                arrow.ShowArrow();
+                arrow.Show();
             }
             else if (arrow.GameObject.tag == "PengwinArrow")
             {
-                arrow.HideArrow();
+                arrow.Hide();
             }
         }
     }
@@ -157,18 +157,17 @@ public class Stage3Controller : IEventSubscriber
 
         EventBus.Publish(new StartNewTurnEvent());
 
-        this.finalStep = true;
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_5;
 
         foreach (ArrowIndicator arrow in arrows)
         {
             if (arrow.GameObject.tag == "CatArrow")
             {
-                arrow.ShowArrow();
+                arrow.Show();
             }
             else
             {
-                arrow.HideArrow();
+                arrow.Hide();
             }
         }
     }
@@ -180,11 +179,11 @@ public class Stage3Controller : IEventSubscriber
         {
             if (arrow.GameObject.tag == "TutorialArrowW")
             {
-                arrow.ShowArrow();
+                arrow.Show();
             }
             else if (arrow.GameObject.tag == "CatArrow")
             {
-                arrow.HideArrow();
+                arrow.Hide();
             }
         }
     }
@@ -196,20 +195,20 @@ public class Stage3Controller : IEventSubscriber
         {
             if (arrow.GameObject.tag == "TutorialArrowW")
             {
-                arrow.HideArrow();
+                arrow.Hide();
             }
             else if (arrow.GameObject.tag == "PengwinArrow")
             {
-                arrow.ShowArrow();
+                arrow.Show();
             }
         }
     }
 
-    public void CompleteStage(int StageIndex)
+    public new void CompleteStage(int StageIndex)
     {
         foreach (ArrowIndicator arrow in arrows)
         {
-            arrow.HideArrow();
+            arrow.Hide();
         }
 
         characters[indexCat].HUDController.ClearSelectedHUD();
@@ -221,11 +220,68 @@ public class Stage3Controller : IEventSubscriber
         EventBus.Publish(new StageCompletedEvent(StageIndex));
     }
 
+    private void stageFailed()
+    {
+        stageFailedFlag = true;
+        foreach (ArrowIndicator arrow in arrows)
+        {
+            arrow.Hide();
+        }
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
+        EventBus.Publish(new SurrenderEvent());
+    }
+
     public void execute()
     {
-        var localCurrent = currentStep;
-        currentStep++;
-        stepMethods[localCurrent].Invoke();
+        if(!stageFailedFlag)
+        {
+            var localCurrent = currentStep;
+            currentStep++;
+            stepMethods[localCurrent].Invoke();
+        }
+    }
+
+    public bool checkCorrectInput()
+    {
+
+        if (type == typeof(StartNewTurnEvent))
+        {
+            List<int> validNums = new List<int>() { 0, 3, 6, 8 };
+            if (!validNums.Contains(currentStep))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (type == typeof(AbilitySelectedEvent) || type == typeof(AbilityClickEvent))
+        {
+            int abilityIndex = 2;
+            List<int> validIndex = new List<int>() { 0, 1 };
+            if (type == typeof(AbilityClickEvent))
+            {
+                var ability = (AbilityClickEvent)eventHandled;
+                abilityIndex = ability.AbilityIndex;
+            }
+            else if(type == typeof(AbilitySelectedEvent))
+            {
+                var ability = (AbilitySelectedEvent)eventHandled;
+                abilityIndex = ability.AbilityIndex;
+            }
+
+            if (!validIndex.Contains(abilityIndex))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        return true;
     }
 
     public void Handle(IEvent @event)
@@ -233,7 +289,11 @@ public class Stage3Controller : IEventSubscriber
         type = @event.GetType();
         eventHandled = @event;
 
-        if (type == typeof(StartNewTurnEvent))
+        if(!checkCorrectInput())
+        {
+            stageFailed();
+        }
+        else if (type == typeof(StartNewTurnEvent))
         {
             if (currentStep == 0)
             {
