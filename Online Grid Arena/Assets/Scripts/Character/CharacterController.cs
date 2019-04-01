@@ -168,9 +168,12 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            if (ef.Key == "attack" || ef.Key == "defense"|| ef.Key == "moves")
+            if (ef.Key == "attack" || ef.Key == "defense" || ef.Key == "moves")
             {
-                CharacterStats[ef.Key].BaseValue += ef.Value;
+                if (!(ef.Key == "defense" && ef.Value < 0))
+                {
+                    CharacterStats[ef.Key].BaseValue += ef.Value;
+                }
             }
             CharacterStats[ef.Key].CurrentValue += ef.Value;
         }
