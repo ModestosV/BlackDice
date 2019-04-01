@@ -50,6 +50,8 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     protected virtual void Awake()
     {
+        effects = new List<IEffect>();
+
         Debug.Log(ToString() + " Awake() begin");
         teamColorIndicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharColorMarker"), this.transform);
         teamColorIndicator.transform.SetParent(this.transform);
