@@ -46,16 +46,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         HideShield();
     }
 
-    void Start()
-    {
-        InitializeAbilityPanel();
-    }
-
     public void Setup(ICharacterController character)
     {
         this.character = character;
         characterIcon.texture = character.CharacterIcon;
         border.color = character.BorderColor;
+        InitializeAbilityPanel();
     }
 
     private void InitializeAbilityPanel()
