@@ -294,7 +294,14 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         StartGame();
 
+        // this needs to be created after because it must not catch the first StartNewTurnEvent!
+        Stage4Controller stage4Controller = new Stage4Controller(characterControllers[0], characterControllers[1]);
 
+        EventBus.Subscribe<StartNewTurnEvent>(stage4Controller);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stage4Controller);
+        EventBus.Subscribe<SelectActivePlayerEvent>(stage4Controller);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(stage4Controller);
+        EventBus.Subscribe<SelectTileEvent>(stage4Controller);
     }
 
     private void StartStageBuff()
