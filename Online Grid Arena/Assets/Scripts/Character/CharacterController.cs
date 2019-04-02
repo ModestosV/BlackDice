@@ -190,9 +190,10 @@ public class CharacterController : ICharacterController
             ExhaustCharacter();
             CheckExhausted();
         }
-        else if(StatusEffectState == StatusEffectState.STUNNED)
+        else if(StatusEffectState == StatusEffectState.SILENCED)
         {
             UpdateCooldowns();
+            Refresh();
             abilitiesRemaining = 0;
         }
         else
@@ -211,6 +212,7 @@ public class CharacterController : ICharacterController
             CharacterState = CharacterState.EXHAUSTED;
             StatusEffectState = StatusEffectState.NONE;
             EventBus.Publish(new StatusEffectEvent("stun", false, this));
+            EventBus.Publish(new StatusEffectEvent("silence", false, this));
         }
         foreach (IAbility ability in Abilities)
         {

@@ -11,7 +11,7 @@ public class FlakyTests : AbstractTargetedAbility
         10,
         5, 
         AbilityType.TARGET_ENEMY,
-        "Flaky Tests - Ultimate Ability \nProfessor Owl runs a flaky test on an enemy. If it passes, the enemy takes 200% of Owl's attack stat. If the test fails, Professor Owl gets the \"Angry\" effect which buffs his attack stat.")
+        "Flaky Tests - Ultimate Ability \nProfessor Rig-Bee runs a flaky test on an enemy. If it passes, the enemy takes 200% of Owl's attack stat. If the test fails, Professor Owl gets the \"Angry\" effect which buffs his attack stat.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

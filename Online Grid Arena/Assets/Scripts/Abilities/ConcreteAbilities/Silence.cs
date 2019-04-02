@@ -16,9 +16,14 @@ public class Silence : AbstractTargetedAbility
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
     {
-        Debug.Log("Casting Tongue Pull. Primary action being called.");
+        Debug.Log("Casting Silence. Primary action being called.");
         PlaySoundEffect();
-        //silence here
+        if (targetTiles.Count > 1)
+        {
+            targetTiles[1].OccupantCharacter.StatusEffectState = StatusEffectState.SILENCED;
+            EventBus.Publish(new StatusEffectEvent("silence", true, targetTiles[1].OccupantCharacter));
+            PlayAnimation(targetTiles[1]);
+        }
     }
 
     protected override void SecondaryAction(List<IHexTileController> targetTiles)

@@ -16,7 +16,7 @@ public sealed class Sheepadin : AbstractCharacter
 
         var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, bahtteryAssault };
 
-        var characterStats = InitializeStats(120, 20, 20, 100);
+        var characterStats = InitializeStats(120, 8, 20, 100);
 
         characterController = new CharacterController(this)
         {
