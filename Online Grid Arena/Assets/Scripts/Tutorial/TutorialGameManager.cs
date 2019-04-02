@@ -294,13 +294,12 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
-        Stage4Controller stageController = new Stage4Controller(characterControllers[0], characterControllers[1]);
+        Stage4Controller stageController = new Stage4Controller(characterControllers[0], characterControllers[1], gridSelectionController);
 
-        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
-        EventBus.Subscribe<SelectActivePlayerEvent>(stageController);
-        EventBus.Subscribe<DeselectSelectedTileEvent>(stageController);
         EventBus.Subscribe<SelectTileEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
     }
 
     private void StartStageBuff()
@@ -333,12 +332,12 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         StartGame();
 
-        Stage5Controller stage5Controller = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
-        EventBus.Subscribe<BuffCheckEvent>(stage5Controller);
-        EventBus.Subscribe<AbilitySelectedEvent>(stage5Controller);
-        EventBus.Subscribe<UpdateSelectionModeEvent>(stage5Controller);
-        EventBus.Subscribe<SelectTileEvent>(stage5Controller);
-        EventBus.Subscribe<ExhaustCharacterEvent>(stage5Controller);
+        Stage5Controller stageController = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
+        EventBus.Subscribe<BuffCheckEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<SelectTileEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
     }
 
     private void Start()

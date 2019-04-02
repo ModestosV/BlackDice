@@ -11,6 +11,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
     private List<Action> stepMethods = new List<Action>();
     private int currentStepIndex = 0;
+    private int abilityIndexSelected = -1;
 
     private ICharacterController rocketCat;
     private ICharacterController sheepadin;
@@ -38,6 +39,15 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
     {
         var type = @event.GetType();
 
+        if (type == typeof(AbilitySelectedEvent))
+        {
+            var abilitySelectedEvent = (AbilitySelectedEvent)@event;
 
+            abilityIndexSelected = abilitySelectedEvent.AbilityIndex;
+        }
+
+        stepMethods[currentStepIndex].Invoke();
+
+        abilityIndexSelected = -1;
     }
 }
