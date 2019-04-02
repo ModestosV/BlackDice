@@ -48,7 +48,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
                 if (following)
                 {
-                    currentWaypoint = path[targetIndex].HexTile.GameObject.transform.position;
+                    currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, transform.position.y, path[targetIndex].HexTile.GameObject.transform.position.z);
                 }
             }
             if (following)
