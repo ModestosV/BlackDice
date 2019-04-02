@@ -17,6 +17,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected GameObject indicator;
     protected Animator iAnimator;
 
+    private Color baseColor;
     private float speed = 0.5f;
     private bool following = false;
     private int targetIndex;
@@ -109,10 +110,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
         shield.transform.SetParent(this.transform);
 
-        exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
-        exhausted.transform.localScale *= 1.02f;
-        exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
-        exhausted.SetActive(false);
+        //exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
+        //exhausted.transform.localScale *= 1.02f;
+        //exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
+        //exhausted.SetActive(false);
 
         indicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharacterIndicator"), this.transform);
         indicator.transform.SetParent(this.transform);
@@ -127,6 +128,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
+        baseColor = transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color;
 
         Debug.Log(ToString() + " Start() end");
     }
@@ -141,7 +143,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
                 if (exhaustCharacterEvent.CharacterController == this.characterController)
                 {
-                    exhausted.SetActive(true);
+                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 0.0f);
                 }
             }
             else if (type == typeof(NewRoundEvent))
@@ -149,7 +151,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var newRoundEvent = (NewRoundEvent)@event;
                 if (newRoundEvent.CharacterController == this.characterController)
                 {
-                    exhausted.SetActive(false);
+                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = baseColor;
                 }
             }
             else if (type == typeof(SelectActivePlayerEvent))
