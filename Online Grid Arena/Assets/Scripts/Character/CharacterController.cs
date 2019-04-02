@@ -206,6 +206,7 @@ public class CharacterController : ICharacterController
 
     public void EndOfTurn()
     {
+        UpdateCooldowns();
         IsActive = false;
         if(CharacterState != CharacterState.DEAD)
         {
