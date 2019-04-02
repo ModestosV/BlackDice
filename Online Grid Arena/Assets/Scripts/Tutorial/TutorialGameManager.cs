@@ -268,7 +268,33 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageHeal()
     {
-        // Heal Stage 4
+        //Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+        players[0].AddCharacterController(characterControllers[0]);
+        players[0].AddCharacterController(characterControllers[1]);
+        characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
+        characterPanels[0].CharacterTiles[1].Setup(players[0].CharacterControllers[1]);
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize HUD controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[1], statPanels[0].Controller, playerPanels[0], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        StartGame();
+
+
     }
 
     private void StartStageBuff()
