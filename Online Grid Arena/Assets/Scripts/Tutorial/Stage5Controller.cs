@@ -19,7 +19,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_12 = "Attack Rocket Cat";
     private const string TUTORIAL_STEP_13 = "Click on Rocket Cat";
     private const string TUTORIAL_STEP_14 = "Check Buff stack 4";
-    protected const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
+    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
     private ICharacterController rocketCat;

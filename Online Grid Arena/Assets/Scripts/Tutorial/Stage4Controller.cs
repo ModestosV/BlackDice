@@ -8,6 +8,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_1 = "Click On Sheepadin";
     private const string TUTORIAL_STEP_2 = "Press W";
     private const string TUTORIAL_STEP_3 = "Heal Both characters";
+    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
 
     private List<Action> stepMethods = new List<Action>();
     private int currentStepIndex = 0;
@@ -26,12 +27,23 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         stepMethods.Add(() => this.handleStep1());
     }
 
+    private void stageFailed()
+    {
+        GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
+        EventBus.Publish(new SurrenderEvent());
+    }
+
     private void handleStep1()
     {
         if (sheepadin == gridSelectionController.GetSelectedCharacter())
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_2;
             currentStepIndex = 1;
+
+            if (sheepadin.IsExhausted())
+            {
+                stageFailed();
+            }
         }
     }
 
