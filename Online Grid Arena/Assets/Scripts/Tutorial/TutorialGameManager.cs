@@ -41,7 +41,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
 
-    private AbstractCharacter[] characters;
     private Grid grid;
 
     private void Awake()
@@ -97,9 +96,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         // Initialize Grid
         grid = FindObjectOfType<Grid>();
-
-        //Initialize Characters for more scenes
-        characters = FindObjectsOfType<AbstractCharacter>();
 
         Debug.Log(ToString() + " Awake() end");
     }
@@ -196,10 +192,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Start() begin");
 
         // Get all characters from scene
-        characterControllers = characters.Select(x => x.Controller).ToList();
-
-        //Initialize players
-        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
 
         foreach (ICharacterController characterController in characterControllers)
         {
