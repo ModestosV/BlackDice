@@ -31,6 +31,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.sheepadin.CharacterStats["health"].CurrentValue = 10;
 
         stepMethods.Add(() => this.handleStep1());
+        stepMethods.Add(() => this.handleStep2());
     }
 
     private void stageFailed()
@@ -47,6 +48,22 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
             currentStepIndex = 1;
 
             if (sheepadin.IsExhausted())
+            {
+                stageFailed();
+            }
+        }
+    }
+
+    private void handleStep2()
+    {
+        if (sheepadin == gridSelectionController.GetSelectedCharacter())
+        {
+            if (abilityIndexSelected == 1)
+            {
+                GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TUTORIAL_STEP_3;
+                currentStepIndex = 2;
+            }
+            else if (sheepadin.IsExhausted())
             {
                 stageFailed();
             }
