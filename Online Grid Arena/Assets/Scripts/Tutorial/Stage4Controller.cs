@@ -31,9 +31,9 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.rocketCat.CharacterStats["health"].CurrentValue = 20;
         this.sheepadin.CharacterStats["health"].CurrentValue = 20;
 
-        stepMethods.Add(() => this.handleStep1());
-        stepMethods.Add(() => this.handleStep2());
-        stepMethods.Add(() => this.handleStep3());
+        stepMethods.Add(() => this.HandleStep1());
+        stepMethods.Add(() => this.HandleStep2());
+        stepMethods.Add(() => this.HandleStep3());
     }
 
     private void StageFailed()
@@ -42,7 +42,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    private void handleStep1()
+    private void HandleStep1()
     {
         if (sheepadin == gridSelectionController.GetSelectedCharacter())
         {
@@ -56,7 +56,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep2()
+    private void HandleStep2()
     {
         if (sheepadin == gridSelectionController.GetSelectedCharacter())
         {
@@ -77,7 +77,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep3()
+    private void HandleStep3()
     {
         if (sheepadin.CharacterStats["health"].CurrentValue.Equals(sheepadin.CharacterStats["health"].BaseValue) && rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue))
         {
