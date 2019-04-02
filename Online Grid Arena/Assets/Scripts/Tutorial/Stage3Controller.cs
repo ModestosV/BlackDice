@@ -277,7 +277,18 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
             }
             else
             {
-                return true;
+                if(abilityIndex == 0 && currentStep <= 2)
+                {
+                    return true;
+                }
+                else if(abilityIndex == 1 && currentStep > 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
         }
