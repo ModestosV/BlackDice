@@ -27,6 +27,9 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.rocketCat.CharacterStats["moves"].BaseValue = 0;
         this.sheepadin.CharacterStats["moves"].BaseValue = 0;
 
+        this.rocketCat.CharacterStats["health"].CurrentValue = 10;
+        this.sheepadin.CharacterStats["health"].CurrentValue = 10;
+
         stepMethods.Add(() => this.handleStep1());
     }
 
