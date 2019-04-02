@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Silence : AbstractTargetedAbility
 {
     public Silence(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/slide"),
+        Resources.Load<Sprite>("Sprites/Abilities/silence"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/SlideHitAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/owlSh"),
         activeCharacter,

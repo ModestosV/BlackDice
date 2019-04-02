@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public sealed class Lecture : AbstractTargetedAbility
 {
     public Lecture(ICharacter activeCharacter) : base(
-        Resources.Load<Sprite>("Sprites/Abilities/swoopDown"),
+        Resources.Load<Sprite>("Sprites/Abilities/lecture"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/DefaultAttackAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/owlHootSound"),
         activeCharacter,
