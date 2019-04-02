@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController : ICharacterController
 {
     public IHexTileController OccupiedTile { get; set; }
-    public IHUDController HUDController { protected get; set; }
+    public IHUDController HUDController { get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { get; set; }
@@ -39,6 +39,7 @@ public class CharacterController : ICharacterController
     }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
+    public StatusEffectState StatusEffectState { get; set; }
 
     private int abilitiesRemaining;
 
@@ -46,6 +47,7 @@ public class CharacterController : ICharacterController
     {
         Character = character;
         CharacterState = CharacterState.UNUSED;
+        StatusEffectState = StatusEffectState.NONE;
         IsActive = false;
     }
 
@@ -117,13 +119,6 @@ public class CharacterController : ICharacterController
     {
         CharacterStats["moves"].Refresh();
         abilitiesRemaining = 1;
-
-        Abilities.ForEach(ability => {
-            if(ability is IActiveAbility)
-            {
-                ((IActiveAbility) ability).UpdateCooldown();
-            }
-        });
     }
 
     public void Heal(float heal)
@@ -189,7 +184,17 @@ public class CharacterController : ICharacterController
                 ApplyStack(eff);
             }
         }
-        Refresh();
+        if(StatusEffectState == StatusEffectState.STUNNED)
+        {
+            UpdateCooldowns();
+            ExhaustCharacter();
+            CheckExhausted();
+        }
+        else
+        {
+            Refresh();
+        }
+
         EventBus.Publish(new SelectCharacterEvent(this));
     }
 
@@ -199,8 +204,9 @@ public class CharacterController : ICharacterController
         if(CharacterState != CharacterState.DEAD)
         {
             CharacterState = CharacterState.EXHAUSTED;
+            StatusEffectState = StatusEffectState.NONE;
+            EventBus.Publish(new StatusEffectEvent("stun", false, this));
         }
-
         foreach (IAbility ability in Abilities)
         {
             try
@@ -283,6 +289,7 @@ public class CharacterController : ICharacterController
     public void Die()
     {
         CharacterState = CharacterState.DEAD;
+        StatusEffectState = StatusEffectState.NONE;
         OccupiedTile.ClearOccupant();
         Character.Destroy();
         EventBus.Publish(new DeathEvent(this));
@@ -366,6 +373,18 @@ public class CharacterController : ICharacterController
         }
     }
 
+    public bool CheckAbilitiesExhausted()
+    {
+        if (this.abilitiesRemaining <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public List<ICharacterController> AllAllies()
     {
         List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
@@ -378,5 +397,21 @@ public class CharacterController : ICharacterController
             }
         }
         return allies;
+    }
+
+    private void UpdateCooldowns()
+    {
+        Abilities.ForEach(ability => {
+            if (ability is IActiveAbility)
+            {
+                ((IActiveAbility)ability).UpdateCooldown();
+            }
+        });
+    }
+
+    private void ExhaustCharacter()
+    {
+        abilitiesRemaining = 0;
+        CharacterStats["moves"].CurrentValue = 0;
     }
 }

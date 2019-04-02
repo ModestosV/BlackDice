@@ -13,6 +13,10 @@ TagManager:
   - StageButton
   - TurnIndicator
   - TurnTile
+  - TutorialArrow
+  - PengwinArrow
+  - CatArrow
+  - TutorialArrowW
   - TutorialTooltip
   - ArrowIndicator
   layers:
