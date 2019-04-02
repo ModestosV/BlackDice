@@ -36,7 +36,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         stepMethods.Add(() => this.handleStep3());
     }
 
-    private void stageFailed()
+    private void StageFailed()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
         EventBus.Publish(new SurrenderEvent());
@@ -51,7 +51,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
             if (sheepadin.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
     }
@@ -67,7 +67,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
             }
             else if (sheepadin.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
         else
@@ -83,6 +83,10 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
             CompleteStage(STAGE_INDEX);
+        }
+        else if (sheepadin.IsExhausted())
+        {
+            StageFailed();
         }
     }
 
