@@ -42,7 +42,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
-                    following = false; //break
+                    following = false;
                     isMoving = false;
                 }
 
@@ -111,11 +111,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
         shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
         shield.transform.SetParent(this.transform);
-
-        //exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
-        //exhausted.transform.localScale *= 1.02f;
-        //exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
-        //exhausted.SetActive(false);
 
         indicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharacterIndicator"), this.transform);
         indicator.transform.SetParent(this.transform);
