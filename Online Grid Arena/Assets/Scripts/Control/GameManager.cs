@@ -154,6 +154,7 @@ public sealed class GameManager : MonoBehaviour
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
             EventBus.Subscribe<StartNewTurnEvent>(tile);
+            EventBus.Subscribe<AbilityUsedEvent>(tile);
             EventBus.Subscribe<DamageEvent>(tile);
         }
 

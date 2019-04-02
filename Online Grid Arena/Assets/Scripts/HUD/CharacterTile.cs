@@ -150,6 +150,10 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         {
             UpdateHealthBar();
         }
+        else if (type == typeof(AbilityUsedEvent))
+        {
+            UpdateHealthBar();
+        }
         else if (type == typeof(StartNewTurnEvent))
         {
             UpdateHealthBar();

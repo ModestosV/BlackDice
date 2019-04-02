@@ -131,6 +131,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
             EventBus.Subscribe<StartNewTurnEvent>(tile);
+            EventBus.Subscribe<AbilityUsedEvent>(tile);
             EventBus.Subscribe<DamageEvent>(tile);
         }
 
