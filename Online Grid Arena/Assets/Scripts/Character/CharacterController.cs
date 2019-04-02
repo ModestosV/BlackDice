@@ -190,6 +190,11 @@ public class CharacterController : ICharacterController
             ExhaustCharacter();
             CheckExhausted();
         }
+        else if(StatusEffectState == StatusEffectState.STUNNED)
+        {
+            UpdateCooldowns();
+            abilitiesRemaining = 0;
+        }
         else
         {
             Refresh();
