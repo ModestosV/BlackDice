@@ -53,6 +53,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
             }
             if (following)
             {
+                transform.LookAt(currentWaypoint);
                 gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
             }
         }
