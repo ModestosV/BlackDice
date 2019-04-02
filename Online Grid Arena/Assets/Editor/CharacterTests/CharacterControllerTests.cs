@@ -15,7 +15,7 @@ public class CharacterControllerTests
     IHUDController hudController;
 
     List<IAbility> abilities;
-    IAbility ability1;
+    ITargetedAbility ability1;
     IAbility ability2;
     const int SECOND_ABILITY_INDEX = 1;
 
@@ -72,7 +72,7 @@ public class CharacterControllerTests
             { "defense", defense }
         };
 
-        ability1 = Substitute.For<IAbility>();
+        ability1 = Substitute.For<ITargetedAbility>();
         ability2 = Substitute.For<IAbility>();
 
         abilities = new List<IAbility>() { ability1, ability2 };
@@ -177,5 +177,33 @@ public class CharacterControllerTests
         sut.ExecuteAbility(SECOND_ABILITY_INDEX, pathList);
 
         hudController.Received(1).PulseEndTurnButton();
+    }
+
+    [Test]
+    public void Stunned_character_is_treated_as_exhausted()
+    {
+        ability1.IsOnCooldown().Returns(false);
+        sut.StatusEffectState = StatusEffectState.STUNNED;
+        sut.StartOfTurn();
+        Assert.AreEqual(false, sut.CanMove());
+        Assert.AreEqual(false, sut.CanUseAbility(0));
+    }
+
+    [Test]
+    public void Character_with_no_status_effects_gets_refreshed_on_start_of_turn()
+    {
+        ability1.IsOnCooldown().Returns(false);
+        sut.StatusEffectState = StatusEffectState.NONE;
+        sut.StartOfTurn();
+        Assert.AreEqual(true, sut.CanMove());
+        Assert.AreEqual(true, sut.CanUseAbility(0));
+    }
+
+    [Test]
+    public void Stunned_character_stops_being_stunned_when_their_turn_ends()
+    {
+        sut.StatusEffectState = StatusEffectState.STUNNED;
+        sut.EndOfTurn();
+        Assert.AreEqual(StatusEffectState.NONE, sut.StatusEffectState);
     }
 }

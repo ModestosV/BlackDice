@@ -14,6 +14,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private GameObject exhaustedIndicator;
     private ICharacterController character;
     private GameObject shieldIndicator;
+    private GameObject stunIndicator;
 
     private GameObject abilityPanel;
 
@@ -44,6 +45,9 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 
         shieldIndicator = Instantiate(Resources.Load("Prefabs/HUD/ShieldIndicator"), this.transform) as GameObject;
         HideShield();
+
+        stunIndicator = Instantiate(Resources.Load("Prefabs/HUD/StunIndicator"), this.transform) as GameObject;
+        HideStun();
     }
 
     public void Setup(ICharacterController character)
@@ -92,6 +96,16 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private void HideShield()
     {
         shieldIndicator.SetActive(false);
+    }
+
+    private void ShowStun()
+    {
+        stunIndicator.SetActive(true);
+    }
+
+    private void HideStun()
+    {
+        stunIndicator.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -166,6 +180,17 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
                     else
                     {
                         HideShield();
+                    }
+                }
+                if (statusEffectEvent.Type == "stun")
+                {
+                    if (statusEffectEvent.IsActive)
+                    {
+                        ShowStun();
+                    }
+                    else
+                    {
+                        HideStun();
                     }
                 }
             }
