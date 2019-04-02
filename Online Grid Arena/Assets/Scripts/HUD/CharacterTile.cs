@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IPointerClickHandler
+public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private RawImage characterIcon;
     private Image border;
@@ -15,20 +15,23 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private ICharacterController character;
     private GameObject shieldIndicator;
 
+    private GameObject abilityPanel;
+
     private void Awake()
     {
         characterIcon = GetComponentInChildren<RawImage>();
         border = GetComponent<Image>();
 
+        abilityPanel = transform.GetChild(1).gameObject;
+
         activeIndicator = Instantiate(Resources.Load("Prefabs/HUD/ActiveIndicator"), this.transform) as GameObject;
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
-
-
+        
         var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
         healthBarObject.transform.SetParent(this.transform);
-        healthBarObject.transform.localPosition -= new Vector3(0.5f, 32.0f);
-        healthBarObject.transform.localScale = new Vector3(0.34f, 1.4f);
+        healthBarObject.transform.localPosition -= new Vector3(0.0f, 37.8f);
+        healthBarObject.transform.localScale = new Vector3(0.41f, 1.5f);
         healthBarObject.transform.SetSiblingIndex(2);
 
         healthBar = healthBarObject.GetComponent<HealthBar>();
@@ -43,11 +46,21 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         HideShield();
     }
 
+    void Start()
+    {
+        InitializeAbilityPanel();
+    }
+
     public void Setup(ICharacterController character)
     {
         this.character = character;
         characterIcon.texture = character.CharacterIcon;
         border.color = character.BorderColor;
+    }
+
+    private void InitializeAbilityPanel()
+    {
+        abilityPanel.GetComponent<PortraitAbilityPanel>().UpdateAbilityIcons(character.Abilities);
     }
 
     private void ShowActive()
@@ -88,6 +101,16 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     public void OnPointerClick(PointerEventData eventData)
     {
         EventBus.Publish(new SelectTileEvent(character.OccupiedTile));
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        character.UpdateTargetHUD();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        character.ClearTargetHUD();
     }
 
     public void UpdateHealthBar()
