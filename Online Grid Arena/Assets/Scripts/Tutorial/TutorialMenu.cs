@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class TutorialMenu: HideableUI, IEventSubscriber
 {
-    private const int MAX_STAGE_ALLOWED = 2;
+    private const int MAX_STAGE_ALLOWED = 4;
 
     private string filepath = "";
     private int stagesCompleted = 0;
