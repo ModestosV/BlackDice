@@ -24,6 +24,9 @@ public class Accusation : AbstractTargetedAbility
 
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
     {
-        targetTiles[0].OccupantCharacter.ApplyEffect(new ProbationEffect());
+        if(targetTiles[0].OccupantCharacter != null)
+        {
+            targetTiles[0].OccupantCharacter.ApplyEffect(new ProbationEffect());
+        }
     }
 }

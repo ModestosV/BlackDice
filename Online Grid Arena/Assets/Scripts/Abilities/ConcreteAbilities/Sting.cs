@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public sealed class Sting : AbstractTargetedAbility
 {
@@ -25,11 +26,19 @@ public sealed class Sting : AbstractTargetedAbility
     protected override void SecondaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Sting. secondary action being called, reducing cooldown of other abilities.");
-        foreach (AbstractActiveAbility ability in character.Controller.Abilities)
+        foreach (IAbility ability in character.Controller.Abilities)
         {
-            if (ability.IsOnCooldown())
+            try
             {
-                ability.UpdateCooldown();
+                IActiveAbility active = (IActiveAbility)ability;
+                if (active.IsOnCooldown())
+                {
+                    active.UpdateCooldown();
+                }
+            }
+            catch(InvalidCastException)
+            {
+
             }
         }
     }
