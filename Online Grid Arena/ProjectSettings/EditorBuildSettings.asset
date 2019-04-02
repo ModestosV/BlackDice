@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial/Stage3Attack.unity
     guid: ac542865d138c462ab8a15f9aeb476a0
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage4Heal.unity
+    guid: aee2fe62ece3b4a1b8c4c44097073b23
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage5Buff.unity
+    guid: 3750222c730ec488f84fa25411b4a5f6
   m_configObjects: {}
