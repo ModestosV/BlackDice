@@ -46,6 +46,8 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         this.arrowIndicator = GameObject.FindWithTag("ArrowIndicator").GetComponent<ArrowIndicator>();
 
         this.rocketCat.CharacterStats["moves"].BaseValue = 0;
+        this.rocketCat.CharacterStats["health"].BaseValue = 140;
+        this.rocketCat.CharacterStats["health"].CurrentValue = 140;
         this.pengwin.CharacterStats["moves"].BaseValue = 0;
         this.defaultCharacter.CharacterStats["moves"].BaseValue = 0;
 

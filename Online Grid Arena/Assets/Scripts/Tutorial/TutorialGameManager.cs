@@ -326,14 +326,14 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
-        StartGame();
-
         Stage5Controller stageController = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
         EventBus.Subscribe<BuffCheckEvent>(stageController);
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<SelectTileEvent>(stageController);
         EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+
+        StartGame();
     }
 
     private void Start()
