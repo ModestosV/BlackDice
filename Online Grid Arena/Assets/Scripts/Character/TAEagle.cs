@@ -8,7 +8,7 @@ public sealed class TAEagle : AbstractCharacter
         base.Awake();
 
         IAbility swoopDown = new SwoopDown(this);
-        IAbility refactor = new Placeholder(this);
+        IAbility refactor = new Refactor(this);
         IAbility importDLL = new ImportDLLs(this);
         IAbility codeReview = new CodeReview(this);
 

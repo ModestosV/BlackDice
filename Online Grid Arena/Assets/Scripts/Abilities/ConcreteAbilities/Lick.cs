@@ -12,7 +12,7 @@ public sealed class Lick : AbstractTargetedAbility
         1,
         2,
         AbilityType.TARGET_ENEMY,
-        "Lick - Basic Attack \nAgent Frog licks ano pponent, causing their speed to drop by 2 for 1 turn. Range: 2")
+        "Lick - Basic Attack \nAgent Frog licks an opponent, causing their speed to drop by 2 for 1 turn. Range: 2")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)
