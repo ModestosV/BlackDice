@@ -11,7 +11,7 @@ public class Silence : AbstractTargetedAbility
         7,
         100,
         AbilityType.TARGET_CHARACTER_LINE,
-        "Silence - Special Ability \nProfessor Owl Silences an enemy in a straight line for 1 turn. Deals 50% of his attack stat.")
+        "Silence - Special Ability \nProfessor Rig-Bee Silences an enemy in a straight line for 1 turn. Deals 50% of his attack stat.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

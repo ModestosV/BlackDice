@@ -10,7 +10,7 @@ public class BahtteryAssault : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
         2,
-        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 15 random tiles on the map. Allies and enemies hit are healed ordamaged for (15*ammount of wool lost).")
+        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 15 random tiles on the map. Allies and enemies hit are healed ordamaged for (30*ammount of wool lost).")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
@@ -24,7 +24,7 @@ public class BahtteryAssault : AbstractActiveAbility
         while (listofAffectedTiles.Count < 15)
         {
             IHexTileController randomTile = targetTiles[0].GetRandomTile();
-            if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed && randomTile.X > -1 && randomTile.X < 11 && randomTile.Y > -20 && randomTile.Y < -8 && randomTile.Z > 3 && randomTile.Z < 15)
+            if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed && randomTile.X >= -1 && randomTile.X <= 11 && randomTile.Y >= -20 && randomTile.Y <= -8 && randomTile.Z >= 3 && randomTile.Z <= 15)
             {
                 Debug.Log(randomTile.X + " " + randomTile.Y + " " + randomTile.Z);
                 listofAffectedTiles.Add(randomTile);
@@ -38,11 +38,11 @@ public class BahtteryAssault : AbstractActiveAbility
             {
                 if (listofAffectedTiles[i].OccupantCharacter.IsAlly(this.character.Controller))
                 {
-                    listofAffectedTiles[i].OccupantCharacter.Heal(stacksToRemove*15);//an ammount
+                    listofAffectedTiles[i].OccupantCharacter.Heal(stacksToRemove* 30);
                 }
                 else
                 {
-                    actionHandler.Damage(stacksToRemove * 15, listofAffectedTiles[i].OccupantCharacter);
+                    actionHandler.Damage(stacksToRemove * 30, listofAffectedTiles[i].OccupantCharacter);
                 }
             }
         }
