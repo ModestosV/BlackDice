@@ -146,7 +146,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
-        if (type == typeof(AbilityUsedEvent))
+        if (type == typeof(DamageEvent))
+        {
+            UpdateHealthBar();
+        }
+        else if (type == typeof(AbilityUsedEvent))
         {
             UpdateHealthBar();
         }

@@ -130,8 +130,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
-            EventBus.Subscribe<AbilityUsedEvent>(tile);
             EventBus.Subscribe<StartNewTurnEvent>(tile);
+            EventBus.Subscribe<AbilityUsedEvent>(tile);
+            EventBus.Subscribe<DamageEvent>(tile);
         }
 
         foreach (AbstractCharacter c in FindObjectsOfType<AbstractCharacter>())
