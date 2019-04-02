@@ -5,7 +5,7 @@ public interface ICharacterController
 {
     ICharacter Character { get; }
     IHexTileController OccupiedTile { get; set; }
-    IHUDController HUDController { set; }
+    IHUDController HUDController { get; set; }
     CharacterState CharacterState { get; set; }
 
     Dictionary<string, ICharacterStat> CharacterStats { get; set; }
@@ -40,5 +40,6 @@ public interface ICharacterController
     bool IsAbilityInRange(int abilityIndex, int range);
     void StartOfTurn();
     void EndOfTurn();
+    bool CheckAbilitiesExhausted();
     AbilityType GetAbilityType(int abilityIndex);
 }

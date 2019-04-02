@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController : ICharacterController
 {
     public IHexTileController OccupiedTile { get; set; }
-    public IHUDController HUDController { protected get; set; }
+    public IHUDController HUDController { get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { get; set; }
@@ -360,6 +360,18 @@ public class CharacterController : ICharacterController
         catch (InvalidCastException)
         {
             return AbilityType.INVALID;
+        }
+    }
+
+    public bool CheckAbilitiesExhausted()
+    {
+        if (this.abilitiesRemaining <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
