@@ -40,7 +40,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
 
-    private Stage3Controller stageController;
     private AbstractCharacter[] characters;
     private Grid grid;
 
@@ -180,13 +179,13 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
-        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.GridController.GetTile((6, -13, 7)));
+        Stage2Controller stageController = new Stage2Controller(characterControllers[0], grid.GridController.GetTile((6, -13, 7)));
 
-        EventBus.Subscribe<StartNewTurnEvent>(stage2Controller);
-        EventBus.Subscribe<UpdateSelectionModeEvent>(stage2Controller);
-        EventBus.Subscribe<SelectActivePlayerEvent>(stage2Controller);
-        EventBus.Subscribe<DeselectSelectedTileEvent>(stage2Controller);
-        EventBus.Subscribe<SelectTileEvent>(stage2Controller);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<SelectActivePlayerEvent>(stageController);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(stageController);
+        EventBus.Subscribe<SelectTileEvent>(stageController);
     }
 
     private void StartStageAttack()
@@ -228,9 +227,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         // Initialize HUD Controller
         hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
-        // Initialize stage controller
-        stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
-
         selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
 
         // Initialize input manager
@@ -245,6 +241,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
+        // Initialize stage controller
+        Stage3Controller stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
+        
         // Events for the current tutorial stage
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<StartNewTurnEvent>(stageController);
@@ -295,13 +294,13 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
-        Stage4Controller stage4Controller = new Stage4Controller(characterControllers[0], characterControllers[1]);
+        Stage4Controller stageController = new Stage4Controller(characterControllers[0], characterControllers[1]);
 
-        EventBus.Subscribe<StartNewTurnEvent>(stage4Controller);
-        EventBus.Subscribe<UpdateSelectionModeEvent>(stage4Controller);
-        EventBus.Subscribe<SelectActivePlayerEvent>(stage4Controller);
-        EventBus.Subscribe<DeselectSelectedTileEvent>(stage4Controller);
-        EventBus.Subscribe<SelectTileEvent>(stage4Controller);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<SelectActivePlayerEvent>(stageController);
+        EventBus.Subscribe<DeselectSelectedTileEvent>(stageController);
+        EventBus.Subscribe<SelectTileEvent>(stageController);
     }
 
     private void StartStageBuff()
