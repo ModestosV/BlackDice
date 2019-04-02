@@ -28,6 +28,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private TargetLineAbilitySelectionController targetLineAbilitySelectionController;
     private TargetLineAOEAbilitySelectionController targetLineAOEAbilitySelectionController;
     private TargetCharacterLineAbilitySelectionController targetCharacterLineAbilitySelectionController;
+    private TargetAOEAbilitySelectionController targetAOEAbilitySelectionController;
     private Dictionary<string, ISelectionController> selectionControllers;
     private SelectionManager selectionManager;
 
@@ -75,6 +76,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         targetLineAbilitySelectionController = new TargetLineAbilitySelectionController(gridSelectionController);
         targetLineAOEAbilitySelectionController = new TargetLineAOEAbilitySelectionController(gridSelectionController);
         targetCharacterLineAbilitySelectionController = new TargetCharacterLineAbilitySelectionController(gridSelectionController);
+        targetAOEAbilitySelectionController = new TargetAOEAbilitySelectionController(gridSelectionController);
 
         selectionControllers = new Dictionary<string, ISelectionController>()
         {
@@ -86,7 +88,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             { "target_line", targetLineAbilitySelectionController },
             { "target_line_aoe", targetLineAOEAbilitySelectionController },
             { "target_tile", targetTileAbilitySelectionController},
-            { "target_character_line", targetCharacterLineAbilitySelectionController}
+            { "target_character_line", targetCharacterLineAbilitySelectionController},
+            { "target_aoe", targetAOEAbilitySelectionController}
         };
 
         // Initialize input manager
