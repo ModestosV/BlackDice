@@ -18,7 +18,10 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected Animator iAnimator;
     protected List<IEffect> effects;
 
-    private Color baseColor;
+    private Material baseMaterial;
+    [SerializeField]
+    private Material exhaustedBlack;
+
     private float speed = 0.5f;
     private bool following = false;
     private int targetIndex;
@@ -126,7 +129,8 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
-        baseColor = transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color;
+        baseMaterial = transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
+        //exhaustedBlack = (Material)Resources.Load("Black", typeof(Material)) as Material;
 
         Debug.Log(ToString() + " Start() end");
     }
@@ -141,7 +145,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
                 if (exhaustCharacterEvent.CharacterController == this.characterController)
                 {
-                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 0.0f);
+                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
                 }
             }
             else if (type == typeof(NewRoundEvent))
@@ -149,7 +153,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var newRoundEvent = (NewRoundEvent)@event;
                 if (newRoundEvent.CharacterController == this.characterController)
                 {
-                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color = baseColor;
+                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
                 }
             }
             else if (type == typeof(SelectActivePlayerEvent))

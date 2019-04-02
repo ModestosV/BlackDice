@@ -3491,6 +3491,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!95 &120927073
 Animator:
   serializedVersion: 3
@@ -25834,6 +25835,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!1 &959497291
 GameObject:
   m_ObjectHideFlags: 0
@@ -26760,6 +26762,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!1 &983607234
 GameObject:
   m_ObjectHideFlags: 0
@@ -28055,6 +28058,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!1 &1060827349
 GameObject:
   m_ObjectHideFlags: 0
@@ -48024,6 +48028,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!1 &1724770465
 GameObject:
   m_ObjectHideFlags: 0
@@ -53112,6 +53117,7 @@ MonoBehaviour:
   borderColor:
     serializedVersion: 2
     rgba: 4294943232
+  exhaustedBlack: {fileID: 2100000, guid: 82089ff6a3362a84fa10601e2267b169, type: 2}
 --- !u!1 &1970718600
 GameObject:
   m_ObjectHideFlags: 0
