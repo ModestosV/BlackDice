@@ -10,7 +10,8 @@ public enum AbilityType
     TARGET_LINE,
     TARGET_LINE_AOE,
     TARGET_TILE_AOE,
-    TARGET_CHARACTER_LINE
+    TARGET_CHARACTER_LINE,
+    TARGET_AOE
 }
 
 public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargetedAbility

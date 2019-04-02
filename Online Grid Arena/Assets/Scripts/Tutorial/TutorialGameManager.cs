@@ -40,6 +40,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private List<IPlayer> players;
     private List<CharacterPanel> characterPanels;
 
+    private Stage3Controller stageController;
+    private AbstractCharacter[] characters;
     private Grid grid;
 
     private void Awake()
@@ -94,6 +96,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         // Initialize Grid
         grid = FindObjectOfType<Grid>();
 
+        //Initialize Characters for more scenes
+        characters = FindObjectsOfType<AbstractCharacter>();
+
         Debug.Log(ToString() + " Awake() end");
     }
 
@@ -117,6 +122,9 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<StageCompletedEvent>(this);
         EventBus.Subscribe<SurrenderEvent>(this);
 
+        EventBus.Subscribe<StageCompletedEvent>(this);
+        EventBus.Subscribe<SurrenderEvent>(this);
+
         foreach (CharacterTile tile in FindObjectsOfType<CharacterTile>())
         {
             EventBus.Subscribe<DeathEvent>(tile);
@@ -124,6 +132,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             EventBus.Subscribe<ExhaustCharacterEvent>(tile);
             EventBus.Subscribe<NewRoundEvent>(tile);
             EventBus.Subscribe<StatusEffectEvent>(tile);
+            EventBus.Subscribe<AbilityUsedEvent>(tile);
+            EventBus.Subscribe<StartNewTurnEvent>(tile);
         }
 
         foreach (AbstractCharacter c in FindObjectsOfType<AbstractCharacter>())
@@ -170,7 +180,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
 
         // this needs to be created after because it must not catch the first StartNewTurnEvent!
-        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.GridController.GetTile((5, -13, 8)));
+        Stage2Controller stage2Controller = new Stage2Controller(characterControllers[0], grid.GridController.GetTile((6, -13, 7)));
 
         EventBus.Subscribe<StartNewTurnEvent>(stage2Controller);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stage2Controller);
@@ -181,7 +191,79 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageAttack()
     {
-        // Marc's Tutorial Stage
+        Debug.Log(ToString() + " Start() begin");
+
+        // Get all characters from scene
+        characterControllers = characters.Select(x => x.Controller).ToList();
+
+        //Initialize players
+        players = new List<IPlayer>() { new Player("1"), new Player("2") };
+
+        foreach (ICharacterController characterController in characterControllers)
+        {
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for (int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
+        }
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        // Initialize HUD Controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize stage controller
+        stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+
+        // Initialize input manager
+        inputManager = FindObjectOfType<InputManager>();
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        // Events for the current tutorial stage
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<ActiveCharacterEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
+        EventBus.Subscribe<AbilityClickEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+        EventBus.Subscribe<SelectCharacterEvent>(stageController);
+
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
+
+        // Pengwin's Ultimate must handle DeathEvent
+        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
+
+        StartGame();
+
+        Debug.Log(ToString() + " Start() end");
     }
 
     private void StartStageHeal()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterController : ICharacterController
 {
     public IHexTileController OccupiedTile { get; set; }
-    public IHUDController HUDController { protected get; set; }
+    public IHUDController HUDController { get; set; }
 
     public Dictionary<string, ICharacterStat> CharacterStats { get; set; }
     public List<IAbility> Abilities { get; set; }
@@ -249,6 +249,23 @@ public class CharacterController : ICharacterController
         EventBus.Publish(new ExhaustCharacterEvent(this));
     }
 
+    public void ConsumeOneStack(IEffect effectToConsume)
+    {
+        foreach (IEffect eff in Effects)
+        {
+            if (eff.GetName() == effectToConsume.GetName())
+            {
+                eff.DecrementStack();
+                RemoveEffect(eff);
+                if (eff.StacksRanOut())
+                {
+                    eff.Refresh();
+                    Effects.Remove(eff);
+                }
+            }
+        }
+    }
+
     private void RemoveEffect(IEffect effect)
     {
         foreach (KeyValuePair<string, float> ef in effect.GetEffects())
@@ -344,6 +361,18 @@ public class CharacterController : ICharacterController
         catch (InvalidCastException)
         {
             return AbilityType.INVALID;
+        }
+    }
+
+    public bool CheckAbilitiesExhausted()
+    {
+        if (this.abilitiesRemaining <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
