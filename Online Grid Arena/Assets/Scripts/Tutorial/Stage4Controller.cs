@@ -33,6 +33,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
         stepMethods.Add(() => this.handleStep1());
         stepMethods.Add(() => this.handleStep2());
+        stepMethods.Add(() => this.handleStep3());
     }
 
     private void stageFailed()
