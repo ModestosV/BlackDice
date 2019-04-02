@@ -9,8 +9,8 @@ public class BahtteryAssault : AbstractActiveAbility
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/BlueFireAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
-        3,
-        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 30 random tiles on the map. Allies and enemies hit are healed ordamaged for (15*ammount of wool lost).")
+        2,
+        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 15 random tiles on the map. Allies and enemies hit are healed ordamaged for (15*ammount of wool lost).")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
@@ -21,10 +21,10 @@ public class BahtteryAssault : AbstractActiveAbility
         int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
         
         List<IHexTileController> listofAffectedTiles = new List<IHexTileController>();
-        while (listofAffectedTiles.Count < 30)
+        while (listofAffectedTiles.Count < 15)
         {
             IHexTileController randomTile = targetTiles[0].GetRandomTile();
-            if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed)
+            if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed && randomTile.X > -1 && randomTile.X < 11 && randomTile.Y > -20 && randomTile.Y < -8 && randomTile.Z > 3 && randomTile.Z < 15)
             {
                 Debug.Log(randomTile.X + " " + randomTile.Y + " " + randomTile.Z);
                 listofAffectedTiles.Add(randomTile);
