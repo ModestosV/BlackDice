@@ -4,10 +4,10 @@ using TMPro;
 
 public class Stage2Controller: AbstractStageController, IEventSubscriber
 {
-    private const String TUTORIAL_STEP_1 = "Click On Rocket Cat";
-    private const String TUTORIAL_STEP_2 = "Left Click or Press F";
-    private const String TUTORIAL_STEP_3 = "Click on Tile with\nRed Arrow";
-    private const String TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
+    private const string TUTORIAL_STEP_1 = "Click On Rocket Cat";
+    private const string TUTORIAL_STEP_2 = "Left Click or Press F";
+    private const string TUTORIAL_STEP_3 = "Click on Tile with\nRed Arrow";
+    private const string TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
     private const int STAGE_INDEX = 2;
 
     private ICharacterController character;
