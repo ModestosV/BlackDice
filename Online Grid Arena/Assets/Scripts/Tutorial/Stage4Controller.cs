@@ -24,6 +24,9 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.sheepadin = sheepadin;
         this.gridSelectionController = gridSelectionController;
 
+        this.rocketCat.CharacterStats["moves"].BaseValue = 0;
+        this.sheepadin.CharacterStats["moves"].BaseValue = 0;
+
         stepMethods.Add(() => this.handleStep1());
     }
 
