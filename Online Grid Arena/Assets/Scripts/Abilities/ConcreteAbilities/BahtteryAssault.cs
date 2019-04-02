@@ -4,13 +4,16 @@ using UnityEngine;
 public class BahtteryAssault : AbstractActiveAbility
 {
     private IWoolArmorEffect woolArmorEffect;
+    private const int BASE_VALUE = 30;
+    private const int NUMBER_OF_TILES = 15;
+
     public BahtteryAssault(ICharacter character, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/sheepUlt"),
         Resources.Load<GameObject>("Prefabs/AbilityAnimations/BlueFireAnimation"),
         Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
         2,
-        "\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults 15 random tiles on the map. Allies and enemies hit are healed ordamaged for (30*ammount of wool lost).")
+        $"\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults {NUMBER_OF_TILES} random tiles on the map. Allies and enemies hit are healed or damaged for (${BASE_VALUE}*amount of wool lost).")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
@@ -21,7 +24,7 @@ public class BahtteryAssault : AbstractActiveAbility
         int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
         
         List<IHexTileController> listofAffectedTiles = new List<IHexTileController>();
-        while (listofAffectedTiles.Count < 15)
+        while (listofAffectedTiles.Count < NUMBER_OF_TILES)
         {
             IHexTileController randomTile = targetTiles[0].GetRandomTile();
             if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed && randomTile.X >= -1 && randomTile.X <= 11 && randomTile.Y >= -20 && randomTile.Y <= -8 && randomTile.Z >= 3 && randomTile.Z <= 15)
@@ -38,11 +41,11 @@ public class BahtteryAssault : AbstractActiveAbility
             {
                 if (listofAffectedTiles[i].OccupantCharacter.IsAlly(this.character.Controller))
                 {
-                    listofAffectedTiles[i].OccupantCharacter.Heal(stacksToRemove* 30);
+                    listofAffectedTiles[i].OccupantCharacter.Heal(stacksToRemove * BASE_VALUE);
                 }
                 else
                 {
-                    actionHandler.Damage(stacksToRemove * 30, listofAffectedTiles[i].OccupantCharacter);
+                    actionHandler.Damage(stacksToRemove * BASE_VALUE, listofAffectedTiles[i].OccupantCharacter);
                 }
             }
         }
