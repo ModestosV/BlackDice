@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public enum HoverType
 {
@@ -10,8 +9,9 @@ public enum HoverType
 
 public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 {
-    [SerializeField]
-    private HexTileMaterialSet materials;
+    #pragma warning disable 0649
+    [SerializeField] private HexTileMaterialSet materials;
+    #pragma warning restore 0649
 
     private GameObject invalidTile;
     private GameObject affectedTile;

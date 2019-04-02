@@ -27,7 +27,7 @@ public interface ICharacterController
     void Heal(float heal);
     void ApplyEffect(IEffect effect);
     void IncrementAbilitiesRemaining();
-
+    void ConsumeOneStack(IEffect effectToConsume);
     void UpdateSelectedHUD();
     void ClearSelectedHUD();
     void UpdateTargetHUD();

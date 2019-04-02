@@ -37,6 +37,7 @@ public interface IHexTileController
     IHexTileController GetSouthWestNeighbor();
     IHexTileController GetWestNeighbor();
     IHexTileController GetNorthWestNeighbor();
+    IHexTileController GetRandomTile();
     List<IHexTileController> GetNeighbors();
     List<IHexTileController> GetPath(IHexTileController startTile, bool isAbility);
     int GetAbsoluteDistance(IHexTileController targetTile);

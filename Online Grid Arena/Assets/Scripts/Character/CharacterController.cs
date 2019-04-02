@@ -248,6 +248,23 @@ public class CharacterController : ICharacterController
         EventBus.Publish(new ExhaustCharacterEvent(this));
     }
 
+    public void ConsumeOneStack(IEffect effectToConsume)
+    {
+        foreach (IEffect eff in Effects)
+        {
+            if (eff.GetName() == effectToConsume.GetName())
+            {
+                eff.DecrementStack();
+                RemoveEffect(eff);
+                if (eff.StacksRanOut())
+                {
+                    eff.Refresh();
+                    Effects.Remove(eff);
+                }
+            }
+        }
+    }
+
     private void RemoveEffect(IEffect effect)
     {
         foreach (KeyValuePair<string, float> ef in effect.GetEffects())
