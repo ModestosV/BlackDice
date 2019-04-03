@@ -15,6 +15,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private ICharacterController character;
     private GameObject shieldIndicator;
     private GameObject stunIndicator;
+    private GameObject silenceIndicator;
 
     private GameObject abilityPanel;
 
@@ -48,6 +49,9 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 
         stunIndicator = Instantiate(Resources.Load("Prefabs/HUD/StunIndicator"), this.transform) as GameObject;
         HideStun();
+
+        silenceIndicator = Instantiate(Resources.Load("Prefabs/HUD/SilenceIndicator"), this.transform) as GameObject;
+        HideSilence();
     }
 
     public void Setup(ICharacterController character)
@@ -108,6 +112,16 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         stunIndicator.SetActive(false);
     }
 
+    private void ShowSilence()
+    {
+        silenceIndicator.SetActive(true);
+    }
+
+    private void HideSilence()
+    {
+        silenceIndicator.SetActive(false);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         EventBus.Publish(new SelectTileEvent(character.OccupiedTile));
@@ -132,7 +146,11 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
-        if (type == typeof(AbilityUsedEvent))
+        if (type == typeof(DamageEvent))
+        {
+            UpdateHealthBar();
+        }
+        else if (type == typeof(AbilityUsedEvent))
         {
             UpdateHealthBar();
         }
@@ -191,6 +209,17 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
                     else
                     {
                         HideStun();
+                    }
+                }
+                if (statusEffectEvent.Type == "silence")
+                {
+                    if (statusEffectEvent.IsActive)
+                    {
+                        ShowSilence();
+                    }
+                    else
+                    {
+                        HideSilence();
                     }
                 }
             }

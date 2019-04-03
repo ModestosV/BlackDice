@@ -19,7 +19,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_12 = "Attack Rocket Cat";
     private const string TUTORIAL_STEP_13 = "Click on Rocket Cat";
     private const string TUTORIAL_STEP_14 = "Check Buff stack 4";
-    protected const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
+    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
     private ICharacterController rocketCat;
@@ -46,33 +46,35 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         this.arrowIndicator = GameObject.FindWithTag("ArrowIndicator").GetComponent<ArrowIndicator>();
 
         this.rocketCat.CharacterStats["moves"].BaseValue = 0;
+        this.rocketCat.CharacterStats["health"].BaseValue = 140;
+        this.rocketCat.CharacterStats["health"].CurrentValue = 140;
         this.pengwin.CharacterStats["moves"].BaseValue = 0;
         this.defaultCharacter.CharacterStats["moves"].BaseValue = 0;
 
-        stepMethods.Add(() => this.handleStep1());
-        stepMethods.Add(() => this.handleStep2());
-        stepMethods.Add(() => this.handleStep3());
-        stepMethods.Add(() => this.handleStep4());
-        stepMethods.Add(() => this.handleStep5());
-        stepMethods.Add(() => this.handleStep6());
-        stepMethods.Add(() => this.handleStep7());
-        stepMethods.Add(() => this.handleStep8());
-        stepMethods.Add(() => this.handleStep9());
-        stepMethods.Add(() => this.handleStep10());
-        stepMethods.Add(() => this.handleStep11());
-        stepMethods.Add(() => this.handleStep12());
-        stepMethods.Add(() => this.handleStep13());
-        stepMethods.Add(() => this.handleStep14());
+        stepMethods.Add(() => this.HandleStep1());
+        stepMethods.Add(() => this.HandleStep2());
+        stepMethods.Add(() => this.HandleStep3());
+        stepMethods.Add(() => this.HandleStep4());
+        stepMethods.Add(() => this.HandleStep5());
+        stepMethods.Add(() => this.HandleStep6());
+        stepMethods.Add(() => this.HandleStep7());
+        stepMethods.Add(() => this.HandleStep8());
+        stepMethods.Add(() => this.HandleStep9());
+        stepMethods.Add(() => this.HandleStep10());
+        stepMethods.Add(() => this.HandleStep11());
+        stepMethods.Add(() => this.HandleStep12());
+        stepMethods.Add(() => this.HandleStep13());
+        stepMethods.Add(() => this.HandleStep14());
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 
-    private void stageFailed()
+    private void StageFailed()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
         EventBus.Publish(new SurrenderEvent());
     }
 
-    private void handleStep1()
+    private void HandleStep1()
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
@@ -81,12 +83,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
             if (rocketCat.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
     }
 
-    private void handleStep2()
+    private void HandleStep2()
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
@@ -97,12 +99,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             }
             else if (rocketCat.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
     }
 
-    private void handleStep3()
+    private void HandleStep3()
     {
         if (pengwin.CharacterStats["health"].CurrentValue < pengwin.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
         {
@@ -112,11 +114,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
         else if (pengwin.CharacterStats["health"].CurrentValue.Equals(pengwin.CharacterStats["health"].BaseValue) && selectionMode != SelectionMode.ABILITY)
         {
-            handleStep1();
+            HandleStep1();
         }
     }
 
-    private void handleStep4()
+    private void HandleStep4()
     {
         if (buffChecked)
         {
@@ -128,7 +130,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep5()
+    private void HandleStep5()
     {
         if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
@@ -137,12 +139,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
 
             if (pengwin.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
     }
 
-    private void handleStep6()
+    private void HandleStep6()
     {
         if (pengwin.CharacterStats["defense"].CurrentValue.Equals(120))
         {
@@ -152,11 +154,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
         else
         {
-            handleStep5();
+            HandleStep5();
         }
     }
 
-    private void handleStep7()
+    private void HandleStep7()
     {
         if (buffChecked)
         {
@@ -166,7 +168,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep8()
+    private void HandleStep8()
     {
         if (defaultCharacter == gridSelectionController.GetSelectedCharacter())
         {
@@ -176,7 +178,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep9()
+    private void HandleStep9()
     {
         if (buffChecked)
         {
@@ -190,7 +192,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep10()
+    private void HandleStep10()
     {
         if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
@@ -199,7 +201,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep11()
+    private void HandleStep11()
     {
         if (pengwin == gridSelectionController.GetSelectedCharacter())
         {
@@ -210,12 +212,12 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
             }
             else if (pengwin.IsExhausted())
             {
-                stageFailed();
+                StageFailed();
             }
         }
     }
 
-    private void handleStep12()
+    private void HandleStep12()
     {
         if (rocketCat.CharacterStats["health"].CurrentValue < rocketCat.CharacterStats["health"].BaseValue && selectionMode == SelectionMode.FREE)
         {
@@ -224,11 +226,11 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
         else
         {
-            handleStep11();
+            HandleStep11();
         }
     }
 
-    private void handleStep13()
+    private void HandleStep13()
     {
         if (rocketCat == gridSelectionController.GetSelectedCharacter())
         {
@@ -238,7 +240,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         }
     }
 
-    private void handleStep14()
+    private void HandleStep14()
     {
         if (buffChecked)
         {

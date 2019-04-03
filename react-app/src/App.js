@@ -74,7 +74,7 @@ class App extends Component {
         </div>
 
         <div className="DownloadsHeader">
-          <h2>Online Grid Arena Downloads</h2>
+          <h2>Offline Grid Arena Downloads</h2>
         </div>
 		
         <div className="Downloads">

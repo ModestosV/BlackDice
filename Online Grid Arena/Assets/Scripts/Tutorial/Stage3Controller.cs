@@ -68,17 +68,17 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
 
         currentStep = 0;
-        stepMethods.Add(() => this.handleStep1());
-        stepMethods.Add(() => this.handleStep2());
-        stepMethods.Add(() => this.handleStep3());
-        stepMethods.Add(() => this.handleStep4());
-        stepMethods.Add(() => this.handleStep4Continued());
-        stepMethods.Add(() => this.handleStep5());
-        stepMethods.Add(() => this.handleStep6());
+        stepMethods.Add(() => this.HandleStep1());
+        stepMethods.Add(() => this.HandleStep2());
+        stepMethods.Add(() => this.HandleStep3());
+        stepMethods.Add(() => this.HandleStep4());
+        stepMethods.Add(() => this.HandleStep4Continued());
+        stepMethods.Add(() => this.HandleStep5());
+        stepMethods.Add(() => this.HandleStep6());
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 
-    public void handleStep1()
+    public void HandleStep1()
     {
         var arrow = arrows.Select(x => x.GameObject.tag == "CatArrow" ? x : null).ToList();
 
@@ -91,7 +91,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void handleStep2()
+    public void HandleStep2()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_2;
         foreach (ArrowIndicator arrow in arrows)
@@ -107,7 +107,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void handleStep3()
+    public void HandleStep3()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_3;
 
@@ -130,7 +130,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         characters[indexCat].EndOfTurn();
     }
 
-    public void handleStep4()
+    public void HandleStep4()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
@@ -146,7 +146,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void handleStep5()
+    public void HandleStep5()
     {
         characters[indexPengwin].HUDController.ClearSelectedHUD();
         characters[indexPengwin].HUDController.ClearTargetHUD();
@@ -172,7 +172,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void handleStep6()
+    public void HandleStep6()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_6;
         foreach (ArrowIndicator arrow in arrows)
@@ -188,7 +188,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void handleStep4Continued()
+    public void HandleStep4Continued()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
@@ -220,7 +220,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         EventBus.Publish(new StageCompletedEvent(StageIndex));
     }
 
-    private void stageFailed()
+    private void StageFailed()
     {
         stageFailedFlag = true;
         foreach (ArrowIndicator arrow in arrows)
@@ -231,7 +231,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    public void execute()
+    public void Execute()
     {
         if(!stageFailedFlag)
         {
@@ -241,7 +241,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public bool checkCorrectInput()
+    public bool CheckCorrectInput()
     {
 
         if (type == typeof(StartNewTurnEvent))
@@ -300,16 +300,16 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         type = @event.GetType();
         eventHandled = @event;
 
-        if(!checkCorrectInput())
+        if(!CheckCorrectInput())
         {
-            stageFailed();
+            StageFailed();
         }
         else if (type == typeof(StartNewTurnEvent))
         {
             if (currentStep == 0)
             {
                 //first step
-                execute();
+                Execute();
             }
         }
         else if (type == typeof(SelectCharacterEvent))
@@ -318,17 +318,17 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
             if (currentStep == 1)
             {
                 //second step
-                execute();
+                Execute();
             }
             else if (currentStep == 6)
             {
                 //sixth step
-                execute();
+                Execute();
             }
             else if (currentStep == 3)
             {
                 //fourth step
-                execute();
+                Execute();
             }
         }
         else if (type == typeof(UpdateSelectionModeEvent))
@@ -338,22 +338,22 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
             if (currentStep == 2 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
             {
                 //third step
-                execute();
+                Execute();
             }
             else if (currentStep == 4 && selectMode.SelectionMode.Equals(SelectionMode.ABILITY))
             {
                 //Fourth Step continued
-                execute();
+                Execute();
             }
             else if (currentStep == 5 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
             {
                 //Fifth Step
-                execute();
+                Execute();
             }
             else if (currentStep == 7 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
             {
                 //Completion
-                execute();
+                Execute();
             }
         }
     }

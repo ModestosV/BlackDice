@@ -163,9 +163,12 @@ public class CharacterController : ICharacterController
     {
         foreach (KeyValuePair<string, float> ef in newEffect.GetEffects())
         {
-            if (ef.Key == "attack" || ef.Key == "defense"|| ef.Key == "moves")
+            if (ef.Key == "attack" || ef.Key == "defense" || ef.Key == "moves")
             {
-                CharacterStats[ef.Key].BaseValue += ef.Value;
+                if (!(ef.Key == "defense" && ef.Value < 0))
+                {
+                    CharacterStats[ef.Key].BaseValue += ef.Value;
+                }
             }
             CharacterStats[ef.Key].CurrentValue += ef.Value;
         }
@@ -187,6 +190,12 @@ public class CharacterController : ICharacterController
             ExhaustCharacter();
             CheckExhausted();
         }
+        else if(StatusEffectState == StatusEffectState.SILENCED)
+        {
+            UpdateCooldowns();
+            Refresh();
+            abilitiesRemaining = 0;
+        }
         else
         {
             Refresh();
@@ -197,12 +206,14 @@ public class CharacterController : ICharacterController
 
     public void EndOfTurn()
     {
+        UpdateCooldowns();
         IsActive = false;
         if(CharacterState != CharacterState.DEAD)
         {
             CharacterState = CharacterState.EXHAUSTED;
             StatusEffectState = StatusEffectState.NONE;
             EventBus.Publish(new StatusEffectEvent("stun", false, this));
+            EventBus.Publish(new StatusEffectEvent("silence", false, this));
         }
         foreach (IAbility ability in Abilities)
         {

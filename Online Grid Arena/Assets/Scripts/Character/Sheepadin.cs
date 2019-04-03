@@ -8,16 +8,15 @@ public sealed class Sheepadin : AbstractCharacter
         base.Awake();
         transform.GetChild(1).transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
 
-        IAbility placeholder = new Placeholder(this);
         WoolArmorEffect woolArmorEffect = new WoolArmorEffect();
         IAbility woolArmor = new WoolArmor(this, woolArmorEffect);
-        IAbility headbutt = new Headbutt(this);
+        IAbility headbutt = new Headbutt(this, woolArmorEffect);
         IAbility holyShear = new HolyShear(this, woolArmorEffect);
         IAbility bahtteryAssault = new BahtteryAssault(this, woolArmorEffect);
 
         var abilities = new List<IAbility>() { headbutt, holyShear, woolArmor, bahtteryAssault };
 
-        var characterStats = InitializeStats(120, 20, 20, 100);
+        var characterStats = InitializeStats(120, 8, 20, 100);
 
         characterController = new CharacterController(this)
         {
