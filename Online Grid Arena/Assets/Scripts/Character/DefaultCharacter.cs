@@ -6,6 +6,7 @@ public sealed class DefaultCharacter : AbstractCharacter
     protected override void Awake()
     {
         base.Awake();
+        transform.GetChild(1).transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
 
         IAbility defaultAttack = new DefaultAttack(this);
         IAbility defaultHeal = new DefaultHeal(this);

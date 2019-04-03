@@ -64,7 +64,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
     public void Destroy()
     {
-        Destroy(gameObject, 1.0f);
+        Destroy(gameObject);
         isDead = true;
         Debug.Log(ToString() + " has been removed from the game.");
     }
@@ -129,8 +129,15 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
 
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
-        baseMaterial = transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
-        //exhaustedBlack = (Material)Resources.Load("Black", typeof(Material)) as Material;
+
+        if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+        {
+            baseMaterial = transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
+        }
+        else
+        {
+            baseMaterial = transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
+        }
 
         Debug.Log(ToString() + " Start() end");
     }
@@ -145,7 +152,14 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
                 if (exhaustCharacterEvent.CharacterController == this.characterController)
                 {
-                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
+                    if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+                    {
+                        transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
+                    }
+                    else
+                    {
+                        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
+                    }
                 }
             }
             else if (type == typeof(NewRoundEvent))
@@ -153,7 +167,14 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var newRoundEvent = (NewRoundEvent)@event;
                 if (newRoundEvent.CharacterController == this.characterController)
                 {
-                    transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
+                    if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+                    {
+                        transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
+                    }
+                    else
+                    {
+                        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
+                    }
                 }
             }
             else if (type == typeof(SelectActivePlayerEvent))

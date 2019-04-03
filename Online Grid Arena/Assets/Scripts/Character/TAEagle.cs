@@ -6,6 +6,7 @@ public sealed class TAEagle : AbstractCharacter
     protected override void Awake()
     {
         base.Awake();
+        transform.GetChild(1).transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
 
         IAbility swoopDown = new SwoopDown(this);
         IAbility refactor = new Refactor(this);

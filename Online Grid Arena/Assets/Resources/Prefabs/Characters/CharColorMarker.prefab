@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4430429619622546}
   - component: {fileID: 212945089581328820}
   - component: {fileID: 111489816614252390}
-  - component: {fileID: 2964124520230832266}
   - component: {fileID: 7871218841667595508}
   m_Layer: 0
   m_Name: CharColorMarker
@@ -97,18 +96,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &2964124520230832266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157143845016856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e56c15f008db343b3551d1833c7654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7871218841667595508
 MonoBehaviour:
   m_ObjectHideFlags: 0

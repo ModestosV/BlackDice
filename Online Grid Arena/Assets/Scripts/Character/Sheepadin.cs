@@ -6,6 +6,7 @@ public sealed class Sheepadin : AbstractCharacter
     protected override void Awake()
     {
         base.Awake();
+        transform.GetChild(1).transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
 
         IAbility placeholder = new Placeholder(this);
         WoolArmorEffect woolArmorEffect = new WoolArmorEffect();
