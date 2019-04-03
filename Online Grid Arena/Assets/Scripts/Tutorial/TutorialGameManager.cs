@@ -302,10 +302,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private void StartStageBuff()
     {
         //Set players and character's panels
+        
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        players[0].AddCharacterController(characterControllers[0]);
-        players[1].AddCharacterController(characterControllers[1]);
+        players[0].AddCharacterController(characterControllers[1]);
         players[1].AddCharacterController(characterControllers[2]);
+        players[1].AddCharacterController(characterControllers[0]);
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
         characterPanels[1].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
         characterPanels[1].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
@@ -327,7 +328,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
-        Stage5Controller stageController = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
+        Stage5Controller stageController = new Stage5Controller(characterControllers[1], characterControllers[2], characterControllers[0], gridSelectionController);
         EventBus.Subscribe<BuffCheckEvent>(stageController);
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);

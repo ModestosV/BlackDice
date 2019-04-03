@@ -12,7 +12,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_5 = "Click on Pengwin";
     private const string TUTORIAL_STEP_6 = "Press E to Buff\nNearby Ally";
     private const string TUTORIAL_STEP_7 = "Check Buff";
-    private const string TUTORIAL_STEP_8 = "Click on DefaultCharacter";
+    private const string TUTORIAL_STEP_8 = "Click on Sheepadin";
     private const string TUTORIAL_STEP_9 = "Check Buff";
     private const string TUTORIAL_STEP_10 = "Click on Pengwin";
     private const string TUTORIAL_STEP_11 = "Press R";
