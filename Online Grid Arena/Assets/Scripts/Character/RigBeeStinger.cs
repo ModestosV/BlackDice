@@ -7,8 +7,6 @@ public sealed class RigBeeStinger : AbstractCharacter
     {
         base.Awake();
 
-        transform.GetChild(1).transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
-
         IAbility sting = new Sting(this);
         IAbility silence = new Silence(this);
         IAbility accusation = new Accusation(this);
