@@ -9,13 +9,13 @@ public sealed class WoolArmorEffect : StackModifier, IWoolArmorEffect
         10,
         new Dictionary<string, float>()
         {
-            {"defense", 10.0f },
+            {"defense", 5.0f },
         }
         )
     {
         Name = "Wool Armor";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/wool");
-        Description = "Increases Sheepadin's defense by 10 per stack";
+        Description = "Increases Sheepadin's defense by 5 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()

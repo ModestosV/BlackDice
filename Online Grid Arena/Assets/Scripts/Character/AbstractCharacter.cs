@@ -18,9 +18,54 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     protected Animator iAnimator;
     protected List<IEffect> effects;
 
+    private Material baseMaterial;
+    [SerializeField]
+    private Material exhaustedBlack;
+
+    private float speed = 0.5f;
+    private bool following = false;
+    private int targetIndex;
+    private Vector3 currentWaypoint;
+    private IHexTile targetTile;
+    private List<IHexTileController> path;
+
+    bool isIdle;
+    bool isMoving;
+    bool isDead;
+    bool isGettingHurt;
+    bool isAttacking;
+    bool isJumping;
+
+    private void Update()
+    {
+        if (following)
+        {
+            if (gameObject.transform.position == currentWaypoint)
+            {
+                targetIndex++;
+                if (targetIndex >= path.Count)
+                {
+                    following = false;
+                    isMoving = false;
+                }
+
+                if (following)
+                {
+                    currentWaypoint = new Vector3(path[targetIndex].HexTile.GameObject.transform.position.x, transform.position.y, path[targetIndex].HexTile.GameObject.transform.position.z);
+                }
+            }
+            if (following)
+            {
+                transform.LookAt(currentWaypoint);
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentWaypoint, speed);
+            }
+        }
+    }
+
     public void Destroy()
     {
         Destroy(gameObject);
+        isDead = true;
         Debug.Log(ToString() + " has been removed from the game.");
     }
 
@@ -30,6 +75,17 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     {
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
+    }
+
+    public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
+    {
+        this.path = path;
+        this.targetTile = targetTile;
+        targetIndex = 0;
+        gameObject.transform.SetParent(targetTile.GameObject.transform);
+        currentWaypoint = path[0].HexTile.GameObject.transform.position;
+        isMoving = true;
+        following = true;
     }
 
     public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
@@ -60,11 +116,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         shield = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Shield"), this.transform);
         shield.transform.SetParent(this.transform);
 
-        exhausted = Instantiate(transform.GetChild(0).gameObject, transform) as GameObject;
-        exhausted.transform.localScale *= 1.02f;
-        exhausted.GetComponent<MeshRenderer>().material = Resources.Load("Materials/Shadowed") as Material;
-        exhausted.SetActive(false);
-
         indicator = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/CharacterIndicator"), this.transform);
         indicator.transform.SetParent(this.transform);
         iAnimator = indicator.GetComponent<Animator>();
@@ -79,6 +130,15 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         GetComponentInParent<HexTile>().Controller.OccupantCharacter = characterController;
         characterController.RefreshStats();
 
+        if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+        {
+            baseMaterial = transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
+        }
+        else
+        {
+            baseMaterial = transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material;
+        }
+
         Debug.Log(ToString() + " Start() end");
     }
 
@@ -92,7 +152,14 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var exhaustCharacterEvent = (ExhaustCharacterEvent)@event;
                 if (exhaustCharacterEvent.CharacterController == this.characterController)
                 {
-                    exhausted.SetActive(true);
+                    if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+                    {
+                        transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
+                    }
+                    else
+                    {
+                        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = exhaustedBlack;
+                    }
                 }
             }
             else if (type == typeof(NewRoundEvent))
@@ -100,7 +167,14 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var newRoundEvent = (NewRoundEvent)@event;
                 if (newRoundEvent.CharacterController == this.characterController)
                 {
-                    exhausted.SetActive(false);
+                    if (transform.GetChild(0).gameObject.GetComponent<Renderer>() != null)
+                    {
+                        transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
+                    }
+                    else
+                    {
+                        transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = baseMaterial;
+                    }
                 }
             }
             else if (type == typeof(SelectActivePlayerEvent))
