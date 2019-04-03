@@ -12,7 +12,7 @@ public sealed class Headbutt : AbstractTargetedAbility
         1,
         1,
         AbilityType.TARGET_ENEMY,
-        "Headbutt - Basic Attack \nSheepadin headbutts an adjacent enemy, dealing his attack in damage and healing himself for 50% of his defense stat. Adds a stack of Wool Armor.")
+        "Headbutt - Basic Attack \nSheepadin headbutts an adjacent enemy, dealing his attack in damage and healing himself for 25% of his defense stat. Adds a stack of Wool Armor.")
     {
         this.AddEffect(effect);
     }
@@ -21,7 +21,7 @@ public sealed class Headbutt : AbstractTargetedAbility
     {
         Debug.Log("Casting Headbutt. Primary action being called.");
         actionHandler.Damage(character.Controller.CharacterStats["attack"].Value, targetTiles[0].OccupantCharacter);
-        character.Controller.Heal(character.Controller.CharacterStats["defense"].Value* 0.5f);
+        character.Controller.Heal(character.Controller.CharacterStats["defense"].Value* 0.25f);
         character.Controller.ApplyEffect(Effects[0]);
         PlaySoundEffect();
         PlayAnimation(targetTiles[0]);

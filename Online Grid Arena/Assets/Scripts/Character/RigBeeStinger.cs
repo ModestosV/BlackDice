@@ -14,7 +14,7 @@ public sealed class RigBeeStinger : AbstractCharacter
 
         var abilities = new List<IAbility>() { sting, silence, accusation, flakyTests };
 
-        var characterStats = InitializeStats(100, 8, 20, 80);
+        var characterStats = InitializeStats(100, 8, 30, 80);
 
         characterController = new CharacterController(this)
         {

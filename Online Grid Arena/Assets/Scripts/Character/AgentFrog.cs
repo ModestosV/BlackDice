@@ -7,7 +7,7 @@ public sealed class AgentFrog : AbstractCharacter
     {
         base.Awake();
 
-        var characterStats = InitializeStats(150, 3, 30, 100);
+        var characterStats = InitializeStats(150, 5, 30, 100);
 
         IAbility lick = new Lick(this);
         IAbility hop = new Hop(this);
