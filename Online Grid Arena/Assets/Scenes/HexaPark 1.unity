@@ -15976,7 +15976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 1
-  characterIcon: {fileID: 0}
+  characterIcon: {fileID: 2800000, guid: 4216ddd4525f43a48a9c6ae60bb32544, type: 3}
   borderColor:
     serializedVersion: 2
     rgba: 4278231807
