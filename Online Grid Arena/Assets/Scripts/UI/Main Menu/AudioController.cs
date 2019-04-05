@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 public class AudioController : MonoBehaviour
 {
-    private List<Object> songs;
-    private List<Object> playedSongs;
+    [SerializeField] List<Object> songs;
+    [SerializeField] List<Object> playedSongs;
 
     private AudioSource AudioSource { get; set; }
-    private float mainVolume = 0.15f;
+    private float mainVolume = 0.5f;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+
         AudioSource = GetComponent<AudioSource>();
 
         songs.AddRange(Resources.LoadAll("Audio/Music", typeof(AudioClip)));
@@ -23,13 +24,13 @@ public class AudioController : MonoBehaviour
         if (AudioSource == null) return;
         else if (!AudioSource.isPlaying)
         {
-            PlayNextSong();
-
-            if (songs[0] == null)
+            if (songs.Count == 0)
             {
                 songs.AddRange(playedSongs);
                 playedSongs.Clear();
             }
+
+            PlayNextSong();
         }
 
         AudioSource.volume = mainVolume;
@@ -37,7 +38,7 @@ public class AudioController : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        mainVolume = volume;
+        mainVolume = volume * 0.5f;
     }
 
     private void PlayNextSong()
