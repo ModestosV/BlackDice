@@ -3,37 +3,37 @@ using System.Collections.Generic;
 
 public class AudioController : MonoBehaviour
 {
-    [SerializeField] List<Object> songs;
-    [SerializeField] List<Object> playedSongs;
+    [SerializeField] List<Object> Songs;
+    [SerializeField] List<Object> PlayedSongs;
 
-    private AudioSource AudioSource { get; set; }
+    private AudioSource audioSource;
     private float mainVolume = 0.5f;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
 
-        AudioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
-        songs.AddRange(Resources.LoadAll("Audio/Music", typeof(AudioClip)));
+        Songs.AddRange(Resources.LoadAll("Audio/Music", typeof(AudioClip)));
         PlayNextSong();
     }
 	
 	void Update()
     {
-        if (AudioSource == null) return;
-        else if (!AudioSource.isPlaying)
+        if (audioSource == null) return;
+        else if (!audioSource.isPlaying)
         {
-            if (songs.Count == 0)
+            if (Songs.Count == 0)
             {
-                songs.AddRange(playedSongs);
-                playedSongs.Clear();
+                Songs.AddRange(PlayedSongs);
+                PlayedSongs.Clear();
             }
 
             PlayNextSong();
         }
 
-        AudioSource.volume = mainVolume;
+        audioSource.volume = mainVolume;
     }
 
     public void SetVolume(float volume)
@@ -43,10 +43,10 @@ public class AudioController : MonoBehaviour
 
     private void PlayNextSong()
     {
-        int next = Random.Range(0, songs.Count);
-        AudioSource.clip = songs[next] as AudioClip;
-        AudioSource.Play();
-        playedSongs.Add(songs[next]);
-        songs.RemoveAt(next);
+        int next = Random.Range(0, Songs.Count);
+        audioSource.clip = Songs[next] as AudioClip;
+        audioSource.Play();
+        PlayedSongs.Add(Songs[next]);
+        Songs.RemoveAt(next);
     }
 }
