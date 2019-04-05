@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 public class AudioController : MonoBehaviour
 {
-    //[SerializeField] List<AudioClip> songs;
-    //[SerializeField] List<AudioClip> playedSongs;
-    [SerializeField] List<Object> songs;
-    [SerializeField] List<Object> playedSongs;
+    private List<Object> songs;
+    private List<Object> playedSongs;
 
     private AudioSource AudioSource { get; set; }
     private float mainVolume = 0.15f;
