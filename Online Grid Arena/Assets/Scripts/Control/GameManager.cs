@@ -143,6 +143,7 @@ public sealed class GameManager : MonoBehaviour
         EventBus.Subscribe<UpdateSelectionModeEvent>(abilityPanelController);
 
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<PauseGameEvent>(inputManager);
 
         EventBus.Subscribe<StartNewTurnEvent>(hudController);
 

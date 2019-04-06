@@ -123,7 +123,7 @@ public class CharacterControllerTests
     {
         sut.ExecuteMove(pathList);
 
-        character.Received(1).MoveToTile(endTile);
+        character.Received(1).FollowPath(Arg.Any<List<IHexTileController>>(), endTile);
     }
 
     [Test]

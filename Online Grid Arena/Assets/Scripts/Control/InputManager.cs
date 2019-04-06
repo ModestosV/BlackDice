@@ -6,23 +6,28 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
 
     private IInputParameters lastInputParameters;
 
+    private bool gamePaused = false;
+
     void Update()
     {
-        var inputParameters = GetInputParameters();
-
-        // Do nothing if input has not changed
-        if (lastInputParameters != null && inputParameters.IsNewInput(lastInputParameters))
+        if (!gamePaused)
         {
-            return;
-        }
+            var inputParameters = GetInputParameters();
 
-        lastInputParameters = inputParameters;
+            // Do nothing if input has not changed
+            if (lastInputParameters != null && inputParameters.IsNewInput(lastInputParameters))
+            {
+                return;
+            }
 
-        SelectionManager.UpdateSelectionMode(inputParameters);
+            lastInputParameters = inputParameters;
 
-        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
-        {
-            EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
+            SelectionManager.UpdateSelectionMode(inputParameters);
+
+            if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
+            {
+                EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
+            }
         }
     }
 
@@ -97,6 +102,10 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
             var newAbilityClicked = (AbilityClickEvent)@event;
 
             UpdateOnAbilityClickEvent(newAbilityClicked.AbilityIndex);
+        }
+        else if (type == typeof(PauseGameEvent))
+        {
+            gamePaused = !gamePaused;
         }
     }
 }

@@ -16,12 +16,15 @@
 
     public void Toggle()
     {
+
         visible = !visible;
+        EventBus.Publish(new PauseGameEvent());
 
         if (!visible)
         {
             Hide();
-        } else
+        }
+        else
         {
             Show();
         }
