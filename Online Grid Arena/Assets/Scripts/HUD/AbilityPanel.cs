@@ -28,7 +28,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void SetAbilityColorUsed(int abilityIndex)
     {
-        AbilityButtons[abilityIndex].GetComponentsInChildren<Image>()[0].color = Color.grey;
+        AbilityButtons[abilityIndex].GetComponentsInChildren<Image>()[0].color = new Color(0.65f, 0.8f, 0.65f, 1.0f);
     }
 
     public void SetAbilityColorDefaultToAll()

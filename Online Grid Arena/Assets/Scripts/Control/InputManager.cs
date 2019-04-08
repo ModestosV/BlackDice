@@ -23,11 +23,6 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
             lastInputParameters = inputParameters;
 
             SelectionManager.UpdateSelectionMode(inputParameters);
-
-            if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
-            {
-                EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
-            }
         }
     }
 
@@ -50,15 +45,6 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
         SelectionManager.UpdateSelectionMode(inputParameters);
 
         Debug.Log($"Ability {inputParameters.GetAbilityNumber()} clicked on Ability Panel.");
-
-        if (inputParameters.IsAbilityKeyPressed() && SelectionManager.SelectedCharacterCanUseAbility(inputParameters.GetAbilityNumber()))
-        {
-            EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
-        }
-        else
-        {
-            Debug.LogWarning("Ability cannot be used. (Passive or character is exhausted)");
-        }
     }
 
     private IInputParameters GetInputParameters()
