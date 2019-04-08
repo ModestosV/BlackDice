@@ -18,16 +18,6 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         return activeCharacter == character;
     }
 
-    public bool IsPlayerOneTurn()
-    {
-        return isPlayerOneTurn;
-    }
-
-    public bool IsPlayerTwoTurn()
-    {
-        return !isPlayerOneTurn;
-    }
-
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
@@ -117,12 +107,12 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         }
     }
 
-    private IPlayer GetActivePlayer()
+    public IPlayer GetActivePlayer()
     {
         return isPlayerOneTurn ? players[0] : players[1];
     }
 
-    private void MakeCharacterActive(ICharacterController selectedCharacterController)
+    public void MakeCharacterActive(ICharacterController selectedCharacterController)
     {
         if (selectedCharacterController.Owner.Equals(GetActivePlayer().Name) && selectedCharacterController.CharacterState == CharacterState.UNUSED)
         {

@@ -8,11 +8,13 @@ public class Stage7Controller : AbstractStageController, IEventSubscriber
     private const string STAGE_FAILED = "Stage Failed!\nYou lost!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 7;
 
+    private IPlayer player2;
     private GridSelectionController gridSelectionController;
     private TurnController turnController;
 
-    public Stage7Controller(GridSelectionController gridSelectionController, TurnController turnController)
+    public Stage7Controller(IPlayer player2, GridSelectionController gridSelectionController, TurnController turnController)
     {
+        this.player2 = player2;
         this.gridSelectionController = gridSelectionController;
         this.turnController = turnController;
     }
@@ -27,13 +29,18 @@ public class Stage7Controller : AbstractStageController, IEventSubscriber
     {
         // TODO
         Debug.Log("AI's turn");
+
+        turnController.MakeCharacterActive(player2.CharacterControllers[2]);
+        player2.CharacterControllers[2].CanUseAbility(3);
+
+        EventBus.Publish(new StartNewTurnEvent());
     }
 
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();
 
-        if (type == typeof(StartNewTurnEvent) && turnController.IsPlayerTwoTurn())
+        if (type == typeof(StartNewTurnEvent) && turnController.GetActivePlayer() == player2)
         {
             HandleAiTurn();
         }
