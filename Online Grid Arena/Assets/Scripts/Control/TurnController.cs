@@ -18,6 +18,16 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         return activeCharacter == character;
     }
 
+    public bool IsPlayerOneTurn()
+    {
+        return isPlayerOneTurn;
+    }
+
+    public bool IsPlayerTwoTurn()
+    {
+        return !isPlayerOneTurn;
+    }
+
     public void Handle(IEvent @event)
     {
         var type = @event.GetType();

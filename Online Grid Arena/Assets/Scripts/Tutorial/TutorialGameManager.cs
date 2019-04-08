@@ -455,6 +455,10 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
+        Stage7Controller stageController = new Stage7Controller(gridSelectionController);
+
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+
         StartGame();
 
         // Ai final tiles
