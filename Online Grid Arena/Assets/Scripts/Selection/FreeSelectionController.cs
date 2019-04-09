@@ -9,6 +9,7 @@ public sealed class FreeSelectionController : AbstractSelectionController
     protected override void DoFirst()
     {
         gridSelectionController.BlurAll();
+        gridSelectionController.DehighlightAll();
     }
 
     protected override void DoClickDisabledTile()

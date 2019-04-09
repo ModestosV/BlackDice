@@ -16,6 +16,7 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
     private ISelectionController activeSelectionController;
     private ITurnController turnController;
     private IGridSelectionController gridSelectionController;
+    private int lastAbilityIndex = -1;
 
     public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController, Dictionary<string, ISelectionController> selectionControllers)
     {
@@ -30,11 +31,27 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 
         if (inputParameters.IsAbilityKeyPressed() && SelectedCharacterCanUseAbility(abilityIndex))
         {
-            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.ABILITY));
+            if (abilityIndex != lastAbilityIndex)
+            {
+                lastAbilityIndex = abilityIndex;
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.ABILITY));
+                EventBus.Publish(new AbilitySelectedEvent(inputParameters.GetAbilityNumber()));
+            }
+            else
+            {
+                lastAbilityIndex = -1;
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+            }
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
+            if (selectionMode == SelectionMode.MOVEMENT)
+            {
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+            } else
+            {
+                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
+            }
         }
         else if (inputParameters.IsKeyTDown)
         {
@@ -51,14 +68,11 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
                 break;
             case SelectionMode.ABILITY:
                 if (abilityIndex < 0) break;
+                var updatedAbilitySelectionController = GetAbilitySelectionController(abilityIndex);
 
-                if (SelectedCharacterCanUseAbility(abilityIndex))
+                if (updatedAbilitySelectionController != null)
                 {
-                    activeSelectionController = GetAbilitySelectionController(abilityIndex);
-                }
-                else
-                {
-                    EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
+                    activeSelectionController = updatedAbilitySelectionController;
                 }
                 break;
         }
@@ -126,6 +140,11 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         {
             var newSelectionMode = (UpdateSelectionModeEvent)@event;
             selectionMode = newSelectionMode.SelectionMode;
+
+            if (selectionMode != SelectionMode.ABILITY)
+            {
+                lastAbilityIndex = -1;
+            }
 
             Debug.Log(ToString() + " has selection mode " + selectionMode.ToString());
         }
