@@ -4,7 +4,6 @@
  *  from user Fattie on April 27, 2016
  */
 
-using UnityEngine;
 using UnityEngine.UI;
 
 #if UNITY_EDITOR

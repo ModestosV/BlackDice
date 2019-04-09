@@ -1,7 +1,4 @@
-﻿using NSubstitute;
-using NUnit.Framework;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using NUnit.Framework;
 
 public class EffectTests
 { 

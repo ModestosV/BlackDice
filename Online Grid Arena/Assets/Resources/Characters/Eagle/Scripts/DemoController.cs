@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class DemoController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class DemoController : MonoBehaviour
 	private float horizontal;
 	private float vertical;
 	private readonly float rotationDegreePerSecond = 1000;
-	private bool isAttacking = false;
+	private bool isAttacking;
 
 	public GameObject gamecam;
 	public Vector2 camPosition;
@@ -17,12 +18,12 @@ public class DemoController : MonoBehaviour
 
 
 	public GameObject[] characters;
-	public int currentChar = 0;
+	public int currentChar;
 
     public GameObject[] targets;
     public float minAttackDistance;
 
-    public UnityEngine.UI.Text nameText;
+    public Text nameText;
 
 
 	void Start()
@@ -107,7 +108,7 @@ public class DemoController : MonoBehaviour
             //Leave
             if (Input.GetKeyDown("l"))
             {
-                if (this.ContainsParam(animator,"Leave"))
+                if (ContainsParam(animator,"Leave"))
                 {
                     animator.SetTrigger("Leave");
                     StartCoroutine(StopAttack(1f));
@@ -116,7 +117,7 @@ public class DemoController : MonoBehaviour
         }
 
 	}
-    GameObject target = null;
+    GameObject target;
 
     private void TryDamageTarget()
     {
@@ -148,7 +149,7 @@ public class DemoController : MonoBehaviour
     {
         if (target == null) return;
         target.GetComponent<Animator>().SetTrigger("Hit");
-        var hitFX = Instantiate<GameObject>(comp.hitFX);
+        var hitFX = Instantiate(comp.hitFX);
         hitFX.transform.position = target.transform.position + new Vector3(0, target.GetComponentInChildren<SkinnedMeshRenderer>().bounds.center.y,0);
     }
 
@@ -172,8 +173,8 @@ public class DemoController : MonoBehaviour
                 Application.LoadLevel(Application.loadedLevelName);
                 yield break;
             }
-            else
-                yield return 0;
+
+            yield return 0;
 
         }
     }

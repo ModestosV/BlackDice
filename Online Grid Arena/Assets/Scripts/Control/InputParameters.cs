@@ -1,6 +1,4 @@
-﻿using System;
-
-public class InputParameters : IInputParameters
+﻿public class InputParameters : IInputParameters
 {
     public bool IsKeyQDown { get; set; }
     public bool IsKeyWDown { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public interface ITurnController
+﻿public interface ITurnController
 {
     bool IsActiveCharacter(ICharacterController character);
 }
