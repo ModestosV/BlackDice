@@ -34,7 +34,6 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
         }
     }
 

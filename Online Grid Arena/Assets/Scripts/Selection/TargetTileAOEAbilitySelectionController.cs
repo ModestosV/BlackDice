@@ -22,7 +22,6 @@ public sealed class TargetTileAOEAbilitySelectionController : AbstractTileAbilit
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
         }
     }
 

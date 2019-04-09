@@ -21,7 +21,7 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
 
     private bool CharacterOnFinishTile()
     {
-        return this.character.OccupiedTile == this.finishTile ? true : false;
+        return this.character.OccupiedTile == this.finishTile;
     }
 
     public void Handle(IEvent @event)

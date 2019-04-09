@@ -90,11 +90,7 @@
             return;
         }
 
-        if (tileIsOccupied)
-        {
-            DoHoverOccupiedTile();
-            return;
-        }
+        DoHoverOccupiedTile();
     }
 
     protected void DoRightClickPressed()

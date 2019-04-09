@@ -227,7 +227,6 @@ public class CharacterController : ICharacterController
             }
             catch (InvalidCastException)
             {
-                continue;
             }
         }
 
@@ -290,7 +289,7 @@ public class CharacterController : ICharacterController
             {
                 CharacterStats[ef.Key].BaseValue -= ef.Value;
             }
-            this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
+            this.CharacterStats[ef.Key].CurrentValue -= ef.Value;
         }
     }
 

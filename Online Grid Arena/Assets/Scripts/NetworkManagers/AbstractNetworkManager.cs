@@ -20,7 +20,7 @@ public abstract class AbstractNetworkManager : INetworkManager
 
     public async Task<HttpResponseMessage> PostAsync(string targetRequestUrl, string messageBody)
     {
-       HttpResponseMessage response = null;
+       HttpResponseMessage response;
         try
         {
             response = await client.PostAsync(endpoint + targetRequestUrl, new StringContent(messageBody, Encoding.UTF8, "application/json"));

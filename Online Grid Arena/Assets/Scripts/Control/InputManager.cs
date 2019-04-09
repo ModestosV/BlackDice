@@ -30,10 +30,10 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
     {
         var inputParameters = GetInputParameters();
 
-        inputParameters.IsKeyQDown = (abilityIndex == 0) ? true: false;
-        inputParameters.IsKeyWDown = (abilityIndex == 1) ? true: false;
-        inputParameters.IsKeyEDown = (abilityIndex == 2) ? true: false;
-        inputParameters.IsKeyRDown = (abilityIndex == 3) ? true: false;
+        inputParameters.IsKeyQDown = (abilityIndex == 0);
+        inputParameters.IsKeyWDown = (abilityIndex == 1);
+        inputParameters.IsKeyEDown = (abilityIndex == 2);
+        inputParameters.IsKeyRDown = (abilityIndex == 3);
 
         // Do nothing if input has not changed
         if (lastInputParameters != null && inputParameters.IsNewInput(lastInputParameters))

@@ -17,7 +17,7 @@ public sealed class Slap : AbstractTargetedAbility
         "Slap - Basic Attack \nPengwin slaps target and deals damage equal to his attack. Has a 75% chance of re-casting (maximum number of hits: 4).")
     { }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         SlapAttack(targetTiles);
         for (int i = 0; i < MAX_EXTRA_SLAPS; i++)
@@ -42,6 +42,6 @@ public sealed class Slap : AbstractTargetedAbility
     {
         System.Random randomizer = new System.Random();
         int rand = randomizer.Next(0,100);
-        return (rand < 75) ? true : false;
+        return (rand < 75);
     }
 }

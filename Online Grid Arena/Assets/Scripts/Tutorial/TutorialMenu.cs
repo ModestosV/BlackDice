@@ -81,14 +81,14 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         if (!File.Exists(filepath))
         {
             TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
-            BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
+            BinarySerialization.WriteToBinaryFile(filepath, tutorialSerializedObject);
         }
     }
 
     private void SaveStageCompleted()
     {
         TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
-        BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
+        BinarySerialization.WriteToBinaryFile(filepath, tutorialSerializedObject);
     }
 
     private int ReadStageCompleted()

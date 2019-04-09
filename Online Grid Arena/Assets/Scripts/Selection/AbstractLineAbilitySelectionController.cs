@@ -25,7 +25,6 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
             target.Add(path[1]);
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
         }
     }
     protected override void DoClickUnoccupiedOtherTile()
@@ -42,7 +41,6 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
         }
     }
 
@@ -74,7 +72,6 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
                 path[i].HoverError();
             }
             path[path.Count - 1].Hover(HoverType.INVALID);
-            return;
         }
         else
         {
@@ -106,7 +103,6 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
 
             }
         }
-        return;
     }
 
     protected override void DoHoverSelectedTile()

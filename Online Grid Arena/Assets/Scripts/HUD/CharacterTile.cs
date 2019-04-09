@@ -30,7 +30,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
         
-        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
+        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
         healthBarObject.transform.SetParent(this.transform);
         healthBarObject.transform.localPosition -= new Vector3(0.0f, 37.8f);
         healthBarObject.transform.localScale = new Vector3(0.41f, 1.5f);
