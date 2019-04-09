@@ -348,7 +348,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         {
             var selectMode = (UpdateSelectionModeEvent)@event;
 
-            if (currentStep == 2 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            if (currentStep == 2 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexCat].CanUseAbility(indexScratch))
             {
                 //third step
                 Execute();
@@ -358,12 +358,12 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 //Fourth Step continued
                 Execute();
             }
-            else if (currentStep == 5 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            else if (currentStep == 5 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexPengwin].CanUseAbility(indexSlide))
             {
                 //Fifth Step
                 Execute();
             }
-            else if (currentStep == 7 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            else if (currentStep == 7 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexCat].CanUseAbility(indexBoost))
             {
                 //Completion
                 Execute();
