@@ -8,6 +8,9 @@ public class AbilityPanel : HideableUI, IAbilityPanel
     public List<GameObject> AbilityButtons;
     public List<GameObject> Stacks;
 
+    [SerializeField] private Sprite passiveButtonSprite;
+    [SerializeField] private Sprite activeButtonSprite;
+
     void Start()
     {
         foreach (Transform child in transform)
@@ -25,14 +28,14 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void SetAbilityColorUsed(int abilityIndex)
     {
-        AbilityButtons[abilityIndex].GetComponent<Image>().color = Color.grey;
+        AbilityButtons[abilityIndex].GetComponentsInChildren<Image>()[0].color = new Color(0.65f, 0.8f, 0.65f, 1.0f);
     }
 
     public void SetAbilityColorDefaultToAll()
     {
         for (int i = 0; i < AbilityButtons.Count; i++)
         {
-            AbilityButtons[i].GetComponent<Image>().color = new Color(0.7490196f, 0.7803922f, 0.8000001f, 1f);
+            AbilityButtons[i].GetComponentsInChildren<Image>()[0].color = new Color(0.95f, 0.95f, 0.95f, 1f);
         }
     }
 
@@ -41,15 +44,21 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         int i = 0;
         foreach (IAbility ability in abilities)
         {
-            AbilityButtons[i].GetComponentsInChildren<Image>().Last().sprite = ability.AbilityIcon;
+            var abilityImage = AbilityButtons[i].GetComponentsInChildren<Image>()[1];
+            abilityImage.sprite = ability.AbilityIcon;
+            abilityImage.color = new Color(1, 1, 1, 1);
 
             if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
             {
                 AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+                AbilityButtons[i].GetComponentsInChildren<Image>()[0].sprite = activeButtonSprite;
+                AbilityButtons[i].GetComponentsInChildren<Image>()[2].sprite = activeButtonSprite;
             }
             else
             {
                 AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = 0;
+                AbilityButtons[i].GetComponentsInChildren<Image>()[0].sprite = passiveButtonSprite;
+                AbilityButtons[i].GetComponentsInChildren<Image>()[2].sprite = passiveButtonSprite;
             }
 
             AbilityButtons[i].GetComponent<AbilityButton>().Description = ability.Description;
