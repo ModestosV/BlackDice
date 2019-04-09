@@ -17,7 +17,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     private readonly int indexSlide;
     private readonly int indexBoost;
 
-    private const String TEXT_STEP_2 = "Press or click Q to attack";
+    private const String TEXT_STEP_2 = "Press or click Q to attack Pengwin";
     private const String TEXT_STEP_3 = "Select Pengwin (CLICK)";
     private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
     private const String TEXT_STEP_5 = "Select Rocket Cat again";
@@ -248,6 +248,19 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         {
             List<int> validNums = new List<int>() { 0, 3, 6, 8 };
             if (!validNums.Contains(currentStep))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if (type == typeof(UpdateSelectionModeEvent))
+        {
+            var selectMode = (UpdateSelectionModeEvent)eventHandled;
+
+            if (selectMode.SelectionMode.Equals(SelectionMode.MOVEMENT))
             {
                 return false;
             }
