@@ -336,6 +336,80 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
     }
 
+    public void StartStageEffects()
+    {
+        Debug.Log(ToString() + " Start() begin");
+
+        // Get all characters from scene
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
+        foreach (ICharacterController characterController in characterControllers)
+        {
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+
+        //Initialize character panels
+        characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
+        Debug.Log("Character Panels size: " + characterPanels.Count);
+        Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
+
+        for (int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+        }
+
+        for (int i = 0; i < characterPanels[1].CharacterTiles.Length; i++)
+        {
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
+        }
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        // Initialize HUD Controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[0], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+
+        // Initialize input manager
+        inputManager = FindObjectOfType<InputManager>();
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        // Initialize stage controller
+        Stage6Controller stageController = new Stage6Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
+
+        // Events for the current tutorial stage
+        EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+        EventBus.Subscribe<ActiveCharacterEvent>(stageController);
+        EventBus.Subscribe<AbilitySelectedEvent>(stageController);
+        EventBus.Subscribe<AbilityClickEvent>(stageController);
+        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
+        EventBus.Subscribe<SelectCharacterEvent>(stageController);
+
+        EventBus.Subscribe<AbilityClickEvent>(inputManager);
+        EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
+
+        StartGame();
+
+        Debug.Log(ToString() + " Start() end");
+    }
+
     private void Start()
     {
         Debug.Log(ToString() + " Start() begin");
@@ -344,6 +418,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         tutorialStageStartMethods.Add(this.StartStageAttack);
         tutorialStageStartMethods.Add(this.StartStageHeal);
         tutorialStageStartMethods.Add(this.StartStageBuff);
+        tutorialStageStartMethods.Add(this.StartStageEffects);
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
