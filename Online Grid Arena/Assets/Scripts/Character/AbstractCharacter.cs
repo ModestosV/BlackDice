@@ -10,12 +10,12 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
 
-    protected GameObject teamColorIndicator;
+    private GameObject teamColorIndicator;
     protected GameObject shield;
     protected GameObject exhausted;
 
-    protected GameObject indicator;
-    protected Animator iAnimator;
+    private GameObject indicator;
+    private Animator iAnimator;
     protected List<IEffect> effects;
 
     private Material baseMaterial;
@@ -26,15 +26,15 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     private bool following = false;
     private int targetIndex;
     private Vector3 currentWaypoint;
-    private IHexTile targetTile;
     private List<IHexTileController> path;
 
     bool isIdle;
-    bool isMoving;
-    bool isDead;
     bool isGettingHurt;
     bool isAttacking;
     bool isJumping;
+
+    private static readonly int Selectable = Animator.StringToHash("Selectable");
+    private static readonly int Active = Animator.StringToHash("Active");
 
     private void Update()
     {
@@ -46,7 +46,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 if (targetIndex >= path.Count)
                 {
                     following = false;
-                    isMoving = false;
                 }
 
                 if (following)
@@ -65,30 +64,28 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     public void Destroy()
     {
         Destroy(gameObject);
-        isDead = true;
         Debug.Log(ToString() + " has been removed from the game.");
     }
 
-    public ICharacterController Controller { get { return characterController; } }
+    public ICharacterController Controller => characterController;
 
     public void MoveToTile(IHexTile targetTile)
     {
-        gameObject.transform.SetParent(targetTile.GameObject.transform);
-        gameObject.transform.localPosition = new Vector3(0, gameObject.transform.localPosition.y, 0);
+        GameObject o;
+        (o = gameObject).transform.SetParent(targetTile.GameObject.transform);
+        o.transform.localPosition = new Vector3(0, o.transform.localPosition.y, 0);
     }
 
     public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
     {
         this.path = path;
-        this.targetTile = targetTile;
         targetIndex = 0;
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         currentWaypoint = path[0].HexTile.GameObject.transform.position;
-        isMoving = true;
         following = true;
     }
 
-    public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
+    protected Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
     {
         ICharacterStat Health = new CharacterStat(health);
         ICharacterStat Moves = new CharacterStat(moves);
@@ -181,15 +178,15 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
             {
                 var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
                 if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner
-                    && !(characterController.CharacterState == CharacterState.EXHAUSTED))
+                    && characterController.CharacterState != CharacterState.EXHAUSTED)
                 {
-                    iAnimator.SetBool("Selectable", true);
-                    iAnimator.SetBool("Active", false);
+                    iAnimator.SetBool(Selectable, true);
+                    iAnimator.SetBool(Active, false);
                 }
                 else
                 {
-                    iAnimator.SetBool("Selectable", false);
-                    iAnimator.SetBool("Active", false);
+                    iAnimator.SetBool(Selectable, false);
+                    iAnimator.SetBool(Active, false);
                 }
             }
             else if (type == typeof(SelectCharacterEvent))
@@ -197,13 +194,13 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 var selectCharacterEvent = (SelectCharacterEvent)@event;
                 if (selectCharacterEvent.Character == this.characterController)
                 {
-                    iAnimator.SetBool("Active", true);
-                    iAnimator.SetBool("Selectable", false);
+                    iAnimator.SetBool(Active, true);
+                    iAnimator.SetBool(Selectable, false);
                 }
                 else
                 {
-                    iAnimator.SetBool("Active", false);
-                    iAnimator.SetBool("Selectable", false);
+                    iAnimator.SetBool(Active, false);
+                    iAnimator.SetBool(Selectable, false);
                 }
             }
         }

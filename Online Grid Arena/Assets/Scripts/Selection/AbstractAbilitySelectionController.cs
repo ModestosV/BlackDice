@@ -7,7 +7,7 @@
 
     }
 
-    protected void SetActiveAbility()
+    private void SetActiveAbility()
     {
         if (!(inputParameters.GetAbilityNumber() > -1)) return;
 

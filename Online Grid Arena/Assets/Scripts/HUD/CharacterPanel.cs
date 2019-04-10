@@ -1,6 +1,6 @@
 ﻿public class CharacterPanel : BlackDiceMonoBehaviour
 {
-    public CharacterTile[] CharacterTiles { get; set; }
+    public CharacterTile[] CharacterTiles { get; private set; }
 
     public void Awake()
     {

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -9,22 +8,18 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 {
     private readonly List<ICharacterController> characters;
     private readonly ArrowIndicator[] arrows;
-    private readonly List<IPlayer> players;
     private bool stageFailedFlag;
     private readonly int indexCat;
     private readonly int indexPengwin;
-    private readonly int indexScratch;
-    private readonly int indexSlide;
-    private readonly int indexBoost;
 
-    private const String TEXT_STEP_2 = "Press or click Q to attack";
-    private const String TEXT_STEP_3 = "Select Pengwin (CLICK)";
-    private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
-    private const String TEXT_STEP_5 = "Select Rocket Cat again";
-    private const String TEXT_STEP_6 = "Press or click W to use ability";
+    private const string TEXT_STEP_2 = "Press or click Q to attack";
+    private const string TEXT_STEP_3 = "Select Pengwin (CLICK)";
+    private const string TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
+    private const string TEXT_STEP_5 = "Select Rocket Cat again";
+    private const string TEXT_STEP_6 = "Press or click W to use ability";
     private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
     private const int STAGE_INDEX = 3;
     private int currentStep;
     private Type type;
@@ -34,23 +29,20 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     {
         this.characters = characters;
         this.arrows = arrows;
-        this.players = players;
         this.stageFailedFlag = false;
 
         foreach (ICharacterController c in characters)
         {
-            if(c.Character.GetType() == typeof(RocketCat))
+            if(c.Character is RocketCat)
             {
                 indexCat = characters.IndexOf(c);
                 foreach(IAbility ab in c.Abilities)
                 {
-                    if (ab.GetType() == typeof(Scratch))
+                    if (ab is Scratch)
                     {
-                        indexScratch = c.Abilities.IndexOf(ab);
                     }
                     if(ab.GetType() == typeof(BlastOff))
                     {
-                        indexBoost = c.Abilities.IndexOf(ab);
                     }
                 }
             }
@@ -61,26 +53,25 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 {
                     if (ab.GetType() == typeof(Slide))
                     {
-                        indexSlide = c.Abilities.IndexOf(ab);
                     }
                 }
             }
         }
 
         currentStep = 0;
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
-        stepMethods.Add(() => this.HandleStep4());
-        stepMethods.Add(() => this.HandleStep4Continued());
-        stepMethods.Add(() => this.HandleStep5());
-        stepMethods.Add(() => this.HandleStep6());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
+        stepMethods.Add(this.HandleStep4);
+        stepMethods.Add(this.HandleStep4Continued);
+        stepMethods.Add(this.HandleStep5);
+        stepMethods.Add(this.HandleStep6);
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 
-    public void HandleStep1()
+    private void HandleStep1()
     {
-        var arrow = arrows.Select(x => x.GameObject.tag == "CatArrow" ? x : null).ToList();
+        var arrow = arrows.Select(x => x.GameObject.CompareTag("CatArrow") ? x : null).ToList();
 
         foreach (ArrowIndicator obj in arrow)
         {
@@ -91,29 +82,29 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep2()
+    private void HandleStep2()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_2;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrow")
+            if (arrow.GameObject.CompareTag("TutorialArrow"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "CatArrow")
+            else if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Hide();
             }
         }
     }
 
-    public void HandleStep3()
+    private void HandleStep3()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_3;
 
         foreach (ArrowIndicator obj in arrows)
         {
-            if (obj.tag == "PengwinArrow")
+            if (obj.CompareTag("PengwinArrow"))
             {
                 obj.Show();
             }
@@ -130,23 +121,23 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         characters[indexCat].EndOfTurn();
     }
 
-    public void HandleStep4()
+    private void HandleStep4()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "PengwinArrow")
+            else if (arrow.GameObject.CompareTag("PengwinArrow"))
             {
                 arrow.Hide();
             }
         }
     }
 
-    public void HandleStep5()
+    private void HandleStep5()
     {
         characters[indexPengwin].HUDController.ClearSelectedHUD();
         characters[indexPengwin].HUDController.ClearTargetHUD();
@@ -161,7 +152,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "CatArrow")
+            if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Show();
             }
@@ -172,39 +163,39 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep6()
+    private void HandleStep6()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_6;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "CatArrow")
+            else if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Hide();
             }
         }
     }
 
-    public void HandleStep4Continued()
+    private void HandleStep4Continued()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Hide();
             }
-            else if (arrow.GameObject.tag == "PengwinArrow")
+            else if (arrow.GameObject.CompareTag("PengwinArrow"))
             {
                 arrow.Show();
             }
         }
     }
 
-    public new void CompleteStage(int StageIndex)
+    private new void CompleteStage(int StageIndex)
     {
         foreach (ArrowIndicator arrow in arrows)
         {
@@ -231,7 +222,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    public void Execute()
+    private void Execute()
     {
         if(!stageFailedFlag)
         {
@@ -241,7 +232,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public bool CheckCorrectInput()
+    private bool CheckCorrectInput()
     {
 
         if (type == typeof(StartNewTurnEvent))

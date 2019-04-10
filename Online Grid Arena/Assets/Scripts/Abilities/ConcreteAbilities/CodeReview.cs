@@ -13,17 +13,17 @@ public class CodeReview : AbstractActiveAbility
         "Code Review - Special Ability \nTA Eagle reviews the whole team's code. He and his allies get a shield. Lasts indefinitely and blocks next instance of damage.")
     { }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Code Review. Primary Action being called.");
         List<ICharacterController> allies = character.Controller.AllAllies();
-        for (int i = 0; i < allies.Count; i++)
+        foreach (var ally in allies)
         {
             PlaySoundEffect();
-            allies[i].IsShielded = true;
-            Debug.Log("shield being applied to target "+allies[i]);
-            EventBus.Publish(new StatusEffectEvent("shield", true, allies[i]));
-            PlayAnimation(allies[i].OccupiedTile);
+            ally.IsShielded = true;
+            Debug.Log("shield being applied to target "+ally);
+            EventBus.Publish(new StatusEffectEvent("shield", true, ally));
+            PlayAnimation(ally.OccupiedTile);
             await Task.Delay(100);
         }
     }

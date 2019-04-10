@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public sealed class GridController : IGridController
@@ -32,8 +31,7 @@ public sealed class GridController : IGridController
 
     public IHexTileController GetTile((int, int, int) coordinates)
     {
-        IHexTileController tile;
-        GridMap.TryGetValue(coordinates, out tile);
+        GridMap.TryGetValue(coordinates, out var tile);
         return tile;
     }
 
@@ -64,13 +62,12 @@ public sealed class GridController : IGridController
 
     private (int, int, int) GetRandomCoordinates()
     {
-        (int, int, int) XYZ = (0, 0, 0);
         System.Random randomizer = new System.Random();
-        int X = randomizer.Next(minimumX, maximumX + 1);
-        int Y = randomizer.Next(minimumY, maximumY + 1);
-        int Z = -X - Y;
-        XYZ = (X, Y, Z);
-        Debug.Log(X + " " + Y + " " + Z);
-        return XYZ;
+        int x = randomizer.Next(minimumX, maximumX + 1);
+        int y = randomizer.Next(minimumY, maximumY + 1);
+        int z = -x - y;
+        (int, int, int) xyz = (x, y, z);
+        Debug.Log(x + " " + y + " " + z);
+        return xyz;
     }
 }

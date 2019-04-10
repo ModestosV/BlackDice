@@ -69,7 +69,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
     {
         if (players[0].AreAllCharactersDead() && players[1].AreAllCharactersDead())
         {
-            EventBus.Publish(new EndMatchEvent($"Draw"));
+            EventBus.Publish(new EndMatchEvent("Draw"));
         }
         if (players[0].AreAllCharactersDead())
         {
@@ -118,7 +118,7 @@ public sealed class TurnController : ITurnController, IEventSubscriber
         {
             inCharacterSelectionState = false;
             activeCharacter = selectedCharacterController;
-            Debug.Log($"Active Character is: {activeCharacter.ToString()}");
+            Debug.Log($"Active Character is: {activeCharacter}");
             activeCharacter.StartOfTurn();
             EventBus.Publish(new ActiveCharacterEvent());
         }

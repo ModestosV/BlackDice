@@ -13,7 +13,7 @@ public abstract class AbstractEffect : IEffect
 {
     public EffectType Type { get; set; }
     public Sprite EffectIcon { get; set; }
-    public string Name { get; set; }
+    protected string Name { private get; set; }
     public string Description { get; protected set; }
     public int DurationRemaining { get; protected set; }
     protected int duration;

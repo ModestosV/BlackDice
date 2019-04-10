@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public sealed class TargetTileAOEAbilitySelectionController : AbstractTileAbilitySelectionController
 {
@@ -18,12 +17,10 @@ public sealed class TargetTileAOEAbilitySelectionController : AbstractTileAbilit
 
         if (inRange)
         {
-            List<IHexTileController> target = new List<IHexTileController>();
-            target.Add(inputParameters.TargetTile);
+            List<IHexTileController> target = new List<IHexTileController> {inputParameters.TargetTile};
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            return;
         }
     }
 

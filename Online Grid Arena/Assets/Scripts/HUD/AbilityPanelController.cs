@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
 {
-    private IAbilityPanel abilityPanel;
+    private readonly IAbilityPanel abilityPanel;
 
     public AbilityPanelController(IAbilityPanel abilityPanel)
     {

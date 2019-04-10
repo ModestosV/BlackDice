@@ -4,11 +4,11 @@ using UnityEngine;
 public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
 {
     public int Cooldown { get; }
-    public int CooldownRemaining { get { return cooldownRemaining; } }
+    public int CooldownRemaining => cooldownRemaining;
 
-    protected readonly AudioClip soundEffect;
-    protected readonly GameObject animationPrefab;
-    protected int cooldownRemaining;
+    private readonly AudioClip soundEffect;
+    private readonly GameObject animationPrefab;
+    private int cooldownRemaining;
     
     protected AbstractActiveAbility(
         Sprite abilityIcon,
@@ -36,7 +36,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
         EventBus.Publish(new ActiveCharacterEvent());
     }
 
-    protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
+    protected abstract override void PrimaryAction(List<IHexTileController> targetTiles);
 
     protected void PlaySoundEffect()
     {

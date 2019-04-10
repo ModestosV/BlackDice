@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FixRotation : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public class FixRotation : MonoBehaviour
         rotation = transform.rotation;
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         transform.rotation = rotation;

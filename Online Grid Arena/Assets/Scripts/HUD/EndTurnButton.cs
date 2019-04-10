@@ -25,7 +25,7 @@ public sealed class EndTurnButton : BlackDiceMonoBehaviour
         Debug.Log(ToString() + " Start() end");
     }
 
-    public void EndTurn()
+    private void EndTurn()
     {
         EventBus.Publish(new DeselectSelectedTileEvent());
         EventBus.Publish(new StartNewTurnEvent());

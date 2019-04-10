@@ -23,7 +23,6 @@ public class TargetCharacterLineAbilitySelectionController : TargetLineAbilitySe
             path[i].HoverError();
         }
         path[path.Count - 1].Hover(HoverType.INVALID);
-        return;
     }
 
     protected override void DoHoverOccupiedTile()

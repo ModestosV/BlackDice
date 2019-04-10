@@ -5,8 +5,7 @@ public sealed class StatPanelController : IStatPanelController
 {
     public List<IStatDisplay> StatDisplays { private get; set; }
     public Dictionary<string, ICharacterStat> CharacterStats { private get; set; }
-    public List<string> StatNames { private get; set; }
-    
+
     public void UpdateStatValues()
     {
         StatDisplays[0].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["health"].CurrentValue).ToString());
