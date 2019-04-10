@@ -69,7 +69,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         Debug.Log(ToString() + " has been removed from the game.");
     }
 
-    public ICharacterController Controller { get { return characterController; } }
+    public ICharacterController Controller => characterController;
 
     public void MoveToTile(IHexTile targetTile)
     {

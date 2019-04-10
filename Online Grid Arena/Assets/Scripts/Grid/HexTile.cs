@@ -100,11 +100,8 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
         return Physics.Raycast(ray, out hit) && hit.collider.gameObject.GetComponent<HexTile>() == this;
     }
 
-    public IHexTileController Controller
-    {
-        get { return hexTileController; }
-    }
-    
+    public IHexTileController Controller => hexTileController;
+
     public void PlayAbilityAnimation(GameObject abilityAnimationPrefab)
     {
         Instantiate(abilityAnimationPrefab, gameObject.transform);

@@ -17,7 +17,7 @@ public sealed class PoisonAura : AbstractPassiveAbility
         soundEffect = Resources.Load<AudioClip>("Audio/Ability/MLG_Hitmarker");
     }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTile)
+    protected override async void PrimaryAction(List<IHexTileController> targetTile)
     {
         Debug.Log("Casting Poison Aura. Primary action being called.");
         List<IHexTileController> neighbors = new List<IHexTileController>();

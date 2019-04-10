@@ -12,7 +12,7 @@ public class CharacterController : ICharacterController
     public List<IAbility> Abilities { get; set; }
     public List<IEffect> Effects { get; set; }
 
-    private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
+    private int MovesRemaining => (int)CharacterStats["moves"].CurrentValue;
 
     public string Owner { get; set; }
     public Texture CharacterIcon { get; set; }
@@ -32,11 +32,8 @@ public class CharacterController : ICharacterController
 
     public bool IsShielded
     {
-        get { return shield.enabled; }
-        set
-        {
-            shield.enabled = value;
-        }
+        get => shield.enabled;
+        set => shield.enabled = value;
     }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }

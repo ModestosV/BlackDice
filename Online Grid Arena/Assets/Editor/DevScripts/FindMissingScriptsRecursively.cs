@@ -12,7 +12,7 @@ public class FindMissingScriptsRecursively : EditorWindow
     [MenuItem("Window/FindMissingScriptsRecursively")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(FindMissingScriptsRecursively));
+        GetWindow(typeof(FindMissingScriptsRecursively));
     }
 
     public void OnGUI()

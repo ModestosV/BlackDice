@@ -34,7 +34,7 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
         Type = type;
     }
 
-    protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
+    protected abstract override void PrimaryAction(List<IHexTileController> targetTiles);
 
     public bool IsInRange(int range)
     {

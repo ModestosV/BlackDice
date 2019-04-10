@@ -28,7 +28,7 @@ public class StatModifier : IStatModifier
 
     public override string ToString()
     {
-        string sourceString = Source == null ? "null" : string.Format("({0}|{1})", Source, Source.GetHashCode());
+        string sourceString = Source == null ? "null" : $"({Source}|{Source.GetHashCode()})";
 
         return $"({base.ToString()}: {Type.ToString()}, {Value.ToString()}, {sourceString}, {Order})";
     }

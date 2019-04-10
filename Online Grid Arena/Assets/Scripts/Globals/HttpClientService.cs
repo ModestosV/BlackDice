@@ -6,9 +6,9 @@ using System.Net.Http;
 /// </summary>
 public sealed class HttpClientService
 {
-    private static readonly Lazy<HttpClient> lazy = new Lazy<HttpClient>(() => new HttpClient());
+    private static readonly Lazy<HttpClient> Lazy = new Lazy<HttpClient>(() => new HttpClient());
 
-    public static HttpClient Instance { get { return lazy.Value; } }
+    public static HttpClient Instance => Lazy.Value;
 
     private HttpClientService() { }
 }

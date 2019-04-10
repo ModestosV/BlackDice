@@ -13,7 +13,7 @@ public class CodeReview : AbstractActiveAbility
         "Code Review - Special Ability \nTA Eagle reviews the whole team's code. He and his allies get a shield. Lasts indefinitely and blocks next instance of damage.")
     { }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Code Review. Primary Action being called.");
         List<ICharacterController> allies = character.Controller.AllAllies();

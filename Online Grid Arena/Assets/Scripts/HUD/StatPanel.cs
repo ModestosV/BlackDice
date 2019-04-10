@@ -17,8 +17,5 @@ public class StatPanel : BlackDiceMonoBehaviour, IStatPanel
         controller.DisableStatDisplays();
     }
 
-    public IStatPanelController Controller
-    {
-        get { return controller; }
-    }
+    public IStatPanelController Controller => controller;
 }

@@ -20,7 +20,7 @@ public class CharacterStat : ICharacterStat
             currentValue = Mathf.Clamp(currentValue, 0.0f, Value);
             return currentValue;
         }
-        set { currentValue = Mathf.Clamp(value, 0.0f, Value); }
+        set => currentValue = Mathf.Clamp(value, 0.0f, Value);
     }
     public List<IStatModifier> StatModifiers { get; set; }
 
@@ -40,10 +40,7 @@ public class CharacterStat : ICharacterStat
             }
             return value;
         }
-        protected set
-        {
-            Value = value;
-        }
+        protected set => Value = value;
     }
 
     public CharacterStat() : this(0.0f, new List<IStatModifier>())

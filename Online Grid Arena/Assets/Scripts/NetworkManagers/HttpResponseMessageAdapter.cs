@@ -13,18 +13,13 @@ public sealed class HttpResponseMessageAdapter : IHttpResponseMessage
         this.adaptee = adaptee;
     }
 
-    public Version Version { get { return adaptee.Version; } set { adaptee.Version = value; } }
-
-    public HttpContent Content { get { return adaptee.Content; } set { adaptee.Content = value; } }
-    public HttpStatusCode StatusCode { get { return adaptee.StatusCode; } set { adaptee.StatusCode = value; } }
-    public string ReasonPhrase { get { return adaptee.ReasonPhrase; } set { adaptee.ReasonPhrase = value; } }
-
-    public HttpResponseHeaders Headers { get { return adaptee.Headers; } }
-
-    public HttpRequestMessage RequestMessage { get { return adaptee.RequestMessage; } set { adaptee.RequestMessage = value; } }
-
-    public bool IsSuccessStatusCode { get { return adaptee.IsSuccessStatusCode; } }
-
+    public Version Version { get => adaptee.Version; set => adaptee.Version = value; }
+    public HttpContent Content { get => adaptee.Content; set => adaptee.Content = value; }
+    public HttpStatusCode StatusCode { get => adaptee.StatusCode; set => adaptee.StatusCode = value; }
+    public string ReasonPhrase { get => adaptee.ReasonPhrase; set => adaptee.ReasonPhrase = value; }
+    public HttpResponseHeaders Headers => adaptee.Headers;
+    public HttpRequestMessage RequestMessage { get => adaptee.RequestMessage; set => adaptee.RequestMessage = value; }
+    public bool IsSuccessStatusCode => adaptee.IsSuccessStatusCode;
 
     public void Dispose()
     {
