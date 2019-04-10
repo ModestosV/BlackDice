@@ -51,7 +51,7 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         tooltip.ShowTooltip(Description);
-        Invoke("PublishBuffCheckEvent", 3);
+        Invoke(methodName: nameof(PublishBuffCheckEvent), 3);
     }
 
     public void OnPointerExit(PointerEventData eventData)

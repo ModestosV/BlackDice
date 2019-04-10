@@ -30,8 +30,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     private List<IHexTileController> path;
 
     bool isIdle;
-    bool isMoving;
-    bool isDead;
     bool isGettingHurt;
     bool isAttacking;
     bool isJumping;
@@ -46,7 +44,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
                 if (targetIndex >= path.Count)
                 {
                     following = false;
-                    isMoving = false;
                 }
 
                 if (following)
@@ -65,7 +62,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     public void Destroy()
     {
         Destroy(gameObject);
-        isDead = true;
         Debug.Log(ToString() + " has been removed from the game.");
     }
 
@@ -84,7 +80,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         targetIndex = 0;
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         currentWaypoint = path[0].HexTile.GameObject.transform.position;
-        isMoving = true;
         following = true;
     }
 

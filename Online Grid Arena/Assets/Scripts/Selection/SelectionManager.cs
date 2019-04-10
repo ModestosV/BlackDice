@@ -45,13 +45,9 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            if (selectionMode == SelectionMode.MOVEMENT)
-            {
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            } else
-            {
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
-            }
+            EventBus.Publish(selectionMode == SelectionMode.MOVEMENT
+                ? new UpdateSelectionModeEvent(SelectionMode.FREE)
+                : new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
         else if (inputParameters.IsKeyTDown)
         {

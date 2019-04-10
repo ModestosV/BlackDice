@@ -12,7 +12,7 @@ public class StatModifier : IStatModifier
 	public int Order { get; }
 	public object Source { get; }
 
-	public StatModifier(float value, StatModType type, int order, object source)
+	public StatModifier(float value, StatModType type, int order, object source = null)
 	{
 		Value = value;
 		Type = type;
@@ -20,11 +20,9 @@ public class StatModifier : IStatModifier
 		Source = source;
 	}
 
-	public StatModifier(float value, StatModType type) : this(value, type, (int)type, null) { }
+	public StatModifier(float value, StatModType type) : this(value, type, (int)type) { }
 
-	public StatModifier(float value, StatModType type, int order) : this(value, type, order, null) { }
-
-	public StatModifier(float value, StatModType type, object source) : this(value, type, (int)type, source) { }
+    public StatModifier(float value, StatModType type, object source) : this(value, type, (int)type, source) { }
 
     public override string ToString()
     {

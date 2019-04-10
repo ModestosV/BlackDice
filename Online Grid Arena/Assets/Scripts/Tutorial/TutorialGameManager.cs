@@ -341,10 +341,10 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         Debug.Log(ToString() + " Start() begin");
 
-        tutorialStageStartMethods.Add(() => this.StartStageMovement());
-        tutorialStageStartMethods.Add(() => this.StartStageAttack());
-        tutorialStageStartMethods.Add(() => this.StartStageHeal());
-        tutorialStageStartMethods.Add(() => this.StartStageBuff());
+        tutorialStageStartMethods.Add(this.StartStageMovement);
+        tutorialStageStartMethods.Add(this.StartStageAttack);
+        tutorialStageStartMethods.Add(this.StartStageHeal);
+        tutorialStageStartMethods.Add(this.StartStageBuff);
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
@@ -362,7 +362,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         if (type == typeof(StageCompletedEvent) || type == typeof(SurrenderEvent))
         {
-            Invoke("ExitStage", 3);
+            Invoke(nameof(ExitStage), 3);
         }
     }
 }

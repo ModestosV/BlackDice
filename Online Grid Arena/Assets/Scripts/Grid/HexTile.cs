@@ -95,9 +95,8 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     public bool IsMouseOver()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        return Physics.Raycast(ray, out hit) && hit.collider.gameObject.GetComponent<HexTile>() == this;
+        return Physics.Raycast(ray, out var hit) && hit.collider.gameObject.GetComponent<HexTile>() == this;
     }
 
     public IHexTileController Controller => hexTileController;

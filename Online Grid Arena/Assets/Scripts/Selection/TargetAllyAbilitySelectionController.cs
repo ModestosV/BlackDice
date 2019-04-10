@@ -10,8 +10,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
     protected override void DoClickSelectedTile()
     {
         ICharacterController selectedCharacter = gridSelectionController.GetSelectedCharacter();
-        List<IHexTileController> target = new List<IHexTileController>();
-        target.Add(inputParameters.TargetTile);
+        List<IHexTileController> target = new List<IHexTileController> {inputParameters.TargetTile};
 
         selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
@@ -29,8 +28,7 @@ public sealed class TargetAllyAbilitySelectionController : AbstractAbilitySelect
 
         if (targetCharacterIsAlly && inRange)
         {
-            List<IHexTileController> target = new List<IHexTileController>();
-            target.Add(inputParameters.TargetTile);
+            List<IHexTileController> target = new List<IHexTileController> {inputParameters.TargetTile};
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));

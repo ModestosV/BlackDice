@@ -67,13 +67,13 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
 
         currentStep = 0;
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
-        stepMethods.Add(() => this.HandleStep4());
-        stepMethods.Add(() => this.HandleStep4Continued());
-        stepMethods.Add(() => this.HandleStep5());
-        stepMethods.Add(() => this.HandleStep6());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
+        stepMethods.Add(this.HandleStep4);
+        stepMethods.Add(this.HandleStep4Continued);
+        stepMethods.Add(this.HandleStep5);
+        stepMethods.Add(this.HandleStep6);
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 

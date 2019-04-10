@@ -13,7 +13,7 @@ public class BahtteryAssault : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
         2,
-        $"\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults {NUMBER_OF_TILES} random tiles on the map. Allies and enemies hit are healed or damaged for (${BASE_VALUE}*amount of wool lost).")
+        $"\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults {NUMBER_OF_TILES} random tiles on the map. Allies and enemies hit are healed or damaged for {BASE_VALUE}*(amount of wool lost).")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
@@ -34,18 +34,18 @@ public class BahtteryAssault : AbstractActiveAbility
             }
         }
         Debug.Log("We have "+ listofAffectedTiles.Count+" tiles");
-        for (int i = 0; i < listofAffectedTiles.Count; i++)
+        foreach (var affectedTile in listofAffectedTiles)
         {
-            PlayAnimation(listofAffectedTiles[i]);
-            if (listofAffectedTiles[i].IsOccupied())
+            PlayAnimation(affectedTile);
+            if (affectedTile.IsOccupied())
             {
-                if (listofAffectedTiles[i].OccupantCharacter.IsAlly(this.character.Controller))
+                if (affectedTile.OccupantCharacter.IsAlly(this.character.Controller))
                 {
-                    listofAffectedTiles[i].OccupantCharacter.Heal(stacksToRemove * BASE_VALUE);
+                    affectedTile.OccupantCharacter.Heal(stacksToRemove * BASE_VALUE);
                 }
                 else
                 {
-                    actionHandler.Damage(stacksToRemove * BASE_VALUE, listofAffectedTiles[i].OccupantCharacter);
+                    actionHandler.Damage(stacksToRemove * BASE_VALUE, affectedTile.OccupantCharacter);
                 }
             }
         }

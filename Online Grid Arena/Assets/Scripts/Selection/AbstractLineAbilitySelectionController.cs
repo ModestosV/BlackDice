@@ -19,10 +19,10 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
 
         if (inRange && canCast)
         {
-            List<IHexTileController> target = new List<IHexTileController>();
-            target.Add(path[path.Count - 2]);
-            target.Add(inputParameters.TargetTile);
-            target.Add(path[1]);
+            List<IHexTileController> target = new List<IHexTileController>
+            {
+                path[path.Count - 2], inputParameters.TargetTile, path[1]
+            };
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
         }
@@ -36,8 +36,7 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
 
         if (inRange && canCast)
         {
-            List<IHexTileController> target = new List<IHexTileController>();
-            target.Add(inputParameters.TargetTile);
+            List<IHexTileController> target = new List<IHexTileController> {inputParameters.TargetTile};
 
             selectedCharacter.ExecuteAbility(activeAbilityIndex, target);
             EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));

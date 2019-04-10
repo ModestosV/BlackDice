@@ -2,7 +2,7 @@
 using System.Net.Http;
 
 /// <summary>
-///  Singleton for HttpClient, based on cound found at: http://csharpindepth.com/Articles/General/Singleton.aspx
+///  Singleton for HttpClient, based on code found at: http://csharpindepth.com/Articles/General/Singleton.aspx
 /// </summary>
 public sealed class HttpClientService
 {

@@ -31,9 +31,9 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.rocketCat.CharacterStats["health"].CurrentValue = 20;
         this.sheepadin.CharacterStats["health"].CurrentValue = 20;
 
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
     }
 
     private void StageFailed()

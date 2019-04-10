@@ -31,8 +31,7 @@ public sealed class GridController : IGridController
 
     public IHexTileController GetTile((int, int, int) coordinates)
     {
-        IHexTileController tile;
-        GridMap.TryGetValue(coordinates, out tile);
+        GridMap.TryGetValue(coordinates, out var tile);
         return tile;
     }
 

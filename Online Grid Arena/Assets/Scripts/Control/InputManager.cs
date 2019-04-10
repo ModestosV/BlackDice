@@ -50,8 +50,7 @@ public sealed class InputManager : MonoBehaviour, IEventSubscriber
     private IInputParameters GetInputParameters()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        bool isMouseOverGrid = Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "Tile";
+        bool isMouseOverGrid = Physics.Raycast(ray, out var hit) && hit.collider.gameObject.tag == "Tile";
         IHexTileController targetTile = null;
         if (isMouseOverGrid)
         {

@@ -113,7 +113,7 @@ public class CharacterStat : ICharacterStat
         var modifiersString = string.Join("|", StatModifiers.Select(mod => mod.ToString()).ToArray());
         var fieldsString = string.Join(", ", BaseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
-        return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
+        return $"(CharacterStat|{this.GetHashCode()}: {fieldsString})";
     }
 
     protected virtual int CompareModifierOrder(IStatModifier a, IStatModifier b)

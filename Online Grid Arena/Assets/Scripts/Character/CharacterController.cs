@@ -345,15 +345,11 @@ public class CharacterController : ICharacterController
 
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        AbstractTargetedAbility targetedAbility = Abilities[abilityIndex] as AbstractTargetedAbility;
-
-        if (targetedAbility != null)
+        if (Abilities[abilityIndex] is AbstractTargetedAbility targetedAbility)
         {
             return targetedAbility.IsInRange(range);
-        }else
-        {
-            return true;
         }
+        return true;
     }
 
     private void CheckExhausted()

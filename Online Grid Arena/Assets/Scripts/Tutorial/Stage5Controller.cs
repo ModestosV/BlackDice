@@ -51,20 +51,20 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         this.pengwin.CharacterStats["moves"].BaseValue = 0;
         this.defaultCharacter.CharacterStats["moves"].BaseValue = 0;
 
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
-        stepMethods.Add(() => this.HandleStep4());
-        stepMethods.Add(() => this.HandleStep5());
-        stepMethods.Add(() => this.HandleStep6());
-        stepMethods.Add(() => this.HandleStep7());
-        stepMethods.Add(() => this.HandleStep8());
-        stepMethods.Add(() => this.HandleStep9());
-        stepMethods.Add(() => this.HandleStep10());
-        stepMethods.Add(() => this.HandleStep11());
-        stepMethods.Add(() => this.HandleStep12());
-        stepMethods.Add(() => this.HandleStep13());
-        stepMethods.Add(() => this.HandleStep14());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
+        stepMethods.Add(this.HandleStep4);
+        stepMethods.Add(this.HandleStep5);
+        stepMethods.Add(this.HandleStep6);
+        stepMethods.Add(this.HandleStep7);
+        stepMethods.Add(this.HandleStep8);
+        stepMethods.Add(this.HandleStep9);
+        stepMethods.Add(this.HandleStep10);
+        stepMethods.Add(this.HandleStep11);
+        stepMethods.Add(this.HandleStep12);
+        stepMethods.Add(this.HandleStep13);
+        stepMethods.Add(this.HandleStep14);
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 

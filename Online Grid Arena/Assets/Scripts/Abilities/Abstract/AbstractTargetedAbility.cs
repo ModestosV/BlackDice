@@ -18,7 +18,7 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
 {
     public AbilityType Type { get; }
 
-    protected readonly int range;
+    private readonly int range;
 
     protected AbstractTargetedAbility(
         Sprite abilityIcon,
