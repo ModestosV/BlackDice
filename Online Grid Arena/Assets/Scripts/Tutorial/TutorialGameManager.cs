@@ -8,7 +8,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 {
     [SerializeField] private int tutorialStageIndex;
 
-    private List<Action> tutorialStageStartMethods = new List<Action>();
+    private readonly List<Action> tutorialStageStartMethods = new List<Action>();
 
     private TurnController turnController;
     private HUDController hudController;
@@ -254,7 +254,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
 
         // Pengwin's Ultimate must handle DeathEvent
-        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        var pengwin = characterControllers.Find(x => x.Character is Pengwin);
         EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
 
         StartGame();
@@ -351,7 +351,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Start() end");
     }
 
-    public void ExitStage()
+    private void ExitStage()
     {
         SceneManager.LoadScene(2);
     }

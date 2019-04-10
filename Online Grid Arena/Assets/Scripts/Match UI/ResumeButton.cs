@@ -3,24 +3,24 @@ using UnityEngine.UI;
 
 public sealed class ResumeButton : MonoBehaviour
 {
-    public IMatchMenu MatchMenu { private get; set; }
+    private IMatchMenu matchMenu;
     private Button button;
 
     void OnValidate()
     {
         button = GetComponent<Button>();
-        MatchMenu = FindObjectOfType<MatchMenu>();
+        matchMenu = FindObjectOfType<MatchMenu>();
     }
 
     void Awake()
     {
         button = GetComponent<Button>();
-        MatchMenu = FindObjectOfType<MatchMenu>();
+        matchMenu = FindObjectOfType<MatchMenu>();
         button.onClick.AddListener(Resume);
     }
 
     private void Resume()
     {
-        MatchMenu.Toggle();
+        matchMenu.Toggle();
     }
 }

@@ -30,6 +30,6 @@ public class StatModifier : IStatModifier
     {
         string sourceString = Source == null ? "null" : string.Format("({0}|{1})", Source, Source.GetHashCode());
 
-        return string.Format("({0}: {1}, {2}, {3}, {4})", base.ToString(), Type.ToString(), Value.ToString(), sourceString, Order);
+        return $"({base.ToString()}: {Type.ToString()}, {Value.ToString()}, {sourceString}, {Order})";
     }
 }

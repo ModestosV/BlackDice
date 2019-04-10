@@ -11,11 +11,11 @@ public enum SelectionMode
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
 
-    private Dictionary<string, ISelectionController> selectionControllers;
+    private readonly Dictionary<string, ISelectionController> selectionControllers;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
-    private ITurnController turnController;
-    private IGridSelectionController gridSelectionController;
+    private readonly ITurnController turnController;
+    private readonly IGridSelectionController gridSelectionController;
     private int lastAbilityIndex = -1;
 
     public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController, Dictionary<string, ISelectionController> selectionControllers)

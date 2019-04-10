@@ -22,7 +22,7 @@ public class TextInformationManager : MonoBehaviour
         StartInfoSegment(textInformation);
     }
 
-    public void StartInfoSegment(TextInformation textInfo)
+    private void StartInfoSegment(TextInformation textInfo)
     {
         Debug.Log("Information accessed");
 

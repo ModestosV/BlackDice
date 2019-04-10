@@ -20,7 +20,7 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public GameObject InvalidIndicator { get; set; }
 
-    public GameObject Obstruction { get; set; }
+    public GameObject Obstruction { get; private set; }
 
     private HexTileController hexTileController;
 
@@ -87,7 +87,7 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
         GetComponent<Renderer>().material = materials.PathMaterial;
     }
 
-    public GameObject GetObstruction()
+    private GameObject GetObstruction()
     {
         return Obstruction;
     }

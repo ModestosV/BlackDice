@@ -3,8 +3,8 @@ using UnityEngine.EventSystems;
 
 public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
 {
-    public string Description { get; set; }
-    public int Stacks { get; set; }
+    public string Description { private get; set; }
+    private int stacks;
     private AbilityTooltip tooltip;
 
     private Text stackIndicator;
@@ -16,12 +16,13 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
         Hide();
     }
 
-    public void UpdateStacks(int stacks, int duration)
+    public void UpdateStacks(int newStacks, int duration)
     {
-        Stacks = stacks;
-        stackIndicator.text = Stacks.ToString();
+        stacks = newStacks;
+        stackIndicator.text = stacks.ToString();
 
         string durRemaining = "\n" + duration;
+
         if (duration == 1)
         {
             durRemaining += " turn remaining";
@@ -42,7 +43,7 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    private void publishBuffCheckEvent()
+    private void PublishBuffCheckEvent()
     {
         EventBus.Publish(new BuffCheckEvent());
     }
@@ -50,7 +51,7 @@ public class EffectStack : HideableUI, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         tooltip.ShowTooltip(Description);
-        Invoke("publishBuffCheckEvent", 3);
+        Invoke("PublishBuffCheckEvent", 3);
     }
 
     public void OnPointerExit(PointerEventData eventData)

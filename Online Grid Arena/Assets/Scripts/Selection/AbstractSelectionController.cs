@@ -1,9 +1,9 @@
 ﻿public abstract class AbstractSelectionController : ISelectionController
 {
-    protected IGridSelectionController gridSelectionController;
+    protected readonly IGridSelectionController gridSelectionController;
     protected IInputParameters inputParameters;
-    
-    public AbstractSelectionController(IGridSelectionController gridSelectionController)
+
+    protected AbstractSelectionController(IGridSelectionController gridSelectionController)
     {
         this.gridSelectionController = gridSelectionController;
     }
@@ -93,17 +93,17 @@
         DoHoverOccupiedTile();
     }
 
-    protected void DoRightClickPressed()
+    private void DoRightClickPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
     }
 
-    protected void DoEscapePressed()
+    private void DoEscapePressed()
     {
         EventBus.Publish(new EscapePressedEvent());
     }
 
-    protected void DoTabPressed()
+    private void DoTabPressed()
     {
         EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
         EventBus.Publish(new ActiveCharacterEvent());

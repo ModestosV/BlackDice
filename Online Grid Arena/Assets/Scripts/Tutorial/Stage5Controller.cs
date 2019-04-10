@@ -22,18 +22,18 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
-    private ICharacterController rocketCat;
-    private ICharacterController pengwin;
-    private ICharacterController defaultCharacter;
-    private GridSelectionController gridSelectionController;
+    private readonly ICharacterController rocketCat;
+    private readonly ICharacterController pengwin;
+    private readonly ICharacterController defaultCharacter;
+    private readonly GridSelectionController gridSelectionController;
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
 
     private int currentStepIndex = 0;
 
     private int abilityIndexSelected = -1;
     private SelectionMode selectionMode = SelectionMode.FREE;
-    private ArrowIndicator arrowIndicator;
+    private readonly ArrowIndicator arrowIndicator;
     private bool buffChecked = false;
 
     public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter, GridSelectionController gridSelectionController)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public sealed class HttpResponseMessageAdapter : IHttpResponseMessage
 {
-    private HttpResponseMessage adaptee;
+    private readonly HttpResponseMessage adaptee;
 
     public HttpResponseMessageAdapter(HttpResponseMessage adaptee)
     {

@@ -4,7 +4,7 @@ public abstract class AbstractLineAbilitySelectionController : AbstractAbilitySe
 {
     private bool canCast = false;
 
-    public AbstractLineAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
+    protected AbstractLineAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {
 
     }

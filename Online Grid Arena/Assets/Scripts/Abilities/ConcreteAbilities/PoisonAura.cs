@@ -4,8 +4,9 @@ using UnityEngine;
 
 public sealed class PoisonAura : AbstractPassiveAbility
 {
-    private GameObject animationPrefab;
-    private AudioClip soundEffect;
+    private readonly GameObject animationPrefab;
+    private readonly AudioClip soundEffect;
+
     public PoisonAura(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/poison"),
         activeCharacter,

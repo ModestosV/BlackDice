@@ -3,15 +3,15 @@ using UnityEngine;
 
 public sealed class HUDController : IHUDController, IEventSubscriber
 {
-    private IStatPanelController selectedStatPanel;
-    private IPlayerPanel selectedPlayerPanel;
+    private readonly IStatPanelController selectedStatPanel;
+    private readonly IPlayerPanel selectedPlayerPanel;
 
-    private IStatPanelController targetStatPanel;
-    private IPlayerPanel targetPlayerPanel;
+    private readonly IStatPanelController targetStatPanel;
+    private readonly IPlayerPanel targetPlayerPanel;
 
-    private IAbilityPanelController abilityPanelController;
+    private readonly IAbilityPanelController abilityPanelController;
 
-    private EndTurnButton endTurnButton;
+    private readonly EndTurnButton endTurnButton;
 
     public HUDController(IStatPanelController selectedStatPanel, 
         IPlayerPanel selectedPlayerPanel, 

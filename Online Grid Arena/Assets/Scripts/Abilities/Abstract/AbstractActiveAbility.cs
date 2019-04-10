@@ -6,9 +6,9 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     public int Cooldown { get; }
     public int CooldownRemaining { get { return cooldownRemaining; } }
 
-    protected readonly AudioClip soundEffect;
-    protected readonly GameObject animationPrefab;
-    protected int cooldownRemaining;
+    private readonly AudioClip soundEffect;
+    private readonly GameObject animationPrefab;
+    private int cooldownRemaining;
     
     protected AbstractActiveAbility(
         Sprite abilityIcon,

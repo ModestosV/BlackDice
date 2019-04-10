@@ -18,7 +18,7 @@ public sealed class EndMatchMenu : HideableUI, IEventSubscriber {
         Hide();
     }
 
-    public void SetWinnerText(string winnerText)
+    private void SetWinnerText(string winnerText)
     {
         text.text = winnerText;
     }

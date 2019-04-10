@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class CharacterController : ICharacterController
 {
@@ -394,7 +395,7 @@ public class CharacterController : ICharacterController
 
     public List<ICharacterController> AllAllies()
     {
-        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
+        List<AbstractCharacter> characters = new List<AbstractCharacter>(Object.FindObjectsOfType<AbstractCharacter>());
         List<ICharacterController> allies = new List<ICharacterController>();
         foreach (AbstractCharacter ac in characters)
         {

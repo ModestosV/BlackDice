@@ -137,7 +137,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         character.ClearTargetHUD();
     }
 
-    public void UpdateHealthBar()
+    private void UpdateHealthBar()
     {
         healthBar.SetHealthBarRatio(character.CharacterStats["health"].CurrentValue / character.CharacterStats["health"].Value);
         healthBar.SetHealthText(Mathf.CeilToInt(character.CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(character.CharacterStats["health"].Value).ToString());

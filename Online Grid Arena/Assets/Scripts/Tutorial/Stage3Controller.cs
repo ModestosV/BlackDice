@@ -23,7 +23,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     private const String TEXT_STEP_6 = "Press or click W to use ability";
     private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
     private const int STAGE_INDEX = 3;
     private int currentStep;
     private Type type;
@@ -77,7 +77,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 
-    public void HandleStep1()
+    private void HandleStep1()
     {
         var arrow = arrows.Select(x => x.GameObject.tag == "CatArrow" ? x : null).ToList();
 
@@ -90,7 +90,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep2()
+    private void HandleStep2()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_2;
         foreach (ArrowIndicator arrow in arrows)
@@ -106,7 +106,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep3()
+    private void HandleStep3()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_3;
 
@@ -129,7 +129,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         characters[indexCat].EndOfTurn();
     }
 
-    public void HandleStep4()
+    private void HandleStep4()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
@@ -145,7 +145,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep5()
+    private void HandleStep5()
     {
         characters[indexPengwin].HUDController.ClearSelectedHUD();
         characters[indexPengwin].HUDController.ClearTargetHUD();
@@ -171,7 +171,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep6()
+    private void HandleStep6()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_6;
         foreach (ArrowIndicator arrow in arrows)
@@ -187,7 +187,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep4Continued()
+    private void HandleStep4Continued()
     {
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
@@ -203,7 +203,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public new void CompleteStage(int StageIndex)
+    private new void CompleteStage(int StageIndex)
     {
         foreach (ArrowIndicator arrow in arrows)
         {
@@ -230,7 +230,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         EventBus.Publish(new SurrenderEvent());
     }
 
-    public void Execute()
+    private void Execute()
     {
         if(!stageFailedFlag)
         {
@@ -240,7 +240,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public bool CheckCorrectInput()
+    private bool CheckCorrectInput()
     {
 
         if (type == typeof(StartNewTurnEvent))

@@ -33,13 +33,13 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         LoadTutorialMenu();
     }
 
-    public void HandleEventBus()
+    private void HandleEventBus()
     {
         EventBus.Reset();
         EventBus.Subscribe<StageCompletedEvent>(this);
     }
 
-    public void LoadTutorialMenu()
+    private void LoadTutorialMenu()
     {
         stagesCompleted = ReadStageCompleted();
 

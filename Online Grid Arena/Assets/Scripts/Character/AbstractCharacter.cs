@@ -10,12 +10,12 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     [SerializeField] protected Texture characterIcon;
     [SerializeField] protected Color32 borderColor;
 
-    protected GameObject teamColorIndicator;
+    private GameObject teamColorIndicator;
     protected GameObject shield;
     protected GameObject exhausted;
 
-    protected GameObject indicator;
-    protected Animator iAnimator;
+    private GameObject indicator;
+    private Animator iAnimator;
     protected List<IEffect> effects;
 
     private Material baseMaterial;
@@ -88,7 +88,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
         following = true;
     }
 
-    public Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
+    protected Dictionary<string, ICharacterStat> InitializeStats(int health, int moves, int attack, int defense)
     {
         ICharacterStat Health = new CharacterStat(health);
         ICharacterStat Moves = new CharacterStat(moves);
@@ -181,7 +181,7 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
             {
                 var selectActivePlayerEvent = (SelectActivePlayerEvent)@event;
                 if (selectActivePlayerEvent.ActivePlayer.Name == this.characterController.Owner
-                    && !(characterController.CharacterState == CharacterState.EXHAUSTED))
+                    && characterController.CharacterState != CharacterState.EXHAUSTED)
                 {
                     iAnimator.SetBool("Selectable", true);
                     iAnimator.SetBool("Active", false);

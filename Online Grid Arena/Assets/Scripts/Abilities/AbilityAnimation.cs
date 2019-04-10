@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class AbilityAnimation : MonoBehaviour
 {
-    protected Image image;
-    protected readonly float fadeOutSpeed = 1.0f;
+    private Image image;
+    private readonly float fadeOutSpeed = 1.0f;
 
 	void Start()
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BahtteryAssault : AbstractActiveAbility
 {
-    private IWoolArmorEffect woolArmorEffect;
+    private readonly IWoolArmorEffect woolArmorEffect;
     private const int BASE_VALUE = 45;
     private const int NUMBER_OF_TILES = 15;
 

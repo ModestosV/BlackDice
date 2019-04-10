@@ -9,8 +9,8 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
     private const int STAGE_INDEX = 2;
 
-    private ICharacterController character;
-    private IHexTileController finishTile;
+    private readonly ICharacterController character;
+    private readonly IHexTileController finishTile;
     private SelectionMode selectionMode = SelectionMode.FREE;
 
     public Stage2Controller(ICharacterController character, IHexTileController finishTile)

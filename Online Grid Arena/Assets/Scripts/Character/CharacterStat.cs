@@ -12,7 +12,7 @@ using System.Collections.Generic;
 public class CharacterStat : ICharacterStat
 {
     public float BaseValue { get; set; }
-    protected float currentValue;
+    private float currentValue;
     public float CurrentValue
     {
         get
@@ -24,9 +24,9 @@ public class CharacterStat : ICharacterStat
     }
     public List<IStatModifier> StatModifiers { get; set; }
 
-    protected bool isDirty = true;
-    protected float lastBaseValue;
-    protected float value;
+    private bool isDirty = true;
+    private float lastBaseValue;
+    private float value;
 
     public virtual float Value
     {
@@ -40,7 +40,7 @@ public class CharacterStat : ICharacterStat
             }
             return value;
         }
-        set
+        protected set
         {
             Value = value;
         }

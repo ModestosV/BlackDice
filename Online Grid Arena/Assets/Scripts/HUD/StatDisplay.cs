@@ -2,9 +2,9 @@
 
 public class StatDisplay : HideableUI, IStatDisplay
 {
-    protected Text nameText;
-    protected Text currentValueText;
-    protected Text maxValueText;
+    private Text nameText;
+    private Text currentValueText;
+    private Text maxValueText;
 
     void OnValidate()
     {

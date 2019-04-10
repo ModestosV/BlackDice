@@ -12,7 +12,7 @@ public abstract class AbstractNetworkManager : INetworkManager
     {
     }
 
-    protected AbstractNetworkManager(string endpoint, HttpClient client)
+    private AbstractNetworkManager(string endpoint, HttpClient client)
     {
         this.endpoint = endpoint;
         this.client = client;

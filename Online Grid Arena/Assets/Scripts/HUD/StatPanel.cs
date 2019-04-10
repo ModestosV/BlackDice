@@ -2,7 +2,7 @@
 
 public class StatPanel : BlackDiceMonoBehaviour, IStatPanel
 {
-    protected StatPanelController controller;
+    private StatPanelController controller;
 
     void Awake()
     {
