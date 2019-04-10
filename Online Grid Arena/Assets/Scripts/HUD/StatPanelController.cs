@@ -13,13 +13,37 @@ public sealed class StatPanelController : IStatPanelController
         StatDisplays[0].SetMaxValueText(Mathf.CeilToInt(CharacterStats["health"].Value).ToString());
 
         StatDisplays[1].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["moves"].CurrentValue).ToString());
-        StatDisplays[1].SetMaxValueText(Mathf.CeilToInt(CharacterStats["moves"].Value).ToString());
+        StatDisplays[1].SetMaxValueText(Mathf.CeilToInt(CharacterStats["moves"].BaseValue).ToString());
 
         StatDisplays[2].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["attack"].CurrentValue).ToString());
-        StatDisplays[2].SetMaxValueText("");
+        StatDisplays[2].SetMaxValueText(" / " + Mathf.CeilToInt(CharacterStats["attack"].BaseValue).ToString());
 
         StatDisplays[3].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["defense"].CurrentValue).ToString());
-        StatDisplays[3].SetMaxValueText("");
+        StatDisplays[3].SetMaxValueText(" / " + Mathf.CeilToInt(CharacterStats["defense"].BaseValue).ToString());
+    }
+
+    public string CheckAttackBuff()
+    {
+        if (CharacterStats["attack"].CurrentValue > CharacterStats["attack"].BaseValue)
+        {
+            return " / " + Mathf.CeilToInt(CharacterStats["attack"].BaseValue).ToString();
+        }
+        else
+        {
+            return "TEST";
+        }
+    }
+
+    public string CheckDefenseBuff()
+    {
+        if (CharacterStats["defense"].CurrentValue > CharacterStats["defense"].BaseValue)
+        {
+            return " / " + Mathf.CeilToInt(CharacterStats["defense"].BaseValue).ToString();
+        }
+        else
+        {
+            return "TEST";
+        }
     }
 
     public void DisableStatDisplays()
