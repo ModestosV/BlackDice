@@ -11,8 +11,11 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     private bool stageFailedFlag;
     private readonly int indexCat;
     private readonly int indexPengwin;
+    private readonly int indexScratch;
+    private readonly int indexSlide;
+    private readonly int indexBoost;
 
-    private const string TEXT_STEP_2 = "Press or click Q to attack";
+    private const string TEXT_STEP_2 = "Press or click Q to attack Pengwin";
     private const string TEXT_STEP_3 = "Select Pengwin (CLICK)";
     private const string TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
     private const string TEXT_STEP_5 = "Select Rocket Cat again";
@@ -33,16 +36,18 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
         foreach (ICharacterController c in characters)
         {
-            if(c.Character is RocketCat)
+            if (c.Character.GetType() == typeof(RocketCat))
             {
                 indexCat = characters.IndexOf(c);
-                foreach(IAbility ab in c.Abilities)
+                foreach (IAbility ab in c.Abilities)
                 {
-                    if (ab is Scratch)
+                    if (ab.GetType() == typeof(Scratch))
                     {
+                        indexScratch = c.Abilities.IndexOf(ab);
                     }
-                    if(ab.GetType() == typeof(BlastOff))
+                    if (ab.GetType() == typeof(BlastOff))
                     {
+                        indexBoost = c.Abilities.IndexOf(ab);
                     }
                 }
             }
@@ -53,6 +58,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 {
                     if (ab.GetType() == typeof(Slide))
                     {
+                        indexSlide = c.Abilities.IndexOf(ab);
                     }
                 }
             }
@@ -247,6 +253,19 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 return true;
             }
         }
+        else if (type == typeof(UpdateSelectionModeEvent))
+        {
+            var selectMode = (UpdateSelectionModeEvent)eventHandled;
+
+            if (selectMode.SelectionMode.Equals(SelectionMode.MOVEMENT))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         else if (type == typeof(AbilitySelectedEvent) || type == typeof(AbilityClickEvent))
         {
             int abilityIndex = 2;
@@ -326,7 +345,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         {
             var selectMode = (UpdateSelectionModeEvent)@event;
 
-            if (currentStep == 2 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            if (currentStep == 2 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexCat].CanUseAbility(indexScratch))
             {
                 //third step
                 Execute();
@@ -336,12 +355,12 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 //Fourth Step continued
                 Execute();
             }
-            else if (currentStep == 5 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            else if (currentStep == 5 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexPengwin].CanUseAbility(indexSlide))
             {
                 //Fifth Step
                 Execute();
             }
-            else if (currentStep == 7 && selectMode.SelectionMode.Equals(SelectionMode.FREE))
+            else if (currentStep == 7 && selectMode.SelectionMode.Equals(SelectionMode.FREE) && !characters[indexCat].CanUseAbility(indexBoost))
             {
                 //Completion
                 Execute();
