@@ -16,10 +16,10 @@ public sealed class StatPanelController : IStatPanelController
         StatDisplays[1].SetMaxValueText(Mathf.CeilToInt(CharacterStats["moves"].BaseValue).ToString());
 
         StatDisplays[2].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["attack"].CurrentValue).ToString());
-        StatDisplays[2].SetMaxValueText(" / " + Mathf.CeilToInt(CharacterStats["attack"].BaseValue).ToString());
+        StatDisplays[2].SetMaxValueText(CheckAttackBuff());
 
         StatDisplays[3].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["defense"].CurrentValue).ToString());
-        StatDisplays[3].SetMaxValueText(" / " + Mathf.CeilToInt(CharacterStats["defense"].BaseValue).ToString());
+        StatDisplays[3].SetMaxValueText(CheckDefenseBuff());
     }
 
     public string CheckAttackBuff()
