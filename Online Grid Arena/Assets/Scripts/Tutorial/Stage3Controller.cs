@@ -11,6 +11,9 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     private bool stageFailedFlag;
     private readonly int indexCat;
     private readonly int indexPengwin;
+    private readonly int indexScratch;
+    private readonly int indexSlide;
+    private readonly int indexBoost;
 
     private const string TEXT_STEP_2 = "Press or click Q to attack Pengwin";
     private const string TEXT_STEP_3 = "Select Pengwin (CLICK)";
@@ -33,16 +36,18 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
         foreach (ICharacterController c in characters)
         {
-            if(c.Character is RocketCat)
+            if (c.Character.GetType() == typeof(RocketCat))
             {
                 indexCat = characters.IndexOf(c);
-                foreach(IAbility ab in c.Abilities)
+                foreach (IAbility ab in c.Abilities)
                 {
-                    if (ab is Scratch)
+                    if (ab.GetType() == typeof(Scratch))
                     {
+                        indexScratch = c.Abilities.IndexOf(ab);
                     }
-                    if(ab.GetType() == typeof(BlastOff))
+                    if (ab.GetType() == typeof(BlastOff))
                     {
+                        indexBoost = c.Abilities.IndexOf(ab);
                     }
                 }
             }
@@ -53,6 +58,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 {
                     if (ab.GetType() == typeof(Slide))
                     {
+                        indexSlide = c.Abilities.IndexOf(ab);
                     }
                 }
             }
