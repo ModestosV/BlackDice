@@ -71,7 +71,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
     private void HandleStep1()
     {
-        var arrow = arrows.Select(x => x.GameObject.tag == "CatArrow" ? x : null).ToList();
+        var arrow = arrows.Select(x => x.GameObject.CompareTag("CatArrow") ? x : null).ToList();
 
         foreach (ArrowIndicator obj in arrow)
         {
@@ -87,11 +87,11 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_2;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrow")
+            if (arrow.GameObject.CompareTag("TutorialArrow"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "CatArrow")
+            else if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Hide();
             }
@@ -104,7 +104,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
         foreach (ArrowIndicator obj in arrows)
         {
-            if (obj.tag == "PengwinArrow")
+            if (obj.CompareTag("PengwinArrow"))
             {
                 obj.Show();
             }
@@ -126,11 +126,11 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "PengwinArrow")
+            else if (arrow.GameObject.CompareTag("PengwinArrow"))
             {
                 arrow.Hide();
             }
@@ -152,7 +152,7 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "CatArrow")
+            if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Show();
             }
@@ -168,11 +168,11 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_6;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Show();
             }
-            else if (arrow.GameObject.tag == "CatArrow")
+            else if (arrow.GameObject.CompareTag("CatArrow"))
             {
                 arrow.Hide();
             }
@@ -184,11 +184,11 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_4;
         foreach (ArrowIndicator arrow in arrows)
         {
-            if (arrow.GameObject.tag == "TutorialArrowW")
+            if (arrow.GameObject.CompareTag("TutorialArrowW"))
             {
                 arrow.Hide();
             }
-            else if (arrow.GameObject.tag == "PengwinArrow")
+            else if (arrow.GameObject.CompareTag("PengwinArrow"))
             {
                 arrow.Show();
             }

@@ -49,8 +49,9 @@ public class FindMissingScriptsRecursively : EditorWindow
                 Transform t = g.transform;
                 while (t.parent != null)
                 {
-                    s = t.parent.name + "/" + s;
-                    t = t.parent;
+                    var parent = t.parent;
+                    s = parent.name + "/" + s;
+                    t = parent;
                 }
                 Debug.Log(s + " has an empty script attached in position: " + i, g);
             }

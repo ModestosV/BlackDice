@@ -23,15 +23,19 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
     public GameObject Obstruction { get; private set; }
 
     private HexTileController hexTileController;
+    private static readonly int Healing = Animator.StringToHash("Healing");
+    private static readonly int Damage = Animator.StringToHash("Damage");
 
     private void Awake()
     {
         Obstruction = materials.Obstruction;
 
         invalidTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/Red_X"), this.transform);
-        Vector3 translation = (Camera.main.transform.position - invalidTile.transform.position);
+        var position = invalidTile.transform.position;
+        Vector3 translation = (Camera.main.transform.position - position);
         translation.y *= 1.2f;
-        invalidTile.transform.position += translation.normalized * 8.0f;
+        position += translation.normalized * 8.0f;
+        invalidTile.transform.position = position;
         invalidTile.SetActive(false);
 
         affectedTile = Instantiate(Resources.Load<GameObject>("Prefabs/HUD/AffectedTile"), this.transform);
@@ -113,22 +117,22 @@ public sealed class HexTile : BlackDiceMonoBehaviour, IHexTile
 
     public void ShowDamagedTarget()
     {
-        tileAnimator.SetBool("Healing", false);
-        tileAnimator.SetBool("Damage", true);
+        tileAnimator.SetBool(Healing, false);
+        tileAnimator.SetBool(Damage, true);
         tileAnimator.Play("Damage", -1, 0);
     }
 
     public void ShowHealedTarget()
     {
-        tileAnimator.SetBool("Healing", true);
-        tileAnimator.SetBool("Damage", false);
+        tileAnimator.SetBool(Healing, true);
+        tileAnimator.SetBool(Damage, false);
         tileAnimator.Play("Healing", -1, 0);
     }
 
     public void ClearTargetIndicators()
     {
-        tileAnimator.SetBool("Healing", false);
-        tileAnimator.SetBool("Damage", false);
+        tileAnimator.SetBool(Healing, false);
+        tileAnimator.SetBool(Damage, false);
         tileAnimator.Play("Idle", -1, 0);
         invalidTile.SetActive(false);
     }

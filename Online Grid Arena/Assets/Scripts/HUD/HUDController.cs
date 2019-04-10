@@ -12,6 +12,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
     private readonly IAbilityPanelController abilityPanelController;
 
     private readonly EndTurnButton endTurnButton;
+    private static readonly int IsPulsing = Animator.StringToHash("isPulsing");
 
     public HUDController(IStatPanelController selectedStatPanel, 
         IPlayerPanel selectedPlayerPanel, 
@@ -60,7 +61,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
 
     public void PulseEndTurnButton()
     {
-        endTurnButton.Animator.SetBool("isPulsing", true);
+        endTurnButton.Animator.SetBool(IsPulsing, true);
         Debug.Log("End Turn Button Animation Pulse start.");
     }
 
@@ -69,7 +70,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(StartNewTurnEvent))
         {
-            endTurnButton.Animator.SetBool("isPulsing", false);
+            endTurnButton.Animator.SetBool(IsPulsing, false);
             Debug.Log("End Turn Button Animation Pulse stop.");
         }
     }

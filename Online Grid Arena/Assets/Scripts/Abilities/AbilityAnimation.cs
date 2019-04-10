@@ -11,14 +11,18 @@ public class AbilityAnimation : MonoBehaviour
         image = GetComponentInChildren<Image>();
 
         Camera camera = Camera.main;
-        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
-        transform.position = Vector3.MoveTowards(transform.position, camera.transform.position, 1.5f);
+        var rotation = camera.transform.rotation;
+        var position = transform.position;
+
+        transform.LookAt(position + rotation * Vector3.forward, rotation * Vector3.up);
+        transform.position = Vector3.MoveTowards(position, camera.transform.position, 1.5f);
     }
 
     void Update()
     {
-        image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - fadeOutSpeed * Time.deltaTime);
-        
+        var color = image.color;
+        image.color = new Color(color.r, color.g, color.b, color.a - fadeOutSpeed * Time.deltaTime);
+
         if (image.color.a <= 0.0f)
         {
             Destroy(gameObject);

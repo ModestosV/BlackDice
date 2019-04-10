@@ -10,12 +10,13 @@ public class ScaleTiles : BlackDiceMonoBehaviour
     private void Awake()
     {
         parent = transform.parent;
-        Debug.Log(parent.localScale.x);
-        Debug.Log(parent.localScale.y);
-        Debug.Log(parent.localScale.z);
-        scaleX = 0.19f / (parent.localScale.x);
-        scaleY = 0.19f / (parent.localScale.y);
-        scaleZ = 1 / (parent.localScale.z);
+        var localScale = parent.localScale;
+        Debug.Log(localScale.x);
+        Debug.Log(localScale.y);
+        Debug.Log(localScale.z);
+        scaleX = 0.19f / (localScale.x);
+        scaleY = 0.19f / (localScale.y);
+        scaleZ = 1 / (localScale.z);
     }
 
     private void Update()

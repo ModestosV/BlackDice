@@ -25,8 +25,16 @@ public class DemoController : MonoBehaviour
 
     public Text nameText;
 
+    // Used for performance reasons, see: https://blog.jetbrains.com/dotnet/2019/02/28/performance-inspections-unity-code-rider/
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int Hit = Animator.StringToHash("Hit");
+    private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    private static readonly int Leave = Animator.StringToHash("Leave");
+    private static readonly int IsDead = Animator.StringToHash("isDead");
 
-	void Start()
+
+    void Start()
 	{
 		SetCharacter(0);
 	}
@@ -53,7 +61,7 @@ public class DemoController : MonoBehaviour
 				transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(stickDirection, Vector3.up), rotationDegreePerSecond * Time.deltaTime);
 			GetComponent<Rigidbody>().velocity = transform.forward * speedOut * walkspeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
 
-			animator.SetFloat("Speed", speedOut);
+			animator.SetFloat(Speed, speedOut);
 		}
 	}
 
@@ -69,7 +77,7 @@ public class DemoController : MonoBehaviour
 			if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && !isAttacking)
 			{
 				isAttacking = true;
-				animator.SetTrigger("Attack");
+				animator.SetTrigger(Attack);
 				StartCoroutine(StopAttack(1));
                 TryDamageTarget();
 
@@ -79,11 +87,11 @@ public class DemoController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.N) && !isAttacking)
             {
                 isAttacking = true;
-                animator.SetTrigger("Hit");
+                animator.SetTrigger(Hit);
                 StartCoroutine(StopAttack(1));
             }
 
-            animator.SetBool("isAttacking", isAttacking);
+            animator.SetBool(IsAttacking, isAttacking);
 
 			//switch character
 
@@ -110,7 +118,7 @@ public class DemoController : MonoBehaviour
             {
                 if (ContainsParam(animator,"Leave"))
                 {
-                    animator.SetTrigger("Leave");
+                    animator.SetTrigger(Leave);
                     StartCoroutine(StopAttack(1f));
                 }
             }
@@ -118,7 +126,7 @@ public class DemoController : MonoBehaviour
 
 	}
     GameObject target;
-
+   
     private void TryDamageTarget()
     {
         target = null;
@@ -148,7 +156,7 @@ public class DemoController : MonoBehaviour
     public void DealDamage(DealDamageComponent comp)
     {
         if (target == null) return;
-        target.GetComponent<Animator>().SetTrigger("Hit");
+        target.GetComponent<Animator>().SetTrigger(Hit);
         var hitFX = Instantiate(comp.hitFX);
         hitFX.transform.position = target.transform.position + new Vector3(0, target.GetComponentInChildren<SkinnedMeshRenderer>().bounds.center.y,0);
     }
@@ -161,7 +169,7 @@ public class DemoController : MonoBehaviour
 
     private IEnumerator Selfdestruct()
     {
-        animator.SetTrigger("isDead");
+        animator.SetTrigger(IsDead);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         dead = true;
 

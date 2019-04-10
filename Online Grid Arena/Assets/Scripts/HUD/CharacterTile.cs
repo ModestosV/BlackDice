@@ -18,6 +18,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private GameObject silenceIndicator;
 
     private GameObject abilityPanel;
+    private static readonly int Active = Animator.StringToHash("Active");
 
     private void Awake()
     {
@@ -69,12 +70,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 
     private void ShowActive()
     {
-        activeAnimator.SetBool("Active", true);
+        activeAnimator.SetBool(Active, true);
     }
 
     private void HideActive()
     {
-        activeAnimator.SetBool("Active", false);
+        activeAnimator.SetBool(Active, false);
     }
 
     private void ShowDead()
