@@ -9,14 +9,12 @@ public class TextInformationManager : MonoBehaviour
 
     [SerializeField]
     private Text infoBlob;
-
-    private List<GameObject> tiles;
+    
     private List<string> infoSegment;
     private int nextInfo;
 
     void Start()
     {
-        tiles = new List<GameObject>();
         infoSegment = new List<string>();
         nextInfo = -1;
         StartInfoSegment(textInformation);
@@ -49,11 +47,6 @@ public class TextInformationManager : MonoBehaviour
             nextInfo++;
         }
 
-        if (tiles.Count > 0)
-        {
-            GameObject tile = tiles[nextInfo];
-        }
-
         string info = infoSegment[nextInfo];
         infoBlob.text = info;
         Debug.Log("Next info displayed");
@@ -69,11 +62,6 @@ public class TextInformationManager : MonoBehaviour
         else
         {
             nextInfo--;
-        }
-
-        if (tiles.Count > 0)
-        {
-            GameObject tile = tiles[nextInfo];
         }
 
         string info = infoSegment[nextInfo];

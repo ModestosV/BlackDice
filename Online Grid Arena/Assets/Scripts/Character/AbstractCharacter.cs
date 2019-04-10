@@ -26,7 +26,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     private bool following = false;
     private int targetIndex;
     private Vector3 currentWaypoint;
-    private IHexTile targetTile;
     private List<IHexTileController> path;
 
     bool isIdle;
@@ -76,7 +75,6 @@ public abstract class AbstractCharacter : BlackDiceMonoBehaviour, ICharacter, IE
     public void FollowPath(List<IHexTileController> path, IHexTile targetTile)
     {
         this.path = path;
-        this.targetTile = targetTile;
         targetIndex = 0;
         gameObject.transform.SetParent(targetTile.GameObject.transform);
         currentWaypoint = path[0].HexTile.GameObject.transform.position;

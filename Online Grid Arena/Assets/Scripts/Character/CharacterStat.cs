@@ -32,7 +32,7 @@ public class CharacterStat : ICharacterStat
     {
         get
         {
-            if (isDirty || lastBaseValue != BaseValue)
+            if (isDirty || Math.Abs(lastBaseValue - BaseValue) > 0.1)
             {
                 lastBaseValue = BaseValue;
                 value = CalculateFinalValue();

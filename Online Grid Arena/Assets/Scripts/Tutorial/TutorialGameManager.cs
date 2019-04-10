@@ -33,7 +33,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
-    private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
     private ControlsMenu controlsMenu;
 
@@ -54,7 +53,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         players = new List<IPlayer>() { new Player("1"), new Player("2") };
 
         // Initialize Menus
-        endMatchMenu = FindObjectOfType<EndMatchMenu>();
         matchMenu = FindObjectOfType<MatchMenu>();
         controlsMenu = FindObjectOfType<ControlsMenu>();
 

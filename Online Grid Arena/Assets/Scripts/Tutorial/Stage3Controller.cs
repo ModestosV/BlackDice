@@ -8,19 +8,15 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
 {
     private readonly List<ICharacterController> characters;
     private readonly ArrowIndicator[] arrows;
-    private readonly List<IPlayer> players;
     private bool stageFailedFlag;
     private readonly int indexCat;
     private readonly int indexPengwin;
-    private readonly int indexScratch;
-    private readonly int indexSlide;
-    private readonly int indexBoost;
 
-    private const String TEXT_STEP_2 = "Press or click Q to attack";
-    private const String TEXT_STEP_3 = "Select Pengwin (CLICK)";
-    private const String TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
-    private const String TEXT_STEP_5 = "Select Rocket Cat again";
-    private const String TEXT_STEP_6 = "Press or click W to use ability";
+    private const string TEXT_STEP_2 = "Press or click Q to attack";
+    private const string TEXT_STEP_3 = "Select Pengwin (CLICK)";
+    private const string TEXT_STEP_4 = "Press or click W to use ability\n(in a straight line)";
+    private const string TEXT_STEP_5 = "Select Rocket Cat again";
+    private const string TEXT_STEP_6 = "Press or click W to use ability";
     private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
 
     private readonly List<Action> stepMethods = new List<Action>();
@@ -33,23 +29,20 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
     {
         this.characters = characters;
         this.arrows = arrows;
-        this.players = players;
         this.stageFailedFlag = false;
 
         foreach (ICharacterController c in characters)
         {
-            if(c.Character.GetType() == typeof(RocketCat))
+            if(c.Character is RocketCat)
             {
                 indexCat = characters.IndexOf(c);
                 foreach(IAbility ab in c.Abilities)
                 {
-                    if (ab.GetType() == typeof(Scratch))
+                    if (ab is Scratch)
                     {
-                        indexScratch = c.Abilities.IndexOf(ab);
                     }
                     if(ab.GetType() == typeof(BlastOff))
                     {
-                        indexBoost = c.Abilities.IndexOf(ab);
                     }
                 }
             }
@@ -60,7 +53,6 @@ public class Stage3Controller : AbstractStageController,IEventSubscriber
                 {
                     if (ab.GetType() == typeof(Slide))
                     {
-                        indexSlide = c.Abilities.IndexOf(ab);
                     }
                 }
             }

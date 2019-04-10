@@ -348,8 +348,10 @@ public class CharacterController : ICharacterController
         if (Abilities[abilityIndex] is AbstractTargetedAbility targetedAbility)
         {
             return targetedAbility.IsInRange(range);
+        }else
+        {
+            return true;
         }
-        return true;
     }
 
     private void CheckExhausted()
@@ -403,9 +405,9 @@ public class CharacterController : ICharacterController
     private void UpdateCooldowns()
     {
         Abilities.ForEach(ability => {
-            if (ability is IActiveAbility)
+            if (ability is IActiveAbility activeAbility)
             {
-                ((IActiveAbility)ability).UpdateCooldown();
+                activeAbility.UpdateCooldown();
             }
         });
     }
