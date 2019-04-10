@@ -42,49 +42,65 @@ class FeedbackLoginModal extends Component {
 
       var username = document.getElementById("Username").value;
       var password = this.hashInput(document.getElementById("Password").value)
+      if(username !== "" && password !== "")
+      {
 
-      fetch('/account/login',{
-        method:'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body:JSON.stringify({
-          username: username,
-          password: password
+        fetch('/account/login',{
+          method:'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({
+            username: username,
+            password: password
+          })
+        }).then((r) => r.json())
+        .catch((err) => window.location.reload())
+        .then((token) => {
+          
+          if(token === "Email does not exist" || token === "Server error" || token === "Incorrect password")
+          {
+            window.location.reload()
+          } else {
+            
+            fetch('/feedback/all/'+token)
+            .then((r) => r.json())
+            .then(async (feedback) => {
+    
+              this.setState({
+                feedback: feedback.everything
+              })
+    
+    
+              await fetch('/account/logout/token', {
+                method: 'POST',
+                headers: {
+                  'Accept' : 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                  token
+                })
+              })
+    
+              ReactDOM.render(
+                <FeedbackView feedback={this.state.feedback}/>,
+                document.getElementById('root')
+              );
+    
+    
+            })        
+          }
         })
-      }).then((r) => r.json())
-      .then((token) => {
-        
-
-        fetch('/feedback/all/'+token)
-        .then((r) => r.json())
-        .then(async (feedback) => {
-
-          this.setState({
-            feedback: feedback.everything
-          })
-
-
-          await fetch('/account/logout/token', {
-            method: 'POST',
-            headers: {
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-              token
-            })
-          })
-
-          ReactDOM.render(
-            <FeedbackView feedback={this.state.feedback}/>,
-            document.getElementById('root')
-          );
-
-
-        })        
-      })
+      } else {
+        this.setState({ alerts: [
+            <Alert dismissible variant="danger">
+              The feeback was unable to be fetched
+            </Alert>
+          ]
+        });  
+      }
     } catch(err) {
       this.setState({ alerts: [
           <Alert dismissible variant="danger">

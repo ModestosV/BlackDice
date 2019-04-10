@@ -15,7 +15,7 @@ public class ActionHandler : IActionHandler
         {
             targetCharacter.IsShielded = false;
             EventBus.Publish(new StatusEffectEvent("shield", false, targetCharacter));
-            Debug.Log(targetCharacter.ToString() + " target character has a shield. shield has been removed, and no damage has been done.");
+            Debug.Log(targetCharacter + " target character has a shield. shield has been removed, and no damage has been done.");
             return;
         }
         targetCharacter.CharacterStats["health"].CurrentValue -= (baseDamageValue / targetCharacter.CharacterStats["defense"].CurrentValue) * 100;

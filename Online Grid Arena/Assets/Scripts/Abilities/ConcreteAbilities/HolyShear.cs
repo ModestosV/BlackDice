@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class HolyShear : AbstractTargetedAbility
 {
-    private IWoolArmorEffect woolArmorEffect;
+    private readonly IWoolArmorEffect woolArmorEffect;
 
     public HolyShear(ICharacter activeCharacter, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/holyShear"),

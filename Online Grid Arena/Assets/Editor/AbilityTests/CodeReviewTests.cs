@@ -27,8 +27,7 @@ public class CodeReviewTests
 
         characterController.IsAlly(characterController).Returns(true);
 
-        List<ICharacterController> allies = new List<ICharacterController>();
-        allies.Add(characterController);
+        List<ICharacterController> allies = new List<ICharacterController> {characterController};
         characterController.AllAllies().Returns(allies);
 
         sut = new CodeReview(character);

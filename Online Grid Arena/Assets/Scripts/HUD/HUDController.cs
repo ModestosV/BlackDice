@@ -3,15 +3,16 @@ using UnityEngine;
 
 public sealed class HUDController : IHUDController, IEventSubscriber
 {
-    private IStatPanelController selectedStatPanel;
-    private IPlayerPanel selectedPlayerPanel;
+    private readonly IStatPanelController selectedStatPanel;
+    private readonly IPlayerPanel selectedPlayerPanel;
 
-    private IStatPanelController targetStatPanel;
-    private IPlayerPanel targetPlayerPanel;
+    private readonly IStatPanelController targetStatPanel;
+    private readonly IPlayerPanel targetPlayerPanel;
 
-    private IAbilityPanelController abilityPanelController;
+    private readonly IAbilityPanelController abilityPanelController;
 
-    private EndTurnButton endTurnButton;
+    private readonly EndTurnButton endTurnButton;
+    private static readonly int IsPulsing = Animator.StringToHash("isPulsing");
 
     public HUDController(IStatPanelController selectedStatPanel, 
         IPlayerPanel selectedPlayerPanel, 
@@ -60,7 +61,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
 
     public void PulseEndTurnButton()
     {
-        endTurnButton.Animator.SetBool("isPulsing", true);
+        endTurnButton.Animator.SetBool(IsPulsing, true);
         Debug.Log("End Turn Button Animation Pulse start.");
     }
 
@@ -69,7 +70,7 @@ public sealed class HUDController : IHUDController, IEventSubscriber
         var type = @event.GetType();
         if (type == typeof(StartNewTurnEvent))
         {
-            endTurnButton.Animator.SetBool("isPulsing", false);
+            endTurnButton.Animator.SetBool(IsPulsing, false);
             Debug.Log("End Turn Button Animation Pulse stop.");
         }
     }

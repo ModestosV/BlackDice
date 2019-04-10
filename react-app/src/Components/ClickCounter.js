@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class ClickCounter extends Component {
   
   state= {
-    clicks : undefined
+    clicks : undefined,
+    total_clicks : undefined
   }
 
   styleP = {
@@ -18,7 +19,8 @@ class ClickCounter extends Component {
   render() {
     return (
       <span>
-        <p style={this.styleP}>Number of Downloads: {this.state.clicks}</p>
+        <p style={this.styleP}>Number of Downloads for this version: {this.state.clicks}</p>
+        <p style={this.styleP}>Total Number of Downloads for all versions: {this.state.total_clicks}</p>
       </span>
     );
   }
@@ -31,7 +33,8 @@ class ClickCounter extends Component {
     .then((r) => r.json())
     .then((data) => {
       this.setState({
-        clicks : data.total_clicks
+        clicks : parseInt(data.total_clicks),
+        total_clicks: parseInt(data.total_clicks) +  50 + 23 + 14 + 10
       })
     })
   }

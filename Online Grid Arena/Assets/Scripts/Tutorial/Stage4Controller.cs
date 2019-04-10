@@ -11,13 +11,13 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
     private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 4;
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
     private int currentStepIndex = 0;
     private int abilityIndexSelected = -1;
 
-    private ICharacterController rocketCat;
-    private ICharacterController sheepadin;
-    private GridSelectionController gridSelectionController;
+    private readonly ICharacterController rocketCat;
+    private readonly ICharacterController sheepadin;
+    private readonly GridSelectionController gridSelectionController;
 
     public Stage4Controller(ICharacterController sheepadin, ICharacterController rocketCat, GridSelectionController gridSelectionController)
     {
@@ -31,9 +31,9 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.rocketCat.CharacterStats["health"].CurrentValue = 20;
         this.sheepadin.CharacterStats["health"].CurrentValue = 20;
 
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
     }
 
     private void StageFailed()

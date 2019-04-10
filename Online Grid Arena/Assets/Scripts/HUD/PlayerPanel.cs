@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class PlayerPanel : BlackDiceMonoBehaviour, IPlayerPanel
 {

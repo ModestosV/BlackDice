@@ -33,13 +33,13 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         LoadTutorialMenu();
     }
 
-    public void HandleEventBus()
+    private void HandleEventBus()
     {
         EventBus.Reset();
         EventBus.Subscribe<StageCompletedEvent>(this);
     }
 
-    public void LoadTutorialMenu()
+    private void LoadTutorialMenu()
     {
         stagesCompleted = ReadStageCompleted();
 
@@ -81,14 +81,14 @@ public class TutorialMenu: HideableUI, IEventSubscriber
         if (!File.Exists(filepath))
         {
             TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
-            BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
+            BinarySerialization.WriteToBinaryFile(filepath, tutorialSerializedObject);
         }
     }
 
     private void SaveStageCompleted()
     {
         TutorialSerializedObject tutorialSerializedObject = new TutorialSerializedObject() { HighestStageCompleted = stagesCompleted };
-        BinarySerialization.WriteToBinaryFile<TutorialSerializedObject>(filepath, tutorialSerializedObject);
+        BinarySerialization.WriteToBinaryFile(filepath, tutorialSerializedObject);
     }
 
     private int ReadStageCompleted()
