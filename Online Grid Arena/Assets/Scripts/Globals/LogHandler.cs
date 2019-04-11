@@ -2,7 +2,7 @@
 
 public sealed class LogHandler
 {
-    private LogglyNetworkManager logglyNetworkManager;
+    private readonly LogglyNetworkManager logglyNetworkManager;
 
     public LogHandler()
     {

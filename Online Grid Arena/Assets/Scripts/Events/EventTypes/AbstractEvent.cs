@@ -2,7 +2,7 @@
 
 public abstract class AbstractEvent : IEvent
 {
-    public AbstractEvent()
+    protected AbstractEvent()
     {
         Debug.Log(ToString() + " fired");
     }

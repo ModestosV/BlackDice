@@ -18,6 +18,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
     private GameObject silenceIndicator;
 
     private GameObject abilityPanel;
+    private static readonly int Active = Animator.StringToHash("Active");
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         activeIndicator.transform.SetSiblingIndex(0);
         activeAnimator = activeIndicator.GetComponent<Animator>();
         
-        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform) as GameObject;
+        var healthBarObject = Instantiate(Resources.Load<GameObject>("Prefabs/Characters/HealthBar"), this.transform);
         healthBarObject.transform.SetParent(this.transform);
         healthBarObject.transform.localPosition -= new Vector3(0.0f, 37.8f);
         healthBarObject.transform.localScale = new Vector3(0.41f, 1.5f);
@@ -69,12 +70,12 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
 
     private void ShowActive()
     {
-        activeAnimator.SetBool("Active", true);
+        activeAnimator.SetBool(Active, true);
     }
 
     private void HideActive()
     {
-        activeAnimator.SetBool("Active", false);
+        activeAnimator.SetBool(Active, false);
     }
 
     private void ShowDead()
@@ -137,7 +138,7 @@ public sealed class CharacterTile : BlackDiceMonoBehaviour, IEventSubscriber, IP
         character.ClearTargetHUD();
     }
 
-    public void UpdateHealthBar()
+    private void UpdateHealthBar()
     {
         healthBar.SetHealthBarRatio(character.CharacterStats["health"].CurrentValue / character.CharacterStats["health"].Value);
         healthBar.SetHealthText(Mathf.CeilToInt(character.CharacterStats["health"].CurrentValue).ToString(), Mathf.CeilToInt(character.CharacterStats["health"].Value).ToString());

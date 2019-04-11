@@ -168,7 +168,7 @@ public class CharacterStatTests
         statModifiersList.Add(percentMultMod1);
         statModifiersList.Add(percentMultMod2);
 
-        sut = new CharacterStat(10.0f, statModifiersList);;
+        sut = new CharacterStat(10.0f, statModifiersList);
 
         // 10 * (1 + 0.3) * (1 + 0.2) = 10 * 1.3 * 1.2 = 15.6
         Assert.AreEqual(sut.Value, 15.6f, FINAL_VALUE_PRECISION);

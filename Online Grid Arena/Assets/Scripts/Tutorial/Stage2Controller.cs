@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using TMPro;
 
 public class Stage2Controller: AbstractStageController, IEventSubscriber
@@ -10,8 +9,8 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_4 = "After Using all Moves\nClick End Turn";
     private const int STAGE_INDEX = 2;
 
-    private ICharacterController character;
-    private IHexTileController finishTile;
+    private readonly ICharacterController character;
+    private readonly IHexTileController finishTile;
     private SelectionMode selectionMode = SelectionMode.FREE;
 
     public Stage2Controller(ICharacterController character, IHexTileController finishTile)
@@ -22,7 +21,7 @@ public class Stage2Controller: AbstractStageController, IEventSubscriber
 
     private bool CharacterOnFinishTile()
     {
-        return this.character.OccupiedTile == this.finishTile ? true : false;
+        return this.character.OccupiedTile == this.finishTile;
     }
 
     public void Handle(IEvent @event)

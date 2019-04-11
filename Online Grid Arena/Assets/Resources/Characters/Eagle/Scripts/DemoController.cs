@@ -1,16 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class DemoController : MonoBehaviour
 {
-
 	private Animator animator;
 
 	public float walkspeed = 5;
 	private float horizontal;
 	private float vertical;
-	private float rotationDegreePerSecond = 1000;
-	private bool isAttacking = false;
+	private readonly float rotationDegreePerSecond = 1000;
+	private bool isAttacking;
 
 	public GameObject gamecam;
 	public Vector2 camPosition;
@@ -18,17 +18,25 @@ public class DemoController : MonoBehaviour
 
 
 	public GameObject[] characters;
-	public int currentChar = 0;
+	public int currentChar;
 
     public GameObject[] targets;
     public float minAttackDistance;
 
-    public UnityEngine.UI.Text nameText;
+    public Text nameText;
+
+    // Used for performance reasons, see: https://blog.jetbrains.com/dotnet/2019/02/28/performance-inspections-unity-code-rider/
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int Attack = Animator.StringToHash("Attack");
+    private static readonly int Hit = Animator.StringToHash("Hit");
+    private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+    private static readonly int Leave = Animator.StringToHash("Leave");
+    private static readonly int IsDead = Animator.StringToHash("isDead");
 
 
-	void Start()
+    void Start()
 	{
-		setCharacter(0);
+		SetCharacter(0);
 	}
 
 	void FixedUpdate()
@@ -53,7 +61,7 @@ public class DemoController : MonoBehaviour
 				transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(stickDirection, Vector3.up), rotationDegreePerSecond * Time.deltaTime);
 			GetComponent<Rigidbody>().velocity = transform.forward * speedOut * walkspeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
 
-			animator.SetFloat("Speed", speedOut);
+			animator.SetFloat(Speed, speedOut);
 		}
 	}
 
@@ -69,9 +77,9 @@ public class DemoController : MonoBehaviour
 			if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && !isAttacking)
 			{
 				isAttacking = true;
-				animator.SetTrigger("Attack");
-				StartCoroutine(stopAttack(1));
-                tryDamageTarget();
+				animator.SetTrigger(Attack);
+				StartCoroutine(StopAttack(1));
+                TryDamageTarget();
 
 
             }
@@ -79,46 +87,47 @@ public class DemoController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.N) && !isAttacking)
             {
                 isAttacking = true;
-                animator.SetTrigger("Hit");
-                StartCoroutine(stopAttack(1));
+                animator.SetTrigger(Hit);
+                StartCoroutine(StopAttack(1));
             }
 
-            animator.SetBool("isAttacking", isAttacking);
+            animator.SetBool(IsAttacking, isAttacking);
 
 			//switch character
 
 			if (Input.GetKeyDown("left"))
 			{
-				setCharacter(-1);
+				SetCharacter(-1);
 				isAttacking = true;
-				StartCoroutine(stopAttack(1f));
+				StartCoroutine(StopAttack(1f));
 			}
 
 			if (Input.GetKeyDown("right"))
 			{
-				setCharacter(1);
+				SetCharacter(1);
 				isAttacking = true;
-				StartCoroutine(stopAttack(1f));
+				StartCoroutine(StopAttack(1f));
 			}
 
 			// death
 			if (Input.GetKeyDown("m"))
-				StartCoroutine(selfdestruct());
+				StartCoroutine(Selfdestruct());
 
             //Leave
             if (Input.GetKeyDown("l"))
             {
-                if (this.ContainsParam(animator,"Leave"))
+                if (ContainsParam(animator,"Leave"))
                 {
-                    animator.SetTrigger("Leave");
-                    StartCoroutine(stopAttack(1f));
+                    animator.SetTrigger(Leave);
+                    StartCoroutine(StopAttack(1f));
                 }
             }
         }
 
 	}
-    GameObject target = null;
-    public void tryDamageTarget()
+    GameObject target;
+   
+    private void TryDamageTarget()
     {
         target = null;
         float targetDistance = minAttackDistance + 1;
@@ -146,23 +155,21 @@ public class DemoController : MonoBehaviour
     }
     public void DealDamage(DealDamageComponent comp)
     {
-        if (target != null)
-        {
-            target.GetComponent<Animator>().SetTrigger("Hit");
-            var hitFX = Instantiate<GameObject>(comp.hitFX);
-            hitFX.transform.position = target.transform.position + new Vector3(0, target.GetComponentInChildren<SkinnedMeshRenderer>().bounds.center.y,0);
-        }
+        if (target == null) return;
+        target.GetComponent<Animator>().SetTrigger(Hit);
+        var hitFX = Instantiate(comp.hitFX);
+        hitFX.transform.position = target.transform.position + new Vector3(0, target.GetComponentInChildren<SkinnedMeshRenderer>().bounds.center.y,0);
     }
 
-    public IEnumerator stopAttack(float length)
+    private IEnumerator StopAttack(float length)
 	{
 		yield return new WaitForSeconds(length); 
 		isAttacking = false;
 	}
 
-    public IEnumerator selfdestruct()
+    private IEnumerator Selfdestruct()
     {
-        animator.SetTrigger("isDead");
+        animator.SetTrigger(IsDead);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         dead = true;
 
@@ -174,12 +181,13 @@ public class DemoController : MonoBehaviour
                 Application.LoadLevel(Application.loadedLevelName);
                 yield break;
             }
-            else
-                yield return 0;
+
+            yield return 0;
 
         }
     }
-    public void setCharacter(int i)
+
+    private void SetCharacter(int i)
 	{
 		currentChar += i;
 
@@ -204,11 +212,11 @@ public class DemoController : MonoBehaviour
 		animator = GetComponentInChildren<Animator>();
     }
 
-    public bool ContainsParam(Animator _Anim, string _ParamName)
+    private bool ContainsParam(Animator anim, string paramName)
     {
-        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        foreach (AnimatorControllerParameter param in anim.parameters)
         {
-            if (param.name == _ParamName) return true;
+            if (param.name == paramName) return true;
         }
         return false;
     }

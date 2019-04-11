@@ -4,8 +4,7 @@ public class PortraitAbility : BlackDiceMonoBehaviour, IPointerEnterHandler, IPo
 {
     private AbilityTooltip tooltip;
 
-    public string Description { get; set; }
-    public int Index { get; set; }
+    public string Description { private get; set; }
 
     void Start()
     {

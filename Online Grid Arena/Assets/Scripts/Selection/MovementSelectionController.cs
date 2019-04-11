@@ -69,7 +69,6 @@ public sealed class MovementSelectionController : AbstractSelectionController
         {
             path[i].Highlight();
         }
-        return;
     }
 
     protected override void DoHoverOccupiedTile()

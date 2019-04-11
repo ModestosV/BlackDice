@@ -5,9 +5,9 @@ public class AbilityButton : BlackDiceMonoBehaviour, IPointerClickHandler, IPoin
 {
     private AbilityTooltip tooltip;
 
-    public string Description { get; set; }
-    public int Cooldown { get; set; }
-    public int Index { get; set; }
+    public string Description { private get; set; }
+    public int Cooldown { private get; set; }
+    public int Index { private get; set; }
 
     void Start()
     {

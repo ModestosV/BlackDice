@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class CharacterController : ICharacterController
 {
@@ -11,7 +12,7 @@ public class CharacterController : ICharacterController
     public List<IAbility> Abilities { get; set; }
     public List<IEffect> Effects { get; set; }
 
-    private int MovesRemaining { get { return (int)CharacterStats["moves"].CurrentValue; } }
+    private int MovesRemaining => (int)CharacterStats["moves"].CurrentValue;
 
     public string Owner { get; set; }
     public Texture CharacterIcon { get; set; }
@@ -31,11 +32,8 @@ public class CharacterController : ICharacterController
 
     public bool IsShielded
     {
-        get { return shield.enabled; }
-        set
-        {
-            shield.enabled = value;
-        }
+        get => shield.enabled;
+        set => shield.enabled = value;
     }
     public ICharacter Character { get; }
     public CharacterState CharacterState { get; set; }
@@ -227,7 +225,6 @@ public class CharacterController : ICharacterController
             }
             catch (InvalidCastException)
             {
-                continue;
             }
         }
 
@@ -290,7 +287,7 @@ public class CharacterController : ICharacterController
             {
                 CharacterStats[ef.Key].BaseValue -= ef.Value;
             }
-            this.CharacterStats[ef.Key.ToString()].CurrentValue -= ef.Value;
+            this.CharacterStats[ef.Key].CurrentValue -= ef.Value;
         }
     }
 
@@ -348,9 +345,7 @@ public class CharacterController : ICharacterController
 
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        AbstractTargetedAbility targetedAbility = Abilities[abilityIndex] as AbstractTargetedAbility;
-
-        if (targetedAbility != null)
+        if (Abilities[abilityIndex] is AbstractTargetedAbility targetedAbility)
         {
             return targetedAbility.IsInRange(range);
         }else
@@ -395,7 +390,7 @@ public class CharacterController : ICharacterController
 
     public List<ICharacterController> AllAllies()
     {
-        List<AbstractCharacter> characters = new List<AbstractCharacter>(GameObject.FindObjectsOfType<AbstractCharacter>());
+        List<AbstractCharacter> characters = new List<AbstractCharacter>(Object.FindObjectsOfType<AbstractCharacter>());
         List<ICharacterController> allies = new List<ICharacterController>();
         foreach (AbstractCharacter ac in characters)
         {
@@ -410,9 +405,9 @@ public class CharacterController : ICharacterController
     private void UpdateCooldowns()
     {
         Abilities.ForEach(ability => {
-            if (ability is IActiveAbility)
+            if (ability is IActiveAbility activeAbility)
             {
-                ((IActiveAbility)ability).UpdateCooldown();
+                activeAbility.UpdateCooldown();
             }
         });
     }

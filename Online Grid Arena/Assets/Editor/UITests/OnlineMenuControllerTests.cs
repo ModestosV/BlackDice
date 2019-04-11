@@ -43,7 +43,7 @@ public class OnlineMenuControllerTests
             Validator = new Validator()
         };
 
-        validPasswordHash = BlackDiceHash.Hash(VALID_PASSWORD).ToString();
+        validPasswordHash = BlackDiceHash.Hash(VALID_PASSWORD);
     }
 
     [Test]

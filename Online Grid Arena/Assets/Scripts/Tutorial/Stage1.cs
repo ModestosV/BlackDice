@@ -9,7 +9,7 @@ public class Stage1 : HideableUI
 
     public void CompleteStage1()
     {
-        EventBus.Publish<StageCompletedEvent>(new StageCompletedEvent(1));
+        EventBus.Publish(new StageCompletedEvent(1));
         SceneManager.LoadScene(2);
     }
 }

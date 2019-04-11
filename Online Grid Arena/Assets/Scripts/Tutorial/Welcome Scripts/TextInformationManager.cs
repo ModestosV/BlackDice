@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,20 +9,18 @@ public class TextInformationManager : MonoBehaviour
 
     [SerializeField]
     private Text infoBlob;
-
-    private List<GameObject> tiles;
+    
     private List<string> infoSegment;
     private int nextInfo;
 
     void Start()
     {
-        tiles = new List<GameObject>();
         infoSegment = new List<string>();
         nextInfo = -1;
         StartInfoSegment(textInformation);
     }
 
-    public void StartInfoSegment(TextInformation textInfo)
+    private void StartInfoSegment(TextInformation textInfo)
     {
         Debug.Log("Information accessed");
 
@@ -50,11 +47,6 @@ public class TextInformationManager : MonoBehaviour
             nextInfo++;
         }
 
-        if (tiles.Count > 0)
-        {
-            GameObject tile = tiles[nextInfo];
-        }
-
         string info = infoSegment[nextInfo];
         infoBlob.text = info;
         Debug.Log("Next info displayed");
@@ -70,11 +62,6 @@ public class TextInformationManager : MonoBehaviour
         else
         {
             nextInfo--;
-        }
-
-        if (tiles.Count > 0)
-        {
-            GameObject tile = tiles[nextInfo];
         }
 
         string info = infoSegment[nextInfo];
