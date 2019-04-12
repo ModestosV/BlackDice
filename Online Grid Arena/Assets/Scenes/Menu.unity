@@ -3383,7 +3383,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: "CREDITS\n\nDevelopers\nModestos Glykis-Vergados\nMarc-Andr\xE9 Dragon\nNicholas
     Chassion-Palacios\nMathieu Leblanc\nRyan Lee\nGeorge Theophanous\nPatrick Todd\n\nRocket-Cat
-    Design\nNim Ben-Eliyahu\n\nStakeholder\nVoula Theophanous\n\nThank You To\nPeter
+    Design\nNaomi Ben-Eliyahu\n\nStakeholder\nVoula Theophanous\n\nThank You To\nPeter
     Rigby\nEhsan Mirsaeedi"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ec1977a10e6dd5e459b981ff595f13fc, type: 2}
@@ -3454,7 +3454,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: -2.285492, z: 0, w: 0.000030517578}
   m_textInfo:
     textComponent: {fileID: 643773222}
-    characterCount: 254
+    characterCount: 256
     spriteCount: 0
     spaceCount: 33
     wordCount: 30
