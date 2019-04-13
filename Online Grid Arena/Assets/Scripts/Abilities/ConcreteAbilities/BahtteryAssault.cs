@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BahtteryAssault : AbstractActiveAbility
+public class BahtteryAssault : ActiveAbility
 {
     private readonly IWoolArmorEffect woolArmorEffect;
     private const int BASE_VALUE = 45;

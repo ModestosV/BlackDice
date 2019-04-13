@@ -14,13 +14,13 @@ public enum AbilityType
     TARGET_AOE
 }
 
-public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargetedAbility
+public abstract class TargetedAbility : ActiveAbility, ITargetedAbility
 {
     public AbilityType Type { get; }
 
     private readonly int range;
 
-    protected AbstractTargetedAbility(
+    protected TargetedAbility(
         Sprite abilityIcon,
         GameObject animationPrefab,
         AudioClip soundEffect,

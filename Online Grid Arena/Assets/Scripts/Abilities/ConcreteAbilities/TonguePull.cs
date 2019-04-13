@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public sealed class TonguePull : AbstractTargetedAbility
+public sealed class TonguePull : TargetedAbility
 {
     public TonguePull(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/tonguePull"),

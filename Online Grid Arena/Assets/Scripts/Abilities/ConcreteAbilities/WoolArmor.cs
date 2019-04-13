@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class WoolArmor : AbstractPassiveAbility
+public sealed class WoolArmor : PassiveAbility
 {
     public WoolArmor(ICharacter activeCharacter, IEffect effect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/wool"),

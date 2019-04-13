@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class Scratch : AbstractTargetedAbility
+public sealed class Scratch : TargetedAbility
 {
     private readonly IAbility passive;
 

@@ -7,9 +7,9 @@ public sealed class RocketCat : AbstractCharacter
     {
         base.Awake();
 
-        IEffect catScratchFever = new CatScratchFever();
+        IEffect catScratchFever = new CatScratchFeverEffect();
 
-        IAbility catScratchFeverAbility = new CatScratchFeverAbility(this, catScratchFever);
+        IAbility catScratchFeverAbility = new CatScratchFever(this, catScratchFever);
         IAbility scratch = new Scratch(this, catScratchFeverAbility);
         IAbility blastoff = new BlastOff(this);
         IAbility kamikaze = new Kamikaze(this);

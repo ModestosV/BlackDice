@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class CatScratchFever : StackModifier
+public sealed class CatScratchFeverEffect : StackModifier
 {
-    public CatScratchFever() : base(
+    public CatScratchFeverEffect() : base(
         EffectType.STACK,
         3,
         5,

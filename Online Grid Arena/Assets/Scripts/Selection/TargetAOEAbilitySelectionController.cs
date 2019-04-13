@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public sealed class TargetAOEAbilitySelectionController : AbstractTileAbilitySelectionController
+public sealed class TargetAOEAbilitySelectionController : AbstractAbilitySelectionController
 {
     public TargetAOEAbilitySelectionController(IGridSelectionController gridSelectionController) : base(gridSelectionController)
     {

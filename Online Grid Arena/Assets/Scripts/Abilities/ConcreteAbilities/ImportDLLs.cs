@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ImportDLLs : AbstractActiveAbility
+public class ImportDLLs : ActiveAbility
 {
     public ImportDLLs(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/importDLL"),

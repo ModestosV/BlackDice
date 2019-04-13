@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class DefaultAttack : AbstractTargetedAbility
+public sealed class DefaultAttack : TargetedAbility
 {
     public DefaultAttack(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/cursorSword_gold"),

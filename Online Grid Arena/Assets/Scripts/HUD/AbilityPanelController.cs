@@ -33,7 +33,7 @@ public class AbilityPanelController : IAbilityPanelController, IEventSubscriber
     {
         for (int i = 0; i < abilities.Count; i++)
         {
-            if (abilities[i].GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
+            if (abilities[i].GetType().IsSubclassOf(typeof(ActiveAbility)))
             {
                 IActiveAbility ability = (IActiveAbility)abilities[i];
 

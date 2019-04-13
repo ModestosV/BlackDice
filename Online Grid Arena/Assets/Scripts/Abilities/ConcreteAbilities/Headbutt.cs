@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Headbutt : AbstractTargetedAbility
+public sealed class Headbutt : TargetedAbility
 {
     public Headbutt(ICharacter activeCharacter, IEffect effect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/headButt"),

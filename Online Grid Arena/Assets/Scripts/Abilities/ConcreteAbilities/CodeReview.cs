@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class CodeReview : AbstractActiveAbility
+public class CodeReview : ActiveAbility
 {
     public CodeReview(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/codeReview"),

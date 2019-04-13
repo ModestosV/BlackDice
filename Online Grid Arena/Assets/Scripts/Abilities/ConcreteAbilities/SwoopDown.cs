@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class SwoopDown : AbstractTargetedAbility
+public sealed class SwoopDown : TargetedAbility
 {
     public SwoopDown(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/swoopDown"),

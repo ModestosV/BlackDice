@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Slide : AbstractTargetedAbility
+public class Slide : TargetedAbility
 {
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;

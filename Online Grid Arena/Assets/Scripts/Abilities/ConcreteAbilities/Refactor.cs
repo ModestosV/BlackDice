@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Refactor : AbstractTargetedAbility
+public sealed class Refactor : TargetedAbility
 {
     public Refactor(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/Refactor"),

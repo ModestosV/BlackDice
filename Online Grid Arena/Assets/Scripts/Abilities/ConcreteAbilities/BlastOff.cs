@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BlastOff : AbstractTargetedAbility
+public class BlastOff : TargetedAbility
 {
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;

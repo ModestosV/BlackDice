@@ -2,7 +2,7 @@
 
 public class EffectTests
 { 
-    CatScratchFever sut;
+    CatScratchFeverEffect sut;
 
     const int DURATION = 6;
     const int ZERO = 0;
@@ -12,7 +12,7 @@ public class EffectTests
     [SetUp]
     public void Init()
     {
-        sut = new CatScratchFever();
+        sut = new CatScratchFeverEffect();
     }
 
     [Test]

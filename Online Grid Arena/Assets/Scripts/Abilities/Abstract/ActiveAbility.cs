@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
+public abstract class ActiveAbility : AbstractAbility, IActiveAbility
 {
     public int Cooldown { get; }
     public int CooldownRemaining => cooldownRemaining;
@@ -10,7 +10,7 @@ public abstract class AbstractActiveAbility : AbstractAbility, IActiveAbility
     private readonly GameObject animationPrefab;
     private int cooldownRemaining;
     
-    protected AbstractActiveAbility(
+    protected ActiveAbility(
         Sprite abilityIcon,
         GameObject animationPrefab,
         AudioClip soundEffect,

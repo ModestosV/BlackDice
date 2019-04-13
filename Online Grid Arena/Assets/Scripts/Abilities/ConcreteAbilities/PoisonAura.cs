@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public sealed class PoisonAura : AbstractPassiveAbility
+public sealed class PoisonAura : PassiveAbility
 {
     private readonly GameObject animationPrefab;
     private readonly AudioClip soundEffect;

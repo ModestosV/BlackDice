@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class FlakyTests : AbstractTargetedAbility
+public class FlakyTests : TargetedAbility
 {
     public FlakyTests(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/flakytests"),

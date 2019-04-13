@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class HolyShear : AbstractTargetedAbility
+public class HolyShear : TargetedAbility
 {
     private readonly IWoolArmorEffect woolArmorEffect;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Accusation : AbstractTargetedAbility
+public class Accusation : TargetedAbility
 {
     public Accusation(ICharacter character) : base(
         Resources.Load<Sprite>("Sprites/Abilities/accusation"),

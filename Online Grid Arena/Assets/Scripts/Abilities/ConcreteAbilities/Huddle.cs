@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Huddle : AbstractActiveAbility
+public class Huddle : ActiveAbility
 {
     private const float DEFENSE_BONUS_AMOUNT = 20.0f;
 

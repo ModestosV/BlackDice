@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Hop : AbstractTargetedAbility
+public class Hop : TargetedAbility
 {
     private readonly GameObject damageAnimation;
     private readonly AudioClip damageClip;

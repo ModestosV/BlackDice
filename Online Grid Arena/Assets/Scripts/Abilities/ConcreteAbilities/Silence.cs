@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Silence : AbstractTargetedAbility
+public class Silence : TargetedAbility
 {
     public Silence(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/silence"),

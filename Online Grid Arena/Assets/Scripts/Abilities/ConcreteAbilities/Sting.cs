@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-public sealed class Sting : AbstractTargetedAbility
+public sealed class Sting : TargetedAbility
 {
     public Sting(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/sting"),

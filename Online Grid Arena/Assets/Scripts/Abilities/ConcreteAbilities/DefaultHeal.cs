@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class DefaultHeal : AbstractTargetedAbility
+public sealed class DefaultHeal : TargetedAbility
 {
     public DefaultHeal(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Heal_Icon"),

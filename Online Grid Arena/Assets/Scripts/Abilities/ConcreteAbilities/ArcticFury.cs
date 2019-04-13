@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
+public sealed class ArcticFury : TargetedAbility, IEventSubscriber
 {
     private bool hasSomeoneDied = false;
     private const int ROUNDS = 3;

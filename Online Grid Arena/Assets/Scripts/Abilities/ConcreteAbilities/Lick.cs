@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Lick : AbstractTargetedAbility
+public sealed class Lick : TargetedAbility
 {
     public Lick(ICharacter activeCharacter) : base(
         Resources.Load<Sprite>("Sprites/Abilities/lick"),

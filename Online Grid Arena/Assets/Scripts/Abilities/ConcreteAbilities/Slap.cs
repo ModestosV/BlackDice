@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public sealed class Slap : AbstractTargetedAbility
+public sealed class Slap : TargetedAbility
 {
     private const int MAX_EXTRA_SLAPS = 3;
 

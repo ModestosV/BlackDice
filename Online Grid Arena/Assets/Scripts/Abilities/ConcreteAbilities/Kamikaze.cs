@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Kamikaze : AbstractTargetedAbility
+public class Kamikaze : TargetedAbility
 {
     // need secondary animation/sound for landing
     private readonly GameObject damageAnimation;

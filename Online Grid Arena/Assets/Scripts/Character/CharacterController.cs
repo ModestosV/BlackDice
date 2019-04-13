@@ -345,7 +345,7 @@ public class CharacterController : ICharacterController
 
     public bool IsAbilityInRange(int abilityIndex, int range)
     {
-        if (Abilities[abilityIndex] is AbstractTargetedAbility targetedAbility)
+        if (Abilities[abilityIndex] is TargetedAbility targetedAbility)
         {
             return targetedAbility.IsInRange(range);
         }else
@@ -367,7 +367,7 @@ public class CharacterController : ICharacterController
     {
         try
         {
-            AbstractTargetedAbility ability = (AbstractTargetedAbility) Abilities[abilityIndex];
+            TargetedAbility ability = (TargetedAbility) Abilities[abilityIndex];
             return ability.Type;
         }
         catch (InvalidCastException)

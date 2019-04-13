@@ -48,9 +48,9 @@ public class AbilityPanel : HideableUI, IAbilityPanel
             abilityImage.sprite = ability.AbilityIcon;
             abilityImage.color = new Color(1, 1, 1, 1);
 
-            if (ability.GetType().IsSubclassOf(typeof(AbstractActiveAbility)))
+            if (ability.GetType().IsSubclassOf(typeof(ActiveAbility)))
             {
-                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((AbstractActiveAbility)ability).Cooldown;
+                AbilityButtons[i].GetComponent<AbilityButton>().Cooldown = ((ActiveAbility)ability).Cooldown;
                 AbilityButtons[i].GetComponentsInChildren<Image>()[0].sprite = activeButtonSprite;
                 AbilityButtons[i].GetComponentsInChildren<Image>()[2].sprite = activeButtonSprite;
             }
