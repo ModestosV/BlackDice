@@ -8,7 +8,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_1 = "Click On Sheepadin";
     private const string TUTORIAL_STEP_2 = "Press W";
     private const string TUTORIAL_STEP_3 = "Heal one or both";
-    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
+    private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 4;
 
     private readonly List<Action> stepMethods = new List<Action>();
