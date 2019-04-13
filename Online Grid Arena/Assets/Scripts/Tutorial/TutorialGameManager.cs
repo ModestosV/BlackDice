@@ -396,11 +396,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         // Events for the current tutorial stage
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<StartNewTurnEvent>(stageController);
-        EventBus.Subscribe<ActiveCharacterEvent>(stageController);
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<AbilityClickEvent>(stageController);
-        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
         EventBus.Subscribe<SelectCharacterEvent>(stageController);
+        EventBus.Subscribe<AbilityUsedEvent>(stageController);
+        EventBus.Subscribe<SelectTileEvent>(stageController);
 
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
