@@ -292,7 +292,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<SelectTileEvent>(stageController);
-        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
 
         StartGame();
     }

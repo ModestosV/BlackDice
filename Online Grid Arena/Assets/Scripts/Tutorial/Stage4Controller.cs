@@ -7,8 +7,8 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 {
     private const string TUTORIAL_STEP_1 = "Click On Sheepadin";
     private const string TUTORIAL_STEP_2 = "Press W";
-    private const string TUTORIAL_STEP_3 = "Heal Both characters";
-    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
+    private const string TUTORIAL_STEP_3 = "Heal one or both characters";
+    private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 4;
 
     private readonly List<Action> stepMethods = new List<Action>();
@@ -38,6 +38,7 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
     private void StageFailed()
     {
+        currentStepIndex = 0;
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
         EventBus.Publish(new SurrenderEvent());
     }
@@ -79,12 +80,12 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
     private void HandleStep3()
     {
-        if (sheepadin.CharacterStats["health"].CurrentValue.Equals(sheepadin.CharacterStats["health"].BaseValue) && rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue))
+        if (sheepadin.CharacterStats["health"].CurrentValue.Equals(sheepadin.CharacterStats["health"].BaseValue) || rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue))
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
             CompleteStage(STAGE_INDEX);
         }
-        else if (sheepadin.IsExhausted())
+        else
         {
             StageFailed();
         }
