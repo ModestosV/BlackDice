@@ -347,11 +347,17 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         {
             if (characterController.Owner.Equals("1"))
             {
-                players[0].AddCharacterController(characterController);
+                if(characterController.Character.GetType().Equals(typeof(RigBeeStinger)))
+                {
+                    players[0].AddCharacterController(characterController);
+                }
             }
             else
             {
-                players[1].AddCharacterController(characterController);
+                 if(characterController.Character.GetType().Equals(typeof(TAEagle)))
+                {
+                    players[1].AddCharacterController(characterController);
+                }
             }
         }
 
@@ -401,6 +407,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<SelectCharacterEvent>(stageController);
         EventBus.Subscribe<AbilityUsedEvent>(stageController);
         EventBus.Subscribe<SelectTileEvent>(stageController);
+        EventBus.Subscribe<BuffCheckEvent>(stageController);
 
         EventBus.Subscribe<AbilityClickEvent>(inputManager);
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
