@@ -15,7 +15,7 @@ public sealed class AngryEffect : StackModifier
     {
         Name = "Angry";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/angry");
-        Description = "Increases Attack by 20";
+        Description = "Increases Attack by 20 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()

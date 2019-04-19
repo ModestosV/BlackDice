@@ -79,7 +79,7 @@ public class AbilityPanel : HideableUI, IAbilityPanel
         foreach (IEffect effect in effects)
         {
             Stacks[i].GetComponentsInChildren<Image>().Last().sprite = effect.EffectIcon;
-            Stacks[i].GetComponent<EffectStack>().Description = effect.Description;
+            Stacks[i].GetComponent<EffectStack>().Description = effect.GetName()+ "\n"+effect.Description;
 
             if (effect.Type == EffectType.STACK)
             {
