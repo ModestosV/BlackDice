@@ -12,7 +12,7 @@ public sealed class Sting : AbstractTargetedAbility
         1,
         5,
         AbilityType.TARGET_ENEMY,
-        "Sting - Basic Attack \nProfessor Rig-Bee stings an enemy from up to 5 tiles away, dealing his attack stat in damage to them. Reducing the current cooldown of all his other abilities by 1.")
+        "Sting - Basic Attack \nProfessor Rig-Bee stings an enemy from up to 5 tiles away, dealing his attack stat in damage to them. Reduces the current cooldown of all his other abilities by 1.")
     { }
 
     protected override void PrimaryAction(List<IHexTileController> targetTiles)

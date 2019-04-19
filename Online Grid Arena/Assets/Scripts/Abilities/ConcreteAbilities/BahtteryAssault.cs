@@ -5,7 +5,7 @@ using UnityEngine;
 public class BahtteryAssault : AbstractActiveAbility
 {
     private readonly IWoolArmorEffect woolArmorEffect;
-    private const int BASE_VALUE = 20;
+    private const int BASE_VALUE = 10;
 
     public BahtteryAssault(ICharacter character, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/sheepUlt"),
@@ -36,12 +36,12 @@ public class BahtteryAssault : AbstractActiveAbility
     private void DropWoolBomb(IHexTileController targetTile)
     {
         PlayAnimation(targetTile);
-        actionHandler.Damage(10.0f, targetTile.OccupantCharacter);
+        actionHandler.Damage(BASE_VALUE, targetTile.OccupantCharacter);
 
         foreach (IHexTileController tile in targetTile.GetNeighbors())
         {
             PlayAnimation(tile);
-            actionHandler.Damage(10.0f,tile.OccupantCharacter);
+            actionHandler.Damage(BASE_VALUE, tile.OccupantCharacter);
         }
 
         if (targetTile.IsOccupied() && targetTile.OccupantCharacter.IsAlly(this.character.Controller))
