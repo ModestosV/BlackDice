@@ -2,9 +2,9 @@
 
 public abstract class StackModifier : AbstractEffect
 {
-    public int MaxStacks { get; set; }
+    protected int MaxStacks { get; }
     public int Stacks { get; set; }
-    public Dictionary<string, float> StatModifier { get; }
+    protected Dictionary<string, float> StatModifier { get; }
 
     protected StackModifier(EffectType type, int duration, int maxStacks, Dictionary<string, float> statModifier) : base(type, duration)
     {

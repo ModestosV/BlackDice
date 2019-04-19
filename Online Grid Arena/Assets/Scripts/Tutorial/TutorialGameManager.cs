@@ -8,7 +8,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 {
     [SerializeField] private int tutorialStageIndex;
 
-    private List<Action> tutorialStageStartMethods = new List<Action>();
+    private readonly List<Action> tutorialStageStartMethods = new List<Action>();
 
     private TurnController turnController;
     private HUDController hudController;
@@ -33,7 +33,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private SelectionManager selectionManager;
 
     private InputManager inputManager;
-    private EndMatchMenu endMatchMenu;
     private MatchMenu matchMenu;
     private ControlsMenu controlsMenu;
 
@@ -54,7 +53,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         players = new List<IPlayer>() { new Player("1"), new Player("2") };
 
         // Initialize Menus
-        endMatchMenu = FindObjectOfType<EndMatchMenu>();
         matchMenu = FindObjectOfType<MatchMenu>();
         controlsMenu = FindObjectOfType<ControlsMenu>();
 
@@ -254,7 +252,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(abilityPanelController);
 
         // Pengwin's Ultimate must handle DeathEvent
-        var pengwin = characterControllers.Find(x => x.Character.GetType().Equals(typeof(Pengwin)));
+        var pengwin = characterControllers.Find(x => x.Character is Pengwin);
         EventBus.Subscribe<DeathEvent>((IEventSubscriber)pengwin.Abilities[3]);
 
         StartGame();
@@ -294,7 +292,6 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<SelectTileEvent>(stageController);
-        EventBus.Subscribe<ExhaustCharacterEvent>(stageController);
 
         StartGame();
     }
@@ -302,10 +299,11 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     private void StartStageBuff()
     {
         //Set players and character's panels
+        
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
-        players[0].AddCharacterController(characterControllers[0]);
-        players[1].AddCharacterController(characterControllers[1]);
+        players[0].AddCharacterController(characterControllers[1]);
         players[1].AddCharacterController(characterControllers[2]);
+        players[1].AddCharacterController(characterControllers[0]);
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
         characterPanels[1].CharacterTiles[0].Setup(players[1].CharacterControllers[1]);
         characterPanels[1].CharacterTiles[1].Setup(players[1].CharacterControllers[0]);
@@ -327,7 +325,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         InitializeSharedSubscriptions();
 
-        Stage5Controller stageController = new Stage5Controller(characterControllers[0], characterControllers[2], characterControllers[1], gridSelectionController);
+        Stage5Controller stageController = new Stage5Controller(characterControllers[1], characterControllers[2], characterControllers[0], gridSelectionController);
         EventBus.Subscribe<BuffCheckEvent>(stageController);
         EventBus.Subscribe<AbilitySelectedEvent>(stageController);
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
@@ -341,17 +339,17 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
     {
         Debug.Log(ToString() + " Start() begin");
 
-        tutorialStageStartMethods.Add(() => this.StartStageMovement());
-        tutorialStageStartMethods.Add(() => this.StartStageAttack());
-        tutorialStageStartMethods.Add(() => this.StartStageHeal());
-        tutorialStageStartMethods.Add(() => this.StartStageBuff());
+        tutorialStageStartMethods.Add(this.StartStageMovement);
+        tutorialStageStartMethods.Add(this.StartStageAttack);
+        tutorialStageStartMethods.Add(this.StartStageHeal);
+        tutorialStageStartMethods.Add(this.StartStageBuff);
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
         Debug.Log(ToString() + " Start() end");
     }
 
-    public void ExitStage()
+    private void ExitStage()
     {
         SceneManager.LoadScene(2);
     }
@@ -362,7 +360,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         if (type == typeof(StageCompletedEvent) || type == typeof(SurrenderEvent))
         {
-            Invoke("ExitStage", 3);
+            Invoke(nameof(ExitStage), 3);
         }
     }
 }

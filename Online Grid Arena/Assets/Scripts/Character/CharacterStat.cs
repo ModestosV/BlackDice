@@ -12,7 +12,7 @@ using System.Collections.Generic;
 public class CharacterStat : ICharacterStat
 {
     public float BaseValue { get; set; }
-    protected float currentValue;
+    private float currentValue;
     public float CurrentValue
     {
         get
@@ -20,19 +20,19 @@ public class CharacterStat : ICharacterStat
             currentValue = Mathf.Clamp(currentValue, 0.0f, Value);
             return currentValue;
         }
-        set { currentValue = Mathf.Clamp(value, 0.0f, Value); }
+        set => currentValue = Mathf.Clamp(value, 0.0f, Value);
     }
     public List<IStatModifier> StatModifiers { get; set; }
 
-    protected bool isDirty = true;
-    protected float lastBaseValue;
-    protected float value;
+    private bool isDirty = true;
+    private float lastBaseValue;
+    private float value;
 
     public virtual float Value
     {
         get
         {
-            if (isDirty || lastBaseValue != BaseValue)
+            if (isDirty || Math.Abs(lastBaseValue - BaseValue) > 0.1)
             {
                 lastBaseValue = BaseValue;
                 value = CalculateFinalValue();
@@ -40,10 +40,7 @@ public class CharacterStat : ICharacterStat
             }
             return value;
         }
-        set
-        {
-            Value = value;
-        }
+        protected set => Value = value;
     }
 
     public CharacterStat() : this(0.0f, new List<IStatModifier>())
@@ -116,7 +113,7 @@ public class CharacterStat : ICharacterStat
         var modifiersString = string.Join("|", StatModifiers.Select(mod => mod.ToString()).ToArray());
         var fieldsString = string.Join(", ", BaseValue, Value, modifiersString == "" ? "null" : modifiersString);
 
-        return string.Format("(CharacterStat|{0}: {1})", this.GetHashCode(), fieldsString);
+        return $"(CharacterStat|{this.GetHashCode()}: {fieldsString})";
     }
 
     protected virtual int CompareModifierOrder(IStatModifier a, IStatModifier b)

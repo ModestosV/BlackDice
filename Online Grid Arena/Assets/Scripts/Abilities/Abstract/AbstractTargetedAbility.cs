@@ -18,7 +18,7 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
 {
     public AbilityType Type { get; }
 
-    protected readonly int range;
+    private readonly int range;
 
     protected AbstractTargetedAbility(
         Sprite abilityIcon,
@@ -34,7 +34,7 @@ public abstract class AbstractTargetedAbility : AbstractActiveAbility, ITargeted
         Type = type;
     }
 
-    protected override abstract void PrimaryAction(List<IHexTileController> targetTiles);
+    protected abstract override void PrimaryAction(List<IHexTileController> targetTiles);
 
     public bool IsInRange(int range)
     {

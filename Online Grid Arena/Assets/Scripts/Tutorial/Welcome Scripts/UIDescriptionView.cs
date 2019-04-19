@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UIDescriptionView : HideableUI
+﻿public class UIDescriptionView : HideableUI
 {
     private bool view;
 

@@ -1,9 +1,9 @@
 ﻿
 public sealed class FeedbackMenuController : IFeedbackMenuController
 {
-    private IFeedbackPanel feedbackPanel;
-    private IFeedbackNetworkManager feedbackNetworkManager;
-    private IValidator validator;
+    private readonly IFeedbackPanel feedbackPanel;
+    private readonly IFeedbackNetworkManager feedbackNetworkManager;
+    private readonly IValidator validator;
 
     public FeedbackMenuController(
         IFeedbackPanel feedbackPanel,

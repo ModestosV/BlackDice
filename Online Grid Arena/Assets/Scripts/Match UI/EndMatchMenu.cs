@@ -7,18 +7,18 @@ public sealed class EndMatchMenu : HideableUI, IEventSubscriber {
     void OnValidate()
     {
         text = GetComponentInChildren<Text>();
-        base.Init();
+        Init();
         Hide();
     }
 
     void Awake()
     {
         text = GetComponentInChildren<Text>();
-        base.Init();
+        Init();
         Hide();
     }
 
-    public void SetWinnerText(string winnerText)
+    private void SetWinnerText(string winnerText)
     {
         text.text = winnerText;
     }

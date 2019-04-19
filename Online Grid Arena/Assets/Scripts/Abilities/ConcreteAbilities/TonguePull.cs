@@ -15,7 +15,7 @@ public sealed class TonguePull : AbstractTargetedAbility
         "Tongue Pull - Special Ability \nAgent Frog pulls an opponent or ally towards himself using his tongue. Damages opponents only, for 100% of his attack value. Range: 6")
     { }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         Debug.Log("Casting Tongue Pull. Primary action being called.");
         if (targetTiles.Count > 1)

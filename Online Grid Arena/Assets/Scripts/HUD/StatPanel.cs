@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class StatPanel : BlackDiceMonoBehaviour, IStatPanel
 {
-    protected StatPanelController controller;
+    private StatPanelController controller;
 
     void Awake()
     {
@@ -18,8 +17,5 @@ public class StatPanel : BlackDiceMonoBehaviour, IStatPanel
         controller.DisableStatDisplays();
     }
 
-    public IStatPanelController Controller
-    {
-        get { return controller; }
-    }
+    public IStatPanelController Controller => controller;
 }

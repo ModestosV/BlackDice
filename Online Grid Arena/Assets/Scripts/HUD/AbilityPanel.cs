@@ -33,9 +33,9 @@ public class AbilityPanel : HideableUI, IAbilityPanel
 
     public void SetAbilityColorDefaultToAll()
     {
-        for (int i = 0; i < AbilityButtons.Count; i++)
+        foreach (var abilityButton in AbilityButtons)
         {
-            AbilityButtons[i].GetComponentsInChildren<Image>()[0].color = new Color(0.95f, 0.95f, 0.95f, 1f);
+            abilityButton.GetComponentsInChildren<Image>()[0].color = new Color(0.95f, 0.95f, 0.95f, 1f);
         }
     }
 

@@ -16,9 +16,9 @@ public sealed class HexTileController : IHexTileController
     public IHexTile HexTile { get; set; }
     public ICharacterController OccupantCharacter { get; set; }
 
-    public int X { get { return Coordinates.Item1; } }
-    public int Y { get { return Coordinates.Item2; } }
-    public int Z { get { return Coordinates.Item3; } }
+    public int X => Coordinates.Item1;
+    public int Y => Coordinates.Item2;
+    public int Z => Coordinates.Item3;
 
     public void Select()
     {
@@ -258,7 +258,7 @@ public sealed class HexTileController : IHexTileController
                 {
                     if (neighbor.IsOccupied()) 
                     {
-                        if (neighbor.Coordinates != goalTile.Coordinates) 
+                        if (!neighbor.Coordinates.Equals(goalTile.Coordinates)) 
                         {
                             closed.Add(neighbor.Coordinates); //say byebye to that tile
                             continue;

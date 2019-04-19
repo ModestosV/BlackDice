@@ -7,17 +7,17 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 {
     private const string TUTORIAL_STEP_1 = "Click On Sheepadin";
     private const string TUTORIAL_STEP_2 = "Press W";
-    private const string TUTORIAL_STEP_3 = "Heal Both characters";
-    private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
+    private const string TUTORIAL_STEP_3 = "Heal one or both characters";
+    private const string STAGE_FAILED = "Stage Failed!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 4;
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
     private int currentStepIndex = 0;
     private int abilityIndexSelected = -1;
 
-    private ICharacterController rocketCat;
-    private ICharacterController sheepadin;
-    private GridSelectionController gridSelectionController;
+    private readonly ICharacterController rocketCat;
+    private readonly ICharacterController sheepadin;
+    private readonly GridSelectionController gridSelectionController;
 
     public Stage4Controller(ICharacterController sheepadin, ICharacterController rocketCat, GridSelectionController gridSelectionController)
     {
@@ -31,13 +31,14 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
         this.rocketCat.CharacterStats["health"].CurrentValue = 20;
         this.sheepadin.CharacterStats["health"].CurrentValue = 20;
 
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
     }
 
     private void StageFailed()
     {
+        currentStepIndex = 0;
         GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_FAILED;
         EventBus.Publish(new SurrenderEvent());
     }
@@ -79,12 +80,12 @@ public class Stage4Controller : AbstractStageController, IEventSubscriber
 
     private void HandleStep3()
     {
-        if (sheepadin.CharacterStats["health"].CurrentValue.Equals(sheepadin.CharacterStats["health"].BaseValue) && rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue))
+        if (sheepadin.CharacterStats["health"].CurrentValue.Equals(sheepadin.CharacterStats["health"].BaseValue) || rocketCat.CharacterStats["health"].CurrentValue.Equals(rocketCat.CharacterStats["health"].BaseValue))
         {
             GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = STAGE_COMPLETE;
             CompleteStage(STAGE_INDEX);
         }
-        else if (sheepadin.IsExhausted())
+        else
         {
             StageFailed();
         }

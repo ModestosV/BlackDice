@@ -2,7 +2,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using UnityEngine;
 
 public abstract class AbstractNetworkManager : INetworkManager
 {
@@ -13,7 +12,7 @@ public abstract class AbstractNetworkManager : INetworkManager
     {
     }
 
-    protected AbstractNetworkManager(string endpoint, HttpClient client)
+    private AbstractNetworkManager(string endpoint, HttpClient client)
     {
         this.endpoint = endpoint;
         this.client = client;
@@ -21,7 +20,7 @@ public abstract class AbstractNetworkManager : INetworkManager
 
     public async Task<HttpResponseMessage> PostAsync(string targetRequestUrl, string messageBody)
     {
-       HttpResponseMessage response = null;
+       HttpResponseMessage response;
         try
         {
             response = await client.PostAsync(endpoint + targetRequestUrl, new StringContent(messageBody, Encoding.UTF8, "application/json"));

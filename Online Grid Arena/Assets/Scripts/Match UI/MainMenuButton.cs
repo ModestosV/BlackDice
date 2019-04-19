@@ -16,8 +16,8 @@ public sealed class MainMenuButton : MonoBehaviour
         button = GetComponent<Button>();
         button.onClick.AddListener(LoadMainMenu);
 	}
-	
-	public void LoadMainMenu()
+
+    private void LoadMainMenu()
     {
         AudioSource music = FindObjectOfType<AudioSource>();
         if (music != null)

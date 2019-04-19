@@ -11,11 +11,11 @@ public enum SelectionMode
 public sealed class SelectionManager : ISelectionManager, IEventSubscriber
 {
 
-    private Dictionary<string, ISelectionController> selectionControllers;
+    private readonly Dictionary<string, ISelectionController> selectionControllers;
     private SelectionMode selectionMode = SelectionMode.FREE;
     private ISelectionController activeSelectionController;
-    private ITurnController turnController;
-    private IGridSelectionController gridSelectionController;
+    private readonly ITurnController turnController;
+    private readonly IGridSelectionController gridSelectionController;
     private int lastAbilityIndex = -1;
 
     public SelectionManager(ITurnController turnController, IGridSelectionController gridSelectionController, Dictionary<string, ISelectionController> selectionControllers)
@@ -45,13 +45,9 @@ public sealed class SelectionManager : ISelectionManager, IEventSubscriber
         }
         else if (inputParameters.IsKeyFDown && SelectedCharacterCanMove())
         {
-            if (selectionMode == SelectionMode.MOVEMENT)
-            {
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.FREE));
-            } else
-            {
-                EventBus.Publish(new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
-            }
+            EventBus.Publish(selectionMode == SelectionMode.MOVEMENT
+                ? new UpdateSelectionModeEvent(SelectionMode.FREE)
+                : new UpdateSelectionModeEvent(SelectionMode.MOVEMENT));
         }
         else if (inputParameters.IsKeyTDown)
         {

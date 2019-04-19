@@ -9,7 +9,7 @@ public abstract class HideableUI : BlackDiceMonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();    
     }
 
-    public void Init()
+    protected void Init()
     {
         Awake();
     }

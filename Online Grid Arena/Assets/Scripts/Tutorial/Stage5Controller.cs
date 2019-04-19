@@ -12,7 +12,7 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string TUTORIAL_STEP_5 = "Click on Pengwin";
     private const string TUTORIAL_STEP_6 = "Press E to Buff\nNearby Ally";
     private const string TUTORIAL_STEP_7 = "Check Buff";
-    private const string TUTORIAL_STEP_8 = "Click on DefaultCharacter";
+    private const string TUTORIAL_STEP_8 = "Click on Sheepadin";
     private const string TUTORIAL_STEP_9 = "Check Buff";
     private const string TUTORIAL_STEP_10 = "Click on Pengwin";
     private const string TUTORIAL_STEP_11 = "Press R";
@@ -22,18 +22,18 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
     private const string STAGE_FAILED = "Stage Failed!\nWrong attack used!\nRedirecting Tutorial";
     private const int STAGE_INDEX = 5;
 
-    private ICharacterController rocketCat;
-    private ICharacterController pengwin;
-    private ICharacterController defaultCharacter;
-    private GridSelectionController gridSelectionController;
+    private readonly ICharacterController rocketCat;
+    private readonly ICharacterController pengwin;
+    private readonly ICharacterController defaultCharacter;
+    private readonly GridSelectionController gridSelectionController;
 
-    private List<Action> stepMethods = new List<Action>();
+    private readonly List<Action> stepMethods = new List<Action>();
 
     private int currentStepIndex = 0;
 
     private int abilityIndexSelected = -1;
     private SelectionMode selectionMode = SelectionMode.FREE;
-    private ArrowIndicator arrowIndicator;
+    private readonly ArrowIndicator arrowIndicator;
     private bool buffChecked = false;
 
     public Stage5Controller(ICharacterController rocketCat, ICharacterController pengwin, ICharacterController defaultCharacter, GridSelectionController gridSelectionController)
@@ -51,20 +51,20 @@ public class Stage5Controller : AbstractStageController, IEventSubscriber
         this.pengwin.CharacterStats["moves"].BaseValue = 0;
         this.defaultCharacter.CharacterStats["moves"].BaseValue = 0;
 
-        stepMethods.Add(() => this.HandleStep1());
-        stepMethods.Add(() => this.HandleStep2());
-        stepMethods.Add(() => this.HandleStep3());
-        stepMethods.Add(() => this.HandleStep4());
-        stepMethods.Add(() => this.HandleStep5());
-        stepMethods.Add(() => this.HandleStep6());
-        stepMethods.Add(() => this.HandleStep7());
-        stepMethods.Add(() => this.HandleStep8());
-        stepMethods.Add(() => this.HandleStep9());
-        stepMethods.Add(() => this.HandleStep10());
-        stepMethods.Add(() => this.HandleStep11());
-        stepMethods.Add(() => this.HandleStep12());
-        stepMethods.Add(() => this.HandleStep13());
-        stepMethods.Add(() => this.HandleStep14());
+        stepMethods.Add(this.HandleStep1);
+        stepMethods.Add(this.HandleStep2);
+        stepMethods.Add(this.HandleStep3);
+        stepMethods.Add(this.HandleStep4);
+        stepMethods.Add(this.HandleStep5);
+        stepMethods.Add(this.HandleStep6);
+        stepMethods.Add(this.HandleStep7);
+        stepMethods.Add(this.HandleStep8);
+        stepMethods.Add(this.HandleStep9);
+        stepMethods.Add(this.HandleStep10);
+        stepMethods.Add(this.HandleStep11);
+        stepMethods.Add(this.HandleStep12);
+        stepMethods.Add(this.HandleStep13);
+        stepMethods.Add(this.HandleStep14);
         stepMethods.Add(() => CompleteStage(STAGE_INDEX));
     }
 

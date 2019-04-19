@@ -28,7 +28,7 @@ public sealed class ArcticFury : AbstractTargetedAbility, IEventSubscriber
         }
     }
 
-    protected async override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         hasSomeoneDied = false;
 
