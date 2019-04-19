@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BahtteryAssault : AbstractActiveAbility
 {
     private readonly IWoolArmorEffect woolArmorEffect;
-    private const int BASE_VALUE = 45;
-    private const int NUMBER_OF_TILES = 15;
+    private const int BASE_VALUE = 20;
 
     public BahtteryAssault(ICharacter character, IWoolArmorEffect woolArmorEffect) : base(
         Resources.Load<Sprite>("Sprites/Abilities/sheepUlt"),
@@ -13,46 +13,47 @@ public class BahtteryAssault : AbstractActiveAbility
         Resources.Load<AudioClip>("Audio/Ability/goat-bleat"),
         character,
         2,
-        $"\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks and assaults {NUMBER_OF_TILES} random tiles on the map. Allies and enemies hit are healed or damaged for {BASE_VALUE}*(amount of wool lost).")
+        $"\"Bah\"ttery Assault - Ultimate Ability \nSheepadin consumes half of his wool armor stacks, and drops twice as many wool bombs within a 1 tile radius of himself. Each bomb deals 10 damage where it lands in an aoe.")
     {
         this.woolArmorEffect = woolArmorEffect;
     }
 
-    protected override void PrimaryAction(List<IHexTileController> targetTiles)
+    protected override async void PrimaryAction(List<IHexTileController> targetTiles)
     {
         PlaySoundEffect();
         int stacksToRemove = woolArmorEffect.GetHalfOfStacks();
-        
-        List<IHexTileController> listofAffectedTiles = new List<IHexTileController>();
-        while (listofAffectedTiles.Count < NUMBER_OF_TILES)
-        {
-            IHexTileController randomTile = targetTiles[0].GetRandomTile();
-            if (randomTile != null && !listofAffectedTiles.Contains(randomTile) && !randomTile.IsObstructed && randomTile.X >= -1 && randomTile.X <= 11 && randomTile.Y >= -20 && randomTile.Y <= -8 && randomTile.Z >= 3 && randomTile.Z <= 15)
-            {
-                Debug.Log(randomTile.X + " " + randomTile.Y + " " + randomTile.Z);
-                listofAffectedTiles.Add(randomTile);
-            }
-        }
-        Debug.Log("We have "+ listofAffectedTiles.Count+" tiles");
-        foreach (var affectedTile in listofAffectedTiles)
-        {
-            PlayAnimation(affectedTile);
-            if (affectedTile.IsOccupied())
-            {
-                if (affectedTile.OccupantCharacter.IsAlly(this.character.Controller))
-                {
-                    affectedTile.OccupantCharacter.Heal(stacksToRemove * BASE_VALUE);
-                }
-                else
-                {
-                    actionHandler.Damage(stacksToRemove * BASE_VALUE, affectedTile.OccupantCharacter);
-                }
-            }
-        }
-
+        List<IHexTileController> neighbors = this.character.Controller.OccupiedTile.GetNeighbors();
         for (int i = 0; i < stacksToRemove; i++)
         {
             this.character.Controller.ConsumeOneStack(woolArmorEffect);
+            DropWoolBomb(neighbors[GenerateRandom(neighbors.Count)]);
+            await Task.Delay(100);
+            DropWoolBomb(neighbors[GenerateRandom(neighbors.Count)]);
+            await Task.Delay(100);
         }
+    }
+
+    private void DropWoolBomb(IHexTileController targetTile)
+    {
+        PlayAnimation(targetTile);
+        actionHandler.Damage(10.0f, targetTile.OccupantCharacter);
+
+        foreach (IHexTileController tile in targetTile.GetNeighbors())
+        {
+            PlayAnimation(tile);
+            actionHandler.Damage(10.0f,tile.OccupantCharacter);
+        }
+
+        if (targetTile.IsOccupied() && targetTile.OccupantCharacter.IsAlly(this.character.Controller))
+        {
+
+        }
+
+    }
+
+    private int GenerateRandom(int range)
+    {
+        System.Random randomizer = new System.Random();
+        return randomizer.Next(0, range);
     }
 }
