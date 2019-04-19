@@ -43,12 +43,6 @@ public class BahtteryAssault : AbstractActiveAbility
             PlayAnimation(tile);
             actionHandler.Damage(BASE_VALUE, tile.OccupantCharacter);
         }
-
-        if (targetTile.IsOccupied() && targetTile.OccupantCharacter.IsAlly(this.character.Controller))
-        {
-
-        }
-
     }
 
     private int GenerateRandom(int range)
