@@ -258,7 +258,7 @@ public sealed class HexTileController : IHexTileController
                 {
                     if (neighbor.IsOccupied()) 
                     {
-                        if (neighbor.Coordinates != goalTile.Coordinates) 
+                        if (!neighbor.Coordinates.Equals(goalTile.Coordinates)) 
                         {
                             closed.Add(neighbor.Coordinates); //say byebye to that tile
                             continue;
