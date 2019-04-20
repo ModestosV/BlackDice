@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using TMPro;
-using System.Threading.Tasks;
+
 public class Stage6Controller : AbstractStageController,IEventSubscriber
 {
     private readonly List<ICharacterController> characters;
