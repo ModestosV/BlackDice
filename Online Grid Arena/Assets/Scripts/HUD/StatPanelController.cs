@@ -21,30 +21,6 @@ public sealed class StatPanelController : IStatPanelController
         StatDisplays[3].SetMaxValueText(Mathf.CeilToInt(CharacterStats["defense"].UnchangingStatValue).ToString());
     }
 
-    public string CheckAttackBuff()
-    {
-        if (CharacterStats["attack"].CurrentValue > CharacterStats["attack"].UnchangingStatValue)
-        {
-            return "  / " + Mathf.CeilToInt(CharacterStats["attack"].UnchangingStatValue).ToString();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public string CheckDefenseBuff()
-    {
-        if (CharacterStats["defense"].CurrentValue > CharacterStats["defense"].UnchangingStatValue)
-        {
-            return "  / " + Mathf.CeilToInt(CharacterStats["defense"].UnchangingStatValue).ToString();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public void DisableStatDisplays()
     {
         foreach (IStatDisplay display in StatDisplays)
