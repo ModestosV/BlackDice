@@ -33,7 +33,6 @@ public class Stage7Controller : AbstractStageController, IEventSubscriber
 
     private void HandleAiTurn()
     {
-        // TODO
         Debug.Log("AI's turn");
 
         if (player2.CharacterControllers[0].CharacterState == CharacterState.UNUSED)
@@ -71,6 +70,11 @@ public class Stage7Controller : AbstractStageController, IEventSubscriber
         if (type == typeof(StartNewTurnEvent) && turnController.GetActivePlayer() == player2)
         {
             HandleAiTurn();
+        }
+
+        if (player2.AreAllCharactersDead())
+        {
+            CompleteStage(STAGE_INDEX);
         }
     }
 }
