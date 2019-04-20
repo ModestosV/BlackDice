@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 public class CharacterStat : ICharacterStat
 {
+    public float UnchangingStatValue { get; set; }
     public float BaseValue { get; set; }
     private float currentValue;
     public float CurrentValue
@@ -51,11 +52,13 @@ public class CharacterStat : ICharacterStat
     public CharacterStat(float baseValue) : this(baseValue, new List<IStatModifier>())
     {
         this.BaseValue = baseValue;
+        UnchangingStatValue = baseValue;
     }
 
     public CharacterStat(float baseValue, List<IStatModifier> statModifierList)
     {
         this.BaseValue = baseValue;
+        UnchangingStatValue = baseValue;
         StatModifiers = statModifierList;
     }
 

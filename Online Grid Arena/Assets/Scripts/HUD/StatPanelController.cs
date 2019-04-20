@@ -12,13 +12,13 @@ public sealed class StatPanelController : IStatPanelController
         StatDisplays[0].SetMaxValueText(Mathf.CeilToInt(CharacterStats["health"].Value).ToString());
 
         StatDisplays[1].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["moves"].CurrentValue).ToString());
-        StatDisplays[1].SetMaxValueText(Mathf.CeilToInt(CharacterStats["moves"].Value).ToString());
+        StatDisplays[1].SetMaxValueText(Mathf.CeilToInt(CharacterStats["moves"].BaseValue).ToString());
 
         StatDisplays[2].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["attack"].CurrentValue).ToString());
-        StatDisplays[2].SetMaxValueText("");
+        StatDisplays[2].SetMaxValueText(Mathf.CeilToInt(CharacterStats["attack"].UnchangingStatValue).ToString());
 
         StatDisplays[3].SetCurrentValueText(Mathf.CeilToInt(CharacterStats["defense"].CurrentValue).ToString());
-        StatDisplays[3].SetMaxValueText("");
+        StatDisplays[3].SetMaxValueText(Mathf.CeilToInt(CharacterStats["defense"].UnchangingStatValue).ToString());
     }
 
     public void DisableStatDisplays()
