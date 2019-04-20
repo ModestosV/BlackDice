@@ -185,7 +185,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep5()
+    private void HandleStep5()
     {
         if(type == typeof(SelectCharacterEvent))
         {
@@ -247,7 +247,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
         }
     }
 
-    public void HandleStep7()
+    private void HandleStep7()
     {
         if(currentStep == 6 && eventHandled.GetType().Equals(typeof(SelectTileEvent)))
         {
