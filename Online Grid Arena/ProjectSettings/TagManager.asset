@@ -19,6 +19,11 @@ TagManager:
   - TutorialArrowW
   - TutorialTooltip
   - ArrowIndicator
+  - EagleArrow
+  - BeeArrow
+  - FrogArrow
+  - SheepArrow
+  - EffectArrow
   layers:
   - Default
   - TransparentFX
