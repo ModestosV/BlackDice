@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial/Stage6Effects.unity
     guid: 2a1e029328032ed42992f96a60e16f03
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/Stage7GameFlow.unity
+    guid: 822ab37b9afdb4c3394eff83d15f088a
   m_configObjects: {}
