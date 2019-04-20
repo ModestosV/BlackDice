@@ -25,6 +25,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
 
     private readonly List<Action> stepMethods = new List<Action>();
     private const int STAGE_INDEX = 6;
+    private int failExecutions = 0;
     private int currentStep;
     private int abilitySelected;
     private Type type;
@@ -285,6 +286,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
     private void StageFailed()
     {
         stageFailedFlag = true;
+        failExecutions++;
         foreach (ArrowIndicator arrow in arrows)
         {
             arrow.Hide();
@@ -295,7 +297,10 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
 
     private bool CheckCorrectInput()
     {
-
+        if(stageFailedFlag)
+        {
+            return true;
+        }
         if (type == typeof(StartNewTurnEvent))
         {
             List<int> validNums = new List<int>() { 0, 4, 6, 7 };
@@ -312,7 +317,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
         {
             var selectMode = (UpdateSelectionModeEvent)eventHandled;
 
-            if(selectMode.Equals(SelectionMode.MOVEMENT))
+            if(selectMode.SelectionMode.Equals(SelectionMode.MOVEMENT))
             {
                 return true;
             }
@@ -350,7 +355,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
     }
 
     public void Handle(IEvent @event)
-    {
+    { 
         type = @event.GetType();
         eventHandled = @event;
 
@@ -369,7 +374,7 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
             abilitySelected = abilitySelectedEvent.AbilityIndex;
         }
 
-        if(stageFailedFlag)
+        if(stageFailedFlag && failExecutions <= 0)
         {
             StageFailed();
         }
