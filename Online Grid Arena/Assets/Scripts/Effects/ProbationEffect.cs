@@ -15,7 +15,7 @@ public sealed class ProbationEffect : StackModifier
     {
         Name = "Probation";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/probationEffect");
-        Description = "Reduces Defense by 50";
+        Description = "Reduces Defense by 50 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()

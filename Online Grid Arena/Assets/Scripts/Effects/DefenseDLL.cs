@@ -15,7 +15,7 @@ public sealed class DefenseDLL : StackModifier
     {
         Name = "Defense DLL";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/defenseDLL");
-        Description = "Increases Defense by 5";
+        Description = "Increases Defense by 5 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()

@@ -15,7 +15,7 @@ public sealed class SpeedDLL : StackModifier
     {
         Name = "Speed DLL";
         EffectIcon = Resources.Load<Sprite>("Sprites/Abilities/speedDLL");
-        Description = "Increases Moves by 1";
+        Description = "Increases Moves by 1 per stack";
     }
 
     public override Dictionary<string, float> GetEffects()
