@@ -23,25 +23,25 @@ public sealed class StatPanelController : IStatPanelController
 
     public string CheckAttackBuff()
     {
-        if (CharacterStats["attack"].CurrentValue > CharacterStats["attack"].BaseValue)
+        if (CharacterStats["attack"].CurrentValue > CharacterStats["attack"].UnchangingStatValue)
         {
-            return " / " + Mathf.CeilToInt(CharacterStats["attack"].BaseValue).ToString();
+            return "  / " + Mathf.CeilToInt(CharacterStats["attack"].UnchangingStatValue).ToString();
         }
         else
         {
-            return "TEST";
+            return null;
         }
     }
 
     public string CheckDefenseBuff()
     {
-        if (CharacterStats["defense"].CurrentValue > CharacterStats["defense"].BaseValue)
+        if (CharacterStats["defense"].CurrentValue > CharacterStats["defense"].UnchangingStatValue)
         {
-            return " / " + Mathf.CeilToInt(CharacterStats["defense"].BaseValue).ToString();
+            return "  / " + Mathf.CeilToInt(CharacterStats["defense"].UnchangingStatValue).ToString();
         }
         else
         {
-            return "TEST";
+            return null;
         }
     }
 

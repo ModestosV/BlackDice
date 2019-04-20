@@ -2,6 +2,7 @@
 
 public interface ICharacterStat
 {
+    float UnchangingStatValue { get; set; }
     float BaseValue { get; set; }
     float Value { get; }
     float CurrentValue { get; set; }
