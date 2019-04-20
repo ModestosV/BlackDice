@@ -152,7 +152,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageMovement()
     {
-        //Set players and character's panels
+        // Set players and character's panels
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         players[0].AddCharacterController(characterControllers[0]);
         characterPanels[0].CharacterTiles[0].Setup(players[0].CharacterControllers[0]);
@@ -205,7 +205,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
             }
         }
 
-        //Initialize character panels
+        // Initialize character panels
         characterPanels = FindObjectsOfType<CharacterPanel>().ToList();
         Debug.Log("Character Panels size: " + characterPanels.Count);
         Debug.Log("Character tiles size: " + characterPanels[0].CharacterTiles.Length);
@@ -238,7 +238,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
         // Initialize stage controller
         Stage3Controller stageController = new Stage3Controller(characterControllers, FindObjectsOfType<ArrowIndicator>(), players);
-        
+
         // Events for the current tutorial stage
         EventBus.Subscribe<UpdateSelectionModeEvent>(stageController);
         EventBus.Subscribe<StartNewTurnEvent>(stageController);
@@ -262,7 +262,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageHeal()
     {
-        //Set players and character's panels
+        // Set players and character's panels
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         players[0].AddCharacterController(characterControllers[0]);
         players[0].AddCharacterController(characterControllers[1]);
@@ -298,8 +298,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
 
     private void StartStageBuff()
     {
-        //Set players and character's panels
-        
+        // Set players and character's panels
         characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
         players[0].AddCharacterController(characterControllers[1]);
         players[1].AddCharacterController(characterControllers[2]);
@@ -315,7 +314,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         inputManager.SelectionManager = selectionManager;
 
         // Initialize HUD controller
-        hudController = new HUDController(statPanels[0].Controller, playerPanels[0], statPanels[1].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[1], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
 
         // Initialize characters
         foreach (ICharacterController character in characterControllers)
@@ -335,7 +334,7 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         StartGame();
     }
 
-    public void StartStageEffects()
+    private void StartStageEffects()
     {
         Debug.Log(ToString() + " Start() begin");
 
@@ -346,14 +345,14 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         {
             if (characterController.Owner.Equals("1"))
             {
-                if(characterController.Character.GetType().Equals(typeof(RigBeeStinger)))
+                if (characterController.Character.GetType().Equals(typeof(RigBeeStinger)))
                 {
                     players[0].AddCharacterController(characterController);
                 }
             }
             else
             {
-                 if(characterController.Character.GetType().Equals(typeof(TAEagle)))
+                if (characterController.Character.GetType().Equals(typeof(TAEagle)))
                 {
                     players[1].AddCharacterController(characterController);
                 }
@@ -416,6 +415,58 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         Debug.Log(ToString() + " Start() end");
     }
 
+    private void StartStageGameFlow()
+    {
+        // Set players and character's panels
+        characterControllers = FindObjectsOfType<AbstractCharacter>().Select(x => x.Controller).ToList();
+
+        foreach (ICharacterController characterController in characterControllers)
+        {
+            if (characterController.Owner.Equals("1"))
+            {
+                players[0].AddCharacterController(characterController);
+            }
+            else
+            {
+                players[1].AddCharacterController(characterController);
+            }
+        }
+        // Initialize character panels
+        for (int i = 0; i < characterPanels[0].CharacterTiles.Length; i++)
+        {
+            characterPanels[0].CharacterTiles[i].Setup(players[0].CharacterControllers[i]);
+            characterPanels[1].CharacterTiles[i].Setup(players[1].CharacterControllers[i]);
+        }
+
+        // Initialize turn controller
+        turnController = new TurnController(players);
+
+        selectionManager = new SelectionManager(turnController, gridSelectionController, selectionControllers);
+        inputManager.SelectionManager = selectionManager;
+
+        // Initialize HUD controller
+        hudController = new HUDController(statPanels[1].Controller, playerPanels[1], statPanels[0].Controller, playerPanels[1], abilityPanelController, FindObjectOfType<EndTurnButton>());
+
+        // Initialize characters
+        foreach (ICharacterController character in characterControllers)
+        {
+            character.HUDController = hudController;
+        }
+
+        InitializeSharedSubscriptions();
+
+        StartGame();
+
+        // Ai final tiles
+        IHexTileController eagleFinalTile = grid.GridController.GetTile((5, -16, 11));
+        IHexTileController pengwinFinalTile = grid.GridController.GetTile((4, -15, 11));
+        IHexTileController frogFinalTile = grid.GridController.GetTile((3, -14, 11));
+
+        Stage7Controller stageController = new Stage7Controller(players[1], gridSelectionController, turnController, eagleFinalTile, pengwinFinalTile, frogFinalTile);
+
+        EventBus.Subscribe<StartNewTurnEvent>(stageController);
+    }
+
     private void Start()
     {
         Debug.Log(ToString() + " Start() begin");
@@ -425,6 +476,8 @@ public sealed class TutorialGameManager : MonoBehaviour, IEventSubscriber
         tutorialStageStartMethods.Add(this.StartStageHeal);
         tutorialStageStartMethods.Add(this.StartStageBuff);
         tutorialStageStartMethods.Add(this.StartStageEffects);
+        tutorialStageStartMethods.Add(() => this.StartStageGameFlow());
+
 
         tutorialStageStartMethods[this.tutorialStageIndex].Invoke();
 
