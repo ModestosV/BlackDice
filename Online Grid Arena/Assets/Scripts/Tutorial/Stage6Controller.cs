@@ -189,7 +189,9 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
     {
         if(type == typeof(SelectCharacterEvent))
         {
-            if(currentStep == 4)
+            var temp = (SelectCharacterEvent)eventHandled;
+
+            if(currentStep == 4 && temp.Character.Character.GetType().Equals(typeof(TAEagle)))
             {
                 GameObject.FindWithTag("TutorialTooltip").GetComponent<TextMeshProUGUI>().text = TEXT_STEP_5;
 
@@ -205,6 +207,11 @@ public class Stage6Controller : AbstractStageController,IEventSubscriber
                     }
                 }
                 currentStep++;
+            }
+            else
+            {
+                stageFailedFlag = true;
+                StageFailed();
             }
         }
     }
