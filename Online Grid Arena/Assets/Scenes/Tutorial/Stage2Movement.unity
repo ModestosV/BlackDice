@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4368846, g: 0.48453665, b: 0.5647928, a: 1}
+  m_IndirectSpecularColor: {r: 0.436885, g: 0.48453683, b: 0.56479317, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12978,17 +12978,17 @@ PrefabInstance:
     - target: {fileID: 114298820876480964, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: /
       objectReference: {fileID: 0}
     - target: {fileID: 224325937025659998, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 48
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 114952771978674342, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2eb4b2eafa7ab24ea00473c82531b09, type: 3}
@@ -21339,17 +21339,17 @@ PrefabInstance:
     - target: {fileID: 114298820876480964, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: /
       objectReference: {fileID: 0}
     - target: {fileID: 224325937025659998, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 114952771978674342, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2eb4b2eafa7ab24ea00473c82531b09, type: 3}
@@ -21679,17 +21679,17 @@ PrefabInstance:
     - target: {fileID: 114298820876480964, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: /
       objectReference: {fileID: 0}
     - target: {fileID: 224325937025659998, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 48
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 114952771978674342, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2eb4b2eafa7ab24ea00473c82531b09, type: 3}
@@ -24144,17 +24144,17 @@ PrefabInstance:
     - target: {fileID: 114298820876480964, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: /
       objectReference: {fileID: 0}
     - target: {fileID: 224325937025659998, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 114952771978674342, guid: b2eb4b2eafa7ab24ea00473c82531b09,
         type: 3}
       propertyPath: m_Text
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2eb4b2eafa7ab24ea00473c82531b09, type: 3}
