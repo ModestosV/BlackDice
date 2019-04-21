@@ -34,7 +34,7 @@ class ClickCounter extends Component {
     .then((data) => {
       this.setState({
         clicks : parseInt(data.total_clicks),
-        total_clicks: parseInt(data.total_clicks) +  50 + 23 + 14 + 10
+        total_clicks: parseInt(data.total_clicks) +  50 + 23 + 14 + 10 + 5 + 109
       })
     })
   }
