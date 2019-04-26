@@ -1,3 +1,44 @@
+# READ FIRST
+
+This repository was created for the course 'Capstone Software Engineering Design Project' or SOEN 490 @ Concordia University.
+
+We worked with 2-3 week sprints and had 13 sprints total, broken down into 3 releases.
+
+The project lasted from September 4, 2018 to April 21, 2019.
+
+The code of our submitted project can be found here: https://github.com/ModestosV/BlackDice/tree/22f293a0b53de8c3e7681d4eb0464a6055a93e00
+
+## Explanation of the 3 main folders
+
+Online Grid Arena: Unity Project. Remove the Feedback button in the main menu if not planning on running the express-server.
+Go into scripts -> globals -> URLs.cs and modify string values if planning on running express-server.
+
+express-server: Handles user feedback. Not needed if planning on only working on Online Grid Arena.
+
+react-app: Handles website. Not needed if planning on only working on Online Grid Arena.
+
+## A Special Thank You To
+#### Teammates
+
+@0matleb2
+
+@Arkondoma
+
+@lambhunter0
+
+@marcdragon123
+
+@RyanL94
+
+@todd829
+#### and
+@rigbypc (Professor)
+
+@mirsaeedi (Teaching Assistant)
+
+@poofyOwl (Stakeholder)
+
+
 # BlackDice
 
 Each developer should always stay up-to-date on our Ways of Working
@@ -46,7 +87,3 @@ Microsoft Visual Studio complains about C# version
 ```
 Select the error message and use the IDEs suggested fix and save. You may need to close and reopen Unity if there is a compiler error showing up in Unity and not Visual Studio.
 ```
-## Website
-
-Our website can be found at the following address: www.blackdice.ca
-
