@@ -20,23 +20,23 @@ react-app: Handles website. Not needed if planning on only working on Online Gri
 ## A Special Thank You To
 #### Teammates
 
-@0matleb2
+[@0matleb2]( https://github.com/0matleb2 )
 
-@Arkondoma
+[@Arkondoma]( https://github.com/Arkondoma )
 
-@lambhunter0
+[@lambhunter0]( https://github.com/lambhunter0 )
 
-@marcdragon123
+[@marcdragon123]( https://github.com/marcdragon123 )
 
-@RyanL94
+[@RyanL94]( https://github.com/RyanL94 )
 
-@todd829
+[@todd829]( https://github.com/todd829 )
 #### and
-@rigbypc (Professor)
+[@rigbypc]( https://github.com/rigbypc ) (Professor)
 
-@mirsaeedi (Teaching Assistant)
+[@mirsaeedi]( https://github.com/mirsaeedi ) (Teaching Assistant)
 
-@poofyOwl (Stakeholder)
+[@poofyOwl]( https://github.com/poofyOwl ) (Stakeholder)
 
 
 # BlackDice
