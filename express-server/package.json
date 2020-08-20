@@ -2,7 +2,7 @@
   "dependencies": {
     "@types/btoa": "^1.2.2",
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "btoa": "^1.2.1",
     "console": "^0.7.2",
